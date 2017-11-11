@@ -1,0 +1,7 @@
+#
+# For a description of the syntax of this configuration file,
+#
+mainmenu "buildroot for BiscuitOS Configuration"
+
+source package/Kconfig
+

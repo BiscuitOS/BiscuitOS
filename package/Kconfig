@@ -1,0 +1,16 @@
+#
+# Package common configure
+#
+menu "Package Common Configure"
+
+config PACKAGE_DEMO
+	bool "demo package"
+	help
+	  Demo package.
+
+config PACKAGE_OBJDUMP
+	bool "objdump"
+	help
+	  GNU objdump tools
+
+endmenu
