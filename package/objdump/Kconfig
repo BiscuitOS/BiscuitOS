@@ -1,0 +1,7 @@
+#
+# objdump utilise
+#
+config PACKAGE_OBJDUMP
+	bool "objdump               bintuilise"
+	help
+	  Binutilise for objdump

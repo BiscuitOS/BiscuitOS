@@ -1,0 +1,25 @@
+# Ignore image file
+
+# Ignore indicate file
+*.o
+.*
+*.*~
+*.map
+*.svg
+*.patch
+*.
+*.a
+*.cmd
+*.img
+*.bin
+
+# Execte file
+
+# Ignore dirent
+kernel/
+output/
+dl/
+
+!.gitignore
+# output
+

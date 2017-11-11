@@ -1,16 +1,19 @@
 #
 # Package common configure
 #
-menu "Package Common Configure"
+menu "Common utilise"
 
-config PACKAGE_DEMO
-	bool "demo package"
+config COMMON_UTILISE
+	bool "user toolchain"
 	help
-	  Demo package.
+	  binutilise
 
-config PACKAGE_OBJDUMP
-	bool "objdump"
-	help
-	  GNU objdump tools
+if COMMON_UTILISE
+
+source package/demo/Kconfig
+
+source package/objdump/Kconfig
+
+endif
 
 endmenu

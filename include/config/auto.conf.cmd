@@ -1,4 +1,7 @@
 deps_config := \
+	target/kernel/Kconfig \
+	package/objdump/Kconfig \
+	package/demo/Kconfig \
 	package/Kconfig \
 	Kconfig
 

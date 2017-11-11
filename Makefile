@@ -330,7 +330,7 @@ endif # $(dot-config)
 include include/config/auto.conf
 
 
-TARGET_OUT := output output/binutils
+TARGET_OUT := output output/binutils kernel dl
 
 pre_output = $(foreach sub, $(TARGET_OUT),      \
                $(shell set -e;                  \
@@ -340,24 +340,16 @@ export SUB_TARGET  :=
 export STAGING_DIR := $(srctree)/output
 TARGET_BUILD_DIR   := $(call pre_output)
 
+# Coreutils
 export PACKAGE_DIR := $(srctree)/package
 include package/Makefile
 
+# Target
+include target/Makefile
+
 # The all: target is the default when no target is given on the
 # command line.
-# This allow a user to issue only 'make' to build a kernel including modules
-# Defaults to vmlinux, but the arch makefile usually adds further targets
 all: $(SUB_TARGET) 
-
-
-
-# Handle descending into subdirectories listed in $(vmlinux-dirs)
-# Preset locale variables to speed up the build process. Limit locale
-# tweaks to this spot to avoid wrong language settings when running
-# make menuconfig etc.
-# Error messages still appears in the original language
-
-
 
 ###
 # Cleaning is done on three levels.
@@ -384,14 +376,17 @@ PHONY += $(clean-dirs) clean archclean
 $(clean-dirs):
 	$(Q)$(MAKE) $(clean)=$(patsubst _clean_%,%,$@)
 
-clean: $(clean-dirs)
+clean: $(clean-dirs) clean-kernel
 	$(call cmd,rmdirs)
 	$(call cmd,rmfiles)
 	@find . $(RCS_FIND_IGNORE) \
-		\( -name '*.[oas]' -o -name '.*.cmd' \
+		\( -name '*.[oa]' -o -name '.*.cmd' \
 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
 		-o -name modules.builtin -o -name '.tmp_*.o.*' \
 		-o -name '*.gcno' \) -type f -print | xargs rm -f
+
+clean-kernel:
+	$(Q)$(MAKE) -C $(srctree)/kernel clean
 
 # mrproper - Delete all generated files, including .config
 #
