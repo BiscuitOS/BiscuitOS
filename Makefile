@@ -329,8 +329,14 @@ include/config/auto.conf: ;
 endif # $(dot-config)
 include include/config/auto.conf
 
+#####
+# PackageMamage
+include target/pageckagemanage/Makefile
 
-TARGET_OUT := output output/binutils kernel dl
+# Kernel version
+include target/kernel/KernelVersion.mk
+
+TARGET_OUT := output kernel dl
 
 pre_output = $(foreach sub, $(TARGET_OUT),      \
                $(shell set -e;                  \
@@ -346,6 +352,12 @@ include package/Makefile
 
 # Target
 include target/Makefile
+
+# Filesystem
+include fs/Makefile
+
+# Host
+include target/Host/Makefile
 
 # The all: target is the default when no target is given on the
 # command line.

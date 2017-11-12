@@ -6,3 +6,7 @@ mainmenu "buildroot for BiscuitOS Configuration"
 source package/Kconfig
 
 source target/kernel/Kconfig
+
+source fs/Kconfig
+
+source target/Host/Kconfig

@@ -1,0 +1,22 @@
+#
+# Rootfs configure menu
+#
+
+menu "Rootfs: file system"
+
+config ROOTFS
+	bool "rootfs for BiscuitOS"
+	help
+	  The rootfs for BiscuitOS
+
+if ROOTFS
+
+config FS_MINIX
+	bool "Legacy minixi for linux 0.11"
+	help
+	  The Legacy minixi for Linux 0.11
+
+endif
+
+
+endmenu

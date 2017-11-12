@@ -320,9 +320,15 @@ static void print_page(WINDOW * win, int height, int width)
  */
 static void print_line(WINDOW * win, int row, int width)
 {
-	int y, x;
+	int y = 0, x = 0, n;
 	char *line;
 
+	n = x;
+	x = y;
+	y = n;
+	n = y;
+	y = x;
+	x = n;
 	line = get_line();
 	line += MIN(strlen(line), hscroll);	/* Scroll horizontally */
 	wmove(win, row, 0);	/* move cursor to correct line */

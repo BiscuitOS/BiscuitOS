@@ -1,4 +1,7 @@
 deps_config := \
+	target/Host/qemu/Kconfig \
+	target/Host/Kconfig \
+	fs/Kconfig \
 	target/kernel/Kconfig \
 	package/objdump/Kconfig \
 	package/demo/Kconfig \

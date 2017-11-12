@@ -1,0 +1,17 @@
+#
+# Host toolchain configure
+#
+menu "Host toolchain"
+
+config HOST_DEBUG
+	bool "Debug BiscuitOS on HOST"
+	help
+	  Utilse different tool to debbug BiscuitOS on HOST.
+
+if HOST_DEBUG
+
+source target/Host/qemu/Kconfig
+
+endif
+
+endmenu
