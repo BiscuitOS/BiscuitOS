@@ -16,11 +16,10 @@
 # Execte file
 
 # Ignore dirent
-kernel/
-output/
-dl/
+/kernel/
+/output/
+/dl/
 
 !.gitignore
-!target/kernel/
 # output
 
