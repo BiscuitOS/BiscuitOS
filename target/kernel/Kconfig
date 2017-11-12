@@ -1,0 +1,36 @@
+#
+# Kernel configure
+#
+menu "Kernel"
+
+config KERNEL
+	bool "Kernel for BiscuitOS"
+
+if KERNEL
+
+### Kernel version
+choice
+	prompt "Select kernel version"
+	default KERNEL_VERSION_NEWEST 
+
+config KERNEL_VERSION_NEWEST
+	bool "newest     kernel"
+	help
+	  The newest kernel
+
+config KERNEL_VERSION_0_1_1
+	bool "0.11       kernel"
+	help
+	  The kernel version is 0.11
+
+config KERN_VERSION_0_2_0
+	bool "0.22       kernel"
+	help
+	  The kernel version is 0.22
+
+
+endchoice 
+
+endif
+
+endmenu
