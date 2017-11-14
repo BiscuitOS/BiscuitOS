@@ -13,7 +13,7 @@ and use the GNU userland and the GNU C library (glibc), other kernels
 aside from the Linux kernel are also available, such as those based on 
 BSD kernels and the GNU Hurd microkernel.
 
-## Hello World
+## To Start
 
   First of all, You need get source code of BiscuitOS from github, 
   follow these steps to get newest and stable branch. The BiscuitOS
