@@ -1,3 +1,4 @@
+PACKAGE-y                            += base-file/
 PACKAGE-$(CONFIG_PACKAGE_DEMO)       += demo/
 PACKAGE-$(CONFIG_PACKAGE_OBJDUMP)    += objdump/
 
