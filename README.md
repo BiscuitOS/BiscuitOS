@@ -1,6 +1,8 @@
 BiscuitOS
 ----------------------------------------------
 
+![TOP_PIC](https://github.com/EmulateSpace/PictureSet/blob/master/github/mainmenu.jpg)
+
 BiscuitOS is a Unix-like computer operating system that is composed entirely
 of free software, most of which is under the GNU General Public License 
 and packaged by a group of individuals participating in the BiscuitOS Project.
