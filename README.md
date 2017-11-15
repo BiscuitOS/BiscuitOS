@@ -1,6 +1,8 @@
 BiscuitOS
 ----------------------------------------------
 
+![TOP_PIC](https://github.com/EmulateSpace/PictureSet/blob/master/github/mainmenu.jpg)
+
 BiscuitOS is a Unix-like computer operating system that is composed entirely
 of free software, most of which is under the GNU General Public License 
 and packaged by a group of individuals participating in the BiscuitOS Project.
@@ -13,7 +15,7 @@ and use the GNU userland and the GNU C library (glibc), other kernels
 aside from the Linux kernel are also available, such as those based on 
 BSD kernels and the GNU Hurd microkernel.
 
-## Hello World
+## To Start
 
   First of all, You need get source code of BiscuitOS from github, 
   follow these steps to get newest and stable branch. The BiscuitOS
@@ -51,4 +53,6 @@ BSD kernels and the GNU Hurd microkernel.
 
   ```
     make menuconfig
+    or 
+    make xconfig
   ```

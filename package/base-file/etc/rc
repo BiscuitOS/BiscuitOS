@@ -1,0 +1,4 @@
+/etc/update &
+/bin/demo
+echo "/dev/hd1 /" > /etc/mtab
+echo " OK. "
