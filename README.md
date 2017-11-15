@@ -51,4 +51,6 @@ BSD kernels and the GNU Hurd microkernel.
 
   ```
     make menuconfig
+    or 
+    make xconfig
   ```
