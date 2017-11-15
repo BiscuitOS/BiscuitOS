@@ -31,3 +31,5 @@ done
 # Node create
 . ${ROOT}/scripts/package/dev_node.sh
 
+# install /etc profile to target
+cp -rfa ${BASE_DIR}/etc/* ${STAGING_DIR}/etc/

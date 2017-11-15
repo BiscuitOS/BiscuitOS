@@ -14,7 +14,7 @@ INSTALL_DIR  = $(STAGING_DIR)/rootfs/bin/
 demo_install_dir = $(Q)mkdir -p $(INSTALL_DIR)
 
 DEMO_CC      = $(CC)
-DEMO_CFLAGS  = $(CFLAGS)
+DEMO_CFLAGS  = $(CFLAGS) -m32
 
 quiet_cmd_$(DEMO_CMD) = CC      $(DEMO_NAME)
       cmd_$(DEMO_CMD) = $(DEMO_CC) $(DEMO_CFLAGS) \
