@@ -346,6 +346,9 @@ export SUB_TARGET  :=
 export STAGING_DIR := $(srctree)/output
 TARGET_BUILD_DIR   := $(call pre_output)
 
+# Host
+include target/Host/Makefile
+
 # Coreutils
 export PACKAGE_DIR := $(srctree)/package
 include package/Makefile
@@ -355,9 +358,6 @@ include target/Makefile
 
 # Filesystem
 include fs/Makefile
-
-# Host
-include target/Host/Makefile
 
 # The all: target is the default when no target is given on the
 # command line.
