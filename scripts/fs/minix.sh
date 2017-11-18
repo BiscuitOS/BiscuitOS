@@ -22,6 +22,8 @@ IMAGE_DIR=${ROOT}/output
 ROOT_BZ2=$2.$5
 DOWNLOAD_SITE=$3/$2.$5
 
+HOST_BIN=${ROOT}/output/host/bin/mkfs.minix
+
 # Prepare staging
 if [ ! -d ${STAGING_DIR} ]; then
   mkdir -p ${STAGING_DIR}
@@ -36,19 +38,27 @@ else
   cp -rfa ${BASE_FILE}/* ${STAGING_DIR}
 fi
 
-# Download or Reload Rootfs
-if [ ! -f ${DL_DIR}/${ROOT_BZ2} ]; then
-  cd ${DL_DIR}
-  wget ${DOWNLOAD_SITE} 
-  cd -
-fi
+if [ $6 == "host_build" ]; then
+  dd bs=1M count=80 if=/dev/zero of=${IMAGE_DIR}/${IMAGE_NAME}-$4.img
+  sudo losetup /dev/loop3 ${IMAGE_DIR}/${IMAGE_NAME}-$4.img
+exit 0
+  ./${HOST_BIN} /dev/loop3
+  sudo losetup -d /dev/loop3
+  sync
+else
+  # Download or Reload Rootfs
+  if [ ! -f ${DL_DIR}/${ROOT_BZ2} ]; then
+    cd ${DL_DIR}
+    wget ${DOWNLOAD_SITE} 
+    cd -
+  fi
 
-# Create or Refresh Image
-if [ ! -f ${IMAGE_DIR}/${IMAGE_NAME}-$4.img ]; then
-  tar xjf ${DL_DIR}/${ROOT_BZ2} -C ${IMAGE_DIR}
-  mv ${IMAGE_DIR}/$2 ${IMAGE_DIR}/${IMAGE_NAME}-$4.img
+  # Create or Refresh Image
+  if [ ! -f ${IMAGE_DIR}/${IMAGE_NAME}-$4.img ]; then
+    tar xjf ${DL_DIR}/${ROOT_BZ2} -C ${IMAGE_DIR}
+    mv ${IMAGE_DIR}/$2 ${IMAGE_DIR}/${IMAGE_NAME}-$4.img
+  fi
 fi
-
 # Update rootfs
 # This routine need root permission!
 #
