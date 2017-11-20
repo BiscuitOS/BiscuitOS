@@ -213,7 +213,7 @@ void setup_tables(void)
     printf("First data zone= %#x (%#x)\n", sb->s_firstdatazone, 
            sb->s_imap_blocks + sb->s_zmap_blocks + 2);
     printf("Zonesize=%#x\n", (BLOCK_SIZE << sb->s_log_zone_size));
-    printf("Maxsize=%ld\n\n", sb->s_max_size);
+    printf("Maxsize=%#x\n\n", sb->s_max_size);
 }
 
 void alarm_intr(int alnum)
