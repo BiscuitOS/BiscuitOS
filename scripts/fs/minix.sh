@@ -41,7 +41,7 @@ fi
 
 ##
 # Build minix from mkfs.minix
-if [ $6 == "host_build" -a ! -b ${IMAGE_DIR}/${IMAGE_NAME}-$4.img ]; then
+if [ $6 == "host_build" -a ! -f ${IMAGE_DIR}/${IMAGE_NAME}-$4.img ]; then
   dd bs=1M count=10 if=/dev/zero of=${IMAGE_DIR}/${IMAGE_NAME}-$4.img
   # Create MBR partition table
 cat <<EOF | fdisk "${IMAGE_DIR}/${IMAGE_NAME}-$4.img"
