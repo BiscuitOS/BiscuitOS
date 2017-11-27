@@ -8,9 +8,9 @@
 ###############################################
 ROOT=`pwd`
 
-IMAGE=${ROOT}/minix.img
-ROOTFS=${ROOT}/rootfs.img
-mbr_size=1       # MB
+IMAGE=${ROOT}/mbr.img
+ROOTFS=${ROOT}/minix.img
+mbr_size=16      # MB
 rootfs_size=20   # MB
 
 # Create Minix filesystem
@@ -19,6 +19,7 @@ mkfs.minix ${ROOTFS}
 
 # Create MBR partition
 dd bs=1M count=${mbr_size} if=/dev/zero of=${IMAGE}
+sync
 
 # Create MBR partition table
 cat <<EOF | fdisk "${IMAGE}"
@@ -30,6 +31,7 @@ p
 w
 EOF
 
+sync
 # Append MINIX fs into Rootfs
 dd bs=512 seek=1 if=${ROOTFS} of=${IMAGE}
 rm -rf ${ROOTFS}

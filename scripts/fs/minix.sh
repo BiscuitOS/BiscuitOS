@@ -11,6 +11,7 @@
 # $4: Kernel version
 # $5: tar type
 # $6: Command
+# $7: Image size
 
 ROOT=$1
 STAGING_DIR=${ROOT}/output/rootfs
@@ -21,7 +22,6 @@ IMAGE_NAME=BiscuitOS
 IMAGE_DIR=${ROOT}/output
 ROOT_BZ2=$2.$5
 DOWNLOAD_SITE=$3/$2.$5
-ROOTFS_SIZE=80
 
 HOST_BIN=${ROOT}/output/host/bin/mkfs.minix
 
@@ -39,17 +39,11 @@ else
   cp -rfa ${BASE_FILE}/* ${STAGING_DIR}
 fi
 
-# Build minix fs from mkfs.minix
-if [ $6 == "host_build" -a ! -f ${IMAGE_DIR}/${IMAGE_NAME}-$4.img ]; then
-  echo -e "\e[1;31m  Create new Distro image \e[0m"
-  # build minix.img
-  dd bs=1M count=${ROOTFS_SIZE} if=/dev/zero of=${IMAGE_DIR}/minix.img > /dev/null 2>&1
-  sync
-  mkfs.minix ${IMAGE_DIR}/minix.img > /dev/null 2>&1
-  # build full image
-  dd bs=1M count=10 if=/dev/zero of=${IMAGE_DIR}/${IMAGE_NAME}-$4.img > /dev/null 2>&1
-  sync
-  # format full image
+##
+# Build minix from mkfs.minix
+if [ $6 == "host_build" -a ! -b ${IMAGE_DIR}/${IMAGE_NAME}-$4.img ]; then
+  dd bs=1M count=10 if=/dev/zero of=${IMAGE_DIR}/${IMAGE_NAME}-$4.img
+  # Create MBR partition table
 cat <<EOF | fdisk "${IMAGE_DIR}/${IMAGE_NAME}-$4.img"
 n
 p
@@ -58,12 +52,15 @@ p
 
 w
 EOF
-  # Append minix.img to full image
-  dd bs=512 seek=1 if=${IMAGE_DIR}/minix.img of=${IMAGE_DIR}/${IMAGE_NAME}-$4.img > /dev/null 2>&1
-  rm ${IMAGE_DIR}/minix.img
+  # Create MINIX partition
+  dd bs=1M count=40 if=/dev/zero of=${IMAGE_DIR}/minix.img
+  mkfs.minix ${IMAGE_DIR}/minix.img
+  # Append MINIX fs into ROOTFS
+  dd bs=512 seek=1 if=${IMAGE_DIR}/minix.img \
+                   of=${IMAGE_DIR}/${IMAGE_NAME}-$4.img
+  rm -rf of=${IMAGE_DIR}/minix.img
   sync
-
-else  # Utilize original minifs from oldlinux.org
+else
   # Download or Reload Rootfs
   if [ ! -f ${DL_DIR}/${ROOT_BZ2} ]; then
     cd ${DL_DIR}
@@ -77,7 +74,6 @@ else  # Utilize original minifs from oldlinux.org
     mv ${IMAGE_DIR}/$2 ${IMAGE_DIR}/${IMAGE_NAME}-$4.img
   fi
 fi
-
 # Update rootfs
 # This routine need root permission!
 #

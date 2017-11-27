@@ -12,9 +12,32 @@ config ROOTFS
 if ROOTFS
 
 config FS_MINIX
-	bool "Legacy minixi for linux 0.11"
+	bool "MINIX Rootfs"
 	help
 	  The Legacy minixi for Linux 0.11
+
+if FS_MINIX
+
+comment "Choose the version of minixfs"
+
+choice
+
+	prompt "Select specify minixfs version"
+	default FS_MINIX_V1
+
+config FS_MINIX_LEGACY
+	bool "Legacy MINIXFS from old.linux.org"
+	help
+	  The minix rootfs from old.linux.org
+
+config FS_MINIX_V1
+	bool "MINIX FS V1"
+	help
+	  The minix rootfs from mkfs.minix -1
+
+endchoice
+
+endif # MINIXFS
 
 endif
 

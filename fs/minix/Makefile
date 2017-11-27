@@ -13,10 +13,11 @@ MINIX_SCRIPTS    := $(srctree)/scripts/fs/minix.sh
 MINIX_TAR        := tar.bz2
 MINIX_PACKAGE    := $(MINIX_NAME)-$(MINIX_SUBNAME)-$(MINIX_VERSION).img
 SUB_TARGET       += $(MINIX_DIR)/build
-ifdef CONFIG_HOST_MKFS_MINIX
-minix_cmd := host_build
-else
+ifdef CONFIG_FS_MINIX_LEGACY
 minix_cmd := download
+endif
+ifdef CONFIG_FS_MINIX_V1
+minix_cmd := host_build
 endif
 
 

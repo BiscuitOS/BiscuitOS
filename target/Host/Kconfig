@@ -3,11 +3,6 @@
 #
 menu "Host toolchain"
 
-config HOST_MKFS_MINIX
-	bool "Build minix fs from Host tools"
-	help
-	  Build a minix fs with mkfs.minix that create from host tools.
-
 config HOST_DEBUG
 	bool "Debug BiscuitOS on HOST"
 	help
