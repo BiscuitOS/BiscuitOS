@@ -19,6 +19,7 @@ target_dir=(
 dev
 etc
 usr
+bin
 )
 
 # prepare output
