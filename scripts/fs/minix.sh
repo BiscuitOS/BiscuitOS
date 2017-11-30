@@ -102,7 +102,7 @@ w
 EOF
   sync
 
-else
+elif [ $6 == "download" ]; then
   # Download or Reload Rootfs
   if [ ! -f ${DL_DIR}/${ROOT_BZ2} ]; then
     cd ${DL_DIR}
