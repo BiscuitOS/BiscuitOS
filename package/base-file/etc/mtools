@@ -1,0 +1,6 @@
+A /dev/fd0 12 80 2 18
+B /dev/fd1 12 80 2 18
+A /dev/fd1H1440 12 80 2 18
+B /dev/fd1H1440 12 80 2 18
+# C /dev/hd3 16 0 0 0
+# D /dev/hd4 16 0 0 0

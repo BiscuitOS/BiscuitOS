@@ -1,0 +1,15 @@
+
+DOS diskettes op tools - mtools
+--------------------------------
+
+Usage:
+
+put a dos formated diskette in a driver, lets say B:
+
+1. DIR 	-- 'mdir B:' to list the directory in driver B:
+2. COPY	-- 'mcopy filename B:' copy file to diskette;
+	-- 'mcopy B:filename .' copy file from diskette;
+3. DEL	-- 'mdel B:filename' delete a file in the diskette;
+4. CD   -- 'mcd B:\cddir' change to directory cddir in diskette;
+....
+ 

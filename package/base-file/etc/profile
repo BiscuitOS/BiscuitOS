@@ -1,0 +1,13 @@
+# commands common to all logins
+
+TERM=console
+cd $HOME
+PS1='[`pwd`]# '
+PS2='> '
+
+alias ll='ls -l'
+alias up='cd ..'
+
+export TERM PS1 PS2
+umask 066
+

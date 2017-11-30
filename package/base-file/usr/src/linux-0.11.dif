@@ -1,0 +1,224 @@
+diff -r linux/Makefile linux-0.11.org/Makefile
+23c23
+< ROOT_DEV=/dev/hd1
+---
+> ROOT_DEV=/dev/hd6
+diff -r linux/fs/Makefile linux-0.11.org/fs/Makefile
+20c20
+< 	bitmap.o fcntl.o ioctl.o truncate.o select.o
+---
+> 	bitmap.o fcntl.o ioctl.o truncate.o
+diff -r linux/fs/exec.c linux-0.11.org/fs/exec.c
+41,46d40
+< 
+< int sys_uselib()
+< {
+< 	return -ENOSYS;
+< }
+< 
+diff -r linux/fs/namei.c linux-0.11.org/fs/namei.c
+721,725d720
+< int sys_symlink()
+< {
+< 	return -ENOSYS;
+< }
+< 
+Only in linux/fs: select.c
+diff -r linux/fs/stat.c linux-0.11.org/fs/stat.c
+47,51d46
+< int sys_lstat(char * filename, struct stat * statbuf)
+< {
+< 	return sys_stat(filename, statbuf);
+< }
+< 
+61,65d55
+< }
+< 
+< int sys_readlink()
+< {
+< 	return -ENOSYS;
+diff -r linux/include/linux/config.h linux-0.11.org/include/linux/config.h
+16c16
+< #define KBD_US 
+---
+> /*#define KBD_US */
+19c19
+< /*#define KBD_FINNISH */
+---
+> #define KBD_FINNISH
+diff -r linux/include/linux/sys.h linux-0.11.org/include/linux/sys.h
+1,4d0
+< /*
+<  * Why isn't this a .c file?  Enquiring minds....
+<  */
+< 
+77,91d72
+< extern int sys_sigpending();
+< extern int sys_sigsuspend();
+< extern int sys_sethostname();
+< extern int sys_setrlimit();
+< extern int sys_getrlimit();
+< extern int sys_getrusage();
+< extern int sys_gettimeofday();
+< extern int sys_settimeofday();
+< extern int sys_getgroups();
+< extern int sys_setgroups();
+< extern int sys_select();
+< extern int sys_symlink();
+< extern int sys_lstat();
+< extern int sys_readlink();
+< extern int sys_uselib();
+105,111c86
+< sys_setreuid,sys_setregid, sys_sigsuspend, sys_sigpending, sys_sethostname,
+< sys_setrlimit, sys_getrlimit, sys_getrusage, sys_gettimeofday, 
+< sys_settimeofday, sys_getgroups, sys_setgroups, sys_select, sys_symlink,
+< sys_lstat, sys_readlink, sys_uselib };
+< 
+< /* So we don't have to do any more manual updating.... */
+< int NR_syscalls = sizeof(sys_call_table)/sizeof(fn_ptr);
+---
+> sys_setreuid,sys_setregid };
+diff -r linux/include/sys/stat.h linux-0.11.org/include/sys/stat.h
+21d20
+< #define S_IFLNK	 0120000
+31d29
+< #define S_ISLNK(m)	(((m) & S_IFMT) == S_IFLNK)
+diff -r linux/include/unistd.h linux-0.11.org/include/unistd.h
+132,146c132
+< #define __NR_sigsuspend	72
+< #define __NR_sigpending	73
+< #define __NR_sethostname 74
+< #define __NR_setrlimit	75
+< #define __NR_getrlimit	76
+< #define __NR_getrusage	77
+< #define __NR_gettimeofday	78
+< #define __NR_settimeofday	79
+< #define __NR_getgroups	80
+< #define __NR_setgroups  81
+< #define __NR_select	82
+< #define __NR_symlink	83
+< #define __NR_lstat	84
+< #define __NR_readlink	85
+< #define __NR_uselib	86
+---
+> 
+diff -r linux/init/main.c linux-0.11.org/init/main.c
+163c163
+< static char * envp_rc[] = { "HOME=/", NULL, NULL };
+---
+> static char * envp_rc[] = { "HOME=/", NULL };
+166c166
+< static char * envp[] = { "HOME=/usr/root", NULL, NULL };
+---
+> static char * envp[] = { "HOME=/usr/root", NULL };
+diff -r linux/kernel/mktime.c linux-0.11.org/kernel/mktime.c
+45c45
+< 	if (tm->tm_year < 70 ) tm->tm_year += 100;  /* gohigh */
+---
+> 
+diff -r linux/kernel/signal.c linux-0.11.org/kernel/signal.c
+10c10
+< #include <errno.h>
+---
+> 
+26,35d25
+< }
+< 
+< int sys_sigpending()
+< {
+< 	return -ENOSYS;
+< }
+< 
+< int sys_sigsuspend()
+< {
+< 	return -ENOSYS;
+diff -r linux/kernel/sys.c linux-0.11.org/kernel/sys.c
+63c63,64
+< 		    suser()) {
+---
+> 		    (current->sgid == egid) ||
+> 		    suser())
+65,66c66
+< 			current->sgid = egid;
+< 		} else
+---
+> 		else
+74,81c74
+< /*	return(sys_setregid(gid, gid)); */
+< 	if (suser())
+< 		current->gid = current->egid = current->sgid = gid;
+< 	else if ((gid == current->gid) || (gid == current->sgid))
+< 		current->egid = gid;
+< 	else
+< 		return -EPERM;
+< 	return 0;
+---
+> 	return(sys_setregid(gid, gid));
+140c133
+< 		    suser()) {
+---
+> 		    suser())
+142,143c135
+< 			current->suid = euid;
+< 		} else {
+---
+> 		else {
+153,160c145
+< /*	return(sys_setreuid(uid, uid)); */
+< 	if (suser())
+< 		current->uid = current->euid = current->suid = uid;
+< 	else if ((uid == current->uid) || (uid == current->suid))
+< 		current->euid = uid;
+< 	else
+< 		return -EPERM;
+< 	return(0);
+---
+> 	return(sys_setreuid(uid, uid));
+231,240d215
+< int sys_getgroups()
+< {
+< 	return -ENOSYS;
+< }
+< 
+< int sys_setgroups()
+< {
+< 	return -ENOSYS;
+< }
+< 
+254,284d228
+< 
+< int sys_sethostname()
+< {
+< 	return -ENOSYS;
+< }
+< 
+< int sys_getrlimit()
+< {
+< 	return -ENOSYS;
+< }
+< 
+< int sys_setrlimit()
+< {
+< 	return -ENOSYS;
+< }
+< 
+< int sys_getrusage()
+< {
+< 	return -ENOSYS;
+< }
+< 
+< int sys_gettimeofday()
+< {
+< 	return -ENOSYS;
+< }
+< 
+< int sys_settimeofday()
+< {
+< 	return -ENOSYS;
+< }
+< 
+diff -r linux/kernel/system_call.s linux-0.11.org/kernel/system_call.s
+61c61
+< nr_system_calls = 86  /* 72 */
+---
+> nr_system_calls = 72
