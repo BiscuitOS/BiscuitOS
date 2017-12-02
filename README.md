@@ -17,6 +17,19 @@ BSD kernels and the GNU Hurd microkernel.
 
 ## To Start
 
+  Before you start this tour, you need install core toolchain on
+  your host PC (such as Ubuntu16.04), so please install these tools
+  on start.
+
+  ```
+    sudo apt-get install qemu gcc make gdb git
+    sudo apt-get install cflow graphviz gawk indent
+
+    On 64bit machine:
+    sudo apt-get install lib32z1 lib32z1-dev
+    sudo apt-get install libncurses5-dev
+  ```
+  
   First of all, You need get source code of BiscuitOS from github, 
   follow these steps to get newest and stable branch. The BiscuitOS
   project will help you easy to build a customization-BiscuitOS.
@@ -55,4 +68,10 @@ BSD kernels and the GNU Hurd microkernel.
     make menuconfig
     or 
     make xconfig
+  ```
+
+  If you want to configure kernel, you can follow these step
+
+  ```
+    make kernel
   ```

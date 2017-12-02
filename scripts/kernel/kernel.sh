@@ -6,7 +6,7 @@
 #
 
 # $1: ROOT
-# $2: kernel version
+# $2: kernel version / menuconfig
 # $3: git_site 
 # $4: command
 
@@ -21,6 +21,12 @@ fi
 # config kernel
 if [ ! -f ${STAGING_KERNEL}/.config ]; then
   ${MAKE} -C ${STAGING_KERNEL} defconfig
+fi
+
+# configure kernel
+if [ $2 == "menuconfig" ]; then
+  ${MAKE} -C ${STAGING_KERNEL} menuconfig
+  exit 0
 fi
 
 # compile kernel

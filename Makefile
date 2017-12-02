@@ -363,6 +363,11 @@ include fs/Makefile
 # command line.
 all: $(SUB_TARGET) 
 
+# Configure kernel
+kernel: FORCE
+	$(CONFIG_SHELL) $(srctree)/scripts/kernel/kernel.sh \
+	$(srctree) menuconfig
+
 ###
 # Cleaning is done on three levels.
 # make clean     Delete most generated files
