@@ -1,3 +1,4 @@
 /etc/update &
+/etc/demo_compile
 echo "/dev/hd1 /" > /etc/mtab
 echo " Ok. "
