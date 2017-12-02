@@ -19,7 +19,13 @@ target_dir=(
 dev
 etc
 usr
-bin
+tmp
+mnt
+var
+usr/root
+usr/tmp
+usr/var
+usr/src
 )
 
 # prepare output
@@ -34,5 +40,4 @@ done
 
 # install /etc profile to target
 cp -rfa ${BASE_DIR}/etc/* ${STAGING_DIR}/etc/
-cp -rfa ${BASE_DIR}/bin/* ${STAGING_DIR}/bin/
 cp -rfa ${BASE_DIR}/usr/* ${STAGING_DIR}/usr/
