@@ -34,3 +34,8 @@ for i in ${hd_list[@]}; do
 	fi
 done
 
+# Create null node on /dev
+if [ ! -c ${DEV_STAGING_DIR}/null ]; then
+  sudo mknod ${DEV_STAGING_DIR}/null c 1 3
+  sudo chown root.root ${DEV_STAGING_DIR}/null
+fi
