@@ -3,8 +3,8 @@ deps_config := \
 	target/Host/Kconfig \
 	fs/Kconfig \
 	target/kernel/Kconfig \
-	package/bash/Kconfig \
-	package/objdump/Kconfig \
+	package/utils-linux/Kconfig \
+	package/gcc/Kconfig \
 	package/demo/Kconfig \
 	package/Kconfig \
 	Kconfig

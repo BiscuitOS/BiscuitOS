@@ -12,8 +12,6 @@ if COMMON_UTILISE
 
 source package/demo/Kconfig
 
-source package/objdump/Kconfig
-
 source package/gcc/Kconfig
 
 source package/utils-linux/Kconfig
