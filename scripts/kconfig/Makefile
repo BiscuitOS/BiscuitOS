@@ -118,7 +118,7 @@ else
 endif
 
 %_defconfig: $(obj)/conf
-	$(Q)$< --defconfig=arch/$(SRCARCH)/configs/$@ $(Kconfig)
+	$(Q)$< --defconfig=$(srctree)/configs/$@ $(Kconfig)
 
 # Help text used by make help
 help:

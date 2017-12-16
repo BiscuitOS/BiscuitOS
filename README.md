@@ -75,3 +75,11 @@ BSD kernels and the GNU Hurd microkernel.
   ```
     make kernel
   ```
+
+### Usermanual
+
+  The offical Usermanual for BiscuitOS from:
+
+  ```
+    https://github.com/BiscuitOS/Documentation/tree/master/Usermanual
+  ```
