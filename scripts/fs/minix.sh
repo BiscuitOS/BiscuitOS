@@ -48,6 +48,15 @@ HOST_BIN=${ROOT}/output/host/bin/mkfs.minix
 #
 MBR_sect=2048       # sectors (Support EFI BIOS, Reserved 1M)
 ROOTFS_sect=81920   # sectors
+SWAP_sect=10240     # sectors
+
+####
+# Don't edit
+ROOTFS_START=${MBR_sect}
+ROOTFS_END=`expr ${ROOTFS_START} + ${ROOTFS_sect} - 1`
+SWAP_START=`expr ${ROOTFS_END} + 1`
+SWAP_END=`expr ${SWAP_START} + ${SWAP_sect}`
+SWAP_SEEK=`expr ${MBR_sect} + ${ROOTFS_sect}`
 
 # Prepare staging
 if [ ! -d ${STAGING_DIR} ]; then
@@ -82,10 +91,23 @@ if [ $6 == "host_build" -a ! -f ${IMAGE_DIR}/${IMAGE_NAME}-$4.img ]; then
      of=${IMAGE_DIR}/minixfs.img > /dev/null 2>&1
   mkfs.minix -1 ${IMAGE_DIR}/minixfs.img > /dev/null 2>&1
 
+  # Create SWAP partition
+  #  Specify swap append rootfs partition
+  dd if=/dev/zero bs=512 count=${SWAP_sect} \
+     of=${IMAGE_DIR}/swap.img > /dev/null 2>&1
+  mkswap ${IMAGE_DIR}/swap.img > /dev/null 2>&1
+
   # Append minixfs into mbr
   dd if=${IMAGE_DIR}/minixfs.img conv=notrunc oflag=append bs=512  \
      seek=${MBR_sect} of=${IMAGE_DIR}/mbr.img > /dev/null 2>&1
   rm -rf ${IMAGE_DIR}/minixfs.img
+
+  ## Append swap into mbr
+  dd if=${IMAGE_DIR}/swap.img conv=notrunc oflag=append bs=512  \
+     seek=${SWAP_SEEK} of=${IMAGE_DIR}/mbr.img > /dev/null 2>&1
+  rm -rf ${IMAGE_DIR}/swap.img
+ 
+  cp ${IMAGE_DIR}/mbr.img /home/buddy/mmm.img
   mv ${IMAGE_DIR}/mbr.img ${IMAGE_DIR}/${IMAGE_NAME}-$4.img
   sync
 
@@ -94,9 +116,15 @@ cat <<EOF | fdisk "${IMAGE_DIR}/${IMAGE_NAME}-$4.img"
 n
 p
 1
-${MBR_sect}
+${ROOTFS_START}
+${ROOTFS_END}
+n
+p
+2
+${SWAP_START}
 
 t
+1
 81
 w
 EOF
