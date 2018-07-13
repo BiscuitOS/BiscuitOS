@@ -16,6 +16,11 @@ config FS_MINIX
 	help
 	  The Legacy minixi for Linux 0.11
 
+config FS_EXT2
+	bool "Ext2 Rootfs"
+	help
+	  The Ext2 rootfs.
+
 if FS_MINIX
 
 comment "Choose the version of minixfs"
