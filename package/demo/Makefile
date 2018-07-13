@@ -15,6 +15,10 @@ SUB_TARGET   += $(PACKAGE_DIR)/$(DEMO_NAME)
 INSTALL_DIR  = $(STAGING_DIR)/rootfs/usr/src
 demo_install_dir = $(Q)mkdir -p $(INSTALL_DIR)
 
+quiet_cmd_CP	= CP	$(DEMO_NAME)
+      cmd_CP    = cp $(PACKAGE_DIR)/$(DEMO_NAME)/$(DEMO_NAME) \
+		$(srctree)/output/rootfs/bin/
+
 DEMO_CC      = $(CC)
 DEMO_CFLAGS  =  -m32
 
@@ -25,4 +29,5 @@ quiet_cmd_$(DEMO_CMD) = CC      $(DEMO_NAME)
 $(PACKAGE_DIR)/$(DEMO_NAME): FORCE
 	$(call demo_install_dir)
 	$(call if_changed,$(DEMO_CMD))
+	$(call if_changed,CP)
 

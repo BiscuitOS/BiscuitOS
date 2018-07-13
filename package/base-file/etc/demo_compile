@@ -1,1 +1,0 @@
-gcc /usr/src/demo.c -o /usr/bin/demo

@@ -1,6 +1,6 @@
-root::0:
+system::0:
 daemon::1:
-bin::2:
+obsolete::2:
 mem::3:
 tty::4:
 disk::5:
@@ -11,4 +11,3 @@ uucp::11:
 mail::12:
 news::13:
 other::50:
-guest::500:

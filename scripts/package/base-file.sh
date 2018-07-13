@@ -15,6 +15,12 @@ ROOT=$1
 STAGING_DIR=${ROOT}/output/rootfs
 BASE_DIR=${ROOT}/package/base-file
 
+if [ ! -d ${STAGING_DIR} ]; then
+  mkdir -p ${STAGING_DIR}
+fi
+sudo cp -rfa ${ROOT}/package/base-file/* ${STAGING_DIR}/
+exit 0
+
 target_dir=(
 dev
 etc

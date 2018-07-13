@@ -1,4 +1,32 @@
-/etc/update &
-/etc/demo_compile
-echo "/dev/hd1 /" > /etc/mtab
-echo " Ok. "
+# /etc/rc - generic (to Linux) system startup file (runtime configuration)
+
+echo "running /etc/rc..."
+
+PATH=/usr/bin:/bin:/etc; export PATH
+
+# update syncs the disk every 30 seconds
+update &
+
+# remove /etc/mtab* so mount creates the /etc/mtab file
+rm -f /etc/mtab* /etc/nologin
+
+# mount all partitions specified in /etc/fstab
+mount -av
+# mount swap partition specified in /etc/fstab
+swapon -a
+
+# start up cron if it exists
+if [ -f /usr/etc/crond ]; then
+	/usr/etc/crond
+fi
+
+# tmp and usr may be mounted, so we do these rm's after mount
+rm -f /usr/spool/uucp/LCK*
+rm -rf /tmp/*
+
+# remove /etc/utmp and touch it
+rm -f /etc/utmp
+touch /etc/utmp
+
+sh /etc/rc.local
+

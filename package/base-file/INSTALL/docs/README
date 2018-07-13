@@ -1,0 +1,11 @@
+README - 0.98 Root Filesystem
+Jim Winstead Jr. - 23 October 1992
+
+There are no substantial changes from 0.97.1 to 0.98 but now the
+jumptable libraries are used for everything, and the release should be
+much cleaner - less bugs, more features. 
+
+Unfortunately, this disk is still not very well suited to updating an
+existing Linux system.  This will be addressed in future releases. 
+
+	jwinstea@fenris.Claremont.EDU
