@@ -73,8 +73,8 @@ if [ $6 == "host_build" -a ! -f ${IMAGE_DIR}/${IMAGE_NAME}-$4.img ]; then
      of=${IMAGE_DIR}/ext2.img > /dev/null 2>&1
   sudo losetup -d /dev/loop4 > /dev/null 2>&1
   sudo losetup /dev/loop4 ${IMAGE_DIR}/ext2.img > /dev/null 2>&1
-  #sudo mkfs.ext2 /dev/loop4 > /dev/null 2>&1
-  sudo mkfs.ext2 /dev/loop4
+  #sudo mkfs.ext2 -b 1024 /dev/loop4
+  sudo mkfs.ext2 -r 0 /dev/loop4
   sudo losetup -d /dev/loop4 > /dev/null 2>&1
 
   # Create SWAP partition
