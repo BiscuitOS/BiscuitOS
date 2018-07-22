@@ -1,3 +1,19 @@
+# ----------------------------------------------------------------------
+# Global Makefile
+# Maintainer: Buddy <buddy.zhang@aliyun.com>
+#
+# Copyright (C) 2017 BiscuitOS
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+
+VERSION = 1
+PATCHLEVEL = 0
+SUBLEVEL = 1
+NAME = GOKU
+
+
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
 # More info can be located in ./README
@@ -110,7 +126,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 \
+               -fomit-frame-pointer
 HOSTCXXFLAGS = -O2
 
 KBUILD_DEFCONFIG = defconfig
@@ -201,7 +218,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__
 
 # Read KERNELRELEASE from include/config/kernel.release (if it exists)
 KERNELRELEASE = $(shell cat include/config/kernel.release 2> /dev/null)
-KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
+KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)$(if $(NAME),.$(NAME))))$(EXTRAVERSION)
 
 export ARCH SRCARCH CONFIG_SHELL HOSTCC HOSTCFLAGS CROSS_COMPILE AS LD CC
 export CPP AR NM STRIP OBJCOPY OBJDUMP
@@ -327,14 +344,16 @@ else
 # Dummy target needed, because used as prerequisite
 include/config/auto.conf: ;
 endif # $(dot-config)
-include include/config/auto.conf
+-include include/config/auto.conf
 
 #####
-# PackageMamage
-include target/pageckagemanage/Makefile
-
-# Kernel version
-include target/kernel/KernelVersion.mk
+# Kernel Version
+ifdef CONFIG_KERNEL_VERSION
+KERNEL_VERSION := $(patsubst "%",%,$(CONFIG_KERNEL_VERSION))
+else
+KERNEL_VERSION := 
+endif
+export KERNEL_VERSION
 
 TARGET_OUT := output kernel dl
 
@@ -346,27 +365,12 @@ export SUB_TARGET  :=
 export STAGING_DIR := $(srctree)/output
 TARGET_BUILD_DIR   := $(call pre_output)
 
-# Host
-include target/Host/Makefile
-
-# Coreutils
-export PACKAGE_DIR := $(srctree)/package
-include package/Makefile
-
 # Target
 include target/Makefile
-
-# Filesystem
-include fs/Makefile
 
 # The all: target is the default when no target is given on the
 # command line.
 all: $(SUB_TARGET) 
-
-# Configure kernel
-kernel: FORCE
-	$(CONFIG_SHELL) $(srctree)/scripts/kernel/kernel.sh \
-	$(srctree) menuconfig
 
 ###
 # Cleaning is done on three levels.
@@ -393,7 +397,7 @@ PHONY += $(clean-dirs) clean archclean
 $(clean-dirs):
 	$(Q)$(MAKE) $(clean)=$(patsubst _clean_%,%,$@)
 
-clean: $(clean-dirs) clean-kernel
+clean: $(clean-dirs)
 	$(call cmd,rmdirs)
 	$(call cmd,rmfiles)
 	@find . $(RCS_FIND_IGNORE) \
@@ -401,9 +405,6 @@ clean: $(clean-dirs) clean-kernel
 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
 		-o -name modules.builtin -o -name '.tmp_*.o.*' \
 		-o -name '*.gcno' \) -type f -print | xargs rm -f
-
-clean-kernel:
-	$(Q)$(MAKE) -C $(srctree)/kernel clean
 
 # mrproper - Delete all generated files, including .config
 #

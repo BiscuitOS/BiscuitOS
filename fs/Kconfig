@@ -21,6 +21,11 @@ config FS_EXT2
 	help
 	  The Ext2 rootfs.
 
+config FS_MSDOS
+	bool "MSDOS Rootfs"
+	help 
+	  The MSDOS rootfs.
+
 if FS_MINIX
 
 comment "Choose the version of minixfs"

@@ -1,8 +1,0 @@
-#
-# kconfig for demo
-#
-config PACKAGE_DEMO
-	bool "demo utilise"
-	help
-	  binutilise for demo
-

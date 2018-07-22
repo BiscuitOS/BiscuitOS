@@ -3,26 +3,17 @@
 # To build BiscuitOS kernel
 #
 ##########################################
-BISCUITOS_NAME     := kernel
-BISCUITOS_VERSION  := newest
-BISCUITOS_SITE     := https://github.com/BiscuitOS/Kernel.git
-BISCUITOS_DIR      := $(srctree)/target/$(BISCUITOS_NAME)
-BISCUITOS_SCRIPTS  := $(srctree)/scripts/kernel/kernel.sh
-SUB_TARGET         += $(BISCUITOS_DIR)/compile
+BOS_KERNEL_NAME     := kernel
+BOS_KERNEL_VERSION  := $(KERNEL_VERSION)
+BOS_KERNEL_SITE     := https://github.com/BiscuitOS/Kernel.git
+BOS_KERNEL_DIR      := $(srctree)/target/$(BOS_KERNEL_NAME)
+BOS_KERNEL_SCRIPTS  := $(srctree)/scripts/kernel/kernel.sh
+SUB_TARGET          += $(BOS_KERNEL_DIR)/compile
 
+run_kernel_sh = $(CONFIG_SHELL) $(BOS_KERNEL_SCRIPTS) \
+                $(BOS_KERNEL_VERSION) $(BOS_KERNEL_SITE) \
+                $(srctree)
 
-ifdef CONFIG_KERNEL_VERSION_0_1_1
-  BISCUITOS_VERSION = 0.1.1
-endif
-ifdef CONFIG_KERNEL_VERSION_0_2_2
-  BISCUITOS_VERSION = 0.2.2
-endif
-
-run_kernel_sh = $(CONFIG_SHELL) $(BISCUITOS_SCRIPTS) \
-                $(srctree) $(BISCUITOS_VERSION) \
-                $(BISCUITOS_SITE) $1
-
-$(BISCUITOS_DIR)/compile: FORCE
+$(BOS_KERNEL_DIR)/compile: FORCE
 	$(Q)$(call run_kernel_sh,make)
-
 

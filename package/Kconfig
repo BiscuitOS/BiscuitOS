@@ -10,7 +10,7 @@ config COMMON_UTILISE
 
 if COMMON_UTILISE
 
-source package/demo/Kconfig
+#source package/demo/Kconfig
 
 source package/gcc/Kconfig
 

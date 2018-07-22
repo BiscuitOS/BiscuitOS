@@ -1,5 +1,5 @@
 PACKAGE-y                               += base-file/
-PACKAGE-$(CONFIG_PACKAGE_DEMO)          += demo/
+#PACKAGE-$(CONFIG_PACKAGE_DEMO)          += demo/
 PACKAGE-$(CONFIG_PACKAGE_GCC)           += gcc/
 PACKAGE-$(CONFIG_PACKAGE_UTILS_LINUX)   += utils-linux/
 

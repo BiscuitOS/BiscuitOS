@@ -19,6 +19,7 @@ if [ ! -d ${STAGING_DIR} ]; then
   mkdir -p ${STAGING_DIR}
 fi
 sudo cp -rfa ${ROOT}/package/base-file/* ${STAGING_DIR}/
+. ${ROOT}/scripts/package/tmp_node.sh
 exit 0
 
 target_dir=(

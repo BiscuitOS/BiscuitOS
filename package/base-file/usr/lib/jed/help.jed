@@ -1,8 +1,0 @@
-****Basic JED Commands:    ^ = control **************************************
-^KE exit              ^D pagedown        ^FF search         ^K^B set mark
-^V delete	      ^U pageup          ^FB search back    ^KK  copy region
-^E end of line	      ^K^W write buffer	 ^K^R replace       ^K^P paste
-^B beginning of line  ^KG find file	 ^R redraw          ^K^V cut region
------------------------------------------------------------------------------
-<ESC> X command line       (type emacs at command line for emacs keybindings)
-********* see file: keys.jed for more, or set your own.**********************
