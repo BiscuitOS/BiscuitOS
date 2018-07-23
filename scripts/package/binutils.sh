@@ -62,7 +62,7 @@ precheck()
     j=0
     for ver in ${KVersion[@]}; do
         if [ ${KERNVER} = ${ver} ]; then
-            if [ ${FSX[$j]} -lt 2 ]; then
+            if [ ${FSX[$j]} -lt 5 ]; then
                 NODE_TYPE=0
                 VERSION=1
                 PACKAGE_NAME=${PACKAGE}.${VERSION}.tar.bz2

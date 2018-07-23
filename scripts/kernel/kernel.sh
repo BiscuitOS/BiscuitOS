@@ -20,6 +20,7 @@ kernel_version=$1
 # Don't edit
 KERN_SOURCE=${srctree}/dl/kernel
 TARGET=${srctree}/kernel/Linux_${kernel_version}
+PATCH_DIR=${srctree}/target/kernel/patch/Linux_${kernel_version}
 
 ### Kernel version
 KVersion=(
@@ -65,16 +66,16 @@ establish_kernel()
     for i in ${KVersion[@]}; do
         if [ $i = ${kernel_version} ]; then
             cd ${TARGET}
+            if [ -d ${TARGET}/tools/means ]; then
+                rm -rf ${TARGET}/tools/means
+            fi
             git reset --hard ${TagVersion[$j]} > /dev/null 2>&1
+            git am ${PATCH_DIR}/*.patch
+            make defconfig
             cd -
         fi
     j=`expr $j + 1`
     done
-}
-
-patch_kernel()
-{
-    echo "Patch"
 }
 
 precheck()

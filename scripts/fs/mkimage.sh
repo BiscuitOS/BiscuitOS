@@ -20,7 +20,8 @@ NODE_TYPE=1
 FS_TYPE=0
 
 ## Output
-STAGING_DIR=${ROOT}/output/rootfs
+STAGING_DIR=${ROOT}/output/rootfs/rootfs_${KERN_VERSION}
+KERNEL_DIR=${ROOT}/kernel/Linux_${KERN_VERSION}
 BASE_FILE=${ROOT}/target/base-file
 IMAGE_NAME=BiscuitOS
 IMAGE_DIR=${ROOT}/output
@@ -182,12 +183,14 @@ sudo losetup -d /dev/loop4 > /dev/null 2>&1
 sudo losetup -o 1048576 /dev/loop4 ${IMAGE} > /dev/null 2>&1
 sudo mount /dev/loop4 ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
 # Install package and library
-sudo cp -rfa ${IMAGE_DIR}/rootfs/* ${IMAGE_DIR}/.rootfs
+sudo cp -rfa ${STAGING_DIR}/* ${IMAGE_DIR}/.rootfs
 sync
 sudo umount ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
 sudo losetup -d /dev/loop4 > /dev/null 2>&1
 rm -rf ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
+cp -rf ${IMAGE} ${KERNEL_DIR} 
 sync
 
 ######
 # Display Userful Information
+
