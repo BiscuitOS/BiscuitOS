@@ -23,6 +23,7 @@
 #  (C) 2017.11 <buddy.zhang@aliyun.com>
 #
 
+exit 0
 # $1: Root dirent
 # $2: PackageName
 # $3: Download Site

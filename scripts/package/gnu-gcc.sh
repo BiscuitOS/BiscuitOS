@@ -10,40 +10,35 @@
 #
 # (C) BiscuitOS 2017.12 <buddy.zhang@aliyun.com>
 
-# $1: Rootdir
-# $2: Websit
-# $3: Packagename
-# $4: Tarpackage type
-# $5: staging dir
-# $6: command
-
+###
+# Don't edit
 ROOT=$1
-OUTDIR=${ROOT}/output/rootfs
-STAGING_DIR=$5
-PACKAGE_NAME=$3.$4
-WEBSIT=$2/${PACKAGE_NAME}
-GCC_NAME=gcclib140
+PACKAGE=$2
+VERSION=$3
+KERNVER=$4
+GITHUB=$5
+STAGING=${ROOT}/output/rootfs/rootfs_${KERNVER}
+GCC=${PACKAGE}.${VERSION}
+FGCC=${GCC}/gcclib140
 
 # Downlaod tarpackage
-if [ ! -f ${ROOT}/dl/${PACKAGE_NAME} ]; then
+if [ ! -f ${ROOT}/dl/${GCC}.tar.bz2 ]; then
   cd ${ROOT}/dl
-  wget ${WEBSIT}
+  wget ${GITHUB}/${GCC}.tar.bz2
   cd -
 fi
 
-mkdir -p ${STAGING_DIR}/bin
-mkdir -p ${STAGING_DIR}/lib
-# Root gcc
-mkdir -p ${OUTDIR}/usr/root
-mkdir -p ${OUTDIR}/usr/include
+mkdir -p ${STAGING}/bin ${STAGING}/lib ${STAGING}/usr/root \
+                             ${STAGING}/usr/include
 
 # Install gcc toolchain
-if [ ! -f ${STAGING_DIR}/bin/cc ]; then
-  mkdir .__tmp$3
-  tar xjf ${ROOT}/dl/${PACKAGE_NAME} -C .__tmp$3 > /dev/null 2>&1
-  cp -rfa .__tmp$3/$3/${GCC_NAME}/local/bin/* ${STAGING_DIR}/bin/
-  cp -rfa .__tmp$3/$3/${GCC_NAME}/local/lib/* ${STAGING_DIR}/lib/
-  cp -rfa .__tmp$3/$3/${GCC_NAME}/include/* ${OUTDIR}/usr/include/
-  cp -rfa .__tmp$3/$3/${GCC_NAME} ${OUTDIR}/usr/root/
-  rm -rf .__tmp$3
+if [ ! -f ${STAGING}/bin/gcc ]; then
+  cd ${ROOT}/dl
+  mkdir -p .__tmp${PACKAGE}
+  tar xjf ${ROOT}/dl/${GCC}.tar.bz2 -C .__tmp${PACKAGE} > /dev/null 2>&1
+  cp -rfa .__tmp${PACKAGE}/${FGCC}/local/bin/* ${STAGING}/bin/
+  cp -rfa .__tmp${PACKAGE}/${FGCC}/local/lib/* ${STAGING}/lib/
+  cp -rfa .__tmp${PACKAGE}/${FGCC}/include/* ${STAGING}/usr/include/
+  rm -rf .__tmp${PACKAGE}
+  cd -
 fi

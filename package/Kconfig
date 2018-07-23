@@ -4,17 +4,13 @@
 menu "Common utilise"
 
 config COMMON_UTILISE
-	bool "user toolchain"
+	bool "Package and toolchain"
 	help
 	  binutilise
 
 if COMMON_UTILISE
 
-#source package/demo/Kconfig
-
 source package/gcc/Kconfig
-
-source package/utils-linux/Kconfig
 
 endif
 

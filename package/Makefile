@@ -1,7 +1,5 @@
-PACKAGE-y                               += base-file/
-#PACKAGE-$(CONFIG_PACKAGE_DEMO)          += demo/
+PACKAGE-y                               += binutils/
 PACKAGE-$(CONFIG_PACKAGE_GCC)           += gcc/
-PACKAGE-$(CONFIG_PACKAGE_UTILS_LINUX)   += utils-linux/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/%/Makefile, $(PACKAGE-y))
 

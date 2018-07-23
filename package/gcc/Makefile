@@ -15,9 +15,8 @@ GNU_GCC_cmd        := download
 GNU_GCC_PACKAGE_NAME := gcc1.4-biscuitos0.11
 
 run_GNU_GCC_sh = $(CONFIG_SHELL) $(GNU_GCC_SCRIPTS) \
-               $(srctree) $(GNU_GCC_SITE) \
-     	       $(GNU_GCC_PACKAGE_NAME) \
-               $(GNU_GCC_TAR) $(GNU_GCC_OUT) $1
+               $1 $(GNU_GCC_NAME) $(GNU_GCC_VERSION) \
+               $(KERNEL_VERSION) $(GNU_GCC_SITE)
 
 $(GNU_GCC_DIR)/build: FORCE
-	$(Q)$(call run_GNU_GCC_sh,$(GNU_GCC_cmd))
+	$(Q)$(call run_GNU_GCC_sh,$(srctree))

@@ -2,7 +2,7 @@
 # kconfig for gcc
 #
 config PACKAGE_GCC
-	bool "GNU GCC"
+	bool "GNU Compiler Collection (GCC)"
 	help
 	  The GNU Compiler Collection (GCC) is a compiler system 
 	  produced by the GNU Project supporting various programming 

@@ -1,13 +1,25 @@
 #!/bin/bash
 
 #
-# This scripts is used to download/update/compile kernel 
-# (C) 2017.11.11 <buddy.zhang@aliyun.com>
+# This scripts is used to download and establish kernel 
+#
+# (C) 2018.07.23 BiscuitOS <buddy.zhang@aliyun.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
 #
 
+###
+## Don't edit
 srctree=$3
 github=$2
 kernel_version=$1
+
+###
+# Don't edit
+KERN_SOURCE=${srctree}/dl/kernel
+TARGET=${srctree}/kernel/Linux_${kernel_version}
 
 ### Kernel version
 KVersion=(
@@ -36,35 +48,48 @@ TagVersion=(
 "v1.0.1"
 )
 
-# Pre-check: need dl/ and kernel/ directory.
-mkdir -p ${srctree}/dl ${srctree}/kernel
+download_kernel()
+{
+    mkdir -p ${KERN_SOURCE}
+    git clone ${github} ${KERN_SOURCE}
+    if [ $? -ne 0 ]; then
+        echo -e "\e[1;31m Unable download kernel from ${github} \e[0m"
+    fi
+}
 
-# Download kernel source
-if [ ! -d ${srctree}/dl/kernel ]; then
-	mkdir -p ${srctree}/dl/kernel
-	git clone ${github} ${srctree}/dl/kernel
-	if [ $? -ne 0 ]; then
-		echo "Bad download kernel source code"
-	fi
+establish_kernel()
+{
+    cp -rf ${KERN_SOURCE} ${TARGET}
+    ## Check and change source version
+    j=0
+    for i in ${KVersion[@]}; do
+        if [ $i = ${kernel_version} ]; then
+            cd ${TARGET}
+            git reset --hard ${TagVersion[$j]} > /dev/null 2>&1
+            cd -
+        fi
+    j=`expr $j + 1`
+    done
+}
+
+patch_kernel()
+{
+    echo "Patch"
+}
+
+precheck()
+{
+    mkdir -p ${srctree}/dl ${srctree}/kernel
+    if [ ! -d ${KERN_SOURCE} ]; then
+        echo -e "\e[1;31m Download kernel from ${github} \e[0m"
+        download_kernel
+    fi
+}
+
+## Start working
+precheck
+
+### Download/nothing
+if [ ! -d ${TARGET} ]; then
+    establish_kernel
 fi
-
-## Copy kernel into target directory
-if [ ! -d ${srctree}/kernel/Linux_${kernel_version} ]; then
-	cp -rf ${srctree}/dl/kernel ${srctree}/kernel/Linux_${kernel_version}
-## Check and change source version
-	j=0
-	for i in ${KVersion[@]}; do
-		if [ $i = ${kernel_version} ]; then
-        		cd ${srctree}/kernel/Linux_${kernel_version}
-			git reset --hard ${TagVersion[$j]}
-			cd ${srctree}
-		fi
-		j=`expr $j + 1`
-	done
-
-## Patch to current version
-
-fi
-
-
-

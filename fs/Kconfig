@@ -6,50 +6,44 @@ menu "Rootfs: file system"
 
 config ROOTFS
 	bool "rootfs for BiscuitOS"
+	default y
 	help
 	  The rootfs for BiscuitOS
 
 if ROOTFS
 
+choice
+	prompt "Configure BiscuitOS rootfs"
+	default FS_MINIX
+
 config FS_MINIX
-	bool "MINIX Rootfs"
+	bool "Unix-MINIX Filesystem V1"
 	help
-	  The Legacy minixi for Linux 0.11
+	  The Minix filesystem
 
 config FS_EXT2
-	bool "Ext2 Rootfs"
+	bool "(EXT2) Second extended Filesystem Revision 0"
 	help
-	  The Ext2 rootfs.
+	  The Ext2 revision 0
 
 config FS_MSDOS
-	bool "MSDOS Rootfs"
+	bool "MSDOS Filesystem"
 	help 
 	  The MSDOS rootfs.
-
-if FS_MINIX
-
-comment "Choose the version of minixfs"
-
-choice
-
-	prompt "Select specify minixfs version"
-	default FS_MINIX_V1
-
-config FS_MINIX_LEGACY
-	bool "Legacy MINIXFS from old.linux.org"
-	help
-	  The minix rootfs from old.linux.org
-
-config FS_MINIX_V1
-	bool "MINIX FS V1"
-	help
-	  The minix rootfs from mkfs.minix -1
-
 endchoice
 
-endif # MINIXFS
+config DISK_SIZE
+	int "Main Partition Size (MB)"
+	default 40
+	help
+	  Configure the size of disk.
 
-endif
+config SWAP_SIZE
+	int "Swap Partition Size (MB)"
+	default 80
+	help
+	  Configure the size of swap
 
+endif # Rootfs
 
 endmenu

@@ -368,6 +368,12 @@ TARGET_BUILD_DIR   := $(call pre_output)
 # Target
 include target/Makefile
 
+# package
+include package/Makefile
+
+# Filesystem (must be last invoked)
+include fs/Makefile
+
 # The all: target is the default when no target is given on the
 # command line.
 all: $(SUB_TARGET) 
