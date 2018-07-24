@@ -1,0 +1,25 @@
+From f2585720545d7c6e4b700cf4ed8c346036ed2369 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Tue, 24 Jul 2018 11:22:00 +0800
+Subject: [PATCH 2/2] setup qemu image name
+
+---
+ tools/debug/qemu/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/debug/qemu/Makefile b/tools/debug/qemu/Makefile
+index 48f8b26..9ae6b11 100644
+--- a/tools/debug/qemu/Makefile
++++ b/tools/debug/qemu/Makefile
+@@ -92,7 +92,7 @@ QEMU_FLAGS += $(BLOCK_DEVICE)
+ # -----------------------------------
+ # Rootfs
+ # -----------------------------------
+-ROOTFS := -hda $(srctree)/BiscuitOS-0.11.img
++ROOTFS := -hda $(srctree)/BiscuitOS-minix_V1-0.97.1.img
+ 
+ QEMU_FLAGS += $(ROOTFS)
+ 
+-- 
+1.9.1
+
