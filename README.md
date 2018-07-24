@@ -76,6 +76,8 @@ hardware. So, don't stop, play Linux with BiscuitOS.
   | linux_0_98_1_defconfig      |   Linux 0.98.1 kernel              |
   | linux_0_99_1_defconfig      |   Linux 0.99.1 kernel              |
   | linux_1_0_1_defconfig       |   Linux 1.0.1 kernel               |
+  | linux_1_0_1_1_minix_defconfig  | Linux 1.0.1.1 minix-fs kernel   |
+  | linux_1_0_1_1_ext2_defconfig   | Linux 1.0.1.1 ext2-fs kernel    |
 
   So, you can choise to build another kernel as follow:
 
