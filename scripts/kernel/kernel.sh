@@ -19,8 +19,8 @@ kernel_version=$1
 ###
 # Don't edit
 KERN_SOURCE=${srctree}/dl/kernel
-TARGET=${srctree}/kernel/Linux_${kernel_version}
-PATCH_DIR=${srctree}/target/kernel/patch/Linux_${kernel_version}
+TARGET=${srctree}/kernel/linux_${kernel_version}
+PATCH_DIR=${srctree}/target/kernel/patch/linux_${kernel_version}
 
 ### Kernel version
 KVersion=(

@@ -21,7 +21,7 @@ FS_TYPE=0
 
 ## Output
 STAGING_DIR=${ROOT}/output/rootfs/rootfs_${KERN_VERSION}
-KERNEL_DIR=${ROOT}/kernel/Linux_${KERN_VERSION}
+KERNEL_DIR=${ROOT}/kernel/linux_${KERN_VERSION}
 BASE_FILE=${ROOT}/target/base-file
 IMAGE_NAME=BiscuitOS
 IMAGE_DIR=${ROOT}/output
