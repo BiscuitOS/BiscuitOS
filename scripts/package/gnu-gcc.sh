@@ -25,7 +25,7 @@ FGCC=${GCC}/gcclib140
 if [ ! -f ${ROOT}/dl/${GCC}.tar.bz2 ]; then
   cd ${ROOT}/dl
   wget ${GITHUB}/${GCC}.tar.bz2
-  cd -
+  cd - > /dev/null 2>&1
 fi
 
 mkdir -p ${STAGING}/bin ${STAGING}/lib ${STAGING}/usr/root \
@@ -40,5 +40,5 @@ if [ ! -f ${STAGING}/bin/gcc ]; then
   cp -rfa .__tmp${PACKAGE}/${FGCC}/local/lib/* ${STAGING}/lib/
   cp -rfa .__tmp${PACKAGE}/${FGCC}/include/* ${STAGING}/usr/include/
   rm -rf .__tmp${PACKAGE}
-  cd -
+  cd - > /dev/null 2>&1
 fi

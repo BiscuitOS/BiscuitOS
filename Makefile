@@ -378,6 +378,10 @@ include fs/Makefile
 # command line.
 all: $(SUB_TARGET) 
 
+# Update 
+update:
+	$(Q)$(CONFIG_SHELL) $(srctree)/target/Host/update.sh $(srctree)
+
 ###
 # Cleaning is done on three levels.
 # make clean     Delete most generated files
@@ -425,6 +429,7 @@ $(mrproper-dirs):
 mrproper: clean $(mrproper-dirs)
 	$(call cmd,rmdirs)
 	$(call cmd,rmfiles)
+	$(Q)rm -rf $(srctree)/dl
 
 # distclean
 #
@@ -456,6 +461,7 @@ clean := -f $(if $(KBUILD_SRC),$(srctree)/)scripts/Makefile.clean obj
 
 help:
 	@echo  'Cleaning targets:'
+	@echo  '  update          - Obtain newest source code'
 	@echo  '  clean		  - Remove most generated files but keep the config and'
 	@echo  '                    enough build support to build external modules'
 	@echo  '  mrproper	  - Remove all generated files + config + various backup files'
@@ -466,32 +472,6 @@ help:
 	@echo  ''
 	@echo  'Other generic targets:'
 	@echo  '  all		  - Build all targets marked with [*]'
-	@echo  '* myapp	  	  - Build the application'
-	@echo  '  dir/            - Build all files in dir and below'
-	@echo  '  dir/file.[oisS] - Build specified target only'
-	@echo  '  dir/file.lst    - Build specified mixed source/assembly target only'
-	@echo  '                    (requires a recent binutils and recent build (System.map))'
-	@echo  '  tags/TAGS	  - Generate tags file for editors'
-	@echo  '  cscope	  - Generate cscope index'
-	@echo  '  gtags           - Generate GNU GLOBAL index'
-	@echo  '  kernelrelease	  - Output the release version string'
-	@echo  '  kernelversion	  - Output the version stored in Makefile'
-	 echo  ''
-	@echo  'Static analysers'
-	@echo  '  checkstack      - Generate a list of stack hogs'
-	@echo  '  namespacecheck  - Name space analysis on compiled kernel'
-	@echo  '  versioncheck    - Sanity check on version.h usage'
-	@echo  '  includecheck    - Check for duplicate included header files'
-	@echo  '  export_report   - List the usages of all exported symbols'
-	@echo  '  headers_check   - Sanity check on exported headers'
-#	@$(MAKE) -f $(srctree)/scripts/Makefile.help checker-help
-	@echo  ''
-#	@echo  'Kernel packaging:'
-#	@$(MAKE) $(build)=$(package-dir) help
-	@echo  ''
-#	@echo  'Documentation targets:'
-#	@$(MAKE) -f $(srctree)/Documentation/DocBook/Makefile dochelp
-	@echo  ''
 	@echo  '  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build'
 	@echo  '  make V=2   [targets] 2 => give reason for rebuild of target'
 	@echo  '  make O=dir [targets] Locate all output files in "dir", including .config'
