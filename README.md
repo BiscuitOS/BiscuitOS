@@ -96,6 +96,8 @@ hardware. So, don't stop, play Linux with BiscuitOS.
     make 
   ```
 
+## Running BiscuitOS
+
   When you succeed to build BiscuitOS from source code, maybe you 
   should think how to run BiscuitOS (Buy a Intel-i386 develop board? it's
   not well!). So we can utilise emulate tools to run BiscuitOS, such as
