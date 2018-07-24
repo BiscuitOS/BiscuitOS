@@ -72,7 +72,7 @@ establish_kernel()
             git reset --hard ${TagVersion[$j]} > /dev/null 2>&1
             git am ${PATCH_DIR}/*.patch
             make defconfig
-            cd -
+            cd - > /dev/null 2>&1
         fi
     j=`expr $j + 1`
     done

@@ -62,7 +62,7 @@ precheck()
     j=0
     for ver in ${KVersion[@]}; do
         if [ ${KERNVER} = ${ver} ]; then
-            if [ ${FSX[$j]} -lt 5 ]; then
+            if [ ${FSX[$j]} -lt 7 ]; then
                 NODE_TYPE=0
                 VERSION=1
                 PACKAGE_NAME=${PACKAGE}.${VERSION}.tar.bz2
@@ -226,7 +226,7 @@ node_table()
         sudo mknod   ttys4       c           4      68  > /dev/null 2>&1
         sudo mknod   zero        c           1      5   > /dev/null 2>&1
     fi
-    cd -
+    cd - > /dev/null 2>&1
 }
 
 install_file()
@@ -242,7 +242,7 @@ install_file()
         tar -xjf ${PACKAGE_NAME} -C .tmp > /dev/null 2>&1
         cp -rfa .tmp/${PACKAGE}.${VERSION}/* ${STAGING_DIR}/
     fi
-    cd -
+    cd - > /dev/null 2>&1
 }
 
 ### Pre-working

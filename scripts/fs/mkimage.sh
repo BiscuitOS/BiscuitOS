@@ -193,4 +193,12 @@ sync
 
 ######
 # Display Userful Information
-
+figlet "BiscuitOS"
+echo "*******************************************************************"
+echo "Kernel Path:"
+echo -e "\e[1;31m ${KERNEL_DIR} \e[0m"
+echo ""
+echo "Blog"
+echo -e "\e[1;31m https://biscuitos.github.io/blog/ \e[0m"
+echo "*******************************************************************"
+echo ""
