@@ -18,6 +18,7 @@ ROOTFS_SIZE=$5
 SWAP_SIZE=$6
 NODE_TYPE=1
 FS_TYPE=0
+KERN_MAGIC=$7
 
 ## Output
 STAGING_DIR=${ROOT}/output/rootfs/rootfs_${KERN_VERSION}
@@ -38,38 +39,17 @@ SWAP_START=`expr ${ROOTFS_END} + 1`
 SWAP_END=`expr ${SWAP_START} + ${SWAP_sect}`
 SWAP_SEEK=`expr ${MBR_sect} + ${ROOTFS_sect}`
 
-### Kernel version
-KVersion=(
-"0.11"
-"0.12"
-"0.95.1"
-"0.95.3"
-"0.95a"
-"0.96.1"
-"0.97.1"
-"0.98.1"
-"0.99.1"
-"1.0.1"
-)
-
-FSX=(0 1 2 3 4 5 6 7 8 9)
 
 precheck()
 {
     mkdir -p ${STAGING_DIR} ${IMAGE_DIR}
-    j=0
-    for i in ${KVersion[@]}; do
-        if [ $i = ${KERN_VERSION} ]; then
-            if [ ${FSX[$j]} -lt 9 ]; then
-                FS_NAME=minix
-		FS_VERSION=V1
-            fi
-            if [ ${FSX[$j]} -gt 2 ]; then
-                NODE_TYPE=2
-            fi
-        fi
-        j=`expr $j + 1`
-    done
+    if [ ${KERN_MAGIC} -lt 9 ]; then
+        FS_NAME=minix
+        FS_VERSION=V1
+    fi
+    if [ ${KERN_MAGIC} -gt 2 ]; then
+        NODE_TYPE=2
+    fi
 
     if [ -d ${IMAGE_DIR}/.rootfs ]; then
         rm -rf ${IMAGE_DIR}/.rootfs

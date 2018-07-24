@@ -15,6 +15,8 @@
 srctree=$3
 github=$2
 kernel_version=$1
+kernel_magic=$4
+fs_magic=$5
 
 ###
 # Don't edit
@@ -34,6 +36,7 @@ KVersion=(
 "0.98.1"
 "0.99.1"
 "1.0.1"
+"1.0.1.1"
 )
 
 TagVersion=(
@@ -47,6 +50,7 @@ TagVersion=(
 "v0.98.1"
 "v0.99.1"
 "v1.0.1"
+"v1.0.1.1"
 )
 
 download_kernel()
@@ -71,7 +75,19 @@ establish_kernel()
             fi
             git reset --hard ${TagVersion[$j]} > /dev/null 2>&1
             git am ${PATCH_DIR}/*.patch
-            make defconfig
+            if [ ${kernel_magic} -gt 9 ]; then
+                if [ ${fs_magic} -eq 0 ]; then
+                    make linux_minix_defconfig
+                fi
+                if [ ${fs_magic} -eq 1 ]; then
+                    make linux_ext2_defconfig
+                fi
+                if [ ${fs_magic} -eq 2 ]; then
+                    make linux_msdos_defconfig
+                fi
+            else
+                make defconfig
+            fi
             cd - > /dev/null 2>&1
         fi
     j=`expr $j + 1`

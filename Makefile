@@ -354,6 +354,19 @@ else
 KERNEL_VERSION := 
 endif
 export KERNEL_VERSION
+ifdef CONFIG_KERNEL_MAGIC
+KERNEL_MAGIC := $(CONFIG_KERNEL_MAGIC)
+else
+KERNEL_MAGIC :=
+endif
+export KERNEL_MAGIC
+
+ifdef CONFIG_FS_MAGIC
+KERNEL_FS := $(CONFIG_FS_MAGIC)
+else
+KERNEL_FS := 0
+endif
+export KERNEL_FS
 
 TARGET_OUT := output kernel dl
 

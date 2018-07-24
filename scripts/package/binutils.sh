@@ -20,6 +20,7 @@ GITHUB=$5
 STAGING_DIR=${ROOT}/output/rootfs/rootfs_${KERNVER}
 NODE_TYPE=0
 PACKAGE_NAME=
+KERN_MAGIC=$6
 
 target_dir=(
 bin
@@ -33,21 +34,6 @@ tmp
 usr
 )
 
-KVersion=(
-"0.11"
-"0.12"
-"0.95.1"
-"0.95.3"
-"0.95a"
-"0.96.1"
-"0.97.1"
-"0.98.1"
-"0.99.1"
-"1.0.1"
-)
-
-FSX=(0 1 2 3 4 5 6 7 8 9)
-
 ## Pre-Check
 precheck()
 {
@@ -59,21 +45,16 @@ precheck()
         j=`expr $j + 1`
     done
 
-    j=0
-    for ver in ${KVersion[@]}; do
-        if [ ${KERNVER} = ${ver} ]; then
-            if [ ${FSX[$j]} -lt 7 ]; then
-                NODE_TYPE=0
-                VERSION=1
-                PACKAGE_NAME=${PACKAGE}.${VERSION}.tar.bz2
-            else
-                NODE_TYPE=1
-                VERSION=2
-                PACKAGE_NAME=${PACKAGE}.${VERSION}.tar.bz2
-            fi
-        fi
-        j=`expr $j + 1`
-    done
+    if [ ${KERN_MAGIC} -lt 7 ]; then
+        NODE_TYPE=0
+        VERSION=1
+        PACKAGE_NAME=${PACKAGE}.${VERSION}.tar.bz2
+    else
+        NODE_TYPE=1
+        VERSION=2
+        PACKAGE_NAME=${PACKAGE}.${VERSION}.tar.bz2
+    fi
+
 }
 
 ## Create node

@@ -16,7 +16,8 @@ SUB_TARGET       += $(MSDOS_DIR)/build
 
 run_msdos_sh = $(CONFIG_SHELL) $(MSDOS_SCRIPTS) \
                $1 $(MSDOS_NAME) $(MSDOS_VERSION) \
-               $(KERNEL_VERSION) $(CONFIG_DISK_SIZE) $(CONFIG_SWAP_SIZE)
+               $(KERNEL_VERSION) $(CONFIG_DISK_SIZE) $(CONFIG_SWAP_SIZE) \
+               $(KERNEL_MAGIC)
 
 $(MSDOS_DIR)/build: FORCE
 	$(Q)$(call run_msdos_sh,$(srctree))

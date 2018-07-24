@@ -44,6 +44,13 @@ config SWAP_SIZE
 	help
 	  Configure the size of swap
 
+config FS_MAGIC
+	int
+	default 0     if FS_MINIX
+	default 1     if FS_EXT2
+	default 2     if FS_MSDOS
+	default 0
+
 endif # Rootfs
 
 endmenu

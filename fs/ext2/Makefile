@@ -16,7 +16,8 @@ SUB_TARGET       += $(EXT2_DIR)/build
 
 run_ext2_sh = $(CONFIG_SHELL) $(EXT2_SCRIPTS) \
                $1 $(EXT2_NAME) $(EXT2_VERSION) \
-               $(KERNEL_VERSION) $(CONFIG_DISK_SIZE) $(CONFIG_SWAP_SIZE)
+               $(KERNEL_VERSION) $(CONFIG_DISK_SIZE) $(CONFIG_SWAP_SIZE) \
+               $(KERNEL_MAGIC)
 
 $(EXT2_DIR)/build: FORCE
 	$(Q)$(call run_ext2_sh,$(srctree))

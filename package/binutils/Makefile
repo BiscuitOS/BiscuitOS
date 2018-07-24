@@ -16,7 +16,8 @@ SUB_TARGET          += $(BASEFILE_DIR)/build
 
 run_base_file_sh = $(CONFIG_SHELL) $(BASEFILE_SCRIPTS) \
                $1 $(BASEFILE_NAME) $(BASEFILE_VERSION) \
-               $(KERNEL_VERSION) $(BASEFILE_SITE) 
+               $(KERNEL_VERSION) $(BASEFILE_SITE) \
+               $(KERNEL_MAGIC) 
 
 $(BASEFILE_DIR)/build: FORCE
 	$(Q)$(call run_base_file_sh,$(srctree))
