@@ -48,7 +48,7 @@ hardware. So, don't stop, play Linux with BiscuitOS.
   project will help you easily to build a customization-BiscuitOS.
 
   ```
-    git clone https://github.com/BiscuitOS/BiscuitOS.git
+    git clone https://github.com/BuddyZhang1/BiscuitOS.git
   ```
 
   The next step, we need to build BiscuitOS with common Kbuild syntax.
