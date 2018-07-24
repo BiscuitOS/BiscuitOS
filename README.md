@@ -3,34 +3,47 @@ BiscuitOS
 
 ![TOP_PIC](https://github.com/EmulateSpace/PictureSet/blob/master/github/mainmenu.jpg)
 
-BiscuitOS is a Unix-like computer operating system that is composed entirely
-of free software, most of which is under the GNU General Public License 
-and packaged by a group of individuals participating in the BiscuitOS Project.
-As one of the earliest operating systems based on the Linux kernel 0.11, 
-it was decided that BiscuitOS was to be developed openly and freely 
-distributed in the spirit of the GNU Project. 
+BiscuitOS is a linux dirstro that base on legacy linux kernel (such as
+linux 0.11, 0.12, 0.95, 0.96, 0.97, 0.98, 0.99, 1.0.1 and more new).
+And BiscuitOS is a open and free operating system, development can use
+it under the GNU General Public License.
 
-While all BiscuitOS releases are derived from the GNU Operating System 
-and use the GNU userland and the GNU C library (glibc), other kernels 
-aside from the Linux kernel are also available, such as those based on 
-BSD kernels and the GNU Hurd microkernel.
+The target of BiscuitOS is creating an operating system debugging and 
+running environment that make developer focus on `CODE` and don't
+waste time on how to build and porting an operating system on different 
+hardware. 
 
-## To Start
+This project named `BiscuitOS` that is a special builtroot for `BiscuitOS`.
+All developers can configure various kernel/rootfs feature and create
+full hardisk-image. The `BiscuitOS` works on Intel-x86 family CPU (such
+as i386, i486 ...) and project offers a emulate to run `BiscuitOS` without
+hardware. So, don't stop, play Linux with `BiscuitOS`. 
 
-  Before you start this tour, you need install core toolchain on
-  your host PC (such as Ubuntu16.04), so please install these tools
-  on start.
+## To Prepare
+
+  Before your tour, you need install essential toolchain on host PC (
+  such as `Ubuntu16.04`). Then execute command:
 
   ```
     sudo apt-get install qemu gcc make gdb git
-    sudo apt-get install cflow graphviz gawk indent
+    sudo apt-get install libncurses5-dev
 
     On 64bit machine:
     sudo apt-get install lib32z1 lib32z1-dev
-    sudo apt-get install libncurses5-dev
   ```
   
-  First of all, You need get source code of BiscuitOS from github, 
+  *NOTE!*
+
+  If you first install or use git, please configure git as follow
+ 
+  ```
+    git config --global user.name "Your Name"
+    git config --global user.email "Your Email"
+  ```
+
+## To Start
+
+  First of all, You need obtain source code of BiscuitOS from github, 
   follow these steps to get newest and stable branch. The BiscuitOS
   project will help you easy to build a customization-BiscuitOS.
 
@@ -39,16 +52,51 @@ BSD kernels and the GNU Hurd microkernel.
   ```
 
   The next step, we need to build BiscuitOS with common Kbuild syntax.
-  The Kbuild will help you easy to built all software and kernel. So
-  utilise this command on your terminal.
+  The `BiscuitOS` support multiple kernel version filesystem type, you
+  can configure `BiscuitOS` like you do. The Kbuild will help you easy 
+  to built all software and kernel. So utilise command on your terminal:
 
   ```
     cd */BiscuitOS
-    make defconfig
+    make linux_1_0_1_defconfig
     make
   ```
 
-  When you succeed to pass build BiscuitOS from source code, maybe you 
+  The Kbuild stores various configure for BiscuitOS, developer can choise
+  it which you like. The Table show default-configure for various kernel:
+
+  |          defconfig          |              Describe              |
+  | --------------------------- | ---------------------------------- | 
+  | linux_0_11_defconfig        |   Linux 0.11 kernel                |
+  | linux_0_12_defconfig        |   Linux 0.12 kernel                |
+  | linux_0_95_3_defconfig      |   Linux 0.95.3 kernel              |
+  | linux_0_95a_defconfig       |   Linux 0.95a kernel               |
+  | linux_0_96_1_defconfig      |   Linux 0.96.1 kernel              |
+  | linux_0_97_1_defconfig      |   Linux 0.97.1 kernel              |
+  | linux_0_98_1_defconfig      |   Linux 0.98.1 kernel              |
+  | linux_0_99_1_defconfig      |   Linux 0.99.1 kernel              |
+  | linux_1_0_1_defconfig       |   Linux 1.0.1 kernel               |
+
+  So, you can choise to build another kernel as follow:
+
+  to build 0.98.1 kernel
+
+  ```
+    cd */BiscuitOS
+    make linux_0_98_1_defconfig
+    make clean
+    make
+  ```
+  to build 0.96.1 kernel
+
+  ```
+    cd  */BiscuitOS
+    make linux_0_96_1_defconfig
+    make clean
+    make 
+  ```
+
+  When you succeed to build BiscuitOS from source code, maybe you 
   should think how to run BiscuitOS (Buy a Intel-i386 develop board? it's
   not well!). So we can utilise emulate tools to run BiscuitOS, such as
   `qemu` or `bochsrc` and so on. On default configure, we have support
@@ -56,30 +104,31 @@ BSD kernels and the GNU Hurd microkernel.
   for example:
 
   ```
+    cd */BiscuitOS/kernel/linux_{your choice kernel version}
     make start
   ```
   
-  Because BiscuitOS project is written on Kbuild syntax, so U can use Kbuild 
-  syntax to add/delete or configure your owner customization-BiscuitOS. 
-  You can utilise `make *config` to configure feature for kernel and 
-  utilise various open-software. So You can utilise follow command:
+  Congratulation :-) You have running a legacy linux (it create from 1991s 
+  :-). So it's easy to build these for you! and go on happy tour!
+
+  The kernel of BiscuitOS is established on Kbuild, so you can utilize
+  Kbuild syntax to configure kernel, it's very easy like follow:
 
   ```
+    cd */BiscuitOS/kernel/linux_{your choice kernel version}
     make menuconfig
-    or 
-    make xconfig
+    make
+    make start
   ```
+  
+## Offical Website and Blog
 
-  If you want to configure kernel, you can follow these step
+  The offical Website:
 
-  ```
-    make kernel
-  ```
+  
+  > https://biscuitos.github.io/
+  
 
-### Usermanual
+  The BiscuitOS Blog
 
-  The offical Usermanual for BiscuitOS from:
-
-  ```
-    https://github.com/BiscuitOS/Documentation/tree/master/Usermanual
-  ```
+  > https://biscuitos.github.io/blog/
