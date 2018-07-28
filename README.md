@@ -48,7 +48,7 @@ hardware. So, don't stop, play Linux with BiscuitOS.
   project will help you easily to build a customization-BiscuitOS.
 
   ```
-    git clone https://github.com/BuddyZhang1/BiscuitOS.git
+    git clone https://github.com/BiscuitOS/BiscuitOS.git
   ```
 
   The next step, we need to build BiscuitOS with common Kbuild syntax.
@@ -111,6 +111,8 @@ hardware. So, don't stop, play Linux with BiscuitOS.
     cd */BiscuitOS/kernel/linux_{your choice kernel version}
     make start
   ```
+
+  ![Running1.0.1.1 ext2](https://raw.githubusercontent.com/EmulateSpace/PictureSet/master/BiscuitOS/buildroot/V000019.png)
   
   Congratulation :-) You have running a legacy linux (it create from 1991s 
   :-). So it's easy to build these for you! and go on happy tour!
@@ -124,6 +126,9 @@ hardware. So, don't stop, play Linux with BiscuitOS.
     make
     make start
   ```
+
+  ![Menuconfig1.0.1.1 ext2](https://raw.githubusercontent.com/EmulateSpace/PictureSet/master/BiscuitOS/buildroot/V000020.png)
+
   
 ## Offical Website and Blog
 
