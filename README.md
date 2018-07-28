@@ -1,4 +1,4 @@
-BiscuitOS
+BiscuitOS                                    [中文](https://biscuitos.github.io/blog/HomePage/)
 ----------------------------------------------
 
 ![TOP_PIC](https://github.com/EmulateSpace/PictureSet/blob/master/github/mainmenu.jpg)
