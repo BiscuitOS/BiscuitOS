@@ -27,6 +27,7 @@ BASE_FILE=${ROOT}/target/base-file
 IMAGE_NAME=BiscuitOS
 IMAGE_DIR=${ROOT}/output
 IMAGE=
+LOOPDEV=`sudo losetup -f`
 
 ###
 # Bootable Image: MBR and partition table
@@ -90,10 +91,10 @@ case ${FS_NAME} in
 	FS_TYPE=81
         ;;
     ext2)
-        sudo losetup -d /dev/loop4 > /dev/null 2>&1
-        sudo losetup /dev/loop4 ${IMAGE_DIR}/rootfs.img > /dev/null 2>&1
-        sudo mkfs.ext2 -r ${FS_VERSION} /dev/loop4
-        sudo losetup -d /dev/loop4 > /dev/null 2>&1
+        sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
+        sudo losetup ${LOOPDEV} ${IMAGE_DIR}/rootfs.img > /dev/null 2>&1
+        sudo mkfs.ext2 -r ${FS_VERSION} ${LOOPDEV}
+        sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
 	FS_TYPE=83
         ;;
     msdos)
@@ -157,16 +158,16 @@ sync
 #### Copy and install package and libray into rootfs
 ##
 
-sudo losetup -d /dev/loop4 > /dev/null 2>&1
+sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
 
 # Mount 1st partition
-sudo losetup -o 1048576 /dev/loop4 ${IMAGE} > /dev/null 2>&1
-sudo mount /dev/loop4 ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
+sudo losetup -o 1048576 ${LOOPDEV} ${IMAGE} > /dev/null 2>&1
+sudo mount ${LOOPDEV} ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
 # Install package and library
 sudo cp -rfa ${STAGING_DIR}/* ${IMAGE_DIR}/.rootfs
 sync
 sudo umount ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
-sudo losetup -d /dev/loop4 > /dev/null 2>&1
+sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
 rm -rf ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
 cp -rf ${IMAGE} ${KERNEL_DIR} 
 sync

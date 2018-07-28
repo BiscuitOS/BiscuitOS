@@ -64,17 +64,22 @@ download_kernel()
 
 establish_kernel()
 {
-    cp -rf ${KERN_SOURCE} ${TARGET}
+    if [ ! -d ${TARGET} ]; then
+        cp -rf ${KERN_SOURCE} ${TARGET}
+    fi
+    cd ${TARGET}
     ## Check and change source version
     j=0
     for i in ${KVersion[@]}; do
         if [ $i = ${kernel_version} ]; then
-            cd ${TARGET}
-            if [ -d ${TARGET}/tools/means ]; then
-                rm -rf ${TARGET}/tools/means
+            ## Establish kernel
+            if [ $1 = "establish" ]; then
+                if [ -d ${TARGET}/tools/means ]; then
+                    rm -rf ${TARGET}/tools/means
+                fi
+                git reset --hard ${TagVersion[$j]} > /dev/null 2>&1
+                git am ${PATCH_DIR}/*.patch
             fi
-            git reset --hard ${TagVersion[$j]} > /dev/null 2>&1
-            git am ${PATCH_DIR}/*.patch
             if [ ${kernel_magic} -gt 9 ]; then
                 if [ ${fs_magic} -eq 0 ]; then
                     make linux_minix_defconfig
@@ -88,10 +93,10 @@ establish_kernel()
             else
                 make defconfig
             fi
-            cd - > /dev/null 2>&1
         fi
     j=`expr $j + 1`
     done
+    cd - > /dev/null 2>&1
 }
 
 precheck()
@@ -108,5 +113,7 @@ precheck
 
 ### Download/nothing
 if [ ! -d ${TARGET} ]; then
-    establish_kernel
+    establish_kernel establish
+else
+    establish_kernel configure
 fi
