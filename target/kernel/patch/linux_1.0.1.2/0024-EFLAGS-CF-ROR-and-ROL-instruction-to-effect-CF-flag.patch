@@ -1,0 +1,152 @@
+From f790e1f46250eb99eb3d339f672848569623aca3 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Thu, 16 Aug 2018 10:17:19 +0800
+Subject: [PATCH 24/25] EFLAGS -- CF: ROR and ROL instruction to effect CF flag
+
+---
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |   2 +-
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 115 ++++++++++++++++++
+ 2 files changed, 116 insertions(+), 1 deletion(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+index c2b912e..adca33a 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/Kconfig
++++ b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+@@ -119,7 +119,7 @@ config DEBUG_CF_SBB
+ 	  Subtraction with borrow.
+ 
+ config DEBUG_CF_SHL
+-	bool "SHL     Shitf logical left"
++	bool "SHL     Shift logical left"
+ 	help
+ 	  Shift logical left.
+ 
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 657edac..57db594 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -1633,6 +1633,121 @@ static __unused int eflags_CF(void)
+         printk("RCR 17: CF clear on %#x >> %#x = %#x\n", ECX, EDX, EAX);
+ #endif
+ 
++#ifdef CONFIG_DEBUG_CF_ROR
++    /*
++     * ROR -- Rotate right
++     *
++     * ROR r/m8,  CL
++     * ROR r/m16, CL
++     * ROR r/m32, CL
++     *
++     * Shifts (rotate) the bits of the first operand (destination operand) the
++     * number of bit positions specified in the second operand (count operand)
++     * and stores the result in the destination operand. The destination
++     * operand can be a register or a memory location; the count operand is
++     * an unsigned integer that can be an immediate or a value in the CL
++     * register. 
++     *
++     * The rotate right (ROR) instruction shift all the bit toward less 
++     * significant bit positions, except for the least-significant bit, which
++     * is rotated to the most-significant bit location. For the ROR 
++     * instruction, the original value of the CF flag is not a part of the
++     * result, but the CF flag recevices a copy of the bit taht was shifted
++     * from one end to the other.
++     */
++
++    /* ROR r/m8, CL */
++    CX = 0x81;
++    DX = 0x01;
++    __asm__ ("mov %1, %%al\n\r"
++             "mov %2, %%cl\n\r"
++             "stc\n\r"
++             "ror %%cl, %%al\n\r"
++             "mov %%ax, %0"
++             : "=m" (AX) : "m" (CX), "m" (DX));
++    printk("ROR  8: %#x >> %#x = %#x\n", CX, DX, AX & 0xFF);
++
++    /* ROR r/m16, CL */
++    CX = 0x8001;
++    DX = 0x1;
++    __asm__ ("mov %1, %%ax\n\r"
++             "mov %2, %%cl\n\r"
++             "stc\n\r"
++             "ror %%cl, %%ax\n\r"
++             "mov %%ax, %0"
++             : "=m" (AX) : "m" (CX), "m" (DX));
++    printk("ROR 16: %#x >> %#x = %#x\n", CX, DX, AX);
++
++    /* ROR r/m32, CL */
++    ECX = 0x80000001;
++    EDX = 0x1;
++    __asm__ ("movl %1, %%eax\n\r"
++             "movl %2, %%ecx\n\r"
++             "stc\n\r"
++             "ror %%cl, %%eax\n\r"
++             "movl %%eax, %0"
++             : "=m" (EAX) : "m" (ECX), "m" (EDX));
++    printk("ROR 32: %#x >> %#x = %#x\n", ECX, EDX, EAX);
++#endif
++
++#ifdef CONFIG_DEBUG_CF_ROL
++    /*
++     * ROL -- Rotate left
++     *
++     * ROL r/m8, CL
++     * ROL r/m16, CL
++     * ROL r/m32, CL
++     *
++     * Shifts (rotates) the bits of the first operand (destination operand)
++     * the number of bit positions specified in the second operand (count
++     * operand) and stores the result in the destination operand. The 
++     * destination operand can be a register or a memory location; the count
++     * operand is an unsigned integer that can be an immediate or a value in
++     * the CL register.
++     *
++     * The rotate left instruction shift all the bits toward more-significant
++     * bit positions, except for the most-significant bit, which is rotate
++     * to the least-significant bit location. For the ROL instruction, the
++     * original value of the CF flag is not a part of the result, but the
++     * CF flag receives a copy the bit that was shifted from one end to the
++     * other.
++     */
++
++
++    /* ROL r/m8, CL */
++    CX = 0x81;
++    DX = 0x01;
++    __asm__ ("mov %1, %%al\n\r"
++             "mov %2, %%cl\n\r"
++             "stc\n\r"
++             "rol %%cl, %%al\n\r"
++             "mov %%ax, %0"
++             : "=m" (AX) : "m" (CX), "m" (DX));
++    printk("ROL  8: %#x << %#x = %#x\n", CX, DX, AX & 0xFF);
++
++    /* ROL r/m16, CL */
++    CX = 0x8001;
++    DX = 0x01;
++    __asm__ ("mov %1, %%ax\n\r"
++             "mov %2, %%cx\n\r"
++             "stc\n\r"
++             "rol %%cl, %%ax\n\r"
++             "mov %%ax, %0"
++             : "=m" (AX) : "m" (CX), "m" (DX));
++    printk("ROL 16: %#x << %#x = %#x\n", CX, DX, AX);
++
++    /* ROL r/m32, CL */
++    ECX = 0x80000001;
++    EDX = 0x01;
++    __asm__ ("movl %1, %%eax\n\r"
++             "movl %2, %%ecx\n\r"
++             "stc\n\r"
++             "rol %%cl, %%eax\n\r"
++             "movl %%eax, %0"
++             : "=m" (EAX) : "m" (ECX), "m" (EDX));
++    printk("ROL 32: %#x << %#x = %#x\n", ECX, EDX, EAX);
++#endif
++
+     return 0;
+ }
+ 
+-- 
+2.17.1
+

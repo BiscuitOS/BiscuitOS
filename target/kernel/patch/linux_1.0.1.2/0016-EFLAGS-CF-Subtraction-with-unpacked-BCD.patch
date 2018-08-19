@@ -1,0 +1,179 @@
+From 084969a46919261cd5cb867ed2e96ed80c649901 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Mon, 13 Aug 2018 22:49:06 +0800
+Subject: [PATCH 16/25] EFLAGS-CF: Subtraction with unpacked BCD
+
+---
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |   5 +
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 123 +++++++++++++++++-
+ 2 files changed, 121 insertions(+), 7 deletions(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+index a3886b2..77245ba 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/Kconfig
++++ b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+@@ -43,6 +43,11 @@ config DEBUG_CF_AAA
+ 	help
+ 	  Carry on unpacked BCD via AAA instruction.
+ 
++config DEBUG_CF_AAS
++	bool "CF: Borrow on unpacked BCD via AAS instruction"
++	help
++	  Borrow on unpacked BCD via AAS instruction.
++
+ endif # DEBUG_EFLAGS_CF
+ 
+ endif
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 9bd4e63..d34a576 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -185,12 +185,12 @@ static __unused int eflags_POPF(void)
+  */
+ static __unused int eflags_CF(void)
+ {
+-    unsigned char __unused EFLAGS;
++    unsigned char  __unused CF;
+     unsigned short __unused AX;
+ 
+ #ifdef CONFIG_DEBUG_CF_AAA
+     /* 
+-     * Case0: AAA -- ASCII Adjust After Addition 
++     * AAA -- ASCII Adjust After Addition 
+      *   Adjust the sum of two unpacked BCD value to create an unpacked BCD
+      *   result. The AL register is the implied source and destination
+      *   operand for this instruction. The AAA instruction is only useful
+@@ -217,16 +217,125 @@ static __unused int eflags_CF(void)
+      *       FI
+      *       AL <---- AL AND 0FH
+      *   FI
++     *
++     * More information about BCD, see: tools/demo/Data/Base/BCD/README.md
++     *
++     * JC  -- Jump if Carry bit is set.
++     * JNC -- Jump if Carry bit is clear.
+      */ 
+     __asm__ ("mov $0x9, %%ax\n\r"
+-             "add $0x8, %%al\n\r"
++             "add $0x1, %%al\n\r"
+              "aaa\n\r"
+-             "pushf\n\r"
+-             "pop %0\n\r" 
+-             "mov %%eax, %1": "=m" (EFLAGS), "=m" (AX) :);
+-    if (EFLAGS & 0x1)
++             "jc CF_SET\n\r"
++             "jnc CF_CLEAR\n\r"
++      "CF_SET:\n\r"
++             "mov $1, %%ebx\n\r"
++             "jmp out\n\r"
++    "CF_CLEAR:\n\r"
++             "mov $0, %%ebx\n\r"
++             "out:\n\r"
++             "mov %%ebx, %0\n\r"
++             "mov %%ax, %1" : "=m" (CF), "=m" (AX):);
++
++    if (CF)
+         printk("CF has carry on AAA instruction. Unpacked BCD: %#x\n", AX);
+ 
++#endif
++
++#ifdef CONFIG_DEBUG_CF_AAS
++    /*
++     * AAS -- ASCII adjust AL after subtraction
++     *   Adjust the result of the subtraction of two unpacked BCD value to 
++     *   create a unpacked BCD result. The AL register is the implied source
++     *   and destination operand for this instruction. The AAS instruction
++     *   is only useful when it follows a SUB instruction that subtracts (
++     *   binary subtraction) one unpacked BCD value from another and stores
++     *   a byte result in the AL register. The AAA instruction then adjusts
++     *   the contents of the AL register to contain the correct 1-digit
++     *   unpacked BCD result.
++     *
++     *   If the subtraction produced a decimal carry, the AH register 
++     *   decrements by 1, and the CF and AF flags are set. If no decimal
++     *   carry occurred, the CF and AF flags are cleared, and the AH register
++     *   is unchanged. In either case, the AL register is left with its top
++     *   four bits set to 0.
++     *
++     *   IF ((AL AND 0FH) > 9) or (AF = 1)
++     *       THEN
++     *           AX <---- AX - 6
++     *           AH <---- AH - 1
++     *           AF <---- 1
++     *           CF <---- 1
++     *           AL <---- AL AND 0FH
++     *       ELSE
++     *           CF <---- 0
++     *           AF <---- 0
++     *           AL <---- AL AND 0FH
++     *   FI
++     *
++     * More information about BCD, see: tools/demo/Data/Base/BCD/README.md
++     *
++     * JC  -- Jump if Carry bit is set.
++     * JNC -- Jump if Carry bit is clear.
++     */
++    __asm__ ("mov $8, %%ax\n\r"
++             "sub $9, %%al\n\r"
++             "aas\n\r"
++             "jc CF_SET\n\r"
++             "jc CF_CLEAR\n\r"
++      "CF_SET:\n\r"
++             "mov $1, %%ebx\n\r"
++             "jmp out\n\r"
++    "CF_CLEAR:\n\r"
++             "mov $0, %%ebx\n\r"
++         "out:\n\r"
++             "mov %%bx, %0\n\r"
++             "mov %%ax, %1" : "=m" (CF), "=m" (AX));
++
++    /*
++     * Subtraction is done by adding the ten's complement of the subtrachend.
++     * To illustrate signed unpacked BCD subtraction, as "8 - 9":
++     * 
++     * In signed unpacked BCD, 8 is '0000 1000'. The ten's complement of 9
++     * can be obtained by taking the nine's complement of 9, and then adding
++     * one. So "9 - 9 = 0", and "0 + 1 = 1" By preceding 1 in BCD by 
++     * the negative sign code, the number "-9" can be represented. So, "-9"
++     * in signed BCD is "0000 1001 0000 0001".
++     *
++     * Now that both numbers are represented in signed BCD, they can be added
++     * together:
++     * 
++     *                                      0000 1000
++     *                                              8
++     *                          + 0000 1001 0000 0001
++     *                                    9         1
++     *                          ---------------------
++     *                          = 0000 1001 0000 1001
++     *                                    9         9
++     *
++     * To represent the sign of a number in BCD, the number "0000" is unsed
++     * to represent a positive number, and "1001" is used to represent a 
++     * negative number. So adding 6 to the invalid entries result in the 
++     * following:
++     *
++     *                            0000 1001 0000 1001
++     *                                    9         9
++     *                          + 0000 0000 0000 0000
++     *                                    0         0
++     *                          ---------------------
++     *                          = 0000 1001 0000 1001
++     *                                    9         9
++     *
++     * Thus the result of the subtraction if "0000 1001 0000 1001" 
++     * (-9). To check the answer, note that the first digit is 9, which means
++     * negative. This seems to be correct, since "8 - 9" should result in a 
++     * negative number. To check the rest of the digits, represent them in
++     * decimal. "0000 1001" is 9. Then ten's complement of 9 is "10 - 9"
++     * = "9 - 9 + 1" = "0 + 1" = 1. so the calculated answer is "-1".
++     */
++    if (CF)
++        printk("CF has carry on AAS instruction. Unpacked BCD: %#x\n", AX);
++
+ #endif
+ 
+     return 0;
+-- 
+2.17.1
+

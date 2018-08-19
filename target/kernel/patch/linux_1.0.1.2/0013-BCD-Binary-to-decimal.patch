@@ -1,0 +1,370 @@
+From 9a95005ab6602ec801f11bae2dad264cb8b24f00 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Mon, 13 Aug 2018 17:59:22 +0800
+Subject: [PATCH 13/25] BCD: Binary to decimal
+
+---
+ tools/demo/Data/Base/BCD/Kconfig   |  40 +++++++++
+ tools/demo/Data/Base/BCD/Makefile  |   1 +
+ tools/demo/Data/Base/BCD/README.md | 136 +++++++++++++++++++++++++++++
+ tools/demo/Data/Base/BCD/bcd.c     |  68 +++++++++++++++
+ tools/demo/Data/Base/Kconfig       |  19 ++++
+ tools/demo/Data/Base/Makefile      |   1 +
+ tools/demo/Data/Kconfig            |  19 ++++
+ tools/demo/Data/Makefile           |   1 +
+ tools/demo/Data/list/README.md     |   0
+ tools/demo/Data/tree/README.md     |   0
+ 10 files changed, 285 insertions(+)
+ create mode 100644 tools/demo/Data/Base/BCD/Kconfig
+ create mode 100644 tools/demo/Data/Base/BCD/Makefile
+ create mode 100644 tools/demo/Data/Base/BCD/README.md
+ create mode 100644 tools/demo/Data/Base/BCD/bcd.c
+ create mode 100644 tools/demo/Data/Base/Kconfig
+ create mode 100644 tools/demo/Data/Base/Makefile
+ create mode 100644 tools/demo/Data/Kconfig
+ create mode 100644 tools/demo/Data/Makefile
+ create mode 100644 tools/demo/Data/list/README.md
+ create mode 100644 tools/demo/Data/tree/README.md
+
+diff --git a/tools/demo/Data/Base/BCD/Kconfig b/tools/demo/Data/Base/BCD/Kconfig
+new file mode 100644
+index 0000000..19d7181
+--- /dev/null
++++ b/tools/demo/Data/Base/BCD/Kconfig
+@@ -0,0 +1,40 @@
++#
++# BCD: Unpacked BCD and Packed BCD
++#
++
++menu "BCD: Unpacked BCD and Packed BCD"
++
++config DEBUG_DATA_BCD
++	bool "BCD: Unpacked BCD and Packed BCD"
++	help
++	  Debug Unpacked BCD and Packed BCD.
++
++if DEBUG_DATA_BCD
++
++config DEBUG_UNPACKED_BCD
++	bool "BCD: Unpacked BCD integers"
++	help
++	  Debug Unpacked BCD integer.
++
++if DEBUG_UNPACKED_BCD
++
++config DEBUG_UNPACKED_BCD_ADD
++	bool "BCD: Addition with Unpacked BCD"
++	help
++	  Debug addition with Unpacked BCD.
++
++config DEBUG_UNPACKED_BCD_SUB
++	bool "BCD: Subtraction with Unpacked BCD"
++	help
++	  Debug subtraction with Unpacked BCD.
++
++endif
++
++config DEBUG_PACKED_BCD
++	bool "BCD: Packed BCD integers"
++	help
++	  Debug Packed BCD integers.
++
++endif
++
++endmenu
+diff --git a/tools/demo/Data/Base/BCD/Makefile b/tools/demo/Data/Base/BCD/Makefile
+new file mode 100644
+index 0000000..1e75d69
+--- /dev/null
++++ b/tools/demo/Data/Base/BCD/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_DATA_BCD) += bcd.o
+diff --git a/tools/demo/Data/Base/BCD/README.md b/tools/demo/Data/Base/BCD/README.md
+new file mode 100644
+index 0000000..c1a7102
+--- /dev/null
++++ b/tools/demo/Data/Base/BCD/README.md
+@@ -0,0 +1,136 @@
++BCD AND PACKED BCD INTEGERS
++-----------------------------------------
++
++Binary-coded decimal integers (BCD integers) are unisgned 4-bit integers 
++with valid values ranging from 0 to 9. IA-32 architecture defines operations
++on BCD integers located in one or more general-purpose register or in one
++or more X87 FPU register.
++
++```
++BCD integers
++
++  7                      4 3                              0
++  +-----------------------+-------------------------------+
++  |          X            |         BCD                   |
++  +-------------------------------------------------------+                        
++
++Packed BCD Integers
++
++  7                      4 3                              0
++  +-----------------------+-------------------------------+
++  |         BCD           |         BCD                   |
++  +-------------------------------------------------------+                        
++```
++
++In computing and electronic system, binary-code decimal (BCD) is a class
++of binary encodings of decimal numbers where each decimal digit is 
++represented by a fixed number of bits, usually four or eight. Special bit
++patterns are sometimes used for a sign or for other indications (e.g.
++error or overflow).
++
++In byte-oriented system (i.e. most modern computers), the term `unpacked BCD`
++usually implies a full byte for each digit (often including a sign), whereas 
++`packed BCD` typically encodes two decimal digits within a single byte by
++taking advantage of the fact that four bits are enough to represent the range
++0 to 9. The precise 4-bit encoding may vary however, for technical reasons,
++see Excess-3 for instance. The ten states representing a BCD decimal digit
++are sometimes called terades (for the nibble typically needed to hold them
++also know as tetrad) with those don't care-states unused named pseudo-tetrad
++or pseudo-decimal digit.
++
++BCD's main virtue is its more accurate representation and rounding of decimal
++quantities as well as an ease of conversion into human-readable 
++representations, in comparison to binary positional systems. BCD's principal
++darwbacks are a samll increase in the complexity of the circuits needed to 
++implement basic arithmetics and a slightly less dense storage.
++
++## Basics
++
++`BCD` takes advantage of the fact that any one decimal numeral can be 
++represented by a four bit pattern. The most obvious way of encoding digits is
++"natural BCD" (NBCD), where each decimal digit is represented by its
++corresponding four-bit binary value, as show in the following table.
++
++| Decimal digit |   8421 BCD   |   2421 BCD   |   Excess-3   |
++| ------------- | ------------ | ------------ | ------------ |
++| 0             | 0000         | 0000         | 0011         |
++| 1             | 0001         | 0001         | 0100         |
++| 2             | 0010         | 0010         | 0101         |
++| 3             | 0011         | 0011         | 0110         |
++| 4             | 0100         | 0100         | 0111         |
++| 5             | 0101         | 1011         | 1000         |
++| 6             | 0110         | 1100         | 1001         |
++| 7             | 0111         | 1101         | 1010         |
++| 8             | 1000         | 1110         | 1011         |
++| 9             | 1001         | 1111         | 1100         |
++
++Other encodings are also used, including so-called `4221` and `7421` -- named
++after the weighting used for the bits -- and `Excess-3`. For example, the
++`BCD` digit 6, '0110'b in `8421` notation, is `1100`b in 4221 (two encodings
++are possible). `0110`b in 7421, and `1001`b in excess-3.
++
++As most computers deal with data in 8-bit bytes, it is possible to use one
++of the following methods to encode a BCD number:
++
++* Unpacked
++
++  Each numeral is encoded into one byte, with four bits representing the 
++  and the remaining bits having no significance.
++
++* Packed
++
++  Two numerals are encoded into a single byte, with one numeral in the least
++  significant nibble (bits 0 through 3) and the other numeral in the most
++  significant nibble (bits 4 through 7).
++
++As an example, encoding the decimal number 91 using unpacked BCD result in
++following binary pattern of two bytes:
++
++```
++  Decimal:          9         1
++  Binary :  0000 1001 0000 0001  
++```
++
++In packed BCD, the same number would fit into a single byte:
++
++```
++  Decimal:     9    1
++  Binary :  1001 0001
++```
++
++## Addition with BCD
++
++It is possible to perform addition in BCD by first adding in binary, and
++then converting to BCD afterwards. Conversion of the simple sum of two 
++digits can be done by adding 6 (that is, 16 - 10) when the five-bit result
++of adding a pair of digits has a value greater than 9. For example:
++
++```
++  1001 + 1000 = 10001
++     9 +    8 = 17
++```
++
++Note that `10001` is the binary, not decimal, representation of the desired
++result. Also note that it cannot fit in a 4-bit number. In BCD as in decimal,
++there cannot exist a value greater than 9 (1001) per digit. To correct this,
++6 (0110) is added to that sum and then the result is treated as two nibbles:
++
++```
++  10001 + 0110 = 00010111 => 0001 0111
++     17 +    6 =       23       1    7
++```
++
++The two nibbles of the result, `0001` and `0111`, correspond to the digit `1`
++and `7`. This yields `17` in BCD, which is the correct result.
++
++This technique can be extended to adding multiple digits by adding in groups
++from right to left, propagating the second digit as a carry, always comparing
++the 5-bit result of each digit-pair sum to 9. Some CPUs provide a half-carry
++flag to facilitate BCD arithmetic adjustments following binary addition and
++subtraction operations.
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 4 Data Types: 4.7 BCD and Packed BCD Integers ](https://software.intel.com/en-us/articles/intel-sdm)
++
++  [BCD on Wikipedia](https://en.wikipedia.org/wiki/Binary-coded_decimal)
+diff --git a/tools/demo/Data/Base/BCD/bcd.c b/tools/demo/Data/Base/BCD/bcd.c
+new file mode 100644
+index 0000000..8ba27c3
+--- /dev/null
++++ b/tools/demo/Data/Base/BCD/bcd.c
+@@ -0,0 +1,68 @@
++/*
++ * BCD: Unpacked BCD and Packed BCD 
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++/*
++ * Unpacked BCD
++ *
++ * Each numeral is encoded into one byte, with four bits representing the
++ * and the remaining bits having no significance.
++ */
++static __unused int Unpacked_BCD(void)
++{
++    unsigned short __unused AX;
++
++    /*
++     * Addition with BCD
++     *
++     * It is possible to perform addition in BCD by first adding in binary, 
++     * and then converting to BCD afterwards. Conversion of the simple sum 
++     * of two digits can be done by adding 6 (that is, 16 - 10) when the 
++     * five-bit result of adding a pair of digits has a value greater than 9. 
++     * For example:
++     *
++     *   1001 + 1000 = 10001
++     *      9 +    8 = 17
++     *
++     * Note that `10001` is the binary, not decimal, representation of the 
++     * desired result. Also note that it cannot fit in a 4-bit number. In 
++     * BCD as in decimal, there cannot exist a value greater than 9 (1001) 
++     * per digit. To correct this, 6 (0110) is added to that sum and then 
++     * the result is treated as two nibbles:
++     *
++     *   10001 + 0110 = 00010111 => 0001 0111
++     *      17 +    6 =       23       1    7
++     *
++     */
++#ifdef CONFIG_DEBUG_UNPACKED_BCD_ADD
++    __asm__ ("mov $0x9, %%ax\n\r"
++             "add $0x8, %%al\n\r"
++             "aaa\n\r"
++             "mov %%ax, %0" : "=m" (AX) :);
++
++    printk("Unpacked BCD: 0x9 + 0x8 = %#x\n", AX);
++#endif
++
++#ifdef CONFIG_DEBUG_UNPACKED_BCD_SUB
++    ;
++#endif
++    return 0;
++}
++
++static int debug_BCD(void)
++{
++#ifdef CONFIG_DEBUG_UNPACKED_BCD
++    Unpacked_BCD();
++#endif
++
++    return 0;
++}
++late_debugcall(debug_BCD);
+diff --git a/tools/demo/Data/Base/Kconfig b/tools/demo/Data/Base/Kconfig
+new file mode 100644
+index 0000000..e629b7d
+--- /dev/null
++++ b/tools/demo/Data/Base/Kconfig
+@@ -0,0 +1,19 @@
++#
++# Base Data Type
++#
++
++menu "Base Data Types: BCD, int, float, pointer, and so on"
++
++config DEBUG_BASE_DATA
++	bool "Debug Base Data types: BCD, int, float, pointer, and so on"
++	help
++	  Debug Base Data types: BCD, int, float, pointer, and so on
++
++if DEBUG_BASE_DATA
++
++# BCD
++source "tools/demo/Data/Base/BCD/Kconfig"
++
++endif
++
++endmenu
+diff --git a/tools/demo/Data/Base/Makefile b/tools/demo/Data/Base/Makefile
+new file mode 100644
+index 0000000..ddc2047
+--- /dev/null
++++ b/tools/demo/Data/Base/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_DATA_BCD) += BCD/
+diff --git a/tools/demo/Data/Kconfig b/tools/demo/Data/Kconfig
+new file mode 100644
+index 0000000..c6697f1
+--- /dev/null
++++ b/tools/demo/Data/Kconfig
+@@ -0,0 +1,19 @@
++#
++# Data Type
++#
++
++menu "Data Types: list, tree, BCD, and so on"
++
++config DEBUG_DATA
++	bool "Debug Data types: list, tree, BCD, and so on."
++	help
++	  Debug Data types: list, tree, BCD, and so on.
++
++if DEBUG_DATA
++
++# BASE Date Type
++source "tools/demo/Data/Base/Kconfig"
++
++endif
++
++endmenu
+diff --git a/tools/demo/Data/Makefile b/tools/demo/Data/Makefile
+new file mode 100644
+index 0000000..484fd1c
+--- /dev/null
++++ b/tools/demo/Data/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_BASE_DATA) += Base/
+diff --git a/tools/demo/Data/list/README.md b/tools/demo/Data/list/README.md
+new file mode 100644
+index 0000000..e69de29
+diff --git a/tools/demo/Data/tree/README.md b/tools/demo/Data/tree/README.md
+new file mode 100644
+index 0000000..e69de29
+-- 
+2.17.1
+

@@ -1,0 +1,881 @@
+From 05b5c74c10cf039096d4bef80dc75371cea1e87f Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Fri, 10 Aug 2018 18:24:39 +0800
+Subject: [PATCH 10/25]    Purpose register: EAX/EBX/ECX/EDX/ESI/EDI/EBP/ESP
+
+---
+ tools/demo/mmu/storage/register/EAX/Kconfig   |  12 ++
+ tools/demo/mmu/storage/register/EAX/Makefile  |   1 +
+ tools/demo/mmu/storage/register/EAX/README.md |  18 ++
+ tools/demo/mmu/storage/register/EAX/eax.c     |  17 ++
+ tools/demo/mmu/storage/register/EBP/Kconfig   |  12 ++
+ tools/demo/mmu/storage/register/EBP/Makefile  |   1 +
+ tools/demo/mmu/storage/register/EBP/README.md |  17 ++
+ tools/demo/mmu/storage/register/EBP/ebp.c     |  17 ++
+ tools/demo/mmu/storage/register/EBX/Kconfig   |  12 ++
+ tools/demo/mmu/storage/register/EBX/Makefile  |   1 +
+ tools/demo/mmu/storage/register/EBX/README.md |  18 ++
+ tools/demo/mmu/storage/register/EBX/ebx.c     |  17 ++
+ tools/demo/mmu/storage/register/ECX/Kconfig   |  12 ++
+ tools/demo/mmu/storage/register/ECX/Makefile  |   1 +
+ tools/demo/mmu/storage/register/ECX/README.md |  18 ++
+ tools/demo/mmu/storage/register/ECX/ecx.c     |  17 ++
+ tools/demo/mmu/storage/register/EDI/Kconfig   |  12 ++
+ tools/demo/mmu/storage/register/EDI/Makefile  |   1 +
+ tools/demo/mmu/storage/register/EDI/README.md |  17 ++
+ tools/demo/mmu/storage/register/EDI/edi.c     |  18 ++
+ tools/demo/mmu/storage/register/EDX/Kconfig   |  12 ++
+ tools/demo/mmu/storage/register/EDX/Makefile  |   1 +
+ tools/demo/mmu/storage/register/EDX/README.md |  18 ++
+ tools/demo/mmu/storage/register/EDX/edx.c     |  17 ++
+ tools/demo/mmu/storage/register/ESI/Kconfig   |  12 ++
+ tools/demo/mmu/storage/register/ESI/Makefile  |   1 +
+ tools/demo/mmu/storage/register/ESI/README.md |  17 ++
+ tools/demo/mmu/storage/register/ESI/esi.c     |  18 ++
+ tools/demo/mmu/storage/register/ESP/Kconfig   |  12 ++
+ tools/demo/mmu/storage/register/ESP/Makefile  |   1 +
+ tools/demo/mmu/storage/register/ESP/README.md |  17 ++
+ tools/demo/mmu/storage/register/ESP/esp.c     |  17 ++
+ tools/demo/mmu/storage/register/Kconfig       |  24 +++
+ tools/demo/mmu/storage/register/Makefile      |   8 +
+ tools/demo/mmu/storage/register/README.md     | 170 ++++++++++++++++++
+ 35 files changed, 584 insertions(+)
+ create mode 100644 tools/demo/mmu/storage/register/EAX/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/EAX/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/EAX/README.md
+ create mode 100644 tools/demo/mmu/storage/register/EAX/eax.c
+ create mode 100644 tools/demo/mmu/storage/register/EBP/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/EBP/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/EBP/README.md
+ create mode 100644 tools/demo/mmu/storage/register/EBP/ebp.c
+ create mode 100644 tools/demo/mmu/storage/register/EBX/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/EBX/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/EBX/README.md
+ create mode 100644 tools/demo/mmu/storage/register/EBX/ebx.c
+ create mode 100644 tools/demo/mmu/storage/register/ECX/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/ECX/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/ECX/README.md
+ create mode 100644 tools/demo/mmu/storage/register/ECX/ecx.c
+ create mode 100644 tools/demo/mmu/storage/register/EDI/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/EDI/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/EDI/README.md
+ create mode 100644 tools/demo/mmu/storage/register/EDI/edi.c
+ create mode 100644 tools/demo/mmu/storage/register/EDX/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/EDX/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/EDX/README.md
+ create mode 100644 tools/demo/mmu/storage/register/EDX/edx.c
+ create mode 100644 tools/demo/mmu/storage/register/ESI/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/ESI/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/ESI/README.md
+ create mode 100644 tools/demo/mmu/storage/register/ESI/esi.c
+ create mode 100644 tools/demo/mmu/storage/register/ESP/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/ESP/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/ESP/README.md
+ create mode 100644 tools/demo/mmu/storage/register/ESP/esp.c
+ create mode 100644 tools/demo/mmu/storage/register/README.md
+
+diff --git a/tools/demo/mmu/storage/register/EAX/Kconfig b/tools/demo/mmu/storage/register/EAX/Kconfig
+new file mode 100644
+index 0000000..54d5f15
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EAX/Kconfig
+@@ -0,0 +1,12 @@
++#
++# EAX: Accumulator for operands and result data
++#
++
++menu "EAX:      Accumulator for operands and result data"
++
++config DEBUG_REGISTER_EAX
++	bool "EAX: Accumulator for operands and result data"
++	help
++	  Debug EAX Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/EAX/Makefile b/tools/demo/mmu/storage/register/EAX/Makefile
+new file mode 100644
+index 0000000..97d8a33
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EAX/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_EAX)     += eax.o
+diff --git a/tools/demo/mmu/storage/register/EAX/README.md b/tools/demo/mmu/storage/register/EAX/README.md
+new file mode 100644
+index 0000000..d6bb660
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EAX/README.md
+@@ -0,0 +1,18 @@
++EAX: Accumulator for operands and results data
++---------------------------------------------------------------------
++
++```
++EAX/AX/AH/AL Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+-------------+------------+
++    |                          |      AH     |     AL     |   AX     EAX
++    +--------------------------+-------------+------------+
++
++```
++
++
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/EAX/eax.c b/tools/demo/mmu/storage/register/EAX/eax.c
+new file mode 100644
+index 0000000..717ea6b
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EAX/eax.c
+@@ -0,0 +1,17 @@
++/*
++ * EAX: Accumulator for operands and results data
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++static int debug_eax(void)
++{
++    return 0;
++}
++late_debugcall(debug_eax);
+diff --git a/tools/demo/mmu/storage/register/EBP/Kconfig b/tools/demo/mmu/storage/register/EBP/Kconfig
+new file mode 100644
+index 0000000..c92e034
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EBP/Kconfig
+@@ -0,0 +1,12 @@
++#
++# EBP: Pointer to data on the stack (in the SS segment)
++#
++
++menu "EBP:      Pointer to data on the stack (in the SS segment)"
++
++config DEBUG_REGISTER_EBP
++	bool "EBP: Pointer to data on the stack (in the SS segment)"
++	help
++	  Debug EBP Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/EBP/Makefile b/tools/demo/mmu/storage/register/EBP/Makefile
+new file mode 100644
+index 0000000..3fde3eb
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EBP/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_ESP)     += ebp.o
+diff --git a/tools/demo/mmu/storage/register/EBP/README.md b/tools/demo/mmu/storage/register/EBP/README.md
+new file mode 100644
+index 0000000..9254dc1
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EBP/README.md
+@@ -0,0 +1,17 @@
++EBP: Pointer to data on the stack (in the SS segment)
++---------------------------------------------------------------------
++
++```
++EBP Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+--------------------------+
++    |                          |             BP           |          EBP
++    +--------------------------+--------------------------+
++```
++
++
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/EBP/ebp.c b/tools/demo/mmu/storage/register/EBP/ebp.c
+new file mode 100644
+index 0000000..02dc746
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EBP/ebp.c
+@@ -0,0 +1,17 @@
++/*
++ * EBP: Pointer to data on the stack (in the SS segment)
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++static int debug_ebp(void)
++{
++    return 0;
++}
++late_debugcall(debug_ebp);
+diff --git a/tools/demo/mmu/storage/register/EBX/Kconfig b/tools/demo/mmu/storage/register/EBX/Kconfig
+new file mode 100644
+index 0000000..b54ab84
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EBX/Kconfig
+@@ -0,0 +1,12 @@
++#
++# EBX: Pointer to data in the DS segment
++#
++
++menu "EBX:      Pointer to data in the DS segment"
++
++config DEBUG_REGISTER_EBX
++	bool "EBX: Pointer to data in the DS segment"
++	help
++	  Debug EBX Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/EBX/Makefile b/tools/demo/mmu/storage/register/EBX/Makefile
+new file mode 100644
+index 0000000..b5ff1a9
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EBX/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_EBX)     += ebx.o
+diff --git a/tools/demo/mmu/storage/register/EBX/README.md b/tools/demo/mmu/storage/register/EBX/README.md
+new file mode 100644
+index 0000000..8277cce
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EBX/README.md
+@@ -0,0 +1,18 @@
++EBX: Pointer to data in the DS segment
++---------------------------------------------------------------------
++
++```
++EBX/BX/BH/BL Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+-------------+------------+
++    |                          |      BH     |     BL     |   BX     EBX
++    +--------------------------+-------------+------------+
++
++```
++
++
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/EBX/ebx.c b/tools/demo/mmu/storage/register/EBX/ebx.c
+new file mode 100644
+index 0000000..e3d4e80
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EBX/ebx.c
+@@ -0,0 +1,17 @@
++/*
++ * EBX: Pointer to data in the DS segment
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++static int debug_ebx(void)
++{
++    return 0;
++}
++late_debugcall(debug_ebx);
+diff --git a/tools/demo/mmu/storage/register/ECX/Kconfig b/tools/demo/mmu/storage/register/ECX/Kconfig
+new file mode 100644
+index 0000000..f0e73ef
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ECX/Kconfig
+@@ -0,0 +1,12 @@
++#
++# ECX: Counter for string and loop operations
++#
++
++menu "ECX:      Counter for string and loop operations"
++
++config DEBUG_REGISTER_ECX
++	bool "ECX: Counter for string and loop operations"
++	help
++	  Debug ECX Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/ECX/Makefile b/tools/demo/mmu/storage/register/ECX/Makefile
+new file mode 100644
+index 0000000..d3eeaa6
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ECX/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_ECX)     += ecx.o
+diff --git a/tools/demo/mmu/storage/register/ECX/README.md b/tools/demo/mmu/storage/register/ECX/README.md
+new file mode 100644
+index 0000000..7caaca9
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ECX/README.md
+@@ -0,0 +1,18 @@
++ECX: Counter for string and loop operations
++---------------------------------------------------------------------
++
++```
++ECX/CX/CH/CL Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+-------------+------------+
++    |                          |      CH     |     CL     |   CX     ECX
++    +--------------------------+-------------+------------+
++
++```
++
++
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/ECX/ecx.c b/tools/demo/mmu/storage/register/ECX/ecx.c
+new file mode 100644
+index 0000000..b56b307
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ECX/ecx.c
+@@ -0,0 +1,17 @@
++/*
++ * ECX: Counter for string and loop operations
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++static int debug_ecx(void)
++{
++    return 0;
++}
++late_debugcall(debug_ecx);
+diff --git a/tools/demo/mmu/storage/register/EDI/Kconfig b/tools/demo/mmu/storage/register/EDI/Kconfig
+new file mode 100644
+index 0000000..a1198b8
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EDI/Kconfig
+@@ -0,0 +1,12 @@
++#
++# EDI: Destination pointer for string operation
++#
++
++menu "EDI:      Destination pointer for string operation"
++
++config DEBUG_REGISTER_EDI
++	bool "EDI: Destination pointer for string operations"
++	help
++	  Debug EDI Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/EDI/Makefile b/tools/demo/mmu/storage/register/EDI/Makefile
+new file mode 100644
+index 0000000..9071b04
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EDI/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_EDI)     += edi.o
+diff --git a/tools/demo/mmu/storage/register/EDI/README.md b/tools/demo/mmu/storage/register/EDI/README.md
+new file mode 100644
+index 0000000..1ac4006
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EDI/README.md
+@@ -0,0 +1,17 @@
++EDI: Destination pointer for string operations
++---------------------------------------------------------------------
++
++```
++EDI Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+--------------------------+
++    |                          |             DI           |          EDI
++    +--------------------------+--------------------------+
++```
++
++
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/EDI/edi.c b/tools/demo/mmu/storage/register/EDI/edi.c
+new file mode 100644
+index 0000000..0395f64
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EDI/edi.c
+@@ -0,0 +1,18 @@
++/*
++ * EDI: Pointer to data (or destination) in the segment pointed to by the
++ *      ES register. Destination pointer for string operations
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++static int debug_edi(void)
++{
++    return 0;
++}
++late_debugcall(debug_edi);
+diff --git a/tools/demo/mmu/storage/register/EDX/Kconfig b/tools/demo/mmu/storage/register/EDX/Kconfig
+new file mode 100644
+index 0000000..1b9acc3
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EDX/Kconfig
+@@ -0,0 +1,12 @@
++#
++# EDX: I/O pointer
++#
++
++menu "EDX:      I/O pointer"
++
++config DEBUG_REGISTER_EDX
++	bool "EDX: I/O pointer"
++	help
++	  Debug EDX Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/EDX/Makefile b/tools/demo/mmu/storage/register/EDX/Makefile
+new file mode 100644
+index 0000000..27f165e
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EDX/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_EDX)     += edx.o
+diff --git a/tools/demo/mmu/storage/register/EDX/README.md b/tools/demo/mmu/storage/register/EDX/README.md
+new file mode 100644
+index 0000000..969b7d6
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EDX/README.md
+@@ -0,0 +1,18 @@
++EDX: I/O pointer
++---------------------------------------------------------------------
++
++```
++EDX/DX/DH/DL Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+-------------+------------+
++    |                          |      DH     |     DL     |   DX     EDX
++    +--------------------------+-------------+------------+
++
++```
++
++
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/EDX/edx.c b/tools/demo/mmu/storage/register/EDX/edx.c
+new file mode 100644
+index 0000000..5c1354a
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/EDX/edx.c
+@@ -0,0 +1,17 @@
++/*
++ * EDX: I/O pointer
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++static int debug_edx(void)
++{
++    return 0;
++}
++late_debugcall(debug_edx);
+diff --git a/tools/demo/mmu/storage/register/ESI/Kconfig b/tools/demo/mmu/storage/register/ESI/Kconfig
+new file mode 100644
+index 0000000..0c77fe3
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ESI/Kconfig
+@@ -0,0 +1,12 @@
++#
++# ESI: Pointer to data in the segment pointer to by the DS register
++#
++
++menu "ESI:      Source pointer for string operations"
++
++config DEBUG_REGISTER_ESI
++	bool "ESI: Source pointer for string operations"
++	help
++	  Debug ESI Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/ESI/Makefile b/tools/demo/mmu/storage/register/ESI/Makefile
+new file mode 100644
+index 0000000..fbadedc
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ESI/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_ESI)     += esi.o
+diff --git a/tools/demo/mmu/storage/register/ESI/README.md b/tools/demo/mmu/storage/register/ESI/README.md
+new file mode 100644
+index 0000000..4678743
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ESI/README.md
+@@ -0,0 +1,17 @@
++ESI: Source pointer for string operations
++---------------------------------------------------------------------
++
++```
++ESI Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+--------------------------+
++    |                          |             SI           |          ESI
++    +--------------------------+--------------------------+
++```
++
++
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/ESI/esi.c b/tools/demo/mmu/storage/register/ESI/esi.c
+new file mode 100644
+index 0000000..9918f80
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ESI/esi.c
+@@ -0,0 +1,18 @@
++/*
++ * ESI: Pointer to data in the segment pointed to by the DS register
++ *      or source pointer for string operation.
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++static int debug_esi(void)
++{
++    return 0;
++}
++late_debugcall(debug_esi);
+diff --git a/tools/demo/mmu/storage/register/ESP/Kconfig b/tools/demo/mmu/storage/register/ESP/Kconfig
+new file mode 100644
+index 0000000..9bb38dc
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ESP/Kconfig
+@@ -0,0 +1,12 @@
++#
++# ESP: Stack pointer (in the SS segment)
++#
++
++menu "ESP:      Stack pointer (in the SS segment)"
++
++config DEBUG_REGISTER_ESP
++	bool "ESP: Stack pointer (in the SS segment)"
++	help
++	  Debug ESP Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/ESP/Makefile b/tools/demo/mmu/storage/register/ESP/Makefile
+new file mode 100644
+index 0000000..a3634a2
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ESP/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_ESP)     += esp.o
+diff --git a/tools/demo/mmu/storage/register/ESP/README.md b/tools/demo/mmu/storage/register/ESP/README.md
+new file mode 100644
+index 0000000..b2dae3c
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ESP/README.md
+@@ -0,0 +1,17 @@
++ESP: Stack pointer (in the SS Segment)
++---------------------------------------------------------------------
++
++```
++ESP Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+--------------------------+
++    |                          |             SP           |          ESP
++    +--------------------------+--------------------------+
++```
++
++
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/ESP/esp.c b/tools/demo/mmu/storage/register/ESP/esp.c
+new file mode 100644
+index 0000000..d647a9a
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ESP/esp.c
+@@ -0,0 +1,17 @@
++/*
++ * ESP: Stack pointer (in the SS segment)
++ *
++ * (C) 2018.08.10 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <demo/debug.h>
++
++static int debug_esp(void)
++{
++    return 0;
++}
++late_debugcall(debug_esp);
+diff --git a/tools/demo/mmu/storage/register/Kconfig b/tools/demo/mmu/storage/register/Kconfig
+index 36195f9..f0059ad 100644
+--- a/tools/demo/mmu/storage/register/Kconfig
++++ b/tools/demo/mmu/storage/register/Kconfig
+@@ -22,6 +22,30 @@ source "tools/demo/mmu/storage/register/IDTR/Kconfig"
+ # TR Register
+ source "tools/demo/mmu/storage/register/TR/Kconfig"
+ 
++# EAX Register
++source "tools/demo/mmu/storage/register/EAX/Kconfig"
++
++# EBX Register
++source "tools/demo/mmu/storage/register/EBX/Kconfig"
++
++# ECX Register
++source "tools/demo/mmu/storage/register/ECX/Kconfig"
++
++# EDX Register
++source "tools/demo/mmu/storage/register/EDX/Kconfig"
++
++# ESI Register
++source "tools/demo/mmu/storage/register/ESI/Kconfig"
++
++# EDI Register
++source "tools/demo/mmu/storage/register/EDI/Kconfig"
++
++# ESP Register
++source "tools/demo/mmu/storage/register/ESP/Kconfig"
++
++# EBP Register
++source "tools/demo/mmu/storage/register/EBP/Kconfig"
++
+ # CS Register
+ source "tools/demo/mmu/storage/register/CS/Kconfig"
+ 
+diff --git a/tools/demo/mmu/storage/register/Makefile b/tools/demo/mmu/storage/register/Makefile
+index 75053bb..f64bff1 100644
+--- a/tools/demo/mmu/storage/register/Makefile
++++ b/tools/demo/mmu/storage/register/Makefile
+@@ -2,4 +2,12 @@ obj-$(CONFIG_DEBUG_REGISTER_GDTR)       += GDTR/
+ obj-$(CONFIG_DEBUG_REGISTER_LDTR)       += LDTR/
+ obj-$(CONFIG_DEBUG_REGISTER_IDTR)       += IDTR/
+ obj-$(CONFIG_DEBUG_REGISTER_TR)         += TR/
++obj-$(CONFIG_DEBUG_REGISTER_EAX)        += EAX/
++obj-$(CONFIG_DEBUG_REGISTER_EBX)        += EBX/
++obj-$(CONFIG_DEBUG_REGISTER_ECX)        += ECX/
++obj-$(CONFIG_DEBUG_REGISTER_EDX)        += EDX/
++obj-$(CONFIG_DEBUG_REGISTER_ESI)        += ESI/
++obj-$(CONFIG_DEBUG_REGISTER_EDI)        += EDI/
++obj-$(CONFIG_DEBUG_REGISTER_ESP)        += ESP/
++obj-$(CONFIG_DEBUG_REGISTER_EBP)        += EBP/
+ obj-$(CONFIG_DEBUG_REGISTER_CS)         += CS/
+diff --git a/tools/demo/mmu/storage/register/README.md b/tools/demo/mmu/storage/register/README.md
+new file mode 100644
+index 0000000..455ff5e
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/README.md
+@@ -0,0 +1,170 @@
++Basic Program Execution Registers
++-------------------------------------------------
++
++IA-32 architecture provides 16 basic program execution register for use in
++general system and application program. These registers can be grouped as
++follow:
++
++* General-purpose register
++
++  These eight registers are available for storing operands and pointers.
++
++* Segment registers
++
++  These registers hold up to six segment selectors.
++ 
++* EFLAGS (program status and control) register
++
++  The `EFLAGS` register report on the status of the program being executed 
++  and allows limited (application-program level) control of the processor.
++
++* EIP (Instruction pointer) register
++
++  The `EIP` register contains a 32-bit pointer to the next instruction to
++  be executed.
++
++## General-Purpose Register
++
++  The 32-bit general-purpose register `EAX`, `EBX`, `ECX`, `EDX`, `ESI`
++  `EDI`, `EBP`, and `ESP` are provided for holding the following items:
++
++  * Operands for logical and arithmetic operations.
++
++  * Operands for address calculations
++
++  * Memory pointers
++
++  Although all of these registers are available for general storage of
++  operands, results, and pointers, caution should be used when referencing
++  then `ESP` register. The `ESP` register holds the stack pointer and as a
++  general rule should not be used for another purpose.
++
++  Many instructions assign specific registers to hold operands. For example,
++  string instructions use the contents of the `ECX`, `ESI`, and `EDI` 
++  registers as operands. When using a segmented memory model, some 
++  instructions assume that pointers in certain registers are relative to 
++  specific segments. For instance, some instructions assume that a pointer
++  in the `EBX` register points to a memory location in the `DS` segment.
++
++  ```
++    General-Purpos Register
++
++    31                                                    0 
++    +-----------------------------------------------------+
++    |                                                     | EAX
++    +-----------------------------------------------------+
++    |                                                     | EBX
++    +-----------------------------------------------------+
++    |                                                     | ECX
++    +-----------------------------------------------------+ 
++    |                                                     | EDX
++    +-----------------------------------------------------+
++    |                                                     | ESI
++    +-----------------------------------------------------+
++    |                                                     | EDI
++    +-----------------------------------------------------+
++    |                                                     | EBP
++    +-----------------------------------------------------+
++    |                                                     | ESP
++    +-----------------------------------------------------+
++
++                            Segment Register
++
++                            15                            0
++                            +-----------------------------+
++                            |                             | CS
++                            +-----------------------------+
++                            |                             | DS
++                            +-----------------------------+
++                            |                             | SS
++                            +-----------------------------+
++                            |                             | ES
++                            +-----------------------------+
++                            |                             | FS
++                            +-----------------------------+
++                            |                             | GS
++                            +-----------------------------+
++
++
++    Program Status and Control Register
++
++    31                                                    0
++    +-----------------------------------------------------+
++    |                                                     | EFLAGS
++    +-----------------------------------------------------+
++    
++    Instruction Pointer
++
++    31                                                    0
++    +-----------------------------------------------------+
++    |                                                     | EIP
++    +-----------------------------------------------------+
++    
++  ```
++  
++  The following is a summary of special uses for general-purpose register:
++
++  * EAX
++
++    Accumulator for operands and results data.
++
++  * EBX
++
++    Pointer to data in the DS segment
++
++  * ECX
++
++    Counter for string and loop operations
++
++  * EDX
++
++    I/O pointer
++
++  * ESI
++
++    Pointer to data in the segment pointed to by the DS register. source
++    pointer for string operations
++
++  * EDI
++
++    Pointer to data (or destination) in the segment pointer to by the ES
++    register. Destination pointer for string operations.
++
++  * ESP
++
++    Stack pointer (in the SS segment)
++
++  * EBP
++
++    Pointer to data on the stack (int the SS segment).
++
++  As shown in above Figure, the lower 16 bits of the general-purpose register
++  map directly to the register set found in the `8086` and Intel `286` 
++  processors and can be referenced with the names `AX`, `BX`, `CX`, `DX`, 
++  `BP`, `SI`, `DI` and `SP`. Each of the lower two bytes of the `EAX`, `EBX`,
++  `ECX`, and `EDX` registers can be referenced by the names `AH`, `BH`, `CH`,
++  and `DH` (high bytes) and `AL`, `BL`, `CL` and `DL` (low bytes).
++
++  ```
++    General-Purpose Register
++
++    31                       16 15          8 7           0 16-bit  32-bit
++    +--------------------------+-------------+------------+
++    |                          |      AH     |     AL     |   AX     EAX
++    +--------------------------+-------------+------------+
++    |                          |      BH     |     BL     |   BX     EBX
++    +--------------------------+-------------+------------+
++    |                          |      CH     |     CL     |   CX     ECX
++    +--------------------------+-------------+------------+
++    |                          |      DH     |     DL     |   DX     EDX
++    +--------------------------+--------------------------+
++    |                          |             SI           |          ESI
++    +--------------------------+--------------------------+
++    |                          |             DI           |          EDI
++    +--------------------------+--------------------------+
++    |                          |             BP           |          EBP
++    +--------------------------+--------------------------+
++    |                          |             SP           |          ESP
++    +--------------------------+--------------------------+
++
++  ```
+-- 
+2.17.1
+

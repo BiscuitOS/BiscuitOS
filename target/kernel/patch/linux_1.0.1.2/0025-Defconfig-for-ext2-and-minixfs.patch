@@ -1,0 +1,121 @@
+From 863bfd9fdae02054098365d09f62b1fe2fe9302a Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sun, 19 Aug 2018 21:38:14 +0800
+Subject: [PATCH 25/25] Defconfig for ext2 and minixfs
+
+---
+ arch/x86/configs/defconfig             | 17 +++++++++++++++--
+ arch/x86/configs/linux_ext2_defconfig  | 21 +++++++++++++++++++++
+ arch/x86/configs/linux_minix_defconfig | 15 +++++++++++++++
+ arch/x86/configs/linux_msdos_defconfig | 21 +++++++++++++++++++++
+ 4 files changed, 72 insertions(+), 2 deletions(-)
+ create mode 100644 arch/x86/configs/linux_ext2_defconfig
+ create mode 100644 arch/x86/configs/linux_minix_defconfig
+ create mode 100644 arch/x86/configs/linux_msdos_defconfig
+
+diff --git a/arch/x86/configs/defconfig b/arch/x86/configs/defconfig
+index 791a0b6..e0565a8 100644
+--- a/arch/x86/configs/defconfig
++++ b/arch/x86/configs/defconfig
+@@ -1,8 +1,21 @@
+ CONFIG_DEBUG_BOOTLOADER=y
+-CONFIG_RAMDISK=y
+ CONFIG_HARDDISK=y
+ CONFIG_DEBUG_KERNEL=y
+ CONFIG_GDB=y
+ CONFIG_EMULATE_RUNNING_SYSTEM=y
+ CONFIG_QEMU_BOOT_FLOPPY=y
+-CONFIG_QEMU_MEMORY_SIZE=16
++CONFIG_QEMU_MEMORY_SIZE=32
++CONFIG_QEMU_VGA=y
++CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-ext2_0-1.0.1.2.img"
++CONFIG_QEMU_VGA_CIRRUS=y
++CONFIG_DEMO_CODE=y
++CONFIG_DEBUG_MMU=y
++CONFIG_DEBUG_STORAGE=y
++CONFIG_DEBUG_REGISTER=y
++CONFIG_DEBUG_REGISTER_EFLAGS=y
++CONFIG_DEBUG_EFLAGS_CF=y
++CONFIG_DEBUG_CF_BT=y
++CONFIG_DEBUG_VFS=y
++CONFIG_DEBUG_VFS_EXT2=y
++CONFIG_EXT2_FS=y
++CONFIG_MMU=y
+diff --git a/arch/x86/configs/linux_ext2_defconfig b/arch/x86/configs/linux_ext2_defconfig
+new file mode 100644
+index 0000000..e0565a8
+--- /dev/null
++++ b/arch/x86/configs/linux_ext2_defconfig
+@@ -0,0 +1,21 @@
++CONFIG_DEBUG_BOOTLOADER=y
++CONFIG_HARDDISK=y
++CONFIG_DEBUG_KERNEL=y
++CONFIG_GDB=y
++CONFIG_EMULATE_RUNNING_SYSTEM=y
++CONFIG_QEMU_BOOT_FLOPPY=y
++CONFIG_QEMU_MEMORY_SIZE=32
++CONFIG_QEMU_VGA=y
++CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-ext2_0-1.0.1.2.img"
++CONFIG_QEMU_VGA_CIRRUS=y
++CONFIG_DEMO_CODE=y
++CONFIG_DEBUG_MMU=y
++CONFIG_DEBUG_STORAGE=y
++CONFIG_DEBUG_REGISTER=y
++CONFIG_DEBUG_REGISTER_EFLAGS=y
++CONFIG_DEBUG_EFLAGS_CF=y
++CONFIG_DEBUG_CF_BT=y
++CONFIG_DEBUG_VFS=y
++CONFIG_DEBUG_VFS_EXT2=y
++CONFIG_EXT2_FS=y
++CONFIG_MMU=y
+diff --git a/arch/x86/configs/linux_minix_defconfig b/arch/x86/configs/linux_minix_defconfig
+new file mode 100644
+index 0000000..5ab1c0c
+--- /dev/null
++++ b/arch/x86/configs/linux_minix_defconfig
+@@ -0,0 +1,15 @@
++CONFIG_DEBUG_BOOTLOADER=y
++CONFIG_HARDDISK=y
++CONFIG_DEBUG_KERNEL=y
++CONFIG_GDB=y
++CONFIG_EMULATE_RUNNING_SYSTEM=y
++CONFIG_QEMU_BOOT_FLOPPY=y
++CONFIG_QEMU_MEMORY_SIZE=32
++CONFIG_QEMU_VGA=y
++CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-minix_V1-1.0.1.2.img"
++CONFIG_QEMU_VGA_CIRRUS=y
++CONFIG_DEMO_CODE=y
++CONFIG_DEBUG_VFS=y
++CONFIG_DEBUG_VFS_EXT2=y
++CONFIG_EXT2_FS=y
++CONFIG_MMU=y
+diff --git a/arch/x86/configs/linux_msdos_defconfig b/arch/x86/configs/linux_msdos_defconfig
+new file mode 100644
+index 0000000..e0565a8
+--- /dev/null
++++ b/arch/x86/configs/linux_msdos_defconfig
+@@ -0,0 +1,21 @@
++CONFIG_DEBUG_BOOTLOADER=y
++CONFIG_HARDDISK=y
++CONFIG_DEBUG_KERNEL=y
++CONFIG_GDB=y
++CONFIG_EMULATE_RUNNING_SYSTEM=y
++CONFIG_QEMU_BOOT_FLOPPY=y
++CONFIG_QEMU_MEMORY_SIZE=32
++CONFIG_QEMU_VGA=y
++CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-ext2_0-1.0.1.2.img"
++CONFIG_QEMU_VGA_CIRRUS=y
++CONFIG_DEMO_CODE=y
++CONFIG_DEBUG_MMU=y
++CONFIG_DEBUG_STORAGE=y
++CONFIG_DEBUG_REGISTER=y
++CONFIG_DEBUG_REGISTER_EFLAGS=y
++CONFIG_DEBUG_EFLAGS_CF=y
++CONFIG_DEBUG_CF_BT=y
++CONFIG_DEBUG_VFS=y
++CONFIG_DEBUG_VFS_EXT2=y
++CONFIG_EXT2_FS=y
++CONFIG_MMU=y
+-- 
+2.17.1
+

@@ -1,0 +1,325 @@
+From 1fa2d6e72ec7acd23b07804b7fb8e5378d8b8341 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Thu, 9 Aug 2018 15:15:40 +0800
+Subject: [PATCH 08/25]     LGDT: lldt and sldt
+
+---
+ tools/demo/mmu/storage/register/GDTR/gdtr.c   |  65 ++++++++++-
+ tools/demo/mmu/storage/register/Kconfig       |   3 +
+ tools/demo/mmu/storage/register/LDTR/Kconfig  |  26 +++++
+ tools/demo/mmu/storage/register/LDTR/Makefile |   1 +
+ .../demo/mmu/storage/register/LDTR/README.md  |  40 +++++++
+ tools/demo/mmu/storage/register/LDTR/ldtr.c   | 102 ++++++++++++++++++
+ tools/demo/mmu/storage/register/Makefile      |   1 +
+ 7 files changed, 236 insertions(+), 2 deletions(-)
+ create mode 100644 tools/demo/mmu/storage/register/LDTR/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/LDTR/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/LDTR/README.md
+ create mode 100644 tools/demo/mmu/storage/register/LDTR/ldtr.c
+
+diff --git a/tools/demo/mmu/storage/register/GDTR/gdtr.c b/tools/demo/mmu/storage/register/GDTR/gdtr.c
+index 748047e..a6b8ff0 100644
+--- a/tools/demo/mmu/storage/register/GDTR/gdtr.c
++++ b/tools/demo/mmu/storage/register/GDTR/gdtr.c
+@@ -50,12 +50,73 @@ struct gdtr_desc
+  *
+  */
+ /* Operand of SGDT */
+-static __unused int gdtr_sdtr(void)
++static __unused int gdtr_sgdt(void)
+ {
+     struct gdtr_desc gdtr;
+ 
+     __asm__ ("sgdt %0" : "=m" (gdtr));
+ 
++    /*
++     * limit
++     *   The table limit specifies the number of bytes in the table.
++     *   On GDT, the number of bytes for a segment descriptor is 8 bytes,
++     *   and the first eight of GDT is reserved by system, detail as follow:
++     *
++     *   +----------------------------------------------------+
++     *   |   Number   |              Describe                 |
++     *   +----------------------------------------------------+
++     *   | 0          | NULL Descriptor                       | 
++     *   +----------------------------------------------------+
++     *   | 1          | no use                                | 
++     *   +----------------------------------------------------+
++     *   | 2          | Kernel Code segment descriptor        | 
++     *   +----------------------------------------------------+
++     *   | 3          | Kernel Data segment descriptor        | 
++     *   +----------------------------------------------------+
++     *   | 4          | User Code segment descriptor          | 
++     *   +----------------------------------------------------+
++     *   | 5          | User Data segment descriptor          | 
++     *   +----------------------------------------------------+
++     *   | 6          | no use                                | 
++     *   +----------------------------------------------------+
++     *   | 7          | no use                                | 
++     *   +----------------------------------------------------+
++     *   | 8          | Task0 LDT segment descriptor          | 
++     *   +----------------------------------------------------+
++     *   | 9          | Task0 TSS segment descriptor          | 
++     *   +----------------------------------------------------+
++     *   | ....       | ....                                  | 
++     *   +----------------------------------------------------+
++     *
++     *   The system defined a structure to manage GDT that named 'gdt' which
++     *   defined on 'arch/x86/boot/head.S' as follow:
++     *
++     *   .align 4
++     *   gdt:
++     *       .quad 0x0000000000000000   NULL descriptor
++     *       .quad 0x0000000000000000   not used 
++     *       .quad 0xc0c39a000000ffff   0x10 kernel 1GB code at 0xC0000000
++     *       .quad 0xc0c392000000ffff   0x18 kernel 1GB data at 0xC0000000
++     *       .quad 0x00cbfa000000ffff   0x23 user   3GB code at 0x00000000
++     *       .quad 0x00cbf2000000ffff   0x2b user   3GB data at 0x00000000
++     *       .quad 0x0000000000000000   not used
++     *       .quad 0x0000000000000000   not used
++     *       .fill 2*NR_TASKS,8,0       space for LDT's and TSS's etc
++     *
++     *   On GDT, the first eight segment descriptor reserved by system, and
++     *   each task contain two segment descriptor (TSS and LDT). So the 
++     *   number of segment descriptor on GDT is:
++     *
++     *       number = 8 + 2 * NR_TASKS
++     *   
++     *   So the total number of byte for GDT is:
++     * 
++     *       total = (8 + 2 * NR_TASKS) * 8
++     *
++     *   Becase the first byte of GDT is 0, so the total number of GDT is:
++     *
++     *       total = (8 + 2 * NR_TASKS) * 8 - 1
++     */
+     if (gdtr.limit != ((8 + 2 * NR_TASKS) * 8 - 1))
+         panic("SGDT: invalid gdtr limit");
+     return 0;
+@@ -102,7 +163,7 @@ static __unused int gdtr_lgdt(void)
+ static int debug_gdtr(void)
+ {
+ #ifdef CONFIG_DEBUG_GDTR_SGDT
+-    gdtr_sdtr();
++    gdtr_sgdt();
+ #endif
+ 
+ #ifdef CONFIG_DEBUG_GDTR_LGDT
+diff --git a/tools/demo/mmu/storage/register/Kconfig b/tools/demo/mmu/storage/register/Kconfig
+index 3123507..ded5b25 100644
+--- a/tools/demo/mmu/storage/register/Kconfig
++++ b/tools/demo/mmu/storage/register/Kconfig
+@@ -13,6 +13,9 @@ if DEBUG_REGISTER
+ # GDTR Register
+ source "tools/demo/mmu/storage/register/GDTR/Kconfig"
+ 
++# LDTR Register
++source "tools/demo/mmu/storage/register/LDTR/Kconfig"
++
+ # CS Register
+ source "tools/demo/mmu/storage/register/CS/Kconfig"
+ 
+diff --git a/tools/demo/mmu/storage/register/LDTR/Kconfig b/tools/demo/mmu/storage/register/LDTR/Kconfig
+new file mode 100644
+index 0000000..e809461
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/LDTR/Kconfig
+@@ -0,0 +1,26 @@
++#
++# LDTR: Local Descriptor Table Register (LDTR)
++#
++
++menu "LDTR:     Local Descriptor Table Register"
++
++config DEBUG_REGISTER_LDTR
++	bool "LDTR: Local Descriptor table regsiter"
++	help
++	  Debug GDTR Register.
++
++if DEBUG_REGISTER_LDTR
++
++config DEBUG_GDTR_SLDT
++	bool "SLDT: Store Local Descriptor Table Register"
++	help
++	  Store LDTR into linear address.
++
++config DEBUG_GDTR_LLDT
++	bool "LLDT: Load  Local Descriptor Table Register"
++	help
++	  Load linear address into GLTR.
++
++endif
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/LDTR/Makefile b/tools/demo/mmu/storage/register/LDTR/Makefile
+new file mode 100644
+index 0000000..cc4286c
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/LDTR/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_LDTR)     += ldtr.o
+diff --git a/tools/demo/mmu/storage/register/LDTR/README.md b/tools/demo/mmu/storage/register/LDTR/README.md
+new file mode 100644
+index 0000000..7a814be
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/LDTR/README.md
+@@ -0,0 +1,40 @@
++Local Descriptor Table Register (LDTR)
++---------------------------------------------------------------------
++
++```
++LDTR
++
++ System Segment    Segment Descriptor Registe4r (Automatically Loaded)
++   Register
++
++ 0            15                                                 
++ +-------------+ +----------------------------+---------------+-----------+
++ |             | |                            |               |           |
++ |   Seg.Sel   | | 32-bit Linear Base Address | Segment Limit | Attribute |
++ |             | |                            |               |           |
++ +-------------+ +----------------------------+---------------+-----------+
++
++```
++The `LDTR` register holds the 16-bit segment selector, base address (32 bit
++in protected mode), segment limit, and descriptor attributes for the `LDT`.
++The base address specifies the linear address of byte 0 of the `LDT` segment.
++The segment limit specifies the number of bytes in segment.
++
++The `LLDT` and `SLDT` instructions load and store the segment selector part
++of the `LDTR` register, respectively. The segment that contains the `LDT` 
++must have a segment descriptor in the `GDT`. When the `LLDT` instruction
++loads a segment selector in the `LDTR`: the base address, limit, and
++descriptor attributes from the `LDT` descriptor are automtically loaded
++in the `LDTR`.
++
++When a task switch occurs, the `LDTR` is automatically loaded with the 
++segment selector and descriptor for the `LDT`for the new task. The contents
++of the `LDTR` are not automatically saved prior to writing the new `LDT`
++information into the register.
++
++On power up or reset of the process, the segment selector and base address
++are set to the default value of 0 and the limit is set to 0xFFFFH.
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/LDTR/ldtr.c b/tools/demo/mmu/storage/register/LDTR/ldtr.c
+new file mode 100644
+index 0000000..4a2f99f
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/LDTR/ldtr.c
+@@ -0,0 +1,102 @@
++/*
++ * LDTR: Local Descriptor Table Register
++ *
++ * (C) 2018.08.09 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++#include <linux/sched.h>
++
++#include <demo/debug.h>
++
++/*
++ * SLDT -- Store Local Descriptor Table Register
++ *
++ *   SLDT m
++ *
++ *   Stores the segment selector from the local descriptor table regsiter in
++ *   the destination operand. The destination operand can be a general-purpos
++ *   register or a memory location. The segment selector stored with this
++ *   instruction points to the segment descriptor (located in the GDT) for
++ *   the current LDT. This instruction can only be executed in protect mode.
++ *
++ *   DEST <---- LDTR (Segnemnt Selector)
++ */
++static __unused int ldtr_sldt(void)
++{
++    unsigned short sel;
++
++    __asm__ ("sldt %0" : "=m" (sel) :);
++
++    return 0;
++}
++
++/*
++ * LLDT - Load Local Descriptor Table Register
++ *
++ *
++ *   Loads the source operand into the segment selector field of the local
++ *   descriptor table register (LDTR). The source operand (a general-purpose
++ *   register or a memory location) contains a segment selector that points
++ *   to a local descriptor table (LDT). After the segment selector is loaded
++ *   in the LDTR, the processor uses the segment selector to locate the 
++ *   segment descriptor for the LDT in the global descriptor table (GDT). It
++ *   then loads the segment limit and base address for the LDT from the 
++ *   segment descritor into the LDTR. Then segment registers DS, ES, SS,
++ *   FS, GS, and CS are not affected by this instruction, nor is the LDTR
++ *   field in the task state segment (TSS) for the current task.
++ *
++ *   If bits 2-15 of the source operand are 0, LDTR is marked invalid and
++ *   the LLDT instruction completes silently. However, all subsequent 
++ *   references to descriptors in the LDT (except by the LAR, VERR, VERW or
++ *   LSL instrcutions) cause a general protection exception (#GP).
++ *
++ *   The operand-size attribute has no effect on this instruction.
++ *
++ *   The LLDT instruction is provided for use in operating-system software.
++ *   It should not be used in application programs. This instruction can
++ *   only be executed in protected mode.
++ *
++ *   IF SRC(Offset) > descriptor table limit
++ *       THEN #GP (segment selector);
++ *   FI
++ *   IF segment selector is valid
++ *       Read segment descriptor
++ *       IF Segment Descriptor(Type) != LDT
++ *           THEN #GP (segment selector);
++ *       FI
++ *       IF Segment descriptor is not present
++ *           THEN #NP (segment selector);
++ *       FI
++ *
++ *       LDTR(Segment Selector)    <--- SRC;
++ *       LDTR(Segment Descriptor)  <--- GDT Segment Descriptor
++ *   ELSE LDTR <---- INVALID
++ *   FI
++ */
++static __unused int ldtr_lldt(void)
++{
++    unsigned short sel;
++
++    __asm__ ("sldt %0" : "=m" (sel) :);
++
++    __asm__ ("lldt %0" :: "m" (sel));
++
++    return 0;
++}
++
++static int debug_gdtr(void)
++{
++#ifdef CONFIG_DEBUG_GDTR_SLDT
++    ldtr_sldt();
++#endif
++
++#ifdef CONFIG_DEBUG_GDTR_LLDT
++    ldtr_lldt();
++#endif
++    return 0;
++}
++late_debugcall(debug_gdtr);
+diff --git a/tools/demo/mmu/storage/register/Makefile b/tools/demo/mmu/storage/register/Makefile
+index f41a64c..c4aee20 100644
+--- a/tools/demo/mmu/storage/register/Makefile
++++ b/tools/demo/mmu/storage/register/Makefile
+@@ -1,2 +1,3 @@
+ obj-$(CONFIG_DEBUG_REGISTER_GDTR)       += GDTR/
++obj-$(CONFIG_DEBUG_REGISTER_LDTR)       += LDTR/
+ obj-$(CONFIG_DEBUG_REGISTER_CS)         += CS/
+-- 
+2.17.1
+

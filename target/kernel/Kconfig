@@ -68,6 +68,11 @@ config KERNEL_VERSION_1_0_1_1
 	help
 	  The kernel version is 1.0.1.1
 
+config KERNEL_VERSION_1_0_1_2
+	bool "1.0.1.2     kernel"
+	help
+	  The kernel version is 1.0.1.2
+
 endchoice 
 
 endif
@@ -85,7 +90,8 @@ config KERNEL_VERSION
 	default "0.99.1"    if KERNEL_VERSION_0_9_9_1
 	default "1.0.1"     if KERNEL_VERSION_1_0_1
 	default "1.0.1.1"   if KERNEL_VERSION_1_0_1_1
-	default "1.0.1.1"
+	default "1.0.1.2"   if KERNEL_VERSION_1_0_1_2
+	default "1.0.1.2"
 
 config KERNEL_MAGIC
 	int
@@ -100,6 +106,7 @@ config KERNEL_MAGIC
 	default 8         if KERNEL_VERSION_0_9_9_1
 	default 9         if KERNEL_VERSION_1_0_1
 	default 10        if KERNEL_VERSION_1_0_1_1
-	default 10
+	default 11        if KERNEL_VERSION_1_0_1_2
+	default 11
 
 endmenu

@@ -1,0 +1,840 @@
+From 5cf1863dcfe72e02dbc465176c541e0e88e2cd3a Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sun, 12 Aug 2018 16:15:27 +0800
+Subject: [PATCH 11/25] Intel-x86: Segment selecotr register: CS,DS,ES,FS,GS
+
+---
+ tools/demo/mmu/storage/register/CS/Kconfig    |  14 --
+ tools/demo/mmu/storage/register/CS/README.md  |  14 ++
+ tools/demo/mmu/storage/register/CS/cs.c       | 134 +----------------
+ tools/demo/mmu/storage/register/DS/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/DS/Makefile   |   1 +
+ tools/demo/mmu/storage/register/DS/README.md  |  15 ++
+ tools/demo/mmu/storage/register/DS/ds.c       |  18 +++
+ tools/demo/mmu/storage/register/EAX/README.md |   2 +-
+ tools/demo/mmu/storage/register/EBX/README.md |   2 +-
+ tools/demo/mmu/storage/register/ECX/README.md |   3 +-
+ tools/demo/mmu/storage/register/EDX/README.md |   3 +-
+ tools/demo/mmu/storage/register/ES/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/ES/Makefile   |   1 +
+ tools/demo/mmu/storage/register/ES/README.md  |  15 ++
+ tools/demo/mmu/storage/register/ES/es.c       |  18 +++
+ tools/demo/mmu/storage/register/FS/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/FS/Makefile   |   1 +
+ tools/demo/mmu/storage/register/FS/README.md  |  15 ++
+ tools/demo/mmu/storage/register/FS/fs.c       |  18 +++
+ tools/demo/mmu/storage/register/GS/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/GS/Makefile   |   1 +
+ tools/demo/mmu/storage/register/GS/README.md  |  15 ++
+ tools/demo/mmu/storage/register/GS/gs.c       |  18 +++
+ tools/demo/mmu/storage/register/Kconfig       |  15 ++
+ tools/demo/mmu/storage/register/Makefile      |   5 +
+ tools/demo/mmu/storage/register/README.md     | 138 ++++++++++++++++++
+ tools/demo/mmu/storage/register/SS/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/SS/Makefile   |   1 +
+ tools/demo/mmu/storage/register/SS/README.md  |  15 ++
+ tools/demo/mmu/storage/register/SS/ss.c       |  18 +++
+ 30 files changed, 407 insertions(+), 153 deletions(-)
+ create mode 100644 tools/demo/mmu/storage/register/CS/README.md
+ create mode 100644 tools/demo/mmu/storage/register/DS/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/DS/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/DS/README.md
+ create mode 100644 tools/demo/mmu/storage/register/DS/ds.c
+ create mode 100644 tools/demo/mmu/storage/register/ES/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/ES/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/ES/README.md
+ create mode 100644 tools/demo/mmu/storage/register/ES/es.c
+ create mode 100644 tools/demo/mmu/storage/register/FS/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/FS/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/FS/README.md
+ create mode 100644 tools/demo/mmu/storage/register/FS/fs.c
+ create mode 100644 tools/demo/mmu/storage/register/GS/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/GS/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/GS/README.md
+ create mode 100644 tools/demo/mmu/storage/register/GS/gs.c
+ create mode 100644 tools/demo/mmu/storage/register/SS/Kconfig
+ create mode 100644 tools/demo/mmu/storage/register/SS/Makefile
+ create mode 100644 tools/demo/mmu/storage/register/SS/README.md
+ create mode 100644 tools/demo/mmu/storage/register/SS/ss.c
+
+diff --git a/tools/demo/mmu/storage/register/CS/Kconfig b/tools/demo/mmu/storage/register/CS/Kconfig
+index 70a5fe3..2ce8cb9 100644
+--- a/tools/demo/mmu/storage/register/CS/Kconfig
++++ b/tools/demo/mmu/storage/register/CS/Kconfig
+@@ -9,18 +9,4 @@ config DEBUG_REGISTER_CS
+ 	help
+ 	  Debug Code selector Register.
+ 
+-if DEBUG_REGISTER_CS
+-
+-config DEBUG_SEGMENT_SELECTOR_CS
+-	bool "Parse CS segment selector."
+-	help
+-	  Parse CS Segment selector.
+-
+-config DEBUG_SEGMENT_DESCRIPTOR_CS
+-	bool "Parse segment descriptor for CS."
+-	help
+-	  Parse Segment descriptor for CS.
+-
+-endif
+-
+ endmenu
+diff --git a/tools/demo/mmu/storage/register/CS/README.md b/tools/demo/mmu/storage/register/CS/README.md
+new file mode 100644
+index 0000000..17a9461
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/CS/README.md
+@@ -0,0 +1,14 @@
++CS: Code Segment Selector
++---------------------------------------------------
++
++```
++CS:
++  15                                      4 3  2 1    0 
++  +----------------------------------------+----+-----+
++  |                Offset                  | TI | RPL | 
++  +----------------------------------------+----+-----+
++```
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/CS/cs.c b/tools/demo/mmu/storage/register/CS/cs.c
+index 0060da9..f98ce63 100644
+--- a/tools/demo/mmu/storage/register/CS/cs.c
++++ b/tools/demo/mmu/storage/register/CS/cs.c
+@@ -1,7 +1,7 @@
+ /*
+  * CS: Code selector Register
+  *
+- * (C) 2018.06.06 BiscuitOS <buddy.zhang@aliyun.com>
++ * (C) 2018.08.12 BiscuitOS <buddy.zhang@aliyun.com>
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 as
+@@ -11,140 +11,8 @@
+ 
+ #include <demo/debug.h>
+ 
+-static inline unsigned long get_cs(void)
+-{
+-    unsigned long _v;
+-
+-    __asm__ ("mov %%cs, %w0" : "=r" (_v) : "0" (0));
+-    return _v;
+-}
+-
+-#ifdef CONFIG_DEBUG_SEGMENT_SELECTOR_CS
+-/*
+- * Parse CS segment selector
+- *   A segment selector is a 16-bit identifier for a semgent(see Figure).
+- *   It doesn't point directly to the segment, but instead points to the
+- *   segment descriptor that defines the segment. A segment selector 
+- *   contains the following items:
+- *
+- *   15------------------------------3----2--1--0
+- *   |  Index                        | TI | RPL |
+- *   --------------------------------------------     
+- */
+-static void parse_segment_selector_cs(void)
+-{
+-    unsigned short cs;
+-
+-    /* Obtain CS */
+-    cs = get_cs();
+-
+-    /*
+-     * The first entry of the GDT is not used by the processor. A CS segment
+-     * selector that points to this entry of the GDT (that is, a segment
+-     * selector with an index of 0 and the TI flag set to 0) is used as
+-     * a "Null segment selector". The processor doesn't generate an 
+-     * exception when a segment register (other than the CS or SS registers)
+-     * is loaded with a null selector. It does, however, generate an 
+-     * exception when a segment register holding a null selector is used
+-     * to access memory. A null selector can be used to initialize unused
+-     * segment registers. Loading the CS or SS register with a null segment
+-     * selector causes a general-protection exception (#GP) to be generated.
+-     */
+-    if (((cs >> 0x02) & 0x01) & ((cs >> 0x03) == 0x00))
+-        printk("NULL segment selecor on GDT/LDT.\n");
+-
+-    /*
+-     * Index
+-     *   (Bit 3 through 15) - Selects one of 8192 descriptors in the GDT or
+-     *   LDT. The processor multiplies the index value by 8 (the number of
+-     *   bytes in a segment descriptor) and adds the result to the base
+-     *   address of the GDT or LDT (from the GDTR or LDTR register).
+-     */
+-    printk("The index of Selector: %#x\n", cs >> 0x3);
+-
+-    /*
+-     * TI (table indicator) flag
+-     *   (Bit 2) - Specifies the descriptor table to use. Clearing this flag
+-     *   selects the GDT. Setting this flag selects the current LDT.
+-     */
+-    if ((cs >> 2) % 0x1)
+-        printk("Point Segment on LDT\n");
+-    else
+-        printk("Point Segment on GDT\n");
+-
+-    /*
+-     * Request Privilege Level (RPL)
+-     *   (Bit 0 and 1) - Specifies the privilege level of the selector. The
+-     *   The privilege level can range from 0 to 3, with 0 being the most
+-     *   privileged level. For a descriptor of the relationship of the RPL
+-     *   to the CPL of the executing program (or task) and the descriptor
+-     *   privilege level (DPL) of the descriptor the segment selector points
+-     *   to.
+-     */
+-    printk("RPL: %#x\n", cs & 0x3);
+-
+-    /*
+-     * Segment selectors are visible to application program as part of a
+-     * pointer variable, but the values of selectors are usually assigned
+-     * or modified by link editors or linking loaders, not application 
+-     * programs.
+-     */
+-}
+-#endif
+-
+-#ifdef CONFIG_DEBUG_SEGMENT_DESCRIPTOR_CS
+-/*
+- * parse_segment_descriptor_cs()
+- *   Parse a segment descriptor for CS. The CS points a speical descriptor
+- *   where locate in LDT or GDT. The segment descriptor describe
+- *   base address, limit, flags and permission for current Code segment.
+- *   According to TI bit on CS, we can obtain a special segment descriptor.
+- *   If 'TI' is cleared, the CS points to GDT, and if it is set, the CS
+- *   points to LDT.
+- * 
+- *   0--------------+----+-----15
+- *   |     Index    | TI |      |
+- *   +--------------+----+------+ 
+- *          |
+- *          |
+- *          |
+- *          |
+- *          |            (TI = 1)
+- *          o----o------------------------o
+- *               |                        |
+- *               |                        V
+- *               |            0-----------+--------------------+-----
+- *               |            |           |                    |
+- *               |            | LDT ..... | Segment descriptor |
+- *               |            |           |                    |
+- *               | (TI = 0)   +-----------+--------------------+-----
+- *               |
+- *               V
+- *   0-----------+--------------------+----
+- *   |           |                    |
+- *   | GDT ....  | Segment descriptor |...
+- *   |           |                    |
+- *   +-----------+--------------------+----
+- */
+-static void parse_segment_descriptor_cs(void)
+-{
+-    unsigned short cs;
+-
+-    /* Obtain CS segment selector */
+-    cs = get_cs();
+-    printk("CS %#x\n", cs);
+-}
+-#endif
+-
+ static int debug_cs(void)
+ {
+-#ifdef CONFIG_DEBUG_SEGMENT_SELECTOR_CS
+-    parse_segment_selector_cs();
+-#endif
+-
+-#ifdef CONFIG_DEBUG_SEGMENT_DESCRIPTOR_CS
+-    parse_segment_descriptor_cs();
+-#endif
+     return 0;
+ }
+ late_debugcall(debug_cs);
+diff --git a/tools/demo/mmu/storage/register/DS/Kconfig b/tools/demo/mmu/storage/register/DS/Kconfig
+new file mode 100644
+index 0000000..68caa61
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/DS/Kconfig
+@@ -0,0 +1,12 @@
++#
++# DS: Data selector Register
++#
++
++menu "DS:       Data selector Register"
++
++config DEBUG_REGISTER_DS
++	bool "DS: Data selector Register"
++	help
++	  Debug Data selector Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/DS/Makefile b/tools/demo/mmu/storage/register/DS/Makefile
+new file mode 100644
+index 0000000..7d79007
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/DS/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_DS)     += ds.o
+diff --git a/tools/demo/mmu/storage/register/DS/README.md b/tools/demo/mmu/storage/register/DS/README.md
+new file mode 100644
+index 0000000..6dc3941
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/DS/README.md
+@@ -0,0 +1,15 @@
++DS: Data Segment Selector
++---------------------------------------------------
++
++```
++DS:
++
++  15                                      4 3  2 1    0 
++  +----------------------------------------+----+-----+
++  |                Offset                  | TI | RPL | 
++  +----------------------------------------+----+-----+
++```
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/DS/ds.c b/tools/demo/mmu/storage/register/DS/ds.c
+new file mode 100644
+index 0000000..e3eded4
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/DS/ds.c
+@@ -0,0 +1,18 @@
++/*
++ * DS: Data selector Register
++ *
++ * (C) 2018.08.12 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++
++#include <demo/debug.h>
++
++static int debug_ds(void)
++{
++    return 0;
++}
++late_debugcall(debug_ds);
+diff --git a/tools/demo/mmu/storage/register/EAX/README.md b/tools/demo/mmu/storage/register/EAX/README.md
+index d6bb660..25e93bd 100644
+--- a/tools/demo/mmu/storage/register/EAX/README.md
++++ b/tools/demo/mmu/storage/register/EAX/README.md
+@@ -15,4 +15,4 @@ EAX/AX/AH/AL Register
+ 
+ ## link
+ 
+-  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/EBX/README.md b/tools/demo/mmu/storage/register/EBX/README.md
+index 8277cce..f6c7a39 100644
+--- a/tools/demo/mmu/storage/register/EBX/README.md
++++ b/tools/demo/mmu/storage/register/EBX/README.md
+@@ -15,4 +15,4 @@ EBX/BX/BH/BL Register
+ 
+ ## link
+ 
+-  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/ECX/README.md b/tools/demo/mmu/storage/register/ECX/README.md
+index 7caaca9..586e717 100644
+--- a/tools/demo/mmu/storage/register/ECX/README.md
++++ b/tools/demo/mmu/storage/register/ECX/README.md
+@@ -12,7 +12,6 @@ ECX/CX/CH/CL Register
+ ```
+ 
+ 
+-
+ ## link
+ 
+-  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/EDX/README.md b/tools/demo/mmu/storage/register/EDX/README.md
+index 969b7d6..dfa3fca 100644
+--- a/tools/demo/mmu/storage/register/EDX/README.md
++++ b/tools/demo/mmu/storage/register/EDX/README.md
+@@ -12,7 +12,6 @@ EDX/DX/DH/DL Register
+ ```
+ 
+ 
+-
+ ## link
+ 
+-  [Intel Architectures Software Developer's Manual: Combined Volumes: 3 -- Chapter 2 System architecture overview: 2.4 Memory-Management register](https://software.intel.com/en-us/articles/intel-sdm)
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/ES/Kconfig b/tools/demo/mmu/storage/register/ES/Kconfig
+new file mode 100644
+index 0000000..6f6ac65
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ES/Kconfig
+@@ -0,0 +1,12 @@
++#
++# ES: Data selector Register
++#
++
++menu "ES:       Data selector Register for dynamically created data structure"
++
++config DEBUG_REGISTER_ES
++	bool "ES: Data selecotr register for dynamically created data structure"
++	help
++	  Debug ES Data selector Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/ES/Makefile b/tools/demo/mmu/storage/register/ES/Makefile
+new file mode 100644
+index 0000000..fb88113
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ES/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_ES)     += es.o
+diff --git a/tools/demo/mmu/storage/register/ES/README.md b/tools/demo/mmu/storage/register/ES/README.md
+new file mode 100644
+index 0000000..effbcd2
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ES/README.md
+@@ -0,0 +1,15 @@
++ES: Data Segment Selector for dynamically created data structure
++---------------------------------------------------
++
++```
++ES:
++
++  15                                      4 3  2 1    0 
++  +----------------------------------------+----+-----+
++  |                Offset                  | TI | RPL | 
++  +----------------------------------------+----+-----+
++```
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/ES/es.c b/tools/demo/mmu/storage/register/ES/es.c
+new file mode 100644
+index 0000000..0f4a155
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/ES/es.c
+@@ -0,0 +1,18 @@
++/*
++ * ES: Data selector Register for dynamically create data structure.
++ *
++ * (C) 2018.08.12 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++
++#include <demo/debug.h>
++
++static int debug_es(void)
++{
++    return 0;
++}
++late_debugcall(debug_es);
+diff --git a/tools/demo/mmu/storage/register/FS/Kconfig b/tools/demo/mmu/storage/register/FS/Kconfig
+new file mode 100644
+index 0000000..cb3500a
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/FS/Kconfig
+@@ -0,0 +1,12 @@
++#
++# FS: Data selector Register for exporting from a higher-level module
++#
++
++menu "FS:       Data selector Register for exporting from a higher-level module"
++
++config DEBUG_REGISTER_FS
++	bool "FS: Data selecotr register for exporting from a higher-level module"
++	help
++	  Debug FS Data selector Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/FS/Makefile b/tools/demo/mmu/storage/register/FS/Makefile
+new file mode 100644
+index 0000000..082a22d
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/FS/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_FS)     += fs.o
+diff --git a/tools/demo/mmu/storage/register/FS/README.md b/tools/demo/mmu/storage/register/FS/README.md
+new file mode 100644
+index 0000000..effbcd2
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/FS/README.md
+@@ -0,0 +1,15 @@
++ES: Data Segment Selector for dynamically created data structure
++---------------------------------------------------
++
++```
++ES:
++
++  15                                      4 3  2 1    0 
++  +----------------------------------------+----+-----+
++  |                Offset                  | TI | RPL | 
++  +----------------------------------------+----+-----+
++```
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/FS/fs.c b/tools/demo/mmu/storage/register/FS/fs.c
+new file mode 100644
+index 0000000..c8259d5
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/FS/fs.c
+@@ -0,0 +1,18 @@
++/*
++ * FS: Data selector Register for exporting from a higher-level module.
++ *
++ * (C) 2018.08.12 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++
++#include <demo/debug.h>
++
++static int debug_fs(void)
++{
++    return 0;
++}
++late_debugcall(debug_fs);
+diff --git a/tools/demo/mmu/storage/register/GS/Kconfig b/tools/demo/mmu/storage/register/GS/Kconfig
+new file mode 100644
+index 0000000..ff695a2
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/GS/Kconfig
+@@ -0,0 +1,12 @@
++#
++# GS: Data selector Register for sharing with another program
++#
++
++menu "GS:       Data selector Register for sharing with another program"
++
++config DEBUG_REGISTER_GS
++	bool "GS: Data selecotr register for sharing with another program"
++	help
++	  Debug GS Data selector Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/GS/Makefile b/tools/demo/mmu/storage/register/GS/Makefile
+new file mode 100644
+index 0000000..1bc09e1
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/GS/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_GS)     += gs.o
+diff --git a/tools/demo/mmu/storage/register/GS/README.md b/tools/demo/mmu/storage/register/GS/README.md
+new file mode 100644
+index 0000000..effbcd2
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/GS/README.md
+@@ -0,0 +1,15 @@
++ES: Data Segment Selector for dynamically created data structure
++---------------------------------------------------
++
++```
++ES:
++
++  15                                      4 3  2 1    0 
++  +----------------------------------------+----+-----+
++  |                Offset                  | TI | RPL | 
++  +----------------------------------------+----+-----+
++```
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/GS/gs.c b/tools/demo/mmu/storage/register/GS/gs.c
+new file mode 100644
+index 0000000..8955a15
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/GS/gs.c
+@@ -0,0 +1,18 @@
++/*
++ * GS: Data selector Register for sharing with another program.
++ *
++ * (C) 2018.08.12 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++
++#include <demo/debug.h>
++
++static int debug_gs(void)
++{
++    return 0;
++}
++late_debugcall(debug_gs);
+diff --git a/tools/demo/mmu/storage/register/Kconfig b/tools/demo/mmu/storage/register/Kconfig
+index f0059ad..4a628e3 100644
+--- a/tools/demo/mmu/storage/register/Kconfig
++++ b/tools/demo/mmu/storage/register/Kconfig
+@@ -49,6 +49,21 @@ source "tools/demo/mmu/storage/register/EBP/Kconfig"
+ # CS Register
+ source "tools/demo/mmu/storage/register/CS/Kconfig"
+ 
++# DS Register
++source "tools/demo/mmu/storage/register/DS/Kconfig"
++
++# ES Register
++source "tools/demo/mmu/storage/register/ES/Kconfig"
++
++# GS Register
++source "tools/demo/mmu/storage/register/GS/Kconfig"
++
++# FS Register
++source "tools/demo/mmu/storage/register/FS/Kconfig"
++
++# SS Register
++source "tools/demo/mmu/storage/register/SS/Kconfig"
++
+ endif
+ 
+ endmenu
+diff --git a/tools/demo/mmu/storage/register/Makefile b/tools/demo/mmu/storage/register/Makefile
+index f64bff1..9707087 100644
+--- a/tools/demo/mmu/storage/register/Makefile
++++ b/tools/demo/mmu/storage/register/Makefile
+@@ -11,3 +11,8 @@ obj-$(CONFIG_DEBUG_REGISTER_EDI)        += EDI/
+ obj-$(CONFIG_DEBUG_REGISTER_ESP)        += ESP/
+ obj-$(CONFIG_DEBUG_REGISTER_EBP)        += EBP/
+ obj-$(CONFIG_DEBUG_REGISTER_CS)         += CS/
++obj-$(CONFIG_DEBUG_REGISTER_DS)         += DS/
++obj-$(CONFIG_DEBUG_REGISTER_SS)         += SS/
++obj-$(CONFIG_DEBUG_REGISTER_ES)         += ES/
++obj-$(CONFIG_DEBUG_REGISTER_GS)         += GS/
++obj-$(CONFIG_DEBUG_REGISTER_FS)         += FS/
+diff --git a/tools/demo/mmu/storage/register/README.md b/tools/demo/mmu/storage/register/README.md
+index 455ff5e..1479e67 100644
+--- a/tools/demo/mmu/storage/register/README.md
++++ b/tools/demo/mmu/storage/register/README.md
+@@ -168,3 +168,141 @@ follow:
+     +--------------------------+--------------------------+
+ 
+   ```
++
++## Segment Register
++
++  The segment register (`CS`, `DS`, `SS`, `ES`, `FS`, and `GS`) hold 16-bit
++  segment selectors. A segment selector is a specical pointer that identifies
++  a segment in memory. To access a particular segment in memory, the segment
++  selecor for that segment must be present in the appropriate segment 
++  register.
++
++  When writing application code, programmers generally create segment selector
++  with assembler directives and symbols. The assembler and other tools then
++  create the actual segment selector values associated with these directives
++  and symbols. If writing system code, programmers may need to create segment
++  selectors directly. 
++
++  How segment registers are used depends on the type of memory management 
++  model that the operating system or executive is using. When using the flat
++  (unsegmented) memory model, segment registers are loaded with segment 
++  selectors that point to overlapping segments, each of which begins at
++  address 0 of the linear address space (See Figure). These overlapping
++  segments then comprise the linear address space for the prgoram. Typically,
++  two overlapping segments are defined: one for code and another for data
++  and stacks. The `CS` segment register points to the code segment and
++  all the other segment registers point to the data and stack sengment.
++
++  When using the segmented memory model, each segment register is ordinarily
++  loaded with a different segment selecotr so that each segment register
++  points to a different segment within the linear address space. At any time,
++  a program can thus access to six segments in the linear address space.
++  To access a segment no pointed to by one of the segment register, a program
++  must first load the segment selector for the segment to be accessed into
++  a segment register.
++
++  ```
++  Use of segment Registers for Flat Memory Model
++
++
++                                                Linear Address
++                                               Space for Program
++                                               +----------------+
++                                               |                |
++                                               |                |
++                                               |                |
++                                               |  Overlapping   |
++                                               |  Segmnet of up |
++                                               |  to 4GBytes    |
++   Segment Register                            |  Beginning at  |
++  +----------------+                           |  Address 0     |
++  |                | CS -----o                 |                |
++  +----------------+         |                 |                |
++  |                | DS -----o                 |                |
++  +----------------+         |                 |                |
++  |                | SS -----o                 |                |
++  +----------------+         |                 |                |
++  |                | ES -----o                 |                |
++  +----------------+         |                 |                |
++  |                | FS -----o                 |                |
++  +----------------+         |                 |                |
++  |                | GS -----o---------------> +----------------+
++  +----------------+
++  The segment selector in each segment 
++  register pointer to an overlapping 
++  segment in the  linear adddres space
++
++  ```
++
++  ```
++
++                                                               }----o
++                                                                    |
++                                          +----------------+        |
++                                          |                |        |
++   Segment Register                       |  Code Segment  |        |
++  +----------------+                      |                |        |
++  |                | CS ----------------> +----------------+        |
++  +----------------+                                                |
++  |                | DS ----------------> +----------------+        |
++  +----------------+                      |                |        |
++  |                | SS --------------o   |  Data Segment  |        |
++  +----------------+                  |   |                |        |
++  |                | ES ----------o   |   +----------------+        |
++  +----------------+              |   |                             |
++  |                | FS --------o |   o-->+----------------+        |
++  +----------------+            | |       |                |        |
++  |                | GS -----o  | |       | Stack Segment  |        |
++  +----------------+         |  | |       |                |  All Segment are   
++                             |  | |       +----------------+  mapped to the 
++                             |  | |                           same linear-
++                             |  | o-----> +----------------+  address space                                 
++                             |  |         |                |        |
++                             |  |         |  Data Segment  |        |
++                             |  |         |                |        |
++                             |  |         +----------------+        |
++                             |  |                                   |
++                             |  o-------->+----------------+        |                             
++                             |            |                |        |
++                             |            |  Data Segment  |        |
++                             |            |                |        |
++                             |            +----------------+        |
++                             |                                      |
++                             o----------->+----------------+        |                             
++                                          |                |        |
++                                          |  Data Segment  |        |
++                                          |                |        |
++                                          +----------------+        |
++                                                               }----o
++
++
++  ```
++
++  Each of the segment register is associated with one of threee types of
++  storage: `code`, `data` or `stack`. For example, the `CS` register
++  contains the segment selector for the **code segment**, where the
++  instructions being executed are stored. The processor fetches instructions
++  from the code segment, using a logical adress that consists of the segment
++  selector in the `CS` register and the contents of the `EIP` register.
++  The `EIP` register contains the offset within the code segment of the
++  next instruction to be executed. The `CS` register cannot be loaded
++  explicitly by an application program. Instead, it is loaded implicitly by
++  instructions or internal processor operations that change program control
++  (such as, procedure calls, interrupt handling, or task switching).
++
++  The `DS`, `ES`, `FS` and `GS` register point to four **data segments**.
++  The availability of four data segments permits efficient and secure
++  access to different types of data structures. For example, four separate
++  data semgents might be created: one for the data structures of the current
++  module, another for the data exported from a higher-level module, a third
++  for a dynamically created data structure, and a foure for data shared
++  with another program. To access additional data segments, the application
++  program must load segment selectors for these segments into the `DS`, `ES`,
++  `FS`, and `GS` register, as needed.
++
++  The `SS` register contains the segment selector for the stack segment, 
++  where the procedure stack is stored for the program, task, or handler 
++  currently being executed. All stack operations use the `SS` register to
++  find the stack segment. Unlike the `CS` register, the `SS` register can
++  be loaded explicitly, which permits application program to set up multiple
++  stacks and switch among them.
+diff --git a/tools/demo/mmu/storage/register/SS/Kconfig b/tools/demo/mmu/storage/register/SS/Kconfig
+new file mode 100644
+index 0000000..4512229
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/SS/Kconfig
+@@ -0,0 +1,12 @@
++#
++# SS: Stack selector Register
++#
++
++menu "SS:       Stack selector Register"
++
++config DEBUG_REGISTER_SS
++	bool "SS: Stack selector Register"
++	help
++	  Debug Stack selector Register.
++
++endmenu
+diff --git a/tools/demo/mmu/storage/register/SS/Makefile b/tools/demo/mmu/storage/register/SS/Makefile
+new file mode 100644
+index 0000000..7986e4d
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/SS/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_DEBUG_REGISTER_SS)     += ss.o
+diff --git a/tools/demo/mmu/storage/register/SS/README.md b/tools/demo/mmu/storage/register/SS/README.md
+new file mode 100644
+index 0000000..a02f2fb
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/SS/README.md
+@@ -0,0 +1,15 @@
++SS: Stack Segment Selector
++---------------------------------------------------
++
++```
++SS:
++
++  15                                      4 3  2 1    0 
++  +----------------------------------------+----+-----+
++  |                Offset                  | TI | RPL | 
++  +----------------------------------------+----+-----+
++```
++
++## link
++
++  [Intel Architectures Software Developer's Manual: Combined Volumes: 1 -- Chapter 3 Basic Execution Environment: 3.4 Basic Program Execution Register](https://software.intel.com/en-us/articles/intel-sdm)
+diff --git a/tools/demo/mmu/storage/register/SS/ss.c b/tools/demo/mmu/storage/register/SS/ss.c
+new file mode 100644
+index 0000000..d231dd2
+--- /dev/null
++++ b/tools/demo/mmu/storage/register/SS/ss.c
+@@ -0,0 +1,18 @@
++/*
++ * SS: Stack selector Register
++ *
++ * (C) 2018.08.12 BiscuitOS <buddy.zhang@aliyun.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#include <linux/kernel.h>
++
++#include <demo/debug.h>
++
++static int debug_ss(void)
++{
++    return 0;
++}
++late_debugcall(debug_ss);
+-- 
+2.17.1
+

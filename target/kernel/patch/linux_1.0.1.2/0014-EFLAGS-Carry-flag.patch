@@ -1,0 +1,185 @@
+From d42eb50857cc77d5c10ce0dd0e817ba5c5372fb0 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Mon, 13 Aug 2018 18:54:14 +0800
+Subject: [PATCH 14/25] EFLAGS: Carry flag
+
+---
+ tools/demo/Kconfig                            |  3 +
+ tools/demo/Makefile                           |  1 +
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  | 14 +++++
+ .../mmu/storage/register/EFLAGS/README.md     | 19 +++---
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 63 +++++++++++++++++++
+ 5 files changed, 92 insertions(+), 8 deletions(-)
+
+diff --git a/tools/demo/Kconfig b/tools/demo/Kconfig
+index 90a206f..40788d0 100644
+--- a/tools/demo/Kconfig
++++ b/tools/demo/Kconfig
+@@ -29,6 +29,9 @@ source "tools/demo/posix/Kconfig"
+ # Drivers
+ source "tools/demo/drivers/Kconfig"
+ 
++# Data Type
++source "tools/demo/Data/Kconfig"
++
+ endif
+ 
+ endmenu
+diff --git a/tools/demo/Makefile b/tools/demo/Makefile
+index de3c5fb..d7a6940 100644
+--- a/tools/demo/Makefile
++++ b/tools/demo/Makefile
+@@ -3,3 +3,4 @@ obj-$(CONFIG_DEBUG_MMU)            += mmu/
+ obj-$(CONFIG_DEBUG_VFS)            += vfs/
+ obj-$(CONFIG_DEBUG_POSIX)          += posix/
+ obj-$(CONFIG_DEBUG_DDL)            += drivers/
++obj-$(CONFIG_DEBUG_DATA)           += Data/
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+index 052c0ec..a3886b2 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/Kconfig
++++ b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+@@ -31,6 +31,20 @@ config DEBUG_EFLAGS_POPF
+ 	help
+ 	  Push value onto the EFLAGS register.
+ 
++config DEBUG_EFLAGS_CF
++	bool "EFLAGS: CF - Carry flag (bit 0)"
++	help
++	  Carry flag - bit0.
++
++if DEBUG_EFLAGS_CF
++
++config DEBUG_CF_AAA
++	bool "CF: Carry on unpacked BCD via AAA instrcution"
++	help
++	  Carry on unpacked BCD via AAA instruction.
++
++endif # DEBUG_EFLAGS_CF
++
+ endif
+ 
+ endmenu
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/README.md b/tools/demo/mmu/storage/register/EFLAGS/README.md
+index 73585f3..f9ffec5 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/README.md
++++ b/tools/demo/mmu/storage/register/EFLAGS/README.md
+@@ -1,17 +1,20 @@
+ EFLAGS: Current Status Register of Processor
+ ---------------------------------------------------------------------
+ 
+-```
+-EAX/AX/AH/AL Register
++![EFLAGS Register](https://github.com/EmulateSpace/PictureSet/blob/master/BiscuitOS/kernel/MMU000002.png)
+ 
+-    31                       16 15          8 7           0 16-bit  32-bit
+-    +--------------------------+-------------+------------+
+-    |                          |      AH     |     AL     |   AX     EAX
+-    +--------------------------+-------------+------------+
+-
+-```
++## Status Flags
+ 
++The status flags (bit 0, 2, 4, 6, 7, and 11) of the `EFLAGS` register 
++indicate the results of arithmetic instructions, such as the `ADD`, `SUB`,
++`MUL`, and `DIV` instructions. The status flag functions are:
+ 
++* **CF (bit 0)**
++  
++  **Carry flag**  -- Set if an arithmetic operation generates a carry or a
++  borrow out of the most-significant bit of the result; Cleared otherwise.
++  This flag indicates an overflow condition for unsigned-integer arithmetic.
++  It is also used in multiple-precision arithmetic.
+ 
+ ## link
+ 
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 7142ea5..9bd4e63 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -10,6 +10,8 @@
+ #include <linux/kernel.h>
+ #include <demo/debug.h>
+ 
++#define CF_BIT              0x00
++#define PF_BIT              0x02
+ 
+ /*
+  * LAHF -- Load Status Flags into AH Register
+@@ -173,6 +175,63 @@ static __unused int eflags_POPF(void)
+     return 0;
+ }
+ 
++/*
++ * CF (bit 0) -- Carry flag
++ *
++ *   Carry flag -- Set if an arithmetic operation generates a carry or a
++ *   borrow out of the most-significant bit of the result; cleared otherwise.
++ *   This flag indicates an overflow condition for unsigned-integer 
++ *   arithmetic. It is also used in multiple-precision arithmetic.
++ */
++static __unused int eflags_CF(void)
++{
++    unsigned char __unused EFLAGS;
++    unsigned short __unused AX;
++
++#ifdef CONFIG_DEBUG_CF_AAA
++    /* 
++     * Case0: AAA -- ASCII Adjust After Addition 
++     *   Adjust the sum of two unpacked BCD value to create an unpacked BCD
++     *   result. The AL register is the implied source and destination
++     *   operand for this instruction. The AAA instruction is only useful
++     *   when it follows an ADD instruction that adds (binary addition) two
++     *   unpacked BCD values and stores a byte result in the AL register. 
++     *   The AAA instruction then adjust the contents of the AL register to
++     *   contain the correct 1-digit unpacked BCD result.
++     *
++     *   If the addition produces a decimal carry, the AH register increments
++     *   by 1, and the CF and AF flags are set. If there was no decimal 
++     *   carry, the CF and AF flags are clear and the AH register is 
++     *   unchanged. In either case, bits 4 through 7 of the AL register are
++     *   set to 0.
++     *
++     *   IF instruction AAA
++     *       IF ((AL AND 0FH) > 9) or (AF = 1)
++     *           THEN
++     *               AX <---- AX + 106H
++     *               AF <---- 1
++     *               CF <---- 1
++     *           ELSE
++     *               AF <---- 0
++     *               CF <---- 0
++     *       FI
++     *       AL <---- AL AND 0FH
++     *   FI
++     */ 
++    __asm__ ("mov $0x9, %%ax\n\r"
++             "add $0x8, %%al\n\r"
++             "aaa\n\r"
++             "pushf\n\r"
++             "pop %0\n\r" 
++             "mov %%eax, %1": "=m" (EFLAGS), "=m" (AX) :);
++    if (EFLAGS & 0x1)
++        printk("CF has carry on AAA instruction. Unpacked BCD: %#x\n", AX);
++
++#endif
++
++    return 0;
++}
++
+ static int debug_eflags(void)
+ {
+ #ifdef CONFIG_DEBUG_EFLAGS_LAHF
+@@ -191,6 +250,10 @@ static int debug_eflags(void)
+     eflags_POPF();
+ #endif
+ 
++#ifdef CONFIG_DEBUG_EFLAGS_CF
++    eflags_CF();
++#endif
++
+     return 0;
+ }
+ late_debugcall(debug_eflags);
+-- 
+2.17.1
+

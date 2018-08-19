@@ -1,0 +1,295 @@
+From af181fec568fd0b6b64941c11e4504316a5a679d Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Tue, 14 Aug 2018 22:44:27 +0800
+Subject: [PATCH 21/25] EFLAGS -- CF: SBB, SUB, SHL instruction to effect CF
+ flag
+
+---
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  12 +-
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 234 +++++++++++++++++-
+ 2 files changed, 243 insertions(+), 3 deletions(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+index dc32a12..c0c2ad1 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/Kconfig
++++ b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+@@ -109,10 +109,20 @@ config DEBUG_CF_MUL
+ 	  Unsigned multiply.
+ 
+ config DEBUG_CF_SUB
+-	bool "SUB     Subtract"
++	bool "SUB     Integer subtraction"
+ 	help
+ 	  Subtraction.
+ 
++config DEBUG_CF_SBB
++	bool "SBB     Integer subtraction with borrow"
++	help
++	  Subtraction with borrow.
++
++config DEBUG_CF_SHL
++	bool "SHL     Shitf logical left"
++	help
++	  Shift logical left.
++
+ endif # DEBUG_EFLAGS_CF
+ 
+ endif
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 3b917f7..aae6fef 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -900,6 +900,32 @@ static __unused int eflags_CF(void)
+ #endif
+ 
+ #ifdef CONFIG_DEBUG_CF_SUB
++    /*
++     * SUB -- Subtract
++     *
++     * SUB AL, imm8
++     * SUB AX, imm16
++     * SUB EAX, imm32
++     *
++     * Subracts the second operand (source operand) from the first operand (
++     * destination operand) and stores the result in the destination operand.
++     * The destination operand can be a register or a memory location; the 
++     * source operand can be an immediate, register, or memory location. (
++     * However, two memory operands cannot be used in one instruction.) When
++     * an immediate value is used as an operand, it is sign-extended to the
++     * length of the destination operand format.
++     *
++     * The SUB instruction performs integer subtraction. It evaluates the 
++     * result for both signed and unsigned integer operands and sets the
++     * OF and CF flags to indicate an overflow in the signed or unsigned
++     * result, respectively. The SF flag indicates the sign of the signed
++     * result.
++     *
++     * DEST <---- (DEST - SRC)
++     *
++     * The OF, SF, ZF, AF, PF, and CF flags are set according to the result.
++     */
++    /* SUB AL, imm8 */
+     CX = 0x1;
+     DX = 0x2;
+     __asm__ ("mov %2, %%al\n\r"
+@@ -918,11 +944,215 @@ static __unused int eflags_CF(void)
+              : "=m" (CF), "=m" (AX)
+              : "m" (CX), "m" (DX));
+     if (CF)
+-        printk("SUB 8: CF has set on %#x - %#x = %#x\n", CX, DX, 
++        printk("SUB  8: CF has set on %#x - %#x = %#x\n", CX, DX, 
+                                             ~(AX & 0xFF) + 1);
+     else
+-        printk("SUB 8: CF has cleared on %#x - %#x = %#x\n", CX, DX, 
++        printk("SUB  8: CF has cleared on %#x - %#x = %#x\n", CX, DX, 
+                                             AX & 0xFF);
++
++    /* SUB AX, imm16 */
++    CX = 0x1000;
++    DX = 0x2000;
++    __asm__ ("mov %2, %%ax\n\r"
++             "mov %3, %%bx\n\r"
++             "sub %%bx, %%ax\n\r"
++             "jc CF_SET16\n\r"
++             "jnc CF_CLEAR16\n\r"
++    "CF_SET16:\n\r"
++             "mov $1, %%bx\n\r"
++             "jmp out16\n\r"
++  "CF_CLEAR16:\n\r"
++             "mov $0, %%bx\n\r"
++       "out16:\n\r"
++             "mov %%bx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (CF), "=m" (AX)
++             : "m" (CX), "m" (DX));
++    if (CF)
++        printk("SUB 16: CF has set on %#x - %#x = %#x\n", CX, DX, ~(AX) + 1);
++    else
++        printk("SUB 16: CF has cleared on %#x - %#x = %#x\n", CX, DX, AX);
++
++    /* SUB EAX, imm32 */
++    ECX = 0x100000;
++    EDX = 0x200000;
++    __asm__ ("movl %2, %%eax\n\r"
++             "movl %3, %%ebx\n\r"
++             "subl %%ebx, %%eax\n\r"
++             "jc CF_SET17\n\r"
++             "jnc CF_CLEAR17\n\r"
++    "CF_SET17:\n\r"
++             "mov $1, %%bx\n\r"
++             "jmp out17\n\r"
++  "CF_CLEAR17:\n\r"
++             "mov $0, %%bx\n\r"
++       "out17:\n\r"
++             "mov %%bx, %0\n\r"
++             "movl %%eax, %1"
++             : "=m" (CF), "=m" (EAX)
++             : "m" (ECX), "m" (EDX));
++    if (CF)
++        printk("SUB 32: CF has set on %#x - %#x = %#x\n", ECX, EDX,
++                                          ~(EAX) + 1);
++    else
++        printk("SUB 32: CF has cleared on %#x - %#x = %#x\n", ECX, EDX, EAX);
++#endif 
++
++#ifdef CONFIG_DEBUG_CF_SBB
++    /*
++     * SBB -- Integer Subtraction with Borrow
++     *
++     * SBB AL, imm8
++     * SBB AX, imm16
++     * SBB EAX, imm32
++     *
++     * Adds the source operand (second operand) and the carry (CF) flag, and
++     * subtracts the result from the destination operand (first operand). 
++     * The result of the subtraction is stored in the destination operand. 
++     * The destination operand can be register or a memory location; the
++     * source operand can be an immediate, a register, or a memory location.
++     * (However, two memory operands cannot be used in one instruction.) The
++     * state of the CF flag represents a borrow from a previous subtraction.
++     *
++     * When an immediate value is used as an operand, it is sign-extended to 
++     * the length of the detination operand format.
++     *
++     * The SBB instruction does not distinguish between signed or unsigned
++     * operands. Instead, the processor evaluates the result for both data
++     * types and sets the OF and CF flags to indicate a borrow in the signed
++     * or unsigned result, respectively. The SF flag flag indicates the
++     * sign of the sign of the signed result.
++     *
++     * The SBB instruction is usually executed as part of a multibyte or 
++     * multiword subtraction in which a SUB instruction is followed by a
++     * SBB instruction.
++     *
++     * DEST <---- (DEST  - (SRC + CF))
++     *
++     * The OF, SF, ZF, AF, PF, and CF flags are set according to the result.
++     */
++
++    /* SBB AL, imm8 */
++    CX = 0x5;
++    DX = 0x2;
++    __asm__ ("stc\n\r"
++             "mov %1, %%al\n\r"
++             "mov %2, %%bl\n\r"
++             "sbb %%bl, %%al\n\r"
++             "mov %%ax, %0"
++             : "=m" (AX)
++             : "m" (CX), "m" (DX));
++    printk("SBB  8: Subtraction with borrow from %#x - %#x = %#x\n", CX, DX,
++                                          AX & 0xFF);
++
++   /* SBB AX, imm16 */
++   CX = 0x2000;
++   DX = 0x1000;
++   __asm__ ("stc\n\r"
++            "mov %1, %%ax\n\r"
++            "mov %2, %%bx\n\r"
++            "sbb %%bx, %%ax\n\r"
++            "mov %%ax, %0"
++            : "=m" (AX) : "m" (CX), "m" (DX));
++    printk("SBB 16: Subtraction with borrow from %#x - %#x = %#x\n",
++                                 CX, DX, AX);
++
++    /* SBB EAX, imm32 */
++    ECX = 0x200000;
++    EDX = 0x100000;
++    __asm__ ("stc\n\r"
++             "movl %1, %%eax\n\r"
++             "movl %2, %%ebx\n\r"
++             "sbbl %%ebx, %%eax\n\r"
++             "movl %%eax, %0" 
++             : "=m" (EAX) : "m" (ECX), "m" (EDX));
++    printk("SBB 32: Subtraction with borrow from %#x - %#x = %#x\n",
++                             ECX, EDX, EAX);
++#endif
++
++#ifdef CONFIG_DEBUG_CF_SHL
++    /*
++     * SHL -- Shift logical Left
++     *
++     * SHL r/m8,  cl
++     * SHL r/m16, cl
++     * SHL r/m32, cl
++     *
++     * Shifts the bits in the first operand (destination operand) to the left
++     * by the number of bits specified in the second operand (count operand).
++     * Bits shifted beyond the destination operand boundary are first shifted
++     * into the CF flag, then discared. At the end of the shift operation, the
++     * CF flag contains the last bit shifted out of the destination operand.
++     */
++
++    /* SHL r/m8, CL */
++    CX = 0x8E;
++    DX = 0x1;
++    __asm__ ("mov %2, %%al\n\r"
++             "mov %3, %%cl\n\r"
++             "shl %%cl, %%al\n\r"
++             "jc CF_SET18\n\r"
++             "jnc CF_CLEAR18\n\r"
++    "CF_SET18:\n\r"
++             "mov $1, %%bx\n\r"
++             "jmp out18\n\r"
++  "CF_CLEAR18:\n\r"
++             "mov $0, %%bx\n\r"
++       "out18:\n\r"
++             "mov %%bx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (CF), "=m" (AX)
++             : "m" (CX), "m" (DX));
++    if (CF)
++        printk("SHL  8: CF has set on %#x << %#x = %#x\n", CX, DX, AX & 0xFF);
++    else
++        printk("SHL  8: CF has clear on %#x << %#x = %#x\n", CX, DX, AX & 0xFF);
++
++    /* SHL r/m16, CL */
++    CX = 0x8001;
++    DX = 0x1;
++    __asm__ ("mov %2, %%ax\n\r"
++             "mov %3, %%cl\n\r"
++             "shl %%cl, %%ax\n\r"
++             "jc CF_SET19\n\r"
++             "jnc CF_CLEAR19\n\r"
++    "CF_SET19:\n\r"
++             "mov $1, %%bx\n\r"
++             "jmp out19\n\r"
++  "CF_CLEAR19:\n\r"
++             "mov $0, %%bx\n\r"
++       "out19:\n\r"
++             "mov %%bx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (CF), "=m" (AX)
++             : "m" (CX), "m" (DX));
++    if (CF)
++        printk("SHL 16: CF has set on %#x << %#x = %#x\n", CX, DX, AX);
++    else
++        printk("SHL 16: CF has cleared on %#x << %#x = %#x\n", CX, DX, AX);
++
++    /* SHL r/m32, CL */
++    ECX = 0x80000010;
++    EDX = 0x1;
++    __asm__ ("movl %2, %%eax\n\r"
++             "mov %3, %%cl\n\r"
++             "shl %%cl, %%eax\n\r"
++             "jc CF_SET20\n\r"
++             "jnc CF_CLEAR20\n\r"
++    "CF_SET20:\n\r"
++             "mov $1, %%bx\n\r"
++             "jmp out20\n\r"
++  "CF_CLEAR20:\n\r"
++             "mov $0, %%bx\n\r"
++       "out20:\n\r"
++             "mov %%bx, %0\n\r"
++             "movl %%eax, %1"
++             : "=m" (CF), "=m" (EAX)
++             : "m" (ECX), "m" (EDX));
++    if (CF)
++        printk("SHL 32: CF has set on %#x << %#x = %#x\n", ECX, EDX, EAX);
++    else
++        printk("SHL 32: CF has cleared on %#x << %#x = %#x\n", ECX, EDX, EAX);
+ #endif
+ 
+     return 0;
+-- 
+2.17.1
+
