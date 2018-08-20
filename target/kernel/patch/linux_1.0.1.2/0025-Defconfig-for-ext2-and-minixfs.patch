@@ -1,7 +1,7 @@
 From 863bfd9fdae02054098365d09f62b1fe2fe9302a Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Sun, 19 Aug 2018 21:38:14 +0800
-Subject: [PATCH 25/25] Defconfig for ext2 and minixfs
+Subject: [PATCH 25/27] Defconfig for ext2 and minixfs
 
 ---
  arch/x86/configs/defconfig             | 17 +++++++++++++++--
@@ -117,5 +117,5 @@ index 0000000..e0565a8
 +CONFIG_EXT2_FS=y
 +CONFIG_MMU=y
 -- 
-2.17.1
+1.9.1
 

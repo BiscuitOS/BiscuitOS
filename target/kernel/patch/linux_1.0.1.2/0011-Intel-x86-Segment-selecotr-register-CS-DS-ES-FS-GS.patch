@@ -1,39 +1,39 @@
 From 5cf1863dcfe72e02dbc465176c541e0e88e2cd3a Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Sun, 12 Aug 2018 16:15:27 +0800
-Subject: [PATCH 11/25] Intel-x86: Segment selecotr register: CS,DS,ES,FS,GS
+Subject: [PATCH 11/27] Intel-x86: Segment selecotr register: CS,DS,ES,FS,GS
 
 ---
- tools/demo/mmu/storage/register/CS/Kconfig    |  14 --
- tools/demo/mmu/storage/register/CS/README.md  |  14 ++
- tools/demo/mmu/storage/register/CS/cs.c       | 134 +----------------
- tools/demo/mmu/storage/register/DS/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/CS/Kconfig    |  14 ---
+ tools/demo/mmu/storage/register/CS/README.md  |  14 +++
+ tools/demo/mmu/storage/register/CS/cs.c       | 134 +------------------------
+ tools/demo/mmu/storage/register/DS/Kconfig    |  12 +++
  tools/demo/mmu/storage/register/DS/Makefile   |   1 +
- tools/demo/mmu/storage/register/DS/README.md  |  15 ++
- tools/demo/mmu/storage/register/DS/ds.c       |  18 +++
+ tools/demo/mmu/storage/register/DS/README.md  |  15 +++
+ tools/demo/mmu/storage/register/DS/ds.c       |  18 ++++
  tools/demo/mmu/storage/register/EAX/README.md |   2 +-
  tools/demo/mmu/storage/register/EBX/README.md |   2 +-
  tools/demo/mmu/storage/register/ECX/README.md |   3 +-
  tools/demo/mmu/storage/register/EDX/README.md |   3 +-
- tools/demo/mmu/storage/register/ES/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/ES/Kconfig    |  12 +++
  tools/demo/mmu/storage/register/ES/Makefile   |   1 +
- tools/demo/mmu/storage/register/ES/README.md  |  15 ++
- tools/demo/mmu/storage/register/ES/es.c       |  18 +++
- tools/demo/mmu/storage/register/FS/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/ES/README.md  |  15 +++
+ tools/demo/mmu/storage/register/ES/es.c       |  18 ++++
+ tools/demo/mmu/storage/register/FS/Kconfig    |  12 +++
  tools/demo/mmu/storage/register/FS/Makefile   |   1 +
- tools/demo/mmu/storage/register/FS/README.md  |  15 ++
- tools/demo/mmu/storage/register/FS/fs.c       |  18 +++
- tools/demo/mmu/storage/register/GS/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/FS/README.md  |  15 +++
+ tools/demo/mmu/storage/register/FS/fs.c       |  18 ++++
+ tools/demo/mmu/storage/register/GS/Kconfig    |  12 +++
  tools/demo/mmu/storage/register/GS/Makefile   |   1 +
- tools/demo/mmu/storage/register/GS/README.md  |  15 ++
- tools/demo/mmu/storage/register/GS/gs.c       |  18 +++
- tools/demo/mmu/storage/register/Kconfig       |  15 ++
+ tools/demo/mmu/storage/register/GS/README.md  |  15 +++
+ tools/demo/mmu/storage/register/GS/gs.c       |  18 ++++
+ tools/demo/mmu/storage/register/Kconfig       |  15 +++
  tools/demo/mmu/storage/register/Makefile      |   5 +
- tools/demo/mmu/storage/register/README.md     | 138 ++++++++++++++++++
- tools/demo/mmu/storage/register/SS/Kconfig    |  12 ++
+ tools/demo/mmu/storage/register/README.md     | 138 ++++++++++++++++++++++++++
+ tools/demo/mmu/storage/register/SS/Kconfig    |  12 +++
  tools/demo/mmu/storage/register/SS/Makefile   |   1 +
- tools/demo/mmu/storage/register/SS/README.md  |  15 ++
- tools/demo/mmu/storage/register/SS/ss.c       |  18 +++
+ tools/demo/mmu/storage/register/SS/README.md  |  15 +++
+ tools/demo/mmu/storage/register/SS/ss.c       |  18 ++++
  30 files changed, 407 insertions(+), 153 deletions(-)
  create mode 100644 tools/demo/mmu/storage/register/CS/README.md
  create mode 100644 tools/demo/mmu/storage/register/DS/Kconfig
@@ -836,5 +836,5 @@ index 0000000..d231dd2
 +}
 +late_debugcall(debug_ss);
 -- 
-2.17.1
+1.9.1
 

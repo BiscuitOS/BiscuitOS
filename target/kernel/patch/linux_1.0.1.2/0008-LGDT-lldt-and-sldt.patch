@@ -1,16 +1,16 @@
 From 1fa2d6e72ec7acd23b07804b7fb8e5378d8b8341 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Thu, 9 Aug 2018 15:15:40 +0800
-Subject: [PATCH 08/25]     LGDT: lldt and sldt
+Subject: [PATCH 08/27]     LGDT: lldt and sldt
 
 ---
- tools/demo/mmu/storage/register/GDTR/gdtr.c   |  65 ++++++++++-
- tools/demo/mmu/storage/register/Kconfig       |   3 +
- tools/demo/mmu/storage/register/LDTR/Kconfig  |  26 +++++
- tools/demo/mmu/storage/register/LDTR/Makefile |   1 +
- .../demo/mmu/storage/register/LDTR/README.md  |  40 +++++++
- tools/demo/mmu/storage/register/LDTR/ldtr.c   | 102 ++++++++++++++++++
- tools/demo/mmu/storage/register/Makefile      |   1 +
+ tools/demo/mmu/storage/register/GDTR/gdtr.c    |  65 +++++++++++++++-
+ tools/demo/mmu/storage/register/Kconfig        |   3 +
+ tools/demo/mmu/storage/register/LDTR/Kconfig   |  26 +++++++
+ tools/demo/mmu/storage/register/LDTR/Makefile  |   1 +
+ tools/demo/mmu/storage/register/LDTR/README.md |  40 ++++++++++
+ tools/demo/mmu/storage/register/LDTR/ldtr.c    | 102 +++++++++++++++++++++++++
+ tools/demo/mmu/storage/register/Makefile       |   1 +
  7 files changed, 236 insertions(+), 2 deletions(-)
  create mode 100644 tools/demo/mmu/storage/register/LDTR/Kconfig
  create mode 100644 tools/demo/mmu/storage/register/LDTR/Makefile
@@ -321,5 +321,5 @@ index f41a64c..c4aee20 100644
 +obj-$(CONFIG_DEBUG_REGISTER_LDTR)       += LDTR/
  obj-$(CONFIG_DEBUG_REGISTER_CS)         += CS/
 -- 
-2.17.1
+1.9.1
 

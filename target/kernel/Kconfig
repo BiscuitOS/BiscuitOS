@@ -93,6 +93,22 @@ config KERNEL_VERSION
 	default "1.0.1.2"   if KERNEL_VERSION_1_0_1_2
 	default "1.0.1.2"
 
+config KERNEL_BD_TAG
+	string
+	default "v0.11.3"    if KERNEL_VERSION_0_1_1
+	default "v0.12.1"    if KERNEL_VERSION_0_1_2
+	default "v0.95.1"    if KERNEL_VERSION_0_9_5_1
+	default "v0.95.3"    if KERNEL_VERSION_0_9_5_3
+	default "v0.95a"     if KERNEL_VERSION_0_9_5A
+	default "v0.96.1"    if KERNEL_VERSION_0_9_6_1
+	default "v0.97.1"    if KERNEL_VERSION_0_9_7_1
+	default "v0.98.1"    if KERNEL_VERSION_0_9_8_1
+	default "v0.99.1"    if KERNEL_VERSION_0_9_9_1
+	default "v1.0.1"     if KERNEL_VERSION_1_0_1
+	default "v1.0.1.1"   if KERNEL_VERSION_1_0_1_1
+	default "v1.0.1.1"   if KERNEL_VERSION_1_0_1_2
+	default "v1.0.1.2"
+
 config KERNEL_MAGIC
 	int
 	default 0         if KERNEL_VERSION_0_1_1

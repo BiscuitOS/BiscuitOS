@@ -1,7 +1,7 @@
 From c638c4c6f455cd153526aadda06611127b50ff89 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Fri, 3 Aug 2018 19:18:21 +0800
-Subject: [PATCH 05/25] sync
+Subject: [PATCH 05/27] sync
 
 ---
  tools/demo/mmu/storage/stack/README.md | 23 +++++++++++++++++++----
@@ -42,5 +42,5 @@ index fd1fae6..4114932 100644
  
  
 -- 
-2.17.1
+1.9.1
 

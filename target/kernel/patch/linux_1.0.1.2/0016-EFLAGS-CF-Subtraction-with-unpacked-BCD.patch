@@ -1,11 +1,11 @@
 From 084969a46919261cd5cb867ed2e96ed80c649901 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Mon, 13 Aug 2018 22:49:06 +0800
-Subject: [PATCH 16/25] EFLAGS-CF: Subtraction with unpacked BCD
+Subject: [PATCH 16/27] EFLAGS-CF: Subtraction with unpacked BCD
 
 ---
- .../demo/mmu/storage/register/EFLAGS/Kconfig  |   5 +
- .../demo/mmu/storage/register/EFLAGS/eflags.c | 123 +++++++++++++++++-
+ tools/demo/mmu/storage/register/EFLAGS/Kconfig  |   5 +
+ tools/demo/mmu/storage/register/EFLAGS/eflags.c | 123 ++++++++++++++++++++++--
  2 files changed, 121 insertions(+), 7 deletions(-)
 
 diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
@@ -43,7 +43,7 @@ index 9bd4e63..d34a576 100644
       *   Adjust the sum of two unpacked BCD value to create an unpacked BCD
       *   result. The AL register is the implied source and destination
       *   operand for this instruction. The AAA instruction is only useful
-@@ -217,16 +217,125 @@ static __unused int eflags_CF(void)
+@@ -217,18 +217,127 @@ static __unused int eflags_CF(void)
       *       FI
       *       AL <---- AL AND 0FH
       *   FI
@@ -75,8 +75,8 @@ index 9bd4e63..d34a576 100644
 +    if (CF)
          printk("CF has carry on AAA instruction. Unpacked BCD: %#x\n", AX);
  
-+#endif
-+
+ #endif
+ 
 +#ifdef CONFIG_DEBUG_CF_AAS
 +    /*
 +     * AAS -- ASCII adjust AL after subtraction
@@ -171,9 +171,11 @@ index 9bd4e63..d34a576 100644
 +    if (CF)
 +        printk("CF has carry on AAS instruction. Unpacked BCD: %#x\n", AX);
 +
- #endif
- 
++#endif
++
      return 0;
+ }
+ 
 -- 
-2.17.1
+1.9.1
 

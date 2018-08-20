@@ -1,11 +1,11 @@
 From 8780fd58bb154b4fd1ab49699355d61041cb98ea Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Tue, 14 Aug 2018 10:42:34 +0800
-Subject: [PATCH 17/25] EFLAGS -- CF: Carry on ADD, ADC, and ADCX instrcution
+Subject: [PATCH 17/27] EFLAGS -- CF: Carry on ADD, ADC, and ADCX instrcution
 
 ---
- .../demo/mmu/storage/register/EFLAGS/Kconfig  |  15 +++
- .../demo/mmu/storage/register/EFLAGS/eflags.c | 109 ++++++++++++++++++
+ tools/demo/mmu/storage/register/EFLAGS/Kconfig  |  15 ++++
+ tools/demo/mmu/storage/register/EFLAGS/eflags.c | 109 ++++++++++++++++++++++++
  2 files changed, 124 insertions(+)
 
 diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
@@ -162,5 +162,5 @@ index d34a576..d1d67c6 100644
  }
  
 -- 
-2.17.1
+1.9.1
 

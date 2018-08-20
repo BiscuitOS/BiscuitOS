@@ -1,21 +1,21 @@
 From 7114af0b5564a9699e926e855650e258d4a18a6b Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Fri, 10 Aug 2018 10:55:01 +0800
-Subject: [PATCH 09/25]      IDTR: Interrupt Descriptor table -- SIDT/LIDT
+Subject: [PATCH 09/27]      IDTR: Interrupt Descriptor table -- SIDT/LIDT
 
 ---
- tools/demo/mmu/storage/register/IDTR/Kconfig  |  26 +++++
- tools/demo/mmu/storage/register/IDTR/Makefile |   1 +
- .../demo/mmu/storage/register/IDTR/README.md  |  27 +++++
- tools/demo/mmu/storage/register/IDTR/idtr.c   | 107 ++++++++++++++++++
- tools/demo/mmu/storage/register/Kconfig       |   6 +
- tools/demo/mmu/storage/register/LDTR/Kconfig  |   8 +-
- tools/demo/mmu/storage/register/LDTR/ldtr.c   |   8 +-
- tools/demo/mmu/storage/register/Makefile      |   2 +
- tools/demo/mmu/storage/register/TR/Kconfig    |  26 +++++
- tools/demo/mmu/storage/register/TR/Makefile   |   1 +
- tools/demo/mmu/storage/register/TR/README.md  |  38 +++++++
- tools/demo/mmu/storage/register/TR/tr.c       | 102 +++++++++++++++++
+ tools/demo/mmu/storage/register/IDTR/Kconfig   |  26 ++++++
+ tools/demo/mmu/storage/register/IDTR/Makefile  |   1 +
+ tools/demo/mmu/storage/register/IDTR/README.md |  27 +++++++
+ tools/demo/mmu/storage/register/IDTR/idtr.c    | 107 +++++++++++++++++++++++++
+ tools/demo/mmu/storage/register/Kconfig        |   6 ++
+ tools/demo/mmu/storage/register/LDTR/Kconfig   |   8 +-
+ tools/demo/mmu/storage/register/LDTR/ldtr.c    |   8 +-
+ tools/demo/mmu/storage/register/Makefile       |   2 +
+ tools/demo/mmu/storage/register/TR/Kconfig     |  26 ++++++
+ tools/demo/mmu/storage/register/TR/Makefile    |   1 +
+ tools/demo/mmu/storage/register/TR/README.md   |  38 +++++++++
+ tools/demo/mmu/storage/register/TR/tr.c        | 102 +++++++++++++++++++++++
  12 files changed, 344 insertions(+), 8 deletions(-)
  create mode 100644 tools/demo/mmu/storage/register/IDTR/Kconfig
  create mode 100644 tools/demo/mmu/storage/register/IDTR/Makefile
@@ -482,5 +482,5 @@ index 0000000..8575a54
 +}
 +late_debugcall(debug_tr);
 -- 
-2.17.1
+1.9.1
 

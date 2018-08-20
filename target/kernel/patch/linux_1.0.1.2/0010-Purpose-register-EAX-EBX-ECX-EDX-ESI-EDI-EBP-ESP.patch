@@ -1,44 +1,44 @@
 From 05b5c74c10cf039096d4bef80dc75371cea1e87f Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Fri, 10 Aug 2018 18:24:39 +0800
-Subject: [PATCH 10/25]    Purpose register: EAX/EBX/ECX/EDX/ESI/EDI/EBP/ESP
+Subject: [PATCH 10/27]    Purpose register: EAX/EBX/ECX/EDX/ESI/EDI/EBP/ESP
 
 ---
  tools/demo/mmu/storage/register/EAX/Kconfig   |  12 ++
  tools/demo/mmu/storage/register/EAX/Makefile  |   1 +
- tools/demo/mmu/storage/register/EAX/README.md |  18 ++
- tools/demo/mmu/storage/register/EAX/eax.c     |  17 ++
+ tools/demo/mmu/storage/register/EAX/README.md |  18 +++
+ tools/demo/mmu/storage/register/EAX/eax.c     |  17 +++
  tools/demo/mmu/storage/register/EBP/Kconfig   |  12 ++
  tools/demo/mmu/storage/register/EBP/Makefile  |   1 +
- tools/demo/mmu/storage/register/EBP/README.md |  17 ++
- tools/demo/mmu/storage/register/EBP/ebp.c     |  17 ++
+ tools/demo/mmu/storage/register/EBP/README.md |  17 +++
+ tools/demo/mmu/storage/register/EBP/ebp.c     |  17 +++
  tools/demo/mmu/storage/register/EBX/Kconfig   |  12 ++
  tools/demo/mmu/storage/register/EBX/Makefile  |   1 +
- tools/demo/mmu/storage/register/EBX/README.md |  18 ++
- tools/demo/mmu/storage/register/EBX/ebx.c     |  17 ++
+ tools/demo/mmu/storage/register/EBX/README.md |  18 +++
+ tools/demo/mmu/storage/register/EBX/ebx.c     |  17 +++
  tools/demo/mmu/storage/register/ECX/Kconfig   |  12 ++
  tools/demo/mmu/storage/register/ECX/Makefile  |   1 +
- tools/demo/mmu/storage/register/ECX/README.md |  18 ++
- tools/demo/mmu/storage/register/ECX/ecx.c     |  17 ++
+ tools/demo/mmu/storage/register/ECX/README.md |  18 +++
+ tools/demo/mmu/storage/register/ECX/ecx.c     |  17 +++
  tools/demo/mmu/storage/register/EDI/Kconfig   |  12 ++
  tools/demo/mmu/storage/register/EDI/Makefile  |   1 +
- tools/demo/mmu/storage/register/EDI/README.md |  17 ++
- tools/demo/mmu/storage/register/EDI/edi.c     |  18 ++
+ tools/demo/mmu/storage/register/EDI/README.md |  17 +++
+ tools/demo/mmu/storage/register/EDI/edi.c     |  18 +++
  tools/demo/mmu/storage/register/EDX/Kconfig   |  12 ++
  tools/demo/mmu/storage/register/EDX/Makefile  |   1 +
- tools/demo/mmu/storage/register/EDX/README.md |  18 ++
- tools/demo/mmu/storage/register/EDX/edx.c     |  17 ++
+ tools/demo/mmu/storage/register/EDX/README.md |  18 +++
+ tools/demo/mmu/storage/register/EDX/edx.c     |  17 +++
  tools/demo/mmu/storage/register/ESI/Kconfig   |  12 ++
  tools/demo/mmu/storage/register/ESI/Makefile  |   1 +
- tools/demo/mmu/storage/register/ESI/README.md |  17 ++
- tools/demo/mmu/storage/register/ESI/esi.c     |  18 ++
+ tools/demo/mmu/storage/register/ESI/README.md |  17 +++
+ tools/demo/mmu/storage/register/ESI/esi.c     |  18 +++
  tools/demo/mmu/storage/register/ESP/Kconfig   |  12 ++
  tools/demo/mmu/storage/register/ESP/Makefile  |   1 +
- tools/demo/mmu/storage/register/ESP/README.md |  17 ++
- tools/demo/mmu/storage/register/ESP/esp.c     |  17 ++
- tools/demo/mmu/storage/register/Kconfig       |  24 +++
- tools/demo/mmu/storage/register/Makefile      |   8 +
- tools/demo/mmu/storage/register/README.md     | 170 ++++++++++++++++++
+ tools/demo/mmu/storage/register/ESP/README.md |  17 +++
+ tools/demo/mmu/storage/register/ESP/esp.c     |  17 +++
+ tools/demo/mmu/storage/register/Kconfig       |  24 ++++
+ tools/demo/mmu/storage/register/Makefile      |   8 ++
+ tools/demo/mmu/storage/register/README.md     | 170 ++++++++++++++++++++++++++
  35 files changed, 584 insertions(+)
  create mode 100644 tools/demo/mmu/storage/register/EAX/Kconfig
  create mode 100644 tools/demo/mmu/storage/register/EAX/Makefile
@@ -877,5 +877,5 @@ index 0000000..455ff5e
 +
 +  ```
 -- 
-2.17.1
+1.9.1
 

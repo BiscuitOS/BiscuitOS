@@ -1,11 +1,11 @@
 From f790e1f46250eb99eb3d339f672848569623aca3 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Thu, 16 Aug 2018 10:17:19 +0800
-Subject: [PATCH 24/25] EFLAGS -- CF: ROR and ROL instruction to effect CF flag
+Subject: [PATCH 24/27] EFLAGS -- CF: ROR and ROL instruction to effect CF flag
 
 ---
- .../demo/mmu/storage/register/EFLAGS/Kconfig  |   2 +-
- .../demo/mmu/storage/register/EFLAGS/eflags.c | 115 ++++++++++++++++++
+ tools/demo/mmu/storage/register/EFLAGS/Kconfig  |   2 +-
+ tools/demo/mmu/storage/register/EFLAGS/eflags.c | 115 ++++++++++++++++++++++++
  2 files changed, 116 insertions(+), 1 deletion(-)
 
 diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
@@ -148,5 +148,5 @@ index 657edac..57db594 100644
  }
  
 -- 
-2.17.1
+1.9.1
 
