@@ -1,16 +1,16 @@
 From 9a95005ab6602ec801f11bae2dad264cb8b24f00 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Mon, 13 Aug 2018 17:59:22 +0800
-Subject: [PATCH 13/27] BCD: Binary to decimal
+Subject: [PATCH 13/34] BCD: Binary to decimal
 
 ---
- tools/demo/Data/Base/BCD/Kconfig   |  40 +++++++++++
+ tools/demo/Data/Base/BCD/Kconfig   |  40 +++++++++
  tools/demo/Data/Base/BCD/Makefile  |   1 +
- tools/demo/Data/Base/BCD/README.md | 136 +++++++++++++++++++++++++++++++++++++
- tools/demo/Data/Base/BCD/bcd.c     |  68 +++++++++++++++++++
- tools/demo/Data/Base/Kconfig       |  19 ++++++
+ tools/demo/Data/Base/BCD/README.md | 136 +++++++++++++++++++++++++++++
+ tools/demo/Data/Base/BCD/bcd.c     |  68 +++++++++++++++
+ tools/demo/Data/Base/Kconfig       |  19 ++++
  tools/demo/Data/Base/Makefile      |   1 +
- tools/demo/Data/Kconfig            |  19 ++++++
+ tools/demo/Data/Kconfig            |  19 ++++
  tools/demo/Data/Makefile           |   1 +
  tools/demo/Data/list/README.md     |   0
  tools/demo/Data/tree/README.md     |   0
@@ -366,5 +366,5 @@ diff --git a/tools/demo/Data/tree/README.md b/tools/demo/Data/tree/README.md
 new file mode 100644
 index 0000000..e69de29
 -- 
-1.9.1
+2.17.1
 

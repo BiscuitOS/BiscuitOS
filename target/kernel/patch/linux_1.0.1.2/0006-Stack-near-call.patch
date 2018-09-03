@@ -1,12 +1,12 @@
 From d41ec024c997f5a12dd3d61509c53bc6b2f1ec2e Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Sun, 5 Aug 2018 18:56:22 +0800
-Subject: [PATCH 06/27] Stack: near call
+Subject: [PATCH 06/34] Stack: near call
 
 ---
  tools/demo/mmu/storage/stack/Kconfig   |  24 +-
- tools/demo/mmu/storage/stack/README.md |  52 +--
- tools/demo/mmu/storage/stack/stack.c   | 726 ++++++++++++++++++++++++++++++++-
+ tools/demo/mmu/storage/stack/README.md |  52 +-
+ tools/demo/mmu/storage/stack/stack.c   | 726 ++++++++++++++++++++++++-
  3 files changed, 772 insertions(+), 30 deletions(-)
 
 diff --git a/tools/demo/mmu/storage/stack/Kconfig b/tools/demo/mmu/storage/stack/Kconfig
@@ -855,5 +855,5 @@ index 075972c..08d6df2 100644
 +device_debugcall(debug_CALL_RETURN_instr);
 +#endif
 -- 
-1.9.1
+2.17.1
 

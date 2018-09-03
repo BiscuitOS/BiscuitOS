@@ -1,11 +1,11 @@
 From 770950eb26bd4d24f02990ce06bbe85f9783fc85 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Tue, 14 Aug 2018 18:23:20 +0800
-Subject: [PATCH 19/27] EFLAGS -- CF: MUL instruction to set up CF flags
+Subject: [PATCH 19/34] EFLAGS -- CF: MUL instruction to set up CF flags
 
 ---
- tools/demo/mmu/storage/register/EFLAGS/Kconfig  |  15 +
- tools/demo/mmu/storage/register/EFLAGS/eflags.c | 358 ++++++++++++++++++++----
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  15 +
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 358 +++++++++++++++---
  2 files changed, 313 insertions(+), 60 deletions(-)
 
 diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
@@ -515,5 +515,5 @@ index 71273f8..ae81707 100644
  }
  
 -- 
-1.9.1
+2.17.1
 

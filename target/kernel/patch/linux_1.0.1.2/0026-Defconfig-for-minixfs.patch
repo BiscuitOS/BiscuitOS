@@ -1,7 +1,7 @@
 From 265fd5ef1699704e9b84e0d474ca8d9230c9d940 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Mon, 20 Aug 2018 11:01:35 +0800
-Subject: [PATCH 26/27] Defconfig for minixfs
+Subject: [PATCH 26/34] Defconfig for minixfs
 
 ---
  arch/x86/configs/linux_minix_defconfig | 2 +-
@@ -19,5 +19,5 @@ index 5ab1c0c..3bb5b1b 100644
 +CONFIG_MINIX_FS=y
  CONFIG_MMU=y
 -- 
-1.9.1
+2.17.1
 

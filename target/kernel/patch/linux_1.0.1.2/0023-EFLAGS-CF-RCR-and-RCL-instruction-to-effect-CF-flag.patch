@@ -1,11 +1,11 @@
 From eacbde136bd618f860f3e756bf5bc9078c6d39da Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Wed, 15 Aug 2018 22:23:00 +0800
-Subject: [PATCH 23/27] EFLAGS -- CF: RCR and RCL instruction to effect CF flag
+Subject: [PATCH 23/34] EFLAGS -- CF: RCR and RCL instruction to effect CF flag
 
 ---
- tools/demo/mmu/storage/register/EFLAGS/Kconfig  |  20 +++
- tools/demo/mmu/storage/register/EFLAGS/eflags.c | 193 +++++++++++++++++++++++-
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  20 ++
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 193 +++++++++++++++++-
  2 files changed, 212 insertions(+), 1 deletion(-)
 
 diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
@@ -251,5 +251,5 @@ index 8197803..657edac 100644
  }
  
 -- 
-1.9.1
+2.17.1
 

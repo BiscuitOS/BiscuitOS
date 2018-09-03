@@ -1,16 +1,16 @@
 From 7069685b54c4a83516c1b7b3a2deefc654db11c8 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Sun, 12 Aug 2018 18:42:58 +0800
-Subject: [PATCH 12/27] EFLAGS
+Subject: [PATCH 12/34] EFLAGS
 
 ---
- tools/demo/mmu/storage/register/EFLAGS/Kconfig   |  36 +++++
- tools/demo/mmu/storage/register/EFLAGS/Makefile  |   1 +
- tools/demo/mmu/storage/register/EFLAGS/README.md |  18 +++
- tools/demo/mmu/storage/register/EFLAGS/eflags.c  | 196 +++++++++++++++++++++++
- tools/demo/mmu/storage/register/Kconfig          |   3 +
- tools/demo/mmu/storage/register/Makefile         |   1 +
- tools/demo/mmu/storage/register/README.md        |  42 +++++
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  36 ++++
+ .../demo/mmu/storage/register/EFLAGS/Makefile |   1 +
+ .../mmu/storage/register/EFLAGS/README.md     |  18 ++
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 196 ++++++++++++++++++
+ tools/demo/mmu/storage/register/Kconfig       |   3 +
+ tools/demo/mmu/storage/register/Makefile      |   1 +
+ tools/demo/mmu/storage/register/README.md     |  42 ++++
  7 files changed, 297 insertions(+)
  create mode 100644 tools/demo/mmu/storage/register/EFLAGS/Kconfig
  create mode 100644 tools/demo/mmu/storage/register/EFLAGS/Makefile
@@ -366,5 +366,5 @@ index 1479e67..d25d76d 100644
 +  As a result, code that accesses or modifies these flags for one family
 +  `IA-32` processors works as expected when run on later families of processor.
 -- 
-1.9.1
+2.17.1
 

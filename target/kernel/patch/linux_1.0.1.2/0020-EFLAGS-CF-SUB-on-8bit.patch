@@ -1,11 +1,11 @@
 From afaf3810100622339588a612a5de9913a0cab776 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Tue, 14 Aug 2018 18:55:55 +0800
-Subject: [PATCH 20/27] EFLAGS -- CF: SUB on 8bit
+Subject: [PATCH 20/34] EFLAGS -- CF: SUB on 8bit
 
 ---
- tools/demo/mmu/storage/register/EFLAGS/Kconfig  |  9 +++++++--
- tools/demo/mmu/storage/register/EFLAGS/eflags.c | 26 +++++++++++++++++++++++++
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  9 +++++--
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 26 +++++++++++++++++++
  2 files changed, 33 insertions(+), 2 deletions(-)
 
 diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
@@ -80,5 +80,5 @@ index ae81707..3b917f7 100644
  }
  
 -- 
-1.9.1
+2.17.1
 

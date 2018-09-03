@@ -1,11 +1,11 @@
 From c73591ba06f5461c52c9b04026bc4ec3b961460f Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Mon, 13 Aug 2018 22:11:44 +0800
-Subject: [PATCH 15/27] BCD: subtraction Unpacked BCD
+Subject: [PATCH 15/34] BCD: subtraction Unpacked BCD
 
 ---
- tools/demo/Data/Base/BCD/README.md | 58 +++++++++++++++++++++++
- tools/demo/Data/Base/BCD/bcd.c     | 94 ++++++++++++++++++++++++++++++++++++--
+ tools/demo/Data/Base/BCD/README.md | 58 ++++++++++++++++++
+ tools/demo/Data/Base/BCD/bcd.c     | 94 ++++++++++++++++++++++++++++--
  2 files changed, 147 insertions(+), 5 deletions(-)
 
 diff --git a/tools/demo/Data/Base/BCD/README.md b/tools/demo/Data/Base/BCD/README.md
@@ -197,5 +197,5 @@ index 8ba27c3..75db6fd 100644
      return 0;
  }
 -- 
-1.9.1
+2.17.1
 

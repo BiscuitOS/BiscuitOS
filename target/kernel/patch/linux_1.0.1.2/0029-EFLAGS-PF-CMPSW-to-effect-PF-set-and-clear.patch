@@ -1,0 +1,130 @@
+From 9c2dd7de012c27732f9dc1f4828b290f383a5282 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Wed, 29 Aug 2018 21:28:26 +0800
+Subject: [PATCH 29/34] EFLAGS -- PF: CMPSW to effect PF set and clear
+
+---
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  7 +-
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 78 ++++++++++++++++++-
+ 2 files changed, 83 insertions(+), 2 deletions(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+index 2cff3f7..90eab08 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/Kconfig
++++ b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+@@ -198,10 +198,15 @@ config DEBUG_PF_CMP
+ 	  Debug CMP instruction for Parity Bit.
+ 
+ config DEBUG_PF_CMPSB
+-	bool "CMPSB   Compare string operands"
++	bool "CMPSB   Compare string operands in byte"
+ 	help
+ 	  Debug CMPSB instruction for Parity Bit.
+ 
++config DEBUG_PF_CMPSW
++	bool "CMPSW   Compare string operands in word"
++	help
++	  Debug CMPSW instruction for Parity Bit.
++
+ endif # DEBUG_EFLAGS_PF
+ 
+ endif # DEBUG_REGISTER_EFLAGS
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 26216a6..d3e0ba7 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -2116,7 +2116,7 @@ static __unused int eflags_PF(void)
+ 
+ #ifdef CONFIG_DEBUG_PF_CMPSB
+     /*
+-     * CMPSB -- Compare string operands
++     * CMPSB -- Compare string operands in byte
+      *
+      * Compares the byte with the first source operand with the byte specified
+      * with the second source operand and sets the status flags in EFLAGS 
+@@ -2188,6 +2188,82 @@ static __unused int eflags_PF(void)
+             "Hello BiscuitOS"[CX - AX - 1]);
+ #endif
+ 
++#ifdef CONFIG_DEBUG_PF_CMPSW
++    /*
++     * CMPSW -- Compare string operands in word
++     *
++     * Compares the byte with the first source operand with the byte specified
++     * with the second source operand and sets the status flags in EFLAGS 
++     * register according to the result.
++     *
++     * Both source operands are located in memory. The address of the first
++     * source operand is read from DS:SI (depending on the address-size 
++     * attribute of the instruction is 16). The address of the second source
++     * operand is read from ES:DI (again depending on the address-size 
++     * attribute of the instruction is 16). The DS segment may be overriden
++     * with a segment override prefix, but the ES segment cannot be overridden.
++     *
++     * At the assembly-code level, two forms of this instruction are allowed:
++     * the "explicit-operands" from and the "no-operands" from. The explicit-
++     * operands form (specified with the CMPS mnemonic) allows the two source
++     * operands to the specified explicitly. Here, the source operands should
++     * be symbols that indicate the size and location of the source values.
++     * This explicit-operand form is provided to allow documentation. However,
++     * not that the documentation provided by this form can be misleading.
++     * That is, the source operand symbols must specify the correct type
++     * (size) of the operands (bytes), but they do not have to specify the
++     * correct location. Locations of the source operands are always specified
++     * by the DS:SI and ES:DI register, which must be loaded correctly before
++     * the compare string instruction is executed.
++     *
++     * The size of the source operands is selected with the mnemonic: CMPSW
++     * (word comparison). After the comparison, the SI and DI registers
++     * increment or decrement automatically according to the setting of the
++     * DF flag in the EFLAGS register. (If the DF flags is 0, the SI and DI
++     * register increment; if the DF flag is 1, the register decrement.) The
++     * register increment or decrement by 1 for byte operations.
++     *
++     * The CMPSW instruction can be preceded by the REP prefix for block
++     * comparisons. More often, however, these instructions will be used in 
++     * a LOOP construct that takes some action based on the setting of the 
++     * status flags before the next comparison is made.
++     */
++
++    ECX = (unsigned int)(unsigned long)&"Hello EWord"[0];
++    EDX = (unsigned int)(unsigned long)&"Hello BiscuitOS"[0];
++    CX  = 10;
++    __asm__ ("mov %2, %%esi\n\r"
++             "mov %3, %%edi\n\r"
++             "mov %4, %%cx\n\r"
++             "cld\n\r"
++             "repz cmpsw\n\r"
++             "jp PF_S9\n\r"
++             "jnp PF_C9\n\r"
++       "PF_S9:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out9\n\r"
++       "PF_C9:\n\r"
++             "mov $0, %%dx\n\r"
++        "out9:\n\r"
++             "mov %%cx, %0\n\r"
++             "mov %%dx, %1"
++             : "=m" (AX), "=m" (PF)
++             : "m" (ECX), "m" (EDX), "m" (CX));
++    if (PF)
++        printk("CMPSW: even number -> \"%s\"[%d]:%c different \"%s\"[%d]:%c\n",
++            (char *)(unsigned long)ECX, (CX - AX - 1) * 2,
++            "Hello EWord"[(CX - AX - 1) * 2],
++            (char *)(unsigned long)EDX, (CX - AX - 1) * 2,
++            "Hello BiscuitOS"[(CX - AX - 1) * 2]);
++    else
++        printk("CMPSW: odd number -> \"%s\"[%d]:%c different \"%s\"[%d]:%c\n",
++            (char *)(unsigned long)ECX, (CX - AX - 1) * 2,
++            "Hello EWord"[(CX - AX - 1) * 2],
++            (char *)(unsigned long)EDX, (CX - AX - 1) * 2,
++            "Hello BiscuitOS"[(CX - AX - 1) * 2]);
++      
++#endif
++
+     return 0;
+ }
+ 
+-- 
+2.17.1
+

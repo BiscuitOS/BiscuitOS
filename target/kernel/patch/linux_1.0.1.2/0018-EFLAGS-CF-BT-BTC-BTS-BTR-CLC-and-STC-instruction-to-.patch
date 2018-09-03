@@ -1,12 +1,12 @@
 From 052ed05d2eb79cf0fa06266aae281aa854a3bc71 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Tue, 14 Aug 2018 14:25:40 +0800
-Subject: [PATCH 18/27] EFLAGS -- CF: BT, BTC, BTS, BTR, CLC, and STC
+Subject: [PATCH 18/34] EFLAGS -- CF: BT, BTC, BTS, BTR, CLC, and STC
  instruction to set up CF flag
 
 ---
- tools/demo/mmu/storage/register/EFLAGS/Kconfig  |  50 ++++--
- tools/demo/mmu/storage/register/EFLAGS/eflags.c | 214 ++++++++++++++++++++++++
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  50 +++-
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 214 ++++++++++++++++++
  2 files changed, 254 insertions(+), 10 deletions(-)
 
 diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
@@ -344,5 +344,5 @@ index d1d67c6..71273f8 100644
  }
  
 -- 
-1.9.1
+2.17.1
 

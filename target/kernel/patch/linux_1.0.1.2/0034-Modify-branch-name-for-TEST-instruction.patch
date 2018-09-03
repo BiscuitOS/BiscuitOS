@@ -1,0 +1,58 @@
+From 17c105c2e1ff18398ec84af498cf39b9e8e26c38 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Mon, 3 Sep 2018 23:03:29 +0800
+Subject: [PATCH 34/34] Modify branch name for TEST instruction
+
+---
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 4b40df6..8678971 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -3077,14 +3077,14 @@ static __unused int eflags_PF(void)
+     __asm__ ("mov %1, %%al\n\r"
+              "mov %2, %%bl\n\r"
+              "test %%bl, %%al\n\r"
+-             "jp PF_SP\n\r"
+-             "jnp PF_CP\n\r"
+-       "PF_SP:\n\r"
++             "jp PF_SQ\n\r"
++             "jnp PF_CQ\n\r"
++       "PF_SQ:\n\r"
+              "mov $1, %%dx\n\r"
+-             "jmp outP\n\r"
+-       "PF_CP:\n\r"
++             "jmp outQ\n\r"
++       "PF_CQ:\n\r"
+              "mov $0, %%dx\n\r"
+-        "outP:\n\r"
++        "outQ:\n\r"
+              "mov %%dx, %0"
+              : "=m" (PF)
+              : "m" (CX), "m" (DX));
+@@ -3123,14 +3123,14 @@ static __unused int eflags_PF(void)
+     __asm__ ("mov %1, %%al\n\r"
+              "mov %2, %%bl\n\r"
+              "test %%bl, %%al\n\r"
+-             "jpe PF_SP\n\r"
+-             "jpo PF_CP\n\r"
+-       "PF_SP:\n\r"
++             "jpe PF_SR\n\r"
++             "jpo PF_CR\n\r"
++       "PF_SR:\n\r"
+              "mov $1, %%dx\n\r"
+-             "jmp outP\n\r"
+-       "PF_CP:\n\r"
++             "jmp outR\n\r"
++       "PF_CR:\n\r"
+              "mov $0, %%dx\n\r"
+-        "outP:\n\r"
++        "outR:\n\r"
+              "mov %%dx, %0"
+              : "=m" (PF)
+              : "m" (CX), "m" (DX));
+-- 
+2.17.1
+

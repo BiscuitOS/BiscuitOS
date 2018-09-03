@@ -1,14 +1,14 @@
 From d42eb50857cc77d5c10ce0dd0e817ba5c5372fb0 Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Mon, 13 Aug 2018 18:54:14 +0800
-Subject: [PATCH 14/27] EFLAGS: Carry flag
+Subject: [PATCH 14/34] EFLAGS: Carry flag
 
 ---
- tools/demo/Kconfig                               |  3 ++
- tools/demo/Makefile                              |  1 +
- tools/demo/mmu/storage/register/EFLAGS/Kconfig   | 14 ++++++
- tools/demo/mmu/storage/register/EFLAGS/README.md | 19 ++++---
- tools/demo/mmu/storage/register/EFLAGS/eflags.c  | 63 ++++++++++++++++++++++++
+ tools/demo/Kconfig                            |  3 +
+ tools/demo/Makefile                           |  1 +
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  | 14 +++++
+ .../mmu/storage/register/EFLAGS/README.md     | 19 +++---
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 63 +++++++++++++++++++
  5 files changed, 92 insertions(+), 8 deletions(-)
 
 diff --git a/tools/demo/Kconfig b/tools/demo/Kconfig
@@ -181,5 +181,5 @@ index 7142ea5..9bd4e63 100644
  }
  late_debugcall(debug_eflags);
 -- 
-1.9.1
+2.17.1
 

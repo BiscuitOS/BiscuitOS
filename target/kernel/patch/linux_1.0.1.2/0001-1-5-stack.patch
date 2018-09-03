@@ -1,14 +1,14 @@
 From a631b519894e6bcafa71c12b1cdc3ab3f244fcfa Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.zhang@aliyun.com>
 Date: Wed, 1 Aug 2018 18:56:49 +0800
-Subject: [PATCH 01/27] 1/5 stack
+Subject: [PATCH 01/34] 1/5 stack
 
 ---
  tools/demo/mmu/storage/Kconfig        |   3 +
  tools/demo/mmu/storage/Makefile       |   3 +-
  tools/demo/mmu/storage/stack/Kconfig  |  13 +++
  tools/demo/mmu/storage/stack/Makefile |   1 +
- tools/demo/mmu/storage/stack/stack.c  | 150 ++++++++++++++++++++++++++++++++++
+ tools/demo/mmu/storage/stack/stack.c  | 150 ++++++++++++++++++++++++++
  5 files changed, 169 insertions(+), 1 deletion(-)
  create mode 100644 tools/demo/mmu/storage/stack/Kconfig
  create mode 100644 tools/demo/mmu/storage/stack/Makefile
@@ -222,5 +222,5 @@ index 0000000..0060da9
 +}
 +late_debugcall(debug_cs);
 -- 
-1.9.1
+2.17.1
 

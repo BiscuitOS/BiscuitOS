@@ -1,11 +1,11 @@
 From b4a875cc920a9b5dc59e3f482a414d992e955bca Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Wed, 1 Aug 2018 22:13:47 +0800
-Subject: [PATCH 02/27] 2/6 stack: README
+Subject: [PATCH 02/34] 2/6 stack: README
 
 ---
- tools/demo/mmu/storage/stack/README.md |  49 ++++++++++++
- tools/demo/mmu/storage/stack/stack.c   | 139 ++-------------------------------
+ tools/demo/mmu/storage/stack/README.md |  49 +++++++++
+ tools/demo/mmu/storage/stack/stack.c   | 139 +------------------------
  2 files changed, 54 insertions(+), 134 deletions(-)
  create mode 100644 tools/demo/mmu/storage/stack/README.md
 
@@ -221,5 +221,5 @@ index 0060da9..075972c 100644
 -late_debugcall(debug_cs);
 +late_debugcall(debug_stack);
 -- 
-1.9.1
+2.17.1
 

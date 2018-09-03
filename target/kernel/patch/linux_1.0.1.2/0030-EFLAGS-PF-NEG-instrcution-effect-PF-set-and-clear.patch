@@ -1,0 +1,459 @@
+From c438806c3b712715cda8f1d46574a16bb8db2fd4 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Fri, 31 Aug 2018 17:02:05 +0800
+Subject: [PATCH 30/34] EFLAGS -- PF: NEG instrcution effect PF set and clear
+
+---
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  30 ++
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 378 ++++++++++++++++--
+ 2 files changed, 384 insertions(+), 24 deletions(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+index 90eab08..0e3784a 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/Kconfig
++++ b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+@@ -207,6 +207,36 @@ config DEBUG_PF_CMPSW
+ 	help
+ 	  Debug CMPSW instruction for Parity Bit.
+ 
++config DEBUG_PF_CMPSD
++	bool "CMPSD   Compare string operands in double-word"
++	help
++	  Debug CMPSD instruction for Parity Bit.
++
++config DEBUG_PF_DAA
++	bool "DAA     Decimal adjust AL after addition"
++	help
++	  Debug DAA instruction for Parity Bit.
++
++config DEBUG_PF_DAS
++	bool "DAS     Decimal adjust AL after subtraction"
++	help
++	  Debug DAS instruction for Parity Bit.
++
++config DEBUG_PF_DEC
++	bool "DEC     Decrement by 1"
++	help
++	  Debug DEC instrcution for Parity Bit.
++
++config DEBUG_PF_INC
++	bool "INC     Increment by 1"
++	help
++	  Debug INC instruction for Parity Bit.
++
++config DEBUG_PF_NEG
++	bool "NEG     Two's complement negation"
++	help
++	  Debug NEG instruction for Parity Bit
++
+ endif # DEBUG_EFLAGS_PF
+ 
+ endif # DEBUG_REGISTER_EFLAGS
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index d3e0ba7..2a7e682 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -2174,18 +2174,30 @@ static __unused int eflags_PF(void)
+              "mov %%cx, %1"
+              : "=m" (PF), "=m" (AX)
+              : "m" (ECX), "m" (EDX), "m" (CX));
+-    if (PF)
+-        printk("CMPSB: even number -> \"%s\"[%d]:%c different \"%s\"[%d]:%c\n", 
+-            (char *)(unsigned long)ECX, CX - AX - 1, 
+-            "Hello EWorld"[CX - AX - 1],
+-            (char *)(unsigned long)EDX, CX - AX - 1, 
+-            "Hello BiscuitOS"[CX - AX - 1]);
+-    else
+-        printk("CMPSB: odd number -> \"%s\"[%d]:%c different \"%s\"[%d]:%c\n", 
+-            (char *)(unsigned long)ECX, CX - AX - 1,
+-            "Hello EWorld"[CX - AX - 1],
+-            (char *)(unsigned long)EDX, CX - AX - 1,
+-            "Hello BiscuitOS"[CX - AX - 1]);
++    if (PF) {
++        printk("CMPSB: even number -> \"%s\" DIFF \"%s\" in %d's Byte\n",
++            (char *)(unsigned long)ECX,
++            (char *)(unsigned long)EDX,
++            (CX - AX - 1));
++        ((char *)(unsigned long)ECX)[(CX - AX) * 1] = '\0';
++        ((char *)(unsigned long)EDX)[(CX - AX) * 1] = '\0';
++        printk("CMPSB: %d's Byte: \"%s\" -- \"%s\" (first DIFF)\n", 
++            CX - AX - 1,
++            &((char *)(unsigned long)ECX)[(CX - AX - 1) * 1],
++            &((char *)(unsigned long)EDX)[(CX - AX - 1) * 1]);
++    } else {
++        printk("CMPSB: odd number -> \"%s\" DIFF \"%s\" in %d's Byte\n",
++            (char *)(unsigned long)ECX,
++            (char *)(unsigned long)EDX,
++            (CX - AX - 1));
++        ((char *)(unsigned long)ECX)[(CX - AX) * 1] = '\0';
++        ((char *)(unsigned long)EDX)[(CX - AX) * 1] = '\0';
++        printk("CMPSB: %d's Byte: \"%s\" -- \"%s\" (first DIFF)\n", 
++            CX - AX - 1,
++            &((char *)(unsigned long)ECX)[(CX - AX - 1) * 1],
++            &((char *)(unsigned long)EDX)[(CX - AX - 1) * 1]);
++    }
++
+ #endif
+ 
+ #ifdef CONFIG_DEBUG_PF_CMPSW
+@@ -2229,7 +2241,7 @@ static __unused int eflags_PF(void)
+      * status flags before the next comparison is made.
+      */
+ 
+-    ECX = (unsigned int)(unsigned long)&"Hello EWord"[0];
++    ECX = (unsigned int)(unsigned long)&"Hello EWorld"[0];
+     EDX = (unsigned int)(unsigned long)&"Hello BiscuitOS"[0];
+     CX  = 10;
+     __asm__ ("mov %2, %%esi\n\r"
+@@ -2249,19 +2261,337 @@ static __unused int eflags_PF(void)
+              "mov %%dx, %1"
+              : "=m" (AX), "=m" (PF)
+              : "m" (ECX), "m" (EDX), "m" (CX));
++    if (PF) {
++        printk("CMPSW: even number -> \"%s\" DIFF \"%s\" in %d's Word\n",
++            (char *)(unsigned long)ECX,
++            (char *)(unsigned long)EDX,
++            (CX - AX - 1));
++        ((char *)(unsigned long)ECX)[(CX - AX) * 2] = '\0';
++        ((char *)(unsigned long)EDX)[(CX - AX) * 2] = '\0';
++        printk("CMPSW: %d's Word: \"%s\" -- \"%s\" (first DIFF)\n", 
++            CX - AX - 1,
++            &((char *)(unsigned long)ECX)[(CX - AX - 1) * 2],
++            &((char *)(unsigned long)EDX)[(CX - AX - 1) * 2]);
++    } else {
++        printk("CMPSW: odd number -> \"%s\" DIFF \"%s\" in %d's Word\n",
++            (char *)(unsigned long)ECX,
++            (char *)(unsigned long)EDX,
++            (CX - AX - 1));
++        ((char *)(unsigned long)ECX)[(CX - AX) * 2] = '\0';
++        ((char *)(unsigned long)EDX)[(CX - AX) * 2] = '\0';
++        printk("CMPSW: %d's Word: \"%s\" -- \"%s\" (fisrt DIFF)\n", 
++            CX - AX - 1,
++            &((char *)(unsigned long)ECX)[(CX - AX - 1) * 2],
++            &((char *)(unsigned long)EDX)[(CX - AX - 1) * 2]);
++    }
++ 
++#endif
++
++#ifdef CONFIG_DEBUG_PF_CMPSD
++    /*
++     * CMPSD -- Compare string operands in Double-word
++     *
++     * Compares the byte with the irst source operand with the byte specified
++     * with the second source operand and sets the status flags in EFLAGS 
++     * register according to the result.
++     *
++     * Both source operands are located in memory. The address of the first
++     * source operand is read from EDS:ESI (depending on the address-size 
++     * attribute of the instruction is 32). The address of the second source
++     * operand is read from ES:EDI (again depending on the address-size 
++     * attribute of the instruction is 32). The DS segment may be overriden
++     * with a segment override prefix, but the ES segment cannot be overridden.
++     *
++     * At the assembly-code level, two forms of this instruction are allowed:
++     * the "explicit-operands" from and the "no-operands" from. The explicit-
++     * operands form (specified with the CMPS mnemonic) allows the two source
++     * operands to the specified explicitly. Here, the source operands should
++     * be symbols that indicate the size and location of the source values.
++     * This explicit-operand form is provided to allow documentation. However,
++     * not that the documentation provided by this form can be misleading.
++     * That is, the source operand symbols must specify the correct type
++     * (size) of the operands (bytes), but they do not have to specify the
++     * correct location. Locations of the source operands are always specified
++     * by the DS:ESI and ES:EDI register, which must be loaded correctly before
++     * the compare string instruction is executed.
++     *
++     * The size of the source operands is selected with the mnemonic: CMPSD
++     * (double-word comparison). After the comparison, the ESI and EDI registers
++     * increment or decrement automatically according to the setting of the
++     * DF flag in the EFLAGS register. (If the DF flags is 0, the SI and DI
++     * register increment; if the DF flag is 1, the register decrement.) The
++     * register increment or decrement by 1 for byte operations.
++     *
++     * The CMPSD instruction can be preceded by the REP prefix for block
++     * comparisons. More often, however, these instructions will be used in 
++     * a LOOP construct that takes some action based on the setting of the 
++     * status flags before the next comparison is made.
++     */
++
++    ECX = (unsigned int)(unsigned long)&"HellEWorld"[0];
++    EDX = (unsigned int)(unsigned long)&"HellBiscuitOS"[0];
++    CX  = 10;
++    __asm__ ("movl %2, %%esi\n\r"
++             "movl %3, %%edi\n\r"
++             "mov  %4, %%cx\n\r"
++             "cld\n\r"
++             "repz cmpsd\n\r"
++             "jp PF_SA\n\r"
++             "jnp PF_CA\n\r"
++       "PF_SA:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outA\n\r"
++       "PF_CA:\n\r"
++             "mov $0, %%dx\n\r"
++        "outA:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%cx, %1"
++             : "=m" (PF), "=m" (AX)
++             : "m" (ECX), "m" (EDX), "m" (CX));
++    if (PF) {
++        printk("CMPSD: even number -> \"%s\" DIFF \"%s\" in %d Double-word\n",
++            (char *)(unsigned long)ECX,
++            (char *)(unsigned long)EDX,
++            (CX - AX - 1));
++        ((char *)(unsigned long)ECX)[(CX - AX) * 4] = '\0';
++        ((char *)(unsigned long)EDX)[(CX - AX) * 4] = '\0';
++        printk("CMPSD: %d's Double-word: \"%s\" -- \"%s\" (first DIFF)\n", 
++            CX - AX - 1,
++            &((char *)(unsigned long)ECX)[(CX - AX - 1) * 4],
++            &((char *)(unsigned long)EDX)[(CX - AX - 1) * 4]);
++    } else {
++        printk("CMPSD: odd number -> \"%s\" DIFF \"%s\" in %d Double-word\n",
++            (char *)(unsigned long)ECX,
++            (char *)(unsigned long)EDX,
++            (CX - AX - 1));
++	((char *)(unsigned long)ECX)[(CX - AX) * 4] = '\0';
++        ((char *)(unsigned long)EDX)[(CX - AX) * 4] = '\0';
++        printk("CMPSD: %d's Double-word: \"%s\" -- \"%s\" (first DIFF)\n", 
++            CX - AX - 1,
++            &((char *)(unsigned long)ECX)[(CX - AX - 1) * 4],
++            &((char *)(unsigned long)EDX)[(CX - AX - 1) * 4]);
++    }
++
++#endif
++
++#ifdef CONFIG_DEBUG_PF_DAA
++    /*
++     * DAA -- Decimal Adjust AL after Addition
++     *
++     * Adjust the sum of two packed BCD values to create a packed BCD result.
++     * The AL register is the implied source and destination operand. The 
++     * DAA instruction is only useful when it follow an ADD instruction that
++     * adds (binary addition) two 2-digit, packed BCD values and stores a
++     * byte result in the AL register. The DAA instruction then adjusts the
++     * contents of the AL register to contain the correct 2-digit, packed
++     * BCD result. If a decimal carry is detected, the CF and AF flags are
++     * set accordingly.
++     *
++     * IF instruction DAA
++     *     old_AL <---- AL
++     *     old_CF <---- CF
++     *     CF     <---- 0
++     *     IF (((AL AND 0FH) > 9) or AF = 1)
++     *         THEN
++     *             AL <---- AL + 6 
++     *             CF <---- old_CF or (Carry from AL <---- AL + 6)
++     *             AF <---- 1
++     *         ELSE
++     *             AF <---- 0
++     *     FI
++     *     IF ((old_AL > 99H) or (old_CF = 1))
++     *         THEN
++     *             AL <---- AL + 60H
++     *             CF <---- 1
++     *         ELSE
++     *             CF <---- 0
++     *     FI
++     * FI
++     *
++     * The CF and AF flags are set if the adjustment of the value results
++     * in a decimal carry in either digit of the result. The SF, ZF, and PF
++     * flags are set according to the result. The OF flag is undefined.
++     */
++    CX = 0x79;
++    DX = 0x35;
++    __asm__ ("mov %2, %%al\n\r"
++             "mov %3, %%bl\n\r"
++             "add %%bl, %%al\n\r"
++             "daa\n\r"
++             "jp PF_SB\n\r"
++             "jnp PF_CB\n\r"
++       "PF_SB:\n\r"
++             "mov $1, %%bx\n\r"
++             "jmp outB\n\r"
++       "PF_CB:\n\r"
++             "mov $0, %%bx\n\r"
++         "outB:\n\r"
++             "mov %%ax, %0\n\r"
++             "mov %%bx, %1"
++             : "=m" (AX), "=m" (PF) : "m" (CX), "m" (DX));
++    if (PF)
++        printk("DAA: even number -> %#x + %#x = %#x\n", CX, DX, AX);
++    else
++        printk("DAA: odd number -> %#x + %#x = %#x\n", CX, DX, AX);
++#endif
++
++#ifdef CONFIG_DEBUG_PF_DAS
++    /*
++     * DAS -- Decimal Adjust AL after Subtraction
++     *
++     * Adjusts the result of the subtraction of two packed BCD values to 
++     * create a packed BCD result. The AL register is the implied source
++     * and destination operand. The DAS instruction is only useful when
++     * it follows a SUB instruction that subtracts (binary subtraction)
++     * one 2-digit, packed BCD value from another and stores a byte result
++     * in the AL register. The DAS instruction then adjusts the contents of
++     * the AL register to contain the correct 2-digit, packed BCD result.
++     * IF a decimal borrow is detected, the CF and AF flags are set 
++     * accordingly.
++     *
++     * IF instruction DAS
++     *     old_AL <---- AL
++     *     old_CF <---- CF
++     *     CF     <---- 0
++     *     IF (((AL AND 0FH) > 9) or AF = 1)
++     *         THEN
++     *             AL <---- AL - 6
++     *             CF <---- old_CF or (Borrow from AL <---- AL - 6)
++     *             AF <---- 1
++     *         ELSE
++     *             AF <---- 0
++     *     FI
++     *     IF ((old_AL > 99H) or (old_CF = 1))
++     *         THEN
++     *             AL <---- AL - 60H
++     *             CF <---- 1
++     *     FI
++     * FI
++     */
++    CX = 0x35;
++    DX = 0x47;
++    __asm__ ("mov %2, %%al\n\r"
++             "mov %3, %%bl\n\r"
++             "sub %%bl, %%al\n\r"
++             "das\n\r"
++             "jp CF_SC\n\r"
++             "jnp CF_CC\n\r"
++       "CF_SC:\n\r"
++             "mov $1, %%bx\n\r"
++             "jmp outC\n\r"
++       "CF_CC:\n\r"
++             "mov $0, %%bx\n\r"
++         "outC:\n\r"
++             "mov %%bx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (PF), "=m" (AX) : "m" (CX), "m" (DX));
++    if (PF)
++        printk("DAS: even number -> %#x - %#x = %#x\n", CX, DX, AX);
++    else
++        printk("DAS: odd number -> %#x - %#x = %#x\n", CX, DX, AX);
++#endif
++
++#ifdef CONFIG_DEBUG_PF_DEC
++    /*
++     * DEC -- Decreament by 1
++     *
++     * Subtracts 1 from the destination operand, while preserving the state
++     * of the CF flag. The destination operand can be a register or a memory
++     * location. This instrution allows a loop counter to be updated without
++     * disturbing the CF flag. (To perform a decrement operation that updates
++     * the CF flag, use a SUB instruction with an immediate operand of 1.)
++     *
++     * DEST <---- DEST - 1
++     */
++    CX = 0x4;
++    __asm__ ("mov %2, %%al\n\r"
++             "dec %%al\n\r"
++             "jp PF_SD\n\r"
++             "jnp PF_CD\n\r"
++       "PF_SD:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outD\n\r"
++       "PF_CD:\n\r"
++             "mov $0, %%dx\n\r"
++        "outD:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (PF), "=m" (AX)
++             : "m" (CX));
++    if (PF)
++        printk("DEC: even number -> %#x - 1 = %#x\n", CX, AX & 0xFF);
++    else
++        printk("DEC: odd number -> %#x - 1 = %#x\n", CX, AX & 0xFF);
++#endif
++
++#ifdef CONFIG_DEBUG_PF_INC
++    /*
++     * INC -- Increment by 1
++     *
++     * Adds 1 to the destination operand, while preserving the state of CF
++     * flag. The destination operand can be a register or a memory location.
++     * This instruction allows a loop counter to the updated without 
++     * disturbing the CF flag. (Use a ADD instruction with an immediate 
++     * operand of 1 to perform an increment operation that does updates the
++     * CF flag.)
++     *
++     * DEST <---- DEST + 1;
++     */
++    CX = 0x2;
++    __asm__ ("mov %2, %%al\n\r"
++             "inc %%al\n\r"
++             "jp PF_SE\n\r"
++             "jnp PF_CE\n\r"
++       "PF_SE:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outE\n\r"
++       "PF_CE:\n\r"
++             "mov $0, %%dx\n\r"
++        "outE:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (PF), "=m" (AX)
++             : "m" (CX));
++    if (PF)
++        printk("INC: even number -> %#x + 1 = %#x\n", CX, AX & 0xFF);
++    else
++        printk("INC: odd number -> %#x + 1 = %#x\n", CX, AX & 0xFF);
++#endif
++
++#ifdef CONFIG_DEBUG_PF_NEG
++    /*
++     * NEG -- two's complement negation
++     *
++     * Replaces the value of operand (the destination operand) with its 
++     * two's complement. (This operation is equivalent to subtraction the 
++     * operand from 0.) The destination operand is located in a general-
++     * purpose register or a memory location.
++     *
++     * IF DEST = 0
++     *     THEN CF <---- 0;
++     *     ELSE CF <---- 0;
++     * FI
++     * DEST <---- [~(DEST)]
++     */
++    CX = 4;
++    __asm__ ("mov %2, %%al\n\r"
++             "neg %%al\n\r"
++             "jp PF_SF\n\r"
++             "jnp PF_CF\n\r"
++       "PF_SF:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outF\n\r"
++       "PF_CF:\n\r"
++             "mov $0, %%dx\n\r"
++        "outF:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (PF), "=m" (AX)
++             : "m" (CX));
+     if (PF)
+-        printk("CMPSW: even number -> \"%s\"[%d]:%c different \"%s\"[%d]:%c\n",
+-            (char *)(unsigned long)ECX, (CX - AX - 1) * 2,
+-            "Hello EWord"[(CX - AX - 1) * 2],
+-            (char *)(unsigned long)EDX, (CX - AX - 1) * 2,
+-            "Hello BiscuitOS"[(CX - AX - 1) * 2]);
++        printk("NEG: even number -> ~(%#x) + 1 = %#x\n", CX, AX & 0xFF);
+     else
+-        printk("CMPSW: odd number -> \"%s\"[%d]:%c different \"%s\"[%d]:%c\n",
+-            (char *)(unsigned long)ECX, (CX - AX - 1) * 2,
+-            "Hello EWord"[(CX - AX - 1) * 2],
+-            (char *)(unsigned long)EDX, (CX - AX - 1) * 2,
+-            "Hello BiscuitOS"[(CX - AX - 1) * 2]);
+-      
++        printk("NEG: odd number -> ~(%#x) + 1 = %#x\n", CX, AX & 0xFF);
+ #endif
+ 
+     return 0;
+-- 
+2.17.1
+

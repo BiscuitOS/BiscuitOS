@@ -1,12 +1,12 @@
 From af181fec568fd0b6b64941c11e4504316a5a679d Mon Sep 17 00:00:00 2001
 From: BuddyZhang1 <buddy.d.zhang@gmail.com>
 Date: Tue, 14 Aug 2018 22:44:27 +0800
-Subject: [PATCH 21/27] EFLAGS -- CF: SBB, SUB, SHL instruction to effect CF
+Subject: [PATCH 21/34] EFLAGS -- CF: SBB, SUB, SHL instruction to effect CF
  flag
 
 ---
- tools/demo/mmu/storage/register/EFLAGS/Kconfig  |  12 +-
- tools/demo/mmu/storage/register/EFLAGS/eflags.c | 234 +++++++++++++++++++++++-
+ .../demo/mmu/storage/register/EFLAGS/Kconfig  |  12 +-
+ .../demo/mmu/storage/register/EFLAGS/eflags.c | 234 +++++++++++++++++-
  2 files changed, 243 insertions(+), 3 deletions(-)
 
 diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
@@ -291,5 +291,5 @@ index 3b917f7..aae6fef 100644
  
      return 0;
 -- 
-1.9.1
+2.17.1
 
