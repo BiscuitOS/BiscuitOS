@@ -1,0 +1,25 @@
+From 08a8e6aeab3bce1d83c852a98da4f6822cfaf9ed Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Wed, 12 Sep 2018 16:56:45 +0800
+Subject: [PATCH 2/2] Utilize comment to screen
+
+---
+ src/bootsplash.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/bootsplash.c b/src/bootsplash.c
+index c572685..709c45a 100644
+--- a/src/bootsplash.c
++++ b/src/bootsplash.c
+@@ -48,7 +48,7 @@ enable_vga_console(void)
+     call16_int10(&br);
+ 
+     // Write to screen.
+-    printf("SeaBIOS (version %s)\n", VERSION);
++    printf("SeaBIOS BiscuitOS(version %s)\n", VERSION);
+     display_uuid();
+ }
+ 
+-- 
+2.7.4
+

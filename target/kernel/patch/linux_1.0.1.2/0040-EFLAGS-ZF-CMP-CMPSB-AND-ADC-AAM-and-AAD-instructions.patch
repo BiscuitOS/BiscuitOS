@@ -1,0 +1,371 @@
+From efbeeefb052f26482cf77b27d20451ebee9009e0 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sat, 8 Sep 2018 20:18:58 +0800
+Subject: [PATCH 40/44] EFLAGS -- ZF: CMP, CMPSB, AND, ADC, AAM, and AAD
+ instructions effect ZF set and clear
+
+---
+ tools/demo/mmu/storage/register/EFLAGS/README.md |   2 +-
+ tools/demo/mmu/storage/register/EFLAGS/eflags.c  | 326 +++++++++++++++++++++++
+ 2 files changed, 327 insertions(+), 1 deletion(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/README.md b/tools/demo/mmu/storage/register/EFLAGS/README.md
+index 0e5e60b..ef03b21 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/README.md
++++ b/tools/demo/mmu/storage/register/EFLAGS/README.md
+@@ -34,7 +34,7 @@ indicate the results of arithmetic instructions, such as the `ADD`, `SUB`,
+   carry or a borrow out of bit 3 of the result; cleared otherwise. This flag
+   is used in binary-coded decimal (BCD) arithmetic.
+ 
+-* **ZA (bit 6)**
++* **ZF (bit 6)**
+ 
+   **Zero flag** -- Set if the result is zero; deared otherwise.
+ 
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 8678971..9ebe0f4 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -3144,6 +3144,328 @@ static __unused int eflags_PF(void)
+     return 0;
+ }
+ 
++/*
++ * ZF ---- Zero flag
++ *
++ * Set if the result is zero; deard otherwise.
++ */
++static __unused int eflags_ZF(void)
++{
++    unsigned char  __unused AL;
++    unsigned char  __unused ZF;
++    unsigned short __unused AX;
++    unsigned short __unused BX;
++    unsigned short __unused CX;
++    unsigned short __unused DX;
++    unsigned int   __unused EAX;
++    unsigned int   __unused EBX;
++    unsigned int   __unused ECX;
++    unsigned int   __unused EDX;
++
++#ifdef CONFIG_DEBUG_ZF_AAD
++    /*
++     * AAD -- ASCII Adjust AX Before Division
++     *
++     * Adjusts two unpacked BCD digits (the least-significant digit in the AL
++     * register and the most-significant digit in the AH register) so that a
++     * division operation performed on the result will yield a correct
++     * unoacked BCD value. The AAD instruction is only useful when it precedes
++     * a DIV instruction that divides (binary division) the adjusted value
++     * in the AX register by an unpacked BCD value.
++     *
++     * The AAD instruction sets the value in the AL register to (AL + (10 * AH))
++     * and then clears the AH register to 00H. The value in the AX register
++     * is then equal to the binary equivalent of the original unpacked two-
++     * digit (base 10) number in register AH and AL.
++     *
++     * The generalized version of this instruction allows adjustment of two
++     * unpacked digits of any number base, by setting the imm8 byte to the 
++     * selected number base (for example, 08H for octal, 0AH for decimal, or
++     * 0CH for base 12 numbers). The AAD mnemonic is interpreted by all 
++     * assemblyers to means adjust ASCII (base 10) values. To adjust values in
++     * another number base, the instruction must be hand coded in machine
++     * code (D5 imm8)
++     *
++     * IF AAD instruction
++     *     THEN
++     *         tempAL <---- AL;
++     *         tmepAH <---- AH;
++     *         AL <---- (tmpAL + (tmpAH * imm8)) AND 0xFFH;
++     *         (* imm8 is set to 0AH for the AAD mnemonic *)
++     *         AH <---- 0
++     * FI
++     */
++    CX = 0x0;
++    DX = 0x2;
++    __asm__ ("mov %2, %%ax\n\r"
++             "mov %3, %%bl\n\r"
++             "aad\n\r"
++             "jz ZF_0S\n\r"
++             "jz ZF_0C\n\r"
++       "ZF_0S:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out0\n\r"
++       "ZF_0C:\n\r"
++             "mov $0, %%dx\n\r"
++        "out0:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("AAD: Zero -> %#x / %#x = %#x\n", CX, DX, AX);
++    else
++        printk("AAD: No-Zero -> %#x / %#x = %#x\n", CX, DX, AX);
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_AAM
++    /*
++     * AAM -- ASCII adjust AX after multiply
++     *
++     * Adjust the result of the multiplication of two unpacked BCD values to
++     * create a pair of unpacked (base 10) BCD values. The AX register is 
++     * the implied source and destination operand for this instruction. The
++     * The AAM instruction is only useful when it follows an MUL instruction
++     * that multiplies (binary multiplication) two unpacked BCD values and 
++     * stores a word result in the AX register. The AAM instruction then 
++     * adjusts contents of the AX register to contain the correct 2-digit 
++     * unpacked (base 10) BCD result.
++     *
++     * The general version of this instruction allows adjustment of the 
++     * contents of the AX to create two unpacked digits of any number base.
++     * Here, the imm8 byte is set to the selected number base (for example,
++     * 0x08H for octal, 0AH for decimal, or 0CH for base 12 numbers). The 
++     * AAM mnemonic is interpreted by all assemblers to mean adjust to ASCII
++     * (base 10) values. To adjust to values in another number base, the 
++     * instruction must be hand coded inb machine code (D4 imm8)
++     *
++     * IF instruction AAM
++     *     THEN
++     *         temp <---- AL;
++     *         AH <---- tempAL / imm8; 
++     *         (* imm8 is set to 0AH for the AAM mnemonic *)
++     *         AL <---- temp MODE imm8
++     * FI
++     */
++    CX = 0x7;
++    DX = 0x0;
++    __asm__ ("mov %3, %%ax\n\r"
++             "mov %4, %%bl\n\r"
++             "mul %%bl\n\r"
++             "mov %%ax, %0\n\r"
++             "aam\n\r"
++             "jz ZF_S1\n\r"
++             "jnz ZF_C1\n\r"
++       "ZF_S1:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out1\n\r"
++       "ZF_C1:\n\r"
++             "mov $0, %%dx\n\r"
++        "out1:\n\r"
++             "mov %%dx, %1\n\r"
++             "mov %%ax, %2\n\r"
++             : "=m" (AX), "=m" (ZF), "=m" (BX)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("AAM: Zero -> %#x * %#x = %#x (%#x)\n", CX, DX, BX, AX);
++    else
++        printk("AAM: No-Zero -> %#x * %#x = %#x (%#x)\n", CX, DX, BX, AX);
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_ADC
++    /*
++     * ADC -- Add with Carry
++     *
++     * Adds the destination operand (first operand), the source operand (
++     * second operand), and the carry (CF) flag and stores the result in the
++     * destination operand. The destination operand can be a register or a
++     * memory location; the source operand can be an immediate, a register,
++     * or a memory location. (However, two memory operand cannot be used in
++     * one instruction.) The state of the CF flag represents a carry from
++     * a previous addition. When an immediate value is used as an operand,
++     * it is sign-extended to the length of the destination operand format.
++     *
++     * The ADC instruction does not distinguish between signed or unsigned
++     * operands. Instead, the processor evaluates the result for both data
++     * types and sets the OF and CF flags to indicate a carry in the signed
++     * unsigned result, respectively. The SF flags indicates the sign of the
++     * signed result.
++     *
++     * DEST <---- DEST + SRC + CF
++     *
++     */
++    CX = -2;
++    DX = 1;
++    __asm__ ("stc\n\r"
++             "mov %2, %%al\n\r"
++             "mov %3, %%bl\n\r"
++             "adc %%bl, %%al\n\r"
++             "jz ZF_S2\n\r"
++             "jz ZF_C2\n\r"
++       "ZF_S2:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out2\n\r"
++       "ZF_C2:\n\r"
++             "mov $0, %%dx\n\r"
++        "out2:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("ADC: Zero -> %#x + %#x + CF = %#x\n", CX, DX, AX & 0xFF);
++    else
++        printk("ADC: No-Zero -> %#x + %#x + CF = %#x\n", CX, DX, AX & 0xFF);
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_AND
++    /*
++     * AND -- Logical AND
++     *
++     * Performs a bitwise AND operation on the destination (first) and source
++     * (second) operands and stores the result in the destination operand
++     * location. The source operand can be an immediate, a register, or a 
++     * memory location; the destination operand can be a register or a memory
++     * location. (However, two memory operands cannot be used in one 
++     * instruction.) Each bit of the result is set to 1 if both corresponding
++     * bits of the first and second operands are 1; otherwise, it is set to 0.
++     *
++     * DEST <---- DEST AND SRC
++     */
++    CX = 0x0A;
++    DX = 0x05;
++    __asm__ ("mov %2, %%al\n\r"
++             "mov %3, %%bl\n\r"
++             "and %%bl, %%al\n\r"
++             "jz ZF_S3\n\r"
++             "jnz ZF_C3\n\r"
++      "ZF_S3:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out3\n\r"
++      "ZF_C3:\n\r"
++             "mov $0, %%dx\n\r"
++       "out3:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("AND: Zero -> %#x & %#x = %#x\n", CX, DX, AX & 0xFF);
++    else
++        printk("AND: No-Zero -> %#x & %#x = %#x\n", CX, DX, AX & 0xFF);
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_CMP
++    /*
++     * CMP -- Compare two operands
++     *
++     * Compares the first source operand with the second source operand and
++     * the status flags in the EFLAGS register according to the result. The
++     * comparison is performed by subtracting the second operand from the
++     * first operand and then setting the status flags in the same manner
++     * as the SUB instruction. When an immediate value is used as an operand,
++     * it is sign-extended to the length of the first operand.
++     *
++     * temp <---- SRC1 - SignExtend(SRC2);
++     * ModifyStatusFlags; 
++     * (* Modify status flags in the same manner as the SUB instruction *)
++     */
++    CX = 0x105;
++    DX = 0x05;
++    __asm__ ("mov %1, %%al\n\r"
++             "mov %2, %%bl\n\r"
++             "cmp %%bl, %%al\n\r"
++             "jz ZF_S4\n\r"
++             "jnz ZF_C4\n\r"
++      "ZF_S4:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out4\n\r"
++      "ZF_C4:\n\r"
++             "mov $0, %%dx\n\r"
++       "out4:\n\r"
++             "mov %%dx, %0"
++             : "=m" (ZF)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("CMP: Zero -> %#x - %#x = %#x\n", CX, DX, (CX - DX));
++    else
++        printk("CMP: No-Zero -> %#x - %#x = %#x\n", CX, DX, (CX - DX));
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_CMPSB
++    /*
++     * CMPSB -- Compare string operands in byte
++     *
++     * Compares the byte with the first source operand with the byte specified
++     * with the second source operand and sets the status flags in EFLAGS 
++     * register according to the result.
++     *
++     * Both source operands are located in memory. The address of the first
++     * source operand is read from DS:SI (depending on the address-size 
++     * attribute of the instruction is 16). The address of the second source
++     * operand is read from ES:DI (again depending on the address-size 
++     * attribute of the instruction is 16). The DS segment may be overriden
++     * with a segment override prefix, but the ES segment cannot be overridden.
++     *
++     * At the assembly-code level, two forms of this instruction are allowed:
++     * the "explicit-operands" from and the "no-operands" from. The explicit-
++     * operands form (specified with the CMPS mnemonic) allows the two source
++     * operands to the specified explicitly. Here, the source operands should
++     * be symbols that indicate the size and location of the source values.
++     * This explicit-operand form is provided to allow documentation. However,
++     * not that the documentation provided by this form can be misleading.
++     * That is, the source operand symbols must specify the correct type
++     * (size) of the operands (bytes), but they do not have to specify the
++     * correct location. Locations of the source operands are always specified
++     * by the DS:SI and ES:DI register, which must be loaded correctly before
++     * the compare string instruction is executed.
++     *
++     * The size of the source operands is selected with the mnemonic: CMPSB
++     * (byte comparison). After the comparison, the SI and DI registers
++     * increment or decrement automatically according to the setting of the
++     * DF flag in the EFLAGS register. (If the DF flags is 0, the SI and DI
++     * register increment; if the DF flag is 1, the register decrement.) The
++     * register increment or decrement by 1 for byte operations.
++     *
++     * The CMPSB instruction can be preceded by the REP prefix for block
++     * comparisons. More often, however, these instructions will be used in 
++     * a LOOP construct that takes some action based on the setting of the 
++     * status flags before the next comparison is made.
++     */
++    ECX = (unsigned int)(unsigned long)&"Hello BiscuitOS"[0];
++    EDX = (unsigned int)(unsigned long)&"Hello World"[0];
++    CX  = 15;
++    __asm__ ("movl %2, %%edi\n\r"
++             "movl %3, %%esi\n\r"
++             "mov %4, %%cx\n\r"
++             "cld\n\r"
++             "repz cmpsb\n\r"
++             "jz ZF_S5\n\r"
++             "jnz ZF_C5\n\r"
++       "ZF_S5:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out5\n\r"
++       "ZF_C5:\n\r"
++             "mov $0, %%dx\n\r"
++        "out5:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%cx, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (ECX), "m" (EDX), "m" (CX));
++    if (ZF)
++        printk("CMPSB: Zero-> ");
++    else
++        printk("CMPSB: Non-Zero -> ");
++    printk("\"%s\" DIFF \"%s\" on %d byte\n", (char *)(unsigned long)ECX, 
++                         (char *)(unsigned long)EDX, CX - AX - 1);
++    printk("'%c' is different '%c'\n", 
++                ((char *)(unsigned long)ECX)[CX - AX - 1],
++                ((char *)(unsigned long)EDX)[CX - AX - 1]);
++#endif
++
++    return 0;
++}
++
+ static int debug_eflags(void)
+ {
+ #ifdef CONFIG_DEBUG_EFLAGS_LAHF
+@@ -3170,6 +3492,10 @@ static int debug_eflags(void)
+     eflags_PF();
+ #endif
+ 
++#ifdef CONFIG_DEBUG_EFLAGS_ZF
++    eflags_ZF();
++#endif
++
+     return 0;
+ }
+ late_debugcall(debug_eflags);
+-- 
+2.7.4
+

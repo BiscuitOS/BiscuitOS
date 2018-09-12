@@ -1,0 +1,72 @@
+From 0cca3e86773a89ab17909302dc6fb948da688ef3 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Wed, 12 Sep 2018 16:59:35 +0800
+Subject: [PATCH 44/44] Support SeaBIOS on Qemu
+
+---
+ tools/Makefile            |  2 +-
+ tools/debug/qemu/Kconfig  | 14 ++++++++++++++
+ tools/debug/qemu/Makefile |  9 +++++++++
+ 3 files changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/tools/Makefile b/tools/Makefile
+index 1226daa..8a17244 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -5,7 +5,7 @@
+ -include $(srctree)/tools/debug/Makefile
+ 
+ quiet_cmd_running_linux = RUN     vmlinux
+-      cmd_running_linux = $(QEMU) $(QEMU_FLAGS) > /dev/null 2>&1
++      cmd_running_linux = $(QEMU) $(QEMU_FLAGS) > /dev/null 2>&1 
+ 
+ quiet_cmd_debug_linux = DEBUG      vmlinux
+       cmd_debug_linux = $(QEMU) $(QEMU_FLAGS) -s -S > /dev/null 2>&1
+diff --git a/tools/debug/qemu/Kconfig b/tools/debug/qemu/Kconfig
+index 62a4cf7..4bf879b 100644
+--- a/tools/debug/qemu/Kconfig
++++ b/tools/debug/qemu/Kconfig
+@@ -13,6 +13,20 @@ config QEMU
+ 
+ if QEMU
+ 
++config QEMU_BOOT_BIOS
++	bool "Original BIOS from source code"
++	help
++	  BIOS on Qemu
++
++if QEMU_BOOT_BIOS
++
++config QEMU_BOOT_BIOS_NAME
++	string "BIOS Full-Path Name"
++	help
++	  BIOS full path.
++
++endif
++
+ config QEMU_BOOT_FLOPPY
+ 	bool "Boot from floppy"
+ 	depends on QEMU
+diff --git a/tools/debug/qemu/Makefile b/tools/debug/qemu/Makefile
+index abffd1d..6956f7a 100644
+--- a/tools/debug/qemu/Makefile
++++ b/tools/debug/qemu/Makefile
+@@ -120,6 +120,15 @@ else
+ endif
+ #QEMU_FLAGS += $(RTC)
+ 
++ifdef CONFIG_QEMU_BOOT_BIOS
++# ----------------------------------
++# BIOS
++# ----------------------------------
++  BIOS := -bios $(srctree)/$(CONFIG_QEMU_BOOT_BIOS_NAME)
++else
++  BIOS :=
++endif
++QEMU_FLAGS += $(BIOS)
+ 
+ # ----------------------------------
+ # Serial Settings
+-- 
+2.7.4
+

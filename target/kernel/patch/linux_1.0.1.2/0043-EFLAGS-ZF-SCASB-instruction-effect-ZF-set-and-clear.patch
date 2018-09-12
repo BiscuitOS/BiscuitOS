@@ -1,0 +1,149 @@
+From a907c5d6b292de8d83972574406eec1da6c9e6ec Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Wed, 12 Sep 2018 16:28:13 +0800
+Subject: [PATCH 43/44] EFLAGS -- ZF: SCASB instruction effect ZF set and clear
+
+---
+ tools/demo/mmu/storage/register/EFLAGS/Kconfig  |  10 +++
+ tools/demo/mmu/storage/register/EFLAGS/eflags.c | 104 ++++++++++++++++++++++++
+ 2 files changed, 114 insertions(+)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+index b633c0c..5fbbf64 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/Kconfig
++++ b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+@@ -577,6 +577,16 @@ config DEBUG_ZF_OR
+ 	help
+ 	  OR instruction for Zero flag.
+ 
++config DEBUG_ZF_REPZ
++	bool "REPZ    Find matching bytes in ES:[(E)DI] and DS:[(E)SI]"
++	help
++	  REPZ instruction for Zero flag.
++
++config DEBUG_ZF_REPNZ
++	bool "REPNZ   Find non-matching bytes in ES:[(E)DI] and DS:[(E)SI]"
++	help
++	  REPNZ instruction for Zero flag.
++
+ config DEBUG_ZF_RSM
+ 	bool "RSM     Decimal adjust AL after subtraction"
+ 	help
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 5fb9adf..9fce900 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -4056,6 +4056,110 @@ static __unused int eflags_ZF(void)
+         printk("SHR: Non-Zero -> %#x >> %#x = %#x\n", CX, DX, AX & 0xFF);
+ #endif
+ 
++#ifdef CONFIG_DEBUG_ZF_SBB
++    /*
++     * SBB -- Integer Subtraction with Borrow
++     *
++     * SBB AL, imm8
++     * SBB AX, imm16
++     * SBB EAX, imm32
++     *
++     * Adds the source operand (second operand) and the carry (CF) flag, and
++     * subtracts the result from the destination operand (first operand). 
++     * The result of the subtraction is stored in the destination operand. 
++     * The destination operand can be register or a memory location; the
++     * source operand can be an immediate, a register, or a memory location.
++     * (However, two memory operands cannot be used in one instruction.) The
++     * state of the CF flag represents a borrow from a previous subtraction.
++     *
++     * When an immediate value is used as an operand, it is sign-extended to 
++     * the length of the detination operand format.
++     *
++     * The SBB instruction does not distinguish between signed or unsigned
++     * operands. Instead, the processor evaluates the result for both data
++     * types and sets the OF and CF flags to indicate a borrow in the signed
++     * or unsigned result, respectively. The SF flag flag indicates the
++     * sign of the sign of the signed result.
++     *
++     * The SBB instruction is usually executed as part of a multibyte or 
++     * multiword subtraction in which a SUB instruction is followed by a
++     * SBB instruction.
++     *
++     * DEST <---- (DEST  - (SRC + CF))
++     *
++     * The OF, SF, ZF, AF, PF, and CF flags are set according to the result.
++     */
++    CX = 0x1;
++    DX = 0x0;
++    __asm__ ("stc\n\r"
++             "mov %2, %%al\n\r"
++             "mov %3, %%bl\n\r"
++             "sbb %%bl, %%al\n\r"
++             "jz ZF_SI\n\r"
++             "jnz ZF_CI\n\r"
++       "ZF_SI:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outI\n\r"
++       "ZF_CI:\n\r"
++             "mov $0, %%dx\n\r"
++        "outI:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("SBB: Zero -> %#x - %#x - 1 = %#x\n", CX, DX, AX & 0xFF);
++    else
++        printk("SBB: Non-Zero -> %#x - %#x - 1 = %#x\n", CX, DX, AX & 0xFF);
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_SCASB
++    /*
++     * SCASB -- Scan String in Byte
++     *
++     * The no-operands form of the instruction uses a short form of SCAS. 
++     * Again, ES:(E)DI is assumed to be the memory operand and AL, AX, or EAX
++     * is assumed to be the register operand. The size of operands is 
++     * selected by the mnemonic: SCASB (byte comparision).
++     * 
++     * After the comparison, the (EDI) register is increamented or decremented
++     * automatically according to the setting of the DF flag in the EFLAGS
++     * register. If the DF flag is 0, the (E)DI register is increamented; if
++     * the DF flag is 1, the (E)DI register is decremented. The register is
++     * increamented or decremented by 1 for byte operations.
++     *
++     * SCASB can be preceded by the REP prefix for block comparisions of ECX
++     * bytes. Often, however, these instructions will be used in a LOOP 
++     * construct that takes some action based on the setting of status flags.
++     */
++    ECX = (unsigned int)(unsigned long)&"Hello World"[0];
++    AL =  (unsigned char)(unsigned long)'d';
++    CX = 15;
++    __asm__ ("movl %2, %%edi\n\r"
++             "mov %3, %%al\n\r"
++             "mov %4, %%cx\n\r"
++             "cld\n\r"
++             "repne scasb\n\r"
++             "jz ZF_SJ\n\r"
++             "jnz ZF_CJ\n\r"
++       "ZF_SJ:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outJ\n\r"
++       "ZF_CJ:\n\r"
++             "mov $0, %%dx\n\r"
++        "outJ:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%cx, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (ECX), "m" (AL), "m" (CX));
++    if (ZF)
++        printk("SCASB: Zero -> ");
++    else
++        printk("SCASB: Non-Zero -> ");
++    printk("\"%s\" Scan \"%#x\" in %d byte\n",
++           (char *)(unsigned long)ECX, AL, CX - AX - 1);
++#endif
++
+     return 0;
+ }
+ 
+-- 
+2.7.4
+
