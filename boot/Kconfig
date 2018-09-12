@@ -1,0 +1,14 @@
+menu "Bootloaders"
+
+config MACH_I386
+	bool "Intel i386 CPU"
+	help
+	  Intel i386 CPU.
+
+if MACH_I386
+  
+source "boot/i386/Kconfig"
+
+endif
+
+endmenu

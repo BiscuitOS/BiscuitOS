@@ -390,6 +390,9 @@ include target/Makefile
 # package
 include package/Makefile
 
+# Bootloader
+include boot/Makefile
+
 # Filesystem (must be last invoked)
 include fs/Makefile
 

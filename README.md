@@ -26,13 +26,13 @@ hardware. So, don't stop, play Linux with BiscuitOS.
 
   ```
     sudo apt-get install qemu gcc make gdb git figlet
-    sudo apt-get install libncurses5-dev
+    sudo apt-get install libncurses5-dev iasl
 
     On 64bit machine:
     sudo apt-get install lib32z1 lib32z1-dev
   ```
   
-  *NOTE!*
+  **NOTE!**
 
   If you first install or use git, please configure git as follow
  
@@ -78,6 +78,8 @@ hardware. So, don't stop, play Linux with BiscuitOS.
   | linux_1_0_1_defconfig       |   Linux 1.0.1 kernel               |
   | linux_1_0_1_1_minix_defconfig  | Linux 1.0.1.1 minix-fs kernel   |
   | linux_1_0_1_1_ext2_defconfig   | Linux 1.0.1.1 ext2-fs kernel    |
+  | linux_1_0_1_2_minix_defconfig  | Linux 1.0.1.2 minix-fs kernel   |
+  | linux_1_0_1_2_ext2_defconfig   | Linux 1.0.1.2 ext2-fs kernel    |
 
   So, you can choise to build another kernel as follow:
 

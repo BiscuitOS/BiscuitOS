@@ -1,0 +1,25 @@
+From 49220e6f08bda57baa3a5b9f481c588f031262c9 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Wed, 12 Sep 2018 15:46:24 +0800
+Subject: [PATCH 1/1] Add Soc information on BIOS
+
+---
+ src/output.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/output.c b/src/output.c
+index 8a88388..ec8104a 100644
+--- a/src/output.c
++++ b/src/output.c
+@@ -29,7 +29,7 @@ struct putcinfo {
+ void
+ debug_banner(void)
+ {
+-    dprintf(1, "SeaBIOS (version %s)\n", VERSION);
++    dprintf(1, "SeaBIOS: BiscuitOS (version %s)\n", VERSION);
+     dprintf(1, "BUILD: %s\n", BUILDINFO);
+ }
+ 
+-- 
+2.7.4
+
