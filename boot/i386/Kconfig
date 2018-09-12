@@ -1,8 +1,5 @@
 menu "Intel i386 BIOS Setup"
 
-config BOOT_SEABIOS
-	bool "CoreBoot i386 SeaBIOS"
-	help
-	  CoreBoot i386 SeaBIOS.
+source "boot/i386/SeaBIOS/Kconfig"
 
 endmenu

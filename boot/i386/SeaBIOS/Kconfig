@@ -1,0 +1,18 @@
+menu "SeaBIOS Intel i386"
+
+config BOOT_SEABIOS
+	bool "SeaBIOS"
+	help
+	  SeaBIOS for Intel i386.
+
+if BOOT_SEABIOS
+
+config SEABIOS_VER
+	string "SeaBIOS release version"
+	default "rel-1.9.3"
+	help
+	  Version of SeaBIOS.
+
+endif
+
+endmenu

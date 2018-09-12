@@ -40,6 +40,7 @@ download_BIOS()
 precheck()
 {
     mkdir -p ${DL} ${TARGET}
+    mkdir -p ${PATCH_DIR}
     if [ ! -d ${DL}/${BIOS_NAME} ]; then
         echo -e "\e[1;31m Download ${BIOS_NAME} from ${BIOS_SITE} \e[0m"
         download_BIOS
@@ -57,6 +58,12 @@ establish_BIOS()
     
     ## Change correct tag/branch
     git reset --hard ${BIOS_VERSION}
+    if [ $? -ne 0 ]; then
+        echo -e "\e[1;31m Don't support ${BIOS_NAME}:${BIOS_VERSION} \e[0m"
+        echo -e "\e[1;31m Support list \e[0m"
+        git tag
+        exit 1
+    fi
 
     ## Patch current version
     if [ -d ${PATCH_DIR} ]; then
@@ -65,9 +72,12 @@ establish_BIOS()
 
     ## Build SeaBIOS
     make
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
 
     ## install BIOS
-    cp -rf out/bios.bin ${KERNEL_DIR}/${BIOS_NAME}
+    cp -rf out/bios.bin ${KERNEL_DIR}/${BIOS_NAME}.bin
     
     cd -
 }
@@ -76,6 +86,6 @@ establish_BIOS()
 precheck
 
 ## Download/nothing
-if [ ! -f ${KERNEL_DIR}/${BIOS_NAME} ]; then
+if [ ! -f ${KERNEL_DIR}/${BIOS_NAME}.bin ]; then
     establish_BIOS
 fi

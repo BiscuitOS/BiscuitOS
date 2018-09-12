@@ -435,6 +435,7 @@ clean: $(clean-dirs)
 	@find . $(RCS_FIND_IGNORE) \
 		\( -name '*.[oa]' -o -name '.*.cmd' \
 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
+		-o -name 'SeaBIOS.bin' \
 		-o -name modules.builtin -o -name '.tmp_*.o.*' \
 		-o -name '*.gcno' \) -type f -print | xargs rm -f
 

@@ -4,7 +4,7 @@
 #
 ################################################
 SEABIOS_NAME       := SeaBIOS
-SEABIOS_VERSION    := rel-1.9.3
+SEABIOS_VERSION    := $(CONFIG_SEABIOS_VER)
 SEABIOS_SITE       := https://github.com/coreboot/seabios.git 
 SEABIOS_SUBNAME    := 
 SEABIOS_DIR        := $(srctree)/boot/i386/$(SEABIOS_NAME)
