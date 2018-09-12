@@ -1,0 +1,28 @@
+From d11f9e2c1f8796f89d05b90d41d5696937287ab6 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Wed, 12 Sep 2018 17:33:55 +0800
+Subject: [PATCH 3/3] add BiscuitOS logo
+
+---
+ src/bootsplash.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/bootsplash.c b/src/bootsplash.c
+index 709c45a..b13ff64 100644
+--- a/src/bootsplash.c
++++ b/src/bootsplash.c
+@@ -49,6 +49,11 @@ enable_vga_console(void)
+ 
+     // Write to screen.
+     printf("SeaBIOS BiscuitOS(version %s)\n", VERSION);
++    printf(" ____  _                _ _    ___  ____  \n");
++    printf("| __ )(_)___  ___ _   _(_) |_ / _ \\/ ___| \n");
++    printf("|  _ \\| / __|/ __| | | | | __| | | \\___ \\ \n");
++    printf("| |_) | \\__ \\ (__| |_| | | |_| |_| |___) |\n");
++    printf("|____/|_|___/\\___|\\__,_|_|\\__|\\___/|____/\n");
+     display_uuid();
+ }
+ 
+-- 
+2.7.4
+
