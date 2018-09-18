@@ -32,18 +32,6 @@ config FS_MSDOS
 	  The MSDOS rootfs.
 endchoice
 
-config DISK_SIZE
-	int "Main Partition Size (MB)"
-	default 40
-	help
-	  Configure the size of disk.
-
-config SWAP_SIZE
-	int "Swap Partition Size (MB)"
-	default 80
-	help
-	  Configure the size of swap
-
 config FS_MAGIC
 	int
 	default 0     if FS_MINIX

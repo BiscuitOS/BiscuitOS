@@ -3,9 +3,9 @@
 #
 menu "Host toolchain"
 
-config HOST_DEBUG
-	bool "Host common utilis for BiscuitOS"
+config DTC
+	bool "DTC cover to DTB"
 	help
-	  Utilse different tool to debbug BiscuitOS on HOST.
+	  DTC tools to describe hardware board.
 
 endmenu

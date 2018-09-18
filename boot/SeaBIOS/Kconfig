@@ -1,4 +1,4 @@
-menu "SeaBIOS Intel i386"
+menu "SeaBIOS"
 
 config BOOT_SEABIOS
 	bool "SeaBIOS"

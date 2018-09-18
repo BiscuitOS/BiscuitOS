@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 # Establish BiscuitOS Rootfs.
 #
 # (C) 2018.07.23 BiscuitOS <buddy.zhang@aliyun.com>
@@ -14,11 +15,17 @@ ROOT=$1
 FS_NAME=$2
 FS_VERSION=$3
 KERN_VERSION=$4
-ROOTFS_SIZE=$5
-SWAP_SIZE=$6
 NODE_TYPE=1
 FS_TYPE=0
-KERN_MAGIC=$7
+KERN_MAGIC=$5
+DTB=${ROOT}/output/DTS/system_$4.dtb
+BIOS=${ROOT}/kernel/linux_$4/SeaBIOS.bin
+KIMAGE=${ROOT}/kernel/linux_$4/arch/x86/kernel/BiscuitOS
+
+ROOTFS_SIZE=`fdtget -t i ${DTB} /rootfs sd-size`
+SWAP_SIZE=`fdtget -t i ${DTB} /swap sd-size`
+BIOS_SIZE=`fdtget -t i ${DTB} /BIOS/SeaBIOS sd-size`
+IMAGE_SIZE=`fdtget -t i ${DTB} /system sd-size`
 
 ## Output
 STAGING_DIR=${ROOT}/output/rootfs/rootfs_${KERN_VERSION}
@@ -26,20 +33,21 @@ KERNEL_DIR=${ROOT}/kernel/linux_${KERN_VERSION}
 BASE_FILE=${ROOT}/target/base-file
 IMAGE_NAME=BiscuitOS
 IMAGE_DIR=${ROOT}/output
-IMAGE=
 LOOPDEV=`sudo losetup -f`
 
 ###
 # Bootable Image: MBR and partition table
-MBR_sect=2048
-ROOTFS_sect=`expr ${ROOTFS_SIZE} \* 2048`
-SWAP_sect=`expr ${SWAP_SIZE} \* 2048`
+MBR=`expr 1048576 + ${BIOS_SIZE} + ${IMAGE_SIZE}`
+ROOTFS_sect=`expr ${ROOTFS_SIZE} \/ 512`
+SWAP_sect=`expr ${SWAP_SIZE} \/ 512`
+BIOS_sect=`expr ${BIOS_SIZE} \/ 512`
+IMAGE_sect=`expr ${IMAGE_SIZE} \/ 512`
+MBR_sect=`expr 2048 + ${BIOS_sect} + ${IMAGE_sect}`
 ROOTFS_START=${MBR_sect}
 ROOTFS_END=`expr ${ROOTFS_START} + ${ROOTFS_sect} - 1`
 SWAP_START=`expr ${ROOTFS_END} + 1`
 SWAP_END=`expr ${SWAP_START} + ${SWAP_sect}`
 SWAP_SEEK=`expr ${MBR_sect} + ${ROOTFS_sect}`
-
 
 precheck()
 {
@@ -69,6 +77,14 @@ precheck
 #  |          |            |          |
 #  +----------+------------+----------+
 #
+## Build SD image
+#
+#  0----------+------+--------+--------+------+
+#  |          |      |        |        |      |
+#  | MBR (1M) | BIOS | System | Rootfs | Swap |
+#  |          |      |        |        |      |
+#  +----------+------+--------+--------+------+
+#
 
 ## Create MBR Partition
 #   With the death of the legacy BIOS and its replancement with EFI BIOS
@@ -78,11 +94,11 @@ precheck
 #   updated to follow suit.
 #
 dd if=/dev/zero bs=512 count=${MBR_sect} \
-           of=${IMAGE_DIR}/mbr.img > /dev/null 2>&1
+           of=${IMAGE_DIR}/mbr.img 
 
 ## Creat Rootfs Partition
 dd if=/dev/zero bs=512 count=${ROOTFS_sect} \
-           of=${IMAGE_DIR}/rootfs.img > /dev/null 2>&1
+           of=${IMAGE_DIR}/rootfs.img 
 
 ## Formatted Rootfs
 case ${FS_NAME} in
@@ -91,10 +107,10 @@ case ${FS_NAME} in
 	FS_TYPE=81
         ;;
     ext2)
-        sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
-        sudo losetup ${LOOPDEV} ${IMAGE_DIR}/rootfs.img > /dev/null 2>&1
+        sudo losetup -d ${LOOPDEV}
+        sudo losetup ${LOOPDEV} ${IMAGE_DIR}/rootfs.img 
         sudo mkfs.ext2 -r ${FS_VERSION} ${LOOPDEV}
-        sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
+        sudo losetup -d ${LOOPDEV} 
 	FS_TYPE=83
         ;;
     msdos)
@@ -108,19 +124,19 @@ esac
 
 ## Create SWAP Partition
 dd if=/dev/zero bs=512 count=${SWAP_sect} \
-           of=${IMAGE_DIR}/swap.img > /dev/null 2>&1
-mkswap ${IMAGE_DIR}/swap.img > /dev/null 2>&1
+           of=${IMAGE_DIR}/swap.img 
+mkswap ${IMAGE_DIR}/swap.img 
 
 ## Append rootfs and swap behind in MBR
 
 # Append rootfs
 dd if=${IMAGE_DIR}/rootfs.img conv=notrunc oflag=append bs=512  \
-           seek=${MBR_sect} of=${IMAGE_DIR}/mbr.img > /dev/null 2>&1
+           seek=${MBR_sect} of=${IMAGE_DIR}/mbr.img
 rm -rf ${IMAGE_DIR}/rootfs.img
 
 # Append SWAP
 dd if=${IMAGE_DIR}/swap.img conv=notrunc oflag=append bs=512  \
-           seek=${SWAP_SEEK} of=${IMAGE_DIR}/mbr.img > /dev/null 2>&1
+           seek=${SWAP_SEEK} of=${IMAGE_DIR}/mbr.img 
 rm -rf ${IMAGE_DIR}/swap.img
 
 # Build full image
@@ -158,17 +174,28 @@ sync
 #### Copy and install package and libray into rootfs
 ##
 
-sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
+sudo losetup -d ${LOOPDEV} 
 
 # Mount 1st partition
-sudo losetup -o 1048576 ${LOOPDEV} ${IMAGE} > /dev/null 2>&1
-sudo mount ${LOOPDEV} ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
+sudo losetup -o ${MBR} ${LOOPDEV} ${IMAGE} 
+sudo mount ${LOOPDEV} ${IMAGE_DIR}/.rootfs 
 # Install package and library
 sudo cp -rfa ${STAGING_DIR}/* ${IMAGE_DIR}/.rootfs
 sync
-sudo umount ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
-sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
-rm -rf ${IMAGE_DIR}/.rootfs > /dev/null 2>&1
+sudo umount ${IMAGE_DIR}/.rootfs 
+sudo losetup -d ${LOOPDEV} 
+rm -rf ${IMAGE_DIR}/.rootfs 
+
+BIOS_SEEK=2048
+KERNEL_SEEK=`expr 2048 + ${BIOS_sect}`
+
+# Install BIOS
+dd bs=512 if=${BIOS} of=${IMAGE} seek=${BIOS_SEEK} 
+
+# Install Kernel Image
+dd bs=512 if=${KIMAGE} of=${IMAGE} seek=${KERNEL_SEEK} 
+
+sync
 cp -rf ${IMAGE} ${KERNEL_DIR} 
 sync
 

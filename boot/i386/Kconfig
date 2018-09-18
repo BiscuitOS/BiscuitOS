@@ -1,5 +1,0 @@
-menu "Intel i386 BIOS Setup"
-
-source "boot/i386/SeaBIOS/Kconfig"
-
-endmenu

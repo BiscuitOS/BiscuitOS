@@ -1,4 +1,5 @@
-BOOT-$(CONFIG_MACH_I386)           += i386/
+BOOT-$(CONFIG_BOOT_SEABIOS)           += SeaBIOS/
+BOOT-$(CONFIG_BOOT_UBOOT)             += u-boot/
 
 BOOT_MAKEDIR := $(patsubst %/, $(srctree)/boot/%/Makefile, $(BOOT-y))
 

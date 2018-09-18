@@ -1,0 +1,16 @@
+menu "u-boot"
+
+config UBOOT
+	bool "u-boot"
+
+if UBOOT
+
+config UBOOT_VER
+	string "u-boot release version"
+	default "2018-02"
+	help
+	  Version of BIOS.
+
+endif
+
+endmenu

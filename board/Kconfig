@@ -1,0 +1,39 @@
+menu "Board configure"
+
+config BOARD_NAME
+	string "board name"
+	default "GoingMerry"
+
+config DTS_NAME
+	string "dts name"
+	default "GoingMerry.dts"
+
+endmenu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

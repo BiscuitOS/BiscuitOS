@@ -1,0 +1,71 @@
+/*
+ * Root DTS file for i386sx
+ *
+ * Copyright 2018 BuddyZhang1 <buddy.zhang@aliyun.com>
+ *
+ * The code contained herein is licensed under the GNU General Public
+ * License. You may obtain a copy of the GNU General Public License
+ * Version 2 or later at the following locations:
+ *
+ * http://www.opensource.org/licenses/gpl-license.html
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * This DTS only describe the SD layout, don't edit and add other peripheral device information
+ * into this file!
+ *
+ * The layout of SD:
+ *
+ * 0------------+--------+----------------+----------------+--------+
+ * |            |        |                |                |        |
+ * |  Reserved  |  BIOS  |  system image  |   Rootfs       |  SWAP  |
+ * |            |        |                |                |        |
+ * 0------------+--------+----------------+----------------+--------+
+ */
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+	compatible = "i386,tyrannosaurus";
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu0: cpu@0 {
+			compatible = "i386,i386sx";
+			device_type = "cpu";
+			reg = <0>;
+			clocks = <0>;
+		};
+	};
+
+	fpga {
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+	reserved-sd {
+		#address-cells = <0x1>;
+		#size-cells = <0x1>;
+	};
+
+	BIOS {
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};
+
+	system {
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};
+
+	rootfs {
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};
+
+	swap {
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};	
+};
