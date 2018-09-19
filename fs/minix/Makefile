@@ -16,8 +16,7 @@ SUB_TARGET       += $(MINIX_DIR)/build
 
 run_minix_sh = $(CONFIG_SHELL) $(MINIX_SCRIPTS) \
                $1 $(MINIX_NAME) $(MINIX_VERSION) \
-               $(KERNEL_VERSION) $(CONFIG_DISK_SIZE) $(CONFIG_SWAP_SIZE) \
-               $(KERNEL_MAGIC)
+               $(KERNEL_VERSION) $(KERNEL_MAGIC)
 
 $(MINIX_DIR)/build: FORCE
 	$(Q)$(call run_minix_sh,$(srctree))

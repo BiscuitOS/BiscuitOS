@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -e
 # Establish BiscuitOS Rootfs.
 #
 # (C) 2018.07.23 BiscuitOS <buddy.zhang@aliyun.com>
@@ -11,6 +10,8 @@ set -e
 
 ##
 # Don't edit
+
+# Obtain data from Kbuild
 ROOT=$1
 FS_NAME=$2
 FS_VERSION=$3
@@ -22,10 +23,15 @@ DTB=${ROOT}/output/DTS/system_$4.dtb
 BIOS=${ROOT}/kernel/linux_$4/SeaBIOS.bin
 KIMAGE=${ROOT}/kernel/linux_$4/arch/x86/kernel/BiscuitOS
 
+## Obtain data from DTB
+SD_START=`fdtget -t i ${DTB} /SD sd-base`
+HOLE_SIZE=`fdtget -t i ${DTB} /SD hole-size`
+MBR_SIZE=`fdtget -t i ${DTB} /MBR sd-size`
+BIOS_SIZE=`fdtget -t i ${DTB} /BIOS/SeaBIOS sd-size`
+SYSTEM_SIZE=`fdtget -t i ${DTB} /system sd-size`
 ROOTFS_SIZE=`fdtget -t i ${DTB} /rootfs sd-size`
 SWAP_SIZE=`fdtget -t i ${DTB} /swap sd-size`
-BIOS_SIZE=`fdtget -t i ${DTB} /BIOS/SeaBIOS sd-size`
-IMAGE_SIZE=`fdtget -t i ${DTB} /system sd-size`
+DISK_SECT=`fdtget -t i ${DTB} /SD sd-sect`
 
 ## Output
 STAGING_DIR=${ROOT}/output/rootfs/rootfs_${KERN_VERSION}
@@ -35,19 +41,48 @@ IMAGE_NAME=BiscuitOS
 IMAGE_DIR=${ROOT}/output
 LOOPDEV=`sudo losetup -f`
 
-###
-# Bootable Image: MBR and partition table
-MBR=`expr 1048576 + ${BIOS_SIZE} + ${IMAGE_SIZE}`
-ROOTFS_sect=`expr ${ROOTFS_SIZE} \/ 512`
-SWAP_sect=`expr ${SWAP_SIZE} \/ 512`
-BIOS_sect=`expr ${BIOS_SIZE} \/ 512`
-IMAGE_sect=`expr ${IMAGE_SIZE} \/ 512`
-MBR_sect=`expr 2048 + ${BIOS_sect} + ${IMAGE_sect}`
-ROOTFS_START=${MBR_sect}
-ROOTFS_END=`expr ${ROOTFS_START} + ${ROOTFS_sect} - 1`
-SWAP_START=`expr ${ROOTFS_END} + 1`
-SWAP_END=`expr ${SWAP_START} + ${SWAP_sect}`
-SWAP_SEEK=`expr ${MBR_sect} + ${ROOTFS_sect}`
+####
+# bootable Disk Image
+#
+# +-----+------+--------+--------+------+
+# |     |      |        |        |      |
+# | MBR | BIOS | System | Rootfs | Swap |
+# |     |      |        |        |      |
+# +-----+------+--------+--------+------+
+#
+# Note! 
+# START: Start address of first sect 
+# END  : Start address of last sect
+# LEN  : Length of bolock
+# SEEK : Total sect behind
+# Unit for Sect total 512 Byte
+DISK_HOLE=`expr ${HOLE_SIZE} \/ ${DISK_SECT}`
+DISK_START=`expr ${SD_START} \/ ${DISK_SECT}`
+
+DISK_MBR_START=${DISK_START}
+DISK_MBR_LEN=`expr ${MBR_SIZE} \/ ${DISK_SECT}`
+DISK_MBR_END=`expr ${DISK_MBR_START} + ${DISK_MBR_LEN} - 1`
+DISK_MBR_SEEK=`expr ${DISK_MBR_START}`
+
+DISK_BIOS_LEN=`expr ${BIOS_SIZE} \/ ${DISK_SECT}`
+DISK_BIOS_START=`expr ${DISK_MBR_END} + 1 + ${DISK_HOLE}`
+DISK_BIOS_END=`expr ${DISK_BIOS_START} + ${DISK_BIOS_LEN} - 1`
+DISK_BIOS_SEEK=${DISK_BIOS_START}
+
+DISK_SYSTEM_LEN=`expr ${SYSTEM_SIZE} \/ ${DISK_SECT}`
+DISK_SYSTEM_START=`expr ${DISK_BIOS_END} + 1 + ${DISK_HOLE}`
+DISK_SYSTEM_END=`expr ${DISK_SYSTEM_START} + ${DISK_SYSTEM_LEN} - 1`
+DISK_SYSTEM_SEEK=${DISK_SYSTEM_START}
+
+DISK_ROOTFS_LEN=`expr ${ROOTFS_SIZE} \/ ${DISK_SECT}`
+DISK_ROOTFS_START=`expr ${DISK_SYSTEM_END} + 1 + ${DISK_HOLE}`
+DISK_ROOTFS_END=`expr ${DISK_ROOTFS_START} + ${DISK_ROOTFS_LEN} - 1`
+DISK_ROOTFS_SEEK=${DISK_ROOTFS_START}
+
+DISK_SWAP_LEN=`expr ${SWAP_SIZE} \/ ${DISK_SECT}`
+DISK_SWAP_START=`expr ${DISK_ROOTFS_END} + 1 + ${DISK_HOLE}`
+DISK_SWAP_END=`expr ${DISK_SWAP_START} + ${DISK_SWAP_LEN} - 1`
+DISK_SWAP_SEEK=${DISK_SWAP_START}
 
 precheck()
 {
@@ -69,14 +104,6 @@ precheck()
 ### Pre-Check 
 precheck
 
-## Build Image
-#  
-#  0----------+------------+----------+
-#  |          |            |          |
-#  | MBR (1M) |   Rootfs   |   Swap   |
-#  |          |            |          |
-#  +----------+------------+----------+
-#
 ## Build SD image
 #
 #  0----------+------+--------+--------+------+
@@ -93,13 +120,29 @@ precheck
 #   EFI code. Modern partiting tools do this anyway and fdisk has been
 #   updated to follow suit.
 #
-dd if=/dev/zero bs=512 count=${MBR_sect} \
-           of=${IMAGE_DIR}/mbr.img 
+dd if=/dev/zero bs=${DISK_SECT} count=${DISK_MBR_LEN} \
+                                   of=${IMAGE_DIR}/mbr.img > /dev/null 2>&1
+
+## Create BIOS partition
+dd if=/dev/zero bs=${DISK_SECT} count=${DISK_BIOS_LEN} \
+                                   of=${IMAGE_DIR}/BIOS.img > /dev/null 2>&1
+
+## Create System partition
+dd if=/dev/zero bs=${DISK_SECT} count=${DISK_SYSTEM_LEN} \
+                                   of=${IMAGE_DIR}/system.img > /dev/null 2>&1
 
 ## Creat Rootfs Partition
-dd if=/dev/zero bs=512 count=${ROOTFS_sect} \
-           of=${IMAGE_DIR}/rootfs.img 
+dd if=/dev/zero bs=${DISK_SECT} count=${DISK_ROOTFS_LEN} \
+                                   of=${IMAGE_DIR}/rootfs.img > /dev/null 2>&1
 
+## Creat SWAP Partition
+dd if=/dev/zero bs=${DISK_SECT} count=${DISK_SWAP_LEN} \
+                                   of=${IMAGE_DIR}/swap.img > /dev/null 2>&1
+mkswap ${IMAGE_DIR}/swap.img 
+
+## Creat hole 
+dd if=/dev/zero bs=${DISK_SECT} count=${DISK_HOLE} \
+                                   of=${IMAGE_DIR}/hole.img > /dev/null 2>&1
 ## Formatted Rootfs
 case ${FS_NAME} in
     minix)
@@ -107,10 +150,10 @@ case ${FS_NAME} in
 	FS_TYPE=81
         ;;
     ext2)
-        sudo losetup -d ${LOOPDEV}
+        sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
         sudo losetup ${LOOPDEV} ${IMAGE_DIR}/rootfs.img 
         sudo mkfs.ext2 -r ${FS_VERSION} ${LOOPDEV}
-        sudo losetup -d ${LOOPDEV} 
+        sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
 	FS_TYPE=83
         ;;
     msdos)
@@ -122,22 +165,55 @@ case ${FS_NAME} in
         ;;
 esac
 
-## Create SWAP Partition
-dd if=/dev/zero bs=512 count=${SWAP_sect} \
-           of=${IMAGE_DIR}/swap.img 
-mkswap ${IMAGE_DIR}/swap.img 
+## Install Image into DISK
 
-## Append rootfs and swap behind in MBR
+# Install BIOS
+dd if=${BIOS} conv=notrunc  bs=${DISK_SECT} of=${IMAGE_DIR}/BIOS.img > /dev/null 2>&1
 
-# Append rootfs
-dd if=${IMAGE_DIR}/rootfs.img conv=notrunc oflag=append bs=512  \
-           seek=${MBR_sect} of=${IMAGE_DIR}/mbr.img
-rm -rf ${IMAGE_DIR}/rootfs.img
+# Install Kernel Image
+dd if=${KIMAGE} conv=notrunc bs=${DISK_SECT} of=${IMAGE_DIR}/system.img > /dev/null 2>&1
 
-# Append SWAP
-dd if=${IMAGE_DIR}/swap.img conv=notrunc oflag=append bs=512  \
-           seek=${SWAP_SEEK} of=${IMAGE_DIR}/mbr.img 
-rm -rf ${IMAGE_DIR}/swap.img
+## Append DISK Image
+
+# Append hole
+dd if=${IMAGE_DIR}/hole.img conv=notrunc oflag=append bs=${DISK_SECT} \
+          seek=`expr ${DISK_MBR_END} + 1` of=${IMAGE_DIR}/mbr.img \
+          count=${DISK_HOLE} > /dev/null 2>&1
+
+# Append BIOS
+dd if=${IMAGE_DIR}/BIOS.img conv=notrunc oflag=append bs=${DISK_SECT} \
+          seek=${DISK_BIOS_SEEK} of=${IMAGE_DIR}/mbr.img \
+          count=${DISK_BIOS_LEN} > /dev/null 2>&1
+
+# Append hole
+dd if=${IMAGE_DIR}/hole.img conv=notrunc oflag=append bs=${DISK_SECT} \
+          seek=`expr ${DISK_BIOS_END} + 1` of=${IMAGE_DIR}/mbr.img \
+          count=${DISK_HOLE} > /dev/null 2>&1
+
+# Append System
+dd if=${IMAGE_DIR}/system.img conv=notrunc oflag=append bs=${DISK_SECT} \
+          seek=${DISK_SYSTEM_SEEK} of=${IMAGE_DIR}/mbr.img \
+          count=${DISK_SYSTEM_LEN} > /dev/null 2>&1
+
+# Append hole
+dd if=${IMAGE_DIR}/hole.img conv=notrunc oflag=append bs=${DISK_SECT} \
+          seek=`expr ${DISK_SYSTEM_END} + 1` of=${IMAGE_DIR}/mbr.img \
+          count=${DISK_HOLE} > /dev/null 2>&1
+
+# Append Rootfs
+dd if=${IMAGE_DIR}/rootfs.img conv=notrunc oflag=append bs=${DISK_SECT} \
+          seek=${DISK_ROOTFS_SEEK} of=${IMAGE_DIR}/mbr.img \
+          count=${DISK_ROOTFS_LEN} > /dev/null 2>&1
+
+# Append hole
+dd if=${IMAGE_DIR}/hole.img conv=notrunc oflag=append bs=${DISK_SECT} \
+          seek=`expr ${DISK_ROOTFS_END} + 1` of=${IMAGE_DIR}/mbr.img \
+          count=${DISK_HOLE} > /dev/null 2>&1
+
+# Append Swap
+dd if=${IMAGE_DIR}/swap.img conv=notrunc oflag=append bs=${DISK_SECT} \
+          seek=${DISK_SWAP_SEEK} of=${IMAGE_DIR}/mbr.img \
+          count=${DISK_SWAP_LEN} > /dev/null 2>&1
 
 # Build full image
 # Full name:
@@ -153,19 +229,20 @@ cat <<EOF | fdisk "${IMAGE}"
 n
 p
 1
-${ROOTFS_START}
-${ROOTFS_END}
+${DISK_ROOTFS_START}
+${DISK_ROOTFS_END}
 n
 p
 2
-${SWAP_START}
-
+${DISK_SWAP_START}
+${DISK_SWAP_END}
 t
 1
 ${FS_TYPE}
 t
 2
 82
+p
 w
 EOF
 
@@ -174,10 +251,10 @@ sync
 #### Copy and install package and libray into rootfs
 ##
 
-sudo losetup -d ${LOOPDEV} 
+sudo losetup -d ${LOOPDEV} > /dev/null 2>&1 
 
 # Mount 1st partition
-sudo losetup -o ${MBR} ${LOOPDEV} ${IMAGE} 
+sudo losetup -o `expr ${DISK_ROOTFS_START} \* 512` ${LOOPDEV} ${IMAGE} 
 sudo mount ${LOOPDEV} ${IMAGE_DIR}/.rootfs 
 # Install package and library
 sudo cp -rfa ${STAGING_DIR}/* ${IMAGE_DIR}/.rootfs
@@ -186,18 +263,13 @@ sudo umount ${IMAGE_DIR}/.rootfs
 sudo losetup -d ${LOOPDEV} 
 rm -rf ${IMAGE_DIR}/.rootfs 
 
-BIOS_SEEK=2048
-KERNEL_SEEK=`expr 2048 + ${BIOS_sect}`
-
-# Install BIOS
-dd bs=512 if=${BIOS} of=${IMAGE} seek=${BIOS_SEEK} 
-
-# Install Kernel Image
-dd bs=512 if=${KIMAGE} of=${IMAGE} seek=${KERNEL_SEEK} 
-
 sync
 cp -rf ${IMAGE} ${KERNEL_DIR} 
 sync
+
+## Clear tmpfile
+rm -rf ${IMAGE_DIR}/hole.img ${IMAGE_DIR}/rootfs.img ${IMAGE_DIR}/system.img ${IMAGE_DIR}/BIOS.img 
+rm -rf ${IMAGE_DIR}/swap.img
 
 ######
 # Display Userful Information
