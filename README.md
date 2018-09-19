@@ -27,6 +27,7 @@ hardware. So, don't stop, play Linux with BiscuitOS.
   ```
     sudo apt-get install qemu gcc make gdb git figlet
     sudo apt-get install libncurses5-dev iasl
+    sudo apt-get install device-tree-compiler
 
     On 64bit machine:
     sudo apt-get install lib32z1 lib32z1-dev
