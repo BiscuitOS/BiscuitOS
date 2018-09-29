@@ -455,7 +455,6 @@ $(mrproper-dirs):
 mrproper: clean $(mrproper-dirs)
 	$(call cmd,rmdirs)
 	$(call cmd,rmfiles)
-	$(Q)rm -rf $(srctree)/dl
 
 # distclean
 #

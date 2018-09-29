@@ -1,0 +1,35 @@
+menu "Device tree board"
+
+config DTS_NAME
+	string "dts name"
+	default "GoingMerry.dts"
+
+endmenu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

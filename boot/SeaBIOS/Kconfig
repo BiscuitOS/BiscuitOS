@@ -15,4 +15,10 @@ config SEABIOS_VER
 
 endif
 
+config COREBOOT_ON
+	bool "SeaBIOS running on X86 architecture machine"
+	default n
+	help
+	  SeaBIOS running on Real-hardware.
+
 endmenu

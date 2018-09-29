@@ -17,7 +17,7 @@
 ##
 
 ROOT=$1
-DTS=${ROOT}/board/$2
+DTS=${ROOT}/board/dts/$2
 
 ## estabish output direct
 mkdir -p ${ROOT}/output/DTS/

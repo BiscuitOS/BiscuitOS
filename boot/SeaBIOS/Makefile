@@ -17,7 +17,8 @@ SUB_TARGET          += $(SEABIOS_DIR)/build
 
 SEABIOS_sh = $(CONFIG_SHELL) $(SEABIOS_SCRIPTS) \
                $1 $(SEABIOS_NAME) $(SEABIOS_VERSION) \
-               $(SEABIOS_SITE) $(SEABIOS_PATCH) $(KERNEL_VERSION)
+               $(SEABIOS_SITE) $(SEABIOS_PATCH) $(KERNEL_VERSION) \
+		$(CONFIG_COREBOOT_ON)
 
 $(SEABIOS_DIR)/build: FORCE
 	$(Q)$(call SEABIOS_sh,$(srctree))

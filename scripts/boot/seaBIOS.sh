@@ -25,7 +25,9 @@ TARGET=${ROOT}/output/BIOS
 DL_DIR=${DL}/${BIOS_NAME}
 BD_DIR=${TARGET}/${BIOS_NAME}_${BIOS_VERSION}
 PATCH_DIR=$5/${BIOS_VERSION}
+CONFIG_DIR=${ROOT}/boot/SeaBIOS/config/
 KERNEL_DIR=${ROOT}/kernel/linux_$6
+COREBOOT=$7
 
 download_BIOS()
 {
@@ -70,6 +72,20 @@ establish_BIOS()
         git am ${PATCH_DIR}/*.patch 
     fi
 
+    ## SeaBIOS and Coreboot
+    if [ ${COREBOOT} == "y" ]; then
+        if [ ! -f ${BD_DIR}/coredefconfig ]; then
+            if [ -f ${CONFIG_DIR}/coreboot_${BIOS_VERSION}_defconfig ]; then
+                cp -rf ${CONFIG_DIR}/coreboot_${BIOS_VERSION}_defconfig  \
+                                        ${BD_DIR}/coredefconfig
+                cp ${BD_DIR}/coredefconfig ${BD_DIR}/.config
+            else
+                echo "Unknow Coreboot SeaBIOS configure file!"
+                exit 1
+            fi
+        fi
+    fi
+
     ## Build SeaBIOS
     make
     if [ $? -ne 0 ]; then
@@ -77,7 +93,11 @@ establish_BIOS()
     fi
 
     ## install BIOS
-    cp -rf out/bios.bin ${KERNEL_DIR}/${BIOS_NAME}.bin
+    if [ ${COREBOOT} == "y" ]; then
+        cp -rf out/bios.bin.raw ${KERNEL_DIR}/${BIOS_NAME}.bin
+    else
+        cp -rf out/bios.bin ${KERNEL_DIR}/${BIOS_NAME}.bin
+    fi
     
     cd -
 }

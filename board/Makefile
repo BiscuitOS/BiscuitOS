@@ -1,22 +1,5 @@
-################################################
-#
-# DTS for platform
-#
-################################################
-DTS_NAME       := DTS
-DTS_VERSION    := 
-DTS_SITE       := 
-DTS_SUBNAME    := 
-DTS_DIR        := $(srctree)/board
-DTS_PATCH      := 
-DTS_OUT        := 
-DTS_SCRIPTS    := $(srctree)/scripts/board/dts.sh
-DTS_TAR        := 
-DTS_PACKAGE    := 
-SUB_TARGET          += $(DTS_DIR)/build
+BOARD-y                               += dts/
 
-DTS_sh = $(CONFIG_SHELL) $(DTS_SCRIPTS) \
-               $1 $(CONFIG_DTS_NAME) $(KERNEL_VERSION)
+BOARD_MAKEDIR := $(patsubst %/, $(srctree)/board/%/Makefile, $(BOARD-y))
 
-$(DTS_DIR)/build: FORCE
-	$(Q)$(call DTS_sh,$(srctree))
+include $(BOARD_MAKEDIR)
