@@ -27,7 +27,11 @@ BD_DIR=${TARGET}/${BIOS_NAME}_${BIOS_VERSION}
 PATCH_DIR=$5/${BIOS_VERSION}
 CONFIG_DIR=${ROOT}/boot/SeaBIOS/config/
 KERNEL_DIR=${ROOT}/kernel/linux_$6
-COREBOOT=$7
+if [ ! -z $7 ]; then
+  COREBOOT="y"
+else
+  COREBOOT="n"
+fi
 
 download_BIOS()
 {
