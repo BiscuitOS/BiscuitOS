@@ -1,0 +1,40 @@
+From 04cb010965a518dca3d8c013acb1080f075f420e Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Sun, 30 Sep 2018 11:11:05 +0800
+Subject: [PATCH 52/52] defconfig for SeaBIOS on real x86 architecture
+
+---
+ arch/x86/configs/linux_X_defconfig | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+ create mode 100644 arch/x86/configs/linux_X_defconfig
+
+diff --git a/arch/x86/configs/linux_X_defconfig b/arch/x86/configs/linux_X_defconfig
+new file mode 100644
+index 0000000..c5b0332
+--- /dev/null
++++ b/arch/x86/configs/linux_X_defconfig
+@@ -0,0 +1,21 @@
++CONFIG_DEBUG_BOOTLOADER=y
++CONFIG_HARDDISK=y
++CONFIG_DEBUG_KERNEL=y
++CONFIG_GDB=y
++CONFIG_EMULATE_RUNNING_SYSTEM=y
++CONFIG_QEMU_BOOT_FLOPPY=y
++CONFIG_QEMU_MEMORY_SIZE=32
++CONFIG_QEMU_VGA=y
++CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-ext2_0-1.0.1.2.img"
++CONFIG_QEMU_VGA_CIRRUS=y
++CONFIG_DEMO_CODE=y
++CONFIG_DEBUG_MMU=y
++CONFIG_DEBUG_STORAGE=y
++CONFIG_DEBUG_REGISTER=y
++CONFIG_DEBUG_REGISTER_EFLAGS=y
++CONFIG_DEBUG_EFLAGS_ZF=y
++CONFIG_DEBUG_ZF_SCASB=y
++CONFIG_DEBUG_VFS=y
++CONFIG_DEBUG_VFS_EXT2=y
++CONFIG_EXT2_FS=y
++CONFIG_MMU=y
+-- 
+2.7.4
+

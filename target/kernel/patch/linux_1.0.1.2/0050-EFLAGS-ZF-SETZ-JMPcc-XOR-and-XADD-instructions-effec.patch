@@ -1,0 +1,489 @@
+From c57d705976546a4a8d4730d76bb5fc9732acea72 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sun, 16 Sep 2018 17:14:28 +0800
+Subject: [PATCH 50/52] EFLAGS -- ZF: SETZ, JMPcc, XOR, and XADD instructions
+ effect ZF set and clear
+
+---
+ tools/demo/mmu/storage/register/EFLAGS/Kconfig  |  18 +-
+ tools/demo/mmu/storage/register/EFLAGS/eflags.c | 408 ++++++++++++++++++++++++
+ 2 files changed, 422 insertions(+), 4 deletions(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/Kconfig b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+index 5fbbf64..5ae4606 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/Kconfig
++++ b/tools/demo/mmu/storage/register/EFLAGS/Kconfig
+@@ -488,12 +488,12 @@ config DEBUG_ZF_CMPXCHG
+ 	  CMPXCHG instruction for Zero flag.
+ 
+ config DEBUG_ZF_CMPXCHG8B
+-	bool "CMPXCHG8B   Compare and exchange bytes"
++	bool "CMPXCHG8B   Compare and exchange 64bit"
+ 	help
+ 	  CMPXCHGBB instruction for Zero flag.
+ 
+ config DEBUG_ZF_CMPXCHG16B
+-	bool "CMPXCHG16B  Compare and exchange bytes"
++	bool "CMPXCHG16B  Compare and exchange 128bit"
+ 	help
+ 	  CMPXCHGBB instruction for Zero flag.
+ 
+@@ -532,11 +532,21 @@ config DEBUG_ZF_JLE
+ 	help
+ 	  JLE instruction for Zero flag.
+ 
++config DEBUG_ZF_JA
++	bool "JA      Jump short if above"
++	help
++	  JNA instruction for Zero flag.
++
+ config DEBUG_ZF_JNA
+ 	bool "JNA     Jump short if not above"
+ 	help
+ 	  JNA instruction for Zero flag.
+ 
++config DEBUG_ZF_JG
++	bool "JG      Jump short if greater"
++	help
++	  JNG instruction for Zero flag.
++
+ config DEBUG_ZF_JNG
+ 	bool "JNG     Jump short if not greater or equal"
+ 	help
+@@ -578,12 +588,12 @@ config DEBUG_ZF_OR
+ 	  OR instruction for Zero flag.
+ 
+ config DEBUG_ZF_REPZ
+-	bool "REPZ    Find matching bytes in ES:[(E)DI] and DS:[(E)SI]"
++	bool "REPZ    Repeat while zero"
+ 	help
+ 	  REPZ instruction for Zero flag.
+ 
+ config DEBUG_ZF_REPNZ
+-	bool "REPNZ   Find non-matching bytes in ES:[(E)DI] and DS:[(E)SI]"
++	bool "REPNZ   Repeat while no zero"
+ 	help
+ 	  REPNZ instruction for Zero flag.
+ 
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 86dbd5a..c52fe52 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -4641,6 +4641,414 @@ static __unused int eflags_ZF(void)
+     }
+ #endif
+ 
++#if  defined CONFIG_DEBUG_ZF_JZ | defined CONFIG_DEBUG_ZF_JNZ
++    /*
++     * JZ  -- Jump near if zero
++     * JNZ -- Jump near if not zero
++     *
++     * Checks the state of one or more of the status flags in the EFLAGS
++     * register (ZF) and, if the flags are in the specified state (condition),
++     * performs a jump tp the target instruction specified by the destination
++     * operand. A condition code (cc) is associated with each instruction
++     * to indicate the condition being tested for. If the condition is not 
++     * statisfied, the jump is not performed and execution continues with
++     * instruction the Jcc instruction.
++     *
++     * The target instruction is specified with a relative offset (a signed 
++     * offset relative to the current value of the instruction pointer in
++     * the EIP register). A relative offset (rel8, rel16, or rel32) is 
++     * gernerally specified as a label in assembly code, but at the machine 
++     * level, it is encoded as a signed, 8-bit or 32-bit immediate value,
++     * which is added to the instruction pointer. Instruction coding is most
++     * efficient for offsets of -128 to +127. If the operand-size attribute
++     * is 16, then upper two bytes of the EIP register are cleared, 
++     * resulting in a maximum instruction pointer size of 16 bits.
++     */
++#ifdef CONFIG_DEBUG_ZF_JZ
++    CX = 0x1;
++#elif defined CONFIG_DEBUG_ZF_JNZ
++    CX = 0x2;
++#endif
++    __asm__ ("mov %2, %%al\n\r"
++             "dec %%al\n\r"
++             "jz ZF_SU\n\r"
++             "jnz ZF_CU\n\r"
++       "ZF_SU:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outU\n\r"
++       "ZF_CU:\n\r"
++             "mov $0, %%dx\n\r"
++        "outU:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (CX));
++    if (ZF)
++        printk("JZ: Zero -> %#x - 1 = %#x\n", CX, AX & 0xFF);
++    else
++        printk("JNZ: No-Zero -> %#x - 1 = %#x\n", CX, AX & 0xFF);
++
++#endif
++
++#if  defined CONFIG_DEBUG_ZF_JE | defined CONFIG_DEBUG_ZF_JNE
++    /*
++     * JE  -- Jump short if equal
++     * JNE -- Jump short if not equal
++     *
++     * Checks the state of one or more of the status flags in the EFLAGS
++     * register (ZF) and, if the flags are in the specified state (condition),
++     * performs a jump tp the target instruction specified by the destination
++     * operand. A condition code (cc) is associated with each instruction
++     * to indicate the condition being tested for. If the condition is not 
++     * statisfied, the jump is not performed and execution continues with
++     * instruction the Jcc instruction.
++     *
++     * The target instruction is specified with a relative offset (a signed 
++     * offset relative to the current value of the instruction pointer in
++     * the EIP register). A relative offset (rel8, rel16, or rel32) is 
++     * gernerally specified as a label in assembly code, but at the machine 
++     * level, it is encoded as a signed, 8-bit or 32-bit immediate value,
++     * which is added to the instruction pointer. Instruction coding is most
++     * efficient for offsets of -128 to +127. If the operand-size attribute
++     * is 16, then upper two bytes of the EIP register are cleared, 
++     * resulting in a maximum instruction pointer size of 16 bits.
++     */
++    CX = 0x10;
++#ifdef CONFIG_DEBUG_ZF_JE
++    DX = 0x10;
++#elif defined CONFIG_DEBUG_ZF_JNE
++    DX = 0x05;
++#endif
++    __asm__ ("mov %1, %%al\n\r"
++             "mov %2, %%bl\n\r"
++             "cmp %%bl, %%al\n\r"
++             "jz ZF_SV\n\r"
++             "jnz ZF_CV\n\r"
++      "ZF_SV:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outV\n\r"
++      "ZF_CV:\n\r"
++             "mov $0, %%dx\n\r"
++       "outV:\n\r"
++             "mov %%dx, %0"
++             : "=m" (ZF)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("JE: Zero -> %#x - %#x = %#x\n", CX, DX, (CX - DX));
++    else
++        printk("JNE: No-Zero -> %#x - %#x = %#x\n", CX, DX, (CX - DX));
++
++#endif
++
++#if  defined CONFIG_DEBUG_ZF_JA | defined CONFIG_DEBUG_ZF_JNA
++    /*
++     * JA  -- Jump short if above
++     * JNA -- Jump short if not above
++     *
++     * Checks the state of one or more of the status flags in the EFLAGS
++     * register (ZF) and, if the flags are in the specified state (condition),
++     * performs a jump tp the target instruction specified by the destination
++     * operand. A condition code (cc) is associated with each instruction
++     * to indicate the condition being tested for. If the condition is not 
++     * statisfied, the jump is not performed and execution continues with
++     * instruction the Jcc instruction.
++     *
++     * The target instruction is specified with a relative offset (a signed 
++     * offset relative to the current value of the instruction pointer in
++     * the EIP register). A relative offset (rel8, rel16, or rel32) is 
++     * gernerally specified as a label in assembly code, but at the machine 
++     * level, it is encoded as a signed, 8-bit or 32-bit immediate value,
++     * which is added to the instruction pointer. Instruction coding is most
++     * efficient for offsets of -128 to +127. If the operand-size attribute
++     * is 16, then upper two bytes of the EIP register are cleared, 
++     * resulting in a maximum instruction pointer size of 16 bits.
++     */
++#ifdef CONFIG_DEBUG_ZF_JA
++    CX = 0x12;
++#elif defined CONFIG_DEBUG_ZF_JNA
++    CX = 0x10;
++#endif
++    DX = 0x10;
++    __asm__ ("mov %1, %%al\n\r"
++             "mov %2, %%bl\n\r"
++             "cmp %%bl, %%al\n\r"
++             "jna ZF_SW\n\r"
++             "ja ZF_CW\n\r"
++      "ZF_SW:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outW\n\r"
++      "ZF_CW:\n\r"
++             "mov $0, %%dx\n\r"
++       "outW:\n\r"
++             "mov %%dx, %0"
++             : "=m" (ZF)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("JNA: Zero -> %#x <= %#x\n", CX, DX);
++    else
++        printk("JA: No-Zero -> %#x > %#x\n", CX, DX);
++
++#endif
++
++#if defined CONFIG_DEBUG_ZF_JNG | defined CONFIG_DEBUG_ZF_JG
++    /*
++     * JG   -- Jump short if greate
++     * JNG  -- Jump short if not greate
++     *
++     * Checks the state of one or more of the status flags in the EFLAGS
++     * register (ZF) and, if the flags are in the specified state (condition),
++     * performs a jump tp the target instruction specified by the destination
++     * operand. A condition code (cc) is associated with each instruction
++     * to indicate the condition being tested for. If the condition is not 
++     * statisfied, the jump is not performed and execution continues with
++     * instruction the Jcc instruction.
++     *
++     * The target instruction is specified with a relative offset (a signed 
++     * offset relative to the current value of the instruction pointer in
++     * the EIP register). A relative offset (rel8, rel16, or rel32) is 
++     * gernerally specified as a label in assembly code, but at the machine 
++     * level, it is encoded as a signed, 8-bit or 32-bit immediate value,
++     * which is added to the instruction pointer. Instruction coding is most
++     * efficient for offsets of -128 to +127. If the operand-size attribute
++     * is 16, then upper two bytes of the EIP register are cleared, 
++     * resulting in a maximum instruction pointer size of 16 bits.
++     */
++#ifdef CONFIG_DEBUG_ZF_JNG
++    CX = 0x10;
++#elif defined CONFIG_DEBUG_ZF_JG
++    CX = 0x11;
++#endif
++    DX = 0x10;
++    __asm__ ("mov %1, %%al\n\r"
++             "mov %2, %%bl\n\r"
++             "cmp %%bl, %%al\n\r"
++             "jng ZF_SX\n\r"
++             "jg ZF_CX\n\r"
++      "ZF_SX:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outX\n\r"
++      "ZF_CX:\n\r"
++             "mov $0, %%dx\n\r"
++       "outX:\n\r"
++             "mov %%dx, %0"
++             : "=m" (ZF)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("JNG: Zero -> %#x <= %#x\n", CX, DX);
++    else
++        printk("JG: Non-Zero -> %#x > %#x\n", CX, DX);
++
++#endif
++
++#if defined CONFIG_DEBUG_ZF_JLE | defined CONFIG_DEBUG_ZF_JBE
++    /*
++     * JLE  -- Jump short if less or equal
++     * JBE  -- Jump short if below or equal
++     *
++     * Checks the state of one or more of the status flags in the EFLAGS
++     * register (ZF) and, if the flags are in the specified state (condition),
++     * performs a jump tp the target instruction specified by the destination
++     * operand. A condition code (cc) is associated with each instruction
++     * to indicate the condition being tested for. If the condition is not 
++     * statisfied, the jump is not performed and execution continues with
++     * instruction the Jcc instruction.
++     *
++     * The target instruction is specified with a relative offset (a signed 
++     * offset relative to the current value of the instruction pointer in
++     * the EIP register). A relative offset (rel8, rel16, or rel32) is 
++     * gernerally specified as a label in assembly code, but at the machine 
++     * level, it is encoded as a signed, 8-bit or 32-bit immediate value,
++     * which is added to the instruction pointer. Instruction coding is most
++     * efficient for offsets of -128 to +127. If the operand-size attribute
++     * is 16, then upper two bytes of the EIP register are cleared, 
++     * resulting in a maximum instruction pointer size of 16 bits.
++     */
++    CX = 0x10;
++    DX = 0x10;
++    __asm__ ("mov %1, %%al\n\r"
++             "mov %2, %%bl\n\r"
++             "cmp %%bl, %%al\n\r"
++#ifdef CONFIG_DEBUG_ZF_JBE
++             "jbe ZF_SY\n\r"
++#elif defined CONFIG_DEBUG_ZF_JLE
++             "jle ZF_SY\n\r"
++#endif
++             "jnz ZF_CY\n\r"
++      "ZF_SY:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outY\n\r"
++      "ZF_CY:\n\r"
++             "mov $0, %%dx\n\r"
++       "outY:\n\r"
++             "mov %%dx, %0"
++             : "=m" (ZF)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++#ifdef CONFIG_DEBUG_ZF_JBE
++        printk("JBE: Zero -> %#x <= %#x\n", CX, DX);
++#elif defined CONFIG_DEBUG_ZF_JLE
++        printk("JLE: Zero -> %#x <= %#x\n", CX, DX);
++#endif
++
++#endif
++
++#if defined CONFIG_DEBUG_ZF_REPZ | defined CONFIG_DEBUG_ZF_REPNZ
++    /*
++     * REPZ   -- Repeat while zero
++     * REPNZ  -- Repeat while no zero
++     *
++     * Repeats a string instruction the number of times specified in the
++     * count register or until the indicated condition of the ZF flag is
++     * no longer met. The REP prefix can added to the INS, OUTS, MOVS, LODS,
++     * and STOS instructions, and the REPZ, and REPNZ prefixes can be added
++     * to the CMPS and SCAS instructions.
++     */
++    ECX = (unsigned int)(unsigned long)&"Hello BiscuitOS"[0];
++    EDX = (unsigned int)(unsigned long)&"Hello World"[0];
++    CX  = 15;
++    __asm__ ("movl %2, %%edi\n\r"
++             "movl %3, %%esi\n\r"
++             "mov %4, %%cx\n\r"
++             "cld\n\r"
++#ifdef CONFIG_DEBUG_ZF_REPZ
++             "repz cmpsb\n\r"
++#elif defined CONFIG_DEBUG_ZF_REPNZ
++             "repnz cmpsb\n\r"
++#endif
++             "jz ZF_SZ\n\r"
++             "jnz ZF_CZ\n\r"
++       "ZF_SZ:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outZ\n\r"
++       "ZF_CZ:\n\r"
++             "mov $0, %%dx\n\r"
++        "outZ:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%cx, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (ECX), "m" (EDX), "m" (CX));
++    if (!ZF) {
++        printk("REPZ: Zero-> ");
++        printk("\"%s\" DIFF \"%s\" on %d byte\n", (char *)(unsigned long)ECX,
++                         (char *)(unsigned long)EDX, CX - AX - 1);
++        printk("'%c' is different '%c'\n",
++                ((char *)(unsigned long)ECX)[CX - AX - 1],
++                ((char *)(unsigned long)EDX)[CX - AX - 1]);
++    } else {
++        printk("REPNZ: Non-Zero -> ");
++        printk("\"%s\" SAME \"%s\" on %d byte\n", (char *)(unsigned long)ECX,
++                         (char *)(unsigned long)EDX, CX - AX - 1);
++        printk("'%c' is SAME '%c'\n",
++                ((char *)(unsigned long)ECX)[CX - AX - 1],
++                ((char *)(unsigned long)EDX)[CX - AX - 1]);
++    }
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_XOR
++    /*
++     * XOR -- Logical Exclusive OR
++     *
++     * Perform a bitwise exclusive OR (XOR) operation on the destination 
++     * (first) and source (second) operands and stores the result in the
++     * destination operand location. The source operand can be an immediate,
++     * a register, or a memory location; the destination operand can be a 
++     * register or a memory location. (However, two memory operands cannot be
++     * used in one instruction.) Each bit of the result is 1 if the 
++     * corresponding bits of the operands are different; each bit is 0 if 
++     * the corresponding bits are the same.
++     *
++     * DEST <---- DEST XOR SRC;
++     *
++     * The OF and CF flags are cleared; the SF, ZF, and PF flags are set
++     * according to the result. The state of the AF flag is undefined.
++     */
++    CX = 0x8;
++    DX = 0x8;
++    __asm__ ("mov %2, %%ax\n\r"
++             "mov %3, %%bx\n\r"
++             "xor %%bl, %%al\n\r"
++             "jz ZF_S01\n\r"
++             "jnz ZF_C01\n\r"
++      "ZF_S01:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out01\n\r"
++      "ZF_C01:\n\r"
++             "mov $0, %%dx\n\r"
++       "out01:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("XOR: Zero -> %#x XOR %#x = %#x\n", CX, DX, AX & 0xFF);
++    else
++        printk("XOR: Non-Zero -> %#x XOR %#x = %#x\n", CX, DX, AX & 0xFF);
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_XADD
++    /*
++     * XADD -- Echange and Add
++     *
++     * Exchanges the first operand (destination operand) with the second 
++     * operand (source operand), then loads the sum of the two values into
++     * the destination operand. The destination operand can be a register or
++     * a memory location; the source operand is a register.
++     *
++     * TEMP    <---- SRC + DEST;
++     * SRC     <---- DEST;
++     * DEST    <---- TEMP;
++     */
++    CX = 0x1;
++    DX = -1;
++    __asm__ ("mov %3, %%ax\n\r"
++             "mov %4, %%bx\n\r"
++             "xadd %%bl, %%al\n\r"
++             "jz ZF_S02\n\r"
++             "jnz ZF_C02\n\r"
++      "ZF_S02:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp out02\n\r"
++      "ZF_C02:\n\r"
++             "mov $0, %%dx\n\r"
++       "out02:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1\n\r"
++             "mov %%bx, %2"
++             : "=m" (ZF), "=m" (AX), "=m" (BX)
++             : "m" (CX), "m" (DX));
++    if (ZF)
++        printk("XADD: Zero -> AX:%#x <+> BX:%#x = AX:%#x(BX:%#x)\n", 
++                        CX, DX, AX & 0xFF, BX & 0xFF);
++    else
++        printk("XADD: Non-Zero -> AX:%#x <+> BX:%#x = AX:%#x(BX:%#x)\n",
++                        CX, DX, AX & 0xFF, BX & 0xFF);
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_SETZ
++    /*
++     * SETZ -- Set Byte if zero
++     *
++     * Sets the destination operand to 0 or 1 depending on the settings of
++     * the status flags (ZF) in the EFLAGS register. The destination operand
++     * points to a byte register or a byte in memory. The condition code
++     * suffix (cc) indicates the condition being tested for.
++     */
++    CX = 0x1;
++    __asm__ ("mov %2, %%al\n\r"
++             "mov $0, %%bx\n\r"
++             "dec %%al\n\r"
++             "setz %%bl\n\r"
++             "mov %%bl, %0\n\r"
++             "mov %%ax, %1"
++             : "=m" (ZF), "=m" (AX)
++             : "m" (CX));
++    if (ZF)
++        printk("SETZ: Zero -> %#x - 1 = %#x\n", CX, AX & 0xFF);
++    else
++        printk("SETZ: No-Zero -> %#x - 1 = %#x\n", CX, AX & 0xFF);
++
++#endif
++
+     return 0;
+ }
+ 
+-- 
+2.7.4
+

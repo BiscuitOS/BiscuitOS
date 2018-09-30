@@ -1,0 +1,169 @@
+From 233696ec5d655b4f8a8397b7561e9a83a0987919 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sat, 15 Sep 2018 17:57:51 +0800
+Subject: [PATCH 49/52] EFLAGS -- ZF: CMPXCHG8B instruction effect ZF set and
+ clear
+
+---
+ tools/demo/mmu/storage/register/EFLAGS/eflags.c | 131 +++++++++++++++++++++++-
+ 1 file changed, 130 insertions(+), 1 deletion(-)
+
+diff --git a/tools/demo/mmu/storage/register/EFLAGS/eflags.c b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+index 6ddc358..86dbd5a 100644
+--- a/tools/demo/mmu/storage/register/EFLAGS/eflags.c
++++ b/tools/demo/mmu/storage/register/EFLAGS/eflags.c
+@@ -4481,6 +4481,8 @@ static __unused int eflags_ZF(void)
+      * Otherwise, the destination operand is loaded into the AL, AX, or EAX
+      * register.
+      */
++
++    /* Case 1 */
+     DS = 0x200;
+     ES = 0x200;
+     GS = 0x9F;
+@@ -4502,7 +4504,7 @@ static __unused int eflags_ZF(void)
+              "mov %%cx, %3"
+              : "=m" (ZF), "=m" (AX), "=m" (BX), "=m" (CX) 
+              : "m" (DS), "m" (ES), "m" (GS));
+-    printk("AX: %#x => \"CMPXCHG CX:%#x, BX:%#x\"\n", DS, ES, GS);
++    printk("AX: %#x => \"CMPXCHG CX:%#x, BX:%#x\"\n", DS, GS, ES);
+     if (ZF)
+         printk("CMPXCHG: Zero -> AX:%#x == BX:%#x, load CX:%#x into BX:%#x\n", 
+                                  DS, ES, GS, BX);
+@@ -4510,6 +4512,133 @@ static __unused int eflags_ZF(void)
+         printk("CMPXCHG: Non-Zero -> AX:%#x != BX:%#x, "
+                                  "load BX:%#x into AX:%#x\n", 
+                                  DS, ES, ES, AX);
++
++    /* Case 2 */
++    DS = 0x200;
++    ES = 0x201;
++    GS = 0x9F;
++    __asm__ ("mov %4, %%ax\n\r"
++             "mov %5, %%bx\n\r"
++             "mov %6, %%cx\n\r"
++             "cmpxchg %%cx, %%bx\n\r"
++             "jz ZF_SR\n\r"
++             "jnz ZF_CR\n\r"
++       "ZF_SR:\n\r"
++             "mov $1, %%dx\n\r"
++             "jmp outR\n\r"
++       "ZF_CR:\n\r"
++             "mov $0, %%dx\n\r"
++        "outR:\n\r"
++             "mov %%dx, %0\n\r"
++             "mov %%ax, %1\n\r"
++             "mov %%bx, %2\n\r"
++             "mov %%cx, %3"
++             : "=m" (ZF), "=m" (AX), "=m" (BX), "=m" (CX)
++             : "m" (DS), "m" (ES), "m" (GS));
++    printk("AX: %#x => \"CMPXCHG CX:%#x, BX:%#x\"\n", DS, GS, ES);
++    if (ZF)
++        printk("CMPXCHG: Zero -> AX:%#x == BX:%#x, load CX:%#x into BX:%#x\n",
++                                DS, ES, GS, BX);
++    else
++        printk("CMPXCHG: Non-Zero -> AX:%#x != BX:%#x, "
++                                "load BX:%#x into AX:%#x\n",
++                                DS, ES, ES, AX);
++#endif
++
++#ifdef CONFIG_DEBUG_ZF_CMPXCHG8B
++    /*
++     * CMPXCHG8B -- Compare and Exchange Byte
++     *
++     * Compare the 64-bit value in EDX:EAX with the operand (destination 
++     * operand). If the values are equal, the 64-bit value in ECX:EBX is 
++     * stored in the destination operand. Otherwise, the value in the
++     * destination operand is loaded into EDX:EAX. The destination operand
++     * is an 8-byte memory location. For the EDX:EAX and ECX:EBX register
++     * pairs, EDX and ECX contain the high-order 32 bits and EAX and EBX
++     * contain the low-order 32 bits of a 64-bit value.
++     */
++
++    /* Case 1: Same */
++
++    /* Establish 64-bit number: 0x2030405060708090 */
++    unsigned int dest[2]  = { 0x60708090, 0x20304050};
++    unsigned int destx[2] = { 0x60708090, 0x20304050};
++    /* Establish EDX:EAX number: 0x2030405060708090 */
++    unsigned int edx = 0x20304050;
++    unsigned int eax = 0x60708090;
++    /* Establish ECX:EBX number: 0x1122334455667788 */
++    unsigned int ecx = 0x11223344;
++    unsigned int ebx = 0x55667788;
++
++    printk("Case 1: Same\n");
++    printk("EDX:EAX:%#x:%#x AND ECX:EBX:%#x:%#x\n", edx, eax, ecx, ebx);
++    printk("CMPXCHG8B m64:%#x%x\n", dest[1], dest[0]);
++
++     __asm__ ("movl %5, %%eax\n\r"
++              "movl %6, %%edx\n\r"
++              "movl %7, %%ecx\n\r"
++              "movl %8, %%ebx\n\r"
++              "cmpxchg8b %9\n\r"
++              "jz ZF_SS\n\r"
++              "jnz ZF_CS\n\r"
++        "ZF_SS:\n\r"
++              "mov $1, %%di\n\r"
++              "jmp outS\n\r"
++        "ZF_CS:\n\r"
++              "mov $0, %%di\n\r"
++         "outS:\n\r"
++              "mov %%di, %0\n\r"
++              "movl %%eax, %1\n\r"
++              "movl %%ebx, %2\n\r"
++              "movl %%ecx, %3\n\r"
++              "movl %%edx, %4"
++              : "=m" (ZF), "=m" (EAX), "=m" (EBX), "=m" (ECX), "=m" (EDX)
++              : "m" (eax), "m" (edx), "m" (ecx), "m" (ebx), "m" (dest));
++    if (ZF) {
++        printk("CMPXCHG8B: Zero -> [EDX:EAX]:%#x:%#x == m64:%#x%x\n",
++                   EDX, EAX, destx[1], destx[0]);
++        printk("Load [ECX:EBX]:%#x:%#x into m64:%#x%x\n", 
++                   ECX, EBX, dest[1], dest[0]);
++    }
++
++    /* Case 2: Diff */    
++
++    /* Establish 64-bit number: 0x2030405060708099 */
++    dest[0]  = 0x20304050;
++    dest[1]  = 0x60708099;
++    destx[2] = 0x20304050;
++    destx[2] = 0x60708099;
++
++    printk("Case 2: Diff\n");
++    printk("EDX:EAX:%#x:%#x AND ECX:EBX:%#x:%#x\n", edx, eax, ecx, ebx);
++    printk("CMPXCHG8B m64:%#x%x\n", dest[1], dest[0]);
++
++     __asm__ ("movl %5, %%eax\n\r"
++              "movl %6, %%edx\n\r"
++              "movl %7, %%ecx\n\r"
++              "movl %8, %%ebx\n\r"
++              "cmpxchg8b %9\n\r"
++              "jz ZF_ST\n\r"
++              "jnz ZF_CT\n\r"
++        "ZF_ST:\n\r"
++              "mov $1, %%di\n\r"
++              "jmp outT\n\r"
++        "ZF_CT:\n\r"
++              "mov $0, %%di\n\r"
++         "outT:\n\r"
++              "mov %%di, %0\n\r"
++              "movl %%eax, %1\n\r"
++              "movl %%ebx, %2\n\r"
++              "movl %%ecx, %3\n\r"
++              "movl %%edx, %4"
++              : "=m" (ZF), "=m" (EAX), "=m" (EBX), "=m" (ECX), "=m" (EDX)
++              : "m" (eax), "m" (edx), "m" (ecx), "m" (ebx), "m" (dest));
++    if (!ZF) {
++        printk("CMPXCHG8B: Non-Zero -> [EDX:EAX]:%#x:%#x != m64:%#x%x\n",
++                   edx, eax, destx[1], destx[0]);
++        printk("Load m64:%#x%x into [EDX:EAX]:%#x:%#x\n", 
++                   dest[1], dest[0], EDX, EAX);
++    }
+ #endif
+ 
+     return 0;
+-- 
+2.7.4
+
