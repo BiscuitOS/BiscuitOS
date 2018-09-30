@@ -20,6 +20,11 @@ kernel_version=$1
 kernel_magic=$4
 fs_magic=$5
 tag_version=$6
+if [ ! -z $7 ]; then
+  COREBOOT="y"
+else
+  COREBOOT="n"
+fi
 
 ###
 # Don't edit
@@ -49,12 +54,21 @@ establish_kernel()
         git reset --hard ${tag_version} > /dev/null 2>&1
         git am ${PATCH_DIR}/*.patch > /dev/null 2>&1
     fi
+    make distclean
     if [ ${kernel_magic} -gt 9 ]; then
         if [ ${fs_magic} -eq 0 ]; then
-            make linux_minix_defconfig
+            if [ ${COREBOOT} == "y" ]; then
+                make linux_minix_X_defconfig
+            else
+                make linux_minix_defconfig
+            fi
         fi
         if [ ${fs_magic} -eq 1 ]; then
-            make linux_ext2_defconfig
+            if [ ${COREBOOT} == "y" ]; then
+                make linux_ext2_X_defconfig
+            else
+                make linux_ext2_defconfig
+            fi
         fi
         if [ ${fs_magic} -eq 2 ]; then
             make linux_msdos_defconfig

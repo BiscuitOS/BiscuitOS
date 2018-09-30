@@ -13,8 +13,8 @@ git pull
 ## Update BiscuitOS
 cd ${BOS_DIR}
 # ignore include/config/ and include/generate
-git checkout ${BOS_DIR}/include/config/
-git checkout ${BOS_DIR}/include/generated/
+git checkout ${BOS_DIR}/include/config/ > /dev/null 2>&1
+git checkout ${BOS_DIR}/include/generated/ > /dev/null 2>&1
 git pull
 
 ## Update BIOS
