@@ -5,7 +5,7 @@
 ################################################
 MINIX_NAME       := minix
 MINIX_VERSION    := V1
-MINIX_SITE       := $(MP_DOWNLOAD)/rootfs
+MINIX_SITE       := https://raw.githubusercontent.com/BiscuitOS/PackageManage/master/rootfs
 MINIX_SUBNAME    := origin
 MINIX_DIR        := $(srctree)/fs/minix
 MINIX_OUT        := $(srctree)/output/fs/minix

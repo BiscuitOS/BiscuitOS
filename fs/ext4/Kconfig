@@ -1,0 +1,6 @@
+menuconfig FS_EXT4
+	bool "EX4 Filesystem(rootfs)"
+
+if FS_EXT4
+
+endif # FS_EXT4

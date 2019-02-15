@@ -1,0 +1,36 @@
+menuconfig PK_BUSYBOX
+	bool "busybox"
+
+if PK_BUSYBOX
+
+choice
+	prompt "Source of Busybox source code"
+
+config BUSYBOX_GITHUB
+	bool "Busybox source code from github"
+
+config BUSYBOX_DL
+	bool "Busybox source code from external file"
+
+config BUSYBOX_WGET
+	bool "Busybox source code from wget"
+
+endchoice
+
+if BUSYBOX_DL
+
+config BUSYBOX_DL_NAME
+	string "External Busybox absolute path"
+
+endif # BUSYBOX_DL
+
+config BUSYBOX_VERSION
+	string "busybox verstion"
+
+config BUSYBOX_SRC
+	int 
+	default 1 if BUSYBOX_GITHUB
+	default 2 if BUSYBOX_DL
+	default 3 if BUSYBOX_WGET
+
+endif # PK_BUSYBOX

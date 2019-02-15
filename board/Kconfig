@@ -1,37 +1,18 @@
 menu "Board setup"
 
+config SUPPORT_BOARD_INDV
+	bool "Support individual Board scheme"
+	help
+	  On legacy board support dts scheme.
+
+if SUPPORT_BOARD_INDV
+
 config BOARD_NAME
 	string "board name"
 	default "GoingMerry"
 
 source "board/dts/Kconfig"
 
+endif # SUPPORT_BOARD_INDV
+
 endmenu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

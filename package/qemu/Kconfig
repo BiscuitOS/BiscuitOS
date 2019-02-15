@@ -1,0 +1,36 @@
+menuconfig PK_QEMU_SYSTEM
+	bool "qemu-system"
+
+if PK_QEMU_SYSTEM
+
+choice
+	prompt "Source of Qemu source code"
+
+config QEMU_SYSTEM_GITHUB
+	bool "Qemu source code from github"
+
+config QEMU_SYSTEM_DL
+	bool "Qemu source code from external file"
+
+config QEMU_SYSTEM_WGET
+	bool "Qemu source code from wget"
+
+endchoice
+
+if QEMU_SYSTEM_DL
+
+config QEMU_SYSTEM_DL_NAME
+	string "External Qemu absolute path"
+
+endif # QEMU_SYSTEM_DL
+
+config QEMU_SYSTEM_VERSION
+	string "qemu-system verstion"
+
+config QEMU_SYSTEM_SRC
+	int 
+	default 1 if QEMU_SYSTEM_GITHUB
+	default 2 if QEMU_SYSTEM_DL
+	default 3 if QEMU_SYSTEM_WGET
+
+endif # PK_QEMU_SYSTEM

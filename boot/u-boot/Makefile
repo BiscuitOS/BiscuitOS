@@ -3,9 +3,9 @@
 # UBOOT for i386
 #
 ################################################
-UBOOT_NAME       := UBOOT
+UBOOT_NAME       := u-boot
 UBOOT_VERSION    := $(CONFIG_UBOOT_VER)
-UBOOT_SITE       := https://github.com/coreboot/UBOOT.git 
+UBOOT_SITE       := git://git.denx.de/u-boot.git 
 UBOOT_SUBNAME    := 
 UBOOT_DIR        := $(srctree)/boot/$(UBOOT_NAME)
 UBOOT_PATCH      := $(UBOOT_DIR)/patch 

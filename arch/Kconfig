@@ -1,46 +1,23 @@
 menu "Architecture configure"
 
-config I386
-	bool "Intel i386sx board"
-
-config I486
-	bool "Intel i486 board"
-
-config I586
-	bool "Intel i586 board"
-
-config I686
-	bool "Intel i686 board"
+choice
+	prompt "Setup Machine Architecture"
 
 config x86
-	bool "Intel x86 board"
+	bool "Intel x86 board (Compat: i386,486 etc)"
+
+config ARM
+	bool "ARM 32-bit"
+
+config ARM64
+	bool "ARM 64-bit"
+
+endchoice
+
+config ARCH_MAGIC
+	string
+	default "1" if x86
+	default "2" if ARM
+	default "3" if ARM64
 
 endmenu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

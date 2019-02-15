@@ -1,0 +1,118 @@
+menuconfig TOOL_ARM_GNUEABIHF
+	bool "arm-linux-gnueabihf"
+
+if TOOL_ARM_GNUEABIHF
+
+choice
+	prompt "Setup way to get arm-linux-gnueabihf"
+
+config TOOL_ARM_GNUEABIHF_DL
+	bool "arm-linux-gnueabihf from external file"
+
+config TOOL_ARM_GNUEABIHF_WGET
+	bool "arm-linux-gnueabihf from wget"
+
+endchoice
+
+config TOOL_ARM_GNUEABIHF_SRC
+	int
+	default 1 if TOOL_ARM_GNUEABIHF_DL
+	default 2 if TOOL_ARM_GNUEABIHF_WGET
+
+if TOOL_ARM_GNUEABIHF_WGET
+
+choice 
+	prompt "Release version"
+
+config ARM_GNUEABIHF_V4.9-2016.02
+	bool "v4.9-2016.02"
+	
+config ARM_GNUEABIHF_V5.1-2015.08
+	bool "v5.1-2015.08"
+
+config ARM_GNUEABIHF_V5.3-2016.02
+	bool "v5.3-2016.02"
+
+config ARM_GNUEABIHF_V5.4-2017.01
+	bool "v5.4-2017.01"
+
+config ARM_GNUEABIHF_V5.5-2017.10
+	bool "v5.5-2017.10"
+
+config ARM_GNUEABIHF_V6.1-2016.08
+	bool "v6.1-2017.10"
+
+config ARM_GNUEABIHF_V6.2-2016.11
+	bool "v6.2-2016.11"
+
+config ARM_GNUEABIHF_V6.3-2017.02
+	bool "v6.3-2017.02"
+
+config ARM_GNUEABIHF_V6.4-2018.05
+	bool "v6.4-2018.05"
+
+config ARM_GNUEABIHF_V6.5-2018.12
+	bool "v6.5-2018.12"
+
+config ARM_GNUEABIHF_V7.1-2017.08
+	bool "v7.1-2017.08"
+
+config ARM_GNUEABIHF_V7.2-2017.11
+	bool "v7.2-2017.11"
+
+config ARM_GNUEABIHF_V7.3-2018.05
+	bool "v7.3-2018.05"
+
+config ARM_GNUEABIHF_V7.4-2019.02
+	bool "v7.4-2019.02"
+
+endchoice
+
+config ARM_GNUEABIHF_FULL_NAME
+	string
+	default "4.9-2016.02/arm-linux-gnueabihf/gcc-linaro-4.9-2016.02-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V4.9-2016.02
+	default "5.1-2015.08/arm-linux-gnueabihf/gcc-linaro-5.1-2015.08-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V5.1-2015.08
+	default "5.3-2016.02/arm-linux-gnueabihf/gcc-linaro-5.3-2016.02-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V5.3-2016.02
+	default "5.4-2017.01/arm-linux-gnueabihf/gcc-linaro-5.4.1-2017.01-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V5.4-2017.01
+	default "5.5-2017.10/arm-linux-gnueabihf/gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V5.5-2017.10
+	default "6.1-2016.08/arm-linux-gnueabihf/gcc-linaro-6.1.1-2016.08-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V6.1-2016.08
+	default "6.2-2016.11/arm-linux-gnueabihf/gcc-linaro-6.2.1-2016.11-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V6.2-2016.11
+	default "6.3-2017.02/arm-linux-gnueabihf/gcc-linaro-6.3.1-2017.02-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V6.3-2017.02
+	default "6.4-2018.05/arm-linux-gnueabihf/gcc-linaro-6.4.1-2018.05-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V6.4-2018.05
+	default "6.5-2018.12/arm-linux-gnueabihf/gcc-linaro-6.5.0-2018.12-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V6.5-2018.12
+	default "7.1-2017.08/arm-linux-gnueabihf/gcc-linaro-7.1.1-2017.08-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V7.1-2017.08
+	default "7.2-2017.11/arm-linux-gnueabihf/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V7.2-2017.11
+	default "7.3-2018.05/arm-linux-gnueabihf/gcc-linaro-7.3.1-2018.05-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V7.3-2018.05
+	default "7.4-2019.02/arm-linux-gnueabihf/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf.tar.xz" if ARM_GNUEABIHF_V7.4-2019.02
+
+config ARM_GNUEABIHF_VERSION
+	string
+	default "v4.9-2016.02" if ARM_GNUEABIHF_V4.9-2016.02
+	default "v5.1-2015.08" if ARM_GNUEABIHF_V5.1-2015.08
+	default "v5.3-2016.02" if ARM_GNUEABIHF_V5.3-2016.02
+	default "v5.4-2017.01" if ARM_GNUEABIHF_V5.4-2017.01
+	default "v5.5-2017.10" if ARM_GNUEABIHF_V5.5-2017.10
+	default "v6.1-2016.08" if ARM_GNUEABIHF_V6.1-2016.08
+	default "v6.2-2016.11" if ARM_GNUEABIHF_V6.2-2016.11
+	default "v6.3-2017.02" if ARM_GNUEABIHF_V6.3-2017.02
+	default "v6.4-2018.05" if ARM_GNUEABIHF_V6.4-2018.05
+	default "v6.5-2018.12" if ARM_GNUEABIHF_V6.5-2018.12
+	default "v7.1-2017.08" if ARM_GNUEABIHF_V7.1-2017.08
+	default "v7.2-2017.11" if ARM_GNUEABIHF_V7.2-2017.11
+	default "v7.3-2018.05" if ARM_GNUEABIHF_V7.3-2018.05
+	default "v7.4-2019.02" if ARM_GNUEABIHF_V7.4-2019.02
+ 
+endif # TOOL_ARM_GNUEABIHF_WGET
+
+if TOOL_ARM_GNUEABIHF_DL
+
+config TOOL_ARM_GNUEABIHF_DL_NAME
+	string "arm-linux-gnueabihf absolute path"
+
+config ARM_GNUEABIHF_VERSION
+	string "arm-linux-gnueabihf version"
+	default "v7.4-2019.02"
+
+endif # TOOL_ARM_GNUEABIHF_DL
+
+endif # TOOL_ARM_GNUEABIHF

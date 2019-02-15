@@ -1,5 +1,6 @@
 PACKAGE-y                               += binutils/
-PACKAGE-$(CONFIG_PACKAGE_GCC)           += gcc/
+PACKAGE-$(CONFIG_PK_QEMU_SYSTEM)        += qemu/
+PACKAGE-$(CONFIG_PK_BUSYBOX)            += busybox/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/%/Makefile, $(PACKAGE-y))
 

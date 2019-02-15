@@ -1,0 +1,23 @@
+##########################################
+#
+# To build BiscuitOS kernel
+#
+##########################################
+BOS_KERNEL_NAME     := kernel
+BOS_KERNEL_VERSION  := $(KERNEL_VERSION)
+BOS_KERNEL_SITE     := https://github.com/BiscuitOS/Kernel.git
+BOS_KERNEL_DIR      := $(srctree)/target/$(BOS_KERNEL_NAME)
+SUB_TARGET          += $(BOS_KERNEL_DIR)/compile
+ifdef CONFIG_ARM64
+BOS_KERNEL_SCRIPTS  := $(srctree)/scripts/kernel/kernel_ARM64.sh
+else
+BOS_KERNEL_SCRIPTS  := $(srctree)/scripts/kernel/kernel.sh
+endif
+
+run_kernel_sh = $(CONFIG_SHELL) $(BOS_KERNEL_SCRIPTS) \
+                $(BOS_KERNEL_VERSION) $(BOS_KERNEL_SITE) \
+                $(srctree) $(KERNEL_MAGIC) $(KERNEL_FS) $(KERNEL_BD_TAG) \
+                $(CONFIG_COREBOOT_ON)
+
+$(BOS_KERNEL_DIR)/compile: FORCE
+	$(Q)$(call run_kernel_sh,make)

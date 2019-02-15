@@ -1,0 +1,105 @@
+menu "linux"
+
+config LINUX_KERNEL
+	bool "linux"
+
+if LINUX_KERNEL
+
+choice
+	prompt "Choice Newest/Legacy Kernel"
+
+config LINUX_NEWEST
+	bool "Establish Newest Kernel"
+
+config LINUX_LEGACY
+	bool "Establish Legacy Kernel"
+
+endchoice
+
+config LINUX_BUILD_HIST
+	string
+	default "Newest" if LINUX_NEWEST
+	default "Legacy" if LINUX_LEGACY
+
+if LINUX_NEWEST
+
+choice
+	prompt "Setup linux kernel source code"
+
+config LINUX_KERNEL_GITHUB
+	bool "Linux kernel source code from Github"
+
+config LINUX_KERNEL_DL
+	bool "Linux kernel source code from External Package"
+
+config LINUX_KERNEL_WGET
+	bool "Linux kernel source code from Wget"
+
+endchoice
+
+if LINUX_KERNEL_DL
+
+config LINUX_KERNEL_DL_NAME
+	string "External Linux kernel absolute path"
+
+endif # LINUX_KERNEL_DL
+
+if LINUX_KERNEL_WGET
+
+config LINUX_KERNEL_WGET_SITE
+	string "Linux kernel wget site"
+
+endif # LINUX_KERNEL_WGET
+
+if LINUX_KERNEL_GITHUB
+
+config LINUX_KERNEL_GITHUB_SITE
+	string "Linux kernel Github site"
+
+endif # LINUX_KERNEL_GITHUB
+
+config LINUX_KERNEL_VERSION
+	string "Linux kernel verstion"
+
+config LINUX_KERNEL_SRC
+	int 
+	default 1 if LINUX_KERNEL_GITHUB
+	default 2 if LINUX_KERNEL_DL
+	default 3 if LINUX_KERNEL_WGET
+
+config LINUX_KERNEL_TAR_TYPE
+	string "linux kernel source code tar type"
+
+if ARM
+
+choice
+	prompt "Choice CROSS compile"
+
+config LINUX_KERNEL_CROSS_GUNEABI
+	bool "arm-linux-gnueabi"
+
+config LINUX_KERNEL_CROSS_GNUEABIHF
+	bool "arm-linux-gnueabihf"
+
+endchoice
+
+config LINUX_KERNEL_CROSS_COMPILE
+	string
+	default "arm-linux-gnueabi" if LINUX_KERNEL_CROSS_GUNEABI
+	default "arm-linux-gnueabihf" if LINUX_KERNEL_CROSS_GNUEABIHF
+
+endif # ARM
+
+if ARM64
+
+config LINUX_KERNEL_CROSS_COMPILE
+	string
+	default "aarch64-linux-gnu"
+
+endif # ARM64
+
+endif # LINUX_NEWEST
+
+endif # PK_LINUX_KERNEL
+
+endmenu

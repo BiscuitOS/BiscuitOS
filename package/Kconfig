@@ -10,7 +10,11 @@ config COMMON_UTILISE
 
 if COMMON_UTILISE
 
-source package/gcc/Kconfig
+# busybox
+source package/busybox/Kconfig
+
+# qemu-system
+source package/qemu/Kconfig
 
 endif
 

@@ -5,39 +5,15 @@
 menu "Rootfs: file system"
 
 config ROOTFS
-	bool "rootfs for BiscuitOS"
+	bool "Rootfs for BiscuitOS"
 	default y
 	help
 	  The rootfs for BiscuitOS
 
 if ROOTFS
 
-choice
-	prompt "Configure BiscuitOS rootfs"
-	default FS_MINIX
-
-config FS_MINIX
-	bool "Unix-MINIX Filesystem V1"
-	help
-	  The Minix filesystem
-
-config FS_EXT2
-	bool "(EXT2) Second extended Filesystem Revision 0"
-	help
-	  The Ext2 revision 0
-
-config FS_MSDOS
-	bool "MSDOS Filesystem"
-	help 
-	  The MSDOS rootfs.
-endchoice
-
-config FS_MAGIC
-	int
-	default 0     if FS_MINIX
-	default 1     if FS_EXT2
-	default 2     if FS_MSDOS
-	default 0
+# Ext4
+source fs/ext4/Kconfig
 
 endif # Rootfs
 

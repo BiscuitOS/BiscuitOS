@@ -5,11 +5,15 @@
 ################################################
 BASEFILE_NAME       := binutils
 BASEFILE_VERSION    := 1
-BASEFILE_SITE       := $(MP_DOWNLOAD)/gnu-binutils
+BASEFILE_SITE       := https://raw.githubusercontent.com/BiscuitOS/PackageManage/master/gnu-binutils
 BASEFILE_SUBNAME    := 
 BASEFILE_DIR        := $(srctree)/package/binutils 
 BASEFILE_OUT        := 
+ifdef CONFIG_ARM64
+BASEFILE_SCRIPTS    := $(srctree)/scripts/package/binutils_arm64.sh
+else
 BASEFILE_SCRIPTS    := $(srctree)/scripts/package/binutils.sh
+endif
 BASEFILE_TAR        := tar.bz2
 BASEFILE_PACKAGE    := 
 SUB_TARGET          += $(BASEFILE_DIR)/build

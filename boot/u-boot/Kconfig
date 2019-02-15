@@ -7,7 +7,7 @@ if UBOOT
 
 config UBOOT_VER
 	string "u-boot release version"
-	default "2018-02"
+	default "v2019.01"
 	help
 	  Version of BIOS.
 

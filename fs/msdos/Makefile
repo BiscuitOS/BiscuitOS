@@ -5,7 +5,7 @@
 ################################################
 MSDOS_NAME       := msdos
 MSDOS_VERSION    := 0
-MSDOS_SITE       := $(MP_DOWNLOAD)/rootfs
+MSDOS_SITE       := https://raw.githubusercontent.com/BiscuitOS/PackageManage/master/rootfs
 MSDOS_SUBNAME    := Revision 0
 MSDOS_DIR        := $(srctree)/fs/msdos
 MSDOS_OUT        := $(srctree)/output/fs/msdos

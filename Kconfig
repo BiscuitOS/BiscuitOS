@@ -1,18 +1,31 @@
 #
 # For a description of the syntax of this configuration file,
 #
-mainmenu "buildroot for BiscuitOS Configuration"
+mainmenu "Buildroot for BiscuitOS Configuration"
 
+config MAIN_PROJ_NAME
+	string "Setup Porject Name"
+	default "BiscuitOS"
+	help
+	  Must be indicated project name.
+
+# Architecture
 source arch/Kconfig
 
+# Board
 source board/Kconfig
 
+# Bootloader
 source boot/Kconfig
 
-source target/kernel/Kconfig
-
+# Package
 source package/Kconfig
 
+# Filesystem
 source fs/Kconfig
 
-source target/Host/Kconfig
+# Toolchain
+source toolchain/Kconfig
+
+# Kernel
+source linux/Kconfig

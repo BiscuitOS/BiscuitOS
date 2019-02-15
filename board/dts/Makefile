@@ -10,7 +10,11 @@ DTS_SUBNAME    :=
 DTS_DIR        := $(srctree)/board/dts
 DTS_PATCH      := 
 DTS_OUT        := 
+ifdef CONFIG_ARM64
+DTS_SCRIPTS    := $(srctree)/scripts/board/dts_arm64.sh
+else
 DTS_SCRIPTS    := $(srctree)/scripts/board/dts.sh
+endif
 DTS_TAR        := 
 DTS_PACKAGE    := 
 SUB_TARGET          += $(DTS_DIR)/build

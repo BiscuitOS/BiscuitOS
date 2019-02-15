@@ -384,8 +384,8 @@ export SUB_TARGET  :=
 export STAGING_DIR := $(srctree)/output
 TARGET_BUILD_DIR   := $(call pre_output)
 
-# Target
-include target/Makefile
+# Toolchain and prebuild
+include toolchain/Makefile
 
 # package
 include package/Makefile
@@ -395,6 +395,9 @@ include boot/Makefile
 
 # Board 
 include board/Makefile
+
+# kernel
+include linux/Makefile
 
 # Filesystem (must be last invoked)
 include fs/Makefile

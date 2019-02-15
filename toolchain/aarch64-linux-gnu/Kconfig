@@ -1,0 +1,118 @@
+menuconfig TOOL_AARCH64
+	bool "aarch64-linux-gnu"
+
+if TOOL_AARCH64
+
+choice
+	prompt "Setup way to get aarch64-linux-gnu"
+
+config TOOL_AARCH64_DL
+	bool "aarch64-linux-gnu from external file"
+
+config TOOL_AARCH64_WGET
+	bool "aarch64-linux-gnu from wget"
+
+endchoice
+
+config TOOL_AARCH64_SRC
+	int
+	default 1 if TOOL_AARCH64_DL
+	default 2 if TOOL_AARCH64_WGET
+
+if TOOL_AARCH64_WGET
+
+choice 
+	prompt "Release version"
+
+config AARCH64_V4.9-2016.02
+	bool "v4.9-2016.02"
+	
+config AARCH64_V5.1-2015.08
+	bool "v5.1-2015.08"
+
+config AARCH64_V5.3-2016.02
+	bool "v5.3-2016.02"
+
+config AARCH64_V5.4-2017.01
+	bool "v5.4-2017.01"
+
+config AARCH64_V5.5-2017.10
+	bool "v5.5-2017.10"
+
+config AARCH64_V6.1-2016.08
+	bool "v6.1-2017.10"
+
+config AARCH64_V6.2-2016.11
+	bool "v6.2-2016.11"
+
+config AARCH64_V6.3-2017.02
+	bool "v6.3-2017.02"
+
+config AARCH64_V6.4-2018.05
+	bool "v6.4-2018.05"
+
+config AARCH64_V6.5-2018.12
+	bool "v6.5-2018.12"
+
+config AARCH64_V7.1-2017.08
+	bool "v7.1-2017.08"
+
+config AARCH64_V7.2-2017.11
+	bool "v7.2-2017.11"
+
+config AARCH64_V7.3-2018.05
+	bool "v7.3-2018.05"
+
+config AARCH64_V7.4-2019.02
+	bool "v7.4-2019.02"
+
+endchoice
+
+config AARCH64_FULL_NAME
+	string
+	default "4.9-2016.02/aarch64-linux-gnu/gcc-linaro-4.9-2016.02-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V4.9-2016.02
+	default "5.1-2015.08/aarch64-linux-gnu/gcc-linaro-5.1-2015.08-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V5.1-2015.08
+	default "5.3-2016.02/aarch64-linux-gnu/gcc-linaro-5.3-2016.02-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V5.3-2016.02
+	default "5.4-2017.01/aarch64-linux-gnu/gcc-linaro-5.4.1-2017.01-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V5.4-2017.01
+	default "5.5-2017.10/aarch64-linux-gnu/gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V5.5-2017.10
+	default "6.1-2016.08/aarch64-linux-gnu/gcc-linaro-6.1.1-2016.08-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V6.1-2016.08
+	default "6.2-2016.11/aarch64-linux-gnu/gcc-linaro-6.2.1-2016.11-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V6.2-2016.11
+	default "6.3-2017.02/aarch64-linux-gnu/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V6.3-2017.02
+	default "6.4-2018.05/aarch64-linux-gnu/gcc-linaro-6.4.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V6.4-2018.05
+	default "6.5-2018.12/aarch64-linux-gnu/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V6.5-2018.12
+	default "7.1-2017.08/aarch64-linux-gnu/gcc-linaro-7.1.1-2017.08-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V7.1-2017.08
+	default "7.2-2017.11/aarch64-linux-gnu/gcc-linaro-7.2.1-2017.11-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V7.2-2017.11
+	default "7.3-2018.05/aarch64-linux-gnu/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V7.3-2018.05
+	default "7.4-2019.02/aarch64-linux-gnu/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu.tar.xz" if AARCH64_V7.4-2019.02
+
+config AARCH64_VERSION
+	string
+	default "v4.9-2016.02" if AARCH64_V4.9-2016.02
+	default "v5.1-2015.08" if AARCH64_V5.1-2015.08
+	default "v5.3-2016.02" if AARCH64_V5.3-2016.02
+	default "v5.4-2017.01" if AARCH64_V5.4-2017.01
+	default "v5.5-2017.10" if AARCH64_V5.5-2017.10
+	default "v6.1-2016.08" if AARCH64_V6.1-2016.08
+	default "v6.2-2016.11" if AARCH64_V6.2-2016.11
+	default "v6.3-2017.02" if AARCH64_V6.3-2017.02
+	default "v6.4-2018.05" if AARCH64_V6.4-2018.05
+	default "v6.5-2018.12" if AARCH64_V6.5-2018.12
+	default "v7.1-2017.08" if AARCH64_V7.1-2017.08
+	default "v7.2-2017.11" if AARCH64_V7.2-2017.11
+	default "v7.3-2018.05" if AARCH64_V7.3-2018.05
+	default "v7.4-2019.02" if AARCH64_V7.4-2019.02
+ 
+endif # TOOL_AARCH64_WGET
+
+if TOOL_AARCH64_DL
+
+config TOOL_AARCH64_DL_NAME
+	string "aarch64-linux-gnu absolute path"
+
+config AARCH64_VERSION
+	string "aarch64-linux-gnu version"
+	default "v7.4-2019.02"
+
+endif # TOOL_AARCH64_DL
+
+endif # TOOL_AARCH64

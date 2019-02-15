@@ -5,7 +5,7 @@
 ################################################
 EXT2_NAME       := ext2
 EXT2_VERSION    := 0
-EXT2_SITE       := $(MP_DOWNLOAD)/rootfs
+EXT2_SITE       := https://raw.githubusercontent.com/BiscuitOS/PackageManage/master/rootfs
 EXT2_SUBNAME    := Revision 0
 EXT2_DIR        := $(srctree)/fs/ext2
 EXT2_OUT        := $(srctree)/output/fs/ext2
