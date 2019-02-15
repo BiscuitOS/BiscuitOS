@@ -1,16 +1,71 @@
-menu "u-boot"
-
-config UBOOT
-	bool "u-boot"
+menuconfig UBOOT 
+	bool "uboot"
 
 if UBOOT
 
-config UBOOT_VER
-	string "u-boot release version"
-	default "v2019.01"
-	help
-	  Version of BIOS.
+choice
+	prompt "Setup uboot source code"
 
-endif
+config UBOOT_GITHUB
+	bool "uboot source code from Github"
 
-endmenu
+config UBOOT_DL
+	bool "uboot source code from External Package"
+
+config UBOOT_WGET
+	bool "uboot source code from Wget"
+
+endchoice
+
+if UBOOT_DL
+
+config UBOOT_DL_NAME
+	string "External uboot absolute path"
+
+endif # UBOOT_DL
+
+if UBOOT_WGET
+
+config UBOOT_WGET_SITE
+	string "uboot  wget site"
+
+endif # UBOOT_WGET
+
+if UBOOT_GITHUB
+
+config UBOOT_GITHUB_SITE
+	string "uboot  Github site"
+
+endif # UBOOT_GITHUB
+
+config UBOOT_VERSION
+	string "uboot  verstion"
+
+config UBOOT_SRC
+	int 
+	default 1 if UBOOT_GITHUB
+	default 2 if UBOOT_DL
+	default 3 if UBOOT_WGET
+
+config UBOOT_TAR_TYPE
+	string "uboot  source code tar type"
+
+choice
+	prompt "Choice CROSS compile"
+
+config UBOOT_CROSS_GUNEABI
+	bool "arm-linux-gnueabi"
+	select TOOL_ARM_GNUEABI
+
+config UBOOT_CROSS_GNUEABIHF
+	bool "arm-linux-gnueabihf"
+	select TOOL_ARM_GNUEABIHF
+
+endchoice
+
+config UBOOT_CROSS_COMPILE
+	string
+	default "arm-linux-gnueabi" if UBOOT_CROSS_GUNEABI
+	default "arm-linux-gnueabihf" if UBOOT_CROSS_GNUEABIHF
+
+endif # PK_UBOOT_

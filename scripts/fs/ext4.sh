@@ -192,8 +192,9 @@ echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}/busybox/busybox" >> ${MF}
 echo 'make menuconfig' >> ${MF}
-echo '  Build Options --->' >> ${MF}
-echo '    [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
+echo '  Busybox Settings --->' >> ${MF}
+echo '    Build Options --->' >> ${MF}
+echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
 echo '' >> ${MF}
 echo "make CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-" >> ${MF}
 echo '' >> ${MF}
