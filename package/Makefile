@@ -1,3 +1,4 @@
+PACKAGE-$(CONFIG_PK_BINUTILS)           += binutils/
 PACKAGE-$(CONFIG_PK_QEMU_SYSTEM)        += qemu/
 PACKAGE-$(CONFIG_PK_BUSYBOX)            += busybox/
 

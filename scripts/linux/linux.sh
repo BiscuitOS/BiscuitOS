@@ -1,5 +1,6 @@
 #/bin/bash
 
+set -e
 # Establish linux source code.
 #
 # (C) 2019.01.15 BiscuitOS <buddy.zhang@aliyun.com>
@@ -20,6 +21,13 @@ LINUX_KERNEL_TAR=${10%X}
 LINUX_KERNEL_SUBNAME=${13%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 TAR_OPT=
+KERNEL_HIS=${14%X}
+
+if [ ${KERNEL_HIS}X = "LegacyX" ]; then
+	GIT_OUT=kernel
+elif [ ${KERNEL_HIS}X = "NewestX" ]; then
+	GIT_OUT=linux
+fi
 
 if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${LINUX_KERNEL_NAME}/version`
@@ -29,41 +37,58 @@ if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME} ]; then
         fi
 fi
 
-if [ ${LINUX_KERNEL_TAR} = "tar.xz" ]; then
+if [ ${LINUX_KERNEL_TAR}X = "tar.xzX" ]; then
 	TAR_OPT=-xvJf
-elif [ ${LINUX_KERNEL_TAR} = "tar.gz" ]; then
+elif [ ${LINUX_KERNEL_TAR}X = "tar.gzX" ]; then
 	TAR_OPT=-xvzf
-elif [ ${LINUX_KERNEL_TAR} = "tar.bz2" ]; then
+elif [ ${LINUX_KERNEL_TAR}X = "tar.bz2X" ]; then
 	TAR_OPT=-xvjf
 fi
 
+establish_legacy_kernel()
+{
+	PATCH=${LINUX_KERNEL_PATCH}/linux_${LINUX_KERNEL_VERSION}
+	TARGET=${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+	cd ${TARGET}
+	echo "PATCJH: ${PATCH}"
+	if [ -d ${TARGET}/tools/means ]; then
+		rm -rf ${TARGET}/tools/means
+	fi
+	git reset --hard v${LINUX_KERNEL_VERSION}
+	if [ $? -ne 0 ]; then
+		git tag
+		echo -e "\033[31m Legacy Kernel only support above version \033[0m"
+		exit -1
+	fi
+	git am ${PATCH}/*.patch
+}
+
 ## Get from github
-if [ ${LINUX_KERNEL_SRC} = "1" ]; then
-	if [ ! -d ${ROOT}/dl/linux ]; then
+if [ ${LINUX_KERNEL_SRC}X = "1X" ]; then
+	if [ ! -d ${ROOT}/dl/${GIT_OUT} ]; then
 		cd ${ROOT}/dl/
-		git clone ${LINUX_KERNEL_GITHUB}
-		cd ${ROOT}/dl/linux
-		git tag > LINUX_KERNEL_TAG
-		cd -
+		git clone ${LINUX_KERNEL_GITHUB} ${GIT_OUT}
+		cd ${ROOT}/dl/${GIT_OUT}
 	else
-		cd ${ROOT}/dl/linux
+		cd ${ROOT}/dl/${GIT_OUT}
 		git pull
-		git tag > LINUX_KERNEL_TAG
 	fi
 	mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}
-	if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/linux_github ]; then
-		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/linux_github
+	if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ]; then
+		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github
 	fi
-	cp -rfa ${ROOT}/dl/linux ${OUTPUT}/${LINUX_KERNEL_NAME}/linux_github
-	cd ${OUTPUT}/${LINUX_KERNEL_NAME}/linux_github
+	cp -rfa ${ROOT}/dl/${GIT_OUT} ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github
 	cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
 	rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-        ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/linux_github ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+        ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
 	echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
+	if [ ${KERNEL_HIS}X = "LegacyX" ]; then
+		establish_legacy_kernel
+	fi
 fi
 
 ## Get from External package
-if [ ${LINUX_KERNEL_SRC} = "2" ]; then
+if [ ${LINUX_KERNEL_SRC}X = "2X" ]; then
 	LINUX_KERNEL_SUBNAME=${LINUX_KERNEL_SUBNAME%X}
 	if [ ! -f ${LINUX_KERNEL_SUBNAME} ]; then
 		echo -e "\033[31m ${LINUX_KERNEL_SUBNAME} doesn't exist! \033[0m"
@@ -82,7 +107,7 @@ if [ ${LINUX_KERNEL_SRC} = "2" ]; then
 fi
 
 ## Get from wget
-if [ ${LINUX_KERNEL_SRC} = "3" ]; then
+if [ ${LINUX_KERNEL_SRC}X = "3X" ]; then
 	BASE_NAME=${LINUX_KERNEL_NAME}-${LINUX_KERNEL_VERSION}.${LINUX_KERNEL_TAR}
 	BASE=${LINUX_KERNEL_NAME}-${LINUX_KERNEL_VERSION}
 	if [ ! -f ${ROOT}/dl/${BASE_NAME} ]; then
@@ -101,4 +126,9 @@ if [ ${LINUX_KERNEL_SRC} = "3" ]; then
         echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
         rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
         ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE} ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+fi
+
+if [ ${KERNEL_HIS}X = "LegacyX" ]; then
+	cd ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+	make defconfig
 fi

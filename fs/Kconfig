@@ -2,10 +2,8 @@
 # Rootfs configure menu
 #
 
-menu "Rootfs: file system"
-
-config ROOTFS
-	bool "Rootfs for BiscuitOS"
+menuconfig ROOTFS
+	bool "Root-Filesystem"
 	default y
 	help
 	  The rootfs for BiscuitOS
@@ -15,6 +13,7 @@ if ROOTFS
 # Ext4
 source fs/ext4/Kconfig
 
-endif # Rootfs
+# MINIX-FS
+source fs/minix/Kconfig
 
-endmenu
+endif # Rootfs

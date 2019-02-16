@@ -12,15 +12,17 @@
 
 ###
 # Don't edit
-ROOT=$1
-PACKAGE=$2
-VERSION=$3
-KERNVER=$4
-GITHUB=$5
-STAGING_DIR=${ROOT}/output/rootfs/rootfs_${KERNVER}
+ROOT=${1%X}
+PACKAGE=${2%X}
+VERSION=${3%X}
+KERNVER=${4%X}
+GITHUB=${5%X}
+PROJNAME=${7%X}
+OUTPUT=${ROOT}/output/${PROJNAME}/rootfs
+STAGING_DIR=${OUTPUT}/${PACKAGE}
 NODE_TYPE=0
 PACKAGE_NAME=
-KERN_MAGIC=$6
+KERN_MAGIC=${6%X}
 
 target_dir=(
 bin
@@ -41,7 +43,7 @@ precheck()
 
     j=0
     for dir in ${target_dir[@]}; do
-        mkdir -p ${ROOT}/output/rootfs/rootfs_${KERNVER}/${dir}
+        mkdir -p ${STAGING_DIR}/${dir}
         j=`expr $j + 1`
     done
 

@@ -17,22 +17,27 @@
 ##
 
 ROOT=$1
-BIOS_NAME=$2
-BIOS_VERSION=$3
-BIOS_SITE=$4
+BIOS_NAME=${2%X}
+BIOS_VERSION=${3%X}
+BIOS_SITE=${4%X}
 DL=${ROOT}/dl/
-TARGET=${ROOT}/output/BIOS
+PROJ_NAME=${8%X}
+OUTPUT=${ROOT}/output/${PROJ_NAME}/
+TARGET=${OUTPUT}/BIOS
 DL_DIR=${DL}/${BIOS_NAME}
 BD_DIR=${TARGET}/${BIOS_NAME}_${BIOS_VERSION}
-PATCH_DIR=$5/${BIOS_VERSION}
+PATCH_DIR=${5%X}/${BIOS_VERSION}
 CONFIG_DIR=${ROOT}/boot/SeaBIOS/config/
-KERNEL_DIR=${ROOT}/kernel/linux_$6
-if [ ! -z $7 ]; then
+KERNEL_DIR=${OUTPUT}/linux/linux/
+if [ ! -z ${7%X} ]; then
   COREBOOT="y"
 else
   COREBOOT="n"
 fi
 
+echo "AAAAA[${COREBOOT}]"
+echo "${TARGET}"
+exit -1
 download_BIOS()
 {
     cd ${DL}
@@ -109,6 +114,7 @@ establish_BIOS()
 ## Start working
 precheck
 
+exit 0
 ## Download/nothing
 if [ ! -f ${KERNEL_DIR}/${BIOS_NAME}.bin ]; then
     establish_BIOS

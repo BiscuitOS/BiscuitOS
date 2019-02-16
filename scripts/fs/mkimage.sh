@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 # Establish BiscuitOS Rootfs.
 #
 # (C) 2018.07.23 BiscuitOS <buddy.zhang@aliyun.com>
@@ -13,15 +14,17 @@
 
 # Obtain data from Kbuild
 ROOT=$1
-FS_NAME=$2
-FS_VERSION=$3
-KERN_VERSION=$4
-NODE_TYPE=1
+FS_NAME=${2%X}
+FS_VERSION=${3%X}
+KERN_VERSION=${4%X}
+NODE_TYPE=2
 FS_TYPE=0
 KERN_MAGIC=$5
-DTB=${ROOT}/output/DTS/system_$4.dtb
-BIOS=${ROOT}/kernel/linux_$4/SeaBIOS.bin
-KIMAGE=${ROOT}/kernel/linux_$4/arch/x86/kernel/BiscuitOS
+PORJ_NAME=${5%X}
+OUTPUT=${ROOT}/output/${PORJ_NAME}
+DTB=${OUTPUT}/DTS/system.dtb
+BIOS=${OUTPUT}/BIOS/SeaBIOS.bin
+KIMAGE=${OUTPUT}/linux/linux/arch/x86/kernel/BiscuitOS
 
 ## Obtain data from DTB
 SD_START=`fdtget -t i ${DTB} /SD sd-base`
@@ -34,11 +37,11 @@ SWAP_SIZE=`fdtget -t i ${DTB} /swap sd-size`
 DISK_SECT=`fdtget -t i ${DTB} /SD sd-sect`
 
 ## Output
-STAGING_DIR=${ROOT}/output/rootfs/rootfs_${KERN_VERSION}
-KERNEL_DIR=${ROOT}/kernel/linux_${KERN_VERSION}
+STAGING_DIR=${OUTPUT}/rootfs/${FS_NAME}
+KERNEL_DIR=${OUTPUT}/linux/linux/
 BASE_FILE=${ROOT}/target/base-file
 IMAGE_NAME=BiscuitOS
-IMAGE_DIR=${ROOT}/output
+IMAGE_DIR=${OUTPUT}/rootfs
 LOOPDEV=`sudo losetup -f`
 
 ####
@@ -57,12 +60,15 @@ LOOPDEV=`sudo losetup -f`
 # SEEK : Total sect behind
 # Unit for Sect total 512 Byte
 DISK_HOLE=`expr ${HOLE_SIZE} \/ ${DISK_SECT}`
-DISK_START=`expr ${SD_START} \/ ${DISK_SECT}`
-
+if [ ${SD_START} = "0" ]; then
+	DISK_START=0
+else
+	DISK_START=`expr ${SD_START} \/ ${DISK_SECT}`
+fi
 DISK_MBR_START=${DISK_START}
 DISK_MBR_LEN=`expr ${MBR_SIZE} \/ ${DISK_SECT}`
 DISK_MBR_END=`expr ${DISK_MBR_START} + ${DISK_MBR_LEN} - 1`
-DISK_MBR_SEEK=`expr ${DISK_MBR_START}`
+DISK_MBR_SEEK=${DISK_MBR_START}
 
 DISK_BIOS_LEN=`expr ${BIOS_SIZE} \/ ${DISK_SECT}`
 DISK_BIOS_START=`expr ${DISK_MBR_END} + 1 + ${DISK_HOLE}`
@@ -87,18 +93,24 @@ DISK_SWAP_SEEK=${DISK_SWAP_START}
 precheck()
 {
     mkdir -p ${STAGING_DIR} ${IMAGE_DIR}
-    if [ ${KERN_MAGIC} -lt 9 ]; then
+    # Only v1.0 at least support ext2 filesystem
+    if [ ${KERN_VERSION}X = "0.99.1X" -o ${KERN_VERSION}X = "0.98.1X" -o \
+         ${KERN_VERSION}X = "0.97.1X" -o ${KERN_VERSION}X = "0.96.1X" -o \
+         ${KERN_VERSION}X = "0.95aX"  -o ${KERN_VERSION}X = "0.95.3"  -o \
+         ${KERN_VERSION}X = "0.95.1X" -o ${KERN_VERSION}X = "0.12.1X" -o \
+         ${KERN_VERSION}X = "0.11.3X" ]; then
         FS_NAME=minix
         FS_VERSION=V1
     fi
-    if [ ${KERN_MAGIC} -gt 2 ]; then
-        NODE_TYPE=2
+    if [ ${KERN_VERSION}X = "0.11.3X" -o ${KERN_VERSION}X = "0.12.1X" -o \
+         ${KERN_VERSION}X = "0.95.1X" ]; then
+        NODE_TYPE=1
     fi
 
-    if [ -d ${IMAGE_DIR}/.rootfs ]; then
-        rm -rf ${IMAGE_DIR}/.rootfs
+    if [ -d ${OUTPUT}/rootfs/tmpfs ]; then
+        rm -rf ${OUTPUT}/rootfs/tmpfs
     fi
-    mkdir -p ${IMAGE_DIR}/.rootfs
+    mkdir -p ${OUTPUT}/rootfs/tmpfs
 }
 
 ### Pre-Check 
@@ -138,7 +150,7 @@ dd if=/dev/zero bs=${DISK_SECT} count=${DISK_ROOTFS_LEN} \
 ## Creat SWAP Partition
 dd if=/dev/zero bs=${DISK_SECT} count=${DISK_SWAP_LEN} \
                                    of=${IMAGE_DIR}/swap.img > /dev/null 2>&1
-mkswap ${IMAGE_DIR}/swap.img 
+sudo mkswap ${IMAGE_DIR}/swap.img 
 
 ## Creat hole 
 dd if=/dev/zero bs=${DISK_SECT} count=${DISK_HOLE} \
@@ -167,9 +179,11 @@ esac
 
 ## Install Image into DISK
 
+echo "BIOS: ${BIOS}"
 # Install BIOS
 dd if=${BIOS} conv=notrunc  bs=${DISK_SECT} of=${IMAGE_DIR}/BIOS.img > /dev/null 2>&1
 
+exit 0
 # Install Kernel Image
 dd if=${KIMAGE} conv=notrunc bs=${DISK_SECT} of=${IMAGE_DIR}/system.img > /dev/null 2>&1
 
@@ -224,6 +238,7 @@ mv ${IMAGE_DIR}/mbr.img ${IMAGE}
 
 sync
 
+exit 0
 ## Add Partition Table
 cat <<EOF | fdisk "${IMAGE}"
 n
@@ -252,6 +267,7 @@ sync
 ##
 
 sudo losetup -d ${LOOPDEV} > /dev/null 2>&1 
+exit 0
 
 # Mount 1st partition
 sudo losetup -o `expr ${DISK_ROOTFS_START} \* 512` ${LOOPDEV} ${IMAGE} 

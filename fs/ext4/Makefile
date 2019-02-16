@@ -23,7 +23,8 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
 	       $(CONFIG_EXT4_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
                $(EXT4_TAR)X $(CONFIG_ARCH_MAGIC)X \
                $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(EXT4_SUBNAME)X \
-               $(CONFIG_LINUX_BUILD_HIST)X
+               $(CONFIG_LINUX_BUILD_HIST)X $(CONFIG_UBOOT)X \
+               $(CONFIG_UBOOT_CROSS_COMPILE)X
 
 $(EXT4_DIR)/build: FORCE
 	$(Q)$(call EXT4_sh,$(srctree))

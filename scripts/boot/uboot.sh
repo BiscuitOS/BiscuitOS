@@ -1,5 +1,6 @@
 #/bin/bash
 
+set -e
 # Establish uboot source code.
 #
 # (C) 2019.01.15 BiscuitOS <buddy.zhang@aliyun.com>
@@ -24,7 +25,7 @@ TAR_OPT=
 if [ -d ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${UBOOT_NAME}/version`
 
-        if [ ${version} = ${UBOOT_VERSION}1 ]; then
+        if [ ${version} = ${UBOOT_VERSION} ]; then
                 exit 0
         fi
 fi
@@ -39,26 +40,24 @@ fi
 
 ## Get from github
 if [ ${UBOOT_SRC} = "1" ]; then
-	if [ ! -d ${ROOT}/dl/uboot ]; then
+	if [ ! -d ${ROOT}/dl/${UBOOT_NAME} ]; then
 		cd ${ROOT}/dl/
 		git clone ${UBOOT_GITHUB}
-		cd ${ROOT}/dl/uboot
-		git tag > UBOOT_TAG
+		cd ${ROOT}/dl/${UBOOT_NAME}
 		cd -
 	else
-		cd ${ROOT}/dl/uboot
+		cd ${ROOT}/dl/${UBOOT_NAME}
 		git pull
-		git tag > UBOOT_TAG
 	fi
 	mkdir -p ${OUTPUT}/${UBOOT_NAME}
-	if [ -d ${OUTPUT}/${UBOOT_NAME}/uboot_github ]; then
-		rm -rf ${OUTPUT}/${UBOOT_NAME}/uboot_github
+	if [ -d ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}_github ]; then
+		rm -rf ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}_github
 	fi
-	cp -rfa ${ROOT}/dl/uboot ${OUTPUT}/${UBOOT_NAME}/uboot_github
-	cd ${OUTPUT}/${UBOOT_NAME}/uboot_github
+	cp -rfa ${ROOT}/dl/${UBOOT_NAME} ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}_github
+	cd ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}_github
 	cd ${OUTPUT}/${UBOOT_NAME}/
 	rm -rf ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}
-        ln -s ${OUTPUT}/${UBOOT_NAME}/uboot_github ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}
+        ln -s ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}_github ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}
 	echo ${UBOOT_VERSION} > ${OUTPUT}/${UBOOT_NAME}/version
 fi
 
@@ -102,11 +101,3 @@ if [ ${UBOOT_SRC} = "3" ]; then
         rm -rf ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}
         ln -s ${OUTPUT}/${UBOOT_NAME}/${BASE} ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}
 fi
-
-## Compile Uboot
-CROSST=${12%X}
-cd ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}
-export CROSS_COMPILE=${OUTPUT}/${CROSST}/${CROSST}/bin/${CROSST}-
-make ARCH=arm clean
-make ARCH=arm vexpress_ca9x4_defconfig
-make ARCH=arm

@@ -1,5 +1,6 @@
 #/bin/bash
 
+set -e
 # Establish Rootfs.
 #
 # (C) 2019.01.15 BiscuitOS <buddy.zhang@aliyun.com>
@@ -16,6 +17,8 @@ CROSS_TOOL=${12%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 BUSYBOX=${OUTPUT}/busybox/busybox
 GCC=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
+UBOOT=${15}
+UBOOT_CROSS=${16%X}
 
 rm -rf ${OUTPUT}/rootfs/
 mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}
@@ -76,7 +79,7 @@ else
 	cp -arf ${GCC}/${CROSS_TOOL}/libc/lib/* ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/
 fi
 rm -rf ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/*.a
-${GCC}/bin/${CROSS_TOOL}-strip ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/* > /dev/null 2>&1
+#${GCC}/bin/${CROSS_TOOL}-strip ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/*.so > /dev/null 2>&1
 mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/tty1 c 4 1
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/tty2 c 4 2
@@ -84,7 +87,7 @@ sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/tty3 c 4 3
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/tty4 c 4 4
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/console c 5 1
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/null c 1 3
-dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=80
+dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=150
 mkfs.ext4 -F ${OUTPUT}/rootfs/ramdisk
 mkdir -p ${OUTPUT}/rootfs/tmpfs
 sudo mount -t ext4 ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop
@@ -136,13 +139,17 @@ echo "ROOTFS_NAME=${ROOTFS_NAME}" >> ${MF}
 echo '' >> ${MF}
 echo 'do_running()' >> ${MF}
 echo '{' >> ${MF}
-echo '	${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+if [ ${ARCH} = "2" ]; then
+	echo '	${QEMUT} -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+elif [ ${ARCH} = "3" ]; then
+	echo '	${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+fi
 echo '}' >> ${MF}
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
 echo '	cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
-echo '	dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=80' >> ${MF}
+echo '	dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=150' >> ${MF}
 echo '	mkfs.ext4 -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 echo '	mkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 echo '	sudo mount -t ext4 ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
@@ -169,11 +176,27 @@ if [ -f ${MF} ]; then
 	rm -rf ${MF}
 fi
 
+if [ ${UBOOT} = "yX" ]; then
+	echo '# Build Uboot' >> ${MF}
+	echo '' >> ${MF}
+	echo '```' >> ${MF}
+	echo "cd ${OUTPUT}/u-boot/u-boot/" >> ${MF}
+	echo "make ARCH=arm clean" >> ${MF}
+	echo "make ARCH=arm vexpress_ca9x4_defconfig" >> ${MF}
+	echo "make ARCH=arm CROSS_COMPILE=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/${UBOOT_CROSS}- -j8" >> ${MF}
+	echo '```' >> ${MF}
+	echo '' >> ${MF}
+fi
 echo '# Build Linux Kernel' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}/linux/linux"  >> ${MF}
-echo "make ARCH=${ARCH_TYPE} defconfig" >> ${MF}
+echo "make ARCH=${ARCH_TYPE} clean" >> ${MF}
+if [ ${ARCH} = "2" ]; then
+	echo "make ARCH=${ARCH_TYPE} vexpress_defconfig" >> ${MF}
+elif [ ${ARCH} = "3" ]; then
+	echo "make ARCH=${ARCH_TYPE} defconfig" >> ${MF}
+fi
 echo '' >> ${MF}
 echo "make ARCH=${ARCH_TYPE} menuconfig" >> ${MF}
 echo '  General setup --->' >> ${MF}
@@ -182,21 +205,27 @@ echo '' >> ${MF}
 echo '  Device Driver --->' >> ${MF}
 echo '    [*] Block devices --->' >> ${MF}
 echo '        <*> RAM block device support' >> ${MF}
-echo '        (81920) Default RAM disk size' >> ${MF}
+echo '        (153600) Default RAM disk size' >> ${MF}
 echo '' >> ${MF}
-echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- Image -j8" >> ${MF}
+if [ ${ARCH} = "2" ]; then
+	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- -j8" >> ${MF}
+	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- dtbs" >> ${MF}
+elif [ ${ARCH} = "3" ]; then
+	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- Image -j8" >> ${MF}
+fi
 echo '```' >> ${MF}
 echo '' >> ${MF}
 echo '# Build Busybox' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}/busybox/busybox" >> ${MF}
+echo 'make clean' >> ${MF}
 echo 'make menuconfig' >> ${MF}
 echo '  Busybox Settings --->' >> ${MF}
 echo '    Build Options --->' >> ${MF}
 echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
 echo '' >> ${MF}
-echo "make CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-" >> ${MF}
+echo "make CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- -j8" >> ${MF}
 echo '' >> ${MF}
 echo "make CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- install" >> ${MF}
 echo '```' >> ${MF}

@@ -1,14 +1,16 @@
 #
 # Package common configure
 #
-menu "Common utilise"
-
-config COMMON_UTILISE
-	bool "Package and toolchain"
+menuconfig COMMON_UTILISE
+	bool "Package"
 	help
 	  binutilise
 
 if COMMON_UTILISE
+
+# binutils
+config PK_BINUTILS
+	bool "binutils"
 
 # busybox
 source package/busybox/Kconfig
@@ -17,5 +19,3 @@ source package/busybox/Kconfig
 source package/qemu/Kconfig
 
 endif
-
-endmenu

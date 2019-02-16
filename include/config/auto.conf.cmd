@@ -3,8 +3,8 @@ deps_config := \
 	toolchain/aarch64-linux-gnu/Kconfig \
 	toolchain/arm-linux-gnueabihf/Kconfig \
 	toolchain/arm-linux-gnueabi/Kconfig \
-	toolchain/leg_gcc/Kconfig \
 	toolchain/Kconfig \
+	fs/minix/Kconfig \
 	fs/ext4/Kconfig \
 	fs/Kconfig \
 	package/qemu/Kconfig \

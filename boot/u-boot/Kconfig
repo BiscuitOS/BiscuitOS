@@ -28,6 +28,7 @@ if UBOOT_WGET
 
 config UBOOT_WGET_SITE
 	string "uboot  wget site"
+	default "ftp://ftp.denx.de/pub/u-boot/"
 
 endif # UBOOT_WGET
 
@@ -35,6 +36,7 @@ if UBOOT_GITHUB
 
 config UBOOT_GITHUB_SITE
 	string "uboot  Github site"
+	default "https://github.com/u-boot/u-boot.git"
 
 endif # UBOOT_GITHUB
 

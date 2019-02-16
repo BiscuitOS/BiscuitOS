@@ -16,12 +16,13 @@ config LINUX_LEGACY
 
 endchoice
 
+config LINUX_KERNEL_VERSION
+	string "Linux kernel verstion"
+
 config LINUX_BUILD_HIST
 	string
 	default "Newest" if LINUX_NEWEST
 	default "Legacy" if LINUX_LEGACY
-
-if LINUX_NEWEST
 
 choice
 	prompt "Setup linux kernel source code"
@@ -57,9 +58,6 @@ config LINUX_KERNEL_GITHUB_SITE
 	string "Linux kernel Github site"
 
 endif # LINUX_KERNEL_GITHUB
-
-config LINUX_KERNEL_VERSION
-	string "Linux kernel verstion"
 
 config LINUX_KERNEL_SRC
 	int 
@@ -97,8 +95,6 @@ config LINUX_KERNEL_CROSS_COMPILE
 	default "aarch64-linux-gnu"
 
 endif # ARM64
-
-endif # LINUX_NEWEST
 
 endif # PK_LINUX_KERNEL
 

@@ -1,2 +1,0 @@
-config TOOL_LEGGCC
-	bool "Legacy GNU GCC for linux 0.11"

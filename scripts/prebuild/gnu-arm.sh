@@ -1,5 +1,6 @@
 #/bin/bash
 
+set -e
 # Establish linaro GNU GCC.
 #
 # (C) 2019.01.14 BiscuitOS <buddy.zhang@aliyun.com>

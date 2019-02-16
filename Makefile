@@ -374,7 +374,7 @@ KERNEL_FS := 0
 endif
 export KERNEL_FS
 
-TARGET_OUT := output kernel dl
+TARGET_OUT := output dl
 
 pre_output = $(foreach sub, $(TARGET_OUT),      \
                $(shell set -e;                  \
@@ -396,8 +396,10 @@ include boot/Makefile
 # Board 
 include board/Makefile
 
+ifdef CONFIG_LINUX_KERNEL
 # kernel
 include linux/Makefile
+endif
 
 # Filesystem (must be last invoked)
 include fs/Makefile

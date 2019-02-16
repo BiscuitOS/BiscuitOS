@@ -3,7 +3,7 @@
 # uboot
 #
 ################################################
-UBOOT_NAME       := uboot
+UBOOT_NAME       := u-boot
 UBOOT_VERSION    := $(CONFIG_UBOOT_VERSION)
 UBOOT_SITE       := $(CONFIG_UBOOT_WGET_SITE)
 UBOOT_GITHUB     := $(UBOOT_GITHUB_SITE)
@@ -18,7 +18,7 @@ SUB_TARGET       += $(UBOOT_DIR)/build
 
 UBOOT_sh = $(CONFIG_SHELL) $(UBOOT_SCRIPTS) \
                ${1}X $(UBOOT_NAME)X $(UBOOT_VERSION)X \
-               $(UBOOT_SITE)X $(UBOOT_GITHUB)X \
+               $(UBOOT_SITE)X $(CONFIG_UBOOT_GITHUB_SITE)X \
                $(UBOOT_PATCH)X 5.0 \
 	       $(CONFIG_UBOOT_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
                $(UBOOT_TAR)X $(CONFIG_ARCH_MAGIC)X \

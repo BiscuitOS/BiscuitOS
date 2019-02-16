@@ -1,5 +1,6 @@
 #/bin/bash
 
+set -e
 # Establish qmue-system for ARM64/ARM32/X86_64.
 #
 # (C) 2019.01.14 BiscuitOS <buddy.zhang@aliyun.com>
