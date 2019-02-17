@@ -15,9 +15,9 @@ MSDOS_PACKAGE    := $(MSDOS_NAME)-$(MSDOS_SUBNAME)-$(MSDOS_VERSION).img
 SUB_TARGET       += $(MSDOS_DIR)/build
 
 run_msdos_sh = $(CONFIG_SHELL) $(MSDOS_SCRIPTS) \
-               $1 $(MSDOS_NAME) $(MSDOS_VERSION) \
-               $(KERNEL_VERSION) $(CONFIG_DISK_SIZE) $(CONFIG_SWAP_SIZE) \
-               $(KERNEL_MAGIC)
+               $1 $(MSDOS_NAME)X $(MSDOS_VERSION)X \
+               $(CONFIG_LINUX_KERNEL_VERSION)X \
+               $(CONFIG_MAIN_PROJ_NAME)X $(CONFIG_BOOT_SEABIOS)X
 
 $(MSDOS_DIR)/build: FORCE
 	$(Q)$(call run_msdos_sh,$(srctree))

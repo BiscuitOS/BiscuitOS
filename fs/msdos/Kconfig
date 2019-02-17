@@ -1,0 +1,2 @@
+menuconfig FS_MSDOS
+	bool "msdos"
