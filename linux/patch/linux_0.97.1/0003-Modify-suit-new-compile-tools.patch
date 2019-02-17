@@ -1,0 +1,112 @@
+From c584f54f998682cb0ab663925a112cdb8df199c0 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sun, 17 Feb 2019 20:54:48 +0800
+Subject: [PATCH 3/3] Modify suit new compile tools
+
+---
+ arch/x86/configs/all_n_defconfig        |  5 -----
+ arch/x86/configs/all_y_defconfig        |  6 ------
+ arch/x86/configs/defconfig              |  4 ++++
+ arch/x86/configs/linux_0_97_1_defconfig | 10 ----------
+ tools/debug/qemu/Kconfig                |  6 ++++++
+ tools/debug/qemu/Makefile               |  6 +++++-
+ 6 files changed, 15 insertions(+), 22 deletions(-)
+ delete mode 100644 arch/x86/configs/all_n_defconfig
+ delete mode 100644 arch/x86/configs/all_y_defconfig
+ delete mode 100644 arch/x86/configs/linux_0_97_1_defconfig
+
+diff --git a/arch/x86/configs/all_n_defconfig b/arch/x86/configs/all_n_defconfig
+deleted file mode 100644
+index abf461e..0000000
+--- a/arch/x86/configs/all_n_defconfig
++++ /dev/null
+@@ -1,5 +0,0 @@
+-#
+-# Automatically generated make config: don't edit
+-# Linux/  Kernel Configuration
+-#
+-# CONFIG_FOO is not set
+diff --git a/arch/x86/configs/all_y_defconfig b/arch/x86/configs/all_y_defconfig
+deleted file mode 100644
+index 9bb42e6..0000000
+--- a/arch/x86/configs/all_y_defconfig
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#
+-# Automatically generated make config: don't edit
+-# Linux/  Kernel Configuration
+-#
+-CONFIG_FOO=y
+-CONFIG_BAR=y
+diff --git a/arch/x86/configs/defconfig b/arch/x86/configs/defconfig
+index e6633e6..50fcfb5 100644
+--- a/arch/x86/configs/defconfig
++++ b/arch/x86/configs/defconfig
+@@ -1,10 +1,14 @@
++CONFIG_X86=y
++CONFIG_BOOTLOADER=y
+ CONFIG_DEBUG_BOOTLOADER=y
+ CONFIG_HARDDISK=y
+ CONFIG_DEBUG_KERNEL=y
+ CONFIG_GDB=y
+ CONFIG_EMULATE_RUNNING_SYSTEM=y
++CONFIG_QEMU=y
+ CONFIG_QEMU_BOOT_FLOPPY=y
+ CONFIG_QEMU_MEMORY_SIZE=32
++CONFIG_QEMU_ROOTFS_NAME="BiscuitOS.img"
+ CONFIG_FS_MINIX=y
+ CONFIG_FS_EXT=y
+ CONFIG_FS_MSDOS=y
+diff --git a/arch/x86/configs/linux_0_97_1_defconfig b/arch/x86/configs/linux_0_97_1_defconfig
+deleted file mode 100644
+index e6633e6..0000000
+--- a/arch/x86/configs/linux_0_97_1_defconfig
++++ /dev/null
+@@ -1,10 +0,0 @@
+-CONFIG_DEBUG_BOOTLOADER=y
+-CONFIG_HARDDISK=y
+-CONFIG_DEBUG_KERNEL=y
+-CONFIG_GDB=y
+-CONFIG_EMULATE_RUNNING_SYSTEM=y
+-CONFIG_QEMU_BOOT_FLOPPY=y
+-CONFIG_QEMU_MEMORY_SIZE=32
+-CONFIG_FS_MINIX=y
+-CONFIG_FS_EXT=y
+-CONFIG_FS_MSDOS=y
+diff --git a/tools/debug/qemu/Kconfig b/tools/debug/qemu/Kconfig
+index c98ddf1..62a4cf7 100644
+--- a/tools/debug/qemu/Kconfig
++++ b/tools/debug/qemu/Kconfig
+@@ -48,6 +48,12 @@ config QEMU_VGA
+ 	help
+ 	  Support VGA
+ 
++config QEMU_ROOTFS_NAME
++	string "QEMU Full rootfs name"
++	depends on QEMU
++	help
++	  Full Rootfs name for QEMU
++
+ # VGA
+ if QEMU_VGA
+ 
+diff --git a/tools/debug/qemu/Makefile b/tools/debug/qemu/Makefile
+index 9ae6b11..ab36c0e 100644
+--- a/tools/debug/qemu/Makefile
++++ b/tools/debug/qemu/Makefile
+@@ -92,7 +92,11 @@ QEMU_FLAGS += $(BLOCK_DEVICE)
+ # -----------------------------------
+ # Rootfs
+ # -----------------------------------
+-ROOTFS := -hda $(srctree)/BiscuitOS-minix_V1-0.97.1.img
++ifdef CONFIG_QEMU_ROOTFS_NAME
++ROOTFS := -hda $(CONFIG_QEMU_ROOTFS_NAME)
++else
++ROOTFS := -hda BiscuitOS.img
++endif
+ 
+ QEMU_FLAGS += $(ROOTFS)
+ 
+-- 
+2.17.1
+
