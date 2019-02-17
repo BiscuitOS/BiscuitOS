@@ -1,0 +1,111 @@
+From 9d14bf6538474d476446ee5af7f8f39e59dbadf7 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Mon, 18 Feb 2019 07:39:20 +0800
+Subject: [PATCH 3/3] modify defconfig for new compile
+
+---
+ arch/x86/configs/defconfig             | 24 ++++++++++++++++++++++--
+ arch/x86/configs/linux_ext2_defconfig  | 13 -------------
+ arch/x86/configs/linux_minix_defconfig | 13 -------------
+ tools/debug/qemu/Makefile              |  4 ++--
+ 4 files changed, 24 insertions(+), 30 deletions(-)
+ delete mode 100644 arch/x86/configs/linux_ext2_defconfig
+ delete mode 100644 arch/x86/configs/linux_minix_defconfig
+
+diff --git a/arch/x86/configs/defconfig b/arch/x86/configs/defconfig
+index bedd31d..cb4a5a6 100644
+--- a/arch/x86/configs/defconfig
++++ b/arch/x86/configs/defconfig
+@@ -1,13 +1,33 @@
++CONFIG_X86=y
++CONFIG_OUTPUT_FORMAT="elf32-i386"
++CONFIG_CROSS_COMPILE=""
++CONFIG_LOCALVERSION=""
++CONFIG_BOOT_KERNEL_DELAY=0
++CONFIG_BOOTLOADER=y
+ CONFIG_DEBUG_BOOTLOADER=y
++CONFIG_BOOT_LOGO="Loading BiscuitOS"
++CONFIG_BOOT_INITSEG=0x9000
++CONFIG_BOOT_SYSSEG=0x1000
++CONFIG_BOOT_SETUPSEG=0x9020
++CONFIG_SYSTEM_SIZE=0x8000
++CONFIG_ROOT_DEV=0x301
++CONFIG_SWAP_DEV=0x302
++CONFIG_KERNEL_CS=0x10
++CONFIG_KERNEL_DS=0x18
++CONFIG_USER_CS=0x23
++CONFIG_USER_DS=0x2B
+ CONFIG_HARDDISK=y
+ CONFIG_DEBUG_KERNEL=y
+ CONFIG_GDB=y
+ CONFIG_EMULATE_RUNNING_SYSTEM=y
++CONFIG_QEMU=y
+ CONFIG_QEMU_BOOT_FLOPPY=y
+ CONFIG_QEMU_MEMORY_SIZE=32
+ CONFIG_QEMU_VGA=y
+-CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-ext2_0-1.0.1.1.img"
++CONFIG_QEMU_ROOTFS_NAME="BiscuitOS.img"
+ CONFIG_QEMU_VGA_CIRRUS=y
+ CONFIG_DEMO_CODE=y
+-CONFIG_EXT2_FS=y
++CONFIG_DEBUG_DEBUGCALL=y
++CONFIG_MINIX_FS=y
+ CONFIG_MMU=y
++CONFIG_MEMORY_SIZE=32
+diff --git a/arch/x86/configs/linux_ext2_defconfig b/arch/x86/configs/linux_ext2_defconfig
+deleted file mode 100644
+index bedd31d..0000000
+--- a/arch/x86/configs/linux_ext2_defconfig
++++ /dev/null
+@@ -1,13 +0,0 @@
+-CONFIG_DEBUG_BOOTLOADER=y
+-CONFIG_HARDDISK=y
+-CONFIG_DEBUG_KERNEL=y
+-CONFIG_GDB=y
+-CONFIG_EMULATE_RUNNING_SYSTEM=y
+-CONFIG_QEMU_BOOT_FLOPPY=y
+-CONFIG_QEMU_MEMORY_SIZE=32
+-CONFIG_QEMU_VGA=y
+-CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-ext2_0-1.0.1.1.img"
+-CONFIG_QEMU_VGA_CIRRUS=y
+-CONFIG_DEMO_CODE=y
+-CONFIG_EXT2_FS=y
+-CONFIG_MMU=y
+diff --git a/arch/x86/configs/linux_minix_defconfig b/arch/x86/configs/linux_minix_defconfig
+deleted file mode 100644
+index 7fbc8b9..0000000
+--- a/arch/x86/configs/linux_minix_defconfig
++++ /dev/null
+@@ -1,13 +0,0 @@
+-CONFIG_DEBUG_BOOTLOADER=y
+-CONFIG_HARDDISK=y
+-CONFIG_DEBUG_KERNEL=y
+-CONFIG_GDB=y
+-CONFIG_EMULATE_RUNNING_SYSTEM=y
+-CONFIG_QEMU_BOOT_FLOPPY=y
+-CONFIG_QEMU_MEMORY_SIZE=32
+-CONFIG_QEMU_VGA=y
+-CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-minix_V1-1.0.1.1.img"
+-CONFIG_QEMU_VGA_CIRRUS=y
+-CONFIG_DEMO_CODE=y
+-CONFIG_MINIX_FS=y
+-CONFIG_MMU=y
+diff --git a/tools/debug/qemu/Makefile b/tools/debug/qemu/Makefile
+index abffd1d..ab36c0e 100644
+--- a/tools/debug/qemu/Makefile
++++ b/tools/debug/qemu/Makefile
+@@ -93,9 +93,9 @@ QEMU_FLAGS += $(BLOCK_DEVICE)
+ # Rootfs
+ # -----------------------------------
+ ifdef CONFIG_QEMU_ROOTFS_NAME
+-ROOTFS := -hda $(srctree)/$(CONFIG_QEMU_ROOTFS_NAME)
++ROOTFS := -hda $(CONFIG_QEMU_ROOTFS_NAME)
+ else
+-ROOTFS := -hda $(srctree)/BiscuitOS-$(KERNELVERSION).img
++ROOTFS := -hda BiscuitOS.img
+ endif
+ 
+ QEMU_FLAGS += $(ROOTFS)
+-- 
+2.7.4
+
