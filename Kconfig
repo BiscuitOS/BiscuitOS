@@ -4,7 +4,7 @@
 mainmenu "Buildroot for BiscuitOS Configuration"
 
 config MAIN_PROJ_NAME
-	string "Setup Porject Name"
+	string "Porject Name"
 	default "BiscuitOS"
 	help
 	  Must be indicated project name.

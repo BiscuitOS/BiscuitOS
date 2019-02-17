@@ -346,34 +346,6 @@ include/config/auto.conf: ;
 endif # $(dot-config)
 -include include/config/auto.conf
 
-#####
-# Kernel Version
-ifdef CONFIG_KERNEL_VERSION
-KERNEL_VERSION := $(patsubst "%",%,$(CONFIG_KERNEL_VERSION))
-else
-KERNEL_VERSION := 
-endif
-export KERNEL_VERSION
-ifdef CONFIG_KERNEL_MAGIC
-KERNEL_MAGIC := $(CONFIG_KERNEL_MAGIC)
-else
-KERNEL_MAGIC :=
-endif
-export KERNEL_MAGIC
-ifdef CONFIG_KERNEL_BD_TAG
-KERNEL_BD_TAG := $(CONFIG_KERNEL_BD_TAG)
-else
-KERNEL_BD_TAG :=
-endif
-export KERNEL_BD_TAG
-
-ifdef CONFIG_FS_MAGIC
-KERNEL_FS := $(CONFIG_FS_MAGIC)
-else
-KERNEL_FS := 0
-endif
-export KERNEL_FS
-
 TARGET_OUT := output dl
 
 pre_output = $(foreach sub, $(TARGET_OUT),      \
@@ -384,27 +356,35 @@ export SUB_TARGET  :=
 export STAGING_DIR := $(srctree)/output
 TARGET_BUILD_DIR   := $(call pre_output)
 
+ifdef CONFIG_TOOLCHAIN
 # Toolchain and prebuild
 include toolchain/Makefile
+endif
 
+ifdef CONFIG_COMMON_UTILISE
 # package
 include package/Makefile
+endif
 
 ifdef CONFIG_BOOTLOADER
 # Bootloader
 include boot/Makefile
 endif
 
+ifdef CONFIG_SUPPORT_BOARD_INDV
 # Board 
 include board/Makefile
+endif
 
 ifdef CONFIG_LINUX_KERNEL
 # kernel
 include linux/Makefile
 endif
 
+ifdef CONFIG_ROOTFS
 # Filesystem (must be last invoked)
 include fs/Makefile
+endif
 
 # The all: target is the default when no target is given on the
 # command line.

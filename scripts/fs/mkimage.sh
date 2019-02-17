@@ -278,6 +278,9 @@ rm -rf ${OUTPUT}/rootfs/tmpfs
 
 sync
 mv ${IMAGE} ${OUTPUT}/BiscuitOS.img
+if [ ${OUTPUT}/linux/linux/BiscuitOS.img ]; then
+	rm -rf ${OUTPUT}/linux/linux/BiscuitOS.img
+fi
 ln -s ${OUTPUT}/BiscuitOS.img ${OUTPUT}/linux/linux/BiscuitOS.img
 sync
 

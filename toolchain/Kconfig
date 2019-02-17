@@ -1,11 +1,11 @@
 #
 # Host Compiler toolchain
 #
-menuconfig ROOTFS
+menuconfig TOOLCHAIN
 	bool  "Compile toolchain"
 	default y
 
-if ROOTFS
+if TOOLCHAIN
 
 # ARM gnueabi
 source toolchain/arm-linux-gnueabi/Kconfig
@@ -16,4 +16,4 @@ source toolchain/arm-linux-gnueabihf/Kconfig
 # ARM aarch64
 source toolchain/aarch64-linux-gnu/Kconfig
 
-endif # ROOTFS
+endif # TOOLCHAIN
