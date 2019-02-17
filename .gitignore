@@ -15,9 +15,9 @@
 # Execte file
 
 # Ignore dirent
-/output/
-/dl/
-/include
+output/
+dl/
+include/
 
 !.gitignore
 # output
