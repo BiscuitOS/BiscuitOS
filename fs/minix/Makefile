@@ -17,7 +17,7 @@ SUB_TARGET       += $(MINIX_DIR)/build
 run_minix_sh = $(CONFIG_SHELL) $(MINIX_SCRIPTS) \
                $1 $(MINIX_NAME)X $(MINIX_VERSION)X \
                $(CONFIG_LINUX_KERNEL_VERSION)X \
-               $(CONFIG_MAIN_PROJ_NAME)X
+               $(CONFIG_MAIN_PROJ_NAME)X $(CONFIG_BOOT_SEABIOS)X
 
 $(MINIX_DIR)/build: FORCE
 	$(Q)$(call run_minix_sh,$(srctree))

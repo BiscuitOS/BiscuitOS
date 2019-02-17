@@ -25,6 +25,7 @@ OUTPUT=${ROOT}/output/${PORJ_NAME}
 DTB=${OUTPUT}/DTS/system.dtb
 BIOS=${OUTPUT}/BIOS/BIOS.bin
 KIMAGE=${OUTPUT}/linux/linux/arch/x86/kernel/BiscuitOS
+BIOS_U=${6%X}
 
 ## Obtain data from DTB
 SD_START=`fdtget -t i ${DTB} /SD sd-base`
@@ -180,7 +181,9 @@ esac
 ## Install Image into DISK
 
 # Install BIOS
-dd if=${BIOS} conv=notrunc  bs=${DISK_SECT} of=${IMAGE_DIR}/BIOS.img #> /dev/null 2>&1
+if [ ! -z ${BIOS_U} ]; then 
+	dd if=${BIOS} conv=notrunc  bs=${DISK_SECT} of=${IMAGE_DIR}/BIOS.img
+fi
 
 # Install Kernel Image
 dd if=${KIMAGE} conv=notrunc bs=${DISK_SECT} of=${IMAGE_DIR}/system.img > /dev/null 2>&1
@@ -309,6 +312,9 @@ figlet "BiscuitOS"
 echo "*******************************************************************"
 echo "Kernel Path:"
 echo -e "\e[1;31m ${KERNEL_DIR} \e[0m"
+echo ""
+echo "README:"
+echo -e "\e[1;31m ${OUTPUT}/README.md \e[0m"
 echo ""
 echo "Blog"
 echo -e "\e[1;31m https://biscuitos.github.io/blog/ \e[0m"
