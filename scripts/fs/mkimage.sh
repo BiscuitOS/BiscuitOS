@@ -103,10 +103,6 @@ precheck()
         FS_NAME=minix
         FS_VERSION=V1
     fi
-    if [ ${KERN_VERSION}X = "0.11.3X" -o ${KERN_VERSION}X = "0.12.1X" -o \
-         ${KERN_VERSION}X = "0.95.1X" ]; then
-        NODE_TYPE=1
-    fi
 
     if [ -d ${OUTPUT}/rootfs/tmpfs ]; then
         rm -rf ${OUTPUT}/rootfs/tmpfs

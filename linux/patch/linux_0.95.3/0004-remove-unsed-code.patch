@@ -1,0 +1,25 @@
+From b9822148582554ebaf1d4dc46cd58a22feaf0899 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sun, 17 Feb 2019 20:07:37 +0800
+Subject: [PATCH 4/4] remove unsed code
+
+---
+ mm/swap.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/mm/swap.c b/mm/swap.c
+index 54caf12..d565184 100644
+--- a/mm/swap.c
++++ b/mm/swap.c
+@@ -17,6 +17,8 @@
+ #include <linux/head.h>
+ #include <linux/kernel.h>
+ 
++#include <sys/stat.h>
++
+ #define SWAP_BITS (4096<<3)
+ 
+ #define bitop(name,op) \
+-- 
+2.17.1
+

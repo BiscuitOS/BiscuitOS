@@ -48,7 +48,7 @@ precheck()
     done
 
     if [ ${KERN_VERSION}X = "0.97.1X" -o ${KERN_VERSION}X = "0.96.1X" -o \
-         ${KERN_VERSION}X = "0.95aX"  -o ${KERN_VERSION}X = "0.95.3"  -o \
+         ${KERN_VERSION}X = "0.95aX"  -o ${KERN_VERSION}X = "0.95.3X"  -o \
          ${KERN_VERSION}X = "0.95.1X" -o ${KERN_VERSION}X = "0.12.1X" -o \
          ${KERN_VERSION}X = "0.11.3X" ]; then
         NODE_TYPE=0
