@@ -25,9 +25,11 @@ hardware. So, don't stop, play Linux with BiscuitOS.
   such as `Ubuntu16.04`). Execute command:
 
   ```
-    sudo apt-get install qemu gcc make gdb git figlet
-    sudo apt-get install libncurses5-dev iasl
-    sudo apt-get install device-tree-compiler
+    sudo apt-get install -y qemu gcc make gdb git figlet
+    sudo apt-get install -y libncurses5-dev iasl
+    sudo apt-get install -y device-tree-compiler
+    sudo apt-get install -y flex bison libssl-dev libglib2.0-dev 
+    sudo apt-get install -y libfdt-dev libpixman-1-dev
 
     On 64bit machine:
     sudo apt-get install lib32z1 lib32z1-dev

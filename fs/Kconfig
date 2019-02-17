@@ -16,4 +16,7 @@ source fs/ext4/Kconfig
 # MINIX-FS
 source fs/minix/Kconfig
 
+# Ext2
+source fs/ext2/Kconfig
+
 endif # Rootfs
