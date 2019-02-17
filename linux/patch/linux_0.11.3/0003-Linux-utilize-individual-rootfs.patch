@@ -1,0 +1,28 @@
+From ebb287cfa5cddea7548c5888e4ded397d8be9078 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sun, 17 Feb 2019 16:37:36 +0800
+Subject: [PATCH 3/3] Linux utilize individual rootfs
+
+---
+ tools/debug/qemu/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/debug/qemu/Makefile b/tools/debug/qemu/Makefile
+index 930b4c9..4a6bf73 100644
+--- a/tools/debug/qemu/Makefile
++++ b/tools/debug/qemu/Makefile
+@@ -79,9 +79,9 @@ QEMU_FLAGS += $(BLOCK_DEVICE)
+ # Rootfs
+ # -----------------------------------
+ ifdef CONFIG_QEMU_ROOTFS_NAME
+-ROOTFS := -hda $(srctree)/$(CONFIG_QEMU_ROOTFS_NAME)
++ROOTFS := -hda $(CONFIG_QEMU_ROOTFS_NAME)
+ else
+-ROOTFS := -hda $(srctree)/BiscuitOS-0.11.img
++ROOTFS := -hda BiscuitOS.img
+ endif
+ 
+ QEMU_FLAGS += $(ROOTFS)
+-- 
+2.17.1
+

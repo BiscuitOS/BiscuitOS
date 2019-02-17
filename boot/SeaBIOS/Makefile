@@ -5,18 +5,15 @@
 ################################################
 SEABIOS_NAME       := SeaBIOS
 SEABIOS_VERSION    := $(CONFIG_SEABIOS_VER)
-SEABIOS_SITE       := https://github.com/coreboot/seabios.git 
+SEABIOS_SITE       := https://github.com/coreboot/seabios.git
 SEABIOS_SUBNAME    := 
 SEABIOS_DIR        := $(srctree)/boot/$(SEABIOS_NAME)
-SEABIOS_PATCH      := $(SEABIOS_DIR)/patch 
+SEABIOS_PATCH      := $(SEABIOS_DIR)/patch
 SEABIOS_OUT        := 
 SEABIOS_SCRIPTS    := $(srctree)/scripts/boot/seaBIOS.sh
 SEABIOS_TAR        := 
 SEABIOS_PACKAGE    := 
 SUB_TARGET         += $(SEABIOS_DIR)/build
-
-$(warning "DDD[$(CONFIG_MAIN_PROJ_NAME)]")
-$(warning "B[$(SEABIOS_PATCH)]")
 
 SEABIOS_sh = $(CONFIG_SHELL) $(SEABIOS_SCRIPTS) \
                $1 $(SEABIOS_NAME)X $(SEABIOS_VERSION)X \

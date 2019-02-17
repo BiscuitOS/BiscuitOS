@@ -15,11 +15,9 @@
 # Execte file
 
 # Ignore dirent
-/kernel/
 /output/
 /dl/
-/include/config
-/include/generated
+/include
 
 !.gitignore
 # output

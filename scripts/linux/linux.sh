@@ -131,4 +131,5 @@ fi
 if [ ${KERNEL_HIS}X = "LegacyX" ]; then
 	cd ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
 	make defconfig
+	make
 fi

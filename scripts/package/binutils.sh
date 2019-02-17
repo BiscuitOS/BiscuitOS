@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 #
 # This scripts is used to download and establish core file
 #
@@ -15,14 +16,13 @@
 ROOT=${1%X}
 PACKAGE=${2%X}
 VERSION=${3%X}
-KERNVER=${4%X}
+KERN_VERSION=${4%X}
 GITHUB=${5%X}
-PROJNAME=${7%X}
-OUTPUT=${ROOT}/output/${PROJNAME}/rootfs
-STAGING_DIR=${OUTPUT}/${PACKAGE}
+PROJNAME=${6%X}
+OUTPUT=${ROOT}/output/${PROJNAME}
+STAGING_DIR=${OUTPUT}/rootfs/${PACKAGE}
 NODE_TYPE=0
 PACKAGE_NAME=
-KERN_MAGIC=${6%X}
 
 target_dir=(
 bin
@@ -39,7 +39,7 @@ usr
 ## Pre-Check
 precheck()
 {
-    mkdir -p ${ROOT}/dl ${STAGING_DIR}
+    mkdir -p ${ROOT}/dl ${STAGING_DIR} ${OUTPUT}/rootfs/rootfs
 
     j=0
     for dir in ${target_dir[@]}; do
@@ -47,7 +47,10 @@ precheck()
         j=`expr $j + 1`
     done
 
-    if [ ${KERN_MAGIC} -lt 7 ]; then
+    if [ ${KERN_VERSION}X = "0.97.1X" -o ${KERN_VERSION}X = "0.96.1X" -o \
+         ${KERN_VERSION}X = "0.95aX"  -o ${KERN_VERSION}X = "0.95.3"  -o \
+         ${KERN_VERSION}X = "0.95.1X" -o ${KERN_VERSION}X = "0.12.1X" -o \
+         ${KERN_VERSION}X = "0.11.3X" ]; then
         NODE_TYPE=0
         VERSION=1
         PACKAGE_NAME=${PACKAGE}.${VERSION}.tar.bz2
@@ -56,13 +59,12 @@ precheck()
         VERSION=2
         PACKAGE_NAME=${PACKAGE}.${VERSION}.tar.bz2
     fi
-
 }
 
 ## Create node
 node_table()
 {
-    cd ${ROOT}/output/rootfs/rootfs_${KERNVER}/dev
+    cd ${STAGING_DIR}/dev
 
     if [ ${NODE_TYPE} -eq 0 ]; then
         #######      node name   Char/Block  Major  Minor
@@ -209,7 +211,7 @@ node_table()
         sudo mknod   ttys4       c           4      68  > /dev/null 2>&1
         sudo mknod   zero        c           1      5   > /dev/null 2>&1
     fi
-    cd - > /dev/null 2>&1
+    sudo mv ${STAGING_DIR}/dev ${OUTPUT}/rootfs/rootfs
 }
 
 install_file()
@@ -224,15 +226,22 @@ install_file()
         mkdir -p .tmp
         tar -xjf ${PACKAGE_NAME} -C .tmp > /dev/null 2>&1
         cp -rfa .tmp/${PACKAGE}.${VERSION}/* ${STAGING_DIR}/
+        rm -rf .tmp
     fi
-    cd - > /dev/null 2>&1
+    cp -rfa ${STAGING_DIR}/* ${OUTPUT}/rootfs/rootfs
 }
 
 ### Pre-working
-precheck
+if [ ! -f ${STAGING_DIR}/bin/echo ]; then
+    precheck
+else
+    exit 0
+fi
 
 ### Establish device node table
-node_table
+if [ ! -f ${STAGING_DIR}/tty0 ]; then
+    node_table
+fi
 
 ### Install core file
 install_file

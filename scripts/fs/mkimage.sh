@@ -23,7 +23,7 @@ KERN_MAGIC=$5
 PORJ_NAME=${5%X}
 OUTPUT=${ROOT}/output/${PORJ_NAME}
 DTB=${OUTPUT}/DTS/system.dtb
-BIOS=${OUTPUT}/BIOS/SeaBIOS.bin
+BIOS=${OUTPUT}/BIOS/BIOS.bin
 KIMAGE=${OUTPUT}/linux/linux/arch/x86/kernel/BiscuitOS
 
 ## Obtain data from DTB
@@ -37,7 +37,7 @@ SWAP_SIZE=`fdtget -t i ${DTB} /swap sd-size`
 DISK_SECT=`fdtget -t i ${DTB} /SD sd-sect`
 
 ## Output
-STAGING_DIR=${OUTPUT}/rootfs/${FS_NAME}
+STAGING_DIR=${OUTPUT}/rootfs/rootfs
 KERNEL_DIR=${OUTPUT}/linux/linux/
 BASE_FILE=${ROOT}/target/base-file
 IMAGE_NAME=BiscuitOS
@@ -179,11 +179,9 @@ esac
 
 ## Install Image into DISK
 
-echo "BIOS: ${BIOS}"
 # Install BIOS
-dd if=${BIOS} conv=notrunc  bs=${DISK_SECT} of=${IMAGE_DIR}/BIOS.img > /dev/null 2>&1
+dd if=${BIOS} conv=notrunc  bs=${DISK_SECT} of=${IMAGE_DIR}/BIOS.img #> /dev/null 2>&1
 
-exit 0
 # Install Kernel Image
 dd if=${KIMAGE} conv=notrunc bs=${DISK_SECT} of=${IMAGE_DIR}/system.img > /dev/null 2>&1
 
@@ -238,7 +236,6 @@ mv ${IMAGE_DIR}/mbr.img ${IMAGE}
 
 sync
 
-exit 0
 ## Add Partition Table
 cat <<EOF | fdisk "${IMAGE}"
 n
@@ -266,26 +263,45 @@ sync
 #### Copy and install package and libray into rootfs
 ##
 
-sudo losetup -d ${LOOPDEV} > /dev/null 2>&1 
-exit 0
-
 # Mount 1st partition
 sudo losetup -o `expr ${DISK_ROOTFS_START} \* 512` ${LOOPDEV} ${IMAGE} 
-sudo mount ${LOOPDEV} ${IMAGE_DIR}/.rootfs 
+sudo mount ${LOOPDEV} ${OUTPUT}/rootfs/tmpfs 
 # Install package and library
-sudo cp -rfa ${STAGING_DIR}/* ${IMAGE_DIR}/.rootfs
+sudo cp -rfa ${STAGING_DIR}/* ${OUTPUT}/rootfs/tmpfs
 sync
-sudo umount ${IMAGE_DIR}/.rootfs 
+sudo umount ${OUTPUT}/rootfs/tmpfs
 sudo losetup -d ${LOOPDEV} 
-rm -rf ${IMAGE_DIR}/.rootfs 
+rm -rf ${OUTPUT}/rootfs/tmpfs
 
 sync
-cp -rf ${IMAGE} ${KERNEL_DIR} 
+mv ${IMAGE} ${OUTPUT}/BiscuitOS.img
+ln -s ${OUTPUT}/BiscuitOS.img ${OUTPUT}/linux/linux/BiscuitOS.img
 sync
 
 ## Clear tmpfile
 rm -rf ${IMAGE_DIR}/hole.img ${IMAGE_DIR}/rootfs.img ${IMAGE_DIR}/system.img ${IMAGE_DIR}/BIOS.img 
 rm -rf ${IMAGE_DIR}/swap.img
+
+## Auto-generate README.md
+MF=${OUTPUT}/README.md
+echo "Linux-${KERN_VERSION} Usermanual" >> ${MF}
+echo '----------------------------' >> ${MF}
+echo '' >> ${MF}
+echo '# Build Kernel' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}/linux/linux" >> ${MF}
+echo 'make' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '# Running Kernel' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}/linux/linux" >> ${MF}
+echo 'make start' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo 'Reserved by @BiscuitOS' >> ${MF}
 
 ######
 # Display Userful Information

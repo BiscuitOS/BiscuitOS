@@ -16,28 +16,25 @@
 # Don't edit !!
 ##
 
-echo "A[$5]"
 ROOT=$1
 BIOS_NAME=${2%X}
 BIOS_VERSION=${3%X}
 BIOS_SITE=${4%X}
-DL=${ROOT}/dl/
+DL=${ROOT}/dl
 PROJ_NAME=${8%X}
-OUTPUT=${ROOT}/output/${PROJ_NAME}/
+OUTPUT=${ROOT}/output/${PROJ_NAME}
 TARGET=${OUTPUT}/BIOS
 DL_DIR=${DL}/${BIOS_NAME}
 BD_DIR=${TARGET}/${BIOS_NAME}_${BIOS_VERSION}
 PATCH_DIR=${5%X}/${BIOS_VERSION}
-CONFIG_DIR=${ROOT}/boot/SeaBIOS/config/
-KERNEL_DIR=${OUTPUT}/linux/linux/
+CONFIG_DIR=${ROOT}/boot/SeaBIOS/config
+KERNEL_DIR=${OUTPUT}/linux/linux
 if [ ! -z ${7%X} ]; then
   COREBOOT="y"
 else
   COREBOOT="n"
 fi
 
-echo "AAAAAAAAAAAAAAAAAAa"
-exit -1
 download_BIOS()
 {
     cd ${DL}
@@ -45,7 +42,6 @@ download_BIOS()
     if [ $? -ne 0 ]; then
         echo -e "\e[1;31m Unable download ${BIOS_NAME} from ${BIOS_SITE} \e[0m"
     fi
-    cd -
 }
 
 precheck()
@@ -64,6 +60,7 @@ establish_BIOS()
     if [ ! -d ${BD_DIR} ]; then
         cp -rf ${DL_DIR} ${BD_DIR}
     fi
+
     ## Ignore all modify, only support patch
     cd ${BD_DIR}
     
@@ -80,6 +77,12 @@ establish_BIOS()
     if [ -d ${PATCH_DIR} ]; then
         git am ${PATCH_DIR}/*.patch 
     fi
+
+    ## Create soft-link
+    if [ -d ${TARGET}/${BIOS_NAME} ]; then
+        rm -rf ${TARGET}/${BIOS_NAME}
+    fi
+    ln -s ${BD_DIR} ${TARGET}/${BIOS_NAME}
 
     ## SeaBIOS and Coreboot
     if [ ${COREBOOT} == "y" ]; then
@@ -103,19 +106,16 @@ establish_BIOS()
 
     ## install BIOS
     if [ ${COREBOOT} == "y" ]; then
-        cp -rf out/bios.bin.raw ${KERNEL_DIR}/${BIOS_NAME}.bin
+        cp -rf ${TARGET}/${BIOS_NAME}/out/bios.bin.raw ${TARGET}/BIOS.bin
     else
-        cp -rf out/bios.bin ${KERNEL_DIR}/${BIOS_NAME}.bin
+        cp -rf ${TARGET}/${BIOS_NAME}/out/bios.bin ${TARGET}/BIOS.bin
     fi
-    
-    cd -
 }
 
+if [ ! -f ${TARGET}/BIOS.bin ]; then
 ## Start working
-precheck
+    precheck
 
-exit 0
 ## Download/nothing
-if [ ! -f ${KERNEL_DIR}/${BIOS_NAME}.bin ]; then
     establish_BIOS
 fi

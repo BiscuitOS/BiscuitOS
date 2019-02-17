@@ -12,6 +12,9 @@ if COMMON_UTILISE
 config PK_BINUTILS
 	bool "binutils"
 
+config PK_GCC
+	bool "GNU GCC"
+
 # busybox
 source package/busybox/Kconfig
 
