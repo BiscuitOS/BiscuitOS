@@ -1,0 +1,72 @@
+From 5448099171a437415a046a367cfd5d829a21abeb Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sun, 17 Feb 2019 18:44:16 +0800
+Subject: [PATCH 3/3] modify defconfig on new format
+
+---
+ arch/x86/configs/all_n_defconfig          | 5 -----
+ arch/x86/configs/all_y_defconfig          | 6 ------
+ arch/x86/configs/biscuitos_0_12_defconfig | 8 --------
+ arch/x86/configs/defconfig                | 5 ++++-
+ 4 files changed, 4 insertions(+), 20 deletions(-)
+ delete mode 100644 arch/x86/configs/all_n_defconfig
+ delete mode 100644 arch/x86/configs/all_y_defconfig
+ delete mode 100644 arch/x86/configs/biscuitos_0_12_defconfig
+
+diff --git a/arch/x86/configs/all_n_defconfig b/arch/x86/configs/all_n_defconfig
+deleted file mode 100644
+index abf461e..0000000
+--- a/arch/x86/configs/all_n_defconfig
++++ /dev/null
+@@ -1,5 +0,0 @@
+-#
+-# Automatically generated make config: don't edit
+-# Linux/  Kernel Configuration
+-#
+-# CONFIG_FOO is not set
+diff --git a/arch/x86/configs/all_y_defconfig b/arch/x86/configs/all_y_defconfig
+deleted file mode 100644
+index 9bb42e6..0000000
+--- a/arch/x86/configs/all_y_defconfig
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#
+-# Automatically generated make config: don't edit
+-# Linux/  Kernel Configuration
+-#
+-CONFIG_FOO=y
+-CONFIG_BAR=y
+diff --git a/arch/x86/configs/biscuitos_0_12_defconfig b/arch/x86/configs/biscuitos_0_12_defconfig
+deleted file mode 100644
+index f2c64f1..0000000
+--- a/arch/x86/configs/biscuitos_0_12_defconfig
++++ /dev/null
+@@ -1,8 +0,0 @@
+-CONFIG_DEBUG_BOOTLOADER=y
+-CONFIG_HARDDISK=y
+-CONFIG_DEBUG_KERNEL=y
+-CONFIG_GDB=y
+-CONFIG_EMULATE_RUNNING_SYSTEM=y
+-CONFIG_QEMU_BOOT_FLOPPY=y
+-CONFIG_QEMU_MEMORY_SIZE=16
+-CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-minix_V1-0.12.img"
+diff --git a/arch/x86/configs/defconfig b/arch/x86/configs/defconfig
+index f2c64f1..f45c86a 100644
+--- a/arch/x86/configs/defconfig
++++ b/arch/x86/configs/defconfig
+@@ -1,8 +1,11 @@
++CONFIG_X86=y
++CONFIG_BOOTLOADER=y
+ CONFIG_DEBUG_BOOTLOADER=y
+ CONFIG_HARDDISK=y
+ CONFIG_DEBUG_KERNEL=y
+ CONFIG_GDB=y
+ CONFIG_EMULATE_RUNNING_SYSTEM=y
++CONFIG_QEMU=y
+ CONFIG_QEMU_BOOT_FLOPPY=y
+ CONFIG_QEMU_MEMORY_SIZE=16
+-CONFIG_QEMU_ROOTFS_NAME="BiscuitOS-minix_V1-0.12.img"
++CONFIG_QEMU_ROOTFS_NAME="BiscuitOS.img"
+-- 
+2.17.1
+
