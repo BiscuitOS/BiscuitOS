@@ -13,12 +13,15 @@ SEABIOS_OUT        :=
 SEABIOS_SCRIPTS    := $(srctree)/scripts/boot/seaBIOS.sh
 SEABIOS_TAR        := 
 SEABIOS_PACKAGE    := 
-SUB_TARGET          += $(SEABIOS_DIR)/build
+SUB_TARGET         += $(SEABIOS_DIR)/build
+
+$(warning "DDD[$(CONFIG_MAIN_PROJ_NAME)]")
+$(warning "B[$(SEABIOS_PATCH)]")
 
 SEABIOS_sh = $(CONFIG_SHELL) $(SEABIOS_SCRIPTS) \
                $1 $(SEABIOS_NAME)X $(SEABIOS_VERSION)X \
-               $(SEABIOS_SITE)X $(SEABIOS_PATCH)X $(KERNEL_VERSION)X \
-		$(CONFIG_COREBOOT_ON)X $(CONFIG_MAIN_PROJ_NAME)X
+               $(SEABIOS_SITE)X  $(SEABIOS_PATCH)X $(KERNEL_VERSION)X \
+               $(CONFIG_COREBOOT_ON)X $(CONFIG_MAIN_PROJ_NAME)X
 
 $(SEABIOS_DIR)/build: FORCE
 	$(Q)$(call SEABIOS_sh,$(srctree))

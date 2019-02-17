@@ -18,6 +18,8 @@
 /kernel/
 /output/
 /dl/
+/include/config
+/include/generated
 
 !.gitignore
 # output

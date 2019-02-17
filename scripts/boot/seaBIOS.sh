@@ -16,6 +16,7 @@
 # Don't edit !!
 ##
 
+echo "A[$5]"
 ROOT=$1
 BIOS_NAME=${2%X}
 BIOS_VERSION=${3%X}
@@ -35,8 +36,7 @@ else
   COREBOOT="n"
 fi
 
-echo "AAAAA[${COREBOOT}]"
-echo "${TARGET}"
+echo "AAAAAAAAAAAAAAAAAAa"
 exit -1
 download_BIOS()
 {

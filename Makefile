@@ -390,8 +390,10 @@ include toolchain/Makefile
 # package
 include package/Makefile
 
+ifdef CONFIG_BOOTLOADER
 # Bootloader
 include boot/Makefile
+endif
 
 # Board 
 include board/Makefile
