@@ -81,7 +81,12 @@ if [ ${LINUX_KERNEL_SRC}X = "1X" ]; then
 	cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
 	rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
         ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-	echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
+	if [ ${LINUX_KERNEL_VERSION} = "newest" ]; then
+		date_X=`date +%s`
+		echo ${LINUX_KERNEL_VERSION}_${date_X} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
+	else
+		echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
+	fi
 	if [ ${KERNEL_HIS}X = "LegacyX" ]; then
 		establish_legacy_kernel
 	fi
