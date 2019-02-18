@@ -159,7 +159,6 @@ case ${FS_NAME} in
 	FS_TYPE=81
         ;;
     ext2)
-        sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
         sudo losetup ${LOOPDEV} ${IMAGE_DIR}/rootfs.img 
         sudo mkfs.ext2 -r ${FS_VERSION} ${LOOPDEV}
         sudo losetup -d ${LOOPDEV} > /dev/null 2>&1
