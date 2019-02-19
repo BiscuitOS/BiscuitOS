@@ -145,6 +145,15 @@ elif [ ${ARCH} = "3" ]; then
 	echo '	${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 fi
 echo '}' >> ${MF}
+echo '' >> ${MF}
+echo 'do_debug()' >> ${MF}
+echo '{' >> ${MF}
+if [ ${ARCH} = "2" ]; then
+	echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+elif [ ${ARCH} = "3" ]; then
+	echo '	${QEMUT} -s -S -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+fi
+echo '}' >> ${MF}
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
@@ -162,16 +171,25 @@ echo '	rm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 echo '	rm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 echo '}' >> ${MF}
 echo '' >> ${MF}
+echo '# Running Kernel' >> ${MF}
 echo 'if [ X$1 = "Xstart" ]; then' >> ${MF}
 echo '  do_running' >> ${MF}
 echo 'fi' >> ${MF}
+echo '' >> ${MF}
 echo 'if [ X$1 = "Xpack" ]; then' >> ${MF}
 echo '  do_package' >> ${MF}
+echo 'fi' >> ${MF}
+echo '' >> ${MF}
+echo 'if [ X$1 = "Xdebug" ]; then' >> ${MF}
+echo '  do_debug' >> ${MF}
 echo 'fi' >> ${MF}
 chmod 755 ${MF}
 
 ## Auto create README.md
 MF=${OUTPUT}/README.md
+echo "Linux ${PROJ_NAME} Usermanual" >> ${MF}
+echo '--------------------------------' >> ${MF}
+echo '' > ${MF}
 if [ -f ${MF} ]; then
 	rm -rf ${MF}
 fi
@@ -244,6 +262,26 @@ echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}" >> ${MF}
 echo './RunQemuKernel.sh start' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '# Debugging Linux Kernel' >> ${MF}
+echo '' >> ${MF}
+echo '### First Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo './RunQemuKernel.sh debug' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '### Second Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux" >> ${MF}
+echo '' >> ${MF}
+echo '(gdb) target remote :1234' >> ${MF}
+echo '(gdb) b start_kernel' >> ${MF}
+echo '(gdb) c' >> ${MF}
+echo '(gdb) info reg' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
 
