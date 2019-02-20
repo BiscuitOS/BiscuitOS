@@ -19,6 +19,20 @@ BUSYBOX=${OUTPUT}/busybox/busybox
 GCC=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
 UBOOT=${15}
 UBOOT_CROSS=${16%X}
+KERNEL_VER=${7%X}
+KERN_DTB=
+DMARCH=
+
+# detect kernel version
+KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
+if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
+     ${KER_MAJ}X = "3.1X" -o ${KER_MAJ}X = "3.2X" -o ${KER_MAJ}X = "3.3X" -o \
+     ${KER_MAJ}X = "3.4X" ]; then
+	KERN_DTB=N
+fi
+if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" ]; then
+	DMARCH=N	
+fi
 
 rm -rf ${OUTPUT}/rootfs/
 mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}
@@ -140,7 +154,11 @@ echo '' >> ${MF}
 echo 'do_running()' >> ${MF}
 echo '{' >> ${MF}
 if [ ${ARCH} = "2" ]; then
-	echo '	${QEMUT} -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+	if [ ${DMARCH} = "N" ]; then
+		echo '	${QEMUT} -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+	else
+		echo '	${QEMUT} -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+	fi
 elif [ ${ARCH} = "3" ]; then
 	echo '	${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 fi
@@ -149,7 +167,11 @@ echo '' >> ${MF}
 echo 'do_debug()' >> ${MF}
 echo '{' >> ${MF}
 if [ ${ARCH} = "2" ]; then
-	echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+	if [ ${DMARCH} = "N" ]; then
+		echo '	${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+	else
+		echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+	fi
 elif [ ${ARCH} = "3" ]; then
 	echo '	${QEMUT} -s -S -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 fi
@@ -211,7 +233,11 @@ echo '```' >> ${MF}
 echo "cd ${OUTPUT}/linux/linux"  >> ${MF}
 echo "make ARCH=${ARCH_TYPE} clean" >> ${MF}
 if [ ${ARCH} = "2" ]; then
-	echo "make ARCH=${ARCH_TYPE} vexpress_defconfig" >> ${MF}
+	if [ ${DMARCH} = "N" ]; then
+		echo "make ARCH=${ARCH_TYPE} versatile_defconfig" >> ${MF}
+	else
+		echo "make ARCH=${ARCH_TYPE} vexpress_defconfig" >> ${MF}
+	fi
 elif [ ${ARCH} = "3" ]; then
 	echo "make ARCH=${ARCH_TYPE} defconfig" >> ${MF}
 fi
@@ -227,7 +253,11 @@ echo '        (153600) Default RAM disk size' >> ${MF}
 echo '' >> ${MF}
 if [ ${ARCH} = "2" ]; then
 	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- -j8" >> ${MF}
-	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- dtbs" >> ${MF}
+	if [ ${KERN_DTB} = "N" ]; then
+		echo "" >> ${MF}
+	else
+		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- dtbs" >> ${MF}
+	fi
 elif [ ${ARCH} = "3" ]; then
 	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- Image -j8" >> ${MF}
 fi

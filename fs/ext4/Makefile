@@ -19,7 +19,7 @@ SUB_TARGET      += $(EXT4_DIR)/build
 EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
                ${1}X $(EXT4_NAME)X $(EXT4_VERSION)X \
                $(EXT4_SITE)X $(EXT4_GITHUB)X \
-               $(EXT4_PATCH)X 5.0 \
+               $(EXT4_PATCH)X $(CONFIG_LINUX_KERNEL_VERSION)X \
 	       $(CONFIG_EXT4_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
                $(EXT4_TAR)X $(CONFIG_ARCH_MAGIC)X \
                $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(EXT4_SUBNAME)X \
