@@ -124,13 +124,13 @@ if [ -f ${MF} ]; then
 fi
 ARCH=${11%X}
 ARCH_TYPE=
-if [ ${ARCH} = "1" ]; then
+if [ ${ARCH}X = "1X" ]; then
 	QEMU=${OUTPUT}/qemu-system/qemu-system/x86_64-softmmu/qemu-system-x86_64
 	ARCH_TYPE=x86
-elif [ ${ARCH} = "2" ]; then
+elif [ ${ARCH}X = "2X" ]; then
 	QEMU=${OUTPUT}/qemu-system/qemu-system/arm-softmmu/qemu-system-arm
 	ARCH_TYPE=arm
-elif [ ${ARCH} = "3" ]; then
+elif [ ${ARCH}X = "3X" ]; then
 	QEMU=${OUTPUT}/qemu-system/qemu-system/aarch64-softmmu/qemu-system-aarch64
 	ARCH_TYPE=arm64
 fi
@@ -153,26 +153,26 @@ echo "ROOTFS_NAME=${ROOTFS_NAME}" >> ${MF}
 echo '' >> ${MF}
 echo 'do_running()' >> ${MF}
 echo '{' >> ${MF}
-if [ ${ARCH} = "2" ]; then
-	if [ ${DMARCH} = "N" ]; then
+if [ ${ARCH}X = "2X" ]; then
+	if [ ${DMARCH}X = "NX" ]; then
 		echo '	${QEMUT} -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	else
 		echo '	${QEMUT} -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	fi
-elif [ ${ARCH} = "3" ]; then
+elif [ ${ARCH}X = "3X" ]; then
 	echo '	${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 fi
 echo '}' >> ${MF}
 echo '' >> ${MF}
 echo 'do_debug()' >> ${MF}
 echo '{' >> ${MF}
-if [ ${ARCH} = "2" ]; then
-	if [ ${DMARCH} = "N" ]; then
+if [ ${ARCH}X = "2X" ]; then
+	if [ ${DMARCH}X = "NX" ]; then
 		echo '	${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	else
 		echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	fi
-elif [ ${ARCH} = "3" ]; then
+elif [ ${ARCH}X = "3X" ]; then
 	echo '	${QEMUT} -s -S -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 fi
 echo '}' >> ${MF}
@@ -232,13 +232,13 @@ echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}/linux/linux"  >> ${MF}
 echo "make ARCH=${ARCH_TYPE} clean" >> ${MF}
-if [ ${ARCH} = "2" ]; then
-	if [ ${DMARCH} = "N" ]; then
+if [ ${ARCH}X = "2X" ]; then
+	if [ ${DMARCH}X = "NX" ]; then
 		echo "make ARCH=${ARCH_TYPE} versatile_defconfig" >> ${MF}
 	else
 		echo "make ARCH=${ARCH_TYPE} vexpress_defconfig" >> ${MF}
 	fi
-elif [ ${ARCH} = "3" ]; then
+elif [ ${ARCH}X = "3X" ]; then
 	echo "make ARCH=${ARCH_TYPE} defconfig" >> ${MF}
 fi
 echo '' >> ${MF}
@@ -251,14 +251,14 @@ echo '    [*] Block devices --->' >> ${MF}
 echo '        <*> RAM block device support' >> ${MF}
 echo '        (153600) Default RAM disk size' >> ${MF}
 echo '' >> ${MF}
-if [ ${ARCH} = "2" ]; then
+if [ ${ARCH}X = "2X" ]; then
 	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- -j8" >> ${MF}
-	if [ ${KERN_DTB} = "N" ]; then
+	if [ ${KERN_DTB}X = "NX" ]; then
 		echo "" >> ${MF}
 	else
 		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- dtbs" >> ${MF}
 	fi
-elif [ ${ARCH} = "3" ]; then
+elif [ ${ARCH}X = "3X" ]; then
 	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- Image -j8" >> ${MF}
 fi
 echo '```' >> ${MF}

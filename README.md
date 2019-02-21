@@ -94,7 +94,7 @@ README:
 
 [BiscuitOS Home Page](https://biscuitos.github.io/)
 
-[BiscuitOS Establish More dirstro-Linux](https://biscuitos.github.io/blog/Kernel_Build/)
+[BiscuitOS Establish More distro-Linux](https://biscuitos.github.io/blog/Kernel_Build/)
 
 [BiscuitOS Blog Index](https://biscuitos.github.io/blog/BiscuitOS_Catalogue/)
 
