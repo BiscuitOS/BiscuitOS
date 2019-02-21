@@ -79,13 +79,13 @@ as follow:
                                           
 ***********************************************
 Output:
- */BiscuitOS/output/linux-4.0.1-arm32 
+ */BiscuitOS/output/linux-x.x.x 
 
 linux:
- */BiscuitOS/output/linux-4.0.1-arm32/linux/linux 
+ */BiscuitOS/output/linux-x.x.x/linux/linux 
 
 README:
- */BiscuitOS/output/linux-4.0.1-arm32/README.md 
+ */BiscuitOS/output/linux-x.x.x/README.md 
 
 ***********************************************
 ```
