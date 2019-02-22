@@ -178,6 +178,7 @@ esac
 # Install BIOS
 if [ ! -z ${BIOS_U} ]; then 
 	dd if=${BIOS} conv=notrunc  bs=${DISK_SECT} of=${IMAGE_DIR}/BIOS.img
+	ln -s ${BIOS} ${OUTPUT}/linux/linux/SeaBIOS.bin
 fi
 
 # Install Kernel Image

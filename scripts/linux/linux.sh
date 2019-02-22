@@ -60,7 +60,9 @@ establish_legacy_kernel()
 		echo -e "\033[31m Legacy Kernel only support above version \033[0m"
 		exit -1
 	fi
-	git am ${PATCH}/*.patch
+	if [ -d ${PATCH} ]; then
+		git am ${PATCH}/*.patch
+	fi
 }
 
 ## Get from github
