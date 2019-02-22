@@ -134,6 +134,7 @@ elif [ ${ARCH}X = "3X" ]; then
 	QEMU=${OUTPUT}/qemu-system/qemu-system/aarch64-softmmu/qemu-system-aarch64
 	ARCH_TYPE=arm64
 fi
+
 echo '#!/bin/bash' >> ${MF}
 echo '' >> ${MF}
 echo '# Build system.' >> ${MF}
@@ -150,6 +151,14 @@ echo "ARCH=${ARCH_TYPE}" >> ${MF}
 echo "BUSYBOX=${BUSYBOX}" >> ${MF}
 echo "OUTPUT=${OUTPUT}" >> ${MF}
 echo "ROOTFS_NAME=${ROOTFS_NAME}" >> ${MF}
+if [ ${UBOOT} = "yX" ]; then
+	echo "UBOOT=${OUTPUT}/u-boot/u-boot/" >> ${MF}
+	echo '' >> ${MF}
+	echo 'do_uboot()' >> ${MF}
+	echo '{' >> ${MF}
+	echo '	${QEMUT} -M vexpress-a9 -kernel ${UBOOT}/u-boot -m 512 -nographic' >> ${MF}
+	echo '}' >> ${MF}
+fi
 echo '' >> ${MF}
 echo 'do_running()' >> ${MF}
 echo '{' >> ${MF}
@@ -205,6 +214,12 @@ echo '' >> ${MF}
 echo 'if [ X$1 = "Xdebug" ]; then' >> ${MF}
 echo '  do_debug' >> ${MF}
 echo 'fi' >> ${MF}
+if [ ${UBOOT} = "yX" ]; then
+	echo '' >> ${MF}
+	echo 'if [ X$1 = "Xuboot" ]; then' >> ${MF}
+	echo '  do_uboot' >> ${MF}
+	echo 'fi' >> ${MF}
+fi
 chmod 755 ${MF}
 
 ## Auto create README.md
@@ -278,6 +293,16 @@ echo '' >> ${MF}
 echo "make CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- install" >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
+if [ ${UBOOT} = "yX" ]; then
+	echo '' >> ${MF}
+	echo '# Boot from Uboot' >> ${MF}
+	echo '' >> ${MF}
+	echo '```' >> ${MF}
+	echo "cd ${OUTPUT}" >> ${MF}
+	echo './RunQemuKernel.sh uboot' >> ${MF}
+	echo '```' >> ${MF}
+	echo '' >> ${MF}
+fi
 echo '' >> ${MF}
 echo '# Re-Build Rootfs' >> ${MF}
 echo '' >> ${MF}
