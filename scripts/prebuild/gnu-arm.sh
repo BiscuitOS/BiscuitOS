@@ -76,7 +76,18 @@ if [ ${GNU_ARM_SRC} = "2" ]; then
 	BASE_NAME=${GNU_ARM_WGET_NAME%.${GNU_ARM_TAR}}
 	if [ ! -f ${ROOT}/dl/${GNU_ARM_WGET_NAME} ]; then
 		cd ${ROOT}/dl/
+		wget ${GNU_ARM_SITE}.asc
 		wget ${GNU_ARM_SITE}
+	fi
+	# MD5 Check
+	cd ${ROOT}/dl/
+	echo "MD5Check ${GNU_ARM_WGET_NAME}"
+	md5sum ${GNU_ARM_WGET_NAME} > tmp_dm5_${GNU_ARM_WGET_NAME}.asc
+	diff tmp_dm5_${GNU_ARM_WGET_NAME}.asc ${GNU_ARM_WGET_NAME}.asc
+	if [ $? -ne 0 ]; then
+		echo -e "\033[31m Bad Package ${GNU_ARM_WGET_NAME} \033[0m"
+		rm -rf ${GNU_ARM_WGET_NAME}
+		exit -1
 	fi
 	mkdir -p ${OUTPUT}/${GNU_ARM_NAME}/
 	cp ${ROOT}/dl/${GNU_ARM_WGET_NAME} ${OUTPUT}/${GNU_ARM_NAME}/
