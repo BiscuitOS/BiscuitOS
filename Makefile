@@ -402,7 +402,7 @@ update:
 # make distclean Remove editor backup files, patch leftover files and the like
 
 # Directories & files removed with 'make clean'
-CLEAN_DIRS  += output include
+CLEAN_DIRS  += include
 CLEAN_FILES +=	
 
 # Directories & files removed with 'make mrproper'
