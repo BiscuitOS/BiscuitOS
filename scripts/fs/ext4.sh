@@ -186,6 +186,21 @@ elif [ ${ARCH}X = "3X" ]; then
 fi
 echo '}' >> ${MF}
 echo '' >>  ${MF}
+echo 'do_debug_boot()' >> ${MF}
+echo '{' >> ${MF}
+if [ ${ARCH}X = "2X" ]; then
+        if [ ${DMARCH}X = "NX" ]; then
+                echo '  ${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/compressed/vmlinux -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8 nokaslr" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+        else
+                echo '  ${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/compressed/vmlinux -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8 nokaslr" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+        fi
+elif [ ${ARCH}X = "3X" ]; then
+        echo '  ${QEMUT} -s -S -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/compressed/vmlinux -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8 nokaslr" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+fi
+echo '}' >> ${MF}
+echo '' >>  ${MF}
+echo '' >>  ${MF}
+echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
 echo '	cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
@@ -220,6 +235,11 @@ if [ ${UBOOT} = "yX" ]; then
 	echo '  do_uboot' >> ${MF}
 	echo 'fi' >> ${MF}
 fi
+echo '' >> ${MF}
+echo 'if [ X$1 = "Xdebug_boot" ]; then' >> ${MF}
+echo '  do_debug_boot' >> ${MF}
+echo 'fi' >> ${MF}
+echo '' >> ${MF}
 chmod 755 ${MF}
 
 ## Auto create README.md
@@ -339,6 +359,25 @@ echo '(gdb) c' >> ${MF}
 echo '(gdb) info reg' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
+echo '# Debugging Boot-Stage' >> ${MF}
+echo '' >> ${MF}
+echo '### First Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo './RunQemuKernel.sh debug_boot' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '### Second Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/arch/arm/boot/compressed/vmlinux" >> ${MF}
+echo '' >> ${MF}
+echo '(gdb) target remote :1234' >> ${MF}
+echo '(gdb) b XXX_bk' >> ${MF}
+echo '(gdb) c' >> ${MF}
+echo '(gdb) info reg' >> ${MF}
+echo '```' >> ${MF}
 
 ## Output directory
 echo ""
