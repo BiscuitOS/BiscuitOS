@@ -152,7 +152,7 @@ echo "BUSYBOX=${BUSYBOX}" >> ${MF}
 echo "OUTPUT=${OUTPUT}" >> ${MF}
 echo "ROOTFS_NAME=${ROOTFS_NAME}" >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
-	echo "UBOOT=${OUTPUT}/u-boot/u-boot/" >> ${MF}
+	echo "UBOOT=${OUTPUT}/u-boot/u-boot" >> ${MF}
 	echo '' >> ${MF}
 	echo 'do_uboot()' >> ${MF}
 	echo '{' >> ${MF}
