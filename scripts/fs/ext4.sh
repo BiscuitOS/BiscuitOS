@@ -117,6 +117,28 @@ if [ -d ${OUTPUT}/rootfs/rootfs ]; then
 fi
 ln -s ${OUTPUT}/rootfs/${ROOTFS_NAME} ${OUTPUT}/rootfs/rootfs
 
+## Debug Stuff
+if [ -d ${OUTPUT}/package/gdb ]; then
+	rm -rf ${OUTPUT}/package/gdb
+fi
+mkdir -p ${OUTPUT}/package/gdb
+MF=${OUTPUT}/package/gdb/gdb_zImage
+echo '# Debug zImage before relocated zImage' >> ${MF}
+echo '#' >> ${MF}
+echo '# (C) 2019.04.11 BuddyZhang1 <buddy.zhang@aliyun.com>' >> ${MF}
+echo '#' >> ${MF}
+echo '# This program is free software; you can redistribute it and/or modify' >> ${MF}
+echo '# it under the terms of the GNU General Public License version 2 as' >> ${MF}
+echo '# published by the Free Software Foundation.' >> ${MF}
+echo '' >> ${MF}
+echo '# Remote to gdb' >> ${MF}
+echo '#' >> ${MF}
+echo 'target remote :1234' >> ${MF}
+echo '' >> ${MF}
+echo '# Reload vmlinux for zImage' >> ${MF}
+echo '#' >> ${MF}
+echo "add-symbol-file ${OUTPUT}/linux/linux/arch/arm/boot/compressed/vmlinux 0x60010000" >> ${MF}
+
 ## Auto create Running scripts
 MF=${OUTPUT}/RunQemuKernel.sh
 if [ -f ${MF} ]; then
@@ -186,20 +208,6 @@ elif [ ${ARCH}X = "3X" ]; then
 fi
 echo '}' >> ${MF}
 echo '' >>  ${MF}
-echo 'do_debug_boot()' >> ${MF}
-echo '{' >> ${MF}
-if [ ${ARCH}X = "2X" ]; then
-        if [ ${DMARCH}X = "NX" ]; then
-                echo '  ${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/compressed/vmlinux -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8 nokaslr" -initrd ${ROOT}/ramdisk.img' >> ${MF}
-        else
-                echo '  ${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/compressed/vmlinux -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8 nokaslr" -initrd ${ROOT}/ramdisk.img' >> ${MF}
-        fi
-elif [ ${ARCH}X = "3X" ]; then
-        echo '  ${QEMUT} -s -S -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/compressed/vmlinux -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8 nokaslr" -initrd ${ROOT}/ramdisk.img' >> ${MF}
-fi
-echo '}' >> ${MF}
-echo '' >>  ${MF}
-echo '' >>  ${MF}
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
@@ -235,11 +243,6 @@ if [ ${UBOOT} = "yX" ]; then
 	echo '  do_uboot' >> ${MF}
 	echo 'fi' >> ${MF}
 fi
-echo '' >> ${MF}
-echo 'if [ X$1 = "Xdebug_boot" ]; then' >> ${MF}
-echo '  do_debug_boot' >> ${MF}
-echo 'fi' >> ${MF}
-echo '' >> ${MF}
 chmod 755 ${MF}
 
 ## Auto create README.md
@@ -359,21 +362,20 @@ echo '(gdb) c' >> ${MF}
 echo '(gdb) info reg' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
-echo '# Debugging Boot-Stage' >> ${MF}
+echo '# Debugging zImage before Relocated' >> ${MF}
 echo '' >> ${MF}
 echo '### First Terminal' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}" >> ${MF}
-echo './RunQemuKernel.sh debug_boot' >> ${MF}
+echo './RunQemuKernel.sh debug' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
 echo '### Second Terminal' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
-echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/arch/arm/boot/compressed/vmlinux" >> ${MF}
+echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_zImage" >> ${MF}
 echo '' >> ${MF}
-echo '(gdb) target remote :1234' >> ${MF}
 echo '(gdb) b XXX_bk' >> ${MF}
 echo '(gdb) c' >> ${MF}
 echo '(gdb) info reg' >> ${MF}
