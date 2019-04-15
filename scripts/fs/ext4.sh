@@ -139,22 +139,6 @@ echo '# Reload vmlinux for zImage' >> ${MF}
 echo '#' >> ${MF}
 echo "add-symbol-file ${OUTPUT}/linux/linux/arch/arm/boot/compressed/vmlinux 0x60010000" >> ${MF}
 
-MF=${OUTPUT}/package/gdb/gdb_RzImage
-echo '# Debug zImage after relocated zImage' >> ${MF}
-echo '#' >> ${MF}
-echo '# (C) 2019.04.15 BuddyZhang1 <buddy.zhang@aliyun.com>' >> ${MF}
-echo '#' >> ${MF}
-echo '# This program is free software; you can redistribute it and/or modify' >> ${MF}
-echo '# it under the terms of the GNU General Public License version 2 as' >> ${MF}
-echo '# published by the Free Software Foundation.' >> ${MF}
-echo '' >> ${MF}
-echo '# Remote to gdb' >> ${MF}
-echo '#' >> ${MF}
-echo 'target remote :1234' >> ${MF}
-echo '' >> ${MF}
-echo '# Reload vmlinux for zImage' >> ${MF}
-echo '#' >> ${MF}
-
 # gdb pl
 if [ ! -f ${OUTPUT}/package/gdb/gdb.pl ]; then
 	cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
@@ -223,7 +207,24 @@ if [ ${ARCH}X = "2X" ]; then
 	if [ ${DMARCH}X = "NX" ]; then
 		echo '	${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	else
+		echo '	if [ -f ${ROOT}/package/gdb/gdb_RzImage ]; then' >> ${MF}
+		echo '		rm -rf ${ROOT}/package/gdb/gdb_RzImage' >> ${MF}
+		echo '	fi' >> ${MF}
 		echo '	RzImage_addr=`${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_TOOL}`' >> ${MF}
+		echo "	echo \"# Debug zImage after relocated zImage\" >> \${ROOT}/package/gdb/gdb_RzImage" >> ${MF} 
+		echo "	echo \"#\" >> \${ROOT}/package/gdb/gdb_RzImage">> ${MF}
+		echo "	echo \"# (C) 2019.04.15 BuddyZhang1 <buddy.zhang@aliyun.com>\" >> \${ROOT}/package/gdb/gdb_RzImage" >> ${MF}
+		echo "	echo \"#\" >> \${ROOT}/package/gdb/gdb_RzImage">> ${MF}
+		echo "	echo \"# This program is free software; you can redistribute it and/or modify\" >> \${ROOT}/package/gdb/gdb_RzImage " >> ${MF}
+		echo "	echo \"# it under the terms of the GNU General Public License version 2 as\" >> \${ROOT}/package/gdb/gdb_RzImage " >> ${MF}
+		echo "	echo \"# published by the Free Software Foundation.\" >> \${ROOT}/package/gdb/gdb_RzImage ">> ${MF}
+		echo "	echo \"\" >> \${ROOT}/package/gdb/gdb_RzImage">> ${MF}
+		echo "	echo \"# Remote to gdb\" >> \${ROOT}/package/gdb/gdb_RzImage" >> ${MF}
+		echo "	echo \"#\" >> \${ROOT}/package/gdb/gdb_RzImage">> ${MF}
+		echo "	echo \"target remote :1234\" >> \${ROOT}/package/gdb/gdb_RzImage" >> ${MF}
+		echo "	echo \"\" >> \${ROOT}/package/gdb/gdb_RzImage">> ${MF}
+		echo "	echo \"# Reload vmlinux for zImage\" >> \${ROOT}/package/gdb/gdb_RzImage" >> ${MF}
+		echo "	echo \"#\" >> \${ROOT}/package/gdb/gdb_RzImage">> ${MF}
 		echo "	echo \"add-symbol-file \${ROOT}/linux/linux/arch/arm/boot/compressed/vmlinux \${RzImage_addr}\" >> \${ROOT}/package/gdb/gdb_RzImage" >> ${MF}
 
 		echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
