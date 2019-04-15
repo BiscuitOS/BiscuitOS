@@ -67,6 +67,6 @@ $r6 = $r5;
 $size = $r9 - $r6;
 
 # Call Relocated address for zIamge
-$final = $size + $restart + $load;
+$final = $size + $load;
 
 printf "%#x\n", $final;
