@@ -139,6 +139,27 @@ echo '# Reload vmlinux for zImage' >> ${MF}
 echo '#' >> ${MF}
 echo "add-symbol-file ${OUTPUT}/linux/linux/arch/arm/boot/compressed/vmlinux 0x60010000" >> ${MF}
 
+MF=${OUTPUT}/package/gdb/gdb_RzImage
+echo '# Debug zImage after relocated zImage' >> ${MF}
+echo '#' >> ${MF}
+echo '# (C) 2019.04.15 BuddyZhang1 <buddy.zhang@aliyun.com>' >> ${MF}
+echo '#' >> ${MF}
+echo '# This program is free software; you can redistribute it and/or modify' >> ${MF}
+echo '# it under the terms of the GNU General Public License version 2 as' >> ${MF}
+echo '# published by the Free Software Foundation.' >> ${MF}
+echo '' >> ${MF}
+echo '# Remote to gdb' >> ${MF}
+echo '#' >> ${MF}
+echo 'target remote :1234' >> ${MF}
+echo '' >> ${MF}
+echo '# Reload vmlinux for zImage' >> ${MF}
+echo '#' >> ${MF}
+
+# gdb pl
+if [ ! -f ${OUTPUT}/package/gdb/gdb.pl ]; then
+	cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
+fi
+
 ## Auto create Running scripts
 MF=${OUTPUT}/RunQemuKernel.sh
 if [ -f ${MF} ]; then
@@ -173,6 +194,7 @@ echo "ARCH=${ARCH_TYPE}" >> ${MF}
 echo "BUSYBOX=${BUSYBOX}" >> ${MF}
 echo "OUTPUT=${OUTPUT}" >> ${MF}
 echo "ROOTFS_NAME=${ROOTFS_NAME}" >> ${MF}
+echo "CROSS_TOOL=${CROSS_TOOL}" >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
 	echo "UBOOT=${OUTPUT}/u-boot/u-boot" >> ${MF}
 	echo '' >> ${MF}
@@ -201,6 +223,9 @@ if [ ${ARCH}X = "2X" ]; then
 	if [ ${DMARCH}X = "NX" ]; then
 		echo '	${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	else
+		echo '	RzImage_addr=`${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_TOOL}`' >> ${MF}
+		echo "	echo \"add-symbol-file \${ROOT}/linux/linux/arch/arm/boot/compressed/vmlinux \${RzImage_addr}\" >> \${ROOT}/package/gdb/gdb_RzImage" >> ${MF}
+
 		echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	fi
 elif [ ${ARCH}X = "3X" ]; then
@@ -380,6 +405,26 @@ echo '(gdb) b XXX_bk' >> ${MF}
 echo '(gdb) c' >> ${MF}
 echo '(gdb) info reg' >> ${MF}
 echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '# Debugging zImage After Relocated' >> ${MF}
+echo '' >> ${MF}
+echo '### First Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo './RunQemuKernel.sh debug' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '### Second Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RzImage" >> ${MF}
+echo '' >> ${MF}
+echo '(gdb) b XXX_bk' >> ${MF}
+echo '(gdb) c' >> ${MF}
+echo '(gdb) info reg' >> ${MF}
+echo '```' >> ${MF}
+
 
 ## Output directory
 echo ""
