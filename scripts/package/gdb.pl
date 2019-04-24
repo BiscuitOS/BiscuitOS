@@ -29,12 +29,14 @@ my $Image=`ls -l $ROOT/linux/linux/arch/arm/boot/Image | awk '{print \$5}'`;
 my $kernel_start=0x60008000;
 my $load=0x60010000;
 my $RAM_base=0x60000000;
+my $RAM_Vbase=0x80000000;
 my $reloc=hex(`cat $GDB_FILE | grep "reloc_code_end" | awk '{print \$1}'`);
 my $end=hex(`cat $GDB_FILE | grep " _end" | awk '{print \$1}'`);
 my $kern_text=hex(`cat $GDB_FIL2 | grep " .text " | awk '{print \$5}'`);
 my $kern_htext=hex(`cat $GDB_FIL2 | grep " .head.text " | awk '{print \$5}'`);
 my $kern_text=hex(`cat $GDB_FIL2 | grep " .text " | awk '{print \$5}'`);
 my $kern_rodata=hex(`cat $GDB_FIL2 | grep " .rodata " | awk '{print \$5}'`);
+my $kern_inittext=hex(`cat $GDB_FIL2 | grep " .init.text " | awk '{print \$4}'`);;
 my $kern_mask=0xFFFFFFF;
 
 ## Remove tmpfile
@@ -80,20 +82,23 @@ $size = $r9 - $r6;
 $final = $size + $load;
 
 ### Calculate Real-kernel
-$kern_text   = ($kern_text & $kern_mask) + $RAM_base;
-$kern_htext  = ($kern_htext & $kern_mask) + $RAM_base;
-$kern_rodata = ($kern_rodata & $kern_mask) + $RAM_base;
+$kern_text     = ($kern_text & $kern_mask) + $RAM_base;
+$kern_htext    = ($kern_htext & $kern_mask) + $RAM_base;
+$kern_rodata   = ($kern_rodata & $kern_mask) + $RAM_base;
 
 ## Establish .gdbinit file
 my $gdb_zImage="$ROOT/package/gdb/gdb_zImage";
 my $gdb_RzImage="$ROOT/package/gdb/gdb_RzImage";
 my $gdb_Image="$ROOT/package/gdb/gdb_Image";
-
+my $gdb_RImage="$ROOT/package/gdb/gdb_RImage";
+my $gdb_Kernel="$ROOT/package/gdb/gdb_Kernel";
 
 ## Remove file
 `rm $gdb_zImage` if -e $gdb_zImage;
 `rm $gdb_RzImage` if -e $gdb_RzImage;
 `rm $gdb_Image` if -e $gdb_Image;
+`rm $gdb_RImage` if -e $gdb_RImage;
+`rm $gdb_Kernel` if -e $gdb_Kernel;
 
 ## Create gdb_zIamge
 my $content_string="add-symbol-file $ROOT/linux/linux/arch/arm/boot/compressed/vmlinux 0x60010000";
@@ -110,7 +115,7 @@ print FH "# Remote to gdb\n";
 print FH "#\n";
 print FH "target remote :1234\n";
 print FH "\n";
-print FH "# Reload vmlinux for zImage\n";
+print FH "# Load vmlinux for zImage\n";
 print FH "#\n";
 print FH "$content_string\n";
 close FH;
@@ -136,9 +141,9 @@ print FH "$content_string\n";
 close FH;
 
 ## Create gdb_Image
-$content_string=sprintf "add-symbol-file $ROOT/linux/linux/vmlinux %#x -s .head.text %#x -s .rodata %#x", $kern_text, $kern_htext, $kern_rodata;
+$content_string=sprintf "add-symbol-file $ROOT/linux/linux/vmlinux %#x -s .head.text %#x -s .rodata %#x -s .init.text %#x", $kern_text, $kern_htext, $kern_rodata, $kern_inittext;
 open FH, ">>$gdb_Image";
-print FH "# Debug Image before start_kernel\n";
+print FH "# Debug Image MMU off before start_kernel\n";
 print FH "#\n";
 print FH "# (C) 2019.04.11 BuddyZhang1 <buddy.zhang\@aliyun.com>\n";
 print FH "#\n";
@@ -150,7 +155,47 @@ print FH "# Remote to gdb\n";
 print FH "#\n";
 print FH "target remote :1234\n";
 print FH "\n";
-print FH "# Reload vmlinux for zImage\n";
+print FH "# Reload Image\n";
 print FH "#\n";
 print FH "$content_string\n";
+close FH;
+
+## Create gdb_Image After MMU on
+$kern_text     = ($kern_text & $kern_mask) + $RAM_Vbase;
+$kern_htext    = ($kern_htext & $kern_mask) + $RAM_Vbase;
+$kern_rodata   = ($kern_rodata & $kern_mask) + $RAM_Vbase;
+$kern_inittext = ($kern_inittext & $kern_mask) + $RAM_Vbase;
+
+$content_string=sprintf "add-symbol-file $ROOT/linux/linux/vmlinux %#x -s .head.text %#x -s .rodata %#x -s .init.text %#x", $kern_text, $kern_htext, $kern_rodata, $kern_inittext;
+open FH, ">>$gdb_RImage";
+print FH "# Debug Image MMU on before start_kernel\n";
+print FH "#\n";
+print FH "# (C) 2019.04.11 BuddyZhang1 <buddy.zhang\@aliyun.com>\n";
+print FH "#\n";
+print FH "# This program is free software; you can redistribute it and/or modify\n";
+print FH "# it under the terms of the GNU General Public License version 2 as\n";
+print FH "# published by the Free Software Foundation.\n";
+print FH " \n";
+print FH "# Remote to gdb\n";
+print FH "#\n";
+print FH "target remote :1234\n";
+print FH "\n";
+print FH "# Reload vmlinux for Image\n";
+print FH "#\n";
+print FH "$content_string\n";
+close FH;
+
+# Kernel GDB .gdbinit
+open FH, ">>$gdb_Kernel";
+print FH "# Debug Normal Kernel\n";
+print FH "#\n";
+print FH "# (C) 2019.04.11 BuddyZhang1 <buddy.zhang\@aliyun.com>\n";
+print FH "#\n";
+print FH "# This program is free software; you can redistribute it and/or modify\n";
+print FH "# it under the terms of the GNU General Public License version 2 as\n";
+print FH "# published by the Free Software Foundation.\n";
+print FH " \n";
+print FH "# Remote to gdb\n";
+print FH "#\n";
+print FH "target remote :1234\n";
 close FH;

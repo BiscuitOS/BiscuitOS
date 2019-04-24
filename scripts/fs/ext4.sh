@@ -390,7 +390,7 @@ echo '(gdb) c' >> ${MF}
 echo '(gdb) info reg' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
-echo '# Debugging kernel before start_kernel' >> ${MF}
+echo '# Debugging kernel MMU OFF before start_kernel' >> ${MF}
 echo '' >> ${MF}
 echo '### First Terminal' >> ${MF}
 echo '' >> ${MF}
@@ -408,8 +408,44 @@ echo '(gdb) b XXX_bk' >> ${MF}
 echo '(gdb) c' >> ${MF}
 echo '(gdb) info reg' >> ${MF}
 echo '```' >> ${MF}
-
-
+echo '' >> ${MF}
+echo '# Debugging kernel MMU ON before start_kernel' >> ${MF}
+echo '' >> ${MF}
+echo '### First Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo './RunQemuKernel.sh debug' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '### Second Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RImage" >> ${MF}
+echo '' >> ${MF}
+echo '(gdb) b XXX_bk' >> ${MF}
+echo '(gdb) c' >> ${MF}
+echo '(gdb) info reg' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '# Debugging kernel after start_kernel' >> ${MF}
+echo '' >> ${MF}
+echo '### First Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo './RunQemuKernel.sh debug' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '### Second Terminal' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux -x ${OUTPUT}/package/gdb/gdb_Kernel" >> ${MF}
+echo '' >> ${MF}
+echo '(gdb) b XXX_bk' >> ${MF}
+echo '(gdb) c' >> ${MF}
+echo '(gdb) info reg' >> ${MF}
+echo '```' >> ${MF}
 
 ## Output directory
 echo ""
