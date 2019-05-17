@@ -1,0 +1,4 @@
+#!/bin/sh
+switch=br0
+brctl delif ${switch} $1
+echo "Closing BiscuitOS Networking $1"

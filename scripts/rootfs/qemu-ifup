@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# This is a qemu-ifup script for bridging.
+# You can use it when starting a KVM guest with bridge mode network.
+# set your bridge name
+echo "Configure BiscuitOS Networking $1........"
+
+switch=br0
+
+if [ -n "$1" ]; then
+	ip link set $1 up
+	sleep 1
+	brctl addif ${switch} $1
+	exit 0
+else
+	echo "Error: no interface specified."
+	exit 1
+fi

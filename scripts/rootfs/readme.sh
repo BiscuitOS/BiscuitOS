@@ -42,6 +42,10 @@ if [ ! -f ${OUTPUT}/package/gdb/gdb.pl ]; then
 	cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
 fi
 
+mkdir -p ${OUTPUT}/package/networking
+cp ${ROOT}/scripts/rootfs/qemu-if* ${OUTPUT}/package/networking
+cp ${ROOT}/scripts/rootfs/bridge.sh ${OUTPUT}/package/networking
+
 ## Auto create Running scripts
 MF=${OUTPUT}/RunQemuKernel.sh
 if [ -f ${MF} ]; then
@@ -113,6 +117,20 @@ elif [ ${ARCH}X = "3X" ]; then
 fi
 echo '}' >> ${MF}
 echo '' >>  ${MF}
+echo '' >> ${MF}
+echo 'do_network()' >> ${MF}
+echo '{' >> ${MF}
+if [ ${ARCH}X = "2X" ]; then
+        if [ ${DMARCH}X = "NX" ]; then
+                echo '	${QEMUT} -M versatilepb -m 256M -net tap -device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=net0 -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+        else
+                echo '	${QEMUT} -M vexpress-a9 -m 512M -net tap -device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=net0 -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+        fi
+elif [ ${ARCH}X = "3X" ]; then
+        echo '  ${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+fi
+echo '}' >> ${MF}
+echo '' >> ${MF}
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
@@ -132,20 +150,29 @@ echo '}' >> ${MF}
 echo '' >> ${MF}
 echo '# Running Kernel' >> ${MF}
 echo 'if [ X$1 = "Xstart" ]; then' >> ${MF}
-echo '  do_running' >> ${MF}
+echo '	do_running' >> ${MF}
 echo 'fi' >> ${MF}
 echo '' >> ${MF}
+echo 'if [ X$1 = "Xnet" ]; then' >> ${MF}
+echo '	if [ ! -f /etc/qemu-ifup ]; then' >> ${MF}
+echo '		cp -rf ${OUTPUT}/package/networking/qemu-ifup /etc/' >> ${MF}
+echo '		cp -rf ${OUTPUT}/package/networking/qemu-ifdown /etc/' >> ${MF}
+echo '	fi' >> ${MF}
+echo '	do_network' >> ${MF}
+echo 'fi' >> ${MF}
+echo '' >> ${MF}
+echo '' >> ${MF}
 echo 'if [ X$1 = "Xpack" ]; then' >> ${MF}
-echo '  do_package' >> ${MF}
+echo '	do_package' >> ${MF}
 echo 'fi' >> ${MF}
 echo '' >> ${MF}
 echo 'if [ X$1 = "Xdebug" ]; then' >> ${MF}
-echo '  do_debug' >> ${MF}
+echo '	do_debug' >> ${MF}
 echo 'fi' >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
 	echo '' >> ${MF}
 	echo 'if [ X$1 = "Xuboot" ]; then' >> ${MF}
-	echo '  do_uboot' >> ${MF}
+	echo '	do_uboot' >> ${MF}
 	echo 'fi' >> ${MF}
 fi
 chmod 755 ${MF}
