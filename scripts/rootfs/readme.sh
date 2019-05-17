@@ -32,6 +32,16 @@ if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" ]; then
         DMARCH=N
 fi
 
+## Debug Stuff
+if [ -d ${OUTPUT}/package/gdb ]; then
+	rm -rf ${OUTPUT}/package/gdb
+fi
+mkdir -p ${OUTPUT}/package/gdb
+# gdb pl
+if [ ! -f ${OUTPUT}/package/gdb/gdb.pl ]; then
+	cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
+fi
+
 ## Auto create Running scripts
 MF=${OUTPUT}/RunQemuKernel.sh
 if [ -f ${MF} ]; then
