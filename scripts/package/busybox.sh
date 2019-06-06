@@ -93,21 +93,27 @@ if [ ${BUSYBOX_SRC} = "3" ]; then
 fi
 
 # Compile BusyBox
-ARCH_SRC=${11}
+ARCH_SRC=${11%X}
 ARCH_CROSS=${12%X}
 if [ ${ARCH_SRC} = "1" ]; then
 	CROSS_GCC=gcc
 	ARCH_TYPE=x86
 elif [ ${ARCH_SRC} = "2" ]; then
-	CROSS_GCC=${OUTPUT}/${ARCH_CROSS}/${ARCH_CROSS}/bin/${ARCH_CROSS}-
+	if [ ${BUSYBOX_VERSION} = "1.18.1" ]; then
+		CROSS_GCC=${OUTPUT}/${ARCH_CROSS}/${ARCH_CROSS}/bin/arm-none-linux-gnueabi-
+	else
+		CROSS_GCC=${OUTPUT}/${ARCH_CROSS}/${ARCH_CROSS}/bin/${ARCH_CROSS}-
+	fi
 	ARCH_TYPE=arm
 elif [ ${ARCH_SRC} = "3" ]; then
 	CROSS_GCC=${OUTPUT}/aarch64-linux-gnu/aarch64-linux-gnu/bin/aarch64-linux-gnu-
 	ARCH_TYPE=arm64
 fi
 cd ${OUTPUT}/${BUSYBOX_NAME}/${BUSYBOX_NAME}
+LEACY_CROSS=${CROSS_COMPILE}
 export CROSS_COMPILE=${CROSS_GCC}
 make clean
 make defconfig
 make -j8
 make install
+export CROSS_COMPILE=${LEACY_CROSS}

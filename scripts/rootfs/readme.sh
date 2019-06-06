@@ -20,6 +20,7 @@ GCC=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
 UBOOT=${15}
 UBOOT_CROSS=${16%X}
 KERNEL_VER=${7%X}
+EMARCH=X
 
 # detect kernel version
 KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
@@ -30,6 +31,9 @@ if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
 fi
 if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" ]; then
         DMARCH=N
+fi
+if [ ${KERNEL_VER:0:3} = "2.6" ]; then
+	EMARCH=Y
 fi
 
 ## Debug Stuff
@@ -186,6 +190,14 @@ if [ -f ${MF} ]; then
 	rm -rf ${MF}
 fi
 
+if [ ${EMARCH} = "Y" ]; then
+	DEF_UBOOT_CROOS=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/arm-none-linux-gnueabi-
+	DEF_CROOS=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/arm-none-linux-gnueabi-
+else
+	DEF_UBOOT_CROOS=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/${UBOOT_CROSS}-
+	DEF_CROOS=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-
+fi
+
 if [ ${UBOOT} = "yX" ]; then
 	echo '# Build Uboot' >> ${MF}
 	echo '' >> ${MF}
@@ -193,7 +205,7 @@ if [ ${UBOOT} = "yX" ]; then
 	echo "cd ${OUTPUT}/u-boot/u-boot/" >> ${MF}
 	echo "make ARCH=arm clean" >> ${MF}
 	echo "make ARCH=arm vexpress_ca9x4_defconfig" >> ${MF}
-	echo "make ARCH=arm CROSS_COMPILE=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/${UBOOT_CROSS}- -j8" >> ${MF}
+	echo "make ARCH=arm CROSS_COMPILE=${DEF_CROOS}" >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 fi
@@ -220,16 +232,29 @@ echo '  Device Driver --->' >> ${MF}
 echo '    [*] Block devices --->' >> ${MF}
 echo '        <*> RAM block device support' >> ${MF}
 echo '        (153600) Default RAM disk size' >> ${MF}
+if [ ${EMARCH} = "Y" ]; then
+echo '  Kernel Features --->' >> ${MF}
+echo '    [*] Use the ARM EABI to compile the kernel' >> ${MF}
+echo '' >> ${MF}
+echo '  File systems --->' >> ${MF}
+echo '    <*> The Extended 4 (ext4) filesystem' >> ${MF}
+echo '    [*]   Use ext4 for ext2/ext3 file systems' >> ${MF}
+echo '    [*]   Ext4 extended atrributes' >> ${MF}
+echo '' >> ${MF}
+echo '  -*- Enable the block layer --->' >> ${MF}
+echo '    [*] Support for large (2TB+) block devices and files' >> ${MF}
+
+fi
 echo '' >> ${MF}
 if [ ${ARCH}X = "2X" ]; then
-	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- -j8" >> ${MF}
+	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_CROOS} -j8" >> ${MF}
 	if [ ${KERN_DTB}X = "NX" ]; then
 		echo "" >> ${MF}
 	else
-		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- dtbs" >> ${MF}
+		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_CROOS} dtbs" >> ${MF}
 	fi
 elif [ ${ARCH}X = "3X" ]; then
-	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- Image -j8" >> ${MF}
+	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_CROOS} Image -j8" >> ${MF}
 fi
 echo '```' >> ${MF}
 echo '' >> ${MF}
@@ -243,9 +268,9 @@ echo '  Busybox Settings --->' >> ${MF}
 echo '    Build Options --->' >> ${MF}
 echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
 echo '' >> ${MF}
-echo "make CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- -j8" >> ${MF}
+echo "make CROSS_COMPILE=${DEF_CROOS} -j8" >> ${MF}
 echo '' >> ${MF}
-echo "make CROSS_COMPILE=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}- install" >> ${MF}
+echo "make CROSS_COMPILE=${DEF_CROOS} install" >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
 if [ ${UBOOT} = "yX" ]; then

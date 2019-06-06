@@ -22,6 +22,7 @@ UBOOT_CROSS=${16%X}
 KERNEL_VER=${7%X}
 KERN_DTB=
 DMARCH=
+EMARCH=X
 
 # detect kernel version
 KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
@@ -32,6 +33,9 @@ if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
 fi
 if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" ]; then
 	DMARCH=N	
+fi
+if [ ${KERNEL_VER:0:3} = "2.6" ]; then
+	EMARCH=Y
 fi
 
 rm -rf ${OUTPUT}/rootfs/
@@ -87,10 +91,15 @@ echo '::askfirst:-/bin/sh' >> ${RC}
 echo '::ctrlaltdel:/bin/umount -a -r' >> ${RC}
 
 mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib
-if [ -d ${GCC}/${CROSS_TOOL}/libc/lib/${CROSS_TOOL} ]; then
-	cp -arf ${GCC}/${CROSS_TOOL}/libc/lib/${CROSS_TOOL}/* ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/
+if [ ${EMARCH} = "Y" ]; then
+	# Linux 2.6.x
+	echo "Linux 2.6.x" > /dev/null
 else
-	cp -arf ${GCC}/${CROSS_TOOL}/libc/lib/* ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/
+	if [ -d ${GCC}/${CROSS_TOOL}/libc/lib/${CROSS_TOOL} ]; then
+		cp -arf ${GCC}/${CROSS_TOOL}/libc/lib/${CROSS_TOOL}/* ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/
+	else
+		cp -arf ${GCC}/${CROSS_TOOL}/libc/lib/* ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/
+	fi
 fi
 rm -rf ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/*.a
 #${GCC}/bin/${CROSS_TOOL}-strip ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib/*.so > /dev/null 2>&1

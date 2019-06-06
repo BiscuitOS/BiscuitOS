@@ -1,0 +1,3 @@
+menuconfig TOOL_ARM_NONE_GNUEABI
+	bool "arm-none-linux-gnueabi"
+

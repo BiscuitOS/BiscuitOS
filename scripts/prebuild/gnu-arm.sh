@@ -81,7 +81,6 @@ if [ ${GNU_ARM_SRC} = "2" ]; then
 	fi
 	# MD5 Check
 	cd ${ROOT}/dl/
-	echo "MD5Check ${GNU_ARM_WGET_NAME}"
 	md5sum ${GNU_ARM_WGET_NAME} > tmp_dm5_${GNU_ARM_WGET_NAME}.asc
 	diff tmp_dm5_${GNU_ARM_WGET_NAME}.asc ${GNU_ARM_WGET_NAME}.asc
 	if [ $? -ne 0 ]; then
@@ -92,9 +91,13 @@ if [ ${GNU_ARM_SRC} = "2" ]; then
 	mkdir -p ${OUTPUT}/${GNU_ARM_NAME}/
 	cp ${ROOT}/dl/${GNU_ARM_WGET_NAME} ${OUTPUT}/${GNU_ARM_NAME}/
 	cd ${OUTPUT}/${GNU_ARM_NAME}/
-	tar -xvJf ${GNU_ARM_WGET_NAME}
+	tar -xvf ${GNU_ARM_WGET_NAME}
 	rm -rf ${GNU_ARM_WGET_NAME}
         echo ${GNU_ARM_VERSION} > ${OUTPUT}/${GNU_ARM_NAME}/version
         rm -rf ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
-        ln -s ${OUTPUT}/${GNU_ARM_NAME}/${BASE_NAME} ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
+	if [ ${GNU_ARM_VERSION} = "arm-2009q3-67" ]; then
+        	ln -s ${OUTPUT}/${GNU_ARM_NAME}/arm-2009q3 ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
+	else
+        	ln -s ${OUTPUT}/${GNU_ARM_NAME}/${BASE_NAME} ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
+	fi
 fi

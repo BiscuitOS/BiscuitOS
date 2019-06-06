@@ -284,6 +284,10 @@ sync
 rm -rf ${IMAGE_DIR}/hole.img ${IMAGE_DIR}/rootfs.img ${IMAGE_DIR}/system.img ${IMAGE_DIR}/BIOS.img 
 rm -rf ${IMAGE_DIR}/swap.img
 
+if [ -f ${OUTPUT}/README.md ]; then
+	rm ${OUTPUT}/README.md
+fi
+
 ## Auto-generate README.md
 MF=${OUTPUT}/README.md
 echo "Linux-${KERN_VERSION} Usermanual" >> ${MF}
