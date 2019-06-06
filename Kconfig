@@ -29,3 +29,6 @@ source toolchain/Kconfig
 
 # Kernel
 source linux/Kconfig
+
+# XV6
+source xv6/Kconfig

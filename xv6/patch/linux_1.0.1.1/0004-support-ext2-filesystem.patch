@@ -1,0 +1,23 @@
+From 0d7d206ff51f26ccbac15afa22907e875d748ef2 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Mon, 18 Feb 2019 07:58:26 +0800
+Subject: [PATCH 4/4] support ext2 filesystem
+
+---
+ arch/x86/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/x86/configs/defconfig b/arch/x86/configs/defconfig
+index cb4a5a6..487d5ab 100644
+--- a/arch/x86/configs/defconfig
++++ b/arch/x86/configs/defconfig
+@@ -29,5 +29,6 @@ CONFIG_QEMU_VGA_CIRRUS=y
+ CONFIG_DEMO_CODE=y
+ CONFIG_DEBUG_DEBUGCALL=y
+ CONFIG_MINIX_FS=y
++CONFIG_EXT2_FS=y
+ CONFIG_MMU=y
+ CONFIG_MEMORY_SIZE=32
+-- 
+2.7.4
+

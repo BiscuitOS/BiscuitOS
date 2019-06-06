@@ -1,0 +1,2 @@
+menuconfig FS_XV6
+	bool "XV6 Filesystem"

@@ -22,4 +22,7 @@ source fs/ext2/Kconfig
 # MSDOS
 source fs/msdos/Kconfig
 
+# XV6
+source fs/xv6/Kconfig
+
 endif # Rootfs

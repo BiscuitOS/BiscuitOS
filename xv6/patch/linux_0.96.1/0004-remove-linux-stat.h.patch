@@ -1,0 +1,24 @@
+From 037ffd22e058604eaacab198335810e140f3594f Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.d.zhang@gmail.com>
+Date: Sun, 17 Feb 2019 19:32:13 +0800
+Subject: [PATCH 4/4] remove <linux/stat.h>
+
+---
+ mm/swap.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/mm/swap.c b/mm/swap.c
+index d9b9e01..a29e343 100644
+--- a/mm/swap.c
++++ b/mm/swap.c
+@@ -16,7 +16,6 @@
+ #include <linux/sched.h>
+ #include <linux/head.h>
+ #include <linux/kernel.h>
+-#include <linux/stat.h>
+ 
+ #include <sys/stat.h>
+ 
+-- 
+2.17.1
+

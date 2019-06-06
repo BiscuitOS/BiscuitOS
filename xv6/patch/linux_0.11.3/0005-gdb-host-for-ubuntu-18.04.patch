@@ -1,0 +1,25 @@
+From 1d3174cc56b71bc7bb0cc71c957dae9aa6a0d826 Mon Sep 17 00:00:00 2001
+From: BuddyZhang1 <buddy.zhang@aliyun.com>
+Date: Fri, 10 May 2019 09:54:16 +0800
+Subject: [PATCH 5/5] gdb host for ubuntu 18.04
+
+---
+ tools/debug/qemu/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/debug/qemu/Makefile b/tools/debug/qemu/Makefile
+index 4a6bf73..a06d4b3 100644
+--- a/tools/debug/qemu/Makefile
++++ b/tools/debug/qemu/Makefile
+@@ -21,7 +21,7 @@ IMAGE_NAME := $(srctree)/arch/$(SRCARCH)/kernel/BiscuitOS
+ # Platform
+ # -----------------------------------
+ ifdef CONFIG_X86
+-  QEMU := qemu-system-x86_64
++  QEMU := qemu-system-i386
+ else
+   QEMU := qemu
+ endif
+-- 
+2.7.4
+

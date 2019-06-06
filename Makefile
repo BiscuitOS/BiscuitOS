@@ -381,6 +381,11 @@ ifdef CONFIG_LINUX_KERNEL
 include linux/Makefile
 endif
 
+ifdef CONFIG_XV6
+# VX6
+include xv6/Makefile
+endif
+
 ifdef CONFIG_ROOTFS
 # Filesystem (must be last invoked)
 include fs/Makefile

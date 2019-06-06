@@ -1,0 +1,94 @@
+menu "MIT-XV6"
+
+config XV6
+	bool "MIT-xv6"
+
+if XV6
+
+choice
+	prompt "Choice XV6 Version"
+
+config XV6_REV11
+	bool "xv6-rev11"
+
+config XV6_REV9
+	bool "xv6-rev9"
+
+config XV6_REV8
+	bool "xv6-rev8"
+
+config XV6_OSDI12
+	bool "osdi12-submit"
+
+config XV6_REV7
+	bool "xv6-rev7"
+
+config XV6_REV6
+	bool "xv6-rev6"
+
+config XV6_REV5
+	bool "xv6-rev5"
+
+config XV6_REV4
+	bool "xv6-rev4"
+
+config XV6_REV3
+	bool "xv6-rev3"
+
+config XV6_REV2
+	bool "xv6-rev2"
+
+config XV6_REV1
+	bool "xv6-rev1"
+
+config XV6_REV0
+	bool "xv6-rev0"
+
+config XV6_REV2010
+	bool "xv6-2010"
+
+config XV6_2006
+	bool "xv6-2006"
+
+config XV6_2008
+	bool "xv6-2008"
+
+config XV6_2007
+	bool "xv6-2007"
+
+config XV6_REVSYM
+	bool "xv6-symlinks"
+
+config XV6_MASTER
+	bool "xv6-master"
+
+config XV6_ORIGIN
+	bool "xv6-origin"
+
+endchoice
+
+config XV6_VERSION
+	string
+	default	"xv6-origin"	if XV6_ORIGIN
+	default	"xv6-master"	if XV6_MASTER
+	default	"xv6-symlinks"	if XV6_REVSYM
+	default	"xv6-2007"	if XV6_2007
+	default	"xv6-2008"	if XV6_2008
+	default	"xv6-2006"	if XV6_2006
+	default	"xv6-2010"	if XV6_REV2010
+	default	"xv6-rev0"	if XV6_REV0
+	default	"xv6-rev1"	if XV6_REV1
+	default	"xv6-rev2"	if XV6_REV2
+	default	"xv6-rev3"	if XV6_REV3
+	default	"xv6-rev4"	if XV6_REV4
+	default	"xv6-rev5"	if XV6_REV5
+	default	"xv6-rev6"	if XV6_REV6
+	default	"xv6-rev7"	if XV6_REV7
+	default	"osdi12-submit"	if XV6_OSDI12
+	default	"xv6-rev8"	if XV6_REV8
+	default	"xv6-rev9"	if XV6_REV9
+	default	"xv6-rev11"	if XV6_REV11
+
+endif # XV6
+
+endmenu
