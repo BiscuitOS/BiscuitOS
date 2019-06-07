@@ -21,6 +21,8 @@ UBOOT=${15}
 UBOOT_CROSS=${16%X}
 KERNEL_VER=${7%X}
 EMARCH=X
+EFS=ext4
+EFS_T=mkfs.ext4
 
 # detect kernel version
 KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
@@ -35,6 +37,17 @@ fi
 if [ ${KERNEL_VER:0:3} = "2.6" ]; then
 	EMARCH=Y
 fi
+
+if [ ${EMARCH} = "Y" ]; then
+	DEF_UBOOT_CROOS=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/arm-none-linux-gnueabi-
+	DEF_CROOS=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/arm-none-linux-gnueabi-
+	EFS=ext3
+	EFS_T=mkfs.ext3
+else
+	DEF_UBOOT_CROOS=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/${UBOOT_CROSS}-
+	DEF_CROOS=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-
+fi
+
 
 ## Debug Stuff
 if [ -d ${OUTPUT}/package/gdb ]; then
@@ -85,6 +98,8 @@ echo "BUSYBOX=${BUSYBOX}" >> ${MF}
 echo "OUTPUT=${OUTPUT}" >> ${MF}
 echo "ROOTFS_NAME=${ROOTFS_NAME}" >> ${MF}
 echo "CROSS_TOOL=${CROSS_TOOL}" >> ${MF}
+echo "EFS=${EFS}" >> ${MF}
+echo "EFS_T=${EFS_T}" >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
 	echo "UBOOT=${OUTPUT}/u-boot/u-boot" >> ${MF}
 	echo '' >> ${MF}
@@ -98,12 +113,12 @@ echo 'do_running()' >> ${MF}
 echo '{' >> ${MF}
 if [ ${ARCH}X = "2X" ]; then
 	if [ ${DMARCH}X = "NX" ]; then
-		echo '	${QEMUT} -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo '	${QEMUT} -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	else
-		echo '	${QEMUT} -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo '	${QEMUT} -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	fi
 elif [ ${ARCH}X = "3X" ]; then
-	echo '	${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+	echo '	${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 fi
 echo '}' >> ${MF}
 echo '' >> ${MF}
@@ -111,13 +126,13 @@ echo 'do_debug()' >> ${MF}
 echo '{' >> ${MF}
 if [ ${ARCH}X = "2X" ]; then
 	if [ ${DMARCH}X = "NX" ]; then
-		echo '	${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo '	${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	else
 		echo '	${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_TOOL}' >> ${MF}
-		echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 	fi
 elif [ ${ARCH}X = "3X" ]; then
-	echo '	${QEMUT} -s -S -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+	echo '	${QEMUT} -s -S -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 fi
 echo '}' >> ${MF}
 echo '' >>  ${MF}
@@ -126,12 +141,12 @@ echo 'do_network()' >> ${MF}
 echo '{' >> ${MF}
 if [ ${ARCH}X = "2X" ]; then
         if [ ${DMARCH}X = "NX" ]; then
-                echo '	${QEMUT} -M versatilepb -m 256M -net tap -device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=net0 -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+                echo '	${QEMUT} -M versatilepb -m 256M -net tap -device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=net0 -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
         else
-                echo '	${QEMUT} -M vexpress-a9 -m 512M -net tap -device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=net0 -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+                echo '	${QEMUT} -M vexpress-a9 -m 512M -net tap -device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=net0 -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
         fi
 elif [ ${ARCH}X = "3X" ]; then
-        echo '  ${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+        echo '  ${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
 fi
 echo '}' >> ${MF}
 echo '' >> ${MF}
@@ -140,9 +155,9 @@ echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
 echo '	cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
 echo '	dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=150' >> ${MF}
-echo '	mkfs.ext4 -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+echo '	${EFS_T} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 echo '	mkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-echo '	sudo mount -t ext4 ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
+echo '	sudo mount -t ${EFS} ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
 echo '	sudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
 echo '	sync' >> ${MF}
 echo '	sudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
@@ -190,14 +205,6 @@ if [ -f ${MF} ]; then
 	rm -rf ${MF}
 fi
 
-if [ ${EMARCH} = "Y" ]; then
-	DEF_UBOOT_CROOS=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/arm-none-linux-gnueabi-
-	DEF_CROOS=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/arm-none-linux-gnueabi-
-else
-	DEF_UBOOT_CROOS=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/${UBOOT_CROSS}-
-	DEF_CROOS=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-
-fi
-
 if [ ${UBOOT} = "yX" ]; then
 	echo '# Build Uboot' >> ${MF}
 	echo '' >> ${MF}
@@ -237,9 +244,8 @@ echo '  Kernel Features --->' >> ${MF}
 echo '    [*] Use the ARM EABI to compile the kernel' >> ${MF}
 echo '' >> ${MF}
 echo '  File systems --->' >> ${MF}
-echo '    <*> The Extended 4 (ext4) filesystem' >> ${MF}
-echo '    [*]   Use ext4 for ext2/ext3 file systems' >> ${MF}
-echo '    [*]   Ext4 extended atrributes' >> ${MF}
+echo '    <*> Ext3 journalling file system support' >> ${MF}
+echo '    [*]   Ext3 extended attributes' >> ${MF}
 echo '' >> ${MF}
 echo '  -*- Enable the block layer --->' >> ${MF}
 echo '    [*] Support for large (2TB+) block devices and files' >> ${MF}
