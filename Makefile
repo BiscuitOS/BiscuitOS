@@ -378,12 +378,12 @@ endif
 
 ifdef CONFIG_LINUX_KERNEL
 # kernel
-include linux/Makefile
+include kernel/linux/Makefile
 endif
 
 ifdef CONFIG_XV6
 # VX6
-include xv6/Makefile
+include kernel/xv6/Makefile
 endif
 
 ifdef CONFIG_ROOTFS
