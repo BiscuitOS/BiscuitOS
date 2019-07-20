@@ -1,0 +1,25 @@
+menu "Apollo"
+
+config APOLLO
+	bool "Apollo Guidance Computer"
+
+if APOLLO
+
+choice
+	prompt "Choice Apollp version"
+
+config APOLLO_11
+	bool "Apollo-11"
+
+endchoice
+
+config APOLLO_VERSION
+	string
+	default "Apollo-11"	if APOLLO_11
+
+config APOLLO_GITHUB
+	string "Apollo Github"
+
+endif # APOLLO
+
+endmenu

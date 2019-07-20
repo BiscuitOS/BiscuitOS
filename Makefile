@@ -386,6 +386,11 @@ ifdef CONFIG_XV6
 include kernel/xv6/Makefile
 endif
 
+ifdef CONFIG_APOLLO
+# Apollo
+include kernel/Apollo/Makefile
+endif
+
 ifdef CONFIG_ROOTFS
 # Filesystem (must be last invoked)
 include fs/Makefile

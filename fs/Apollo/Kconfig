@@ -1,0 +1,2 @@
+menuconfig FS_APOLLO
+	bool "Apollo Filesystem"

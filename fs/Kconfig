@@ -25,4 +25,7 @@ source fs/msdos/Kconfig
 # XV6
 source fs/xv6/Kconfig
 
+# Apollo
+source fs/Apollo/Kconfig
+
 endif # Rootfs
