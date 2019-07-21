@@ -34,9 +34,14 @@ fi
 install_tools()
 {
 # http://www.ibiblio.org/apollo/download.html#Downloading_and_Building_Virtual_AGC
+	# Ubuntu 16.04
 	sudo add-apt-repository ppa:nilarimogard/webupd8 
 	sudo apt-get update
 	sudo apt-get install libwxgtk2.8-dev
+	# Ubuntu 18.04
+	sudo apt-get install libwxgtk3.0-dev libsdl1.2-dev 
+	sudo apt-get install liballegro4-dev libgtk2.0-dev
+	sudo apt-get install libncurses5-dev
 }
 
 ## Get AGC from github
