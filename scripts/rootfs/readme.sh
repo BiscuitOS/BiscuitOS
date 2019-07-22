@@ -64,7 +64,7 @@ cp ${ROOT}/scripts/rootfs/qemu-if* ${OUTPUT}/package/networking
 cp ${ROOT}/scripts/rootfs/bridge.sh ${OUTPUT}/package/networking
 
 ## Auto create Running scripts
-MF=${OUTPUT}/RunQemuKernel.sh
+MF=${OUTPUT}/RunBiscuitOS.sh
 if [ -f ${MF} ]; then
 	rm -rf ${MF}
 fi
@@ -285,7 +285,7 @@ if [ ${UBOOT} = "yX" ]; then
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunQemuKernel.sh uboot' >> ${MF}
+	echo './RunBiscuitOS.sh uboot' >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 fi
@@ -294,7 +294,7 @@ echo '# Re-Build Rootfs' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}" >> ${MF}
-echo './RunQemuKernel.sh pack' >> ${MF}
+echo './RunBiscuitOS.sh pack' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
@@ -302,7 +302,7 @@ echo '# Running Linux on Qemu' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}" >> ${MF}
-echo './RunQemuKernel.sh start' >> ${MF}
+echo './RunBiscuitOS.sh start' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
 if [ ${ARCH}X = "2X" ]; then # ARM32
@@ -312,7 +312,7 @@ if [ ${ARCH}X = "2X" ]; then # ARM32
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunQemuKernel.sh debug' >> ${MF}
+	echo './RunBiscuitOS.sh debug' >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 	echo '### Second Terminal' >> ${MF}
@@ -331,7 +331,7 @@ if [ ${ARCH}X = "2X" ]; then # ARM32
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunQemuKernel.sh debug' >> ${MF}
+	echo './RunBiscuitOS.sh debug' >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 	echo '### Second Terminal' >> ${MF}
@@ -350,7 +350,7 @@ if [ ${ARCH}X = "2X" ]; then # ARM32
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunQemuKernel.sh debug' >> ${MF}
+	echo './RunBiscuitOS.sh debug' >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 	echo '### Second Terminal' >> ${MF}
@@ -369,7 +369,7 @@ if [ ${ARCH}X = "2X" ]; then # ARM32
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunQemuKernel.sh debug' >> ${MF}
+	echo './RunBiscuitOS.sh debug' >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 	echo '### Second Terminal' >> ${MF}
@@ -388,7 +388,7 @@ if [ ${ARCH}X = "2X" ]; then # ARM32
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunQemuKernel.sh debug' >> ${MF}
+	echo './RunBiscuitOS.sh debug' >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 	echo '### Second Terminal' >> ${MF}
@@ -407,7 +407,7 @@ elif [ ${ARCH}X = "3X" ]; then # ARM64
         echo '' >> ${MF}
         echo '```' >> ${MF}
         echo "cd ${OUTPUT}" >> ${MF}
-        echo './RunQemuKernel.sh debug' >> ${MF}
+        echo './RunBiscuitOS.sh debug' >> ${MF}
         echo '```' >> ${MF}
         echo '' >> ${MF}
         echo '### Second Terminal' >> ${MF}
