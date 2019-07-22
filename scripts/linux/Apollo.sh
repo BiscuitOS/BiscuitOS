@@ -38,6 +38,8 @@ install_tools()
 	sudo add-apt-repository ppa:nilarimogard/webupd8 
 	sudo apt-get update
 	sudo apt-get install libwxgtk2.8-dev
+	sudo apt-get install libsdl1.2-dev liballegro4-dev
+	sudo apt-get install libncurses5-dev libgtk2.0-dev
 	# Ubuntu 18.04
 	sudo apt-get install libwxgtk3.0-dev libsdl1.2-dev 
 	sudo apt-get install liballegro4-dev libgtk2.0-dev
