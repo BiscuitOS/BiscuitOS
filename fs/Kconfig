@@ -28,4 +28,7 @@ source fs/xv6/Kconfig
 # Apollo
 source fs/Apollo/Kconfig
 
+# Debian
+source fs/Debian/Kconfig
+
 endif # Rootfs

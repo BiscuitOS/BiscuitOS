@@ -1,0 +1,2 @@
+menuconfig FS_DEBIAN_LEGACY
+	bool "Debian-0.91 Filesystem"
