@@ -8,15 +8,96 @@ menuconfig COMMON_UTILISE
 
 if COMMON_UTILISE
 
+# Algorithm binary-tree
+source package/algo_binarytree/Kconfig
+
+# Algorithm IDA
+source package/algo_IDA/Kconfig
+
+# Algorithm IDR
+source package/algo_IDR/Kconfig
+
 # binutils
 config PK_BINUTILS
 	bool "binutils"
 
-config PK_GCC
-	bool "GNU GCC"
+# Algorithm bindlist
+source package/algo_bindlist/Kconfig
+
+# Algorithm bitmap
+source package/algo_bitmap/Kconfig
+
+# Algorithm 2-3-tree
+source package/algo_23tree/Kconfig
+
+# Algorithm radix-tree
+source package/algo_radixtree/Kconfig
+
+# Algorithm rb-tree
+source package/algo_rbtree/Kconfig
+
+# game-snake
+source package/game_snake/Kconfig
+
+# GNU-autoconf
+source package/gnu_autoconf/Kconfig
+
+# GNU-automake
+source package/gnu_automake/Kconfig
+
+# GNU-binutils
+source package/gnu_binutils/Kconfig
+
+# GNU-bison
+source package/gnu_bison/Kconfig
 
 # busybox
 source package/busybox/Kconfig
+
+# demo-application
+source package/demo_app/Kconfig
+
+# e2fsprogs
+source package/e2fsprogs/Kconfig
+
+# GNU-fdisk
+source package/gnu_fdisk/Kconfig
+
+# GNU-gawk
+source package/gnu_gawk/Kconfig
+
+# GNU-gdb
+source package/gnu_gdb/Kconfig
+
+# GNU-glibc
+source package/gnu_glibc/Kconfig
+
+# GNU-git
+source package/gnu_git/Kconfig
+
+# GNU-hello
+source package/gnu_hello/Kconfig
+
+config PK_GCC
+	bool "GNU - legacy gcc"
+
+# libtool
+source package/libtool/Kconfig
+
+# libuuid
+source package/libuuid/Kconfig
+
+# GNU-ncurses
+source package/gnu_ncurses/Kconfig
+
+# GNU-parted
+source package/gnu_parted/Kconfig
+
+# GNU-screen
+source package/gnu_screen/Kconfig
+
+# GNU-sed
+source package/gnu_sed/Kconfig
 
 # qemu-system
 source package/qemu/Kconfig

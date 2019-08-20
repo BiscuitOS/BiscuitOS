@@ -1,0 +1,22 @@
+menuconfig PK_GNU_NCURSES
+	bool "GNU - ncurses"
+
+if PK_GNU_NCURSES
+
+config GNU_NCURSES_VERSION
+	default "6.1"
+	string "verstion"
+
+config GNU_NCURSES_TAR
+	default "tar.gz"
+	string "tar type"
+
+config GNU_NCURSES_URL
+	default "http://ftp.gnu.org/pub/gnu/ncurses/"
+	string "url"
+
+config GNU_NCURSES_CONFIG
+	default "--disable-stripping --with-shared"
+	string "configure"
+
+endif # PK_GNU_NCURSES

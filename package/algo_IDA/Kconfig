@@ -1,0 +1,31 @@
+menuconfig PK_ALGO_IDA
+	bool "Algo  IDA"
+
+if PK_ALGO_IDA
+
+config ALGO_IDA_VERSION
+	default "0.11"
+	string "verstion"
+
+config ALGO_IDA_TAR
+	string "tar type"
+
+config ALGO_IDA_URL
+	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Algorithem/IDA/Basic/"
+	string "url"
+
+config ALGO_IDA_LDFLAGS
+	string "LDFLAGS"
+
+config ALGO_IDA_CFLAGS
+	default "-DCONFIG_BASE_SMALL=0"
+	string "CFLAGS"
+
+config ALGO_IDA_CONFIG
+	string "configure"
+
+config ALGO_IDA_SRC
+	default "Makefile ida.c ida.h ida_run.c radix.c radix.h"
+	string "source code list"
+
+endif # PK_ALGO_IDA

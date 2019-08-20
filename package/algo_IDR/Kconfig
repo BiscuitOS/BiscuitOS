@@ -1,0 +1,31 @@
+menuconfig PK_ALGO_IDR
+	bool "Algo  IDR"
+
+if PK_ALGO_IDR
+
+config ALGO_IDR_VERSION
+	default "0.11"
+	string "verstion"
+
+config ALGO_IDR_TAR
+	string "tar type"
+
+config ALGO_IDR_URL
+	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Algorithem/IDR/Basic/"
+	string "url"
+
+config ALGO_IDR_LDFLAGS
+	string "LDFLAGS"
+
+config ALGO_IDR_CFLAGS
+	default "-DCONFIG_BASE_SMALL=0"
+	string "CFLAGS"
+
+config ALGO_IDR_CONFIG
+	string "configure"
+
+config ALGO_IDR_SRC
+	default "Makefile idr.c idr.h idr_run.c radix.c radix.h"
+	string "source code list"
+
+endif # PK_ALGO_IDR
