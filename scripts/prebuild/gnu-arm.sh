@@ -88,6 +88,7 @@ if [ ${GNU_ARM_SRC} = "2" ]; then
 		rm -rf ${GNU_ARM_WGET_NAME}
 		exit -1
 	fi
+	rm -rf tmp_dm5_${GNU_ARM_WGET_NAME}.asc
 	mkdir -p ${OUTPUT}/${GNU_ARM_NAME}/
 	cp ${ROOT}/dl/${GNU_ARM_WGET_NAME} ${OUTPUT}/${GNU_ARM_NAME}/
 	cd ${OUTPUT}/${GNU_ARM_NAME}/
