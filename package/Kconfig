@@ -39,6 +39,12 @@ source package/algo_rbtree/Kconfig
 # game-snake
 source package/game_snake/Kconfig
 
+# game-tetris
+source package/game_tetris/Kconfig
+
+# game-2048
+source package/game_2048/Kconfig
+
 # GNU-autoconf
 source package/gnu_autoconf/Kconfig
 

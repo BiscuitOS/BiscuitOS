@@ -100,6 +100,7 @@ echo "ROOTFS_NAME=${ROOTFS_NAME}" >> ${MF}
 echo "CROSS_TOOL=${CROSS_TOOL}" >> ${MF}
 echo "EFS=${EFS}" >> ${MF}
 echo "EFS_T=${EFS_T}" >> ${MF}
+echo 'ROOTFS_SIZE=150' >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
 	echo "UBOOT=${OUTPUT}/u-boot/u-boot" >> ${MF}
 	echo '' >> ${MF}
@@ -154,7 +155,7 @@ echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
 echo '	cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
-echo '	dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=150' >> ${MF}
+echo '	dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
 echo '	${EFS_T} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 echo '	mkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 echo '	sudo mount -t ${EFS} ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
