@@ -93,6 +93,33 @@ source package/libtool/Kconfig
 # libuuid
 source package/libuuid/Kconfig
 
+# inputproto
+source package/libinputproto/Kconfig
+
+# kbproto
+source package/libkbproto/Kconfig
+
+# Xau
+source package/libXau/Kconfig
+
+# xcb
+source package/libxcb/Kconfig
+
+# xcb-proto
+source package/libxcb-proto/Kconfig
+
+# xproto
+source package/libxproto/Kconfig
+
+# xtrans
+source package/libxtrans/Kconfig
+
+# libX11
+source package/libX11/Kconfig
+
+# gnome-glib
+source package/gnome_glib/Kconfig
+
 # GNU-ncurses
 source package/gnu_ncurses/Kconfig
 
@@ -107,5 +134,11 @@ source package/gnu_sed/Kconfig
 
 # qemu-system
 source package/qemu/Kconfig
+
+# qt
+source package/qt/Kconfig
+
+# Xfce
+source package/Xfce/Kconfig
 
 endif

@@ -1,7 +1,7 @@
 #/bin/bash
 
 set -e
-# Application.
+# Establish GNU tools.
 #
 # (C) 2019.08.19 BiscuitOS <buddy.zhang@aliyun.com>
 #
@@ -25,8 +25,7 @@ GNU_CONFIG=${14%X}
 GNU_CONFIG2=${15%X}
 GNU_CFLAGS=${17%X}
 GNU_LDFLAGS=${16%X}
-GNU_SRC_LIST=${18%X}
-GNU_CSRC_LIST=${19%X}
+DL_NAME=${19%X}
 
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 PACKDIR=${OUTPUT}/package
@@ -53,51 +52,47 @@ echo 'CROSS_PATH=$(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
 echo 'CROSS_TOOLS=$(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK=$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo "DL=${ROOT}/dl" >> ${MF}
-echo 'IS_PATH =$(ROOT)/rootfs/rootfs/usr' >> ${MF}
-echo 'INSTALL_PATH=$(IS_PATH)/bin' >> ${MF}
-echo 'LD_PATH += -L$(IS_PATH)/lib:$(CROSS_PATH)/lib' >> ${MF}
-echo 'CF_PATH += -I$(IS_PATH)/include:$(CROSS_PATH)/include' >> ${MF}
+echo 'INSTALL_PATH=$(ROOT)/rootfs/rootfs/usr/' >> ${MF}
+echo 'LD_PATH += -L$(ROOT)/rootfs/rootfs/usr/lib' >> ${MF}
+echo 'CF_PATH += -I$(ROOT)/rootfs/rootfs/usr/include' >> ${MF}
 echo "CFLAGS  += ${GNU_CFLAGS}" >> ${MF}
-echo "LDFLAGS += ${GNU_LDFLAGS}" >> ${MF}
+echo "LDFLAGS += ${GNU_LDLAGS}" >> ${MF}
 echo 'PATH    += :$(CROSS_PATH)/bin' >> ${MF}
-echo "DL_FILE := ${GNU_SRC_LIST}" >> ${MF}
-echo "CP_FILE := ${GNU_CSRC_LIST}" >> ${MF}
-echo "SITE    := ${GNU_SITE}" >> ${MF}
-echo "FULLNAM := ${GNU_NAME}-${GNU_VERSION}" >> ${MF}
 echo '' >> ${MF}
-echo 'CC=$(CROSS_TOOLS)gcc' >> ${MF}
-echo 'AS=$(CROSS_TOOLS)as' >> ${MF}
-echo 'nm=$(CROSS_TOOLS)nm' >> ${MF}
-echo '' >> ${MF}
-echo '## Target' >> ${MF}
-echo "TARGET := ${GNU_NAME}" >> ${MF}
-echo '' >> ${MF}
-echo '## SRC' >> ${MF}
-echo 'ifdef CP_FILE' >> ${MF}
-echo '    SRC=$(patsubst %.c,$(FULLNAM)/%.c, $(CP_FILE))' >> ${MF}
-echo 'else' >> ${MF}
-echo '    SRC= $(wildcard $(FULLNAM)/*.c)' >> ${MF}
-echo 'endif' >> ${MF}
-echo '' >> ${MF}
-echo '## LCFLAGS' >> ${MF}
-echo 'LCFLAGS := -I$(FULLNAM)/ $(CFLAGS)' >> ${MF}
-echo 'LCFLAGS += $(LDFLAGS) $(LD_PATH) $(CF_PATH)' >> ${MF}
-echo '' >> ${MF}
+echo '# Package information' >> ${MF}
+echo "PACKAGE := ${DL_NAME}-${GNU_VERSION}.${GNU_TAR}" >> ${MF}
+echo "BASENAM := ${DL_NAME}-${GNU_VERSION}" >> ${MF}
+echo 'TARCMD  := tar -xvf' >> ${MF}
+echo "URL     := ${GNU_SITE}" >> ${MF}
+echo 'CONFIG  := --prefix=$(INSTALL_PATH) --host=$(CROSS_NAME)' >> ${MF}
+echo "CONFIG  += ${GNU_CONFIG} ${GNU_CONFIG2}" >> ${MF}
+echo 'CONFIG  += LDFLAGS=${LD_PATH} CFLAGS=${CF_PATH}' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
-echo -e '\t@$(CC) $(LCFLAGS) -o $(FULLNAM)/$(TARGET) $(SRC)' >> ${MF}
+echo -e '\tcd $(BASENAM) ; \' >> ${MF}
+echo -e '\tmake' >> ${MF}
 echo -e '\t$(info "Build .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
-echo -e '\t@mkdir -p $(FULLNAM)' >> ${MF}
-echo -e '\t@for i in $(DL_FILE) ; \' >> ${MF}
-echo -e '\tdo \' >> ${MF}
-echo -e '\t	wget $(SITE)/$${i} -P $(FULLNAM)/ ; \' >> ${MF}
-echo -e '\tdone' >> ${MF}
-echo -e '\t' >> ${MF}
+echo -e '\t@if [ ! -f $(DL)/$(PACKAGE) ]; \' >> ${MF}
+echo -e '\tthen \' >> ${MF}
+echo -e '\t\twget $(URL)/$(PACKAGE) -P $(DL); \' >> ${MF}
+echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./ ; \' >> ${MF}
+echo -e '\telse \' >> ${MF}
+echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./ ; \' >> ${MF}
+echo -e '\tfi' >> ${MF}
+echo '' >> ${MF}
+echo 'tar:' >> ${MF}
+echo -e '\t$(TARCMD) $(PACKAGE)' >> ${MF}
+echo -e '\t$(info "Untar .... [OK]")' >> ${MF}
+echo '' >> ${MF}
+echo 'configure:' >> ${MF}
+echo -e '\tcd $(BASENAM) ; \' >> ${MF}
+echo -e '\t./configure $(CONFIG)' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
-echo -e '\t@cp -rfa $(FULLNAM)/$(TARGET) $(INSTALL_PATH)' >> ${MF}
+echo -e '\tcd $(BASENAM) ; \' >> ${MF}
+echo -e '\tmake install' >> ${MF}
 echo -e '\t$(info "Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'pack:' >> ${MF}
@@ -105,8 +100,13 @@ echo -e '\t@$(PACK) pack' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'clean:' >> ${MF}
-echo -e '\t@rm -rf $(FULLNAM)/$(TARGET) $(FULLNAM)/*.o' >> ${MF}
+echo -e '\tcd $(BASENAM) ; \' >> ${MF}
+echo -e '\tmake clean' >> ${MF}
 echo -e '\t$(info "Clean   .... [OK]")' >> ${MF}
+echo '' >> ${MF}
+echo 'distclean:' >> ${MF}
+echo -e '\t@rm -rf $(BASENAM)' >> ${MF}
+echo -e '\t$(info "DClean  .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}
@@ -120,42 +120,52 @@ echo '' >> ${MF}
 echo "BiscuitOS support establish ${GNU_NAME} from source code, you" >> ${MF}
 echo 'can follow step to create execute file on BiscuitOS:' >> ${MF}
 echo '' >> ${MF}
-echo '1. download' >> ${MF}
+echo '1. Download Source Code' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo 'make download' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
-echo '2. Compile' >> ${MF}
+echo '2. Uncompress' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo 'make tar' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '3. Configure' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo 'make configure' >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+echo '4. Compile' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo 'make' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
-echo '3. Install' >> ${MF}
+echo '5. Install' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo 'make install' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
-echo '4. Pack image' >> ${MF}
+echo '6. Pack image' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo 'make pack' >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
-echo '5. Running' >> ${MF}
+echo '7. Running' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}" >> ${MF}
 echo "./RunBiscuitOS.sh start" >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
-echo '7. Clean' >> ${MF}
+echo '## Link' >> ${MF}
 echo '' >> ${MF}
-echo '```' >> ${MF}
-echo 'make clean' >> ${MF}
-echo '```' >> ${MF}
+echo "[GNU-hello](${GNU_SITE})" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}

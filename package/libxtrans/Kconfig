@@ -1,0 +1,30 @@
+menuconfig PK_LIBXTRANS
+	bool "libxtrans"
+
+if PK_LIBXTRANS
+
+config LIB_LIBXTRANS_VERSION
+	default "1.3.0"
+	string "verstion"
+
+config LIB_LIBXTRANS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXTRANS_URL
+	default "https://www.x.org/releases/individual/lib/"
+	string "url"
+
+config LIB_LIBXTRANS_SRC
+	string "source code list"
+
+config LIB_LIBXTRANS_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXTRANS_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXTRANS_CONFIG
+	string "configure"
+
+endif # PK_LIBXTRANS

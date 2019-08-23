@@ -1,0 +1,31 @@
+menuconfig PK_LIBXAU
+	select PK_LIBXPROTO
+	bool "libXau"
+
+if PK_LIBXAU
+
+config LIB_LIBXAU_VERSION
+	default "1.0.8"
+	string "verstion"
+
+config LIB_LIBXAU_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXAU_URL
+	default "https://www.x.org/releases/individual/lib/"
+	string "url"
+
+config LIB_LIBXAU_SRC
+	string "source code list"
+
+config LIB_LIBXAU_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXAU_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXAU_CONFIG
+	string "configure"
+
+endif # PK_LIBXAU

@@ -8,6 +8,14 @@ PACKAGE-$(CONFIG_PK_GNU_BISON)		+= gnu_bison/
 PACKAGE-$(CONFIG_PK_GNU_FDISK)		+= gnu_fdisk/
 PACKAGE-$(CONFIG_PK_GNU_PARTED)		+= gnu_parted/
 PACKAGE-$(CONFIG_PK_LIBUUID)		+= libuuid/
+PACKAGE-$(CONFIG_PK_LIBX11)		+= libX11/
+PACKAGE-$(CONFIG_PK_LIBXAU)		+= libXau/
+PACKAGE-$(CONFIG_PK_LIBXCB)		+= libxcb/
+PACKAGE-$(CONFIG_PK_LIBXCB_PROTO)	+= libxcb-proto/
+PACKAGE-$(CONFIG_PK_LIBINPUTPROTO)	+= libinputproto/
+PACKAGE-$(CONFIG_PK_LIBKBPROTO)		+= libkbproto/
+PACKAGE-$(CONFIG_PK_LIBXPROTO)		+= libxproto/
+PACKAGE-$(CONFIG_PK_LIBXTRANS)		+= libxtrans/
 PACKAGE-$(CONFIG_PK_LIBTOOL)		+= libtool/
 PACKAGE-$(CONFIG_PK_E2FSPROGS)		+= e2fsprogs/
 PACKAGE-$(CONFIG_PK_GNU_SED)		+= gnu_sed/
@@ -31,6 +39,9 @@ PACKAGE-$(CONFIG_PK_ALGO_TREE23)	+= algo_23tree/
 PACKAGE-$(CONFIG_PK_ALGO_BINARYTREE)	+= algo_binarytree/
 PACKAGE-$(CONFIG_PK_ALGO_RADIXTREE)	+= algo_radixtree/
 PACKAGE-$(CONFIG_PK_ALGO_RBTREE)	+= algo_rbtree/
+PACKAGE-$(CONFIG_PK_QT)			+= qt/
+PACKAGE-$(CONFIG_PK_XFCE)		+= Xfce/
+PACKAGE-$(CONFIG_PK_GLIB)		+= gnome_glib/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/%/Makefile, $(PACKAGE-y))
 

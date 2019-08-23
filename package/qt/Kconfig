@@ -1,0 +1,35 @@
+menuconfig PK_QT
+	select PK_GNU_NCURSES
+	bool "Qt"
+
+if PK_QT
+
+config QT_VERSION
+	default "5.9.2"
+	string "verstion"
+
+config QT_TAR
+	default "tar.xz"
+	string "tar type"
+
+config QT_URL
+	default "http://qt.mirrors.tds.net/qt/archive/qt/5.9/5.9.2/single/"
+	string "url"
+
+config QT_SRC
+	string "source code list"
+
+config QT_LDFLAGS
+	string "LDFLAGS"
+
+config QT_CFLAGS
+	string "CFLAGS"
+
+config QT_CONFIG
+	string "configure"
+
+config QT_PACKAGE_NAME
+	default "qt-everywhere-opensource-src"
+	string "package name"
+
+endif # PK_QT

@@ -52,8 +52,8 @@ echo 'CROSS_TOOLS=$(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK=$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo "DL=${ROOT}/dl" >> ${MF}
 echo 'INSTALL_PATH=$(ROOT)/rootfs/rootfs/usr/' >> ${MF}
-echo 'LD_PATH += -L$(ROOT)/rootfs/rootfs/usr/lib:$(CROSS_PATH)/lib' >> ${MF}
-echo 'CF_PATH += -I$(ROOT)/rootfs/rootfs/usr/include:$(CROSS_PATH)/include' >> ${MF}
+echo 'LD_PATH += -L$(ROOT)/rootfs/rootfs/usr/lib' >> ${MF}
+echo 'CF_PATH += -I$(ROOT)/rootfs/rootfs/usr/include' >> ${MF}
 echo 'PK_PATH += $(ROOT)/rootfs/rootfs/usr/lib/pkgconfig' >> ${MF}
 echo "CFLAGS  += ${GNU_CFLAGS}" >> ${MF}
 echo "LDFLAGS += ${GNU_LDLAGS}" >> ${MF}
@@ -70,8 +70,13 @@ echo 'CONFIG  += LDFLAGS=${LD_PATH} CFLAGS=${CF_PATH}' >> ${MF}
 echo 'CONFIG  += PKG_CONFIG_PATH=${PK_PATH}' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
-echo -e '\tcd $(BASENAM) ; \' >> ${MF}
-echo -e '\tmake' >> ${MF}
+echo -e '\t@cd $(BASENAM) ; \' >> ${MF}
+echo -e '\tfor i in `ls`; \' >> ${MF}
+echo -e '\tdo \' >> ${MF}
+echo -e '\t\tcd $${i} ; \' >> ${MF}
+echo -e '\t\tmake  ; \' >> ${MF}
+echo -e '\t\tcd - ; \' >> ${MF}
+echo -e '\tdone' >> ${MF}
 echo -e '\t$(info "Build .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
@@ -84,16 +89,38 @@ echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./ ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo '' >> ${MF}
 echo 'tar:' >> ${MF}
-echo -e '\t$(TARCMD) $(PACKAGE)' >> ${MF}
+echo -e '\t@rm -rf .tmp' >> ${MF}
+echo -e '\t@mkdir -p $(BASENAM) .tmp' >> ${MF}
+echo -e '\t@$(TARCMD) $(PACKAGE) -C .tmp' >> ${MF}
+echo -e '\t@$(TARCMD) $(PACKAGE)' >> ${MF}
+echo -e '\t@cd .tmp;tmpname=$$(ls .);cd $${tmpname} ; \' >> ${MF}
+echo -e '\tfor i in `ls *.tar.bz2`; \' >> ${MF}
+#echo -e '\tfor i in `ls *.tar.bz2 | awk '{print $$NF}'`; \' >> ${MF}
+echo -e '\tdo \' >> ${MF}
+echo -e '\t\ttar xvf $${i} -C ../../$(BASENAM)/ ; \' >> ${MF}
+echo -e '\tdone' >> ${MF}
+echo -e '\t@rm -rf .tmp' >> ${MF}
+echo -e '\t' >> ${MF}
 echo -e '\t$(info "Untar .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'configure:' >> ${MF}
-echo -e '\tcd $(BASENAM) ; \' >> ${MF}
-echo -e '\t./configure $(CONFIG)' >> ${MF}
+echo -e '\t@cd $(BASENAM) ; \' >> ${MF}
+echo -e '\tfor i in `ls`; \' >> ${MF}
+echo -e '\tdo \' >> ${MF}
+echo -e '\t\tcd $${i} ; \' >> ${MF}
+echo -e '\t\t./configure $(CONFIG) ; \' >> ${MF}
+echo -e '\t\tcd - ; \' >> ${MF}
+echo -e '\tdone' >> ${MF}
+echo -e '\t$(info "Configure .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
-echo -e '\tcd $(BASENAM) ; \' >> ${MF}
-echo -e '\tmake install' >> ${MF}
+echo -e '\t@cd $(BASENAM) ; \' >> ${MF}
+echo -e '\tfor i in `ls`; \' >> ${MF}
+echo -e '\tdo \' >> ${MF}
+echo -e '\t\tcd $${i} ; \' >> ${MF}
+echo -e '\t\tmake install ; \' >> ${MF}
+echo -e '\t\tcd - ; \' >> ${MF}
+echo -e '\tdone' >> ${MF}
 echo -e '\t$(info "Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'pack:' >> ${MF}
@@ -101,8 +128,13 @@ echo -e '\t@$(PACK) pack' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'clean:' >> ${MF}
-echo -e '\tcd $(BASENAM) ; \' >> ${MF}
-echo -e '\tmake clean' >> ${MF}
+echo -e '\t@cd $(BASENAM) ; \' >> ${MF}
+echo -e '\tfor i in `ls`; \' >> ${MF}
+echo -e '\tdo \' >> ${MF}
+echo -e '\t\tcd $${i} ; \' >> ${MF}
+echo -e '\t\tmake clean ; \' >> ${MF}
+echo -e '\t\tcd - ; \' >> ${MF}
+echo -e '\tdone' >> ${MF}
 echo -e '\t$(info "Clean   .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'distclean:' >> ${MF}

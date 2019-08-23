@@ -1,0 +1,30 @@
+menuconfig PK_LIBXPROTO
+	bool "libxproto"
+
+if PK_LIBXPROTO
+
+config LIB_LIBXPROTO_VERSION
+	default "7.0.25"
+	string "verstion"
+
+config LIB_LIBXPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config LIB_LIBXPROTO_SRC
+	string "source code list"
+
+config LIB_LIBXPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXPROTO_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXPROTO_CONFIG
+	string "configure"
+
+endif # PK_LIBXPROTO

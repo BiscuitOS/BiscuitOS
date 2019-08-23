@@ -1,0 +1,30 @@
+menuconfig PK_LIBXCB_PROTO
+	bool "libxcb-proto"
+
+if PK_LIBXCB_PROTO
+
+config LIB_LIBXCB_PROTO_VERSION
+	default "1.12"
+	string "verstion"
+
+config LIB_LIBXCB_PROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXCB_PROTO_URL
+	default "https://www.x.org/releases/individual/xcb/"
+	string "url"
+
+config LIB_LIBXCB_PROTO_SRC
+	string "source code list"
+
+config LIB_LIBXCB_PROTO_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXCB_PROTO_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXCB_PROTO_CONFIG
+	string "configure"
+
+endif # PK_LIBXCB_PROTO

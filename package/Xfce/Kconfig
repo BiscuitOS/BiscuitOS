@@ -1,0 +1,30 @@
+menuconfig PK_XFCE
+	bool "Xfce"
+
+if PK_XFCE
+
+config XFCE_VERSION
+	default "4.12"
+	string "verstion"
+
+config XFCE_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config XFCE_URL
+	default "http://archive.xfce.org/xfce/4.12/fat_tarballs/"
+	string "url"
+
+config XFCE_SRC
+	string "source code list"
+
+config XFCE_LDFLAGS
+	string "LDFLAGS"
+
+config XFCE_CFLAGS
+	string "CFLAGS"
+
+config XFCE_CONFIG
+	string "configure"
+
+endif # PK_XFCE

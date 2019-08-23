@@ -1,0 +1,32 @@
+menuconfig PK_LIBXCB
+	select PK_LIBXCB_PROTO
+	select PK_LIBXAU
+	bool "libxcb"
+
+if PK_LIBXCB
+
+config LIB_LIBXCB_VERSION
+	default "1.12"
+	string "verstion"
+
+config LIB_LIBXCB_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXCB_URL
+	default "https://www.x.org/releases/individual/xcb/"
+	string "url"
+
+config LIB_LIBXCB_SRC
+	string "source code list"
+
+config LIB_LIBXCB_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXCB_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXCB_CONFIG
+	string "configure"
+
+endif # PK_LIBXCB

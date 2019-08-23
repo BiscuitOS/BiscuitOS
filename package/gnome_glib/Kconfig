@@ -1,0 +1,32 @@
+menuconfig PK_GLIB
+	bool "glib"
+
+if PK_GLIB
+
+config LIB_GLIB_VERSION
+	default "2.36.2"
+	string "verstion"
+
+config LIB_GLIB_TAR
+	default "tar.xz"
+	string "tar type"
+
+config LIB_GLIB_URL
+	default "http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.36/"
+	string "url"
+
+config LIB_GLIB_SRC
+	string "source code list"
+
+config LIB_GLIB_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_GLIB_CFLAGS
+	default "-Wno-missing-include-dirs"
+	string "CFLAGS"
+
+config LIB_GLIB_CONFIG
+	default "glib_cv_stack_grows=no glib_cv_uscore=yes ac_cv_func_posix_getpwuid_r=yes ac_cv_func_posix_getgrgid_r=yes"
+	string "configure"
+
+endif # PK_GLIB

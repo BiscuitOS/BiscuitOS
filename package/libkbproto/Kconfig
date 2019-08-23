@@ -1,0 +1,30 @@
+menuconfig PK_LIBKBPROTO
+	bool "libkbproto"
+
+if PK_LIBKBPROTO
+
+config LIB_LIBKBPROTO_VERSION
+	default "1.0.6"
+	string "verstion"
+
+config LIB_LIBKBPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBKBPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config LIB_LIBKBPROTO_SRC
+	string "source code list"
+
+config LIB_LIBKBPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBKBPROTO_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBKBPROTO_CONFIG
+	string "configure"
+
+endif # PK_LIBKBPROTO
