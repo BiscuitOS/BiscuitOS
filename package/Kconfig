@@ -36,6 +36,12 @@ source package/algo_radixtree/Kconfig
 # Algorithm rb-tree
 source package/algo_rbtree/Kconfig
 
+# fontconfig
+source package/fontconfig/Kconfig
+
+# freetype
+source package/freetype/Kconfig
+
 # game-snake
 source package/game_snake/Kconfig
 
@@ -87,14 +93,50 @@ source package/gnu_hello/Kconfig
 config PK_GCC
 	bool "GNU - legacy gcc"
 
+# gtk
+source package/gtk/Kconfig
+
+# gtk: cairo
+source package/gtk_cairo/Kconfig
+
+# gtk: atk
+source package/gtk_atk/Kconfig
+
+# gtk: pango
+source package/gtk_pango/Kconfig
+
+# gtk-xfce-engine
+source package/gtk-xfce-engine/Kconfig
+
+# intltool
+source package/intltool/Kconfig
+
+# libffi
+source package/libffi/Kconfig
+
+# libpng
+source package/libpng/Kconfig
+
+# libpthread-stubs
+source package/libpthread-stubs/Kconfig
+
 # libtool
 source package/libtool/Kconfig
 
 # libuuid
 source package/libuuid/Kconfig
 
+# libxfce4ui
+source package/libxfce4ui/Kconfig
+
+# libxfce4util
+source package/libxfce4util/Kconfig
+
 # inputproto
 source package/libinputproto/Kconfig
+
+# pcre
+source package/pcre/Kconfig
 
 # kbproto
 source package/libkbproto/Kconfig
@@ -107,6 +149,9 @@ source package/libxcb/Kconfig
 
 # xcb-proto
 source package/libxcb-proto/Kconfig
+
+# xextproto
+source package/libxextproto/Kconfig
 
 # xproto
 source package/libxproto/Kconfig
@@ -140,5 +185,8 @@ source package/qt/Kconfig
 
 # Xfce
 source package/Xfce/Kconfig
+
+# zlib
+source package/zlib/Kconfig
 
 endif

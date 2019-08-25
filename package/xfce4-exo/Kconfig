@@ -1,0 +1,30 @@
+menuconfig PK_XFCE4_EXO
+	bool "xfce4-exo"
+
+if PK_XFCE4_EXO
+
+config XFCE4_EXO_VERSION
+	default "0.10.3" if XFCER4
+	string "verstion"
+
+config XFCE4_EXO_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config XFCE4_EXO_URL
+	default "http://archive.xfce.org/src/xfce/exo/0.10" if XFCER4
+	string "url"
+
+config XFCE4_EXO_SRC
+	string "source code list"
+
+config XFCE4_EXO_LDFLAGS
+	string "LDFLAGS"
+
+config XFCE4_EXO_CFLAGS
+	string "CFLAGS"
+
+config XFCE4_EXO_CONFIG
+	string "configure"
+
+endif # PK_XFCE4_EXO

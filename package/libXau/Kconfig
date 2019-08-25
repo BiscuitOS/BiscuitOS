@@ -5,7 +5,8 @@ menuconfig PK_LIBXAU
 if PK_LIBXAU
 
 config LIB_LIBXAU_VERSION
-	default "1.0.8"
+	default "1.0.7" if X11R7_7
+	#default "1.0.9"
 	string "verstion"
 
 config LIB_LIBXAU_TAR
@@ -13,7 +14,8 @@ config LIB_LIBXAU_TAR
 	string "tar type"
 
 config LIB_LIBXAU_URL
-	default "https://www.x.org/releases/individual/lib/"
+	default "https://www.x.org/releases/X11R7.7/src/lib/" if X11R7_7
+	#default "https://www.x.org/releases/individual/lib/"
 	string "url"
 
 config LIB_LIBXAU_SRC

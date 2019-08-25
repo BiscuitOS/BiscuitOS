@@ -1,0 +1,28 @@
+menuconfig PK_LIBXML2
+	bool "libxml2"
+
+if PK_LIBXML2
+
+config LIB_LIBXML2_VERSION
+	string "verstion"
+
+config LIB_LIBXML2_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXML2_URL
+	string "url"
+
+config LIB_LIBXML2_SRC
+	string "source code list"
+
+config LIB_LIBXML2_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXML2_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXML2_CONFIG
+	string "configure"
+
+endif # PK_LIBXML2

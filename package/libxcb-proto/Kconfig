@@ -4,7 +4,8 @@ menuconfig PK_LIBXCB_PROTO
 if PK_LIBXCB_PROTO
 
 config LIB_LIBXCB_PROTO_VERSION
-	default "1.12"
+	default "1.7.1" if X11R7_7
+	#default "1.13"
 	string "verstion"
 
 config LIB_LIBXCB_PROTO_TAR
@@ -12,7 +13,8 @@ config LIB_LIBXCB_PROTO_TAR
 	string "tar type"
 
 config LIB_LIBXCB_PROTO_URL
-	default "https://www.x.org/releases/individual/xcb/"
+	default "https://www.x.org/releases/X11R7.7/src/xcb/" if X11R7_7
+	#default "https://www.x.org/releases/individual/xcb/"
 	string "url"
 
 config LIB_LIBXCB_PROTO_SRC

@@ -52,22 +52,21 @@ echo 'CROSS_TOOLS=$(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK=$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo "DL=${ROOT}/dl" >> ${MF}
 echo 'INSTALL_PATH=$(ROOT)/rootfs/rootfs/usr/' >> ${MF}
-echo 'LD_PATH += -L${INSTALL_PATH}/lib:$(CROSS_PATH)/lib' >> ${MF}
-echo 'CF_PATH += -I${INSTALL_PATH}/include:$(CROSS_PATH)/include' >> ${MF}
+echo 'LD_PATH += -L$(ROOT)/rootfs/rootfs/usr/lib:$(CROSS_PATH)/lib' >> ${MF}
+echo 'CF_PATH += -I$(ROOT)/rootfs/rootfs/usr/include:$(CROSS_PATH)/include' >> ${MF}
 echo 'PK_PATH += $(ROOT)/rootfs/rootfs/usr/lib/pkgconfig:$(ROOT)/rootfs/rootfs/usr/share/pkgconfig' >> ${MF}
 echo "CFLAGS  += ${GNU_CFLAGS}" >> ${MF}
 echo "LDFLAGS += ${GNU_LDLAGS}" >> ${MF}
-echo 'PATH    += :$(CROSS_PATH)/bin' >> ${MF}
+echo 'PATH    += $(CROSS_PATH)/bin' >> ${MF}
+echo 'CC      := $(CROSS_TOOLS)gcc' >> ${MF}
 echo '' >> ${MF}
 echo '# Package information' >> ${MF}
 echo "PACKAGE := ${GNU_NAME}-${GNU_VERSION}.${GNU_TAR}" >> ${MF}
 echo "BASENAM := ${GNU_NAME}-${GNU_VERSION}" >> ${MF}
 echo 'TARCMD  := tar -xvf' >> ${MF}
 echo "URL     := ${GNU_SITE}" >> ${MF}
-echo 'CONFIG  := --prefix=$(INSTALL_PATH) --host=$(CROSS_NAME)' >> ${MF}
+echo 'CONFIG  := --prefix=$(INSTALL_PATH) --shared' >> ${MF}
 echo "CONFIG  += ${GNU_CONFIG} ${GNU_CONFIG2}" >> ${MF}
-echo 'CONFIG  += LDFLAGS=$(LD_PATH) CFLAGS=$(CF_PATH)' >> ${MF}
-echo 'CONFIG  += PKG_CONFIG_PATH=$(PK_PATH)' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
 echo -e '\tcd $(BASENAM) ; \' >> ${MF}
@@ -89,6 +88,7 @@ echo -e '\t$(info "Untar .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'configure:' >> ${MF}
 echo -e '\tcd $(BASENAM) ; \' >> ${MF}
+echo -e '\tCC=$(CC) \' >> ${MF}
 echo -e '\t./configure $(CONFIG)' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}

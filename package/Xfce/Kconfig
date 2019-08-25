@@ -1,10 +1,21 @@
 menuconfig PK_XFCE
+	select PK_LIBXFCE4UTIL
+	select PK_LIBXFCE4UI
+	select PK_GTK_XFCE_ENGINE
 	bool "Xfce"
 
 if PK_XFCE
 
+choice
+	prompt "XFCE4 Release Version"
+	
+config XFCER4
+	bool "Xfce 4.12"
+
+endchoice
+
 config XFCE_VERSION
-	default "4.12"
+	default "4.12" if XFCER4
 	string "verstion"
 
 config XFCE_TAR
@@ -12,7 +23,7 @@ config XFCE_TAR
 	string "tar type"
 
 config XFCE_URL
-	default "http://archive.xfce.org/xfce/4.12/fat_tarballs/"
+	default "http://archive.xfce.org/xfce/4.12/fat_tarballs/" if XFCER4
 	string "url"
 
 config XFCE_SRC

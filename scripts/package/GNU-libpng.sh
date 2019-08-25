@@ -52,8 +52,8 @@ echo 'CROSS_TOOLS=$(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK=$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo "DL=${ROOT}/dl" >> ${MF}
 echo 'INSTALL_PATH=$(ROOT)/rootfs/rootfs/usr/' >> ${MF}
-echo 'LD_PATH += -L${INSTALL_PATH}/lib:$(CROSS_PATH)/lib' >> ${MF}
-echo 'CF_PATH += -I${INSTALL_PATH}/include:$(CROSS_PATH)/include' >> ${MF}
+echo 'LD_PATH += -L$(INSTALL_PATH)/lib' >> ${MF}
+echo 'CF_PATH += -I$(INSTALL_PATH)/include' >> ${MF}
 echo 'PK_PATH += $(ROOT)/rootfs/rootfs/usr/lib/pkgconfig:$(ROOT)/rootfs/rootfs/usr/share/pkgconfig' >> ${MF}
 echo "CFLAGS  += ${GNU_CFLAGS}" >> ${MF}
 echo "LDFLAGS += ${GNU_LDLAGS}" >> ${MF}
@@ -68,6 +68,7 @@ echo 'CONFIG  := --prefix=$(INSTALL_PATH) --host=$(CROSS_NAME)' >> ${MF}
 echo "CONFIG  += ${GNU_CONFIG} ${GNU_CONFIG2}" >> ${MF}
 echo 'CONFIG  += LDFLAGS=$(LD_PATH) CFLAGS=$(CF_PATH)' >> ${MF}
 echo 'CONFIG  += PKG_CONFIG_PATH=$(PK_PATH)' >> ${MF}
+echo 'CONFIG  += LIBS=$(LD_PATH) CPPFLAGS=$(CF_PATH)' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
 echo -e '\tcd $(BASENAM) ; \' >> ${MF}

@@ -1,10 +1,21 @@
 menuconfig PK_GLIB
+	select PK_LIBFFI
+	select PK_PCRE
+	select PK_ZLIB
 	bool "glib"
 
 if PK_GLIB
 
+choice
+	prompt "GLIB Release Version"
+
+config GLIBR2
+	bool "Glib 2.48"
+
+endchoice
+
 config LIB_GLIB_VERSION
-	default "2.36.2"
+	default "2.48.1" if GLIBR2
 	string "verstion"
 
 config LIB_GLIB_TAR
@@ -12,13 +23,14 @@ config LIB_GLIB_TAR
 	string "tar type"
 
 config LIB_GLIB_URL
-	default "http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.36/"
+	default "http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.48/" if GLIBR2
 	string "url"
 
 config LIB_GLIB_SRC
 	string "source code list"
 
 config LIB_GLIB_LDFLAGS
+	default "-lpcre"
 	string "LDFLAGS"
 
 config LIB_GLIB_CFLAGS

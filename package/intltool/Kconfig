@@ -1,0 +1,30 @@
+menuconfig PK_INTLTOOL
+	bool "intltool"
+
+if PK_INTLTOOL
+
+config INTLTOOL_VERSION
+	default "0.40.6"
+	string "verstion"
+
+config INTLTOOL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config INTLTOOL_URL
+	default "http://ftp.gnome.org/pub/GNOME/sources/intltool/0.40/"
+	string "url"
+
+config INTLTOOL_SRC
+	string "source code list"
+
+config INTLTOOL_LDFLAGS
+	string "LDFLAGS"
+
+config INTLTOOL_CFLAGS
+	string "CFLAGS"
+
+config INTLTOOL_CONFIG
+	string "configure"
+
+endif # PK_INTLTOOL

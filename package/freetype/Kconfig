@@ -1,0 +1,30 @@
+menuconfig PK_FREETYPE
+	bool "freetype"
+
+if PK_FREETYPE
+
+config FREETYPE_VERSION
+	default "2.9"
+	string "verstion"
+
+config FREETYPE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config FREETYPE_URL
+	default "https://download.savannah.gnu.org/releases/freetype/"
+	string "url"
+
+config FREETYPE_SRC
+	string "source code list"
+
+config FREETYPE_LDFLAGS
+	string "LDFLAGS"
+
+config FREETYPE_CFLAGS
+	string "CFLAGS"
+
+config FREETYPE_CONFIG
+	string "configure"
+
+endif # PK_FREETYPE

@@ -4,7 +4,9 @@ menuconfig PK_LIBXPROTO
 if PK_LIBXPROTO
 
 config LIB_LIBXPROTO_VERSION
-	default "7.0.25"
+	default "7.0.23" if X11R7_7
+	default "7.0.13" if X11R7_4
+	#default "7.0.31"
 	string "verstion"
 
 config LIB_LIBXPROTO_TAR
@@ -12,7 +14,9 @@ config LIB_LIBXPROTO_TAR
 	string "tar type"
 
 config LIB_LIBXPROTO_URL
-	default "https://www.x.org/releases/individual/proto/"
+	default "https://www.x.org/releases/X11R7.7/src/proto/" if X11R7_7
+	default "https://www.x.org/releases/X11R7.4/src/proto/" if X11R7_4
+	#default "https://www.x.org/releases/individual/proto/"
 	string "url"
 
 config LIB_LIBXPROTO_SRC
