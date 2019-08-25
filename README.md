@@ -30,6 +30,7 @@ sudo apt-get install -y libncurses5-dev iasl
 sudo apt-get install -y device-tree-compiler
 sudo apt-get install -y flex bison libssl-dev libglib2.0-dev
 sudo apt-get install -y libfdt-dev libpixman-1-dev
+sudo apt-get install -y python pkg-config u-boot-tools intltool xsltproc
 
 On 64-Bit Machine:
 
