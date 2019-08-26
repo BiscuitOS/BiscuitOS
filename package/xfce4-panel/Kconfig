@@ -1,0 +1,30 @@
+menuconfig PK_XFCE4_PANEL
+	bool "xfce4-panel"
+
+if PK_XFCE4_PANEL
+
+config XFCE4_PANEL_VERSION
+	default "4.12.0" if XFCER4
+	string "verstion"
+
+config XFCE4_PANEL_TAR
+	default "tar.bz2" if XFCER4
+	string "tar type"
+
+config XFCE4_PANEL_URL
+	default "http://archive.xfce.org/src/xfce/xfce4-panel/4.12/" if XFCER4
+	string "url"
+
+config XFCE4_PANEL_SRC
+	string "source code list"
+
+config XFCE4_PANEL_LDFLAGS
+	string "LDFLAGS"
+
+config XFCE4_PANEL_CFLAGS
+	string "CFLAGS"
+
+config XFCE4_PANEL_CONFIG
+	string "configure"
+
+endif # PK_XFCE4_PANEL

@@ -38,7 +38,7 @@ config LIB_GLIB_CFLAGS
 	string "CFLAGS"
 
 config LIB_GLIB_CONFIG
-	default "glib_cv_stack_grows=no glib_cv_uscore=yes ac_cv_func_posix_getpwuid_r=yes ac_cv_func_posix_getgrgid_r=yes"
+	default "glib_cv_stack_grows=no glib_cv_uscore=yes ac_cv_func_posix_getpwuid_r=yes ac_cv_func_posix_getgrgid_r=yes --disable-libelf"
 	string "configure"
 
 endif # PK_GLIB

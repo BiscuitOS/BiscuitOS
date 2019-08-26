@@ -1,0 +1,30 @@
+menuconfig PK_BIGREQSPROTO
+	bool "bigreqsproto"
+
+if PK_BIGREQSPROTO
+
+config BIGREQSPROTO_VERSION
+	default "1.1.2"
+	string "verstion"
+
+config BIGREQSPROTO_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config BIGREQSPROTO_URL
+	default "http://repository.timesys.com/buildsources/b/bigreqsproto/bigreqsproto-1.1.2/"
+	string "url"
+
+config BIGREQSPROTO_SRC
+	string "source code list"
+
+config BIGREQSPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config BIGREQSPROTO_CFLAGS
+	string "CFLAGS"
+
+config BIGREQSPROTO_CONFIG
+	string "configure"
+
+endif # PK_BIGREQSPROTO

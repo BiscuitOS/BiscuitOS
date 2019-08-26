@@ -1,0 +1,32 @@
+menuconfig PK_LIBXEXT
+	bool "libXext"
+
+if PK_LIBXEXT
+
+config LIB_LIBXEXT_VERSION
+	default "1.3.1" if X11R7_7
+	#default "1.13"
+	string "verstion"
+
+config LIB_LIBXEXT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXEXT_URL
+	default "https://www.x.org/releases/X11R7.7/src/lib/" if X11R7_7
+	#default "https://www.x.org/releases/individual/xcb/"
+	string "url"
+
+config LIB_LIBXEXT_SRC
+	string "source code list"
+
+config LIB_LIBXEXT_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXEXT_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXEXT_CONFIG
+	string "configure"
+
+endif # PK_LIBXEXT

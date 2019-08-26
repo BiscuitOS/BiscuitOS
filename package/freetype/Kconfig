@@ -25,6 +25,7 @@ config FREETYPE_CFLAGS
 	string "CFLAGS"
 
 config FREETYPE_CONFIG
+	default "--without-harfbuzz"
 	string "configure"
 
 endif # PK_FREETYPE

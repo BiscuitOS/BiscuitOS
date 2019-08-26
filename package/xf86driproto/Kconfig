@@ -1,0 +1,30 @@
+menuconfig PK_XF86DRIPROTO
+	bool "xf86driproto"
+
+if PK_XF86DRIPROTO
+
+config XF86DRIPROTO_VERSION
+	default "2.1.1"
+	string "verstion"
+
+config XF86DRIPROTO_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config XF86DRIPROTO_URL
+	default "http://repository.timesys.com/buildsources/x/xf86driproto/xf86driproto-2.1.1/"
+	string "url"
+
+config XF86DRIPROTO_SRC
+	string "source code list"
+
+config XF86DRIPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config XF86DRIPROTO_CFLAGS
+	string "CFLAGS"
+
+config XF86DRIPROTO_CONFIG
+	string "configure"
+
+endif # PK_XF86DRIPROTO

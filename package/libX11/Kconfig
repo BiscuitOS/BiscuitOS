@@ -6,6 +6,7 @@ menuconfig PK_LIBX11
 	select PK_LIBXCB if X11R7_7
 	select PK_XCB_DEMO if X11R7_7
 	select PK_LIBXEXTPROTO if X11R7_7
+	select PK_LIBXEXT if X11R7_7
 	bool "libX11"
 
 if PK_LIBX11

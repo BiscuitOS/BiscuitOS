@@ -1,0 +1,31 @@
+menuconfig PK_LIBTIFF
+	select PK_ZLIB
+	bool "libtiff"
+
+if PK_LIBTIFF
+
+config LIB_LIBTIFF_VERSION
+	default "4.0.8"
+	string "verstion"
+
+config LIB_LIBTIFF_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBTIFF_URL
+	default "https://ftp.osuosl.org/pub/blfs/conglomeration/tiff/"
+	string "url"
+
+config LIB_LIBTIFF_SRC
+	string "source code list"
+
+config LIB_LIBTIFF_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBTIFF_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBTIFF_CONFIG
+	string "configure"
+
+endif # PK_LIBTIFF

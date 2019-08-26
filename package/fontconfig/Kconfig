@@ -1,5 +1,6 @@
 menuconfig PK_FONTCONFIG
 	select PK_FREETYPE
+	select PK_LIBXML2
 	bool "fontconfig"
 
 if PK_FONTCONFIG

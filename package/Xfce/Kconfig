@@ -2,6 +2,8 @@ menuconfig PK_XFCE
 	select PK_LIBXFCE4UTIL
 	select PK_LIBXFCE4UI
 	select PK_GTK_XFCE_ENGINE
+	select PK_XFCE4_PANEL
+	select PK_XFCE4_EXO
 	bool "Xfce"
 
 if PK_XFCE

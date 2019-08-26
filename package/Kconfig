@@ -11,6 +11,12 @@ if COMMON_UTILISE
 # Algorithm binary-tree
 source package/algo_binarytree/Kconfig
 
+# elfutils
+source package/elfutils/Kconfig
+
+# expat
+source package/expat/Kconfig
+
 # Algorithm IDA
 source package/algo_IDA/Kconfig
 
@@ -36,8 +42,17 @@ source package/algo_radixtree/Kconfig
 # Algorithm rb-tree
 source package/algo_rbtree/Kconfig
 
+# bigreqsproto
+source package/bigreqsproto/Kconfig
+
+# DirectFB
+source package/DirectFB/Kconfig
+
 # fontconfig
 source package/fontconfig/Kconfig
+
+# fontsproto
+source package/fontsproto/Kconfig
 
 # freetype
 source package/freetype/Kconfig
@@ -114,11 +129,17 @@ source package/intltool/Kconfig
 # libffi
 source package/libffi/Kconfig
 
+# libjpeg
+source package/libjpeg/Kconfig
+
 # libpng
 source package/libpng/Kconfig
 
 # libpthread-stubs
 source package/libpthread-stubs/Kconfig
+
+# libtiff
+source package/libtiff/Kconfig
 
 # libtool
 source package/libtool/Kconfig
@@ -132,11 +153,20 @@ source package/libxfce4ui/Kconfig
 # libxfce4util
 source package/libxfce4util/Kconfig
 
+# libxml2
+source package/libxml2/Kconfig
+
 # inputproto
 source package/libinputproto/Kconfig
 
+# openssl
+source package/openssl/Kconfig
+
 # pcre
 source package/pcre/Kconfig
+
+# pixman
+source package/pixman/Kconfig
 
 # kbproto
 source package/libkbproto/Kconfig
@@ -149,6 +179,9 @@ source package/libxcb/Kconfig
 
 # xcb-proto
 source package/libxcb-proto/Kconfig
+
+# Xext
+source package/libXext/Kconfig
 
 # xextproto
 source package/libxextproto/Kconfig
@@ -183,8 +216,26 @@ source package/qemu/Kconfig
 # qt
 source package/qt/Kconfig
 
+# videoproto
+source package/videoproto/Kconfig
+
+# xcmiscproto
+source package/xcmiscproto/Kconfig
+
+# xf86driproto
+source package/xf86driproto/Kconfig
+
 # Xfce
 source package/Xfce/Kconfig
+
+# xfce4-exo
+source package/xfce4-exo/Kconfig
+
+# xfce4-panel
+source package/xfce4-panel/Kconfig
+
+# Xorg-Server
+source package/Xorg/Kconfig
 
 # zlib
 source package/zlib/Kconfig

@@ -2,6 +2,12 @@ menuconfig PK_GTK
 	select PK_GTK_ATK
 	select PK_GTK_CAIRO
 	select PK_GTK_PANGO
+	select PK_LIBTIFF
+	select PK_PIXMAN
+	select PK_LIBJPEG
+	select PK_LIBX11
+	select X11R7_7
+	select PK_DIRECTFB
 	bool "gtk"
 
 if PK_GTK

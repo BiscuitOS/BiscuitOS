@@ -31,6 +31,7 @@ sudo apt-get install -y device-tree-compiler
 sudo apt-get install -y flex bison libssl-dev libglib2.0-dev
 sudo apt-get install -y libfdt-dev libpixman-1-dev
 sudo apt-get install -y python pkg-config u-boot-tools intltool xsltproc
+sudo apt-get install -y gpref
 
 On 64-Bit Machine:
 
