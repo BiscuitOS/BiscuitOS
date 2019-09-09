@@ -43,7 +43,7 @@ source package/fontsproto/Kconfig
 source package/freetype/Kconfig
 
 config PK_GCC
-	bool "Ancient GNU GCC for linux 0.11"
+	bool "GCC: Ancient linux 0.11"
 
 # glib
 source package/glib/Kconfig
