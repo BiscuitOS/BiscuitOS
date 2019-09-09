@@ -1,0 +1,55 @@
+menuconfig PK_LIBXFIXES
+	select PK_FIXESPROTO
+	select PK_LIBXXF86VM
+	bool "libXfixes"
+
+if PK_LIBXFIXES
+
+config PK_LIBXFIXES_VERSION
+	default "5.0.3"
+	string "verstion"
+
+config PK_LIBXFIXES_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBXFIXES_URL
+	default "https://www.x.org/releases/individual/lib/"
+	string "url"
+
+config PK_LIBXFIXES_GITHUB
+	string "GitHub"
+
+config PK_LIBXFIXES_SRCFILE
+	string "Source code list"
+
+config PK_LIBXFIXES_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBXFIXES_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBXFIXES_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBXFIXES_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBXFIXES_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBXFIXES_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBXFIXES_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBXFIXES_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBXFIXES_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBXFIXES

@@ -1,0 +1,58 @@
+menuconfig PK_GLIB
+	select PK_LIB_LIBFFI
+	select PK_PCRE
+	select PK_ZLIB
+	select PK_UTIL_LINUX
+	bool "glib"
+
+if PK_GLIB
+
+config PK_GLIB_VERSION
+	default "2.52.3"
+	string "verstion"
+
+config PK_GLIB_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_GLIB_URL
+	default "http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.52/"
+	string "url"
+
+config PK_GLIB_GITHUB
+	string "GitHub"
+
+config PK_GLIB_SRCFILE
+	string "Source code list"
+
+config PK_GLIB_CONFIG
+	default "--disable-man --disable-static --disable-largefile --disable-fam --disable-xattr --disable-libelf --disable-static glib_cv_stack_grows=no glib_cv_uscore=yes ac_cv_func_posix_getpwuid_r=yes ac_cv_func_posix_getgrgid_r=yes --disable-static --disable-man --enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_GLIB_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_GLIB_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_GLIB_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_GLIB_CFLAGS
+	default "-Wno-missing-include-dirs"
+	string "CFLAGS: C compiler flags"
+
+config PK_GLIB_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_GLIB_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_GLIB_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_GLIB_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_GLIB

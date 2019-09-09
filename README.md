@@ -31,7 +31,8 @@ sudo apt-get install -y device-tree-compiler
 sudo apt-get install -y flex bison libssl-dev libglib2.0-dev
 sudo apt-get install -y libfdt-dev libpixman-1-dev
 sudo apt-get install -y python pkg-config u-boot-tools intltool xsltproc
-sudo apt-get install -y gpref
+sudo apt-get install -y gpref libglib2.0-dev libgirepository1.0-dev
+sudo apt-get install -y gobject-introspection
 
 On 64-Bit Machine:
 
@@ -92,7 +93,13 @@ README:
 ***********************************************
 ```
 
-# Offical Website and Blog
+## Silence information
+
+```
+export BS_SILENCE=true
+```
+
+## Offical Website and Blog
 
 [BiscuitOS Home Page](https://biscuitos.github.io/)
 

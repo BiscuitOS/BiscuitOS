@@ -3,30 +3,44 @@
 # openssl
 #
 ################################################
-OPENSSL_NAME		:= openssl
-OPENSSL_VERSION		:= $(CONFIG_OPENSSL_VERSION)
-OPENSSL_SITE		:= $(CONFIG_OPENSSL_URL)
-OPENSSL_GITHUB		:= 
-OPENSSL_SUBNAME		:= 
-OPENSSL_DIR		:= $(srctree)/package/openssl
-OPENSSL_PATCH		:= $(srctree)/package/openssl/patch
-OPENSSL_DEMO		:= $(srctree)/package/openssl/demo.c
-OPENSSL_OUT		:= 
-OPENSSL_SCRIPTS		:= $(srctree)/scripts/package/GNU-openssl.sh
-OPENSSL_TAR		:= $(CONFIG_OPENSSL_TAR)
-OPENSSL_PACKAGE		:= 
-OPENSSL_CONFIG		:=
-SUB_TARGET		+= $(OPENSSL_DIR)/build
+PK_OPENSSL_NAME        := openssl
+PK_OPENSSL_VERSION     := $(CONFIG_PK_OPENSSL_VERSION)
+PK_OPENSSL_SITE        := $(CONFIG_PK_OPENSSL_URL)
+PK_OPENSSL_GITHUB      := $(CONFIG_PK_OPENSSL_GITHUB)
+PK_OPENSSL_SUBNAME     :=
+PK_OPENSSL_BUILDARCH   := $(CONFIG_PK_OPENSSL_BUILDARCH)
+PK_OPENSSL_DIR         := $(srctree)/package/openssl
+PK_OPENSSL_PATCH       := $(PK_OPENSSL_DIR)/patch
+PK_OPENSSL_BSBIT       := openssl-$(PK_OPENSSL_VERSION).bsbit
+PK_OPENSSL_OUT         :=
+PK_OPENSSL_SCRIPTS     := $(srctree)/scripts/package/package-openssl.sh
+PK_OPENSSL_TAR         := $(CONFIG_PK_OPENSSL_TAR)
+PK_OPENSSL_PACKAGE     :=
+PK_OPENSSL_CONFIG      := $(CONFIG_PK_OPENSSL_CONFIG)
+SUB_TARGET             += $(PK_OPENSSL_DIR)/build
 
-OPENSSL_sh = $(CONFIG_SHELL) $(OPENSSL_SCRIPTS) \
-               $1 $(OPENSSL_NAME)X $(OPENSSL_VERSION)X \
-               $(OPENSSL_SITE)X $(OPENSSL_GITHUB)X \
-               $(OPENSSL_PATCH)X 5.0 \
-	       $(CONFIG_OPENSSL_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
-               $(OPENSSL_TAR) $(CONFIG_ARCH_MAGIC)X \
-               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(OPENSSL_SUBNAME)X \
-               $(OPENSSL_CONFIG)X $(CONFIG_OPENSSL_CONFIG)X \
-	       $(CONFIG_OPENSSL_LDFLAGS) $(CONFIG_OPENSSL_CFLAGS)
+PK_OPENSSL_sh = $(CONFIG_SHELL) $(PK_OPENSSL_SCRIPTS) \
+                 $1X \
+                 $(PK_OPENSSL_NAME)X \
+                 $(PK_OPENSSL_VERSION)X \
+                 $(PK_OPENSSL_SITE)X \
+                 $(PK_OPENSSL_GITHUB)X \
+                 $(PK_OPENSSL_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_OPENSSL_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_OPENSSL_SUBNAME)X \
+                 $(CONFIG_PK_OPENSSL_CONFIG)X \
+                 $(CONFIG_PK_OPENSSL_LIBPATH)X \
+                 $(CONFIG_PK_OPENSSL_CPPFLAGS)X \
+                 $(CONFIG_PK_OPENSSL_DPKCONFIG)X \
+                 $(CONFIG_PK_OPENSSL_CFLAGS)X \
+                 $(CONFIG_PK_OPENSSL_LDFLAGS)X \
+                 $(CONFIG_PK_OPENSSL_CXXFLAGS)X \
+                 $(CONFIG_PK_OPENSSL_ASFLAGS)X \
+                 $(PK_OPENSSL_BSBIT)X \
+                 $(PK_OPENSSL_BUILDARCH)X
 
-$(OPENSSL_DIR)/build: FORCE
-	$(Q)$(call OPENSSL_sh,$(srctree))
+$(PK_OPENSSL_DIR)/build: FORCE
+	$(Q)$(call PK_OPENSSL_sh,$(srctree))

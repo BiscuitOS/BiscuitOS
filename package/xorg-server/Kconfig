@@ -1,0 +1,72 @@
+menuconfig PK_XORG_SERVER
+	select PK_XINERAMAPROTO
+	select PK_XCMISCPROTO
+	select PK_VIDEOPROTO
+	select PK_PRESENTPROTO
+	select PK_XF86DRIPROTO
+	select PK_RESOURCEPROTO
+	select PK_SCRNSAVERPROTO
+	select PK_RECORDPROTO
+	select PK_COMPOSITEPROTO
+	select PK_RANDRPROTO
+	select PK_BIGREQSPROTO
+	select PK_LIBPCIACCESS
+	select PK_LIBXDMCP
+	select PK_DRI3PROTO
+	select PK_XEXTPROTO
+	select PK_RENDERPROTO
+	select PK_OPENSSL
+	select PK_MESA
+	select PK_PIXMAN
+	bool "xorg-server"
+
+if PK_XORG_SERVER
+
+config PK_XORG_SERVER_VERSION
+	default "1.19.3"
+	string "verstion"
+
+config PK_XORG_SERVER_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_XORG_SERVER_URL
+	default "https://www.x.org/releases/individual/xserver/"
+	string "url"
+
+config PK_XORG_SERVER_GITHUB
+	string "GitHub"
+
+config PK_XORG_SERVER_SRCFILE
+	string "Source code list"
+
+config PK_XORG_SERVER_CONFIG
+	default "--with-fop=no --with-pic --disable-static --disable-dmx --disable-xnest --enable-xvfb --enable-composite --without-dtrace --enable-dri --enable-dri2 --enable-dri3 --disable-glamor --enable-glx --disable-libunwind --without-xmlto --enable-xshmfence --disable-xwayland"
+	string "CONFIG: Project Configure Options"
+
+config PK_XORG_SERVER_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_XORG_SERVER_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_XORG_SERVER_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_XORG_SERVER_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_XORG_SERVER_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_XORG_SERVER_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_XORG_SERVER_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_XORG_SERVER_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_XORG_SERVER

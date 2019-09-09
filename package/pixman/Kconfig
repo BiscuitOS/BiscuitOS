@@ -3,28 +3,51 @@ menuconfig PK_PIXMAN
 
 if PK_PIXMAN
 
-config PIXMAN_VERSION
+config PK_PIXMAN_VERSION
 	default "0.36.0"
 	string "verstion"
 
-config PIXMAN_TAR
+config PK_PIXMAN_TAR
 	default "tar.gz"
 	string "tar type"
 
-config PIXMAN_URL
+config PK_PIXMAN_URL
 	default "https://ftp.osuosl.org/pub/blfs/conglomeration/pixman/"
 	string "url"
 
-config PIXMAN_SRC
-	string "source code list"
+config PK_PIXMAN_GITHUB
+	string "GitHub"
 
-config PIXMAN_LDFLAGS
-	string "LDFLAGS"
+config PK_PIXMAN_SRCFILE
+	string "Source code list"
 
-config PIXMAN_CFLAGS
-	string "CFLAGS"
+config PK_PIXMAN_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config PIXMAN_CONFIG
-	string "configure"
+config PK_PIXMAN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PIXMAN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PIXMAN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PIXMAN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PIXMAN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PIXMAN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PIXMAN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PIXMAN_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
 
 endif # PK_PIXMAN

@@ -1,50 +1,57 @@
 menuconfig PK_LIBX11
-	select PK_LIBXPROTO if X11R7_7
-	select PK_LIBXTRANS if X11R7_7
-	select PK_LIBKBPROTO if X11R7_7
-	select PK_LIBINPUTPROTO if X11R7_7
-	select PK_LIBXCB if X11R7_7
-	select PK_XCB_DEMO if X11R7_7
-	select PK_LIBXEXTPROTO if X11R7_7
-	select PK_LIBXEXT if X11R7_7
+	select PK_LIBXCB
+	select PK_XTRANS
+	select PK_KBPROTO
+	select PK_INPUTPROTO
 	bool "libX11"
 
 if PK_LIBX11
 
-choice
-	prompt "X11 Release Version"
-
-config X11R7_7
-	bool "X11R7.7"
-
-endchoice
-
-config LIB_LIBX11_VERSION
-	default "1.5.0" if X11R7_7
-	default "1.1.5" if X11R7_4
+config PK_LIBX11_VERSION
+	default "1.6.5"
 	string "verstion"
 
-config LIB_LIBX11_TAR
+config PK_LIBX11_TAR
 	default "tar.gz"
 	string "tar type"
 
-config LIB_LIBX11_URL
-	default "https://www.x.org/releases/X11R7.7/src/lib/" if X11R7_7
-	default "https://www.x.org/releases/X11R7.4/src/lib/" if X11R7_4
-	#default "https://www.x.org/releases/individual/lib/"
+config PK_LIBX11_URL
+	default "https://www.x.org/releases/individual/lib/"
 	string "url"
 
-config LIB_LIBX11_SRC
-	string "source code list"
+config PK_LIBX11_GITHUB
+	string "GitHub"
 
-config LIB_LIBX11_LDFLAGS
-	string "LDFLAGS"
+config PK_LIBX11_SRCFILE
+	string "Source code list"
 
-config LIB_LIBX11_CFLAGS
-	string "CFLAGS"
+config PK_LIBX11_CONFIG
+	default "--enable-malloc0returnsnull --disable-selective-werror --enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config LIB_LIBX11_CONFIG
-	default "--enable-malloc0returnsnull --disable-selective-werror"
-	string "configure"
+config PK_LIBX11_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBX11_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBX11_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBX11_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBX11_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBX11_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBX11_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBX11_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
 
 endif # PK_LIBX11

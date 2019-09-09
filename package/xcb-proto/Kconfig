@@ -1,0 +1,53 @@
+menuconfig PK_XCB_PROTO
+	bool "xcb-proto"
+
+if PK_XCB_PROTO
+
+config PK_XCB_PROTO_VERSION
+	default "1.12"
+	string "verstion"
+
+config PK_XCB_PROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_XCB_PROTO_URL
+	default "https://www.x.org/releases/individual/xcb/"
+	string "url"
+
+config PK_XCB_PROTO_GITHUB
+	string "GitHub"
+
+config PK_XCB_PROTO_SRCFILE
+	string "Source code list"
+
+config PK_XCB_PROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_XCB_PROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_XCB_PROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_XCB_PROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_XCB_PROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_XCB_PROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_XCB_PROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_XCB_PROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_XCB_PROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_XCB_PROTO

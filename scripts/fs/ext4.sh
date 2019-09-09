@@ -132,7 +132,9 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 
 ## Output directory
 echo ""
-figlet BiscuitOS
+if [ "${BS_SILENCE}X" != "trueX" ]; then
+	figlet BiscuitOS
+fi
 echo "***********************************************"
 echo "Output:"
 echo -e "\033[31m ${OUTPUT} \033[0m"

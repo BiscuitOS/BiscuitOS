@@ -1,0 +1,53 @@
+menuconfig PK_XEXTPROTO
+	bool "xextproto"
+
+if PK_XEXTPROTO
+
+config PK_XEXTPROTO_VERSION
+	default "7.3.0"
+	string "verstion"
+
+config PK_XEXTPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_XEXTPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config PK_XEXTPROTO_GITHUB
+	string "GitHub"
+
+config PK_XEXTPROTO_SRCFILE
+	string "Source code list"
+
+config PK_XEXTPROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_XEXTPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_XEXTPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_XEXTPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_XEXTPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_XEXTPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_XEXTPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_XEXTPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_XEXTPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_XEXTPROTO

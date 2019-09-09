@@ -1,31 +1,54 @@
 menuconfig PK_FREETYPE
+	select PK_ZLIB
 	bool "freetype"
 
 if PK_FREETYPE
 
-config FREETYPE_VERSION
-	default "2.9"
+config PK_FREETYPE_VERSION
+	default "2.8"
 	string "verstion"
 
-config FREETYPE_TAR
+config PK_FREETYPE_TAR
 	default "tar.gz"
 	string "tar type"
 
-config FREETYPE_URL
+config PK_FREETYPE_URL
 	default "https://download.savannah.gnu.org/releases/freetype/"
 	string "url"
 
-config FREETYPE_SRC
-	string "source code list"
+config PK_FREETYPE_GITHUB
+	string "GitHub"
 
-config FREETYPE_LDFLAGS
-	string "LDFLAGS"
+config PK_FREETYPE_SRCFILE
+	string "Source code list"
 
-config FREETYPE_CFLAGS
-	string "CFLAGS"
+config PK_FREETYPE_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config FREETYPE_CONFIG
-	default "--without-harfbuzz"
-	string "configure"
+config PK_FREETYPE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_FREETYPE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_FREETYPE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_FREETYPE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_FREETYPE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_FREETYPE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_FREETYPE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_FREETYPE_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
 
 endif # PK_FREETYPE

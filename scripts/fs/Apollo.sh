@@ -71,7 +71,9 @@ chmod 755 ${MF}
 
 ######
 # Display Userful Information
-figlet "BiscuitOS"
+if [ "${BS_SILENCE}X" != "trueX" ]; then
+	figlet "BiscuitOS"
+fi
 echo "                                  Apollo-11"
 echo ""
 echo "*******************************************************************"

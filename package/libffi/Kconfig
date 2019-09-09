@@ -1,30 +1,53 @@
-menuconfig PK_LIBFFI
+menuconfig PK_LIB_LIBFFI
 	bool "libffi"
 
-if PK_LIBFFI
+if PK_LIB_LIBFFI
 
-config LIB_LIBFFI_VERSION
-	default "3.2" if GLIBR2
+config PK_LIB_LIBFFI_VERSION
+	default "3.2.1"
 	string "verstion"
 
-config LIB_LIBFFI_TAR
+config PK_LIB_LIBFFI_TAR
 	default "tar.gz"
 	string "tar type"
 
-config LIB_LIBFFI_URL
-	default "https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/" if GLIBR2
+config PK_LIB_LIBFFI_URL
+	default "https://www.mirrorservice.org/sites/sourceware.org/pub/libffi/"
 	string "url"
 
-config LIB_LIBFFI_SRC
-	string "source code list"
+config PK_LIB_LIBFFI_GITHUB
+	string "GitHub"
 
-config LIB_LIBFFI_LDFLAGS
-	string "LDFLAGS"
+config PK_LIB_LIBFFI_SRCFILE
+	string "Source code list"
 
-config LIB_LIBFFI_CFLAGS
-	string "CFLAGS"
+config PK_LIB_LIBFFI_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config LIB_LIBFFI_CONFIG
-	string "configure"
+config PK_LIB_LIBFFI_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
 
-endif # PK_LIBFFI
+config PK_LIB_LIBFFI_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIB_LIBFFI_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIB_LIBFFI_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIB_LIBFFI_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIB_LIBFFI_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIB_LIBFFI_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIB_LIBFFI_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIB_LIBFFI

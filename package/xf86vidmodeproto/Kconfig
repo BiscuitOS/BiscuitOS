@@ -1,0 +1,53 @@
+menuconfig PK_XF86VIDMODEPROTO
+	bool "xf86vidmodeproto"
+
+if PK_XF86VIDMODEPROTO
+
+config PK_XF86VIDMODEPROTO_VERSION
+	default "2.3.1"
+	string "verstion"
+
+config PK_XF86VIDMODEPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_XF86VIDMODEPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config PK_XF86VIDMODEPROTO_GITHUB
+	string "GitHub"
+
+config PK_XF86VIDMODEPROTO_SRCFILE
+	string "Source code list"
+
+config PK_XF86VIDMODEPROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_XF86VIDMODEPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_XF86VIDMODEPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_XF86VIDMODEPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_XF86VIDMODEPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_XF86VIDMODEPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_XF86VIDMODEPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_XF86VIDMODEPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_XF86VIDMODEPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_XF86VIDMODEPROTO

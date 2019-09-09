@@ -311,7 +311,9 @@ echo 'Reserved by @BiscuitOS' >> ${MF}
 
 ######
 # Display Userful Information
-figlet "BiscuitOS"
+if [ "${BS_SILENCE}X" != "trueX" ]; then
+	figlet "BiscuitOS"
+fi
 echo "*******************************************************************"
 echo "Kernel Path:"
 echo -e "\e[1;31m ${KERNEL_DIR} \e[0m"

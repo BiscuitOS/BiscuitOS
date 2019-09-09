@@ -1,32 +1,46 @@
 ################################################
 #
-# GNU libX11
+# libX11
 #
 ################################################
-LIB_LIBX11_NAME		:= libX11
-LIB_LIBX11_VERSION	:= $(CONFIG_LIB_LIBX11_VERSION)
-LIB_LIBX11_SITE		:= $(CONFIG_LIB_LIBX11_URL)
-LIB_LIBX11_GITHUB	:= 
-LIB_LIBX11_SUBNAME	:= 
-LIB_LIBX11_DIR		:= $(srctree)/package/libX11
-LIB_LIBX11_PATCH	:= $(srctree)/package/libX11/patch
-LIB_LIBX11_DEMO		:= $(srctree)/package/libX11/demo.c
-LIB_LIBX11_OUT		:= 
-LIB_LIBX11_SCRIPTS	:= $(srctree)/scripts/package/GNU-package.sh
-LIB_LIBX11_TAR		:= $(CONFIG_LIB_LIBX11_TAR)
-LIB_LIBX11_PACKAGE	:= 
-LIB_LIBX11_CONFIG	:=
-SUB_TARGET		+= $(LIB_LIBX11_DIR)/build
+PK_LIBX11_NAME		:= libX11
+PK_LIBX11_VERSION	:= $(CONFIG_PK_LIBX11_VERSION)
+PK_LIBX11_SITE		:= $(CONFIG_PK_LIBX11_URL)
+PK_LIBX11_GITHUB	:= $(CONFIG_PK_LIBX11_GITHUB)
+PK_LIBX11_SUBNAME	:=
+PK_LIBX11_BUILDARCH	:= $(CONFIG_PK_LIBX11_BUILDARCH)
+PK_LIBX11_DIR		:= $(srctree)/package/libX11
+PK_LIBX11_PATCH		:= $(PK_LIBX11_DIR)/patch
+PK_LIBX11_BSBIT		:= libX11-$(PK_LIBX11_VERSION).bsbit
+PK_LIBX11_OUT		:=
+PK_LIBX11_SCRIPTS	:= $(srctree)/scripts/package/package.sh
+PK_LIBX11_TAR		:= $(CONFIG_PK_LIBX11_TAR)
+PK_LIBX11_PACKAGE	:=
+PK_LIBX11_CONFIG	:= $(CONFIG_PK_LIBX11_CONFIG)
+SUB_TARGET		+= $(PK_LIBX11_DIR)/build
 
-LIB_LIBX11_sh = $(CONFIG_SHELL) $(LIB_LIBX11_SCRIPTS) \
-               $1 $(LIB_LIBX11_NAME)X $(LIB_LIBX11_VERSION)X \
-               $(LIB_LIBX11_SITE)X $(LIB_LIBX11_GITHUB)X \
-               $(LIB_LIBX11_PATCH)X 5.0 \
-	       $(CONFIG_LIB_LIBX11_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
-               $(LIB_LIBX11_TAR) $(CONFIG_ARCH_MAGIC)X \
-               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(LIB_LIBX11_SUBNAME)X \
-               $(LIB_LIBX11_CONFIG)X $(CONFIG_LIB_LIBX11_CONFIG)X \
-	       $(CONFIG_LIB_LIBX11_LDFLAGS) $(CONFIG_LIB_LIBX11_CFLAGS)
+PK_LIBX11_sh = $(CONFIG_SHELL) $(PK_LIBX11_SCRIPTS) \
+                 $1X \
+                 $(PK_LIBX11_NAME)X \
+                 $(PK_LIBX11_VERSION)X \
+                 $(PK_LIBX11_SITE)X \
+                 $(PK_LIBX11_GITHUB)X \
+                 $(PK_LIBX11_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_LIBX11_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_LIBX11_SUBNAME)X \
+                 $(CONFIG_PK_LIBX11_CONFIG)X \
+                 $(CONFIG_PK_LIBX11_LIBPATH)X \
+                 $(CONFIG_PK_LIBX11_CPPFLAGS)X \
+                 $(CONFIG_PK_LIBX11_DPKCONFIG)X \
+                 $(CONFIG_PK_LIBX11_CFLAGS)X \
+                 $(CONFIG_PK_LIBX11_LDFLAGS)X \
+                 $(CONFIG_PK_LIBX11_CXXFLAGS)X \
+                 $(CONFIG_PK_LIBX11_ASFLAGS)X \
+                 $(PK_LIBX11_BSBIT)X \
+                 $(PK_LIBX11_BUILDARCH)X
 
-$(LIB_LIBX11_DIR)/build: FORCE
-	$(Q)$(call LIB_LIBX11_sh,$(srctree))
+$(PK_LIBX11_DIR)/build: FORCE
+	$(Q)$(call PK_LIBX11_sh,$(srctree))

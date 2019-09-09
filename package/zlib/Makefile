@@ -3,30 +3,44 @@
 # zlib
 #
 ################################################
-ZLIB_NAME		:= zlib
-ZLIB_VERSION		:= $(CONFIG_ZLIB_VERSION)
-ZLIB_SITE		:= $(CONFIG_ZLIB_URL)
-ZLIB_GITHUB		:= 
-ZLIB_SUBNAME		:= 
-ZLIB_DIR		:= $(srctree)/package/zlib
-ZLIB_PATCH		:= $(srctree)/package/zlib/patch
-ZLIB_DEMO		:= $(srctree)/package/zlib/demo.c
-ZLIB_OUT		:= 
-ZLIB_SCRIPTS		:= $(srctree)/scripts/package/GNU-zlib.sh
-ZLIB_TAR		:= $(CONFIG_ZLIB_TAR)
-ZLIB_PACKAGE		:= 
-ZLIB_CONFIG		:=
-SUB_TARGET		+= $(ZLIB_DIR)/build
+PK_ZLIB_NAME		:= zlib
+PK_ZLIB_VERSION		:= $(CONFIG_PK_ZLIB_VERSION)
+PK_ZLIB_SITE		:= $(CONFIG_PK_ZLIB_URL)
+PK_ZLIB_GITHUB		:= $(CONFIG_PK_ZLIB_GITHUB)
+PK_ZLIB_SUBNAME		:=
+PK_ZLIB_BUILDARCH	:= $(CONFIG_PK_ZLIB_BUILDARCH)
+PK_ZLIB_DIR		:= $(srctree)/package/zlib
+PK_ZLIB_PATCH		:= $(PK_ZLIB_DIR)/patch
+PK_ZLIB_BSBIT		:= zlib-$(PK_ZLIB_VERSION).bsbit
+PK_ZLIB_OUT		:=
+PK_ZLIB_SCRIPTS		:= $(srctree)/scripts/package/package-zlib.sh
+PK_ZLIB_TAR		:= $(CONFIG_PK_ZLIB_TAR)
+PK_ZLIB_PACKAGE		:=
+PK_ZLIB_CONFIG		:= $(CONFIG_PK_ZLIB_CONFIG)
+SUB_TARGET		+= $(PK_ZLIB_DIR)/build
 
-ZLIB_sh = $(CONFIG_SHELL) $(ZLIB_SCRIPTS) \
-               $1 $(ZLIB_NAME)X $(ZLIB_VERSION)X \
-               $(ZLIB_SITE)X $(ZLIB_GITHUB)X \
-               $(ZLIB_PATCH)X 5.0 \
-	       $(CONFIG_ZLIB_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
-               $(ZLIB_TAR) $(CONFIG_ARCH_MAGIC)X \
-               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(ZLIB_SUBNAME)X \
-               $(ZLIB_CONFIG)X $(CONFIG_ZLIB_CONFIG)X \
-	       $(CONFIG_ZLIB_LDFLAGS) $(CONFIG_ZLIB_CFLAGS)
+PK_ZLIB_sh = $(CONFIG_SHELL) $(PK_ZLIB_SCRIPTS) \
+                 $1X \
+                 $(PK_ZLIB_NAME)X \
+                 $(PK_ZLIB_VERSION)X \
+                 $(PK_ZLIB_SITE)X \
+                 $(PK_ZLIB_GITHUB)X \
+                 $(PK_ZLIB_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_ZLIB_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_ZLIB_SUBNAME)X \
+                 $(CONFIG_PK_ZLIB_CONFIG)X \
+                 $(CONFIG_PK_ZLIB_LIBPATH)X \
+                 $(CONFIG_PK_ZLIB_CPPFLAGS)X \
+                 $(CONFIG_PK_ZLIB_DPKCONFIG)X \
+                 $(CONFIG_PK_ZLIB_CFLAGS)X \
+                 $(CONFIG_PK_ZLIB_LDFLAGS)X \
+                 $(CONFIG_PK_ZLIB_CXXFLAGS)X \
+                 $(CONFIG_PK_ZLIB_ASFLAGS)X \
+                 $(PK_ZLIB_BSBIT)X \
+                 $(PK_ZLIB_BUILDARCH)X
 
-$(ZLIB_DIR)/build: FORCE
-	$(Q)$(call ZLIB_sh,$(srctree))
+$(PK_ZLIB_DIR)/build: FORCE
+	$(Q)$(call PK_ZLIB_sh,$(srctree))

@@ -1,0 +1,53 @@
+menuconfig PK_UTIL_LINUX
+	bool "util-linux"
+
+if PK_UTIL_LINUX
+
+config PK_UTIL_LINUX_VERSION
+	default "2.30"
+	string "verstion"
+
+config PK_UTIL_LINUX_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_UTIL_LINUX_URL
+	default "http://ftp.ntu.edu.tw/pub/linux/utils/util-linux/v2.30/"
+	string "url"
+
+config PK_UTIL_LINUX_GITHUB
+	string "GitHub"
+
+config PK_UTIL_LINUX_SRCFILE
+	string "Source code list"
+
+config PK_UTIL_LINUX_CONFIG
+	default "--disable-all-programs --enable-shared --disable-static --enable-libmount --enable-libblkid --enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_UTIL_LINUX_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_UTIL_LINUX_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_UTIL_LINUX_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_UTIL_LINUX_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_UTIL_LINUX_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_UTIL_LINUX_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_UTIL_LINUX_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_UTIL_LINUX_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_UTIL_LINUX

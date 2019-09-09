@@ -3,28 +3,51 @@ menuconfig PK_EXPAT
 
 if PK_EXPAT
 
-config EXPAT_VERSION
+config PK_EXPAT_VERSION
 	default "2.2.4"
 	string "verstion"
 
-config EXPAT_TAR
+config PK_EXPAT_TAR
 	default "tar.bz2"
 	string "tar type"
 
-config EXPAT_URL
-	default "http://repository.timesys.com/buildsources/e/expat/expat-2.2.4/"
+config PK_EXPAT_URL
+	        default "http://repository.timesys.com/buildsources/e/expat/expat-2.2.4/"
 	string "url"
 
-config EXPAT_SRC
-	string "source code list"
+config PK_EXPAT_GITHUB
+	string "GitHub"
 
-config EXPAT_LDFLAGS
-	string "LDFLAGS"
+config PK_EXPAT_SRCFILE
+	string "Source code list"
 
-config EXPAT_CFLAGS
-	string "CFLAGS"
+config PK_EXPAT_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config EXPAT_CONFIG
-	string "configure"
+config PK_EXPAT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_EXPAT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_EXPAT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_EXPAT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_EXPAT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_EXPAT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_EXPAT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_EXPAT_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
 
 endif # PK_EXPAT

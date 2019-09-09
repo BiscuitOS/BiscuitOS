@@ -1,0 +1,53 @@
+menuconfig PK_RANDRPROTO
+	bool "randrproto"
+
+if PK_RANDRPROTO
+
+config PK_RANDRPROTO_VERSION
+	default "1.5.0"
+	string "verstion"
+
+config PK_RANDRPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_RANDRPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config PK_RANDRPROTO_GITHUB
+	string "GitHub"
+
+config PK_RANDRPROTO_SRCFILE
+	string "Source code list"
+
+config PK_RANDRPROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_RANDRPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_RANDRPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_RANDRPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_RANDRPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_RANDRPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_RANDRPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_RANDRPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_RANDRPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_RANDRPROTO

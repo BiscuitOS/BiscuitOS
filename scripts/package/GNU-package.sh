@@ -52,8 +52,8 @@ echo 'CROSS_TOOLS=$(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK=$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo "DL=${ROOT}/dl" >> ${MF}
 echo 'INSTALL_PATH=$(ROOT)/rootfs/rootfs/usr/' >> ${MF}
-echo 'LD_PATH += -L${INSTALL_PATH}/lib:$(CROSS_PATH)/lib' >> ${MF}
-echo 'CF_PATH += -I${INSTALL_PATH}/include:$(CROSS_PATH)/include' >> ${MF}
+echo 'LD_PATH += "-L${INSTALL_PATH}/lib -L$(CROSS_PATH)/lib"' >> ${MF}
+echo 'CF_PATH += "-I${INSTALL_PATH}/include -I$(CROSS_PATH)/include"' >> ${MF}
 echo 'PK_PATH += $(ROOT)/rootfs/rootfs/usr/lib/pkgconfig:$(ROOT)/rootfs/rootfs/usr/share/pkgconfig' >> ${MF}
 echo "CFLAGS  += ${GNU_CFLAGS}" >> ${MF}
 echo "LDFLAGS += ${GNU_LDLAGS}" >> ${MF}
@@ -67,7 +67,9 @@ echo "URL     := ${GNU_SITE}" >> ${MF}
 echo 'CONFIG  := --prefix=$(INSTALL_PATH) --host=$(CROSS_NAME)' >> ${MF}
 echo "CONFIG  += ${GNU_CONFIG} ${GNU_CONFIG2}" >> ${MF}
 echo 'CONFIG  += LDFLAGS=$(LD_PATH) CFLAGS=$(CF_PATH)' >> ${MF}
-echo 'CONFIG  += PKG_CONFIG_PATH=$(PK_PATH)' >> ${MF}
+echo 'CONFIG  += PKG_CONFIG_PATH=$(PK_PATH) --build=i686-pc-linux-gnu' >> ${MF}
+echo 'CONFIG  += CPPFLAGS=$(CF_PATH)' >> ${MF}
+echo 'PATCH   := patch/$(BASENAM)' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
 echo -e '\tcd $(BASENAM) ; \' >> ${MF}
@@ -85,6 +87,16 @@ echo -e '\tfi' >> ${MF}
 echo '' >> ${MF}
 echo 'tar:' >> ${MF}
 echo -e '\t$(TARCMD) $(PACKAGE)' >> ${MF}
+echo -e '\t@if [ ! -d $(PATCH) ]; then \' >> ${MF}
+echo -e '\t\texit 0 ; \' >> ${MF}
+echo -e '\tfi' >> ${MF}
+echo -e '\t@for name in $(shell ls $(PATCH)) ; \' >> ${MF}
+echo -e '\tdo \' >> ${MF}
+echo -e '\t\tcp -rf $(PATCH)/$${name} $(BASENAM) ; \' >> ${MF}
+echo -e '\t\tcd $(BASENAM) ; \' >> ${MF}
+echo -e '\t\tpatch -p1 < $${name} ; \' >> ${MF}
+echo -e '\t\tcd - ; \' >> ${MF}
+echo -e '\tdone' >> ${MF}
 echo -e '\t$(info "Untar .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'configure:' >> ${MF}
@@ -170,3 +182,19 @@ echo "[GNU-hello](${GNU_SITE})" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}
+
+# Patch work
+#
+# Create patch:
+#  Single file:
+#    $ diff -up A/a.c B/a.c > A.patch
+#  Multip file:
+#    $ diff -uprN A/ B/ > A.patch
+# 
+# Apply patch:
+#    $ patch -p1 < A.patch
+
+if [ -d ${GNU_PATCH} ]; then
+	cp -rfa ${GNU_PATCH} ${PACKDIR}/${GNU_NAME}-${GNU_VERSION}
+fi
+

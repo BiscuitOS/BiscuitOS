@@ -1,0 +1,53 @@
+menuconfig PK_GLPROTO
+	bool "glproto"
+
+if PK_GLPROTO
+
+config PK_GLPROTO_VERSION
+	default "1.4.17"
+	string "verstion"
+
+config PK_GLPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_GLPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config PK_GLPROTO_GITHUB
+	string "GitHub"
+
+config PK_GLPROTO_SRCFILE
+	string "Source code list"
+
+config PK_GLPROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_GLPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_GLPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_GLPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_GLPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_GLPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_GLPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_GLPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_GLPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_GLPROTO

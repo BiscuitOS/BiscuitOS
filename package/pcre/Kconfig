@@ -3,28 +3,51 @@ menuconfig PK_PCRE
 
 if PK_PCRE
 
-config PCRE_VERSION
-	default "8.42" if GLIBR2
+config PK_PCRE_VERSION
+	default "8.41"
 	string "verstion"
 
-config PCRE_TAR
+config PK_PCRE_TAR
 	default "tar.gz"
 	string "tar type"
 
-config PCRE_URL
-	default "https://ftp.pcre.org/pub/pcre/" if GLIBR2
+config PK_PCRE_URL
+	default "https://ftp.pcre.org/pub/pcre/"
 	string "url"
 
-config PCRE_SRC
-	string "source code list"
+config PK_PCRE_GITHUB
+	string "GitHub"
 
-config PCRE_LDFLAGS
-	string "LDFLAGS"
+config PK_PCRE_SRCFILE
+	string "Source code list"
 
-config PCRE_CFLAGS
-	string "CFLAGS"
+config PK_PCRE_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config PCRE_CONFIG
-	string "configure"
+config PK_PCRE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PCRE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PCRE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PCRE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PCRE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PCRE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PCRE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PCRE_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
 
 endif # PK_PCRE

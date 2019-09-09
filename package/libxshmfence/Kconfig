@@ -1,0 +1,54 @@
+menuconfig PK_LIBXSHMFENCE
+	select PK_LIBEPOXY
+	bool "libxshmfence"
+
+if PK_LIBXSHMFENCE
+
+config PK_LIBXSHMFENCE_VERSION
+	default "1.3"
+	string "verstion"
+
+config PK_LIBXSHMFENCE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBXSHMFENCE_URL
+	default "https://www.x.org/releases/individual/lib/"
+	string "url"
+
+config PK_LIBXSHMFENCE_GITHUB
+	string "GitHub"
+
+config PK_LIBXSHMFENCE_SRCFILE
+	string "Source code list"
+
+config PK_LIBXSHMFENCE_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBXSHMFENCE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBXSHMFENCE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBXSHMFENCE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBXSHMFENCE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBXSHMFENCE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBXSHMFENCE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBXSHMFENCE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBXSHMFENCE_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBXSHMFENCE

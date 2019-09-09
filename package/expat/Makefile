@@ -3,30 +3,44 @@
 # expat
 #
 ################################################
-EXPAT_NAME		:= expat
-EXPAT_VERSION		:= $(CONFIG_EXPAT_VERSION)
-EXPAT_SITE		:= $(CONFIG_EXPAT_URL)
-EXPAT_GITHUB		:= 
-EXPAT_SUBNAME		:= 
-EXPAT_DIR		:= $(srctree)/package/expat
-EXPAT_PATCH		:= $(srctree)/package/expat/patch
-EXPAT_DEMO		:= $(srctree)/package/expat/demo.c
-EXPAT_OUT		:= 
-EXPAT_SCRIPTS		:= $(srctree)/scripts/package/GNU-package.sh
-EXPAT_TAR		:= $(CONFIG_EXPAT_TAR)
-EXPAT_PACKAGE		:= 
-EXPAT_CONFIG		:=
-SUB_TARGET		+= $(EXPAT_DIR)/build
+PK_EXPAT_NAME        := expat
+PK_EXPAT_VERSION     := $(CONFIG_PK_EXPAT_VERSION)
+PK_EXPAT_SITE        := $(CONFIG_PK_EXPAT_URL)
+PK_EXPAT_GITHUB      := $(CONFIG_PK_EXPAT_GITHUB)
+PK_EXPAT_SUBNAME     :=
+PK_EXPAT_BUILDARCH   := $(CONFIG_PK_EXPAT_BUILDARCH)
+PK_EXPAT_DIR         := $(srctree)/package/expat
+PK_EXPAT_PATCH       := $(PK_EXPAT_DIR)/patch
+PK_EXPAT_BSBIT       := expat-$(PK_EXPAT_VERSION).bsbit
+PK_EXPAT_OUT         :=
+PK_EXPAT_SCRIPTS     := $(srctree)/scripts/package/package.sh
+PK_EXPAT_TAR         := $(CONFIG_PK_EXPAT_TAR)
+PK_EXPAT_PACKAGE     :=
+PK_EXPAT_CONFIG      := $(CONFIG_PK_EXPAT_CONFIG)
+SUB_TARGET           += $(PK_EXPAT_DIR)/build
 
-EXPAT_sh = $(CONFIG_SHELL) $(EXPAT_SCRIPTS) \
-               $1 $(EXPAT_NAME)X $(EXPAT_VERSION)X \
-               $(EXPAT_SITE)X $(EXPAT_GITHUB)X \
-               $(EXPAT_PATCH)X 5.0 \
-	       $(CONFIG_EXPAT_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
-               $(EXPAT_TAR) $(CONFIG_ARCH_MAGIC)X \
-               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(EXPAT_SUBNAME)X \
-               $(EXPAT_CONFIG)X $(CONFIG_EXPAT_CONFIG)X \
-	       $(CONFIG_EXPAT_LDFLAGS) $(CONFIG_EXPAT_CFLAGS)
+PK_EXPAT_sh = $(CONFIG_SHELL) $(PK_EXPAT_SCRIPTS) \
+                 $1X \
+                 $(PK_EXPAT_NAME)X \
+                 $(PK_EXPAT_VERSION)X \
+                 $(PK_EXPAT_SITE)X \
+                 $(PK_EXPAT_GITHUB)X \
+                 $(PK_EXPAT_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_EXPAT_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_EXPAT_SUBNAME)X \
+                 $(CONFIG_PK_EXPAT_CONFIG)X \
+                 $(CONFIG_PK_EXPAT_LIBPATH)X \
+                 $(CONFIG_PK_EXPAT_CPPFLAGS)X \
+                 $(CONFIG_PK_EXPAT_DPKCONFIG)X \
+                 $(CONFIG_PK_EXPAT_CFLAGS)X \
+                 $(CONFIG_PK_EXPAT_LDFLAGS)X \
+                 $(CONFIG_PK_EXPAT_CXXFLAGS)X \
+                 $(CONFIG_PK_EXPAT_ASFLAGS)X \
+                 $(PK_EXPAT_BSBIT)X \
+                 $(PK_EXPAT_BUILDARCH)X
 
-$(EXPAT_DIR)/build: FORCE
-	$(Q)$(call EXPAT_sh,$(srctree))
+$(PK_EXPAT_DIR)/build: FORCE
+	$(Q)$(call PK_EXPAT_sh,$(srctree))

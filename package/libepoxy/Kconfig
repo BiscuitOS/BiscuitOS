@@ -1,0 +1,54 @@
+menuconfig PK_LIBEPOXY
+	select PK_LIBXKBFILE
+	bool "libepoxy"
+
+if PK_LIBEPOXY
+
+config PK_LIBEPOXY_VERSION
+	default "1.4.3"
+	string "verstion"
+
+config PK_LIBEPOXY_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_LIBEPOXY_URL
+	default "https://download.gnome.org/sources/libepoxy/1.4/"
+	string "url"
+
+config PK_LIBEPOXY_GITHUB
+	string "GitHub"
+
+config PK_LIBEPOXY_SRCFILE
+	string "Source code list"
+
+config PK_LIBEPOXY_CONFIG
+	default "--enable-silent-rules --enable-egl=no --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBEPOXY_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBEPOXY_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBEPOXY_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBEPOXY_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBEPOXY_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBEPOXY_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBEPOXY_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBEPOXY_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBEPOXY

@@ -1,0 +1,46 @@
+################################################
+#
+# resourceproto
+#
+################################################
+PK_RESOURCEPROTO_NAME        := resourceproto
+PK_RESOURCEPROTO_VERSION     := $(CONFIG_PK_RESOURCEPROTO_VERSION)
+PK_RESOURCEPROTO_SITE        := $(CONFIG_PK_RESOURCEPROTO_URL)
+PK_RESOURCEPROTO_GITHUB      := $(CONFIG_PK_RESOURCEPROTO_GITHUB)
+PK_RESOURCEPROTO_SUBNAME     :=
+PK_RESOURCEPROTO_BUILDARCH   := $(CONFIG_PK_RESOURCEPROTO_BUILDARCH)
+PK_RESOURCEPROTO_DIR         := $(srctree)/package/resourceproto
+PK_RESOURCEPROTO_PATCH       := $(PK_RESOURCEPROTO_DIR)/patch
+PK_RESOURCEPROTO_BSBIT       := resourceproto-$(PK_RESOURCEPROTO_VERSION).bsbit
+PK_RESOURCEPROTO_OUT         :=
+PK_RESOURCEPROTO_SCRIPTS     := $(srctree)/scripts/package/package.sh
+PK_RESOURCEPROTO_TAR         := $(CONFIG_PK_RESOURCEPROTO_TAR)
+PK_RESOURCEPROTO_PACKAGE     :=
+PK_RESOURCEPROTO_CONFIG      := $(CONFIG_PK_RESOURCEPROTO_CONFIG)
+SUB_TARGET                   += $(PK_RESOURCEPROTO_DIR)/build
+
+PK_RESOURCEPROTO_sh = $(CONFIG_SHELL) $(PK_RESOURCEPROTO_SCRIPTS) \
+                 $1X \
+                 $(PK_RESOURCEPROTO_NAME)X \
+                 $(PK_RESOURCEPROTO_VERSION)X \
+                 $(PK_RESOURCEPROTO_SITE)X \
+                 $(PK_RESOURCEPROTO_GITHUB)X \
+                 $(PK_RESOURCEPROTO_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_RESOURCEPROTO_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_RESOURCEPROTO_SUBNAME)X \
+                 $(CONFIG_PK_RESOURCEPROTO_CONFIG)X \
+                 $(CONFIG_PK_RESOURCEPROTO_LIBPATH)X \
+                 $(CONFIG_PK_RESOURCEPROTO_CPPFLAGS)X \
+                 $(CONFIG_PK_RESOURCEPROTO_DPKCONFIG)X \
+                 $(CONFIG_PK_RESOURCEPROTO_CFLAGS)X \
+                 $(CONFIG_PK_RESOURCEPROTO_LDFLAGS)X \
+                 $(CONFIG_PK_RESOURCEPROTO_CXXFLAGS)X \
+                 $(CONFIG_PK_RESOURCEPROTO_ASFLAGS)X \
+                 $(PK_RESOURCEPROTO_BSBIT)X \
+                 $(PK_RESOURCEPROTO_BUILDARCH)X
+
+$(PK_RESOURCEPROTO_DIR)/build: FORCE
+	$(Q)$(call PK_RESOURCEPROTO_sh,$(srctree))

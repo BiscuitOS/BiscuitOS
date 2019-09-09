@@ -1,0 +1,55 @@
+menuconfig PK_LIBXXF86VM
+	select PK_XF86VIDMODEPROTO
+	select PK_LIBXEXT
+	bool "libXxf86vm"
+
+if PK_LIBXXF86VM
+
+config PK_LIBXXF86VM_VERSION
+	default "1.1.4"
+	string "verstion"
+
+config PK_LIBXXF86VM_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBXXF86VM_URL
+	default "https://www.x.org/releases/individual/lib/"
+	string "url"
+
+config PK_LIBXXF86VM_GITHUB
+	string "GitHub"
+
+config PK_LIBXXF86VM_SRCFILE
+	string "Source code list"
+
+config PK_LIBXXF86VM_CONFIG
+	default "--enable-silent-rules --disable-static --enable-malloc0returnsnull"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBXXF86VM_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBXXF86VM_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBXXF86VM_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBXXF86VM_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBXXF86VM_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBXXF86VM_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBXXF86VM_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBXXF86VM_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBXXF86VM

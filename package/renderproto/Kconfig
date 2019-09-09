@@ -1,0 +1,53 @@
+menuconfig PK_RENDERPROTO
+	bool "renderproto"
+
+if PK_RENDERPROTO
+
+config PK_RENDERPROTO_VERSION
+	default "0.11"
+	string "verstion"
+
+config PK_RENDERPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_RENDERPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config PK_RENDERPROTO_GITHUB
+	string "GitHub"
+
+config PK_RENDERPROTO_SRCFILE
+	string "Source code list"
+
+config PK_RENDERPROTO_CONFIG
+	default "--disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_RENDERPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_RENDERPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_RENDERPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_RENDERPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_RENDERPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_RENDERPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_RENDERPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_RENDERPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_RENDERPROTO

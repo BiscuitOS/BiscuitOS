@@ -100,7 +100,9 @@ chmod 755 ${MF}
 
 ######
 # Display Userful Information
-figlet "BiscuitOS"
+if [ "${BS_SILENCE}X" != "trueX" ]; then
+	figlet "BiscuitOS"
+fi
 echo "                                  Debian-0.91"
 echo ""
 echo "*******************************************************************"

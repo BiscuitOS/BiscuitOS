@@ -3,28 +3,51 @@ menuconfig PK_BIGREQSPROTO
 
 if PK_BIGREQSPROTO
 
-config BIGREQSPROTO_VERSION
+config PK_BIGREQSPROTO_VERSION
 	default "1.1.2"
 	string "verstion"
 
-config BIGREQSPROTO_TAR
-	default "tar.bz2"
+config PK_BIGREQSPROTO_TAR
+	default "tar.gz"
 	string "tar type"
 
-config BIGREQSPROTO_URL
-	default "http://repository.timesys.com/buildsources/b/bigreqsproto/bigreqsproto-1.1.2/"
+config PK_BIGREQSPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
 	string "url"
 
-config BIGREQSPROTO_SRC
-	string "source code list"
+config PK_BIGREQSPROTO_GITHUB
+	string "GitHub"
 
-config BIGREQSPROTO_LDFLAGS
-	string "LDFLAGS"
+config PK_BIGREQSPROTO_SRCFILE
+	string "Source code list"
 
-config BIGREQSPROTO_CFLAGS
-	string "CFLAGS"
+config PK_BIGREQSPROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config BIGREQSPROTO_CONFIG
-	string "configure"
+config PK_BIGREQSPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BIGREQSPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BIGREQSPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BIGREQSPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BIGREQSPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BIGREQSPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BIGREQSPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BIGREQSPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
 
 endif # PK_BIGREQSPROTO

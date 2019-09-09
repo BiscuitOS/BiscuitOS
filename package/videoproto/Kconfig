@@ -1,30 +1,53 @@
-menuconfig PK_PCRE
+menuconfig PK_VIDEOPROTO
 	bool "videoproto"
 
-if PK_PCRE
+if PK_VIDEOPROTO
 
-config PCRE_VERSION
+config PK_VIDEOPROTO_VERSION
 	default "2.3.3"
 	string "verstion"
 
-config PCRE_TAR
-	default "tar.bz2"
+config PK_VIDEOPROTO_TAR
+	default "tar.gz"
 	string "tar type"
 
-config PCRE_URL
-	default "repository.timesys.com/buildsources/v/videoproto/videoproto-2.3.3/"
+config PK_VIDEOPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
 	string "url"
 
-config PCRE_SRC
-	string "source code list"
+config PK_VIDEOPROTO_GITHUB
+	string "GitHub"
 
-config PCRE_LDFLAGS
-	string "LDFLAGS"
+config PK_VIDEOPROTO_SRCFILE
+	string "Source code list"
 
-config PCRE_CFLAGS
-	string "CFLAGS"
+config PK_VIDEOPROTO_CONFIG
+	default "--disable-static"
+	string "CONFIG: Project Configure Options"
 
-config PCRE_CONFIG
-	string "configure"
+config PK_VIDEOPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
 
-endif # PK_PCRE
+config PK_VIDEOPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_VIDEOPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_VIDEOPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_VIDEOPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_VIDEOPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_VIDEOPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_VIDEOPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_VIDEOPROTO

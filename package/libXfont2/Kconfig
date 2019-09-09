@@ -1,0 +1,57 @@
+menuconfig PK_LIBXFONT2
+	select PK_FREETYPE
+	select PK_FONTSPROTO
+	select PK_LIBFONTENC
+	select PK_LIBX11
+	bool "libXfont2"
+
+if PK_LIBXFONT2
+
+config PK_LIBXFONT2_VERSION
+	default "2.0.1"
+	string "verstion"
+
+config PK_LIBXFONT2_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBXFONT2_URL
+	default "https://www.x.org/releases/individual/lib/"
+	string "url"
+
+config PK_LIBXFONT2_GITHUB
+	string "GitHub"
+
+config PK_LIBXFONT2_SRCFILE
+	string "Source code list"
+
+config PK_LIBXFONT2_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBXFONT2_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBXFONT2_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBXFONT2_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBXFONT2_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBXFONT2_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBXFONT2_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBXFONT2_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBXFONT2_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBXFONT2

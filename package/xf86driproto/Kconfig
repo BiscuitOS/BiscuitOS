@@ -3,28 +3,51 @@ menuconfig PK_XF86DRIPROTO
 
 if PK_XF86DRIPROTO
 
-config XF86DRIPROTO_VERSION
+config PK_XF86DRIPROTO_VERSION
 	default "2.1.1"
 	string "verstion"
 
-config XF86DRIPROTO_TAR
-	default "tar.bz2"
+config PK_XF86DRIPROTO_TAR
+	default "tar.gz"
 	string "tar type"
 
-config XF86DRIPROTO_URL
-	default "http://repository.timesys.com/buildsources/x/xf86driproto/xf86driproto-2.1.1/"
+config PK_XF86DRIPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
 	string "url"
 
-config XF86DRIPROTO_SRC
-	string "source code list"
+config PK_XF86DRIPROTO_GITHUB
+	string "GitHub"
 
-config XF86DRIPROTO_LDFLAGS
-	string "LDFLAGS"
+config PK_XF86DRIPROTO_SRCFILE
+	string "Source code list"
 
-config XF86DRIPROTO_CFLAGS
-	string "CFLAGS"
+config PK_XF86DRIPROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config XF86DRIPROTO_CONFIG
-	string "configure"
+config PK_XF86DRIPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_XF86DRIPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_XF86DRIPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_XF86DRIPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_XF86DRIPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_XF86DRIPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_XF86DRIPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_XF86DRIPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
 
 endif # PK_XF86DRIPROTO

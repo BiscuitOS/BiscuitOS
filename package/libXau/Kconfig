@@ -1,33 +1,54 @@
 menuconfig PK_LIBXAU
-	select PK_LIBXPROTO
+	select PK_XPROTO
 	bool "libXau"
 
 if PK_LIBXAU
 
-config LIB_LIBXAU_VERSION
-	default "1.0.7" if X11R7_7
-	#default "1.0.9"
+config PK_LIBXAU_VERSION
+	default "1.0.8"
 	string "verstion"
 
-config LIB_LIBXAU_TAR
+config PK_LIBXAU_TAR
 	default "tar.gz"
 	string "tar type"
 
-config LIB_LIBXAU_URL
-	default "https://www.x.org/releases/X11R7.7/src/lib/" if X11R7_7
-	#default "https://www.x.org/releases/individual/lib/"
+config PK_LIBXAU_URL
+	default "https://www.x.org/releases/individual/lib/"
 	string "url"
 
-config LIB_LIBXAU_SRC
-	string "source code list"
+config PK_LIBXAU_GITHUB
+	string "GitHub"
 
-config LIB_LIBXAU_LDFLAGS
-	string "LDFLAGS"
+config PK_LIBXAU_SRCFILE
+	string "Source code list"
 
-config LIB_LIBXAU_CFLAGS
-	string "CFLAGS"
+config PK_LIBXAU_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
 
-config LIB_LIBXAU_CONFIG
-	string "configure"
+config PK_LIBXAU_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBXAU_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBXAU_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBXAU_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBXAU_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBXAU_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBXAU_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBXAU_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
 
 endif # PK_LIBXAU

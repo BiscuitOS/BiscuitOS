@@ -1,0 +1,53 @@
+menuconfig PK_XPROTO
+	bool "xproto"
+
+if PK_XPROTO
+
+config PK_XPROTO_VERSION
+	default "7.0.31"
+	string "verstion"
+
+config PK_XPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_XPROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config PK_XPROTO_GITHUB
+	string "GitHub"
+
+config PK_XPROTO_SRCFILE
+	string "Source code list"
+
+config PK_XPROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_XPROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_XPROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_XPROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_XPROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_XPROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_XPROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_XPROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_XPROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_XPROTO

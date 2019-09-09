@@ -1,0 +1,46 @@
+################################################
+#
+# xineramaproto
+#
+################################################
+PK_XINERAMAPROTO_NAME        := xineramaproto
+PK_XINERAMAPROTO_VERSION     := $(CONFIG_PK_XINERAMAPROTO_VERSION)
+PK_XINERAMAPROTO_SITE        := $(CONFIG_PK_XINERAMAPROTO_URL)
+PK_XINERAMAPROTO_GITHUB      := $(CONFIG_PK_XINERAMAPROTO_GITHUB)
+PK_XINERAMAPROTO_SUBNAME     :=
+PK_XINERAMAPROTO_BUILDARCH   := $(CONFIG_PK_XINERAMAPROTO_BUILDARCH)
+PK_XINERAMAPROTO_DIR         := $(srctree)/package/xineramaproto
+PK_XINERAMAPROTO_PATCH       := $(PK_XINERAMAPROTO_DIR)/patch
+PK_XINERAMAPROTO_BSBIT       := xineramaproto-$(PK_XINERAMAPROTO_VERSION).bsbit
+PK_XINERAMAPROTO_OUT         :=
+PK_XINERAMAPROTO_SCRIPTS     := $(srctree)/scripts/package/package.sh
+PK_XINERAMAPROTO_TAR         := $(CONFIG_PK_XINERAMAPROTO_TAR)
+PK_XINERAMAPROTO_PACKAGE     :=
+PK_XINERAMAPROTO_CONFIG      := $(CONFIG_PK_XINERAMAPROTO_CONFIG)
+SUB_TARGET                   += $(PK_XINERAMAPROTO_DIR)/build
+
+PK_XINERAMAPROTO_sh = $(CONFIG_SHELL) $(PK_XINERAMAPROTO_SCRIPTS) \
+                 $1X \
+                 $(PK_XINERAMAPROTO_NAME)X \
+                 $(PK_XINERAMAPROTO_VERSION)X \
+                 $(PK_XINERAMAPROTO_SITE)X \
+                 $(PK_XINERAMAPROTO_GITHUB)X \
+                 $(PK_XINERAMAPROTO_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_XINERAMAPROTO_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_XINERAMAPROTO_SUBNAME)X \
+                 $(CONFIG_PK_XINERAMAPROTO_CONFIG)X \
+                 $(CONFIG_PK_XINERAMAPROTO_LIBPATH)X \
+                 $(CONFIG_PK_XINERAMAPROTO_CPPFLAGS)X \
+                 $(CONFIG_PK_XINERAMAPROTO_DPKCONFIG)X \
+                 $(CONFIG_PK_XINERAMAPROTO_CFLAGS)X \
+                 $(CONFIG_PK_XINERAMAPROTO_LDFLAGS)X \
+                 $(CONFIG_PK_XINERAMAPROTO_CXXFLAGS)X \
+                 $(CONFIG_PK_XINERAMAPROTO_ASFLAGS)X \
+                 $(PK_XINERAMAPROTO_BSBIT)X \
+                 $(PK_XINERAMAPROTO_BUILDARCH)X
+
+$(PK_XINERAMAPROTO_DIR)/build: FORCE
+	$(Q)$(call PK_XINERAMAPROTO_sh,$(srctree))

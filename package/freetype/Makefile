@@ -3,30 +3,44 @@
 # freetype
 #
 ################################################
-FREETYPE_NAME		:= freetype
-FREETYPE_VERSION	:= $(CONFIG_FREETYPE_VERSION)
-FREETYPE_SITE		:= $(CONFIG_FREETYPE_URL)
-FREETYPE_GITHUB		:= 
-FREETYPE_SUBNAME	:= 
-FREETYPE_DIR		:= $(srctree)/package/freetype
-FREETYPE_PATCH		:= $(srctree)/package/freetype/patch
-FREETYPE_DEMO		:= $(srctree)/package/freetype/demo.c
-FREETYPE_OUT		:= 
-FREETYPE_SCRIPTS	:= $(srctree)/scripts/package/GNU-freetype.sh
-FREETYPE_TAR		:= $(CONFIG_FREETYPE_TAR)
-FREETYPE_PACKAGE	:= 
-FREETYPE_CONFIG		:=
-SUB_TARGET		+= $(FREETYPE_DIR)/build
+PK_FREETYPE_NAME        := freetype
+PK_FREETYPE_VERSION     := $(CONFIG_PK_FREETYPE_VERSION)
+PK_FREETYPE_SITE        := $(CONFIG_PK_FREETYPE_URL)
+PK_FREETYPE_GITHUB      := $(CONFIG_PK_FREETYPE_GITHUB)
+PK_FREETYPE_SUBNAME     :=
+PK_FREETYPE_BUILDARCH   := $(CONFIG_PK_FREETYPE_BUILDARCH)
+PK_FREETYPE_DIR         := $(srctree)/package/freetype
+PK_FREETYPE_PATCH       := $(PK_FREETYPE_DIR)/patch
+PK_FREETYPE_BSBIT       := freetype-$(PK_FREETYPE_VERSION).bsbit
+PK_FREETYPE_OUT         :=
+PK_FREETYPE_SCRIPTS     := $(srctree)/scripts/package/package.sh
+PK_FREETYPE_TAR         := $(CONFIG_PK_FREETYPE_TAR)
+PK_FREETYPE_PACKAGE     :=
+PK_FREETYPE_CONFIG      := $(CONFIG_PK_FREETYPE_CONFIG)
+SUB_TARGET              += $(PK_FREETYPE_DIR)/build
 
-FREETYPE_sh = $(CONFIG_SHELL) $(FREETYPE_SCRIPTS) \
-               $1 $(FREETYPE_NAME)X $(FREETYPE_VERSION)X \
-               $(FREETYPE_SITE)X $(FREETYPE_GITHUB)X \
-               $(FREETYPE_PATCH)X 5.0 \
-	       $(CONFIG_FREETYPE_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
-               $(FREETYPE_TAR) $(CONFIG_ARCH_MAGIC)X \
-               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(FREETYPE_SUBNAME)X \
-               $(FREETYPE_CONFIG)X $(CONFIG_FREETYPE_CONFIG)X \
-	       $(CONFIG_FREETYPE_LDFLAGS) $(CONFIG_FREETYPE_CFLAGS)
+PK_FREETYPE_sh = $(CONFIG_SHELL) $(PK_FREETYPE_SCRIPTS) \
+                 $1X \
+                 $(PK_FREETYPE_NAME)X \
+                 $(PK_FREETYPE_VERSION)X \
+                 $(PK_FREETYPE_SITE)X \
+                 $(PK_FREETYPE_GITHUB)X \
+                 $(PK_FREETYPE_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_FREETYPE_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_FREETYPE_SUBNAME)X \
+                 $(CONFIG_PK_FREETYPE_CONFIG)X \
+                 $(CONFIG_PK_FREETYPE_LIBPATH)X \
+                 $(CONFIG_PK_FREETYPE_CPPFLAGS)X \
+                 $(CONFIG_PK_FREETYPE_DPKCONFIG)X \
+                 $(CONFIG_PK_FREETYPE_CFLAGS)X \
+                 $(CONFIG_PK_FREETYPE_LDFLAGS)X \
+                 $(CONFIG_PK_FREETYPE_CXXFLAGS)X \
+                 $(CONFIG_PK_FREETYPE_ASFLAGS)X \
+                 $(PK_FREETYPE_BSBIT)X \
+                 $(PK_FREETYPE_BUILDARCH)X
 
-$(FREETYPE_DIR)/build: FORCE
-	$(Q)$(call FREETYPE_sh,$(srctree))
+$(PK_FREETYPE_DIR)/build: FORCE
+	$(Q)$(call PK_FREETYPE_sh,$(srctree))

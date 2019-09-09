@@ -1,0 +1,53 @@
+menuconfig PK_DRI3PROTO
+	bool "dri3proto"
+
+if PK_DRI3PROTO
+
+config PK_DRI3PROTO_VERSION
+	default "1.0"
+	string "verstion"
+
+config PK_DRI3PROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DRI3PROTO_URL
+	default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config PK_DRI3PROTO_GITHUB
+	string "GitHub"
+
+config PK_DRI3PROTO_SRCFILE
+	string "Source code list"
+
+config PK_DRI3PROTO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_DRI3PROTO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DRI3PROTO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DRI3PROTO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DRI3PROTO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DRI3PROTO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DRI3PROTO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DRI3PROTO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DRI3PROTO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_DRI3PROTO

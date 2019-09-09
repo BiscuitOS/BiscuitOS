@@ -1,0 +1,58 @@
+menuconfig PK_MESA
+	select PK_LIBDRM
+	select PK_EXPAT
+	select PK_GLPROTO
+	select PK_DRI2PROTO
+	select PK_LIBXDAMAGE
+	bool "mesa"
+
+if PK_MESA
+
+config PK_MESA_VERSION
+	default "17.0.1"
+	string "verstion"
+
+config PK_MESA_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_MESA_URL
+	default "http://repository.timesys.com/buildsources/m/Mesa/Mesa-17.0.1/"
+	string "url"
+
+config PK_MESA_GITHUB
+	string "GitHub"
+
+config PK_MESA_SRCFILE
+	string "Source code list"
+
+config PK_MESA_CONFIG
+	default "--enable-silent-rules -C --disable-static --enable-dri3=no --enable-gallium-llvm=no --disable-omx --enable-gallium-tests=no --enable-gallium-osmesa=no -enable-glx=dri --with-gallium-drivers=swrast --with-dri-drivers=swrast  --enable-va=no --enable-vdpau=no --with-egl-platforms=drm"
+	string "CONFIG: Project Configure Options"
+
+config PK_MESA_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MESA_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MESA_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MESA_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MESA_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MESA_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MESA_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MESA_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_MESA
