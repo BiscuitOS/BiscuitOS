@@ -1,0 +1,34 @@
+menuconfig PK_MESALIB
+	select PK_LIBDRM
+	select PK_ZLIB
+	select PK_EXPAT
+	bool "Mesa"
+
+if PK_MESALIB
+
+config MESALIB_VERSION
+	default "17.0.1"
+	string "verstion"
+
+config MESALIB_TAR
+	default "tar.xz"
+	string "tar type"
+
+config MESALIB_URL
+	default "http://repository.timesys.com/buildsources/m/Mesa/Mesa-17.0.1/"
+	string "url"
+
+config MESALIB_SRC
+	string "source code list"
+
+config MESALIB_LDFLAGS
+	string "LDFLAGS"
+
+config MESALIB_CFLAGS
+	string "CFLAGS"
+
+config MESALIB_CONFIG
+	default "--enable-dri3=no --enable-gallium-llvm=no --disable-omx --enable-gallium-tests=no --enable-gallium-osmesa=no -enable-glx=dri --with-gallium-drivers=swrast --with-dri-drivers=swrast --disable-glx --enable-va=no --enable-vdpau=no --with-egl-platforms=drm"
+	string "configure"
+
+endif # PK_MESALIB

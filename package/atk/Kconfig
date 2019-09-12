@@ -1,0 +1,53 @@
+menuconfig PK_ATK
+	bool "atk"
+
+if PK_ATK
+
+config PK_ATK_VERSION
+	default "2.24.0"
+	string "verstion"
+
+config PK_ATK_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_ATK_URL
+	default "http://ftp.gnome.org/pub/gnome/sources/atk/2.24/"
+	string "url"
+
+config PK_ATK_GITHUB
+	string "GitHub"
+
+config PK_ATK_SRCFILE
+	string "Source code list"
+
+config PK_ATK_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_ATK_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_ATK_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_ATK_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_ATK_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_ATK_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_ATK_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_ATK_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_ATK_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_ATK

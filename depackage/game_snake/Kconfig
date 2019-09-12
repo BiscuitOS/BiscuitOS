@@ -1,0 +1,32 @@
+menuconfig PK_GAME_SNAKE
+	select PK_GNU_NCURSES
+	bool "Game  snake"
+
+if PK_GAME_SNAKE
+
+config GAME_SNAKE_VERSION
+	default "0.11"
+	string "verstion"
+
+config GAME_SNAKE_TAR
+	string "tar type"
+
+config GAME_SNAKE_URL
+	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/GAME/snake/"
+	string "url"
+
+config GAME_SNAKE_SRC
+	default "snake.c README.md"
+	string "source code list"
+
+config GAME_SNAKE_LDFLAGS
+	default "-lncurses"
+	string "LDFLAGS"
+
+config GAME_SNAKE_CFLAGS
+	string "CFLAGS"
+
+config GAME_SNAKE_CONFIG
+	string "configure"
+
+endif # PK_GAME_SNAKE

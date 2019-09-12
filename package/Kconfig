@@ -8,6 +8,9 @@ menuconfig COMMON_UTILISE
 
 if COMMON_UTILISE
 
+# atk
+source package/atk/Kconfig
+
 # bigreqsproto
 source package/bigreqsproto/Kconfig
 
@@ -17,6 +20,9 @@ config PK_BINUTILS
 
 # busybox
 source package/busybox/Kconfig
+
+# cairo
+source package/cairo/Kconfig
 
 # compositeproto
 source package/compositeproto/Kconfig
@@ -36,20 +42,32 @@ source package/expat/Kconfig
 # fixesproto
 source package/fixesproto/Kconfig
 
+# fontconfig
+source package/fontconfig/Kconfig
+
 # fontsproto
 source package/fontsproto/Kconfig
 
 # freetype
 source package/freetype/Kconfig
 
-config PK_GCC
-	bool "GCC: Ancient linux 0.11"
-
 # glib
 source package/glib/Kconfig
 
 # glproto
 source package/glproto/Kconfig
+
+# gobject-introspection
+source package/gobject-introspection/Kconfig
+
+# gtk+
+source package/gtk/Kconfig
+
+config PK_GCC
+	bool "GCC: Ancient linux 0.11"
+
+# harfbuzz
+source package/harfbuzz/Kconfig
 
 # inputproto
 source package/inputproto/Kconfig
@@ -75,23 +93,32 @@ source package/libfontenc/Kconfig
 # libpciaccess
 source package/libpciaccess/Kconfig
 
+# libpng
+source package/libpng/Kconfig
+
 # libxcb
 source package/libxcb/Kconfig
 
-# libXdamage
-source package/libXdamage/Kconfig
+# libxkbfile
+source package/libxkbfile/Kconfig
+
+# libxml2
+source package/libxml2/Kconfig
 
 # libxshmfence
 source package/libxshmfence/Kconfig
-
-# libxkbfile
-source package/libxkbfile/Kconfig
 
 # libX11
 source package/libX11/Kconfig
 
 # libXau
 source package/libXau/Kconfig
+
+# libXdamage
+source package/libXdamage/Kconfig
+
+# libXdmcp
+source package/libXdmcp/Kconfig
 
 # libXext
 source package/libXext/Kconfig
@@ -102,8 +129,8 @@ source package/libXfixes/Kconfig
 # libXfont2
 source package/libXfont2/Kconfig
 
-# libXdmcp
-source package/libXdmcp/Kconfig
+# libXrender
+source package/libXrender/Kconfig
 
 # libXxf86vm
 source package/libXxf86vm/Kconfig
@@ -113,6 +140,9 @@ source package/mesa/Kconfig
 
 # openssl
 source package/openssl/Kconfig
+
+# pango
+source package/pango/Kconfig
 
 # pcre
 source package/pcre/Kconfig

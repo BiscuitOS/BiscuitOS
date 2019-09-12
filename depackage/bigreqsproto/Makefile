@@ -1,0 +1,32 @@
+################################################
+#
+# bigreqsproto
+#
+################################################
+BIGREQSPROTO_NAME		:= bigreqsproto
+BIGREQSPROTO_VERSION		:= $(CONFIG_BIGREQSPROTO_VERSION)
+BIGREQSPROTO_SITE		:= $(CONFIG_BIGREQSPROTO_URL)
+BIGREQSPROTO_GITHUB		:= 
+BIGREQSPROTO_SUBNAME		:= 
+BIGREQSPROTO_DIR		:= $(srctree)/package/bigreqsproto
+BIGREQSPROTO_PATCH		:= $(srctree)/package/bigreqsproto/patch
+BIGREQSPROTO_DEMO		:= $(srctree)/package/bigreqsproto/demo.c
+BIGREQSPROTO_OUT		:= 
+BIGREQSPROTO_SCRIPTS		:= $(srctree)/scripts/package/GNU-package.sh
+BIGREQSPROTO_TAR		:= $(CONFIG_BIGREQSPROTO_TAR)
+BIGREQSPROTO_PACKAGE		:= 
+BIGREQSPROTO_CONFIG		:=
+SUB_TARGET			+= $(BIGREQSPROTO_DIR)/build
+
+BIGREQSPROTO_sh = $(CONFIG_SHELL) $(BIGREQSPROTO_SCRIPTS) \
+               $1 $(BIGREQSPROTO_NAME)X $(BIGREQSPROTO_VERSION)X \
+               $(BIGREQSPROTO_SITE)X $(BIGREQSPROTO_GITHUB)X \
+               $(BIGREQSPROTO_PATCH)X 5.0 \
+	       $(CONFIG_BIGREQSPROTO_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
+               $(BIGREQSPROTO_TAR) $(CONFIG_ARCH_MAGIC)X \
+               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(BIGREQSPROTO_SUBNAME)X \
+               $(BIGREQSPROTO_CONFIG)X $(CONFIG_BIGREQSPROTO_CONFIG)X \
+	       $(CONFIG_BIGREQSPROTO_LDFLAGS) $(CONFIG_BIGREQSPROTO_CFLAGS)
+
+$(BIGREQSPROTO_DIR)/build: FORCE
+	$(Q)$(call BIGREQSPROTO_sh,$(srctree))

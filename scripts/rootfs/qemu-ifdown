@@ -1,4 +1,21 @@
 #!/bin/sh
-switch=br0
-brctl delif ${switch} $1
+
+# This is a qemu-ifdown script for bridging.
+# You can use it when starting a KVM guest with bridge mode network.
+# set your bridge name
+#
+# (C) 2019.09.06 BiscuitOS <buddy.zhang@aliyun.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+#
+BRIDGE=bsBridge0
+
+# Remove TAP from Bridge
+sudo brctl delif ${BRIDGE} $1
+
+# 
+
+
 echo "Closing BiscuitOS Networking $1"

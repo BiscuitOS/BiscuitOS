@@ -1,0 +1,34 @@
+menuconfig PK_LIBXEXTPROTO
+	bool "xextproto"
+
+if PK_LIBXEXTPROTO
+
+config LIB_LIBXEXTPROTO_VERSION
+	default "7.2.1" if X11R7_7
+	default "7.2.1"
+	#default "7.3.0"
+	string "verstion"
+
+config LIB_LIBXEXTPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXEXTPROTO_URL
+	default "https://www.x.org/releases/X11R7.7/src/proto/" if X11R7_7
+	default "https://www.x.org/releases/X11R7.7/src/proto/"
+	#default "https://www.x.org/releases/individual/proto/"
+	string "url"
+
+config LIB_LIBXEXTPROTO_SRC
+	string "source code list"
+
+config LIB_LIBXEXTPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXEXTPROTO_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXEXTPROTO_CONFIG
+	string "configure"
+
+endif # PK_LIBXEXTPROTO

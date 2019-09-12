@@ -1,0 +1,66 @@
+menuconfig PK_GTK
+	select PK_GTK_ATK
+	select PK_GTK_CAIRO
+	select PK_GTK_PANGO
+	select PK_LIBTIFF
+	select PK_PIXMAN
+	select PK_LIBJPEG
+	select PK_LIBX11
+	select X11R7_7
+	select PK_DIRECTFB
+	select PK_GDK_PIXBUF
+	select PK_LIBX11
+	select X11R7_7
+	select PK_LIBXDAMAGE
+	select PK_DAMAGEPROTO
+	select PK_FIXESPROTO
+	select PK_LIBXFIXES
+	select PK_LIBXDAMAGE
+	select PK_LIBXCURSOR
+	bool "gtk"
+
+if PK_GTK
+
+choice
+	prompt "GTK+ Release Version"
+	
+config GTKR2
+	select PK_GLIB
+	select GLIBR2
+	bool "gtk+2"
+
+config GTKR3
+	select PK_GLIB
+	select GLIBR2
+	bool "gtk+3"
+
+endchoice
+
+config GTK_VERSION
+	default "3.24.0" if GTKR3
+	default "2.24.3" if GTKR2
+	string "verstion"
+
+config GTK_TAR
+	default "tar.xz" if GTKR3
+	default "tar.gz" if GTKR2
+	string "tar type"
+
+config GTK_URL
+	default "http://ftp.gnome.org/pub/gnome/sources/gtk+/3.24/" if GTKR3
+	default "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/" if GTKR2
+	string "url"
+
+config GTK_SRC
+	string "source code list"
+
+config GTK_LDFLAGS
+	string "LDFLAGS"
+
+config GTK_CFLAGS
+	string "CFLAGS"
+
+config GTK_CONFIG
+	string "configure"
+
+endif # PK_GTK

@@ -1,0 +1,30 @@
+menuconfig PK_PIXMAN
+	bool "pixman"
+
+if PK_PIXMAN
+
+config PIXMAN_VERSION
+	default "0.36.0"
+	string "verstion"
+
+config PIXMAN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PIXMAN_URL
+	default "https://ftp.osuosl.org/pub/blfs/conglomeration/pixman/"
+	string "url"
+
+config PIXMAN_SRC
+	string "source code list"
+
+config PIXMAN_LDFLAGS
+	string "LDFLAGS"
+
+config PIXMAN_CFLAGS
+	string "CFLAGS"
+
+config PIXMAN_CONFIG
+	string "configure"
+
+endif # PK_PIXMAN

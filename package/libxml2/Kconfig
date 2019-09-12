@@ -1,0 +1,53 @@
+menuconfig PK_LIBXML2
+	bool "libxml2"
+
+if PK_LIBXML2
+
+config PK_LIBXML2_VERSION
+	default "2.9.5"
+	string "verstion"
+
+config PK_LIBXML2_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBXML2_URL
+	default "ftp://xmlsoft.org/libxml2/"
+	string "url"
+
+config PK_LIBXML2_GITHUB
+	string "GitHub"
+
+config PK_LIBXML2_SRCFILE
+	string "Source code list"
+
+config PK_LIBXML2_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBXML2_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBXML2_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBXML2_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBXML2_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBXML2_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBXML2_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBXML2_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBXML2_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBXML2

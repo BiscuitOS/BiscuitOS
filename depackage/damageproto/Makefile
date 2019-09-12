@@ -1,0 +1,32 @@
+################################################
+#
+# damageproto
+#
+################################################
+DAMAGEPROTO_NAME		:= damageproto
+DAMAGEPROTO_VERSION		:= $(CONFIG_DAMAGEPROTO_VERSION)
+DAMAGEPROTO_SITE		:= $(CONFIG_DAMAGEPROTO_URL)
+DAMAGEPROTO_GITHUB		:= 
+DAMAGEPROTO_SUBNAME		:= 
+DAMAGEPROTO_DIR			:= $(srctree)/package/damageproto
+DAMAGEPROTO_PATCH		:= $(srctree)/package/damageproto/patch
+DAMAGEPROTO_DEMO		:= $(srctree)/package/damageproto/demo.c
+DAMAGEPROTO_OUT			:= 
+DAMAGEPROTO_SCRIPTS		:= $(srctree)/scripts/package/GNU-package.sh
+DAMAGEPROTO_TAR			:= $(CONFIG_DAMAGEPROTO_TAR)
+DAMAGEPROTO_PACKAGE		:= 
+DAMAGEPROTO_CONFIG		:=
+SUB_TARGET			+= $(DAMAGEPROTO_DIR)/build
+
+DAMAGEPROTO_sh = $(CONFIG_SHELL) $(DAMAGEPROTO_SCRIPTS) \
+               $1 $(DAMAGEPROTO_NAME)X $(DAMAGEPROTO_VERSION)X \
+               $(DAMAGEPROTO_SITE)X $(DAMAGEPROTO_GITHUB)X \
+               $(DAMAGEPROTO_PATCH)X 5.0 \
+	       $(CONFIG_DAMAGEPROTO_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
+               $(DAMAGEPROTO_TAR) $(CONFIG_ARCH_MAGIC)X \
+               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(DAMAGEPROTO_SUBNAME)X \
+               $(DAMAGEPROTO_CONFIG)X $(CONFIG_DAMAGEPROTO_CONFIG)X \
+	       $(CONFIG_DAMAGEPROTO_LDFLAGS) $(CONFIG_DAMAGEPROTO_CFLAGS)
+
+$(DAMAGEPROTO_DIR)/build: FORCE
+	$(Q)$(call DAMAGEPROTO_sh,$(srctree))

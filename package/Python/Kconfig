@@ -22,7 +22,7 @@ config PK_PYTHON_SRCFILE
 	string "Source code list"
 
 config PK_PYTHON_CONFIG
-	default "--enable-ipv6 --disable-static --enable-shared ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
+	default "--with-system-ffi --with-threads --with-pymalloc --without-cxx-main --with-signal-module --enable-shared --enable-ipv6=yes ac_cv_header_bluetooth_bluetooth_h=no ac_cv_header_bluetooth_h=no ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no --disable-static"
 	string "CONFIG: Project Configure Options"
 
 config PK_PYTHON_LIBPATH

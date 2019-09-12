@@ -1,0 +1,56 @@
+menuconfig PK_CAIRO
+	select PK_LIBPNG
+	select PK_LIBXRENDER
+	select PK_PIXMAN
+	bool "cairo"
+
+if PK_CAIRO
+
+config PK_CAIRO_VERSION
+	default "1.14.10"
+	string "verstion"
+
+config PK_CAIRO_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_CAIRO_URL
+	default "https://cairographics.org/releases/"
+	string "url"
+
+config PK_CAIRO_GITHUB
+	string "GitHub"
+
+config PK_CAIRO_SRCFILE
+	string "Source code list"
+
+config PK_CAIRO_CONFIG
+	default "--enable-silent-rules --disable-static --disable-gtk-doc --enable-tee --disable-static --disable-egl --disable-glesv2 --disable-gl --disable-valgrind --with-x=yes --enable-xlib --enable-xlib-xrender=no"
+	string "CONFIG: Project Configure Options"
+
+config PK_CAIRO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CAIRO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CAIRO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CAIRO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CAIRO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CAIRO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CAIRO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CAIRO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_CAIRO

@@ -1,0 +1,53 @@
+menuconfig PK_PANGO
+	bool "pango"
+
+if PK_PANGO
+
+config PK_PANGO_VERSION
+	default "1.40.6"
+	string "verstion"
+
+config PK_PANGO_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_PANGO_URL
+	default "http://ftp.gnome.org/pub/gnome/sources/pango/1.40/"
+	string "url"
+
+config PK_PANGO_GITHUB
+	string "GitHub"
+
+config PK_PANGO_SRCFILE
+	string "Source code list"
+
+config PK_PANGO_CONFIG
+	default "--enable-silent-rules --enable-introspection --disable-gtk-doc --disable-debug --disable-static --with-xft --enable-installed-tests"
+	string "CONFIG: Project Configure Options"
+
+config PK_PANGO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PANGO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PANGO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PANGO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PANGO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PANGO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PANGO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PANGO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_PANGO

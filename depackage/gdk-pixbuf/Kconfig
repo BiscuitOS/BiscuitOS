@@ -1,0 +1,36 @@
+menuconfig PK_GDK_PIXBUF
+	select PK_LIBJPEG
+	select PK_LIBTIFF
+	bool "gdk-pixbuf"
+
+if PK_GDK_PIXBUF
+
+config GDK_PIXBUF_VERSION
+	default "2.28.0" if GTKR3
+	default "2.28.0" if GTKR2
+	string "verstion"
+
+config GDK_PIXBUF_TAR
+	default "tar.xz" if GTKR3
+	default "tar.xz" if GTKR2
+	string "tar type"
+
+config GDK_PIXBUF_URL
+	default "http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.28/" if GTKR3
+	default "http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.28/" if GTKR2
+	string "url"
+
+config GDK_PIXBUF_SRC
+	string "source code list"
+
+config GDK_PIXBUF_LDFLAGS
+	string "LDFLAGS"
+
+config GDK_PIXBUF_CFLAGS
+	string "CFLAGS"
+
+config GDK_PIXBUF_CONFIG
+	default "--enable-gio-sniffing"
+	string "configure"
+
+endif # PK_GDK_PIXBUF

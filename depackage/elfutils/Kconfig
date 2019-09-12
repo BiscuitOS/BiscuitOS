@@ -1,0 +1,30 @@
+menuconfig PK_ELFUTILS
+	bool "elfutils"
+
+if PK_ELFUTILS
+
+config ELFUTILS_VERSION
+	default "0.163"
+	string "verstion"
+
+config ELFUTILS_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config ELFUTILS_URL
+	default "https://sourceware.org/elfutils/ftp/0.163/"
+	string "url"
+
+config ELFUTILS_SRC
+	string "source code list"
+
+config ELFUTILS_LDFLAGS
+	string "LDFLAGS"
+
+config ELFUTILS_CFLAGS
+	string "CFLAGS"
+
+config ELFUTILS_CONFIG
+	string "configure"
+
+endif # PK_ELFUTILS

@@ -1,0 +1,33 @@
+menuconfig PK_FONTCONFIG
+	select PK_FREETYPE
+	select PK_LIBXML2
+	bool "fontconfig"
+
+if PK_FONTCONFIG
+
+config FONTCONFIG_VERSION
+	default "2.12.6"
+	string "verstion"
+
+config FONTCONFIG_TAR
+	default "tar.gz"
+	string "tar type"
+
+config FONTCONFIG_URL
+	default "https://www.freedesktop.org/software/fontconfig/release/"
+	string "url"
+
+config FONTCONFIG_SRC
+	string "source code list"
+
+config FONTCONFIG_LDFLAGS
+	string "LDFLAGS"
+
+config FONTCONFIG_CFLAGS
+	string "CFLAGS"
+
+config FONTCONFIG_CONFIG
+	default "--enable-libxml2"
+	string "configure"
+
+endif # PK_FONTCONFIG

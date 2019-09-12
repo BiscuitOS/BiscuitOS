@@ -1,0 +1,31 @@
+menuconfig PK_DIRECTFB
+	bool "DirectFB"
+
+if PK_DIRECTFB
+
+config DIRECTFB_VERSION
+	default "1.7.4"
+	string "verstion"
+
+config DIRECTFB_TAR
+	default "tar.gz"
+	string "tar type"
+
+config DIRECTFB_URL
+	default "http://repository.timesys.com/buildsources/d/DirectFB/DirectFB-1.7.4/"
+	string "url"
+
+config DIRECTFB_SRC
+	string "source code list"
+
+config DIRECTFB_LDFLAGS
+	string "LDFLAGS"
+
+config DIRECTFB_CFLAGS
+	string "CFLAGS"
+
+config DIRECTFB_CONFIG
+	default "--with-gfxdrivers=none"
+	string "configure"
+
+endif # PK_DIRECTFB

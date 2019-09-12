@@ -1,0 +1,55 @@
+menuconfig PK_LIBXRENDER
+	select PK_LIBXEXT
+	select PK_RENDERPROTO
+	bool "libXrender"
+
+if PK_LIBXRENDER
+
+config PK_LIBXRENDER_VERSION
+	default "0.9.10"
+	string "verstion"
+
+config PK_LIBXRENDER_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBXRENDER_URL
+	default "https://www.x.org/releases/individual/lib/"
+	string "url"
+
+config PK_LIBXRENDER_GITHUB
+	string "GitHub"
+
+config PK_LIBXRENDER_SRCFILE
+	string "Source code list"
+
+config PK_LIBXRENDER_CONFIG
+	default "--enable-silent-rules --disable-static --enable-malloc0returnsnull"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBXRENDER_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBXRENDER_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBXRENDER_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBXRENDER_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBXRENDER_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBXRENDER_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBXRENDER_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBXRENDER_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBXRENDER

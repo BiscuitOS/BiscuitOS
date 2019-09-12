@@ -89,6 +89,7 @@ echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK        := $(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo 'DL          := $(BSROOT)/dl' >> ${MF}
 echo 'BSCORE      := $(BSROOT)/scripts/package/bsbit_core.sh' >> ${MF}
+echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
 echo "DLD_PATH    := \"-L\$(INS_PATH)/lib -L\$(CROSS_PATH)/lib ${KBUILD_LIBPATH}\"" >> ${MF}
@@ -127,6 +128,12 @@ echo -e '\tfi' >> ${MF}
 echo '' >> ${MF}
 echo 'prepare:' >> ${MF}
 echo -e '\t@$(BSCORE) bsbit/$(BSFILE) $(PACKDIR)' >> ${MF}
+echo '' >> ${MF}
+echo 'depence:' >> ${MF}
+echo -e '\t@$(BSDEPD) bsbit/$(BSFILE) $(PACKDIR) $(BASENAME)' >> ${MF}
+echo '' >> ${MF}
+echo 'depence-clean:' >> ${MF}
+echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
 echo -e '\t@if [ ! -f $(DL)/$(PACKAGE) ]; \' >> ${MF}

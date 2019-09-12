@@ -1,0 +1,30 @@
+menuconfig PK_GOBJECT_INTROSPECTION
+	bool "gobject-introspection"
+
+if PK_GOBJECT_INTROSPECTION
+
+config GOBJECT_INTROSPECTION_VERSION
+	default "1.36.0"
+	string "verstion"
+
+config GOBJECT_INTROSPECTION_TAR
+	default "tar.xz"
+	string "tar type"
+
+config GOBJECT_INTROSPECTION_URL
+	default "http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.36/"
+	string "url"
+
+config GOBJECT_INTROSPECTION_SRC
+	string "source code list"
+
+config GOBJECT_INTROSPECTION_LDFLAGS
+	string "LDFLAGS"
+
+config GOBJECT_INTROSPECTION_CFLAGS
+	string "CFLAGS"
+
+config GOBJECT_INTROSPECTION_CONFIG
+	string "configure"
+
+endif # PK_GOBJECT_INTROSPECTION

@@ -1,0 +1,53 @@
+menuconfig PK_HARFBUZZ
+	bool "harfbuzz"
+
+if PK_HARFBUZZ
+
+config PK_HARFBUZZ_VERSION
+	default "1.4.8"
+	string "verstion"
+
+config PK_HARFBUZZ_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config PK_HARFBUZZ_URL
+	default "https://www.freedesktop.org/software/harfbuzz/release/"
+	string "url"
+
+config PK_HARFBUZZ_GITHUB
+	string "GitHub"
+
+config PK_HARFBUZZ_SRCFILE
+	string "Source code list"
+
+config PK_HARFBUZZ_CONFIG
+	default "--enable-silent-rules --disable-static --disable-gtk-doc --with-cairo --with-fontconfig --with-freetype --with-glib --without-graphite2 --with-icu"
+	string "CONFIG: Project Configure Options"
+
+config PK_HARFBUZZ_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_HARFBUZZ_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_HARFBUZZ_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_HARFBUZZ_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_HARFBUZZ_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_HARFBUZZ_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_HARFBUZZ_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_HARFBUZZ_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_HARFBUZZ

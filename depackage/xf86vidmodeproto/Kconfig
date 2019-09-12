@@ -1,0 +1,30 @@
+menuconfig PK_XF86VIDMODEPROTO
+	bool "xf86vidmodeproto"
+
+if PK_XF86VIDMODEPROTO
+
+config XF86VIDMODEPROTO_VERSION
+	default "2.3.1"
+	string "verstion"
+
+config XF86VIDMODEPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config XF86VIDMODEPROTO_URL
+	default "https://www.x.org/releases/X11R7.7/src/proto/"
+	string "url"
+
+config XF86VIDMODEPROTO_SRC
+	string "source code list"
+
+config XF86VIDMODEPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config XF86VIDMODEPROTO_CFLAGS
+	string "CFLAGS"
+
+config XF86VIDMODEPROTO_CONFIG
+	string "configure"
+
+endif # PK_XF86VIDMODEPROTO

@@ -1,0 +1,30 @@
+menuconfig PK_PCRE
+	bool "pcre"
+
+if PK_PCRE
+
+config PCRE_VERSION
+	default "8.42" if GLIBR2
+	string "verstion"
+
+config PCRE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PCRE_URL
+	default "https://ftp.pcre.org/pub/pcre/" if GLIBR2
+	string "url"
+
+config PCRE_SRC
+	string "source code list"
+
+config PCRE_LDFLAGS
+	string "LDFLAGS"
+
+config PCRE_CFLAGS
+	string "CFLAGS"
+
+config PCRE_CONFIG
+	string "configure"
+
+endif # PK_PCRE

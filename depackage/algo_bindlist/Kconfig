@@ -1,0 +1,30 @@
+menuconfig PK_ALGO_BINDLIST
+	bool "Algo  bind-list(list_head)"
+
+if PK_ALGO_BINDLIST
+
+config ALGO_BINDLIST_VERSION
+	default "0.11"
+	string "verstion"
+
+config ALGO_BINDLIST_TAR
+	string "tar type"
+
+config ALGO_BINDLIST_URL
+	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Algorithem/list/bindirect-list/Basic/"
+	string "url"
+
+config ALGO_BINDLIST_LDFLAGS
+	string "LDFLAGS"
+
+config ALGO_BINDLIST_CFLAGS
+	string "CFLAGS"
+
+config ALGO_BINDLIST_CONFIG
+	string "configure"
+
+config ALGO_BINDLIST_SRC
+	default "Makefile list.h list_run.c"
+	string "source code list"
+
+endif # PK_ALGO_BINDLIST

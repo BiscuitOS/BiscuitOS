@@ -1,0 +1,54 @@
+menuconfig PK_GTKP
+	select PK_ATK
+	bool "gtk+"
+
+if PK_GTKP
+
+config PK_GTKP_VERSION
+	default "3.22.17"
+	string "verstion"
+
+config PK_GTKP_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_GTKP_URL
+	default "http://ftp.gnome.org/pub/gnome/sources/gtk+/3.22/"
+	string "url"
+
+config PK_GTKP_GITHUB
+	string "GitHub"
+
+config PK_GTKP_SRCFILE
+	string "Source code list"
+
+config PK_GTKP_CONFIG
+	default "--enable-silent-rules --disable-static --enable-introspection --disable-gtk-doc --disable-glibtest --disable-xinerama --enable-modules --disable-cups --disable-colord --disable-static --disable-wayland-backend --enable-x11-backend --enable-nls"
+	string "CONFIG: Project Configure Options"
+
+config PK_GTKP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_GTKP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_GTKP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_GTKP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_GTKP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_GTKP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_GTKP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_GTKP_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_GTKP

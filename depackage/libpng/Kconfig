@@ -1,0 +1,31 @@
+menuconfig PK_LIBPNG
+	select PK_ZLIB
+	bool "libpng"
+
+if PK_LIBPNG
+
+config LIB_LIBPNG_VERSION
+	default "1.6.32"
+	string "verstion"
+
+config LIB_LIBPNG_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBPNG_URL
+	default "ftp://ftp-osl.osuosl.org/pub/libpng/src/archive/gz/libpng16/"
+	string "url"
+
+config LIB_LIBPNG_SRC
+	string "source code list"
+
+config LIB_LIBPNG_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBPNG_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBPNG_CONFIG
+	string "configure"
+
+endif # PK_LIBPNG

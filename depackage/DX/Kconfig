@@ -1,0 +1,48 @@
+menuconfig PK_DX
+	bool "DX"
+
+if PK_DX
+
+config PK_DX_VERSION
+	default "8.42"
+	string "verstion"
+
+config PK_DX_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DX_URL
+	default "https://ftp.pcre.org/pub/pcre/"
+	string "url"
+
+config PK_DX_GITHUB
+	string "GitHub"
+
+config PK_DX_SRCFILE
+	string "Source code list"
+
+config PK_DX_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DX_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DX_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DX_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DX_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DX_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DX_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DX_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+endif # PK_DX

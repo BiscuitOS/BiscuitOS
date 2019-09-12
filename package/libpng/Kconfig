@@ -1,0 +1,54 @@
+menuconfig PK_LIBPNG
+	select PK_GLIB
+	bool "libpng"
+
+if PK_LIBPNG
+
+config PK_LIBPNG_VERSION
+	default "1.6.31"
+	string "verstion"
+
+config PK_LIBPNG_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBPNG_URL
+	default "ftp://ftp-osl.osuosl.org/pub/libpng/src/archive/gz/libpng16/"
+	string "url"
+
+config PK_LIBPNG_GITHUB
+	string "GitHub"
+
+config PK_LIBPNG_SRCFILE
+	string "Source code list"
+
+config PK_LIBPNG_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBPNG_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBPNG_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBPNG_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBPNG_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBPNG_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBPNG_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBPNG_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBPNG_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBPNG

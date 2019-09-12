@@ -1,0 +1,35 @@
+menuconfig PK_LIBXFONT
+	select PK_ZLIB
+	select PK_FONTSPROTO
+	select PK_LIBFONTENC
+	select PK_FREETYPE
+	bool "libxfont"
+
+if PK_LIBXFONT
+
+config LIBXFONT_VERSION
+	default "1.5.4"
+	string "verstion"
+
+config LIBXFONT_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config LIBXFONT_URL
+	default "http://repository.timesys.com/buildsources/l/libXfont/libXfont-1.5.4/"
+	string "url"
+
+config LIBXFONT_SRC
+	string "source code list"
+
+config LIBXFONT_LDFLAGS
+	string "LDFLAGS"
+
+config LIBXFONT_CFLAGS
+	string "CFLAGS"
+
+config LIBXFONT_CONFIG
+	default "ac_cv_lib_z_gzopen=yes"
+	string "configure"
+
+endif # PK_LIBXFONT

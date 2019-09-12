@@ -1,0 +1,75 @@
+menuconfig PK_XORG
+	select PK_EXPAT
+	select PK_ZLIB
+	select PK_LIBPNG
+	select PK_OPENSSL
+	select PK_XF86DRIPROTO
+	select PK_XCMISCPROTO
+	select PK_BIGREQSPROTO
+	select PK_FONTSPROTO
+	select PK_VIDEOPROTO
+	select PK_RECORDPROTO
+	select PK_SCRNSAVERPROTO
+	select PK_RESOURCEPROTO
+	select PK_LIBXKBFILE
+	select PK_LIBXFONT
+	select PK_LIBPCIACCESS
+	select PK_LIBXINERAMA
+	select PK_RENDERPROTO
+	select PK_DAMAGEPROTO
+	select PK_FIXESPROTO
+	select PK_COMPOSITEPROTO
+	select PK_XF86VIDMODEPROTO
+	select PK_LIBXDMCP
+	select PK_RANDRPROTO
+	select PK_GLPROTO
+	select PK_MESALIB
+	select PK_DRI2PROTO
+	select PK_PIXMAN
+	select PK_LIBXPROTO
+	select PK_LIBXTRANS
+	select PK_LIBKBPROTO
+	select PK_LIBINPUTPROTO
+	select PK_LIBXCB_PROTO
+	select PK_LIBXAU
+	select PK_LIBPTHREAD_STUBS
+	select PK_LIBXCB
+	select PK_LIBXEXTPROTO
+	select PK_LIBX11
+	select X11R7_7 
+	select PK_LIBFONTENC
+	select PK_FREETYPE
+	select PK_LIBXEXT
+	select PK_XINERAMAPROTO
+	select PK_PYTHON2_7
+	select PK_LIBXML2
+	select PK_LIBDRM
+	bool "Xorg-server"
+
+if PK_XORG
+
+config XORG_VERSION
+	default "1.12.2"
+	string "verstion"
+
+config XORG_TAR
+	default "tar.gz"
+	string "tar type"
+
+config XORG_URL
+	default "https://www.x.org/releases/X11R7.7/src/xserver/"
+	string "url"
+
+config XORG_SRC
+	string "source code list"
+
+config XORG_LDFLAGS
+	string "LDFLAGS"
+
+config XORG_CFLAGS
+	string "CFLAGS"
+
+config XORG_CONFIG
+	string "configure"
+
+endif # PK_XORG

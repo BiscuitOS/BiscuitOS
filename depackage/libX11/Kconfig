@@ -1,0 +1,50 @@
+menuconfig PK_LIBX11
+	select PK_LIBXPROTO if X11R7_7
+	select PK_LIBXTRANS if X11R7_7
+	select PK_LIBKBPROTO if X11R7_7
+	select PK_LIBINPUTPROTO if X11R7_7
+	select PK_LIBXCB if X11R7_7
+	select PK_XCB_DEMO if X11R7_7
+	select PK_LIBXEXTPROTO if X11R7_7
+	select PK_LIBXEXT if X11R7_7
+	bool "libX11"
+
+if PK_LIBX11
+
+choice
+	prompt "X11 Release Version"
+
+config X11R7_7
+	bool "X11R7.7"
+
+endchoice
+
+config LIB_LIBX11_VERSION
+	default "1.5.0" if X11R7_7
+	default "1.1.5" if X11R7_4
+	string "verstion"
+
+config LIB_LIBX11_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBX11_URL
+	default "https://www.x.org/releases/X11R7.7/src/lib/" if X11R7_7
+	default "https://www.x.org/releases/X11R7.4/src/lib/" if X11R7_4
+	#default "https://www.x.org/releases/individual/lib/"
+	string "url"
+
+config LIB_LIBX11_SRC
+	string "source code list"
+
+config LIB_LIBX11_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBX11_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBX11_CONFIG
+	default "--enable-malloc0returnsnull --disable-selective-werror"
+	string "configure"
+
+endif # PK_LIBX11

@@ -1,0 +1,27 @@
+menuconfig PK_GNU_AUTOCONF
+	bool "GNU - autoconf"
+
+if PK_GNU_AUTOCONF
+
+config GNU_AUTOCONF_VERSION
+	default "2.69"
+	string "verstion"
+
+config GNU_AUTOCONF_TAR
+	default "tar.gz"
+	string "tar type"
+
+config GNU_AUTOCONF_URL
+	default "http://ftp.gnu.org/pub/gnu/autoconf/"
+	string "url"
+
+config GNU_AUTOCONF_LDFLAGS
+	string "LDFLAGS"
+
+config GNU_AUTOCONF_CFLAGS
+	string "CFLAGS"
+
+config GNU_AUTOCONF_CONFIG
+	string "configure"
+
+endif # PK_GNU_AUTOCONF

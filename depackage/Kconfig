@@ -1,0 +1,333 @@
+#
+# Package common configure
+#
+menuconfig COMMON_UTILISE
+	bool "Package"
+	help
+	  binutilise
+
+if COMMON_UTILISE
+
+# Algorithm binary-tree
+source package/algo_binarytree/Kconfig
+
+# elfutils
+source package/elfutils/Kconfig
+
+# Demo Package
+source package/Aproto/Kconfig
+
+# expat
+source package/expat/Kconfig
+
+# DX
+source package/DX/Kconfig
+
+# Algorithm IDA
+source package/algo_IDA/Kconfig
+
+# Algorithm IDR
+source package/algo_IDR/Kconfig
+
+# binutils
+config PK_BINUTILS
+	bool "binutils"
+
+# Algorithm bindlist
+source package/algo_bindlist/Kconfig
+
+# Algorithm bitmap
+source package/algo_bitmap/Kconfig
+
+# Algorithm 2-3-tree
+source package/algo_23tree/Kconfig
+
+# Algorithm radix-tree
+source package/algo_radixtree/Kconfig
+
+# Algorithm rb-tree
+source package/algo_rbtree/Kconfig
+
+# bigreqsproto
+source package/bigreqsproto/Kconfig
+
+# compositeproto
+source package/compositeproto/Kconfig
+
+# damageproto
+source package/damageproto/Kconfig
+
+# DirectFB
+source package/DirectFB/Kconfig
+
+# dri2proto
+source package/dri2proto/Kconfig
+
+# fixesproto
+source package/fixesproto/Kconfig
+
+# fontconfig
+source package/fontconfig/Kconfig
+
+# fontsproto
+source package/fontsproto/Kconfig
+
+# freetype
+source package/freetype/Kconfig
+
+# game-snake
+source package/game_snake/Kconfig
+
+# game-tetris
+source package/game_tetris/Kconfig
+
+# game-2048
+source package/game_2048/Kconfig
+
+# GNU-autoconf
+source package/gnu_autoconf/Kconfig
+
+# GNU-automake
+source package/gnu_automake/Kconfig
+
+# GNU-binutils
+source package/gnu_binutils/Kconfig
+
+# GNU-bison
+source package/gnu_bison/Kconfig
+
+# busybox
+source package/busybox/Kconfig
+
+# demo-application
+source package/demo_app/Kconfig
+
+# e2fsprogs
+source package/e2fsprogs/Kconfig
+
+# glproto
+source package/glproto/Kconfig
+
+# gobject-introspection
+source package/gobject-introspection/Kconfig
+
+# GNU-fdisk
+source package/gnu_fdisk/Kconfig
+
+# GNU-gawk
+source package/gnu_gawk/Kconfig
+
+# GNU-gdb
+source package/gnu_gdb/Kconfig
+
+# GNU-glibc
+source package/gnu_glibc/Kconfig
+
+# GNU-git
+source package/gnu_git/Kconfig
+
+# GNU-hello
+source package/gnu_hello/Kconfig
+
+config PK_GCC
+	bool "GNU - legacy gcc"
+
+# gtk
+source package/gtk/Kconfig
+
+# gdk-pixbuf
+source package/gdk-pixbuf/Kconfig
+
+# gtk: cairo
+source package/gtk_cairo/Kconfig
+
+# gtk: atk
+source package/gtk_atk/Kconfig
+
+# gtk: pango
+source package/gtk_pango/Kconfig
+
+# gtk-xfce-engine
+source package/gtk-xfce-engine/Kconfig
+
+# intltool
+source package/intltool/Kconfig
+
+# libdrm
+source package/libdrm/Kconfig
+
+# libffi
+source package/libffi/Kconfig
+
+# libfontenc
+source package/libfontenc/Kconfig
+
+# libjpeg
+source package/libjpeg/Kconfig
+
+# libpciaccess
+source package/libpciaccess/Kconfig
+
+# libpng
+source package/libpng/Kconfig
+
+# libpthread-stubs
+source package/libpthread-stubs/Kconfig
+
+# libtiff
+source package/libtiff/Kconfig
+
+# libtool
+source package/libtool/Kconfig
+
+# libuuid
+source package/libuuid/Kconfig
+
+# libxfce4ui
+source package/libxfce4ui/Kconfig
+
+# libxfce4util
+source package/libxfce4util/Kconfig
+
+# libxfont
+source package/libxfont/Kconfig
+
+# libXfixes
+source package/libXfixes/Kconfig
+
+# libxkbfile
+source package/libxkbfile/Kconfig
+
+# libxml2
+source package/libxml2/Kconfig
+
+# libXinerama
+source package/libXinerama/Kconfig
+
+# libXcomposite
+source package/libXcomposite/Kconfig
+
+# libXcursor
+source package/libXcursor/Kconfig
+
+# libXdamage
+source package/libXdamage/Kconfig
+
+# libXdmcp
+source package/libXdmcp/Kconfig
+
+# libXrender
+source package/libXrender/Kconfig
+
+# MesaLib
+source package/MesaLib/Kconfig
+
+# inputproto
+source package/libinputproto/Kconfig
+
+# openssl
+source package/openssl/Kconfig
+
+# pcre
+source package/pcre/Kconfig
+
+# pixman
+source package/pixman/Kconfig
+
+# Python2.7
+source package/Python2.7/Kconfig
+
+# kbproto
+source package/libkbproto/Kconfig
+
+# recordproto
+source package/recordproto/Kconfig
+
+# resourceproto
+source package/resourceproto/Kconfig
+
+# Xau
+source package/libXau/Kconfig
+
+# xcb
+source package/libxcb/Kconfig
+
+# xcb-proto
+source package/libxcb-proto/Kconfig
+
+# Xext
+source package/libXext/Kconfig
+
+# xextproto
+source package/libxextproto/Kconfig
+
+# xproto
+source package/libxproto/Kconfig
+
+# xtrans
+source package/libxtrans/Kconfig
+
+# libX11
+source package/libX11/Kconfig
+
+# gnome-glib
+source package/gnome_glib/Kconfig
+
+# GNU-ncurses
+source package/gnu_ncurses/Kconfig
+
+# GNU-parted
+source package/gnu_parted/Kconfig
+
+# GNU-screen
+source package/gnu_screen/Kconfig
+
+# GNU-sed
+source package/gnu_sed/Kconfig
+
+# qemu-system
+source package/qemu/Kconfig
+
+# qt
+source package/qt/Kconfig
+
+# randrproto
+source package/randrproto/Kconfig
+
+# renderproto
+source package/renderproto/Kconfig
+
+# scrnsaverproto
+source package/scrnsaverproto/Kconfig
+
+# videoproto
+source package/videoproto/Kconfig
+
+# xcmiscproto
+source package/xcmiscproto/Kconfig
+
+# xf86driproto
+source package/xf86driproto/Kconfig
+
+# Xfce
+source package/Xfce/Kconfig
+
+# xfce4-exo
+source package/xfce4-exo/Kconfig
+
+# xfce4-panel
+source package/xfce4-panel/Kconfig
+
+# xf86vidmodeproto
+source package/xf86vidmodeproto/Kconfig
+
+# xineramaproto
+source package/xineramaproto/Kconfig
+
+# Xorg-Server
+source package/Xorg/Kconfig
+
+# zlib
+source package/zlib/Kconfig
+
+endif

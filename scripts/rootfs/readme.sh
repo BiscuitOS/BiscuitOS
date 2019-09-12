@@ -12,95 +12,130 @@ set -e
 ROOT=${1%X}
 ROOTFS_NAME=${2%X}
 ROOTFS_VERSION=${3%X}
-PROJ_NAME=${9%X}
+PROJECT_NAME=${9%X}
 CROSS_TOOL=${12%X}
-OUTPUT=${ROOT}/output/${PROJ_NAME}
+OUTPUT=${ROOT}/output/${PROJECT_NAME}
 BUSYBOX=${OUTPUT}/busybox/busybox
 GCC=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
 UBOOT=${15}
 UBOOT_CROSS=${16%X}
 KERNEL_VER=${7%X}
-EMARCH=X
-EFS=ext4
-EFS_T=mkfs.ext4
+KERNEL_2_6_SUP=X
+UCROSS_PATH=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}
+KCROSS_PATH=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
+QEMU_PATH=${OUTPUT}/qemu-system/qemu-system
 
-# detect kernel version
-KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
-if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
-     ${KER_MAJ}X = "3.1X" -o ${KER_MAJ}X = "3.2X" -o ${KER_MAJ}X = "3.3X" -o \
-     ${KER_MAJ}X = "3.4X" ]; then
-        KERN_DTB=N
-fi
-if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" ]; then
-        DMARCH=N
-fi
-if [ ${KERNEL_VER:0:3} = "2.6" ]; then
-	EMARCH=Y
-fi
+README_NAME=README.md
+RUNSCP_NAME=RunBiscuitOS.sh
 
-if [ ${EMARCH} = "Y" ]; then
-	DEF_UBOOT_CROOS=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/arm-none-linux-gnueabi-
-	DEF_CROOS=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/arm-none-linux-gnueabi-
-	EFS=ext3
-	EFS_T=mkfs.ext3
-else
-	DEF_UBOOT_CROOS=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}/bin/${UBOOT_CROSS}-
-	DEF_CROOS=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-
-fi
-
-
-## Debug Stuff
-if [ -d ${OUTPUT}/package/gdb ]; then
-	rm -rf ${OUTPUT}/package/gdb
-fi
-mkdir -p ${OUTPUT}/package/gdb
-# gdb pl
-if [ ! -f ${OUTPUT}/package/gdb/gdb.pl ]; then
-	cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
-fi
-
-mkdir -p ${OUTPUT}/package/networking
-cp ${ROOT}/scripts/rootfs/qemu-if* ${OUTPUT}/package/networking
-cp ${ROOT}/scripts/rootfs/bridge.sh ${OUTPUT}/package/networking
-
-## Auto create Running scripts
-MF=${OUTPUT}/RunBiscuitOS.sh
-if [ -f ${MF} ]; then
-	rm -rf ${MF}
-fi
+##
+## Architecture information
 ARCH=${11%X}
 ARCH_TYPE=
-if [ ${ARCH}X = "1X" ]; then
-	QEMU=${OUTPUT}/qemu-system/qemu-system/x86_64-softmmu/qemu-system-x86_64
-	ARCH_TYPE=x86
-elif [ ${ARCH}X = "2X" ]; then
-	QEMU=${OUTPUT}/qemu-system/qemu-system/arm-softmmu/qemu-system-arm
-	ARCH_TYPE=arm
-elif [ ${ARCH}X = "3X" ]; then
-	QEMU=${OUTPUT}/qemu-system/qemu-system/aarch64-softmmu/qemu-system-aarch64
-	ARCH_TYPE=arm64
+ARCH_NAME=
+
+# Architecture Detect
+case ${ARCH} in
+	0)
+	ARCH_NAME=unknown
+	;;
+	1)
+	ARCH_NAME=x86
+	QEMU=${QEMU_PATH}/x86_64-softmmu/qemu-system-x86_64
+	;;
+	2)
+	ARCH_NAME=arm
+	QEMU=${QEMU_PATH}/arm-softmmu/qemu-system-arm
+	;;
+	3)
+	ARCH_NAME=arm64
+	QEMU=${QEMU_PATH}/aarch64-softmmu/qemu-system-aarch64
+	;;
+	4)
+	ARCH_NAME=riscv32
+	;;
+	5)
+	ARCH_NAME=riscv64
+	;;
+esac
+
+##
+# Kernel Version Inforation
+
+# Detect Kernel Major Version
+KERNEL_MAJORV=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
+[ ${KERNEL_MAJORV}X = "2.6X" -o ${KERNEL_MAJORV}X = "2.4X" -o \
+  ${KERNEL_MAJORV}X = "3.0X" -o ${KERNEL_MAJORV}X = "3.1X" -o \
+  ${KERNEL_MAJORV}X = "3.2X" -o ${KERNEL_MAJORV}X = "3.3X" -o \
+  ${KERNEL_MAJORV}X = "3.4X" ] && KERNEL_DTB_USE=N
+
+# 
+[ ${KERNEL_MAJORV}X = "2.6X" -o ${KERNEL_MAJORV}X = "2.4X" ] && KERNEL_2_X_SUP=N
+
+#
+[ ${KERNEL_VER:0:3} = "2.6" ] && KERNEL_2_6_SUP=Y
+
+##
+# Rootfs Inforamtion
+FS_TYPE=
+FS_TYPE_TOOLS=
+
+if [ ${KERNEL_2_6_SUP} = "Y" ]; then
+	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/arm-none-linux-gnueabi-
+	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/arm-none-linux-gnueabi-
+	FS_TYPE=ext3
+	FS_TYPE_TOOLS=mkfs.ext3
+else
+	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/${UBOOT_CROSS}-
+	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/${CROSS_TOOL}-
+	FS_TYPE=ext4
+	FS_TYPE_TOOLS=mkfs.ext4
 fi
 
-echo '#!/bin/bash' >> ${MF}
-echo '' >> ${MF}
-echo '# Build system.' >> ${MF}
-echo '#' >> ${MF}
-echo '# (C) 2019.01.14 BiscuitOS <buddy.zhang@aliyun.com>' >> ${MF}
-echo '#' >> ${MF}
-echo '# This program is free software; you can redistribute it and/or modify' >> ${MF}
-echo '# it under the terms of the GNU General Public License version 2 as' >> ${MF}
-echo '# published by the Free Software Foundation.' >> ${MF}
-echo '' >> ${MF}
-echo "ROOT=${OUTPUT}" >> ${MF}
-echo "QEMUT=${QEMU}" >> ${MF}
-echo "ARCH=${ARCH_TYPE}" >> ${MF}
-echo "BUSYBOX=${BUSYBOX}" >> ${MF}
-echo "OUTPUT=${OUTPUT}" >> ${MF}
-echo "ROOTFS_NAME=${ROOTFS_NAME}" >> ${MF}
-echo "CROSS_TOOL=${CROSS_TOOL}" >> ${MF}
-echo "EFS=${EFS}" >> ${MF}
-echo "EFS_T=${EFS_T}" >> ${MF}
-echo 'ROOTFS_SIZE=150' >> ${MF}
+##
+# Debug Stuff
+[ -d ${OUTPUT}/package/gdb ] && rm -rf ${OUTPUT}/package/gdb
+mkdir -p ${OUTPUT}/package/gdb
+# GDB pl
+[ ! -f ${OUTPUT}/package/gdb/gdb.pl ] && \
+cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
+
+## 
+# Networking Stuff
+mkdir -p ${OUTPUT}/package/networking
+cp ${ROOT}/scripts/rootfs/qemu-if* ${OUTPUT}/package/networking
+
+## 
+# Auto create Running scripts
+MF=${OUTPUT}/${RUNSCP_NAME}
+[ -f ${MF} ] && rm -rf ${MF}
+
+DATE_COMT=`date +"%Y.%m.%d"`
+cat << EOF >> ${MF}
+#!/bin/bash
+
+# Build system.
+#
+# (C) ${DATE_COMT} BiscuitOS <buddy.zhang@aliyun.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+
+ROOT=${OUTPUT}
+QEMUT=${QEMU}
+ARCH=${ARCH_NAME}
+BUSYBOX=${BUSYBOX}
+OUTPUT=${OUTPUT}
+ROOTFS_NAME=${ROOTFS_NAME}
+CROSS_TOOL=${CROSS_TOOL}
+FS_TYPE=${FS_TYPE}
+FS_TYPE_TOOLS=${FS_TYPE_TOOLS}
+ROOTFS_SIZE=150
+RAM_SIZE=512
+EOF
+echo 'LINUX_DIR=${ROOT}/linux/linux/arch/' >> ${MF}
+echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
 	echo "UBOOT=${OUTPUT}/u-boot/u-boot" >> ${MF}
 	echo '' >> ${MF}
@@ -109,103 +144,212 @@ if [ ${UBOOT} = "yX" ]; then
 	echo '	${QEMUT} -M vexpress-a9 -kernel ${UBOOT}/u-boot -m 512 -nographic' >> ${MF}
 	echo '}' >> ${MF}
 fi
+## 
+# Common Running function
+# 
+# -> Used to launch a Server Linux 
 echo '' >> ${MF}
 echo 'do_running()' >> ${MF}
 echo '{' >> ${MF}
-if [ ${ARCH}X = "2X" ]; then
-	if [ ${DMARCH}X = "NX" ]; then
-		echo '	${QEMUT} -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+case ${ARCH_NAME} in
+	arm) 
+	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
+		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\t-M versatilepb \' >> ${MF}
+		echo -e '\t-m 256M \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
 	else
-		echo '	${QEMUT} -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\t-M vexpress-a9 \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
 	fi
-elif [ ${ARCH}X = "3X" ]; then
-	echo '	${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
-fi
+	;;
+	arm64)
+		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\t-M virt \' >> ${MF}
+		echo -e '\t-cpu cortex-a53 \' >> ${MF}
+		echo -e '\t-smp 2 \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+	;;
+esac
 echo '}' >> ${MF}
+##
+# Common Debug function
+#
+# -> Used to debug kernel/Uboot
 echo '' >> ${MF}
 echo 'do_debug()' >> ${MF}
 echo '{' >> ${MF}
-if [ ${ARCH}X = "2X" ]; then
-	if [ ${DMARCH}X = "NX" ]; then
-		echo '	${QEMUT} -s -S -M versatilepb -m 256M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+case ${ARCH_NAME} in
+	arm)
+	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
+		echo -e '\t${QEMUT} -s -S \' >> ${MF}
+		echo -e '\t-M versatilepb \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
 	else
 		echo '	${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_TOOL}' >> ${MF}
-		echo '	${QEMUT} -s -S -M vexpress-a9 -m 512M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t${QEMUT} -s -S \' >> ${MF}
+		echo -e '\t-M vexpress-a9 \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
 	fi
-elif [ ${ARCH}X = "3X" ]; then
-	echo '	${QEMUT} -s -S -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
-fi
+	;;
+	arm64)
+		echo -e '\t${QEMUT} -s -S \' >> ${MF}
+		echo -e '\t-M virt \' >> ${MF}
+		echo -e '\t-cpu cortex-a53 \' >> ${MF}
+		echo -e '\t-smp 2 \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+	;;
+esac
 echo '}' >> ${MF}
 echo '' >>  ${MF}
+##
+# Common Networking function
+#
+# -> Used to connect networking
 echo '' >> ${MF}
 echo 'do_network()' >> ${MF}
 echo '{' >> ${MF}
-if [ ${ARCH}X = "2X" ]; then
-        if [ ${DMARCH}X = "NX" ]; then
-                echo '	${QEMUT} -M versatilepb -m 256M -net tap -device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=net0 -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+case ${ARCH_NAME} in
+	arm)
+        if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
+		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\t-M versatilepb \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		echo -e '\t-net tap \' >> ${MF}
+		echo -e '\t-device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
+		echo -e '\t-netdev tap,id=net0 \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
         else
-                echo '	${QEMUT} -M vexpress-a9 -m 512M -net tap -device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=net0 -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/zImage -dtb ${ROOT}/linux/linux/arch/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\t-M vexpress-a9 \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		echo -e '\t-net tap \' >> ${MF}
+		echo -e '\t-device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
+		echo -e '\t-netdev tap,id=net0 \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
         fi
-elif [ ${ARCH}X = "3X" ]; then
-        echo '  ${QEMUT} -M virt -cpu cortex-a53 -smp 2 -m 1024M -kernel ${ROOT}/linux/linux/arch/${ARCH}/boot/Image -nodefaults -serial stdio -nographic -append "earlycon root=/dev/ram0 rw rootfstype=${EFS} console=ttyAMA0 init=/linuxrc loglevel=8" -initrd ${ROOT}/ramdisk.img' >> ${MF}
-fi
+	;;
+	arm64)
+		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\t-M virt \' >> ${MF}
+		echo -e '\t-cpu cortex-a53 \' >> ${MF}
+		echo -e '\t-smp 2 \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		echo -e '\t-net tap \' >> ${MF}
+		echo -e '\t-device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
+		echo -e '\t-netdev tap,id=net0 \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+	;;
+esac
 echo '}' >> ${MF}
 echo '' >> ${MF}
+##
+# Package Image
+#
+# -> Used to package a new image.
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
-echo '	cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
-echo '	dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
-echo '	${EFS_T} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
-echo '	mkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-echo '	sudo mount -t ${EFS} ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
-echo '	sudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
-echo '	sync' >> ${MF}
-echo '	sudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-echo '	gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
-echo '	mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/ramdisk.img' >> ${MF}
-echo '	rm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-echo '	rm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
+echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+echo -e '\tsudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk \' >> ${MF}
+echo -e '\t              ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
+echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
+echo -e '\tsync' >> ${MF}
+echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
+echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
+echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/ramdisk.img' >> ${MF}
+echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 echo '}' >> ${MF}
 echo '' >> ${MF}
-echo '# Running Kernel' >> ${MF}
-echo 'if [ X$1 = "Xstart" ]; then' >> ${MF}
-echo '	do_running' >> ${MF}
-echo 'fi' >> ${MF}
+
+## 
+# Command parse
+#
+echo '# Lunching Base Linux' >> ${MF}
+echo '[ X$1 = "Xstart" ] && do_running' >> ${MF}
 echo '' >> ${MF}
-echo 'if [ X$1 = "Xnet" ]; then' >> ${MF}
-echo '	if [ ! -f /etc/qemu-ifup ]; then' >> ${MF}
-echo '		cp -rf ${OUTPUT}/package/networking/qemu-ifup /etc/' >> ${MF}
-echo '		cp -rf ${OUTPUT}/package/networking/qemu-ifdown /etc/' >> ${MF}
-echo '	fi' >> ${MF}
-echo '	do_network' >> ${MF}
-echo 'fi' >> ${MF}
+echo '# Lunching Networking' >> ${MF}
+echo '[ X$1 = "Xnet" ] && do_network' >> ${MF}
 echo '' >> ${MF}
+echo '# Packing Image' >> ${MF}
+echo '[ X$1 = "Xpack" ] && do_package' >> ${MF}
 echo '' >> ${MF}
-echo 'if [ X$1 = "Xpack" ]; then' >> ${MF}
-echo '	do_package' >> ${MF}
-echo 'fi' >> ${MF}
-echo '' >> ${MF}
-echo 'if [ X$1 = "Xdebug" ]; then' >> ${MF}
-echo '	do_debug' >> ${MF}
-echo 'fi' >> ${MF}
+echo '# Launching Debug function' >> ${MF}
+echo '[ X$1 = "Xdebug" ] && do_debug' >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
 	echo '' >> ${MF}
-	echo 'if [ X$1 = "Xuboot" ]; then' >> ${MF}
-	echo '	do_uboot' >> ${MF}
-	echo 'fi' >> ${MF}
+	echo '[ X$1 = "Xuboot" ] && do_uboot' >> ${MF}
 fi
 chmod 755 ${MF}
 
 ## Auto create README.md
-MF=${OUTPUT}/README.md
-echo "Linux ${PROJ_NAME} Usermanual" >> ${MF}
+MF=${OUTPUT}/${README_NAME}
+echo "Linux ${PROJECT_NAME} Usermanual" >> ${MF}
 echo '--------------------------------' >> ${MF}
 echo '' > ${MF}
-if [ -f ${MF} ]; then
-	rm -rf ${MF}
-fi
+[ -f ${MF} ] && rm -rf ${MF}
 
+##
+# Uboot Configure and Compile
 if [ ${UBOOT} = "yX" ]; then
 	echo '# Build Uboot' >> ${MF}
 	echo '' >> ${MF}
@@ -213,24 +357,30 @@ if [ ${UBOOT} = "yX" ]; then
 	echo "cd ${OUTPUT}/u-boot/u-boot/" >> ${MF}
 	echo "make ARCH=arm clean" >> ${MF}
 	echo "make ARCH=arm vexpress_ca9x4_defconfig" >> ${MF}
-	echo "make ARCH=arm CROSS_COMPILE=${DEF_CROOS}" >> ${MF}
+	echo "make ARCH=arm CROSS_COMPILE=${DEF_KERNEL_CROSS}" >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 fi
+
+##
+# Kernel Configure and Compile
 echo '# Build Linux Kernel' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}/linux/linux"  >> ${MF}
 echo "make ARCH=${ARCH_TYPE} clean" >> ${MF}
-if [ ${ARCH}X = "2X" ]; then
-	if [ ${DMARCH}X = "NX" ]; then
+case ${ARCH_NAME} in
+	arm)
+	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
 		echo "make ARCH=${ARCH_TYPE} versatile_defconfig" >> ${MF}
 	else
 		echo "make ARCH=${ARCH_TYPE} vexpress_defconfig" >> ${MF}
 	fi
-elif [ ${ARCH}X = "3X" ]; then
-	echo "make ARCH=${ARCH_TYPE} defconfig" >> ${MF}
-fi
+	;;
+	arm64)
+		echo "make ARCH=${ARCH_TYPE} defconfig" >> ${MF}
+	;;
+esac
 echo '' >> ${MF}
 echo "make ARCH=${ARCH_TYPE} menuconfig" >> ${MF}
 echo '  General setup --->' >> ${MF}
@@ -240,31 +390,30 @@ echo '  Device Driver --->' >> ${MF}
 echo '    [*] Block devices --->' >> ${MF}
 echo '        <*> RAM block device support' >> ${MF}
 echo '        (153600) Default RAM disk size' >> ${MF}
-if [ ${EMARCH} = "Y" ]; then
-echo '  Kernel Features --->' >> ${MF}
-echo '    [*] Use the ARM EABI to compile the kernel' >> ${MF}
-echo '' >> ${MF}
-echo '  File systems --->' >> ${MF}
-echo '    <*> Ext3 journalling file system support' >> ${MF}
-echo '    [*]   Ext3 extended attributes' >> ${MF}
-echo '' >> ${MF}
-echo '  -*- Enable the block layer --->' >> ${MF}
-echo '    [*] Support for large (2TB+) block devices and files' >> ${MF}
-
+if [ ${KERNEL_2_6_SUP} = "Y" ]; then
+	echo '  Kernel Features --->' >> ${MF}
+	echo '    [*] Use the ARM EABI to compile the kernel' >> ${MF}
+	echo '' >> ${MF}
+	echo '  File systems --->' >> ${MF}
+	echo '    <*> Ext3 journalling file system support' >> ${MF}
+	echo '    [*]   Ext3 extended attributes' >> ${MF}
+	echo '' >> ${MF}
+	echo '  -*- Enable the block layer --->' >> ${MF}
+	echo '    [*] Support for large (2TB+) block devices and files' >> ${MF}
 fi
 echo '' >> ${MF}
-if [ ${ARCH}X = "2X" ]; then
-	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_CROOS} -j8" >> ${MF}
-	if [ ${KERN_DTB}X = "NX" ]; then
-		echo "" >> ${MF}
-	else
-		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_CROOS} dtbs" >> ${MF}
-	fi
-elif [ ${ARCH}X = "3X" ]; then
-	echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_CROOS} Image -j8" >> ${MF}
-fi
+case ${ARCH_NAME} in
+	arm)
+		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_KERNEL_CROSS} -j8" >> ${MF}
+	;;
+	arm64)
+		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_KERNEL_CROSS} Image -j8" >> ${MF}
+esac
 echo '```' >> ${MF}
 echo '' >> ${MF}
+
+##
+# Busybox Configure and Compile
 echo '# Build Busybox' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
@@ -275,10 +424,13 @@ echo '  Busybox Settings --->' >> ${MF}
 echo '    Build Options --->' >> ${MF}
 echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
 echo '' >> ${MF}
-echo "make CROSS_COMPILE=${DEF_CROOS} -j8" >> ${MF}
+echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} -j8" >> ${MF}
 echo '' >> ${MF}
-echo "make CROSS_COMPILE=${DEF_CROOS} install" >> ${MF}
+echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} install" >> ${MF}
 echo '```' >> ${MF}
+
+##
+# Running Uboot
 echo '' >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
 	echo '' >> ${MF}
@@ -286,140 +438,152 @@ if [ ${UBOOT} = "yX" ]; then
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunBiscuitOS.sh uboot' >> ${MF}
+	echo "./${RUNSCP_NAME} uboot" >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 fi
+
+##
+# Re-build Rootfs
 echo '' >> ${MF}
 echo '# Re-Build Rootfs' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
+
+##
+# Re-pack Rootfs
 echo "cd ${OUTPUT}" >> ${MF}
-echo './RunBiscuitOS.sh pack' >> ${MF}
+echo "./${RUNSCP_NAME} pack" >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
+
+##
+# Lanuch a Linux Disto
 echo '' >> ${MF}
 echo '# Running Linux on Qemu' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}" >> ${MF}
-echo './RunBiscuitOS.sh start' >> ${MF}
+echo "./${RUNSCP_NAME} start" >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
-if [ ${ARCH}X = "2X" ]; then # ARM32
-	echo '# Debugging zImage before Relocated' >> ${MF}
-	echo '' >> ${MF}
-	echo '### First Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunBiscuitOS.sh debug' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '### Second Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_zImage" >> ${MF}
-	echo '' >> ${MF}
-	echo '(gdb) b XXX_bk' >> ${MF}
-	echo '(gdb) c' >> ${MF}
-	echo '(gdb) info reg' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '# Debugging zImage After Relocated' >> ${MF}
-	echo '' >> ${MF}
-	echo '### First Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunBiscuitOS.sh debug' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '### Second Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RzImage" >> ${MF}
-	echo '' >> ${MF}
-	echo '(gdb) b XXX_bk' >> ${MF}
-	echo '(gdb) c' >> ${MF}
-	echo '(gdb) info reg' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '# Debugging kernel MMU OFF before start_kernel' >> ${MF}
-	echo '' >> ${MF}
-	echo '### First Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunBiscuitOS.sh debug' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '### Second Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_Image" >> ${MF}
-	echo '' >> ${MF}
-	echo '(gdb) b XXX_bk' >> ${MF}
-	echo '(gdb) c' >> ${MF}
-	echo '(gdb) info reg' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '# Debugging kernel MMU ON before start_kernel' >> ${MF}
-	echo '' >> ${MF}
-	echo '### First Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunBiscuitOS.sh debug' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '### Second Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RImage" >> ${MF}
-	echo '' >> ${MF}
-	echo '(gdb) b XXX_bk' >> ${MF}
-	echo '(gdb) c' >> ${MF}
-	echo '(gdb) info reg' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '# Debugging kernel after start_kernel' >> ${MF}
-	echo '' >> ${MF}
-	echo '### First Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "cd ${OUTPUT}" >> ${MF}
-	echo './RunBiscuitOS.sh debug' >> ${MF}
-	echo '```' >> ${MF}
-	echo '' >> ${MF}
-	echo '### Second Terminal' >> ${MF}
-	echo '' >> ${MF}
-	echo '```' >> ${MF}
-	echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux -x ${OUTPUT}/package/gdb/gdb_Kernel" >> ${MF}
-	echo '' >> ${MF}
-	echo '(gdb) b XXX_bk' >> ${MF}
-	echo '(gdb) c' >> ${MF}
-	echo '(gdb) info reg' >> ${MF}
-	echo '```' >> ${MF}
-elif [ ${ARCH}X = "3X" ]; then # ARM64
-        echo '# Debugging Linux Kernel' >> ${MF}
-        echo '' >> ${MF}
-        echo '### First Terminal' >> ${MF}
-        echo '' >> ${MF}
-        echo '```' >> ${MF}
-        echo "cd ${OUTPUT}" >> ${MF}
-        echo './RunBiscuitOS.sh debug' >> ${MF}
-        echo '```' >> ${MF}
-        echo '' >> ${MF}
-        echo '### Second Terminal' >> ${MF}
-        echo '' >> ${MF}
-        echo '```' >> ${MF}
-        echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux" >> ${MF}
-        echo '' >> ${MF}
-        echo '(gdb) target remote :1234' >> ${MF}
-        echo '(gdb) b start_kernel' >> ${MF}
-        echo '(gdb) c' >> ${MF}
-        echo '(gdb) info reg' >> ${MF}
-        echo '```' >> ${MF}
-        echo '' >> ${MF}
-fi
+case ${ARCH_NAME} in
+	arm)
+		echo '# Debugging zImage before Relocated' >> ${MF}
+		echo '' >> ${MF}
+		echo '### First Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "cd ${OUTPUT}" >> ${MF}
+		echo "./${RUNSCP_NAME} debug" >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '### Second Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_zImage" >> ${MF}
+		echo '' >> ${MF}
+		echo '(gdb) b XXX_bk' >> ${MF}
+		echo '(gdb) c' >> ${MF}
+		echo '(gdb) info reg' >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '# Debugging zImage After Relocated' >> ${MF}
+		echo '' >> ${MF}
+		echo '### First Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "cd ${OUTPUT}" >> ${MF}
+		echo "./${RUNSCP_NAME} debug" >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '### Second Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RzImage" >> ${MF}
+		echo '' >> ${MF}
+		echo '(gdb) b XXX_bk' >> ${MF}
+		echo '(gdb) c' >> ${MF}
+		echo '(gdb) info reg' >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '# Debugging kernel MMU OFF before start_kernel' >> ${MF}
+		echo '' >> ${MF}
+		echo '### First Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "cd ${OUTPUT}" >> ${MF}
+		echo "./${RUNSCP_NAME} debug" >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '### Second Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_Image" >> ${MF}
+		echo '' >> ${MF}
+		echo '(gdb) b XXX_bk' >> ${MF}
+		echo '(gdb) c' >> ${MF}
+		echo '(gdb) info reg' >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '# Debugging kernel MMU ON before start_kernel' >> ${MF}
+		echo '' >> ${MF}
+		echo '### First Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "cd ${OUTPUT}" >> ${MF}
+		echo "./${RUNSCP_NAME} debug" >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '### Second Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RImage" >> ${MF}
+		echo '' >> ${MF}
+		echo '(gdb) b XXX_bk' >> ${MF}
+		echo '(gdb) c' >> ${MF}
+		echo '(gdb) info reg' >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '# Debugging kernel after start_kernel' >> ${MF}
+		echo '' >> ${MF}
+		echo '### First Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "cd ${OUTPUT}" >> ${MF}
+		echo "./${RUNSCP_NAME} debug" >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '### Second Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux -x ${OUTPUT}/package/gdb/gdb_Kernel" >> ${MF}
+		echo '' >> ${MF}
+		echo '(gdb) b XXX_bk' >> ${MF}
+		echo '(gdb) c' >> ${MF}
+		echo '(gdb) info reg' >> ${MF}
+		echo '```' >> ${MF}
+		;;
+	arm64)
+		echo '# Debugging Linux Kernel' >> ${MF}
+		echo '' >> ${MF}
+		echo '### First Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "cd ${OUTPUT}" >> ${MF}
+		echo "./${RUNSCP_NAME} debug" >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		echo '### Second Terminal' >> ${MF}
+		echo '' >> ${MF}
+		echo '```' >> ${MF}
+		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux" >> ${MF}
+		echo '' >> ${MF}
+		echo '(gdb) target remote :1234' >> ${MF}
+		echo '(gdb) b start_kernel' >> ${MF}
+		echo '(gdb) c' >> ${MF}
+		echo '(gdb) info reg' >> ${MF}
+		echo '```' >> ${MF}
+		echo '' >> ${MF}
+		;;
+esac

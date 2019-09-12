@@ -1,0 +1,31 @@
+menuconfig PK_PYTHON2_7
+	bool "python2.7"
+
+if PK_PYTHON2_7
+
+config PYTHON2_7_VERSION
+	default "2.7.13"
+	string "verstion"
+
+config PYTHON2_7_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PYTHON2_7_URL
+	default "https://www.python.org/ftp/python/2.7.13/"
+	string "url"
+
+config PYTHON2_7_SRC
+	string "source code list"
+
+config PYTHON2_7_LDFLAGS
+	string "LDFLAGS"
+
+config PYTHON2_7_CFLAGS
+	string "CFLAGS"
+
+config PYTHON2_7_CONFIG
+	default "--build=x86_64-linux-gnu --enable-ipv6 --enable-shared ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
+	string "configure"
+
+endif # PK_PYTHON2_7

@@ -1,0 +1,30 @@
+menuconfig PK_SCRNSAVERPROTO
+	bool "scrnsaverproto"
+
+if PK_SCRNSAVERPROTO
+
+config SCRNSAVERPROTO_VERSION
+	default "1.2.2"
+	string "verstion"
+
+config SCRNSAVERPROTO_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config SCRNSAVERPROTO_URL
+	default "http://repository.timesys.com/buildsources/s/scrnsaverproto/scrnsaverproto-1.2.2/"
+	string "url"
+
+config SCRNSAVERPROTO_SRC
+	string "source code list"
+
+config SCRNSAVERPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config SCRNSAVERPROTO_CFLAGS
+	string "CFLAGS"
+
+config SCRNSAVERPROTO_CONFIG
+	string "configure"
+
+endif # PK_SCRNSAVERPROTO

@@ -1,0 +1,12 @@
+diff -uprN cairo-1.8.0/src/cairo-scaled-font-subsets.c cairo-1.8.0_or/src/cairo-scaled-font-subsets.c
+--- cairo-1.8.0/src/cairo-scaled-font-subsets.c	2008-09-25 19:36:35.000000000 +0800
++++ cairo-1.8.0_or/src/cairo-scaled-font-subsets.c	2019-08-28 09:25:32.088952700 +0800
+@@ -992,7 +992,7 @@ _cairo_scaled_font_subset_create_glyph_n
+ 	utf16 = NULL;
+ 	utf16_len = 0;
+ 	if (utf8 && *utf8) {
+-	    status = _cairo_utf8_to_utf16 (utf8, -1, &utf16, &utf16_len);
++	    status = _cairo_utf8_to_ucs4 (utf8, -1, &utf16, &utf16_len);
+ 	    if (status)
+ 		return status; /* FIXME */
+ 	}

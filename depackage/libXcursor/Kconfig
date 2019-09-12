@@ -1,0 +1,34 @@
+menuconfig PK_LIBXCURSOR
+	bool "libXcursor"
+
+if PK_LIBXCURSOR
+
+config LIB_LIBXCURSOR_VERSION
+	default "1.1.13" if X11R7_7
+	default "1.1.13"
+	#default "1.13"
+	string "verstion"
+
+config LIB_LIBXCURSOR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config LIB_LIBXCURSOR_URL
+	default "https://www.x.org/releases/X11R7.7/src/lib/" if X11R7_7
+	default "https://www.x.org/releases/X11R7.7/src/lib/"
+	#default "https://www.x.org/releases/individual/xcb/"
+	string "url"
+
+config LIB_LIBXCURSOR_SRC
+	string "source code list"
+
+config LIB_LIBXCURSOR_LDFLAGS
+	string "LDFLAGS"
+
+config LIB_LIBXCURSOR_CFLAGS
+	string "CFLAGS"
+
+config LIB_LIBXCURSOR_CONFIG
+	string "configure"
+
+endif # PK_LIBXCURSOR

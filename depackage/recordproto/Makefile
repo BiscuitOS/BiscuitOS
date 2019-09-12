@@ -1,0 +1,32 @@
+################################################
+#
+# recordproto
+#
+################################################
+RECORDPROTO_NAME		:= recordproto
+RECORDPROTO_VERSION		:= $(CONFIG_RECORDPROTO_VERSION)
+RECORDPROTO_SITE		:= $(CONFIG_RECORDPROTO_URL)
+RECORDPROTO_GITHUB		:= 
+RECORDPROTO_SUBNAME		:= 
+RECORDPROTO_DIR			:= $(srctree)/package/recordproto
+RECORDPROTO_PATCH		:= $(srctree)/package/recordproto/patch
+RECORDPROTO_DEMO		:= $(srctree)/package/recordproto/demo.c
+RECORDPROTO_OUT			:= 
+RECORDPROTO_SCRIPTS		:= $(srctree)/scripts/package/GNU-package.sh
+RECORDPROTO_TAR			:= $(CONFIG_RECORDPROTO_TAR)
+RECORDPROTO_PACKAGE		:= 
+RECORDPROTO_CONFIG		:=
+SUB_TARGET			+= $(RECORDPROTO_DIR)/build
+
+RECORDPROTO_sh = $(CONFIG_SHELL) $(RECORDPROTO_SCRIPTS) \
+               $1 $(RECORDPROTO_NAME)X $(RECORDPROTO_VERSION)X \
+               $(RECORDPROTO_SITE)X $(RECORDPROTO_GITHUB)X \
+               $(RECORDPROTO_PATCH)X 5.0 \
+	       $(CONFIG_RECORDPROTO_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
+               $(RECORDPROTO_TAR) $(CONFIG_ARCH_MAGIC)X \
+               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(RECORDPROTO_SUBNAME)X \
+               $(RECORDPROTO_CONFIG)X $(CONFIG_RECORDPROTO_CONFIG)X \
+	       $(CONFIG_RECORDPROTO_LDFLAGS) $(CONFIG_RECORDPROTO_CFLAGS)
+
+$(RECORDPROTO_DIR)/build: FORCE
+	$(Q)$(call RECORDPROTO_sh,$(srctree))

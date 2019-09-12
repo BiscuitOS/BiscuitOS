@@ -1,0 +1,30 @@
+menuconfig PK_GTK_XFCE_ENGINE
+	bool "gtk-xfce-engine"
+
+if PK_GTK_XFCE_ENGINE
+
+config GTK_XFCE_ENGINE_VERSION
+	default "2.10.0" if XFCER4
+	string "verstion"
+
+config GTK_XFCE_ENGINE_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config GTK_XFCE_ENGINE_URL
+	default "http://archive.xfce.org/src/xfce/" if XFCER4
+	string "url"
+
+config GTK_XFCE_ENGINE_SRC
+	string "source code list"
+
+config GTK_XFCE_ENGINE_LDFLAGS
+	string "LDFLAGS"
+
+config GTK_XFCE_ENGINE_CFLAGS
+	string "CFLAGS"
+
+config GTK_XFCE_ENGINE_CONFIG
+	string "configure"
+
+endif # PK_GTK_XFCE_ENGINE

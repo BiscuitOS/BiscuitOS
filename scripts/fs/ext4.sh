@@ -24,7 +24,7 @@ KERN_DTB=
 DMARCH=
 EMARCH=X
 
-# detect kernel version
+
 KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
 if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
      ${KER_MAJ}X = "3.1X" -o ${KER_MAJ}X = "3.2X" -o ${KER_MAJ}X = "3.3X" -o \

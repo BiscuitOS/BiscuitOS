@@ -1,0 +1,30 @@
+menuconfig PK_RENDERPROTO
+	bool "renderproto"
+
+if PK_RENDERPROTO
+
+config RENDERPROTO_VERSION
+	default "0.11.1"
+	string "verstion"
+
+config RENDERPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config RENDERPROTO_URL
+	default "https://www.x.org/releases/X11R7.7/src/proto/"
+	string "url"
+
+config RENDERPROTO_SRC
+	string "source code list"
+
+config RENDERPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config RENDERPROTO_CFLAGS
+	string "CFLAGS"
+
+config RENDERPROTO_CONFIG
+	string "configure"
+
+endif # PK_RENDERPROTO

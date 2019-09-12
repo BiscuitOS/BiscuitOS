@@ -1,0 +1,30 @@
+menuconfig PK_RANDRPROTO
+	bool "randrproto"
+
+if PK_RANDRPROTO
+
+config RANDRPROTO_VERSION
+	default "1.3.2"
+	string "verstion"
+
+config RANDRPROTO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config RANDRPROTO_URL
+	default "https://www.x.org/releases/X11R7.7/src/proto/"
+	string "url"
+
+config RANDRPROTO_SRC
+	string "source code list"
+
+config RANDRPROTO_LDFLAGS
+	string "LDFLAGS"
+
+config RANDRPROTO_CFLAGS
+	string "CFLAGS"
+
+config RANDRPROTO_CONFIG
+	string "configure"
+
+endif # PK_RANDRPROTO
