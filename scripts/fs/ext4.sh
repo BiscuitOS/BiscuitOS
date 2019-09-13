@@ -31,12 +31,9 @@ if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
      ${KER_MAJ}X = "3.4X" ]; then
 	KERN_DTB=N
 fi
-if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" ]; then
-	DMARCH=N	
-fi
-if [ ${KERNEL_VER:0:3} = "2.6" ]; then
-	EMARCH=Y
-fi
+
+[ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" ] && DMARCH=N	
+[ ${KERNEL_VER:0:3} = "2.6" ] && EMARCH=Y
 
 rm -rf ${OUTPUT}/rootfs/
 mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}
@@ -52,43 +49,81 @@ mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/init.d
 ### rcS
 RC=${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/init.d/rcS
 ## Auto create rcS file
-echo 'mkdir -p /proc' >> ${RC}
-echo 'mkdir -p /tmp' >> ${RC}
-echo 'mkdir -p /sys' >> ${RC}
-echo 'mkdir -p /mnt' >> ${RC}
-echo '/bin/mount -a' >> ${RC}
-echo 'mkdir -p /dev/pts' >> ${RC}
-echo 'mount -t devpts devpts /dev/pts' >> ${RC}
-echo 'echo /sbin/mdev > /proc/sys/kernel/hotplug' >> ${RC}
-echo 'mdev -s' >> ${RC}
-echo '' >> ${RC}
-echo 'echo " ____  _                _ _    ___  ____  "' >> ${RC}
-echo 'echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "' >> ${RC}
-echo 'echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "' >> ${RC}
-echo 'echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"' >> ${RC}
-echo 'echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "' >> ${RC}
-echo '' >> ${RC}
-echo 'echo "Welcome to BiscuitOS"' >> ${RC}
+cat << EOF > ${RC}
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:
+SHELL=/bin/ash
+export PATH SHELL
+mkdir -p /proc
+mkdir -p /tmp
+mkdir -p /sys
+mkdir -p /mnt
+mkdir -p /nfs
+/bin/mount -a
+/bin/hostname BiscuitOS
+
+# Netwroking
+ifconfig eth0 up
+# Setup default gw
+# -> route add default gw gatway_ipaddr
+
+mkdir -p /dev/pts
+mount -t devpts devpts /dev/pts
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+mdev -s
+/usr/sbin/telnetd &
+
+echo " ____  _                _ _    ___  ____  "
+echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
+echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "
+echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
+echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
+
+echo "Welcome to BiscuitOS"
+EOF
 chmod 755 ${RC}
 
 ### fstab
 RC=${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/fstab
 ## Auto create fstab file
-echo 'proc /proc proc defaults 0 0' >> ${RC}
-echo 'tmpfs /tmp tmpfs defaults 0 0' >> ${RC}
-echo 'sysfs /sys sysfs defaults 0 0' >> ${RC}
-echo 'tmpfs /dev tmpfs defaults 0 0' >> ${RC}
-echo 'debugfs /sys/kernel/debug debugfs defaults 0 0' >> ${RC}
-echo '' >> ${RC}
+cat << EOF > ${RC}
+proc /proc proc defaults 0 0
+tmpfs /tmp tmpfs defaults 0 0
+sysfs /sys sysfs defaults 0 0
+tmpfs /dev tmpfs defaults 0 0
+debugfs /sys/kernel/debug debugfs defaults 0 0
+EOF
 chmod 664 ${RC}
 
 ### inittab
 RC=${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/inittab
 ## Auto create initab file
-echo '::sysinit:/etc/init.d/rcS' >> ${RC}
-echo '::respawn:-/bin/sh' >> ${RC}
-echo '::askfirst:-/bin/sh' >> ${RC}
-echo '::ctrlaltdel:/bin/umount -a -r' >> ${RC}
+cat << EOF > ${RC}
+::sysinit:/etc/init.d/rcS
+::respawn:-/bin/sh
+::askfirst:-/bin/sh
+::ctrlaltdel:/sbin/reboot
+::shutdown:/bin/umount -a -r
+EOF
+
+## group
+RC=${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/group
+cat << EOF > ${RC}
+root::0:root
+EOF
+
+## passwd
+RC=${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/passwd
+cat << EOF > ${RC}
+root::0:0:root:/:/bin/sh
+EOF
+
+## passwd
+RC=${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/resolv.conf
+cat << EOF > ${RC}
+nameserver 1.2.4.8
+nameserver 8.8.8.8
+EOF
+
 
 mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib
 if [ ${EMARCH} = "Y" ]; then
@@ -121,9 +156,7 @@ gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz
 mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/ramdisk.img
 rm -rf ${OUTPUT}/rootfs/tmpfs
 rm -rf ${OUTPUT}/rootfs/ramdisk
-if [ -d ${OUTPUT}/rootfs/rootfs ]; then
-	rm -rf ${OUTPUT}/rootfs/rootfs
-fi
+[ -d ${OUTPUT}/rootfs/rootfs ] && rm -rf ${OUTPUT}/rootfs/rootfs
 ln -s ${OUTPUT}/rootfs/${ROOTFS_NAME} ${OUTPUT}/rootfs/rootfs
 
 ## Auto build README.md
@@ -132,9 +165,7 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 
 ## Output directory
 echo ""
-if [ "${BS_SILENCE}X" != "trueX" ]; then
-	figlet BiscuitOS
-fi
+[ "${BS_SILENCE}X" != "trueX" ] && figlet BiscuitOS
 echo "***********************************************"
 echo "Output:"
 echo -e "\033[31m ${OUTPUT} \033[0m"

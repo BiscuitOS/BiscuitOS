@@ -12,19 +12,29 @@
 #
 
 [ ! -n "$1" ] && echo "Unknown NetWork Configure" && exit 0
-echo "Configure BiscuitOS Networking $1........"
-echo "Default Bridge bsBridge0 and Default Tap $1"
+echo "[BiscuitOS] Configure BiscuitOS Networking: $1"
 
 # Tap
-TAP=bsTap0
+TAP=$1
 # Bridge
 BRIDGE=bsBridge0
-IP=
+
+NET_CFG=/tmp/BiscuitOS_NetCfg.cfg
+[ ! -f ${NET_CFG} ] && echo "${NET_CFG} doesn't exist" && exit 0
+uGW=`sed -n 2p ${NET_CFG}`
+uBG=`sed -n 1p ${NET_CFG}`
+uIC=`sed -n 3p ${NET_CFG}`
+DEFAULT_GW=${uGW#* }
+BRIDGE_IP=${uBG#* }
+NIC=${uIC#* }
+
+IP=${BRIDGE_IP}
 MASK=
-AIP=192
-BIP=88
-CIP=28
-DIP=88
+AIP=
+BIP=
+uBIP=
+CIP=
+DIP=
 NIC=
 GW=
 
@@ -49,20 +59,29 @@ nic_check()
 #
 # Obtain valid netcard and IP
 # Current IP addr
-# -> ifconfig | grep 'inet addr:' | grep -v '127.0.0.1' | cut -d: -f2 | awk '{print $1}'
+# -> ifconfig | grep 'inet addr:' | grep -v '127.0.0.1' | cut -d: -f2 | awk '{print $2}'
 #
 get_current_ip_nic()
 {
 	nics=$(route -n | grep ^0.0.0.0 | awk '{print $8}')
 	for nic in ${nics}
 	do
-		ip=$(ifconfig $nic | grep -E 'inet\s+' | sed -E -e 's/inet\s+\S+://g' | awk '{print $1}')
+		ip=$(ifconfig $nic | grep -E 'inet\s+' | sed -E -e 's/inet\s+\S+://g' | awk '{print $2}')
 		ping -I ${nic} www.baidu.com -c1 -W1 -w 0.1 > /dev/null 2>&1
 		[ $? -eq 0 ] && NIC=${nic} && IP=${ip} && return 0
 	done
 
 	[ -z ${NIC} ] && echo "Can't find valid NetCard." && return 1
 	[ -z ${IP} ] && echo "Invalid IP for ${NIC}" && return 1
+}
+
+# 
+# Check NIC whether configure IP
+check_ip()
+{
+	ip=$(ifconfig $1 | grep -E 'inet\s+' | sed -E -e 's/inet\s+\S+://g' | awk '{print $2}')
+	[ ! ${ip} ] && return 1
+	return 0
 }
 
 # Calculate AIP, BIP, CIP, DIP field. Default MASK is 255.255.255.0
@@ -78,9 +97,7 @@ ip_calculate()
 	tmpip2=${IP#*.}
 
 	# B class IP Address field
-	uBIP=${tmpip2%%.*}
-	# User private B class field
-	[ ${uBIP} -eq ${BIP} ] && BIP=$((${BIP}-1))
+	BIP=${tmpip2%%.*}
 	# C class IP Address field
 	CIP=${tmpip1##*.}
 
@@ -93,9 +110,6 @@ ip_calculate()
 #
 establish_net()
 {
-	# Establish bridge on Host
-	nic_check ${BRIDGE} ; [ $? = 1 ] && sudo brctl addbr ${BRIDGE}
-
 	# Establish TAP on Host
 	nic_check ${TAP} ; [ $? = 1 ] && sudo tunctl -b -t ${TAP}
 }
@@ -119,39 +133,23 @@ default_gw()
 	GW=${uGW%% *}
 }
 
-# Get Current IP and NIC
-get_current_ip_nic ; [ $? = 1 ] && exit 0
-
 # Calculate IP: A,B,C,D field and Mask
 ip_calculate
 
-# Establish TAP and Birdge
+# Establish TAP
 establish_net
 
-# Enable Bridge and Tap
-sudo ifconfig ${BRIDGE} up
-sudo ifconfig ${TAP} up
-
-# Insert TAP into Bridge
-sudo brctl addif ${BRIDGE} ${TAP} > /dev/null 2>&1
-
-# Allocate IP for Birdge
-sudo ifconfig ${BRIDGE} ${AIP}.${BIP}.1.1/24
 # Allocate IP for TAP
 allocate_ip 
-sudo ifconfig ${TAP} ${AIP}.${BIP}.${CIP}.${DIP}/24 netmask ${MASK}
+sudo ifconfig ${TAP} ${AIP}.${BIP}.${CIP}.${DIP}/24 netmask ${MASK} promisc up
 
-# Setup Gatway
-# obtain default gw for $NIC
-default_gw
-[ ! ${GW} ] && GW=${AIP}.${BIP}.1.1
-# Add all IP field into default gatway
-sudo route add -net 0.0.0.0 netmask 0.0.0.0 gw ${GW}
+# Insert TAP into Bridge
+sudo brctl addif ${BRIDGE} ${TAP}
+
 # Add Tap into Bridge
-sudo route add -net ${AIP}.${BIP}.0.0 gw ${AIP}.${BIP}.1.1 netmask 255.255.0.0
+# sudo route add -net ${AIP}.${BIP}.${CIP}.${DIP} gw ${BRIDGE_IP} netmask 255.255.0.0
 
-# Tun on forward on Host
-sudo echo 1 > /proc/sys/net/ipv4/ip_forward
-
-# Setup NAT
-iptables -t nat -A POSTROUTING -o ${NIC} -j MASQUERADE
+# Store Netwrok configure information
+cat << EOF >> ${NET_CFG}
+[${TAP}] ${AIP}.${BIP}.${CIP}.${DIP}
+EOF

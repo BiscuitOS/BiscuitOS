@@ -11,11 +11,35 @@
 # published by the Free Software Foundation.
 #
 BRIDGE=bsBridge0
+TAP=$1
+
+NET_CFG=/tmp/BiscuitOS_NetCfg.cfg
+
+[ ! -f ${NET_CFG} ] && echo "${NET_CFG} doesn't exist" && exit 0
+uGW=`sed -n 2p ${NET_CFG}`
+uBG=`sed -n 1p ${NET_CFG}`
+uTA=`sed -n 4p ${NET_CFG}`
+uIC=`sed -n 3p ${NET_CFG}`
+DEFAULT_GW=${uGW#* }
+BRIDGE_IP=${uBG#* }
+TAP_IP=${uTA#* }
+NIC=${uIC#* }
+
+# Remove TAP
+sudo ifconfig ${TAP} down
+sudo tunctl -d ${TAP} > /dev/null 2>&1
+
+# Remove route
 
 # Remove TAP from Bridge
-sudo brctl delif ${BRIDGE} $1
+sudo brctl delif ${BRIDGE} ${TAP}
+sudo ifconfig ${BRIDGE} down
 
-# 
+if [ ${TAP} != "bsTap0" ]; then
+	sudo brctl stp ${BRIDGE} off
+	sudo brctl delbr ${BRIDGE}
 
-
-echo "Closing BiscuitOS Networking $1"
+	# Remove leacy NETcfg file
+	rm -rf ${NET_CFG} > /dev/null 2>&1
+fi
+echo "[BiscuitOS] Closing BiscuitOS TAP: $1"

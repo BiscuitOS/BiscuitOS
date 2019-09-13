@@ -104,6 +104,7 @@ cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
 # Networking Stuff
 mkdir -p ${OUTPUT}/package/networking
 cp ${ROOT}/scripts/rootfs/qemu-if* ${OUTPUT}/package/networking
+cp ${ROOT}/scripts/rootfs/bridge.sh ${OUTPUT}/package/networking
 
 ## 
 # Auto create Running scripts
@@ -134,7 +135,8 @@ FS_TYPE_TOOLS=${FS_TYPE_TOOLS}
 ROOTFS_SIZE=150
 RAM_SIZE=512
 EOF
-echo 'LINUX_DIR=${ROOT}/linux/linux/arch/' >> ${MF}
+echo 'LINUX_DIR=${ROOT}/linux/linux/arch' >> ${MF}
+echo 'NET_CFG=${ROOT}/package/networking' >> ${MF}
 echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
 	echo "UBOOT=${OUTPUT}/u-boot/u-boot" >> ${MF}
@@ -254,8 +256,8 @@ case ${ARCH_NAME} in
 		echo -e '\t-M versatilepb \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-net tap \' >> ${MF}
-		echo -e '\t-device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
-		echo -e '\t-netdev tap,id=net0 \' >> ${MF}
+		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
+		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
@@ -267,8 +269,8 @@ case ${ARCH_NAME} in
 		echo -e '\t-M vexpress-a9 \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-net tap \' >> ${MF}
-		echo -e '\t-device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
-		echo -e '\t-netdev tap,id=net0 \' >> ${MF}
+		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
+		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
 		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
@@ -285,8 +287,8 @@ case ${ARCH_NAME} in
 		echo -e '\t-smp 2 \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-net tap \' >> ${MF}
-		echo -e '\t-device virtio-net-device,netdev=net0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
-		echo -e '\t-netdev tap,id=net0 \' >> ${MF}
+		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
+		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
@@ -327,9 +329,6 @@ echo '' >> ${MF}
 echo '# Lunching Base Linux' >> ${MF}
 echo '[ X$1 = "Xstart" ] && do_running' >> ${MF}
 echo '' >> ${MF}
-echo '# Lunching Networking' >> ${MF}
-echo '[ X$1 = "Xnet" ] && do_network' >> ${MF}
-echo '' >> ${MF}
 echo '# Packing Image' >> ${MF}
 echo '[ X$1 = "Xpack" ] && do_package' >> ${MF}
 echo '' >> ${MF}
@@ -339,6 +338,15 @@ if [ ${UBOOT} = "yX" ]; then
 	echo '' >> ${MF}
 	echo '[ X$1 = "Xuboot" ] && do_uboot' >> ${MF}
 fi
+echo '' >> ${MF}
+echo '# Lunching Networking' >> ${MF}
+echo 'if [ X$1 = "Xnet" ]; then' >> ${MF}
+echo -e '\t# Establish Netwroking' >> ${MF}
+echo -e '\t${NET_CFG}/bridge.sh' >> ${MF}
+echo -e '\tcp -rf ${NET_CFG}/qemu-ifup /etc' >> ${MF}
+echo -e '\tcp -rf ${NET_CFG}/qemu-ifdown /etc' >> ${MF}
+echo -e '\tdo_network' >> ${MF}
+echo 'fi' >> ${MF}
 chmod 755 ${MF}
 
 ## Auto create README.md
