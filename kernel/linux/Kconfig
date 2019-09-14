@@ -96,6 +96,14 @@ config LINUX_KERNEL_CROSS_COMPILE
 
 endif # ARM64
 
+if RISCV64
+
+config LINUX_KERNEL_CROSS_COMPILE
+	string
+	default "riscv64-linux-gnu"
+
+endif # RISCV64
+
 endif # PK_LINUX_KERNEL
 
 endmenu

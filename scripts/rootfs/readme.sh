@@ -20,6 +20,7 @@ GCC=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
 UBOOT=${15}
 UBOOT_CROSS=${16%X}
 KERNEL_VER=${7%X}
+FREEZE_NAME=${17%X}
 KERNEL_2_6_SUP=X
 UCROSS_PATH=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}
 KCROSS_PATH=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
@@ -31,7 +32,6 @@ RUNSCP_NAME=RunBiscuitOS.sh
 ##
 ## Architecture information
 ARCH=${11%X}
-ARCH_TYPE=
 ARCH_NAME=
 
 # Architecture Detect
@@ -156,7 +156,7 @@ echo '{' >> ${MF}
 case ${ARCH_NAME} in
 	arm) 
 	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
-		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} \' >> ${MF}
 		echo -e '\t-M versatilepb \' >> ${MF}
 		echo -e '\t-m 256M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
@@ -164,9 +164,11 @@ case ${ARCH_NAME} in
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0' >> ${MF}
 	else
-		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} \' >> ${MF}
 		echo -e '\t-M vexpress-a9 \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
@@ -175,11 +177,13 @@ case ${ARCH_NAME} in
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0' >> ${MF}
 	fi
 	;;
 	arm64)
-		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} \' >> ${MF}
 		echo -e '\t-M virt \' >> ${MF}
 		echo -e '\t-cpu cortex-a53 \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
@@ -189,7 +193,9 @@ case ${ARCH_NAME} in
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0' >> ${MF}
 	;;
 esac
 echo '}' >> ${MF}
@@ -203,41 +209,47 @@ echo '{' >> ${MF}
 case ${ARCH_NAME} in
 	arm)
 	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
-		echo -e '\t${QEMUT} -s -S \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} -s -S \' >> ${MF}
 		echo -e '\t-M versatilepb \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
 	else
 		echo '	${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_TOOL}' >> ${MF}
-		echo -e '\t${QEMUT} -s -S \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} -s -S \' >> ${MF}
 		echo -e '\t-M vexpress-a9 \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
 		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
 	fi
 	;;
 	arm64)
-		echo -e '\t${QEMUT} -s -S \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} -s -S \' >> ${MF}
 		echo -e '\t-M virt \' >> ${MF}
 		echo -e '\t-cpu cortex-a53 \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
 	;;
 esac
 echo '}' >> ${MF}
@@ -252,20 +264,22 @@ echo '{' >> ${MF}
 case ${ARCH_NAME} in
 	arm)
         if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
-		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} \' >> ${MF}
 		echo -e '\t-M versatilepb \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-net tap \' >> ${MF}
 		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
 		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
         else
-		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} \' >> ${MF}
 		echo -e '\t-M vexpress-a9 \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-net tap \' >> ${MF}
@@ -274,14 +288,16 @@ case ${ARCH_NAME} in
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
 		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
         fi
 	;;
 	arm64)
-		echo -e '\t${QEMUT} \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} \' >> ${MF}
 		echo -e '\t-M virt \' >> ${MF}
 		echo -e '\t-cpu cortex-a53 \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
@@ -290,11 +306,13 @@ case ${ARCH_NAME} in
 		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
 		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
+		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/ramdisk.img' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
 	;;
 esac
 echo '}' >> ${MF}
@@ -317,11 +335,29 @@ echo -e '\tsync' >> ${MF}
 echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
 echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
-echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/ramdisk.img' >> ${MF}
+echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
 echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 echo '}' >> ${MF}
 echo '' >> ${MF}
+
+# Mount Freeze Image
+echo '' >>  ${MF}
+echo 'do_mount()' >>  ${MF}
+echo '{' >>  ${MF}
+echo -e '\tmkdir -p ${ROOT}/FreezeDir' >>  ${MF}
+echo -e '\tsudo mount -t ext4 ${ROOT}/Freeze.img ${ROOT}/FreezeDir -o loop' >>  ${MF}
+echo -e '\techo "Mount ${ROOT}/Freeze.img on ${ROOT}/FreezeDir"' >>  ${MF}
+echo '}' >>  ${MF}
+echo '' >>  ${MF}
+
+# Umount Freeze Image
+echo '' >>  ${MF}
+echo 'do_umount()' >>  ${MF}
+echo '{' >>  ${MF}
+echo -e '\tsudo umount ${ROOT}/FreezeDir > /dev/null 2>&1' >>  ${MF}
+echo '}' >>  ${MF}
+echo '' >>  ${MF}
 
 ## 
 # Command parse
@@ -342,24 +378,54 @@ echo '' >> ${MF}
 echo '# Lunching Networking' >> ${MF}
 echo 'if [ X$1 = "Xnet" ]; then' >> ${MF}
 echo -e '\t# Establish Netwroking' >> ${MF}
-echo -e '\t${NET_CFG}/bridge.sh' >> ${MF}
-echo -e '\tcp -rf ${NET_CFG}/qemu-ifup /etc' >> ${MF}
-echo -e '\tcp -rf ${NET_CFG}/qemu-ifdown /etc' >> ${MF}
+echo -e '\tsudo ${NET_CFG}/bridge.sh' >> ${MF}
+echo -e '\tsudo cp -rf ${NET_CFG}/qemu-ifup /etc' >> ${MF}
+echo -e '\tsudo cp -rf ${NET_CFG}/qemu-ifdown /etc' >> ${MF}
 echo -e '\tdo_network' >> ${MF}
 echo 'fi' >> ${MF}
+echo '' >> ${MF}
+echo '# Mount Freeze Disk' >> ${MF}
+echo '[ X$1 = "Xmount" ] && do_mount' >> ${MF}
+echo '' >> ${MF}
+echo '# Unount Freeze Disk' >> ${MF}
+echo '[ X$1 = "Xumount" ] && do_umount' >> ${MF}
+echo '' >> ${MF}
 chmod 755 ${MF}
 
 ## Auto create README.md
 MF=${OUTPUT}/${README_NAME}
-echo "Linux ${PROJECT_NAME} Usermanual" >> ${MF}
-echo '--------------------------------' >> ${MF}
-echo '' > ${MF}
 [ -f ${MF} ] && rm -rf ${MF}
+echo "BiscuitOS ${PROJECT_NAME} Usermanual" >> ${MF}
+echo '--------------------------------' >> ${MF}
+echo '' >> ${MF}
+echo '> - [Build Linux Kernel](#A0)' >> ${MF}
+echo '>' >> ${MF}
+echo '> - [Build Busybox](#A1)' >> ${MF}
+echo '>' >> ${MF}
+echo '> - [Re-Build Rootfs](#A2)' >> ${MF}
+echo '>' >> ${MF}
+echo '> - [Mount a Freeze Disk](#A3)' >> ${MF}
+echo '>' >> ${MF}
+echo '> - [Un-mount a Freeze Disk](#A4)' >> ${MF}
+echo '>' >> ${MF}
+echo '> - [Running BiscuitOS](#A5)' >> ${MF}
+echo '>' >> ${MF}
+echo '> - [Debugging BiscuitOS](#A6)' >> ${MF}
+echo '>' >> ${MF}
+echo '> - [Running BiscuitOS with NetWorking](#A7)' >> ${MF}
 
 ##
 # Uboot Configure and Compile
 if [ ${UBOOT} = "yX" ]; then
-	echo '# Build Uboot' >> ${MF}
+	echo '>' >> ${MF}
+	echo '> - [Build Uboot](#A8)' >> ${MF}
+	echo '>' >> ${MF}
+	echo '> - [Running Uboot](#A9)' >> ${MF}
+	echo '' >> ${MF}
+	echo '----------------------------------' >> ${MF}
+	echo '<span id="A8"></span>' >> ${MF}
+	echo '' >> ${MF}
+	echo '## Build Uboot' >> ${MF}
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}/u-boot/u-boot/" >> ${MF}
@@ -372,25 +438,30 @@ fi
 
 ##
 # Kernel Configure and Compile
-echo '# Build Linux Kernel' >> ${MF}
+
+echo '' >> ${MF}
+echo '---------------------------------' >> ${MF}
+echo '<span id="A0"></span>' >> ${MF}
+echo '' >> ${MF}
+echo '## Build Linux Kernel' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}/linux/linux"  >> ${MF}
-echo "make ARCH=${ARCH_TYPE} clean" >> ${MF}
+echo "make ARCH=${ARCH_NAME} clean" >> ${MF}
 case ${ARCH_NAME} in
 	arm)
 	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
-		echo "make ARCH=${ARCH_TYPE} versatile_defconfig" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} versatile_defconfig" >> ${MF}
 	else
-		echo "make ARCH=${ARCH_TYPE} vexpress_defconfig" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} vexpress_defconfig" >> ${MF}
 	fi
 	;;
 	arm64)
-		echo "make ARCH=${ARCH_TYPE} defconfig" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} defconfig" >> ${MF}
 	;;
 esac
 echo '' >> ${MF}
-echo "make ARCH=${ARCH_TYPE} menuconfig" >> ${MF}
+echo "make ARCH=${ARCH_NAME} menuconfig" >> ${MF}
 echo '  General setup --->' >> ${MF}
 echo '    ---> [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
 echo '' >> ${MF}
@@ -412,17 +483,20 @@ fi
 echo '' >> ${MF}
 case ${ARCH_NAME} in
 	arm)
-		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_KERNEL_CROSS} -j8" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} -j8" >> ${MF}
 	;;
 	arm64)
-		echo "make ARCH=${ARCH_TYPE} CROSS_COMPILE=${DEF_KERNEL_CROSS} Image -j8" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} Image -j8" >> ${MF}
 esac
 echo '```' >> ${MF}
 echo '' >> ${MF}
 
 ##
 # Busybox Configure and Compile
-echo '# Build Busybox' >> ${MF}
+echo '---------------------------------' >> ${MF}
+echo '<span id="A1"></span>' >> ${MF}
+echo '' >> ${MF}
+echo '## Build Busybox' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}/busybox/busybox" >> ${MF}
@@ -441,8 +515,10 @@ echo '```' >> ${MF}
 # Running Uboot
 echo '' >> ${MF}
 if [ ${UBOOT} = "yX" ]; then
+	echo '---------------------------------' >> ${MF}
+	echo '<span id="A9"></span>' >> ${MF}
 	echo '' >> ${MF}
-	echo '# Boot from Uboot' >> ${MF}
+	echo '## Running Uboot' >> ${MF}
 	echo '' >> ${MF}
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}" >> ${MF}
@@ -454,21 +530,53 @@ fi
 ##
 # Re-build Rootfs
 echo '' >> ${MF}
-echo '# Re-Build Rootfs' >> ${MF}
+echo '---------------------------------' >> ${MF}
+echo '<span id="A2"></span>' >> ${MF}
+echo '' >> ${MF}
+echo '## Re-Build Rootfs' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
-
-##
-# Re-pack Rootfs
 echo "cd ${OUTPUT}" >> ${MF}
 echo "./${RUNSCP_NAME} pack" >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
 
 ##
+# Mount a Freeze Disk
+echo '' >> ${MF}
+echo '---------------------------------' >> ${MF}
+echo '<span id="A3"></span>' >> ${MF}
+echo '' >> ${MF}
+echo '## Mount a Freeze Disk' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo "./${RUNSCP_NAME} mount" >> ${MF}
+echo "cd ${OUTPUT}/FreezeDir" >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+
+##
+# Un-mount a Freeze Disk
+echo '' >> ${MF}
+echo '---------------------------------' >> ${MF}
+echo '<span id="A4"></span>' >> ${MF}
+echo '' >> ${MF}
+echo '## Un-mount a Freeze Disk' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo "./${RUNSCP_NAME} umount" >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+
+##
 # Lanuch a Linux Disto
 echo '' >> ${MF}
-echo '# Running Linux on Qemu' >> ${MF}
+echo '---------------------------------' >> ${MF}
+echo '<span id="A5"></span>' >> ${MF}
+echo '' >> ${MF}
+echo '## Running BiscuitOS' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}" >> ${MF}
@@ -477,16 +585,34 @@ echo '```' >> ${MF}
 echo '' >> ${MF}
 case ${ARCH_NAME} in
 	arm)
-		echo '# Debugging zImage before Relocated' >> ${MF}
+		echo '---------------------------------' >> ${MF}
+		echo '<span id="A6"></span>' >> ${MF}
 		echo '' >> ${MF}
-		echo '### First Terminal' >> ${MF}
+		echo '## Debuging BiscuitOS' >> ${MF}
+		echo '' >> ${MF}
+		echo '> - [Debugging zImage before Relocated](#B0)' >> ${MF}
+		echo '>' >> ${MF}
+		echo '> - [Debugging zImage After Relocated](#B1)' >> ${MF}
+		echo '>' >> ${MF}
+		echo '> - [Debugging kernel MMU OFF before start_kernel](#B2)' >> ${MF}
+		echo '>' >> ${MF}
+		echo '> - [Debugging kernel MMU ON before start_kernel](#B3)' >> ${MF}
+		echo '>' >> ${MF}
+		echo '> - [Debugging kernel after start_kernel](#B4)' >> ${MF}
+		echo '' >> ${MF}
+		echo '--------------------------------' >> ${MF}
+		echo '<span id="B0"></span>' >> ${MF}
+		echo '' >> ${MF}
+		echo '#### Debugging zImage before Relocated' >> ${MF}
+		echo '' >> ${MF}
+		echo '###### First Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "cd ${OUTPUT}" >> ${MF}
 		echo "./${RUNSCP_NAME} debug" >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '### Second Terminal' >> ${MF}
+		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_zImage" >> ${MF}
@@ -496,16 +622,19 @@ case ${ARCH_NAME} in
 		echo '(gdb) info reg' >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '# Debugging zImage After Relocated' >> ${MF}
+		echo '--------------------------------' >> ${MF}
+		echo '<span id="B1"></span>' >> ${MF}
 		echo '' >> ${MF}
-		echo '### First Terminal' >> ${MF}
+		echo '#### Debugging zImage After Relocated' >> ${MF}
+		echo '' >> ${MF}
+		echo '###### First Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "cd ${OUTPUT}" >> ${MF}
 		echo "./${RUNSCP_NAME} debug" >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '### Second Terminal' >> ${MF}
+		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RzImage" >> ${MF}
@@ -515,16 +644,19 @@ case ${ARCH_NAME} in
 		echo '(gdb) info reg' >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '# Debugging kernel MMU OFF before start_kernel' >> ${MF}
+		echo '--------------------------------' >> ${MF}
+		echo '<span id="B2"></span>' >> ${MF}
 		echo '' >> ${MF}
-		echo '### First Terminal' >> ${MF}
+		echo '#### Debugging kernel MMU OFF before start_kernel' >> ${MF}
+		echo '' >> ${MF}
+		echo '###### First Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "cd ${OUTPUT}" >> ${MF}
 		echo "./${RUNSCP_NAME} debug" >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '### Second Terminal' >> ${MF}
+		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_Image" >> ${MF}
@@ -534,16 +666,19 @@ case ${ARCH_NAME} in
 		echo '(gdb) info reg' >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '# Debugging kernel MMU ON before start_kernel' >> ${MF}
+		echo '--------------------------------' >> ${MF}
+		echo '<span id="B3"></span>' >> ${MF}
 		echo '' >> ${MF}
-		echo '### First Terminal' >> ${MF}
+		echo '#### Debugging kernel MMU ON before start_kernel' >> ${MF}
+		echo '' >> ${MF}
+		echo '###### First Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "cd ${OUTPUT}" >> ${MF}
 		echo "./${RUNSCP_NAME} debug" >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '### Second Terminal' >> ${MF}
+		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RImage" >> ${MF}
@@ -553,16 +688,19 @@ case ${ARCH_NAME} in
 		echo '(gdb) info reg' >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '# Debugging kernel after start_kernel' >> ${MF}
+		echo '--------------------------------' >> ${MF}
+		echo '<span id="B4"></span>' >> ${MF}
 		echo '' >> ${MF}
-		echo '### First Terminal' >> ${MF}
+		echo '#### Debugging kernel after start_kernel' >> ${MF}
+		echo '' >> ${MF}
+		echo '###### First Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "cd ${OUTPUT}" >> ${MF}
 		echo "./${RUNSCP_NAME} debug" >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '### Second Terminal' >> ${MF}
+		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux -x ${OUTPUT}/package/gdb/gdb_Kernel" >> ${MF}
@@ -573,16 +711,19 @@ case ${ARCH_NAME} in
 		echo '```' >> ${MF}
 		;;
 	arm64)
-		echo '# Debugging Linux Kernel' >> ${MF}
-		echo '' >> ${MF}
-		echo '### First Terminal' >> ${MF}
+		echo '---------------------------------' >> ${MF}
+                echo '<span id="A6"></span>' >> ${MF}
+                echo '' >> ${MF}
+                echo '## Debuging BiscuitOS' >> ${MF}
+                echo '' >> ${MF}
+		echo '###### First Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "cd ${OUTPUT}" >> ${MF}
 		echo "./${RUNSCP_NAME} debug" >> ${MF}
 		echo '```' >> ${MF}
 		echo '' >> ${MF}
-		echo '### Second Terminal' >> ${MF}
+		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
 		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux" >> ${MF}
@@ -595,3 +736,17 @@ case ${ARCH_NAME} in
 		echo '' >> ${MF}
 		;;
 esac
+
+##
+# Lanuch BiscuitOS Networking
+echo '' >> ${MF}
+echo '---------------------------------' >> ${MF}
+echo '<span id="A7"></span>' >> ${MF}
+echo '' >> ${MF}
+echo '## Running BiscuitOS with NetWorking' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo "./${RUNSCP_NAME} net" >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}

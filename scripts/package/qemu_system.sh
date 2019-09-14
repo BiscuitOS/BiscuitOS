@@ -24,6 +24,8 @@ OUTPUT=${ROOT}/output/${PROJ_NAME}
 QEMU_FULL=${TOOL_SUBNAME%.${QEMU_TAR}}
 QEMU_DL_NAME=qemu-${QEMU_VERSION#v}.${QEMU_TAR}
 QEMU_UNTAR_NAME=qemu-${QEMU_VERSION#v}
+ARCH_MAGIC=${12%X}
+CONFIG=
 
 if [ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${QEMU_NAME}/version`
@@ -32,6 +34,29 @@ if [ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ]; then
                 exit 0
         fi
 fi
+
+case ${ARCH_MAGIC} in
+	1)
+	# X86
+	CONFIG=x86_64-softmmu,x86_64-linux-user
+	;;
+	2)
+	# ARM 32-bit
+	CONFIG=arm-softmmu,arm-linux-user,
+	;;
+	3)
+	# ARM 64-bit
+	CONFIG=aarch64-softmmu,aarch64-linux-user
+	;;
+	4)
+	# RISC-V 32-bit
+	CONFIG=riscv32-softmmu
+	;;
+	5)
+	# RISC-V 64-bit
+	CONFIG=riscv64-softmmu
+	;;
+esac
 
 ## Get from github
 if [ ${QEMU_SRC} = "1" ]; then
@@ -56,7 +81,7 @@ if [ ${QEMU_SRC} = "1" ]; then
 		echo -e "\033[31m qemu only support above version! \033[0m"
 		exit -1
 	fi
-	./configure --target-list=arm-softmmu,arm-linux-user,aarch64-softmmu,aarch64-linux-user,x86_64-softmmu,x86_64-linux-user --audio-drv-list=alsa --enable-virtfs
+	./configure --target-list=${CONFIG}
 	make -j8
 	echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
 	rm -rf ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
@@ -76,8 +101,7 @@ if [ ${QEMU_SRC} = "2" ]; then
 	BASE_FILE=${BASE_TAR%.${QEMU_TAR}}
 	tar -xvJf ${BASE_TAR}
 	cd ${BASE_FILE}
-	./configure --target-list=arm-softmmu,arm-linux-user,aarch64-softmmu,aarch64-linux-user,x86_64-softmmu,x86_64-linux-user 
-        # --audio-drv-list=alsa --enable-virtfs
+	./configure --target-list=${CONFIG}
         
         make -j8
         echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
@@ -98,8 +122,7 @@ if [ ${QEMU_SRC} = "3" ]; then
 	tar -xvJf ${QEMU_DL_NAME}
 	rm -rf ${QEMU_DL_NAME}
 	cd ${QEMU_UNTAR_NAME}
-        ./configure --target-list=arm-softmmu,arm-linux-user,aarch64-softmmu,aarch64-linux-user,x86_64-softmmu,x86_64-linux-user 
-	# --audio-drv-list=alsa --enable-virtfs
+        ./configure --target-list=${CONFIG}
         
 	make -j8
         echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version

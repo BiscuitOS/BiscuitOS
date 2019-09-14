@@ -12,6 +12,12 @@ config ARM
 config ARM64
 	bool "ARM 64-bit"
 
+config RISCV32
+	bool "RISC-V 32-bit"
+
+config RISCV64
+	bool "RISC-V 64-bit"
+
 endchoice
 
 config ARCH_MAGIC
@@ -19,5 +25,7 @@ config ARCH_MAGIC
 	default "1" if x86
 	default "2" if ARM
 	default "3" if ARM64
+	default "4" if RISCV32
+	default "5" if RISCV64
 
 endmenu

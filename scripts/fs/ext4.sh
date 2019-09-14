@@ -24,7 +24,6 @@ KERN_DTB=
 DMARCH=
 EMARCH=X
 
-
 KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
 if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
      ${KER_MAJ}X = "3.1X" -o ${KER_MAJ}X = "3.2X" -o ${KER_MAJ}X = "3.3X" -o \
@@ -62,7 +61,7 @@ mkdir -p /nfs
 /bin/hostname BiscuitOS
 
 # Netwroking
-ifconfig eth0 up
+ifconfig eth0 up > /dev/null 2>&1
 # Setup default gw
 # -> route add default gw gatway_ipaddr
 
@@ -71,6 +70,10 @@ mount -t devpts devpts /dev/pts
 echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
 /usr/sbin/telnetd &
+
+# Mount Freeze Disk
+mkdir -p /mnt/Freeze
+mount -t ext4 /dev/vda /mnt/Freeze
 
 echo " ____  _                _ _    ___  ____  "
 echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
@@ -153,15 +156,25 @@ sudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/
 sync
 sudo umount ${OUTPUT}/rootfs/tmpfs
 gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz
-mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/ramdisk.img
+mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
 rm -rf ${OUTPUT}/rootfs/tmpfs
 rm -rf ${OUTPUT}/rootfs/ramdisk
 [ -d ${OUTPUT}/rootfs/rootfs ] && rm -rf ${OUTPUT}/rootfs/rootfs
 ln -s ${OUTPUT}/rootfs/${ROOTFS_NAME} ${OUTPUT}/rootfs/rootfs
 
+## Establish a freeze disk
+FREEZE_DISK=Freeze.img
+FREEZE_SIZE=512
+if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
+       	dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/${FREEZE_DISK}
+	sync
+	mkfs.ext4 -F ${OUTPUT}/${FREEZE_DISK}
+fi
+
 ## Auto build README.md
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
-					${12} ${13} ${14} ${15} ${16}
+					${12} ${13} ${14} ${15} ${16} \
+					${FREEZE_DISK}X
 
 ## Output directory
 echo ""

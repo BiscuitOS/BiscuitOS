@@ -1,0 +1,22 @@
+menuconfig TOOL_RISCV64_GNU
+	bool "riscv64-linux-gnu"
+
+if TOOL_RISCV64_GNU
+
+choice
+	prompt "Setup way to get riscv64-linux-gnu"
+
+config TOOL_RISCV64_GNU_SRC
+	bool "riscv64-linux-gnu from Source Code"
+
+config TOOL_RISCV64_GNU_APT
+	bool "riscv64-linux-gnu from Debian(apt install)"
+
+endchoice
+
+config TOOL_RISCV64_WAY
+	int
+	default 1 if TOOL_RISCV64_GNU_SRC
+	default 2 if TOOL_RISCV64_GNU_APT
+
+endif # TOOL_RISCV64_GNU
