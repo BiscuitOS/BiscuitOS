@@ -25,6 +25,7 @@ KERNEL_2_6_SUP=X
 UCROSS_PATH=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}
 KCROSS_PATH=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
 QEMU_PATH=${OUTPUT}/qemu-system/qemu-system
+CROSS_COMPILE_SUP_NONE=N
 
 README_NAME=README.md
 RUNSCP_NAME=RunBiscuitOS.sh
@@ -72,8 +73,11 @@ KERNEL_MAJORV=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
 # 
 [ ${KERNEL_MAJORV}X = "2.6X" -o ${KERNEL_MAJORV}X = "2.4X" ] && KERNEL_2_X_SUP=N
 
-#
-[ ${KERNEL_VER:0:3} = "2.6" ] && KERNEL_2_6_SUP=Y
+# FS_TYPE 
+[ ${KERNEL_VER:0:3} = "2.6" -o ${KERNEL_VER:0:3} = "3.4" ] && KERNEL_2_6_SUP=Y
+
+# CROSS_CROMPILE
+[ ${KERNEL_VER:0:3} = "2.6" ] && CROSS_COMPILE_SUP_NONE=Y
 
 ##
 # Rootfs Inforamtion
@@ -81,15 +85,19 @@ FS_TYPE=
 FS_TYPE_TOOLS=
 
 if [ ${KERNEL_2_6_SUP} = "Y" ]; then
-	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/arm-none-linux-gnueabi-
-	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/arm-none-linux-gnueabi-
 	FS_TYPE=ext3
 	FS_TYPE_TOOLS=mkfs.ext3
 else
-	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/${UBOOT_CROSS}-
-	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/${CROSS_TOOL}-
 	FS_TYPE=ext4
 	FS_TYPE_TOOLS=mkfs.ext4
+fi
+
+if [ ${CROSS_COMPILE_SUP_NONE} = "Y" ]; then
+	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/arm-none-linux-gnueabi-
+	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/arm-none-linux-gnueabi-
+else
+	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/${UBOOT_CROSS}-
+	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/${CROSS_TOOL}-
 fi
 
 ##
@@ -346,8 +354,15 @@ echo '' >>  ${MF}
 echo 'do_mount()' >>  ${MF}
 echo '{' >>  ${MF}
 echo -e '\tmkdir -p ${ROOT}/FreezeDir' >>  ${MF}
-echo -e '\tsudo mount -t ext4 ${ROOT}/Freeze.img ${ROOT}/FreezeDir -o loop' >>  ${MF}
-echo -e '\techo "Mount ${ROOT}/Freeze.img on ${ROOT}/FreezeDir"' >>  ${MF}
+echo -e '\tmountpoint -q ${ROOT}/FreezeDir' >>  ${MF}
+echo -e '\t[ $? = 0 ] && echo "FreezeDir has mount!" && exit 0' >>  ${MF}
+echo -e '\t## Mount Image' >>  ${MF}
+echo -e '\tsudo mount -t ${FS_TYPE} ${ROOT}/Freeze.img ${ROOT}/FreezeDir -o loop >> /dev/null 2>&1' >>  ${MF}
+echo -e '\tsudo chown ${USER}.${USER} -R ${ROOT}/FreezeDir' >>  ${MF}
+echo -e '\techo "=============================================="' >>  ${MF}
+echo -e '\techo "FreezeDisk: ${ROOT}/Freeze.img"' >>  ${MF}
+echo -e '\techo "MountDiret: ${ROOT}/FreezeDir"' >>  ${MF}
+echo -e '\techo "=============================================="' >>  ${MF}
 echo '}' >>  ${MF}
 echo '' >>  ${MF}
 
@@ -355,6 +370,8 @@ echo '' >>  ${MF}
 echo '' >>  ${MF}
 echo 'do_umount()' >>  ${MF}
 echo '{' >>  ${MF}
+echo -e '\tmountpoint -q ${ROOT}/FreezeDir' >>  ${MF}
+echo -e '\t[ $? = 1 ] && return 0' >>  ${MF}
 echo -e '\tsudo umount ${ROOT}/FreezeDir > /dev/null 2>&1' >>  ${MF}
 echo '}' >>  ${MF}
 echo '' >>  ${MF}
@@ -362,34 +379,44 @@ echo '' >>  ${MF}
 ## 
 # Command parse
 #
-echo '# Lunching Base Linux' >> ${MF}
-echo '[ X$1 = "Xstart" ] && do_running' >> ${MF}
-echo '' >> ${MF}
-echo '# Packing Image' >> ${MF}
-echo '[ X$1 = "Xpack" ] && do_package' >> ${MF}
-echo '' >> ${MF}
-echo '# Launching Debug function' >> ${MF}
-echo '[ X$1 = "Xdebug" ] && do_debug' >> ${MF}
-if [ ${UBOOT} = "yX" ]; then
-	echo '' >> ${MF}
-	echo '[ X$1 = "Xuboot" ] && do_uboot' >> ${MF}
-fi
-echo '' >> ${MF}
-echo '# Lunching Networking' >> ${MF}
-echo 'if [ X$1 = "Xnet" ]; then' >> ${MF}
-echo -e '\t# Establish Netwroking' >> ${MF}
-echo -e '\tsudo ${NET_CFG}/bridge.sh' >> ${MF}
-echo -e '\tsudo cp -rf ${NET_CFG}/qemu-ifup /etc' >> ${MF}
-echo -e '\tsudo cp -rf ${NET_CFG}/qemu-ifdown /etc' >> ${MF}
-echo -e '\tdo_network' >> ${MF}
-echo 'fi' >> ${MF}
-echo '' >> ${MF}
-echo '# Mount Freeze Disk' >> ${MF}
-echo '[ X$1 = "Xmount" ] && do_mount' >> ${MF}
-echo '' >> ${MF}
-echo '# Unount Freeze Disk' >> ${MF}
-echo '[ X$1 = "Xumount" ] && do_umount' >> ${MF}
-echo '' >> ${MF}
+echo '# Lunching BiscuitOS' >> ${MF}
+echo 'case $1 in' >> ${MF}
+echo -e '\t"start")' >> ${MF}
+echo -e '\t\t# Running BiscuitOS Simple' >> ${MF}
+echo -e '\t\tdo_umount' >> ${MF}
+echo -e '\t\tdo_running' >> ${MF}
+echo -e '\t\t;;' >> ${MF}
+echo -e '\t"pack")' >> ${MF}
+echo -e '\t\t# Package BiscuitOS.img' >> ${MF}
+echo -e '\t\tdo_package' >> ${MF}
+echo -e '\t\t;;' >> ${MF}
+echo -e '\t"debug")' >> ${MF}
+echo -e '\t\t# Debugging BiscuitOS' >> ${MF}
+echo -e '\t\tdo_umount' >> ${MF}
+echo -e '\t\tdo_debug' >> ${MF}
+echo -e '\t\t;;' >> ${MF}
+echo -e '\t"net")' >> ${MF}
+echo -e '\t\t# Establish Netwroking' >> ${MF}
+echo -e '\t\tsudo ${NET_CFG}/bridge.sh' >> ${MF}
+echo -e '\t\tsudo cp -rf ${NET_CFG}/qemu-ifup /etc' >> ${MF}
+echo -e '\t\tsudo cp -rf ${NET_CFG}/qemu-ifdown /etc' >> ${MF}
+echo -e '\t\tdo_umount' >> ${MF}
+echo -e '\t\tdo_network' >> ${MF}
+echo -e '\t\t;;' >> ${MF}
+echo -e '\t"mount")' >> ${MF}
+echo -e '\t\t# Mount Freeze Disk' >> ${MF}
+echo -e '\t\tdo_mount' >> ${MF}
+echo -e '\t\t;;' >> ${MF}
+echo -e '\t"umount")' >> ${MF}
+echo -e '\t\t# Umount Freeze Disk' >> ${MF}
+echo -e '\t\tdo_umount' >> ${MF}
+echo -e '\t\t;;' >> ${MF}
+echo -e '\t*)' >> ${MF}
+echo -e '\t\t# Default Running BiscuitOS' >> ${MF}
+echo -e '\t\tdo_umount' >> ${MF}
+echo -e '\t\tdo_running' >> ${MF}
+echo -e '\t\t;;' >> ${MF}
+echo -e 'esac' >> ${MF}
 chmod 755 ${MF}
 
 ## Auto create README.md

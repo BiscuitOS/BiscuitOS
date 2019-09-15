@@ -22,7 +22,8 @@ UBOOT_CROSS=${16%X}
 KERNEL_VER=${7%X}
 KERN_DTB=
 DMARCH=
-EMARCH=X
+FS_SUPPORT_EXT3=N
+KERNEL_2_6_SUP=N
 
 KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
 if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
@@ -32,7 +33,22 @@ if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
 fi
 
 [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" ] && DMARCH=N	
-[ ${KERNEL_VER:0:3} = "2.6" ] && EMARCH=Y
+
+[ ${KERNEL_VER:0:3} = "2.6" -o ${KERNEL_VER:0:3} = "3.4" ] && FS_SUPPORT_EXT3=Y
+[ ${KERNEL_VER:0:3} = "2.6" ] && KERNEL_2_6_SUP=Y
+
+##
+# Rootfs Inforamtion
+FS_TYPE=
+FS_TYPE_TOOLS=
+
+if [ ${FS_SUPPORT_EXT3} = "Y" ]; then
+	FS_TYPE=ext3
+	FS_TYPE_TOOLS=mkfs.ext3
+else
+	FS_TYPE=ext4
+	FS_TYPE_TOOLS=mkfs.ext4
+fi
 
 rm -rf ${OUTPUT}/rootfs/
 mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}
@@ -49,7 +65,7 @@ mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/init.d
 RC=${OUTPUT}/rootfs/${ROOTFS_NAME}/etc/init.d/rcS
 ## Auto create rcS file
 cat << EOF > ${RC}
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/mnt/Freeze/usr/bin:/mnt/Freeze/usr/sbin:/mnt/Freeze/usr/local/bin:
 SHELL=/bin/ash
 export PATH SHELL
 mkdir -p /proc
@@ -73,7 +89,7 @@ mdev -s
 
 # Mount Freeze Disk
 mkdir -p /mnt/Freeze
-mount -t ext4 /dev/vda /mnt/Freeze
+mount -t ${FS_TYPE} /dev/vda /mnt/Freeze
 
 echo " ____  _                _ _    ___  ____  "
 echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
@@ -129,7 +145,7 @@ EOF
 
 
 mkdir -p ${OUTPUT}/rootfs/${ROOTFS_NAME}/lib
-if [ ${EMARCH} = "Y" ]; then
+if [ ${KERNEL_2_6_SUP} = "Y" ]; then
 	# Linux 2.6.x
 	echo "Linux 2.6.x" > /dev/null
 else
@@ -149,9 +165,9 @@ sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/tty4 c 4 4
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/console c 5 1
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/null c 1 3
 dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=150
-mkfs.ext4 -F ${OUTPUT}/rootfs/ramdisk
+${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk
 mkdir -p ${OUTPUT}/rootfs/tmpfs
-sudo mount -t ext4 ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop
+sudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop
 sudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/
 sync
 sudo umount ${OUTPUT}/rootfs/tmpfs
@@ -168,7 +184,7 @@ FREEZE_SIZE=512
 if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
        	dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/${FREEZE_DISK}
 	sync
-	mkfs.ext4 -F ${OUTPUT}/${FREEZE_DISK}
+	${FS_TYPE_TOOLS} -F ${OUTPUT}/${FREEZE_DISK}
 fi
 
 ## Auto build README.md
