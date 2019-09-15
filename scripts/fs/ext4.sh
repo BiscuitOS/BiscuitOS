@@ -89,7 +89,7 @@ mdev -s
 
 # Mount Freeze Disk
 mkdir -p /mnt/Freeze
-mount -t ${FS_TYPE} /dev/vda /mnt/Freeze
+mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
 
 echo " ____  _                _ _    ___  ____  "
 echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
@@ -204,5 +204,8 @@ echo -e "\033[31m ${OUTPUT}/linux/linux \033[0m"
 echo ""
 echo "README:"
 echo -e "\033[31m ${OUTPUT}/README.md \033[0m"
+echo ""
+echo "Blog:"
+echo -e "\033[31m https://biscuitos.github.io/blog/BiscuitOS_Catalogue/ \033[0m"
 echo ""
 echo "***********************************************"

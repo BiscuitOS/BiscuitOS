@@ -22,6 +22,7 @@ LINUX_KERNEL_SUBNAME=${13%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 TAR_OPT=
 KERNEL_HIS=${14%X}
+TAR_OPT=-xvf
 
 if [ ${KERNEL_HIS}X = "LegacyX" ]; then
 	GIT_OUT=kernel
@@ -37,20 +38,12 @@ if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME} ]; then
         fi
 fi
 
-if [ ${LINUX_KERNEL_TAR}X = "tar.xzX" ]; then
-	TAR_OPT=-xvJf
-elif [ ${LINUX_KERNEL_TAR}X = "tar.gzX" ]; then
-	TAR_OPT=-xvzf
-elif [ ${LINUX_KERNEL_TAR}X = "tar.bz2X" ]; then
-	TAR_OPT=-xvjf
-fi
-
 establish_legacy_kernel()
 {
 	PATCH=${LINUX_KERNEL_PATCH}/linux_${LINUX_KERNEL_VERSION}
 	TARGET=${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
 	cd ${TARGET}
-	echo "PATCJH: ${PATCH}"
+	echo "PATCH: ${PATCH}"
 	if [ -d ${TARGET}/tools/means ]; then
 		rm -rf ${TARGET}/tools/means
 	fi

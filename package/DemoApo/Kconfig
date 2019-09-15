@@ -1,0 +1,56 @@
+menuconfig PK_DEMO
+	bool "demo"
+
+if PK_DEMO
+
+config PK_DEMO_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_DEMO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DEMO_URL
+	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/CodeSegment/demo/"
+	string "url"
+
+config PK_DEMO_GITHUB
+	string "GitHub"
+
+config PK_DEMO_SRCFILE
+	default "demo.c"
+	string "Source code list"
+
+config PK_DEMO_CSRCFILE
+	default "demo.c"
+	string "Compile source code list"
+
+config PK_DEMO_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DEMO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DEMO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DEMO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DEMO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DEMO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DEMO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DEMO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DEMO_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DEMO

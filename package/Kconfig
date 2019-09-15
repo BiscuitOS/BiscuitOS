@@ -30,6 +30,9 @@ source package/compositeproto/Kconfig
 # damageproto
 source package/damageproto/Kconfig
 
+# demo
+source package/DemoApo/Kconfig
+
 # dri2proto
 source package/dri2proto/Kconfig
 

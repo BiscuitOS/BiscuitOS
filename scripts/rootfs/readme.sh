@@ -76,8 +76,9 @@ KERNEL_MAJORV=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
 # FS_TYPE 
 [ ${KERNEL_VER:0:3} = "2.6" -o ${KERNEL_VER:0:3} = "3.4" ] && KERNEL_2_6_SUP=Y
 
+HAS_BLK=Y
 # CROSS_CROMPILE
-[ ${KERNEL_VER:0:3} = "2.6" ] && CROSS_COMPILE_SUP_NONE=Y
+[ ${KERNEL_VER:0:3} = "2.6" ] && CROSS_COMPILE_SUP_NONE=Y && HAS_BLK=N
 
 ##
 # Rootfs Inforamtion
@@ -170,11 +171,11 @@ case ${ARCH_NAME} in
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
 	else
 		echo -e '\tsudo ${QEMUT} \' >> ${MF}
 		echo -e '\t-M vexpress-a9 \' >> ${MF}
@@ -182,12 +183,12 @@ case ${ARCH_NAME} in
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
 		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
 	fi
 	;;
 	arm64)
@@ -199,11 +200,11 @@ case ${ARCH_NAME} in
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0' >> ${MF}
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
 	;;
 esac
 echo '}' >> ${MF}
@@ -221,8 +222,8 @@ case ${ARCH_NAME} in
 		echo -e '\t-M versatilepb \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
@@ -237,8 +238,8 @@ case ${ARCH_NAME} in
 		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
 		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
@@ -252,8 +253,8 @@ case ${ARCH_NAME} in
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
@@ -279,8 +280,8 @@ case ${ARCH_NAME} in
 		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
 		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
@@ -293,11 +294,11 @@ case ${ARCH_NAME} in
 		echo -e '\t-net tap \' >> ${MF}
 		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
 		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
 		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
@@ -314,9 +315,9 @@ case ${ARCH_NAME} in
 		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
 		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
@@ -490,12 +491,14 @@ esac
 echo '' >> ${MF}
 echo "make ARCH=${ARCH_NAME} menuconfig" >> ${MF}
 echo '  General setup --->' >> ${MF}
-echo '    ---> [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
+echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
 echo '' >> ${MF}
 echo '  Device Driver --->' >> ${MF}
 echo '    [*] Block devices --->' >> ${MF}
 echo '        <*> RAM block device support' >> ${MF}
 echo '        (153600) Default RAM disk size' >> ${MF}
+echo '  Enable the block layer --->' >> ${MF}
+echo '        [*] Support for large (2TB+) block devices and files' >> ${MF}
 if [ ${KERNEL_2_6_SUP} = "Y" ]; then
 	echo '  Kernel Features --->' >> ${MF}
 	echo '    [*] Use the ARM EABI to compile the kernel' >> ${MF}

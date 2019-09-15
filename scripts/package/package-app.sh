@@ -51,8 +51,6 @@ KBUILD_ASFLAGS=${19%X}
 BSFILE=${20%X}
 # Host Build-Architecture
 HBARCH=${21%X}
-# Compile Source list
-CSRC=${22%X}
 
 ## Establish static Path
 OUTPUT=${PROJECT_ROOT}/output/${PROJECT_NAME}
