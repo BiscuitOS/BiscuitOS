@@ -50,14 +50,15 @@ nic_check()
 #
 # Obtain valid netcard and IP
 # Current IP addr
-# -> ifconfig | grep 'inet addr:' | grep -v '127.0.0.1' | cut -d: -f2 | awk '{print $2}'
+# -> ifconfig $nic | grep 'inet addr:' | grep -v '127.0.0.1' | cut -d: -f2 | awk '{print $2}'
+# -> ifconfig $nic | awk '/inet addr:/{ print $2 }' | awk -F: '{print $2}'
 #
 get_current_ip_nic()
 {
 	nics=$(route -n | grep ^0.0.0.0 | awk '{print $8}')
 	for nic in ${nics}
 	do
-		ip=$(ifconfig $nic | grep -E 'inet\s+' | sed -E -e 's/inet\s+\S+://g' | awk '{print $2}')
+		ip=$(ifconfig $nic | awk '/inet addr:/{ print $2 }' | awk -F: '{print $2}')
 		ping -I ${nic} www.baidu.com -c1 -W1 -w 0.1 > /dev/null 2>&1
 		[ $? -eq 0 ] && NIC=${nic} && IP=${ip} && return 0
 	done
@@ -151,10 +152,10 @@ default_gw
 sudo echo 1 > /proc/sys/net/ipv4/ip_forward
 
 # Setup NAT
-iptables -F
-iptables -X
-iptables -Z
-iptables -t nat -A POSTROUTING -o ${NIC} -j MASQUERADE
+sudo iptables -F
+sudo iptables -X
+sudo iptables -Z
+sudo iptables -t nat -A POSTROUTING -o ${NIC} -j MASQUERADE
 
 # Store Netwrok configure information
 cat << EOF > ${NET_CFG}
