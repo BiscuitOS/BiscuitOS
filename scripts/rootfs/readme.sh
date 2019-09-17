@@ -79,6 +79,7 @@ KERNEL_MAJORV=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
 HAS_BLK=Y
 # CROSS_CROMPILE
 [ ${KERNEL_VER:0:3} = "2.6" ] && CROSS_COMPILE_SUP_NONE=Y && HAS_BLK=N
+[ ${ARCH_NAME} = "arm64" ] && HAS_BLK=N
 
 ##
 # Rootfs Inforamtion
