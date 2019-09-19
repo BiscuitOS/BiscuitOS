@@ -1,0 +1,53 @@
+menuconfig PK_RISCV_PK
+	bool "riscv-pk"
+
+if PK_RISCV_PK
+
+config PK_RISCV_PK_VERSION
+	default "1.0.0"
+	string "verstion"
+
+config PK_RISCV_PK_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_RISCV_PK_URL
+	default ""
+	string "url"
+
+config PK_RISCV_PK_GITHUB
+	string "GitHub"
+
+config PK_RISCV_PK_SRCFILE
+	string "Source code list"
+
+config PK_RISCV_PK_CONFIG
+	default ""
+	string "CONFIG: Project Configure Options"
+
+config PK_RISCV_PK_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_RISCV_PK_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_RISCV_PK_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_RISCV_PK_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_RISCV_PK_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_RISCV_PK_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_RISCV_PK_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_RISCV_PK_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_RISCV_PK

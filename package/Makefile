@@ -64,6 +64,7 @@ PACKAGE-$(CONFIG_PK_DEMO)		+= DemoApo/
 PACKAGE-$(CONFIG_PK_CAIRO)		+= cairo/
 PACKAGE-$(CONFIG_PK_LIBPNG)		+= libpng/
 PACKAGE-$(CONFIG_PK_PANGO)		+= pango/
+PACKAGE-$(CONFIG_PK_RISCV_PK)		+= riscv-pk/
 PACKAGE-$(CONFIG_PK_LIBXRENDER)		+= libXrender/
 PACKAGE-$(CONFIG_PK_GOBJECT_INTROSPECTION)	+= gobject-introspection/
 

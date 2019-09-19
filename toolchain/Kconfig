@@ -20,6 +20,9 @@ source toolchain/aarch64-linux-gnu/Kconfig
 source toolchain/arm-none-linux-gnueabi/Kconfig
 
 # RISCV-64
-source toolchain/riscv64-linux-gnu/Kconfig
+source toolchain/riscv64-biscuitos-linux-gnu/Kconfig
+
+# RISCV-32
+source toolchain/riscv32-biscuitos-linux-gnu/Kconfig
 
 endif # TOOLCHAIN

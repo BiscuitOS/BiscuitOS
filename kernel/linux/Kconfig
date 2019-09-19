@@ -100,9 +100,17 @@ if RISCV64
 
 config LINUX_KERNEL_CROSS_COMPILE
 	string
-	default "riscv64-linux-gnu"
+	default "riscv64-biscuitos-linux-gnu"
 
 endif # RISCV64
+
+if RISCV32
+
+config LINUX_KERNEL_CROSS_COMPILE
+	string
+	default "riscv32-biscuitos-linux-gnu"
+
+endif # RISCV32
 
 endif # PK_LINUX_KERNEL
 

@@ -1,0 +1,37 @@
+menuconfig TOOL_RISCV64
+	bool "riscv64-biscuitos-linux-gnu"
+
+if TOOL_RISCV64
+
+choice
+	prompt "Setup way to get riscv64-biscuitos-linux-gnu"
+
+config TOOL_RISCV64_SRC
+	bool "riscv64-biscuitos-linux-gnu from Source Code"
+
+config TOOL_RISCV64_APT
+	bool "riscv64-biscuitos-linux-gnu from Debian(apt install)"
+
+config TOOL_RISCV64_WGET
+	bool "riscv64-biscuitos-linux-gnu from WGET"
+
+config TOOL_RISCV64_EXT
+	bool "riscv64-biscuitos-linux-gnu from External package"
+
+
+endchoice
+
+config TOOL_RISCV64_WAY
+	int
+	default 1 if TOOL_RISCV64_SRC
+	default 2 if TOOL_RISCV64_APT
+	default 3 if TOOL_RISCV64_WGET
+	default 4 if TOOL_RISCV64_EXT
+
+config TOOL_RISCV64_VERSION
+	string "riscv64-biscuitos-linux-gnu Version"
+
+config TOOL_RISCV64_TAR
+	string "Tar-package type"
+
+endif # TOOL_RISCV64

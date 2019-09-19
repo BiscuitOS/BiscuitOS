@@ -3,4 +3,9 @@ menuconfig FS_EXT4
 
 if FS_EXT4
 
+config EXT4_RISCV
+	default "-riscv" if RISCV64
+	default "-riscv" if RISCV32
+	string 
+
 endif # FS_EXT4

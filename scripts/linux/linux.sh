@@ -16,6 +16,7 @@ LINUX_KERNEL_SITE=${4%X}
 LINUX_KERNEL_GITHUB=${5%X}
 LINUX_KERNEL_PATCH=${6%X}
 LINUX_KERNEL_SRC=${8%X}
+LINUX_KERNEL_DIR=${15%X}
 PROJ_NAME=${9%X}
 LINUX_KERNEL_TAR=${10%X}
 LINUX_KERNEL_SUBNAME=${13%X}
@@ -23,6 +24,34 @@ OUTPUT=${ROOT}/output/${PROJ_NAME}
 TAR_OPT=
 KERNEL_HIS=${14%X}
 TAR_OPT=-xvf
+ARCH_MAGIC=${16%X}
+ARCH_NAME=
+ARCH_LINUX_DIR=
+
+case ${ARCH_MAGIC} in
+	1)
+		ARCH_NAME=x86
+		ARCH_LINUX_DIR=x86
+		;;
+	2)
+		ARCH_NAME=arm
+		ARCH_LINUX_DIR=arm
+		;;
+	3)
+		ARCH_NAME=arm64
+		ARCH_LINUX_DIR=arm64
+		;;
+	4)
+		ARCH_NAME=riscv32
+		ARCH_LINUX_DIR=riscv
+		;;
+	5)
+		ARCH_NAME=riscv64
+		ARCH_LINUX_DIR=riscv
+esac
+
+CONFIG_DIR=${LINUX_KERNEL_DIR}/config/${ARCH_NAME}/
+PATCH_DIR=${LINUX_KERNEL_DIR}/patch/${ARCH_NAME}/linux-${LINUX_KERNEL_VERSION}
 
 if [ ${KERNEL_HIS}X = "LegacyX" ]; then
 	GIT_OUT=kernel
@@ -40,7 +69,7 @@ fi
 
 establish_legacy_kernel()
 {
-	PATCH=${LINUX_KERNEL_PATCH}/linux_${LINUX_KERNEL_VERSION}
+	PATCH=${LINUX_KERNEL_PATCH}/i386/linux_${LINUX_KERNEL_VERSION}
 	TARGET=${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
 	cd ${TARGET}
 	echo "PATCH: ${PATCH}"
@@ -126,6 +155,21 @@ if [ ${LINUX_KERNEL_SRC}X = "3X" ]; then
         echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
         rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
         ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE} ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+fi
+
+# CONFIG
+# -> sed -i '/^#/d'
+[ -d ${CONFIG_DIR} ] && cp -rf ${CONFIG_DIR}/* ${OUTPUT}/linux/linux/arch/${ARCH_LINUX_DIR}/configs/
+
+if [ -d ${PATCH_DIR} ]; then
+	echo "Patching for ${OUTPUT}/linux/linux/"
+	for patchfile in `ls ${PATCH_DIR}`
+	do
+		cp ${PATCH_DIR}/${patchfile} ${OUTPUT}/linux/linux/
+		cd ${OUTPUT}/linux/linux/ > /dev/null 2>&1
+		#patch -p1 < ${patchfile}
+		cd - > /dev/null 2>&1
+	done
 fi
 
 if [ ${KERNEL_HIS}X = "LegacyX" ]; then
