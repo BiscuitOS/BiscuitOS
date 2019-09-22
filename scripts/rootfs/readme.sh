@@ -26,6 +26,7 @@ UCROSS_PATH=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}
 KCROSS_PATH=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
 QEMU_PATH=${OUTPUT}/qemu-system/qemu-system
 CROSS_COMPILE_SUP_NONE=N
+MODULE_INSTALL_PATH=${OUTPUT}/rootfs/rootfs/
 
 README_NAME=README.md
 RUNSCP_NAME=RunBiscuitOS.sh
@@ -679,15 +680,23 @@ esac
 case ${ARCH_NAME} in
 	arm)
 		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} -j8" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j8" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
 	arm64)
 		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} Image -j8" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j8" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
 	riscv32)
 		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} vmlinux -j8" >> ${MF}
+		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j8" >> ${MF}
+		echo "make ARCH=riscv INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
 	riscv64)
 		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} vmlinux -j8" >> ${MF}
+		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j8" >> ${MF}
+		echo "make ARCH=riscv INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
 esac
 echo '```' >> ${MF}
