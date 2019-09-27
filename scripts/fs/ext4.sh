@@ -24,6 +24,7 @@ KERN_DTB=
 DMARCH=
 FS_SUPPORT_EXT3=N
 KERNEL_2_6_SUP=N
+DISK_SIZE=512
 
 KER_MAJ=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
 if [ ${KER_MAJ}X = "2.6X" -o ${KER_MAJ}X = "2.4X" -o ${KER_MAJ}X = "3.0X" -o \
@@ -89,7 +90,7 @@ mdev -s
 
 # Mount Freeze Disk
 mkdir -p /mnt/Freeze
-mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
+mount -t ${FS_TYPE} /dev/vdb /mnt/Freeze > /dev/null 2>&1
 
 echo " ____  _                _ _    ___  ____  "
 echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
@@ -164,17 +165,24 @@ sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/tty3 c 4 3
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/tty4 c 4 4
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/console c 5 1
 sudo mknod ${OUTPUT}/rootfs/${ROOTFS_NAME}/dev/null c 1 3
-dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=150
+dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${DISK_SIZE}
 ${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk
 mkdir -p ${OUTPUT}/rootfs/tmpfs
 sudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop
 sudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/
 sync
 sudo umount ${OUTPUT}/rootfs/tmpfs
-gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz
-mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
+## 
+# Support RAMdisk
+# gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz
+# mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
+
+## 
+# Support HardDisk
+# rm -rf ${OUTPUT}/rootfs/ramdisk
+mv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/BiscuitOS.img
+
 rm -rf ${OUTPUT}/rootfs/tmpfs
-rm -rf ${OUTPUT}/rootfs/ramdisk
 [ -d ${OUTPUT}/rootfs/rootfs ] && rm -rf ${OUTPUT}/rootfs/rootfs
 ln -s ${OUTPUT}/rootfs/${ROOTFS_NAME} ${OUTPUT}/rootfs/rootfs
 
