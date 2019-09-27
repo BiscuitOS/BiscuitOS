@@ -25,6 +25,7 @@ QEMU_FULL=${TOOL_SUBNAME%.${QEMU_TAR}}
 QEMU_DL_NAME=qemu-${QEMU_VERSION#v}.${QEMU_TAR}
 QEMU_UNTAR_NAME=qemu-${QEMU_VERSION#v}
 ARCH_MAGIC=${12%X}
+EMULATER=
 CONFIG=
 
 if [ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ]; then
@@ -38,23 +39,28 @@ fi
 case ${ARCH_MAGIC} in
 	1)
 	# X86
-	CONFIG=x86_64-softmmu,x86_64-linux-user
+	EMULATER=x86_64-softmmu,x86_64-linux-user
+	CONFIG="--enable-kvm --enable-virtfs"
 	;;
 	2)
 	# ARM 32-bit
-	CONFIG=arm-softmmu,arm-linux-user,
+	EMULATER=arm-softmmu,arm-linux-user
+	CONFIG="--enable-virtfs --enable-kvm"
 	;;
 	3)
 	# ARM 64-bit
-	CONFIG=aarch64-softmmu,aarch64-linux-user
+	EMULATER=aarch64-softmmu,aarch64-linux-user
+	CONFIG="--enable-kvm --enable-virtfs"
 	;;
 	4)
 	# RISC-V 32-bit
-	CONFIG=riscv32-softmmu
+	EMULATER=riscv32-softmmu
+	CONFIG="--enable-kvm --enable-virtfs"
 	;;
 	5)
 	# RISC-V 64-bit
-	CONFIG=riscv64-softmmu
+	EMULATER=riscv64-softmmu
+	CONFIG="--enable-kvm --enable-virtfs"
 	;;
 esac
 
@@ -81,7 +87,7 @@ if [ ${QEMU_SRC} = "1" ]; then
 		echo -e "\033[31m qemu only support above version! \033[0m"
 		exit -1
 	fi
-	./configure --target-list=${CONFIG}
+	./configure --target-list=${EMULATER} ${CONFIG}
 	make -j8
 	echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
 	rm -rf ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
@@ -101,7 +107,7 @@ if [ ${QEMU_SRC} = "2" ]; then
 	BASE_FILE=${BASE_TAR%.${QEMU_TAR}}
 	tar -xvJf ${BASE_TAR}
 	cd ${BASE_FILE}
-	./configure --target-list=${CONFIG}
+	./configure --target-list=${EMULATER} ${CONFIG}
         
         make -j8
         echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
@@ -122,7 +128,7 @@ if [ ${QEMU_SRC} = "3" ]; then
 	tar -xvJf ${QEMU_DL_NAME}
 	rm -rf ${QEMU_DL_NAME}
 	cd ${QEMU_UNTAR_NAME}
-        ./configure --target-list=${CONFIG}
+        ./configure --target-list=${EMULATER} ${CONFIG}
         
 	make -j8
         echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version

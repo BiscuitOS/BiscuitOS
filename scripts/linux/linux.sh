@@ -161,14 +161,21 @@ fi
 # -> sed -i '/^#/d'
 [ -d ${CONFIG_DIR} ] && cp -rf ${CONFIG_DIR}/* ${OUTPUT}/linux/linux/arch/${ARCH_LINUX_DIR}/configs/
 
+# PATCH
+# --> Create a patch
+#     --> diff -uprN old/ new/ > 000001.patch
+# --> Apply a patch
+#     --> copy 000001.patch into old/
+#     --> patch -p1 < 000001.patch
 if [ -d ${PATCH_DIR} ]; then
 	echo "Patching for ${OUTPUT}/linux/linux/"
 	for patchfile in `ls ${PATCH_DIR}`
 	do
 		cp ${PATCH_DIR}/${patchfile} ${OUTPUT}/linux/linux/
 		cd ${OUTPUT}/linux/linux/ > /dev/null 2>&1
-		#patch -p1 < ${patchfile}
+		patch -p1 < ${patchfile}
 		cd - > /dev/null 2>&1
+		rm -rf ${OUTPUT}/linux/linux/${patchfile} > /dev/null 2>&1
 	done
 fi
 

@@ -8,6 +8,9 @@ menuconfig COMMON_UTILISE
 
 if COMMON_UTILISE
 
+# Application Demo
+source package/DemoApo/Kconfig
+
 # atk
 source package/atk/Kconfig
 
@@ -29,9 +32,6 @@ source package/compositeproto/Kconfig
 
 # damageproto
 source package/damageproto/Kconfig
-
-# demo
-source package/DemoApo/Kconfig
 
 # dri2proto
 source package/dri2proto/Kconfig

@@ -11,7 +11,8 @@ EXT4_SUBNAME    := $(CONFIG_EXT4_DL_NAME)
 EXT4_DIR        := $(srctree)/fs/ext4
 EXT4_PATCH      := $(srctree)/fs/ext4/patch
 EXT4_OUT        := 
-EXT4_SCRIPTS    := $(srctree)/scripts/fs/ext4$(CONFIG_EXT4_RISCV).sh
+#EXT4_SCRIPTS    := $(srctree)/scripts/fs/ext4$(CONFIG_EXT4_RISCV).sh
+EXT4_SCRIPTS    := $(srctree)/scripts/fs/rootfs.sh
 EXT4_TAR        := $(CONFIG_EXT4_TAR_TYPE)
 EXT4_PACKAGE    := 
 SUB_TARGET      += $(EXT4_DIR)/build
@@ -24,7 +25,9 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
                $(EXT4_TAR)X $(CONFIG_ARCH_MAGIC)X \
                $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(EXT4_SUBNAME)X \
                $(CONFIG_LINUX_BUILD_HIST)X $(CONFIG_UBOOT)X \
-               $(CONFIG_UBOOT_CROSS_COMPILE)X
+               $(CONFIG_UBOOT_CROSS_COMPILE)X \
+               $(CONFIG_ROOTFS_SIZE)X \
+               $(CONFIG_FREEZE_SIZE)X
 
 $(EXT4_DIR)/build: FORCE
 	$(Q)$(call EXT4_sh,$(srctree))

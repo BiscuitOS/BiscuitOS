@@ -31,4 +31,12 @@ source fs/Apollo/Kconfig
 # Debian
 source fs/Debian/Kconfig
 
+config ROOTFS_SIZE
+	default 150
+	int "The size of Rootfs (MB)"
+
+config FREEZE_SIZE
+	default 512
+	int "The size of Freeze Disk (MB)"
+
 endif # Rootfs

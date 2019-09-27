@@ -9,33 +9,71 @@ set -e
 # it under the terms of the GNU General Public License version 2 as
 # published by the Free Software Foundation.
 
+# Rootfs path for BiscuitOS
 ROOT=${1%X}
-ROOTFS_NAME=${2%X}
-ROOTFS_VERSION=${3%X}
+# Root Dir for BiscuitOS
+ROOT=${1%X}
+# Project NAME
 PROJECT_NAME=${9%X}
-CROSS_TOOL=${12%X}
+# Project ROOT
 OUTPUT=${ROOT}/output/${PROJECT_NAME}
+# BUSYBOX
 BUSYBOX=${OUTPUT}/busybox/busybox
-GCC=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
-UBOOT=${15}
+# CROSS
+CROSS_COMPILE=${12%X}
+# CROSS PATH
+CROSS_PATH=${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}
+# Uboot
+UBOOT=${15%X}
+# Uboot CROSS Compile
 UBOOT_CROSS=${16%X}
-KERNEL_VER=${7%X}
+# Kernel Version
+KERNEL_VERSION=${7%X}
+# Rootfs NAME
+ROOTFS_NAME=${2%X}
+# Rootfs Version
+ROOTFS_VERSION=${3%X}
+# Rootfs Path
+ROOTFS_PATH=${OUTPUT}/rootfs/${ROOTFS_NAME}
+# Disk size (MB)
+DISK_SIZE=${17%X}
+[ ! ${DISK_SIZE} ] && DISK_SIZE=512
+# Freeze Information
 FREEZE_NAME=${17%X}
-KERNEL_2_6_SUP=X
+# Uboot Cross-Compiler Path
 UCROSS_PATH=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}
-KCROSS_PATH=${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}
+# Kernel Cross-Compiler Path
+KCROSS_PATH=${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}
+# Qemu Path
 QEMU_PATH=${OUTPUT}/qemu-system/qemu-system
-CROSS_COMPILE_SUP_NONE=N
+# Module Install Path
 MODULE_INSTALL_PATH=${OUTPUT}/rootfs/rootfs/
 
+# Don't edit
 README_NAME=README.md
 RUNSCP_NAME=RunBiscuitOS.sh
+
+## Feature list
+SUPPORT_DTB=N
+SUPPORT_2_X=N
+SUPPORT_EXT3=N
+SUPPORT_BLK=N
+SUPPORT_DISK=N
+SUPPORT_NONE_GNU=N
+SUPPORT_RAMDISK=N
+SUPPORT_UBOOT=N
+
+# Kernel Version field
+KERNEL_MAJOR_NO=
+KERNEL_MINOR_NO=
+KERNEL_MINIR_NO=
+
+DEFAULT_CONFIG=defconfig
 
 ##
 ## Architecture information
 ARCH=${11%X}
 ARCH_NAME=
-MKIMAGE_SUPPORT=Y
 
 # Architecture Detect
 case ${ARCH} in
@@ -49,50 +87,90 @@ case ${ARCH} in
 	2)
 	ARCH_NAME=arm
 	QEMU=${QEMU_PATH}/arm-softmmu/qemu-system-arm
+	DEFAULT_CONFIG=vexpress_defconfig
 	;;
 	3)
 	ARCH_NAME=arm64
 	QEMU=${QEMU_PATH}/aarch64-softmmu/qemu-system-aarch64
+	DEFAULT_CONFIG=defconfig
 	;;
 	4)
 	ARCH_NAME=riscv32
 	QEMU=${QEMU_PATH}/riscv32-softmmu/qemu-system-riscv32
-	MKIMAGE_SUPPORT=N
+	DEFAULT_CONFIG=BiscuitOS_riscv32_defconfig
 	;;
 	5)
 	ARCH_NAME=riscv64
 	QEMU=${QEMU_PATH}/riscv64-softmmu/qemu-system-riscv64
-	MKIMAGE_SUPPORT=N
+	DEFAULT_CONFIG=BiscuitOS_riscv64_defconfig
 	;;
 esac
 
-##
-# Kernel Version Inforation
+# Detect Kernel version field
+#   Kernek version field
+#   --> Major.minor.minir
+#   --> 5.0.1
+#   --> Major: 5
+#   --> Minor: 0
+#   --> minir: 1
+detect_kernel_version_field()
+{
+	[ ! ${KERNEL_VERSION} ] && echo "Invalid kernel version" && exit -1
+	# Major field of Kernel version
+	KERNEL_MAJOR_NO=${KERNEL_VERSION%%.*}
+	tmpv1=${KERNEL_VERSION#*.}
+	# Minor field of kernel version
+	KERNEL_MINOR_NO=${tmpv1%%.*}
+}
+detect_kernel_version_field
 
-# Detect Kernel Major Version
-KERNEL_MAJORV=`echo "${KERNEL_VER}"| awk -F '.' '{print $1"."$2}'`
-[ ${KERNEL_MAJORV}X = "2.6X" -o ${KERNEL_MAJORV}X = "2.4X" -o \
-  ${KERNEL_MAJORV}X = "3.0X" -o ${KERNEL_MAJORV}X = "3.1X" -o \
-  ${KERNEL_MAJORV}X = "3.2X" -o ${KERNEL_MAJORV}X = "3.3X" -o \
-  ${KERNEL_MAJORV}X = "3.4X" ] && KERNEL_DTB_USE=N
+# DTB support
+# --> Only ARM >= 4.x support DTB
+[ ${ARCH_NAME} == "arm" -a ${KERNEL_MAJOR_NO} -ge 4 ] && SUPPORT_DTB=Y
+[ ${ARCH_NAME} == "arm" -a ${KERNEL_MAJOR_NO} -ge 3 -a ${KERNEL_MINOR_NO} -gt 4 ] && SUPPORT_DTB=Y
 
-# 
-[ ${KERNEL_MAJORV}X = "2.6X" -o ${KERNEL_MAJORV}X = "2.4X" ] && KERNEL_2_X_SUP=N
+# Support RAMDISK (2.x/3.x Support)
+# --> Mount / at RAMDISK
+[ ${KERNEL_MAJOR_NO} -lt 4 ] && SUPPORT_RAMDISK=Y
+[ ${ARCH_NAME} == "arm64" ] && SUPPORT_RAMDISK=N
 
-# FS_TYPE 
-[ ${KERNEL_VER:0:3} = "2.6" -o ${KERNEL_VER:0:3} = "3.4" ] && KERNEL_2_6_SUP=Y
+# Support Disk mount /
+# --> Mount / at /dev/vda
+[ ${SUPPORT_RAMDISK} = "N" ] && SUPPORT_DISK=Y
 
-HAS_BLK=Y
+# Support Hard-disk
+# --> Mount a disk on /mnt/
+# --> 4.x, 5.x support
+# --> 2.x, 3.x no support
+[ ${KERNEL_MAJOR_NO} -ge 3 ] && SUPPORT_BLK=Y
+[ ${KERNEL_MAJOR_NO} -eq 2 -o ${KERNEL_MAJOR_NO} -eq 3 ] && SUPPORT_BLK=N
+[ ${ARCH_NAME} = "arm64" ] && SUPPORT_BLK=Y
+
+# Linux 2.x Feature 
+[ ${KERNEL_MAJOR_NO} -eq 2 ] && SUPPORT_2_X=Y
+
+# EXT3 support
+# --> Kernel < 3.10 Only support EXT3
+[ ${KERNEL_MAJOR_NO} -eq 3 -a ${KERNEL_MINOR_NO} -lt 10 ] && SUPPORT_EXT3=Y
+[ ${KERNEL_MAJOR_NO} -lt 3 ] && SUPPORT_EXT3=Y
+
 # CROSS_CROMPILE
-[ ${KERNEL_VER:0:3} = "2.6" ] && CROSS_COMPILE_SUP_NONE=Y && HAS_BLK=N
-[ ${ARCH_NAME} = "arm64" ] && HAS_BLK=N
+[ ${SUPPORT_2_X} = "Y" ] && SUPPORT_NONE_GNU=Y
+
+# ARM Kernel Configure
+[ ${SUPPORT_2_X} = "Y" ] && DEFAULT_CONFIG=versatile_defconfig
+
+# Uboot
+[ ${UBOOT}X = "yX" ] && SUPPORT_UBOOT=Y
 
 ##
 # Rootfs Inforamtion
 FS_TYPE=
 FS_TYPE_TOOLS=
+ROOTFS_MB=${18%X}
+ROOTFS_BLOCKS=$[ROOTFS_MB * 1024]
 
-if [ ${KERNEL_2_6_SUP} = "Y" ]; then
+if [ ${SUPPORT_EXT3} = "Y" ]; then
 	FS_TYPE=ext3
 	FS_TYPE_TOOLS=mkfs.ext3
 else
@@ -100,12 +178,13 @@ else
 	FS_TYPE_TOOLS=mkfs.ext4
 fi
 
-if [ ${CROSS_COMPILE_SUP_NONE} = "Y" ]; then
+if [ ${SUPPORT_NONE_GNU} = "Y" ]; then
 	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/arm-none-linux-gnueabi-
 	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/arm-none-linux-gnueabi-
+	CROSS_COMPILE=arm-none-linux-gnueabi
 else
 	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/${UBOOT_CROSS}-
-	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/${CROSS_TOOL}-
+	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/${CROSS_COMPILE}-
 fi
 
 ##
@@ -145,20 +224,27 @@ ARCH=${ARCH_NAME}
 BUSYBOX=${BUSYBOX}
 OUTPUT=${OUTPUT}
 ROOTFS_NAME=${ROOTFS_NAME}
-CROSS_TOOL=${CROSS_TOOL}
+CROSS_COMPILE=${CROSS_COMPILE}
 FS_TYPE=${FS_TYPE}
 FS_TYPE_TOOLS=${FS_TYPE_TOOLS}
-ROOTFS_SIZE=150
-RAM_SIZE=512
+ROOTFS_SIZE=${18%X}
 EOF
+# RAM size
+[ ${SUPPORT_2_X} = "Y" ] && echo 'RAM_SIZE=256' >> ${MF} 
+[ ${SUPPORT_2_X} = "N" ] && echo 'RAM_SIZE=512' >> ${MF}
+# Platform
+[ ${SUPPORT_2_X} = "Y" -a ${ARCH_NAME} == "arm" ] && echo 'MACH=versatilepb' >> ${MF} 
+[ ${SUPPORT_2_X} = "N" -a ${ARCH_NAME} == "arm" ] && echo 'MACH=vexpress-a9' >> ${MF}
 echo 'LINUX_DIR=${ROOT}/linux/linux/arch' >> ${MF}
 echo 'NET_CFG=${ROOT}/package/networking' >> ${MF}
 case ${ARCH_NAME} in
 	arm)
-		echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_RAMDISK} = "Y" ] && echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_RAMDISK} = "N" ] && echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
 	;;
 	arm64)
-		echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_RAMDISK} = "Y" ] && echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_RAMDISK} = "N" ] && echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
 	;;
 	riscv32)
 		echo 'CMDLINE="root=/dev/vda rw console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
@@ -196,12 +282,16 @@ if [ ${ARCH_NAME} = "riscv64" -o ${ARCH_NAME} = "riscv32" ]; then
 	echo '}' >> ${MF}
 fi
 
-if [ ${UBOOT} = "yX" ]; then
+if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo "UBOOT=${OUTPUT}/u-boot/u-boot" >> ${MF}
 	echo '' >> ${MF}
 	echo 'do_uboot()' >> ${MF}
 	echo '{' >> ${MF}
-	echo '	${QEMUT} -M vexpress-a9 -kernel ${UBOOT}/u-boot -m 512 -nographic' >> ${MF}
+	echo -e '\tsudo ${QEMUT} \' >> ${MF}
+	echo -e '\t-M vexpress-a9 \' >> ${MF}
+	echo -e '\t-kernel ${UBOOT}/u-boot \' >> ${MF}
+	echo -e '\t-m 512 \' >> ${MF}
+	echo -e '\t-nographic' >> ${MF}
 	echo '}' >> ${MF}
 fi
 
@@ -212,255 +302,96 @@ fi
 echo '' >> ${MF}
 echo 'do_running()' >> ${MF}
 echo '{' >> ${MF}
+echo -e '\tSUPPORT_DEBUG=N' >> ${MF}
+echo -e '\tSUPPORT_NET=N' >> ${MF}
+echo -e '\t[ ${1}X = "debug"X -o ${2}X = "debug"X ] && ARGS+="-s -S "' >> ${MF}
+echo -e '\tif [ ${1}X = "net"X  -o ${2}X = "net"X ]; then' >> ${MF}
+echo -e '\t\tARGS+="-net tap "' >> ${MF}
+echo -e '\t\tARGS+="-device virtio-net-device,netdev=bsnet0,"' >> ${MF}
+echo -e '\t\tARGS+="mac=E0:FE:D0:3C:2E:EE "' >> ${MF}
+echo -e '\t\tARGS+="-netdev tap,id=bsnet0,ifname=bsTap0 "' >> ${MF}
+echo -e '\tfi' >> ${MF}
+echo -e '\t' >> ${MF}
+echo '' >> ${MF}
 case ${ARCH_NAME} in
 	arm) 
-	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-M versatilepb \' >> ${MF}
-		echo -e '\t-m 256M \' >> ${MF}
-		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
-	else
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-M vexpress-a9 \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
+		echo -e '\t-M ${MACH} \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
-		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
+		# Support DTB/DTS/FDT
+		[ ${SUPPORT_DTB} = "Y" ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
+		# Support HardDisk
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
+		# Support Mount root on HardDisk
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		# Support RAMDISK only
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		# Support Networking
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
-	fi
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	arm64)
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-M virt \' >> ${MF}
+		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-cpu cortex-a53 \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
-		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
+		# Support HardDisk
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
+		# Support Mount root on HardDisk
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		# Support RAMDISK only
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		# Support Networking
 		echo -e '\t-serial stdio \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
 		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	riscv32)
 		echo -e '\triscv_bbl' >> ${MF}
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-machine virt \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
 		echo -e '\t-kernel ${RISCV_BBL} \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
+		# Support Mount root on HardDisk
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		# Support HardDisk
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
+		# Support RAMDISK only
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		# Support Networking
 		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	riscv64)
 		echo -e '\triscv_bbl' >> ${MF}
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-machine virt \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
 		echo -e '\t-kernel ${RISCV_BBL} \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}"' >> ${MF}
-	;;
-esac
-echo '}' >> ${MF}
-##
-# Common Debug function
-#
-# -> Used to debug kernel/Uboot
-echo '' >> ${MF}
-echo 'do_debug()' >> ${MF}
-echo '{' >> ${MF}
-case ${ARCH_NAME} in
-	arm)
-	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
-		echo -e '\tsudo ${QEMUT} -s -S \' >> ${MF}
-		echo -e '\t-M versatilepb \' >> ${MF}
-		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
-		echo -e '\t-nodefaults \' >> ${MF}
+		# Support Mount root on HardDisk
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		# Support HardDisk
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
+		# Support RAMDISK only
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		# Support Networking
 		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
-	else
-		echo '	${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_TOOL}' >> ${MF}
-		echo -e '\tsudo ${QEMUT} -s -S \' >> ${MF}
-		echo -e '\t-M vexpress-a9 \' >> ${MF}
-		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
-		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
-	fi
-	;;
-	arm64)
-		echo -e '\tsudo ${QEMUT} -s -S \' >> ${MF}
-		echo -e '\t-M virt \' >> ${MF}
-		echo -e '\t-cpu cortex-a53 \' >> ${MF}
-		echo -e '\t-smp 2 \' >> ${MF}
-		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
-		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
-	;;
-	riscv32)
-		echo -e '\triscv_bbl' >> ${MF}
-		echo -e '\tsudo ${QEMUT} -s -S \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-machine virt \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
-		echo -e '\t-kernel ${RISCV_BBL} \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}"' >> ${MF}
-	;;
-	riscv64)
-		echo -e '\triscv_bbl' >> ${MF}
-		echo -e '\tsudo ${QEMUT} -s -S \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-machine virt \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
-		echo -e '\t-kernel ${RISCV_BBL} \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}"' >> ${MF}
-	;;
-esac
-echo '}' >> ${MF}
-echo '' >>  ${MF}
-##
-# Common Networking function
-#
-# -> Used to connect networking
-echo '' >> ${MF}
-echo 'do_network()' >> ${MF}
-echo '{' >> ${MF}
-case ${ARCH_NAME} in
-	arm)
-        if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-M versatilepb \' >> ${MF}
-		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-		echo -e '\t-net tap \' >> ${MF}
-		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
-		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
-		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
-		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
-        else
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-M vexpress-a9 \' >> ${MF}
-		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-		echo -e '\t-net tap \' >> ${MF}
-		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
-		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
-		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
-		[ ${KERNEL_DTB_USE}X != "N"X ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
-        fi
-	;;
-	arm64)
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-M virt \' >> ${MF}
-		echo -e '\t-cpu cortex-a53 \' >> ${MF}
-		echo -e '\t-smp 2 \' >> ${MF}
-		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-		echo -e '\t-net tap \' >> ${MF}
-		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
-		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
-		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${HAS_BLK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd0 \' >> ${MF} 
-		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}" \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img' >> ${MF}
-	;;
-	riscv32)
-		echo -e '\triscv_bbl' >> ${MF}
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-machine virt \' >> ${MF}
-		echo -e '\t-net tap \' >> ${MF}
-		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
-		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
-		echo -e '\t-kernel ${RISCV_BBL} \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}"' >> ${MF}
-	;;
-	riscv64)
-		echo -e '\triscv_bbl' >> ${MF}
-		echo -e '\tsudo ${QEMUT} \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-machine virt \' >> ${MF}
-		echo -e '\t-net tap \' >> ${MF}
-		echo -e '\t-device virtio-net-device,netdev=bsnet0,mac=E0:FE:D0:3C:2E:EE \' >> ${MF}
-		echo -e '\t-netdev tap,id=bsnet0,ifname=bsTap0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF}
-		echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
-		echo -e '\t-kernel ${RISCV_BBL} \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 esac
@@ -482,7 +413,7 @@ echo -e '\t              ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
 echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
 echo -e '\tsync' >> ${MF}
 echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-if [ ${MKIMAGE_SUPPORT} = "Y" ]; then
+if [ ${SUPPORT_RAMDISK} = "Y" ]; then
 	echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
 	echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
 	echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
@@ -527,11 +458,13 @@ echo '' >>  ${MF}
 #
 echo '# Lunching BiscuitOS' >> ${MF}
 echo 'case $1 in' >> ${MF}
-echo -e '\t"start")' >> ${MF}
-echo -e '\t\t# Running BiscuitOS Simple' >> ${MF}
-echo -e '\t\tdo_umount' >> ${MF}
-echo -e '\t\tdo_running' >> ${MF}
-echo -e '\t\t;;' >> ${MF}
+if [ ${SUPPORT_UBOOT} = "Y" ]; then
+	echo -e '\t"uboot")' >> ${MF}
+	echo -e '\t\t# Running uboot' >> ${MF}
+	echo -e '\t\tdo_umount' >> ${MF}
+	echo -e '\t\tdo_uboot' >> ${MF}
+	echo -e '\t\t;;' >> ${MF}
+fi
 echo -e '\t"pack")' >> ${MF}
 echo -e '\t\t# Package BiscuitOS.img' >> ${MF}
 echo -e '\t\tdo_package' >> ${MF}
@@ -539,7 +472,7 @@ echo -e '\t\t;;' >> ${MF}
 echo -e '\t"debug")' >> ${MF}
 echo -e '\t\t# Debugging BiscuitOS' >> ${MF}
 echo -e '\t\tdo_umount' >> ${MF}
-echo -e '\t\tdo_debug' >> ${MF}
+echo -e '\t\tdo_running debug' >> ${MF}
 echo -e '\t\t;;' >> ${MF}
 echo -e '\t"net")' >> ${MF}
 echo -e '\t\t# Establish Netwroking' >> ${MF}
@@ -547,7 +480,7 @@ echo -e '\t\tsudo ${NET_CFG}/bridge.sh' >> ${MF}
 echo -e '\t\tsudo cp -rf ${NET_CFG}/qemu-ifup /etc' >> ${MF}
 echo -e '\t\tsudo cp -rf ${NET_CFG}/qemu-ifdown /etc' >> ${MF}
 echo -e '\t\tdo_umount' >> ${MF}
-echo -e '\t\tdo_network' >> ${MF}
+echo -e '\t\tdo_running net' >> ${MF}
 echo -e '\t\t;;' >> ${MF}
 echo -e '\t"mount")' >> ${MF}
 echo -e '\t\t# Mount Freeze Disk' >> ${MF}
@@ -560,7 +493,7 @@ echo -e '\t\t;;' >> ${MF}
 echo -e '\t*)' >> ${MF}
 echo -e '\t\t# Default Running BiscuitOS' >> ${MF}
 echo -e '\t\tdo_umount' >> ${MF}
-echo -e '\t\tdo_running' >> ${MF}
+echo -e '\t\tdo_running $1 $2' >> ${MF}
 echo -e '\t\t;;' >> ${MF}
 echo -e 'esac' >> ${MF}
 chmod 755 ${MF}
@@ -589,7 +522,7 @@ echo '> - [Running BiscuitOS with NetWorking](#A7)' >> ${MF}
 
 ##
 # Uboot Configure and Compile
-if [ ${UBOOT} = "yX" ]; then
+if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo '>' >> ${MF}
 	echo '> - [Build Uboot](#A8)' >> ${MF}
 	echo '>' >> ${MF}
@@ -623,79 +556,78 @@ echo "cd ${OUTPUT}/linux/linux"  >> ${MF}
 case ${ARCH_NAME} in
 	arm)
 		echo "make ARCH=${ARCH_NAME} clean" >> ${MF}
-	if [ ${KERNEL_2_X_SUP}X = "NX" ]; then
-		echo "make ARCH=${ARCH_NAME} versatile_defconfig" >> ${MF}
-	else
-		echo "make ARCH=${ARCH_NAME} vexpress_defconfig" >> ${MF}
-	fi
+		echo "make ARCH=${ARCH_NAME} ${DEFAULT_CONFIG}" >> ${MF}
+		# Kbuild menuconfig
 		echo "make ARCH=${ARCH_NAME} menuconfig" >> ${MF}
 		echo '' >> ${MF}
-		echo '  General setup --->' >> ${MF}
-		echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
-		echo '' >> ${MF}
-		echo '  Device Driver --->' >> ${MF}
-		echo '    [*] Block devices --->' >> ${MF}
-		echo '        <*> RAM block device support' >> ${MF}
-		echo '        (153600) Default RAM disk size' >> ${MF}
+		# RamDisk
+		if [ ${SUPPORT_RAMDISK} = "Y" ]; then
+			echo '' >> ${MF}
+			echo '  General setup --->' >> ${MF}
+			echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
+			echo '' >> ${MF}
+			echo '  Device Driver --->' >> ${MF}
+			echo '        [*] Block devices --->' >> ${MF}
+			echo '              <*> RAM block device support' >> ${MF}
+			echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
+			echo '' >> ${MF}
+		fi
+		# Linux 2.6 Special Configure
+		if [ ${SUPPORT_2_X} = "Y" ]; then
+			echo '  Kernel Features --->' >> ${MF}
+			echo '        [*] Use the ARM EABI to compile the kernel' >> ${MF}
+			echo '' >> ${MF}
+		fi
+		# EXT3 filesystem Configure
+		if [ ${SUPPORT_EXT3} = "Y" ]; then
+			echo '  File systems --->' >> ${MF}
+			echo '        <*> Ext3 journalling file system support' >> ${MF}
+			echo '        [*]   Ext3 extended attributes' >> ${MF}
+			echo '' >> ${MF}
+		fi
+		# Common Configure
 		echo '  Enable the block layer --->' >> ${MF}
 		echo '        [*] Support for large (2TB+) block devices and files' >> ${MF}
-	if [ ${KERNEL_2_6_SUP} = "Y" ]; then
-		echo '  Kernel Features --->' >> ${MF}
-		echo '    [*] Use the ARM EABI to compile the kernel' >> ${MF}
 		echo '' >> ${MF}
-		echo '  File systems --->' >> ${MF}
-		echo '    <*> Ext3 journalling file system support' >> ${MF}
-		echo '    [*]   Ext3 extended attributes' >> ${MF}
-		echo '' >> ${MF}
-		echo '  -*- Enable the block layer --->' >> ${MF}
-		echo '    [*] Support for large (2TB+) block devices and files' >> ${MF}
-	fi
-		echo '' >> ${MF}
+		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} -j4" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j4" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
 	arm64)
 		echo "make ARCH=${ARCH_NAME} clean" >> ${MF}
 		echo "make ARCH=${ARCH_NAME} defconfig" >> ${MF}
 		echo "make ARCH=${ARCH_NAME} menuconfig" >> ${MF}
 		echo '' >> ${MF}
-		echo '  General setup --->' >> ${MF}
-		echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
-		echo '' >> ${MF}
-		echo '  Device Driver --->' >> ${MF}
-		echo '    [*] Block devices --->' >> ${MF}
-		echo '        <*> RAM block device support' >> ${MF}
-		echo '        (153600) Default RAM disk size' >> ${MF}
-		echo '' >> ${MF}
+		# RamDisk
+		if [ ${SUPPORT_RAMDISK} = "Y" ]; then
+			echo '' >> ${MF}
+			echo '  General setup --->' >> ${MF}
+			echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
+			echo '' >> ${MF}
+			echo '  Device Driver --->' >> ${MF}
+			echo '        [*] Block devices --->' >> ${MF}
+			echo '              <*> RAM block device support' >> ${MF}
+			echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
+			echo '' >> ${MF}
+		fi
+		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} Image -j4" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j4" >> ${MF}
+		echo "make ARCH=${ARCH_NAME} INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
 	riscv32)
 		echo "make ARCH=riscv clean" >> ${MF}
 		echo "make ARCH=riscv BiscuitOS_riscv32_defconfig" >> ${MF}
 		echo '' >> ${MF}
+		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} vmlinux -j4" >> ${MF}
+		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j4" >> ${MF}
+		echo "make ARCH=riscv INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
 	riscv64)
 		echo "make ARCH=riscv clean" >> ${MF}
 		echo "make ARCH=riscv BiscuitOS_riscv64_defconfig" >> ${MF}
 		echo '' >> ${MF}
-	;;
-esac
-case ${ARCH_NAME} in
-	arm)
-		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} -j8" >> ${MF}
-		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j8" >> ${MF}
-		echo "make ARCH=${ARCH_NAME} INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
-	;;
-	arm64)
-		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} Image -j8" >> ${MF}
-		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j8" >> ${MF}
-		echo "make ARCH=${ARCH_NAME} INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
-	;;
-	riscv32)
-		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} vmlinux -j8" >> ${MF}
-		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j8" >> ${MF}
-		echo "make ARCH=riscv INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
-	;;
-	riscv64)
-		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} vmlinux -j8" >> ${MF}
-		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j8" >> ${MF}
+		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} vmlinux -j4" >> ${MF}
+		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j4" >> ${MF}
 		echo "make ARCH=riscv INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
 esac
@@ -713,11 +645,12 @@ echo '```' >> ${MF}
 echo "cd ${OUTPUT}/busybox/busybox" >> ${MF}
 echo 'make clean' >> ${MF}
 echo 'make menuconfig' >> ${MF}
+echo '' >> ${MF}
 echo '  Busybox Settings --->' >> ${MF}
 echo '    Build Options --->' >> ${MF}
 echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
 echo '' >> ${MF}
-echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} -j8" >> ${MF}
+echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} -j4" >> ${MF}
 echo '' >> ${MF}
 echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} install" >> ${MF}
 echo '```' >> ${MF}
@@ -725,7 +658,7 @@ echo '```' >> ${MF}
 ##
 # Running Uboot
 echo '' >> ${MF}
-if [ ${UBOOT} = "yX" ]; then
+if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo '---------------------------------' >> ${MF}
 	echo '<span id="A9"></span>' >> ${MF}
 	echo '' >> ${MF}
@@ -791,7 +724,7 @@ echo '## Running BiscuitOS' >> ${MF}
 echo '' >> ${MF}
 echo '```' >> ${MF}
 echo "cd ${OUTPUT}" >> ${MF}
-echo "./${RUNSCP_NAME} start" >> ${MF}
+echo "./${RUNSCP_NAME}" >> ${MF}
 echo '```' >> ${MF}
 echo '' >> ${MF}
 case ${ARCH_NAME} in
@@ -826,7 +759,7 @@ case ${ARCH_NAME} in
 		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
-		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_zImage" >> ${MF}
+		echo "${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}/bin/${CROSS_COMPILE}-gdb -x ${OUTPUT}/package/gdb/gdb_zImage" >> ${MF}
 		echo '' >> ${MF}
 		echo '(gdb) b XXX_bk' >> ${MF}
 		echo '(gdb) c' >> ${MF}
@@ -848,7 +781,7 @@ case ${ARCH_NAME} in
 		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
-		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RzImage" >> ${MF}
+		echo "${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}/bin/${CROSS_COMPILE}-gdb -x ${OUTPUT}/package/gdb/gdb_RzImage" >> ${MF}
 		echo '' >> ${MF}
 		echo '(gdb) b XXX_bk' >> ${MF}
 		echo '(gdb) c' >> ${MF}
@@ -870,7 +803,7 @@ case ${ARCH_NAME} in
 		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
-		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_Image" >> ${MF}
+		echo "${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}/bin/${CROSS_COMPILE}-gdb -x ${OUTPUT}/package/gdb/gdb_Image" >> ${MF}
 		echo '' >> ${MF}
 		echo '(gdb) b XXX_bk' >> ${MF}
 		echo '(gdb) c' >> ${MF}
@@ -892,7 +825,7 @@ case ${ARCH_NAME} in
 		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
-		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb -x ${OUTPUT}/package/gdb/gdb_RImage" >> ${MF}
+		echo "${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}/bin/${CROSS_COMPILE}-gdb -x ${OUTPUT}/package/gdb/gdb_RImage" >> ${MF}
 		echo '' >> ${MF}
 		echo '(gdb) b XXX_bk' >> ${MF}
 		echo '(gdb) c' >> ${MF}
@@ -914,7 +847,7 @@ case ${ARCH_NAME} in
 		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
-		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux -x ${OUTPUT}/package/gdb/gdb_Kernel" >> ${MF}
+		echo "${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}/bin/${CROSS_COMPILE}-gdb ${OUTPUT}/linux/linux/vmlinux -x ${OUTPUT}/package/gdb/gdb_Kernel" >> ${MF}
 		echo '' >> ${MF}
 		echo '(gdb) b XXX_bk' >> ${MF}
 		echo '(gdb) c' >> ${MF}
@@ -937,7 +870,7 @@ case ${ARCH_NAME} in
 		echo '###### Second Terminal' >> ${MF}
 		echo '' >> ${MF}
 		echo '```' >> ${MF}
-		echo "${OUTPUT}/${CROSS_TOOL}/${CROSS_TOOL}/bin/${CROSS_TOOL}-gdb ${OUTPUT}/linux/linux/vmlinux" >> ${MF}
+		echo "${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}/bin/${CROSS_COMPILE}-gdb ${OUTPUT}/linux/linux/vmlinux" >> ${MF}
 		echo '' >> ${MF}
 		echo '(gdb) target remote :1234' >> ${MF}
 		echo '(gdb) b start_kernel' >> ${MF}

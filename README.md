@@ -35,6 +35,7 @@ sudo apt-get install -y gpref libglib2.0-dev libgirepository1.0-dev
 sudo apt-get install -y gobject-introspection
 sudo apt-get install -y python2.7-dev python-dev bridge-utils
 sudo apt-get install -y uml-utilities net-tools
+sudo apt-get install -y libattr1-dev libcap-dev
 
 On 64-Bit Machine:
 

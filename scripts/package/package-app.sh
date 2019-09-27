@@ -141,14 +141,7 @@ echo 'depence-clean:' >> ${MF}
 echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
-echo -e '\t@if [ ! -f $(DL)/$(PACKAGE) ]; \' >> ${MF}
-echo -e '\tthen \' >> ${MF}
-echo -e '\t\twget $(URL)/$(PACKAGE) -P $(DL); \' >> ${MF}
-echo -e '\t\tset -e ; \' >> ${MF}
-echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./ ; \' >> ${MF}
-echo -e '\telse \' >> ${MF}
-echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./ ; \' >> ${MF}
-echo -e '\tfi' >> ${MF}
+echo -e '\t' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
