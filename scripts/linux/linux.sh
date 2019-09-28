@@ -53,18 +53,22 @@ esac
 CONFIG_DIR=${LINUX_KERNEL_DIR}/config/${ARCH_NAME}/
 PATCH_DIR=${LINUX_KERNEL_DIR}/patch/${ARCH_NAME}/linux-${LINUX_KERNEL_VERSION}
 
-if [ ${KERNEL_HIS}X = "LegacyX" ]; then
-	GIT_OUT=kernel
-elif [ ${KERNEL_HIS}X = "NewestX" ]; then
-	GIT_OUT=linux
-fi
+case ${KERNEL_HIS} in
+	"LegacyX")
+		GIT_OUT=kernel
+	;;
+	"NewestX")
+		GIT_OUT=linux
+	;;
+	"RPI")
+		GIT_OUT=RPI_linux
+	;;
+esac
 
 if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${LINUX_KERNEL_NAME}/version`
 
-        if [ ${version} = ${LINUX_KERNEL_VERSION} ]; then
-                exit 0
-        fi
+	[ ${version} = ${LINUX_KERNEL_VERSION} ] && exit 0
 fi
 
 establish_legacy_kernel()
@@ -73,89 +77,81 @@ establish_legacy_kernel()
 	TARGET=${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
 	cd ${TARGET}
 	echo "PATCH: ${PATCH}"
-	if [ -d ${TARGET}/tools/means ]; then
-		rm -rf ${TARGET}/tools/means
-	fi
+	[ -d ${TARGET}/tools/means ] && rm -rf ${TARGET}/tools/means
 	git reset --hard v${LINUX_KERNEL_VERSION}
 	if [ $? -ne 0 ]; then
 		git tag
 		echo -e "\033[31m Legacy Kernel only support above version \033[0m"
 		exit -1
 	fi
-	if [ -d ${PATCH} ]; then
-		git am ${PATCH}/*.patch
-	fi
+	[ -d ${PATCH} ] && git am ${PATCH}/*.patch
 }
 
-## Get from github
-if [ ${LINUX_KERNEL_SRC}X = "1X" ]; then
-	if [ ! -d ${ROOT}/dl/${GIT_OUT} ]; then
-		cd ${ROOT}/dl/
-		git clone ${LINUX_KERNEL_GITHUB} ${GIT_OUT}
-		cd ${ROOT}/dl/${GIT_OUT}
-	else
-		cd ${ROOT}/dl/${GIT_OUT}
-		git pull
-	fi
-	mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}
-	if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ]; then
-		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github
-	fi
-	cp -rfa ${ROOT}/dl/${GIT_OUT} ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github
-	cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
-	rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-        ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-	if [ ${LINUX_KERNEL_VERSION} = "newest" ]; then
-		date_X=`date +%s`
-		echo ${LINUX_KERNEL_VERSION}_${date_X} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
-	else
+case ${LINUX_KERNEL_SRC} in
+	## Get from github
+	1)
+		if [ ! -d ${ROOT}/dl/${GIT_OUT} ]; then
+			cd ${ROOT}/dl/
+			git clone ${LINUX_KERNEL_GITHUB} ${GIT_OUT}
+			cd ${ROOT}/dl/${GIT_OUT}
+		else
+			cd ${ROOT}/dl/${GIT_OUT}
+			git pull
+		fi
+		mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}
+		[ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ] && rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github
+		cp -rfa ${ROOT}/dl/${GIT_OUT} ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github
+		cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
+		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		if [ ${LINUX_KERNEL_VERSION} = "newest" ]; then
+			date_X=`date +%s`
+			echo ${LINUX_KERNEL_VERSION}_${date_X} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
+		else
+			echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
+		fi
+		[ ${KERNEL_HIS}X = "LegacyX" ] && establish_legacy_kernel
+		;;
+	## Get from External package
+	2)
+		LINUX_KERNEL_SUBNAME=${LINUX_KERNEL_SUBNAME%X}
+		if [ ! -f ${LINUX_KERNEL_SUBNAME} ]; then
+			echo -e "\033[31m ${LINUX_KERNEL_SUBNAME} doesn't exist! \033[0m"
+			exit -1
+		fi
+		mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}/
+		cp -rf ${LINUX_KERNEL_SUBNAME} ${OUTPUT}/${LINUX_KERNEL_NAME}/
+		cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
+		BASE_TAR=${LINUX_KERNEL_SUBNAME##*/}
+		BASE_FILE=${BASE_TAR%.${LINUX_KERNEL_TAR}}
+		tar -xvf ${BASE_TAR}
 		echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
-	fi
-	if [ ${KERNEL_HIS}X = "LegacyX" ]; then
-		establish_legacy_kernel
-	fi
-fi
-
-## Get from External package
-if [ ${LINUX_KERNEL_SRC}X = "2X" ]; then
-	LINUX_KERNEL_SUBNAME=${LINUX_KERNEL_SUBNAME%X}
-	if [ ! -f ${LINUX_KERNEL_SUBNAME} ]; then
-		echo -e "\033[31m ${LINUX_KERNEL_SUBNAME} doesn't exist! \033[0m"
-		exit -1
-	fi
-	mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}/
-	cp -rf ${LINUX_KERNEL_SUBNAME} ${OUTPUT}/${LINUX_KERNEL_NAME}/
-	cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
-	BASE_TAR=${LINUX_KERNEL_SUBNAME##*/}
-	BASE_FILE=${BASE_TAR%.${LINUX_KERNEL_TAR}}
-	tar ${TAR_OPT} ${BASE_TAR}
-        echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
-        rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-	rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE_TAR}
-        ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE_FILE} ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-fi
-
-## Get from wget
-if [ ${LINUX_KERNEL_SRC}X = "3X" ]; then
-	BASE_NAME=${LINUX_KERNEL_NAME}-${LINUX_KERNEL_VERSION}.${LINUX_KERNEL_TAR}
-	BASE=${LINUX_KERNEL_NAME}-${LINUX_KERNEL_VERSION}
-	if [ ! -f ${ROOT}/dl/${BASE_NAME} ]; then
-		cd ${ROOT}/dl/
-		wget ${LINUX_KERNEL_SITE}/${BASE_NAME}
-	fi
-	mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}/
-	cp ${ROOT}/dl/${BASE_NAME} ${OUTPUT}/${LINUX_KERNEL_NAME}/
-	cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
-	tar ${TAR_OPT} ${BASE_NAME}
-	if [ $? -ne 0 ]; then
-		echo -e "\033[31m Invalid tar operation for: ${TAR_OPT} \033[0m"
-		exit -1
-	fi
-	rm -rf ${BASE_NAME}
-        echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
-        rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-        ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE} ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-fi
+		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE_TAR}
+		ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE_FILE} ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		;;
+	## Get from wget
+	3)
+		BASE_NAME=${LINUX_KERNEL_NAME}-${LINUX_KERNEL_VERSION}.${LINUX_KERNEL_TAR}
+		BASE=${LINUX_KERNEL_NAME}-${LINUX_KERNEL_VERSION}
+		if [ ! -f ${ROOT}/dl/${BASE_NAME} ]; then
+			cd ${ROOT}/dl/
+			wget ${LINUX_KERNEL_SITE}/${BASE_NAME}
+		fi
+		mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}/
+		cp ${ROOT}/dl/${BASE_NAME} ${OUTPUT}/${LINUX_KERNEL_NAME}/
+		cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
+		tar ${TAR_OPT} ${BASE_NAME}
+		if [ $? -ne 0 ]; then
+			echo -e "\033[31m Invalid tar operation for: ${TAR_OPT} \033[0m"
+			exit -1
+		fi
+		rm -rf ${BASE_NAME}
+		echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
+		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE} ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		;;
+esac
 
 # CONFIG
 # -> sed -i '/^#/d'

@@ -14,6 +14,9 @@ config LINUX_NEWEST
 config LINUX_LEGACY
 	bool "Establish Legacy Kernel"
 
+config LINUX_RPI
+	bool "Establish Raspberry Pi Kernel"
+
 endchoice
 
 config LINUX_KERNEL_VERSION
@@ -23,6 +26,7 @@ config LINUX_BUILD_HIST
 	string
 	default "Newest" if LINUX_NEWEST
 	default "Legacy" if LINUX_LEGACY
+	default "RPI"    if LINUX_RPI
 
 choice
 	prompt "Setup linux kernel source code"

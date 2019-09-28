@@ -28,6 +28,7 @@ NIC=
 GW=
 # ROOT
 NET_CFG=/tmp/BiscuitOS_NetCfg.cfg
+UBUNTU_VERSION=`lsb_release -r --short`
 
 # Check whether special net device exist
 # @$1: Device name (Include: Bridge, Eth, Tap ...etc)
@@ -58,7 +59,11 @@ get_current_ip_nic()
 	nics=$(route -n | grep ^0.0.0.0 | awk '{print $8}')
 	for nic in ${nics}
 	do
-		ip=$(ifconfig $nic | awk '/inet addr:/{ print $2 }' | awk -F: '{print $2}')
+		if [ ${UBUNTU_VERSION} = "16.04" ]; then
+			ip=$(ifconfig $nic | awk '/inet addr:/{ print $2 }' | awk -F: '{print $2}')
+		else
+			ip=$(ifconfig $nic | grep 'inet ' | grep -v '127.0.0.1' | cut -d: -f2 | awk '{print $2}')
+		fi
 		ping -I ${nic} www.baidu.com -c1 -W1 -w 0.1 > /dev/null 2>&1
 		[ $? -eq 0 ] && NIC=${nic} && IP=${ip} && return 0
 	done

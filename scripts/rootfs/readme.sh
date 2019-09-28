@@ -29,6 +29,7 @@ UBOOT=${15%X}
 UBOOT_CROSS=${16%X}
 # Kernel Version
 KERNEL_VERSION=${7%X}
+[ ${KERNEL_VERSION} = "newest" ] && KERNEL_VERSION=6.0.0
 # Rootfs NAME
 ROOTFS_NAME=${2%X}
 # Rootfs Version
@@ -62,6 +63,7 @@ SUPPORT_DISK=N
 SUPPORT_NONE_GNU=N
 SUPPORT_RAMDISK=N
 SUPPORT_UBOOT=N
+SUPPORT_PRI4B=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -162,6 +164,10 @@ detect_kernel_version_field
 
 # Uboot
 [ ${UBOOT}X = "yX" ] && SUPPORT_UBOOT=Y
+
+# Platform 
+[ ${PROJECT_NAME} = "RaspberryPi_4B" ] && SUPPORT_PRI4B=Y && DEFAULT_CONFIG=bcm2711_defconfig
+[ ${SUPPORT_PRI4B} = "Y" ] && SUPPORT_RAMDISK=N
 
 ##
 # Rootfs Inforamtion
@@ -586,9 +592,11 @@ case ${ARCH_NAME} in
 			echo '' >> ${MF}
 		fi
 		# Common Configure
-		echo '  Enable the block layer --->' >> ${MF}
-		echo '        [*] Support for large (2TB+) block devices and files' >> ${MF}
-		echo '' >> ${MF}
+		if [ ${SUPPORT_PRI4B} = "N" ]; then
+			echo '  Enable the block layer --->' >> ${MF}
+			echo '        [*] Support for large (2TB+) block devices and files' >> ${MF}
+			echo '' >> ${MF}
+		fi
 		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} -j4" >> ${MF}
 		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j4" >> ${MF}
 		echo "make ARCH=${ARCH_NAME} INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}

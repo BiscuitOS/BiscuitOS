@@ -27,6 +27,7 @@ UBOOT=${15%X}
 UBOOT_CROSS=${16%X}
 # Kernel Version
 KERNEL_VERSION=${7%X}
+[ ${KERNEL_VERSION} = "newest" ] && KERNEL_VERSION=6.0.0
 # Rootfs NAME
 ROOTFS_NAME=${2%X}
 # Rootfs Version
