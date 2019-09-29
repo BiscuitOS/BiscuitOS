@@ -125,7 +125,7 @@ echo '' >> ${MF}
 echo 'all:' >> ${MF}
 echo -e '\t@cd $(BASENAME)/build ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} CC=$(CROSS_TOOL)gcc \' >> ${MF}
-echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++;  \' >> ${MF}
+echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++  \' >> ${MF}
 echo -e '\tCFLAGS="$(KBUDCFLAG)" LDFLAGS="$(KBLDFLAGS)" \' >> ${MF}
 echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
 echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}

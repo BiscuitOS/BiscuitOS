@@ -42,7 +42,7 @@ PK_APP_DEMO_sh = $(CONFIG_SHELL) $(PK_APP_DEMO_SCRIPTS) \
                  $(PK_APP_DEMO_BSBIT)X \
                  $(PK_APP_DEMO_BUILDARCH)X \
 		 $(PK_APP_DEMO_CSRCFILE)X \
-                 $(CONFIG_PK_DEMO_SRCFILE) \
+                 $(CONFIG_PK_APP_DEMO_SRCFILE)X \
                  $(CONFIG_PK_APP_DEMO_CSRCFILE)
 
 $(PK_APP_DEMO_DIR)/build: FORCE

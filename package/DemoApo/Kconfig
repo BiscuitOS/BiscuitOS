@@ -19,11 +19,10 @@ config PK_APP_DEMO_GITHUB
 	string "GitHub"
 
 config PK_APP_DEMO_SRCFILE
-	default "demo.c"
+	default "demo.c Makefile"
 	string "Source code list"
 
 config PK_APP_DEMO_CSRCFILE
-	default "demo.c"
 	string "Compile source code list"
 
 config PK_APP_DEMO_CONFIG

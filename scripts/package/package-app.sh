@@ -51,6 +51,8 @@ KBUILD_ASFLAGS=${19%X}
 BSFILE=${20%X}
 # Host Build-Architecture
 HBARCH=${21%X}
+# DL source file
+DLSFILE=${23%X}
 
 ## Establish static Path
 OUTPUT=${PROJECT_ROOT}/output/${PROJECT_NAME}
@@ -107,6 +109,7 @@ echo 'TARCMD    := tar -xvf' >> ${MF}
 echo 'PATCH     := patch/$(BASENAME)' >> ${MF}
 echo "URL       := ${PACKAGE_SITE}" >> ${MF}
 echo "BSFILE    := ${BSFILE}" >> ${MF}
+echo "DLFILE    := ${DLSFILE}" >> ${MF}
 echo 'CONFIG    := --prefix=$(INS_PATH) --host=$(CROSS_NAME)' >> ${MF}
 echo "CONFIG    += --build=${HBARCH}" >> ${MF}
 echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)"' >> ${MF}
@@ -118,14 +121,16 @@ echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
-echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} CC=$(CROSS_TOOL)gcc \' >> ${MF}
-echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++;  \' >> ${MF}
+echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH}  \' >> ${MF}
+echo -e '\tmake CC=$(CROSS_TOOL)gcc \' >> ${MF}
+echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++  \' >> ${MF}
 echo -e '\tCFLAGS="$(KBUDCFLAG)" LDFLAGS="$(KBLDFLAGS)" \' >> ${MF}
 echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
 echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
 echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
 echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
-echo -e '\tmake' >> ${MF}
+echo -e '\tCROSS_COMPILE=$(CROSS_NAME) \' >> ${MF}
+echo -e '\tTARGETA=$(BASENAME)' >> ${MF}
 echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -141,11 +146,20 @@ echo 'depence-clean:' >> ${MF}
 echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
-echo -e '\t' >> ${MF}
-echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
-echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
-echo -e '\tfi' >> ${MF}
-echo -e '\t$(info "Download $(PACKAGE) done.")' >> ${MF}
+echo -e '\t@mkdir -p $(BASENAME)' >> ${MF}
+echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
+echo -e '\tfor file in $(DLFILE) ; \' >> ${MF}
+echo -e '\tdo \' >> ${MF}
+echo -e '\t\tLFILE= ; \' >> ${MF}
+echo -e '\t\tLDIR= ; \' >> ${MF}
+echo -e '\t\tresult=`echo $${file} | grep "/"` ; \' >> ${MF}
+echo -e '\t\t[ ! -z "$${result}" ] && LFILE=$${file##*/} ; \' >> ${MF}
+echo -e '\t\t[ ! -z "$${LFILE}" ] && LDIR=$${file%%/$${LFILE}} ; \' >> ${MF}
+echo -e '\t\t[ ! -z "$${LDIR}" ] && mkdir -p $${LDIR} ; \' >> ${MF}
+echo -e '\t\twget $(URL)/$${file} ; \' >> ${MF}
+echo -e '\t\t[ ! -z "$${LDIR}" ] && mv $${LFILE} $${LDIR} ; \' >> ${MF}
+echo -e '\t\techo "Download $${file}" ; \' >> ${MF}
+echo -e '\tdone' >> ${MF}
 echo '' >> ${MF}
 echo 'tar:' >> ${MF}
 echo -e '\t$(TARCMD) $(PACKAGE)' >> ${MF}
@@ -183,7 +197,8 @@ echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
-echo -e '\tmake install' >> ${MF}
+echo -e '\tmake install INSPATH=$(INS_PATH)/bin \' >> ${MF}
+echo -e '\tTARGETA=$(BASENAME)' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
