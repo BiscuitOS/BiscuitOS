@@ -84,6 +84,12 @@ source package/LDD_char_app/Kconfig
 # LDD: Character Module
 source package/LDD_char_module/Kconfig
 
+# LDD: Contiguous Memory Allocate application
+source package/LDD_CMA_app/Kconfig
+
+# LDD: Contiguous Memory Allocate Module
+source package/LDD_CMA_module/Kconfig
+
 # LDD: Input Device Driver application
 source package/LDD_input_app/Kconfig
 
@@ -227,6 +233,9 @@ source package/resourceproto/Kconfig
 
 # riscv-pk
 source package/riscv-pk/Kconfig
+
+# RaspberryPi 4B
+source package/rpi-4b-bootloader/Kconfig
 
 # scrnsaverproto
 source package/scrnsaverproto/Kconfig
