@@ -1,0 +1,46 @@
+diff -uprN old/configs/vexpress_ca9x4_defconfig new/configs/vexpress_ca9x4_defconfig
+--- old/configs/vexpress_ca9x4_defconfig	2019-10-05 09:46:57.284608368 +0800
++++ new/configs/vexpress_ca9x4_defconfig	2019-10-05 09:48:41.705805454 +0800
+@@ -3,7 +3,8 @@ CONFIG_TARGET_VEXPRESS_CA9X4=y
+ CONFIG_SYS_TEXT_BASE=0x60800000
+ CONFIG_NR_DRAM_BANKS=2
+ CONFIG_DISTRO_DEFAULTS=y
+-CONFIG_BOOTCOMMAND="run distro_bootcmd; run bootflash"
++CONFIG_BOOTCOMMAND="run bootflash"
++CONFIG_SYS_PROMPT="BiscuitOS => 
+ # CONFIG_DISPLAY_CPUINFO is not set
+ # CONFIG_DISPLAY_BOARDINFO is not set
+ # CONFIG_CMD_CONSOLE is not set
+diff -uprN old/include/configs/vexpress_common.h new/include/configs/vexpress_common.h
+--- old/include/configs/vexpress_common.h	2019-10-05 09:46:57.376609162 +0800
++++ new/include/configs/vexpress_common.h	2019-10-05 09:47:50.709149140 +0800
+@@ -182,6 +182,8 @@
+ 		"maxramdisk=0x1800000\0" \
+ 		"pxefile_addr_r=0x88000000\0" \
+ 		"scriptaddr=0x88000000\0" \
++		"BiscuitOS_kernel=0x60200000\0" \
++		"BiscuitOS_DTB=0x60800000\0" \
+ 		"kernel_addr_r=0x80008000\0"
+ #elif defined(CONFIG_VEXPRESS_EXTENDED_MEMORY_MAP)
+ #define CONFIG_PLATFORM_ENV_SETTINGS \
+@@ -205,9 +207,17 @@
+ 		"flashargs=setenv bootargs root=${root} console=${console} " \
+ 			"mem=${dram} mtdparts=${mtd} mmci.fmax=190000 " \
+ 			"devtmpfs.mount=0  vmalloc=256M\0" \
+-		"bootflash=run flashargs; " \
+-			"cp ${ramdisk_addr} ${ramdisk_addr_r} ${maxramdisk}; " \
+-			"bootm ${kernel_addr} ${ramdisk_addr_r}\0"
++		"bootflash=echo ' '; " \
++			"echo ' ____  _                _ _    ___  ____  '; " \
++			"echo '| __ )(_)___  ___ _   _(_) |_ / _  / ___| '; " \
++			"echo '|  _  | / __|/ __| | | | | __| | | ___   '; " \
++			"echo '| |_) |  __   (__| |_| | | |_| |_| |___) |'; " \
++			"echo '|____/|_|___/ ___| __,_|_| __| ___/|____/ '; " \
++			"echo ' '; " \
++			"fatload mmc 0:1 ${BiscuitOS_kernel} uImage; " \
++			"fatload mmc 0:1 ${BiscuitOS_DTB} vexpress-v2p-ca9.dtb; " \
++			"setenv bootargs earlycon root=/dev/mmcblk0p2 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8; " \
++			"bootm ${BiscuitOS_kernel} - ${BiscuitOS_DTB}\0"
+ 
+ /* FLASH and environment organization */
+ #define PHYS_FLASH_SIZE			0x04000000	/* 64MB */

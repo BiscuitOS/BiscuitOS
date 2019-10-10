@@ -122,15 +122,8 @@ echo '' >> ${MF}
 echo 'all:' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH}  \' >> ${MF}
-echo -e '\tmake CC=$(CROSS_TOOL)gcc \' >> ${MF}
-echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++  \' >> ${MF}
-echo -e '\tCFLAGS="$(KBUDCFLAG)" LDFLAGS="$(KBLDFLAGS)" \' >> ${MF}
-echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
-echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
-echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
-echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
-echo -e '\tCROSS_COMPILE=$(CROSS_NAME) \' >> ${MF}
-echo -e '\tTARGETA=$(BASENAME)' >> ${MF}
+echo -e '\tmake CROSS_TOOLS=$(CROSS_NAME) \' >> ${MF}
+echo -e '\tBSROOT=$(ROOT)' >> ${MF}
 echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -176,8 +169,8 @@ echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
-echo -e '\tmake install INSPATH=$(INS_PATH)/bin \' >> ${MF}
-echo -e '\tTARGETA=$(BASENAME)' >> ${MF}
+echo -e '\tmake install CROSS_TOOLS=$(CROSS_NAME) \' >> ${MF}
+echo -e '\tBSROOT=$(ROOT)' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}

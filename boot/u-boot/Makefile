@@ -23,6 +23,7 @@ UBOOT_sh = $(CONFIG_SHELL) $(UBOOT_SCRIPTS) \
 	       $(CONFIG_UBOOT_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
                $(UBOOT_TAR)X $(CONFIG_ARCH_MAGIC)X \
                $(CONFIG_UBOOT_CROSS_COMPILE)X $(UBOOT_SUBNAME)X \
+               $(CONFIG_ARCH_MAGIC)X
 
 $(UBOOT_DIR)/build: FORCE
 	$(Q)$(call UBOOT_sh,$(srctree))

@@ -78,6 +78,57 @@ source package/inputproto/Kconfig
 # kbproto
 source package/kbproto/Kconfig
 
+# LDD: Character application
+source package/LDD_char_app/Kconfig
+
+# LDD: Character Module
+source package/LDD_char_module/Kconfig
+
+# LDD: Input Device Driver application
+source package/LDD_input_app/Kconfig
+
+# LDD: Input Device Driver Module
+source package/LDD_input_module/Kconfig
+
+# LDD: Platform Attribute application
+source package/LDD_platform_attr_app/Kconfig
+
+# LDD: Platform Attribute Module
+source package/LDD_platform_attr_module/Kconfig
+
+# LDD: Platform Core application
+source package/LDD_platform_core_app/Kconfig
+
+# LDD: Platform Core Module
+source package/LDD_platform_core_module/Kconfig
+
+# LDD: Platform Core from DTS application
+source package/LDD_platform_coreDTS_app/Kconfig
+
+# LDD: Platform Core from DTS Module
+source package/LDD_platform_coreDTS_module/Kconfig
+
+# LDD: Platform Resource application
+source package/LDD_platform_res_app/Kconfig
+
+# LDD: Platform Resource module
+source package/LDD_platform_res_module/Kconfig
+
+# LDD: Platform Resource from DTS application
+source package/LDD_platform_resDTS_app/Kconfig
+
+# LDD: Platform Resource from DTS module
+source package/LDD_platform_resDTS_module/Kconfig
+
+# LDD: MISC application
+source package/LDD_misc_app/Kconfig
+
+# LDD: MISC Module
+source package/LDD_misc_module/Kconfig
+
+# LDD: Timer Device Driver module
+source package/LDD_timer_module/Kconfig
+
 # libdrm
 source package/libdrm/Kconfig
 

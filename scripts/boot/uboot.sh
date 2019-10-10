@@ -20,23 +20,36 @@ PROJ_NAME=${9%X}
 UBOOT_TAR=${10%X}
 UBOOT_SUBNAME=${13%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
-TAR_OPT=
+ARCH_MAGIC=${14%X}
+ARCH_NAME=
 
 if [ -d ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${UBOOT_NAME}/version`
 
-        if [ ${version} = ${UBOOT_VERSION} ]; then
-                exit 0
-        fi
+        [ ${version} = ${UBOOT_VERSION} ] && exit 0
 fi
 
-if [ ${UBOOT_TAR} = "tar.xz" ]; then
-	TAR_OPT=-xvJf
-elif [ ${UBOOT_TAR} = "tar.gz" ]; then
-	TAR_OPT=-xvzf
-elif [ ${UBOOT_TAR} = "tar.bz2" ]; then
-	TAR_OPT=-xvjf
-fi
+TAR_OPT=-xvf
+
+case ${ARCH_MAGIC} in
+	1)
+		ARCH_NAME=x86
+		;;
+	2)
+		ARCH_NAME=arm
+		;;
+	3)
+		ARCH_NAME=arm64
+		;;
+	4)
+		ARCH_NAME=riscv32
+		;;
+	5)
+		ARCH_NAME=riscv64
+		;;
+esac
+
+PATCH_DIR=${ROOT}/boot/u-boot/patch/${ARCH_NAME}/${UBOOT_VERSION}
 
 ## Get from github
 if [ ${UBOOT_SRC} = "1" ]; then
@@ -100,4 +113,22 @@ if [ ${UBOOT_SRC} = "3" ]; then
         echo ${UBOOT_VERSION} > ${OUTPUT}/${UBOOT_NAME}/version
         rm -rf ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}
         ln -s ${OUTPUT}/${UBOOT_NAME}/${BASE} ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME}
+fi
+
+# PATCH
+# --> Create a patch
+#     --> diff -uprN old/ new/ > 000001.patch
+# --> Apply a patch
+#     --> copy 000001.patch into old/
+#     --> patch -p1 < 000001.patch
+if [ -d ${PATCH_DIR} ]; then
+	echo "Patching for ${OUTPUT}/u-boot/u-boot/"
+        for patchfile in `ls ${PATCH_DIR}`
+	do
+		cp ${PATCH_DIR}/${patchfile} ${OUTPUT}/u-boot/u-boot
+		cd ${OUTPUT}/u-boot/u-boot/ > /dev/null 2>&1
+		patch -p1 < ${patchfile}
+		cd - > /dev/null 2>&1
+		rm -rf ${OUTPUT}/u-boot/u-boot/${patchfile} > /dev/null 2>&1
+	done
 fi

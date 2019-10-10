@@ -290,13 +290,57 @@ fi
 
 if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo "UBOOT=${OUTPUT}/u-boot/u-boot" >> ${MF}
+	echo 'PART_TAB_SZ=1' >> ${MF}
+	echo 'MMC0P1_SZ=20' >> ${MF}
+	echo 'MMC0P2_SZ=${ROOTFS_SIZE}' >> ${MF}
+	echo 'MMC0P1_SEEK=`expr ${PART_TAB_SZ} + ${MMC0P1_SZ}`' >> ${MF}
+	echo '' >> ${MF}
+	echo '# Partition Table' >> ${MF}
+	echo 'SD_PTAB_BEG=0' >> ${MF}
+	echo 'SD_PTAB=`expr ${PART_TAB_SZ} \* 1024 \* 1024 \/ 512`' >> ${MF}
+	echo 'SD_PTAB_END=`expr ${SD_PTAB_BEG} + ${SD_PTAB} - 1`' >> ${MF}
+	echo '# mmcblk0p1' >> ${MF}
+	echo 'SD_MMC0_BEG=`expr ${SD_PTAB_END} + 1`' >> ${MF}
+	echo 'SD_MMC0=`expr ${MMC0P1_SZ} \* 1024 \* 1024 \/ 512`' >> ${MF}
+	echo 'SD_MMC0_END=`expr ${SD_MMC0_BEG} + ${SD_MMC0} - 1`' >> ${MF}
+	echo '# mmcblk0p1' >> ${MF}
+	echo 'SD_MMC1_BEG=`expr ${SD_MMC0_END} + 1`' >> ${MF}
+	echo 'SD_MMC1=`expr ${MMC0P2_SZ} \* 1024 \* 1024 \/ 512`' >> ${MF}
+	echo 'SD_MMC1_END=`expr ${SD_MMC1_BEG} + ${SD_MMC1} - 1`' >> ${MF}
 	echo '' >> ${MF}
 	echo 'do_uboot()' >> ${MF}
 	echo '{' >> ${MF}
+	echo -e '\tmkimage -A arm \' >> ${MF}
+	echo -e '\t\t-C none \' >> ${MF}
+	echo -e '\t\t-O linux \' >> ${MF}
+	echo -e '\t\t-T kernel \' >> ${MF}
+	echo -e '\t\t-n BiscuitOS \' >> ${MF}
+	echo -e '\t\t-a 0x60008000 \' >> ${MF}
+	echo -e '\t\t-e 0x60008000 \' >> ${MF}
+	echo -e '\t\t-d ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+	echo -e '\t\t${LINUX_DIR}/${ARCH}/boot/uImage' >> ${MF}
+	echo -e '\t# SD card boot' >> ${MF}
+	echo -e '\t[ -d ${OUTPUT}/.tmpsd ] && sudo rm -rf ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
+	echo -e '\tsudo losetup -o `expr ${SD_MMC0_BEG} \* 512` ${loopdev} ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo -e '\tsudo mkdir -p ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo mount -o loop,rw ${loopdev} ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/uImage ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo umount ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo rm -rf ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
+	echo -e '\t' >> ${MF}
+	echo -e '\t# Uboot boot-cmd' >> ${MF}
+	echo -e '\t# --> fatload mmc 0:1 0x60200000 uImage' >> ${MF}
+	echo -e '\t# --> fatload mmc 0:1 0x60800000 vexpress-v2p-ca9.dtb' >> ${MF}
+	echo -e '\t# --> setenv bootargs 'earlycon root=/dev/mmcblk0p1 rw rootfstype=ext4 console=ttyAMA0 init=/linuxrc loglevel=8'' >> ${MF}
+	echo -e '\t# --> bootm 0x60200000 - 0x60800000' >> ${MF}
 	echo -e '\tsudo ${QEMUT} \' >> ${MF}
 	echo -e '\t-M vexpress-a9 \' >> ${MF}
 	echo -e '\t-kernel ${UBOOT}/u-boot \' >> ${MF}
-	echo -e '\t-m 512 \' >> ${MF}
+	echo -e '\t-sd ${OUTPUT}/BiscuitOS.img \' >> ${MF}
+	echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 	echo -e '\t-nographic' >> ${MF}
 	echo '}' >> ${MF}
 fi
@@ -426,9 +470,48 @@ if [ ${SUPPORT_RAMDISK} = "Y" ]; then
 	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 else
-	echo -e '\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
 	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 fi
+## Support UBOOT
+if [ ${SUPPORT_UBOOT} = "Y" ]; then
+	echo -e '\t# SDCARD Partition: Bootload + Kernel + rootfs' >> ${MF}
+	echo -e '\t#' >> ${MF}
+	echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}
+	echo -e '\t# | Partition Table | Bootloader(mmcblk0p1) | Rootfs(mmcblk0p2) |' >> ${MF}
+	echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}
+	echo -e '\t#' >> ${MF}
+	echo -e '\t# Header:   ${PART_TAB_SZ}M (Reserve 512 Bytes on legacy fdiks tools)' >> ${MF}
+	echo -e '\t# Bootload: ${MMC0P1_SZ}M (Contain Kernel + Uboot)' >> ${MF}
+	echo -e '\t# Rootfs:   ${ROOTFS_SIZE}M' >> ${MF}
+	echo -e '\tdd bs=1M count=${PART_TAB_SZ} if=/dev/zero of=${OUTPUT}/BiscuitOS.img > \' >> ${MF}
+	echo -e '\t                /dev/null 2>&1' >> ${MF}
+	echo -e '\tdd bs=1M count=${MMC0P1_SZ} if=/dev/zero of=${OUTPUT}/bootloader.img > \' >> ${MF}
+	echo -e '\t                /dev/null 2>&1' >> ${MF}
+	echo -e '\tsudo mkfs.vfat ${OUTPUT}/bootloader.img > /dev/null 2>&1' >> ${MF}
+	echo -e '\tdd bs=1M if=${OUTPUT}/bootloader.img of=${OUTPUT}/BiscuitOS.img \' >> ${MF}
+	echo -e '\t                conv=notrunc seek=${PART_TAB_SZ} > /dev/null 2>&1' >> ${MF}
+	echo -e '\tdd bs=1M if=${OUTPUT}/rootfs/ramdisk of=${OUTPUT}/BiscuitOS.img \' >> ${MF}
+	echo -e '\t                conv=notrunc seek=${MMC0P1_SEEK} > /dev/null 2>&1' >> ${MF}
+	echo -e '\trm -rf ${OUTPUT}/bootloader.img' >> ${MF}
+	echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+	echo -e '\t# Parting Table' >> ${MF}
+	echo 'cat <<EOF | fdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo 'n' >> ${MF}
+	echo 'p' >> ${MF}
+	echo '1' >> ${MF}
+	echo '${SD_MMC0_BEG}' >> ${MF}
+	echo '${SD_MMC0_END}' >> ${MF}
+	echo 'n' >> ${MF}
+	echo 'p' >> ${MF}
+	echo '2' >> ${MF}
+	echo '${SD_MMC1_BEG}' >> ${MF}
+	echo '${SD_MMC1_END}' >> ${MF}
+	echo 'p' >> ${MF}
+	echo 'w' >> ${MF}
+	echo 'EOF' >> ${MF}
+fi
+
 echo '}' >> ${MF}
 echo '' >> ${MF}
 
@@ -499,7 +582,8 @@ echo -e '\t\t;;' >> ${MF}
 echo -e '\t*)' >> ${MF}
 echo -e '\t\t# Default Running BiscuitOS' >> ${MF}
 echo -e '\t\tdo_umount' >> ${MF}
-echo -e '\t\tdo_running $1 $2' >> ${MF}
+[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\t\tdo_running $1 $2' >> ${MF}
+[ ${SUPPORT_UBOOT} = "Y" ] && echo -e '\t\tdo_uboot' >> ${MF}
 echo -e '\t\t;;' >> ${MF}
 echo -e 'esac' >> ${MF}
 chmod 755 ${MF}
@@ -664,6 +748,20 @@ echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} install" >> ${MF}
 echo '```' >> ${MF}
 
 ##
+# Re-build Rootfs
+echo '' >> ${MF}
+echo '---------------------------------' >> ${MF}
+echo '<span id="A2"></span>' >> ${MF}
+echo '' >> ${MF}
+echo '## Re-Build Rootfs' >> ${MF}
+echo '' >> ${MF}
+echo '```' >> ${MF}
+echo "cd ${OUTPUT}" >> ${MF}
+echo "./${RUNSCP_NAME} pack" >> ${MF}
+echo '```' >> ${MF}
+echo '' >> ${MF}
+
+##
 # Running Uboot
 echo '' >> ${MF}
 if [ ${SUPPORT_UBOOT} = "Y" ]; then
@@ -678,20 +776,6 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 fi
-
-##
-# Re-build Rootfs
-echo '' >> ${MF}
-echo '---------------------------------' >> ${MF}
-echo '<span id="A2"></span>' >> ${MF}
-echo '' >> ${MF}
-echo '## Re-Build Rootfs' >> ${MF}
-echo '' >> ${MF}
-echo '```' >> ${MF}
-echo "cd ${OUTPUT}" >> ${MF}
-echo "./${RUNSCP_NAME} pack" >> ${MF}
-echo '```' >> ${MF}
-echo '' >> ${MF}
 
 ##
 # Mount a Freeze Disk
