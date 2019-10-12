@@ -476,7 +476,7 @@ if [ ${SUPPORT_PRI4B} = "N" ]; then
 		echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	fi
 	## Support UBOOT
-	if [ ${SUPPORT_UBOOT} ]; then
+	if [ ${SUPPORT_UBOOT} = "Y" ]; then
 		echo -e '\t# SDCARD Partition: Bootload + Kernel + rootfs' >> ${MF}
 		echo -e '\t#' >> ${MF}
 		echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}

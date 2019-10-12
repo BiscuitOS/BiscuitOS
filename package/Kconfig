@@ -90,6 +90,12 @@ source package/LDD_CMA_app/Kconfig
 # LDD: Contiguous Memory Allocate Module
 source package/LDD_CMA_module/Kconfig
 
+# LDD: CMA on special Area application
+source package/LDD_CMA_area_app/Kconfig
+
+# LDD: CMA on speical Area Module
+source package/LDD_CMA_area_module/Kconfig
+
 # LDD: Input Device Driver application
 source package/LDD_input_app/Kconfig
 
