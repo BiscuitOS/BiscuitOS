@@ -54,10 +54,10 @@ CONFIG_DIR=${LINUX_KERNEL_DIR}/config/${ARCH_NAME}/
 PATCH_DIR=${LINUX_KERNEL_DIR}/patch/${ARCH_NAME}/linux-${LINUX_KERNEL_VERSION}
 
 case ${KERNEL_HIS} in
-	"LegacyX")
+	"Legacy")
 		GIT_OUT=kernel
 	;;
-	"NewestX")
+	"Newest")
 		GIT_OUT=linux
 	;;
 	"RPI")
@@ -69,6 +69,9 @@ if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${LINUX_KERNEL_NAME}/version`
 
 	[ ${version} = ${LINUX_KERNEL_VERSION} ] && exit 0
+	if [ ${LINUX_KERNEL_SRC} = 1 ]; then
+		[ -f ${OUTPUT}/${LINUX_KERNEL_NAME}/version ] && exit 0
+	fi
 fi
 
 establish_legacy_kernel()

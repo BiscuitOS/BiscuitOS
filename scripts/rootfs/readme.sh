@@ -294,6 +294,7 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo 'MMC0P1_SZ=20' >> ${MF}
 	echo 'MMC0P2_SZ=${ROOTFS_SIZE}' >> ${MF}
 	echo 'MMC0P1_SEEK=`expr ${PART_TAB_SZ} + ${MMC0P1_SZ}`' >> ${MF}
+	echo 'SD_SIZE=`expr ${MMC0P1_SZ} + ${MMC0P2_SZ} + ${PART_TAB_SZ}`' >> ${MF}
 	echo '' >> ${MF}
 	echo '# Partition Table' >> ${MF}
 	echo 'SD_PTAB_BEG=0' >> ${MF}
@@ -454,27 +455,65 @@ echo '' >> ${MF}
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
-echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
-echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
-echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
-echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-echo -e '\tsudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk \' >> ${MF}
-echo -e '\t              ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
-echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
-echo -e '\tsync' >> ${MF}
-echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-if [ ${SUPPORT_RAMDISK} = "Y" ]; then
-	echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
-	echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
-	echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
-	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-	echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
-else
-	[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
-	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-fi
-## Support UBOOT
-if [ ${SUPPORT_UBOOT} = "Y" ]; then
+if [ ${SUPPORT_PRI4B} = "N" ]; then
+	echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+	echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
+	echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	echo -e '\tsudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk \' >> ${MF}
+	echo -e '\t              ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
+	echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
+	echo -e '\tsync' >> ${MF}
+	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	if [ ${SUPPORT_RAMDISK} = "Y" ]; then
+		echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
+		echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
+		echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
+		echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+	else
+		[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
+		echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	fi
+	## Support UBOOT
+	if [ ${SUPPORT_UBOOT} ]; then
+		echo -e '\t# SDCARD Partition: Bootload + Kernel + rootfs' >> ${MF}
+		echo -e '\t#' >> ${MF}
+		echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}
+		echo -e '\t# | Partition Table | Bootloader(mmcblk0p1) | Rootfs(mmcblk0p2) |' >> ${MF}
+		echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}
+		echo -e '\t#' >> ${MF}
+		echo -e '\t# Header:   ${PART_TAB_SZ}M (Reserve 512 Bytes on legacy fdiks tools)' >> ${MF}
+		echo -e '\t# Bootload: ${MMC0P1_SZ}M (Contain Kernel + Uboot)' >> ${MF}
+		echo -e '\t# Rootfs:   ${ROOTFS_SIZE}M' >> ${MF}
+		echo -e '\tdd bs=1M count=${PART_TAB_SZ} if=/dev/zero of=${OUTPUT}/BiscuitOS.img > \' >> ${MF}
+		echo -e '\t                /dev/null 2>&1' >> ${MF}
+		echo -e '\tdd bs=1M count=${MMC0P1_SZ} if=/dev/zero of=${OUTPUT}/bootloader.img > \' >> ${MF}
+		echo -e '\t                /dev/null 2>&1' >> ${MF}
+		echo -e '\tsudo mkfs.vfat ${OUTPUT}/bootloader.img > /dev/null 2>&1' >> ${MF}
+		echo -e '\tdd bs=1M if=${OUTPUT}/bootloader.img of=${OUTPUT}/BiscuitOS.img \' >> ${MF}
+		echo -e '\t                conv=notrunc seek=${PART_TAB_SZ} > /dev/null 2>&1' >> ${MF}
+		echo -e '\tdd bs=1M if=${OUTPUT}/rootfs/ramdisk of=${OUTPUT}/BiscuitOS.img \' >> ${MF}
+		echo -e '\t                conv=notrunc seek=${MMC0P1_SEEK} > /dev/null 2>&1' >> ${MF}
+		echo -e '\trm -rf ${OUTPUT}/bootloader.img' >> ${MF}
+		echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+		echo -e '\t# Parting Table' >> ${MF}
+		echo 'cat <<EOF | fdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
+		echo 'n' >> ${MF}
+		echo 'p' >> ${MF}
+		echo '1' >> ${MF}
+		echo '${SD_MMC0_BEG}' >> ${MF}
+		echo '${SD_MMC0_END}' >> ${MF}
+		echo 'n' >> ${MF}
+		echo 'p' >> ${MF}
+		echo '2' >> ${MF}
+		echo '${SD_MMC1_BEG}' >> ${MF}
+		echo '${SD_MMC1_END}' >> ${MF}
+		echo 'p' >> ${MF}
+		echo 'w' >> ${MF}
+		echo 'EOF' >> ${MF}
+	fi
+else # RPI
 	echo -e '\t# SDCARD Partition: Bootload + Kernel + rootfs' >> ${MF}
 	echo -e '\t#' >> ${MF}
 	echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}
@@ -484,19 +523,10 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo -e '\t# Header:   ${PART_TAB_SZ}M (Reserve 512 Bytes on legacy fdiks tools)' >> ${MF}
 	echo -e '\t# Bootload: ${MMC0P1_SZ}M (Contain Kernel + Uboot)' >> ${MF}
 	echo -e '\t# Rootfs:   ${ROOTFS_SIZE}M' >> ${MF}
-	echo -e '\tdd bs=1M count=${PART_TAB_SZ} if=/dev/zero of=${OUTPUT}/BiscuitOS.img > \' >> ${MF}
-	echo -e '\t                /dev/null 2>&1' >> ${MF}
-	echo -e '\tdd bs=1M count=${MMC0P1_SZ} if=/dev/zero of=${OUTPUT}/bootloader.img > \' >> ${MF}
-	echo -e '\t                /dev/null 2>&1' >> ${MF}
-	echo -e '\tsudo mkfs.vfat ${OUTPUT}/bootloader.img > /dev/null 2>&1' >> ${MF}
-	echo -e '\tdd bs=1M if=${OUTPUT}/bootloader.img of=${OUTPUT}/BiscuitOS.img \' >> ${MF}
-	echo -e '\t                conv=notrunc seek=${PART_TAB_SZ} > /dev/null 2>&1' >> ${MF}
-	echo -e '\tdd bs=1M if=${OUTPUT}/rootfs/ramdisk of=${OUTPUT}/BiscuitOS.img \' >> ${MF}
-	echo -e '\t                conv=notrunc seek=${MMC0P1_SEEK} > /dev/null 2>&1' >> ${MF}
-	echo -e '\trm -rf ${OUTPUT}/bootloader.img' >> ${MF}
-	echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+	echo -e '\tsudo dd if=/dev/zero of=${OUTPUT}/BiscuitOS.img bs=1M \' >> ${MF}
+	echo -e '\t                                count=${SD_SIZE} > /dev/null 2>&1' >> ${MF}
 	echo -e '\t# Parting Table' >> ${MF}
-	echo 'cat <<EOF | fdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo 'cat <<EOF | sudo fdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
 	echo 'n' >> ${MF}
 	echo 'p' >> ${MF}
 	echo '1' >> ${MF}
@@ -507,11 +537,79 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo '2' >> ${MF}
 	echo '${SD_MMC1_BEG}' >> ${MF}
 	echo '${SD_MMC1_END}' >> ${MF}
+	echo 't' >> ${MF}
+	echo '1' >> ${MF}
+	echo 'c' >> ${MF}
+	echo 't' >> ${MF}
+	echo '2' >> ${MF}
+	echo '83' >> ${MF}
+	echo 'x' >> ${MF}
+	echo 'i' >> ${MF}
+	echo '0x19911016' >> ${MF}
+	echo 'r' >> ${MF}
 	echo 'p' >> ${MF}
 	echo 'w' >> ${MF}
 	echo 'EOF' >> ${MF}
+	echo -e '\t# Format Disk' >> ${MF}
+	echo -e '\t# --> sudo blkid' >> ${MF}
+	echo -e '\t# --> Change LABLE and UUID/PARTUUID' >> ${MF}
+	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
+	echo -e '\tdev=${loopdev#/dev/}' >> ${MF}
+	echo -e '\tsudo losetup ${loopdev} ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo -e '\tsudo kpartx -a -v -s ${loopdev}' >> ${MF}
+	echo -e '\t# Setup Filesystem' >> ${MF}
+	echo -e '\tsudo mkfs.vfat /dev/mapper/${dev}p1' >> ${MF}
+	echo -e '\tsudo mkfs.ext4 /dev/mapper/${dev}p2' >> ${MF}
+	echo -e '\t# Setup Disk LABLE' >> ${MF}
+	echo -e '\techo mtools_skip_check=1 >> ~/.mtoolsrc' >> ${MF}
+	echo -e '\tsudo mlabel -i /dev/mapper/${dev}p1 ::BOOT' >> ${MF}
+	echo -e '\tsudo e2label /dev/mapper/${dev}p2 BiscuitOS_rootfs' >> ${MF}
+	echo -e '\t# Remove virtual mount pointer' >> ${MF}
+	echo -e '\tsudo kpartx -d -v ${loopdev}' >> ${MF}
+	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
+	echo '' >> ${MF}
+	echo -e '\t# RaspberryPi 4B SD Image' >> ${MF}
+	echo -e '\t_bootloader=${OUTPUT}/package/rpi-4b-bootloader-1.0.0' >> ${MF}
+	echo -e '\tif [ ! -d ${_bootloader}/rpi-4b-bootloader ]; then' >> ${MF}
+	echo -e '\t\tcd ${_bootloader} > /dev/null 2>&1' >> ${MF}
+	echo -e '\t\tmake download' >> ${MF}
+	echo -e '\t\tmake tar' >> ${MF}
+	echo -e '\t\tcd - > /dev/null 2>&1' >> ${MF}
+	echo -e '\tfi' >> ${MF}
+	echo -e '\t# Mount bootloader partiton' >> ${MF}
+	echo -e '\t[ -d ${OUTPUT}/.tmpsd ] && sudo rm -rf ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
+	echo -e '\tsudo losetup -o `expr ${SD_MMC0_BEG} \* 512` ${loopdev} \' >> ${MF}
+	echo -e '\t                                ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo -e '\tsudo mkdir -p ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo mount -o loop,rw ${loopdev} ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\t# bootloader file' >> ${MF}
+	echo -e '\tsudo cp -rf ${_bootloader}/rpi-4b-bootloader/* ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\t# kernel image and DTB' >> ${MF}
+	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/zImage ${OUTPUT}/.tmpsd/kernel7l.img' >> ${MF}
+	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/dts/bcm2711-rpi-4-b.dtb \' >> ${MF}
+	echo -e '\t                                        ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo mkdir -p ${OUTPUT}/.tmpsd/overlays' >> ${MF}
+	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/dts/overlays/*.dtb* \' >> ${MF}
+	echo -e '\t                                        ${OUTPUT}/.tmpsd/overlays/' >> ${MF}
+	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/dts/overlays/README \' >> ${MF}
+	echo -e '\t                                        ${OUTPUT}/.tmpsd/overlays/' >> ${MF}
+	echo -e '\tsudo umount ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo rm -rf ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
+	echo -e '\t# Mount rootfs partition' >> ${MF}
+	echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
+	echo -e '\tsudo losetup -o `expr ${SD_MMC1_BEG} \* 512` ${loopdev} \' >> ${MF}
+	echo -e '\t                                        ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo -e '\tsudo mount -t ext4 ${loopdev} ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
+	echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
+	echo -e '\tsync' >> ${MF}
+	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
 fi
-
 echo '}' >> ${MF}
 echo '' >> ${MF}
 

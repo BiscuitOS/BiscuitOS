@@ -44,6 +44,7 @@ SUPPORT_EXT3=N
 SUPPORT_CROSS_LIB=Y
 SUPPORT_RAMDISK=N
 RISCV_LIB_INSTALL=N
+SUPPORT_PRI4B=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -129,6 +130,9 @@ esac
 # --> Mount / at RAMDISK
 [ ${KERNEL_MAJOR_NO} -lt 4 ] && SUPPORT_RAMDISK=Y
 [ ${ARCH_NAME} == "arm64" ]  && SUPPORT_RAMDISK=N
+
+# RaspberryPi 4B
+[ ${PROJECT_NAME} = "RaspberryPi_4B" ] && SUPPORT_PRI4B=Y
 
 ##
 # Rootfs Inforamtion
@@ -218,6 +222,22 @@ cat << EOF > ${RC}
 ::ctrlaltdel:/sbin/reboot
 ::shutdown:/bin/umount -a -r
 EOF
+
+if [ ${SUPPORT_PRI4B} = "Y" ]; then
+	RC=${ROOTFS_PATH}/etc/inittab
+	echo 'ttyAMA0::respawn:/sbin/getty -L ttyAMA0 115200 vt100' >> ${RC}
+
+	# /etc/issue
+	RC=${ROOTFS_PATH}/etc/issue
+	echo '' >> ${RC}
+	echo ' ____  _                _ _    ___  ____' >> ${RC}
+	echo '| __ )(_)___  ___ _   _(_) |_ / _ \\/ ___|' >> ${RC}
+	echo '|  _ \\| / __|/ __| | | | | __| | | \\___ \\' >> ${RC}
+	echo '| |_) | \\__ \\ (__| |_| | | |_| |_| |___) |' >> ${RC}
+	echo '|____/|_|___/\\___|\\__,_|_|\\__|\\___/|____/' >> ${RC}
+	echo '' >> ${RC}
+	echo 'RaspberryPi 4B with BiscuitOS' >> ${RC}
+fi
 
 ## group
 RC=${ROOTFS_PATH}/etc/group
