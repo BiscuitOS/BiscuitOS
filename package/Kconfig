@@ -78,6 +78,12 @@ source package/inputproto/Kconfig
 # kbproto
 source package/kbproto/Kconfig
 
+# LDD: AT24C08 application
+source package/LDD_at24c08_app/Kconfig
+
+# LDD: AT24C08 Module
+source package/LDD_at24c08_module/Kconfig
+
 # LDD: Character application
 source package/LDD_char_app/Kconfig
 
@@ -95,6 +101,9 @@ source package/LDD_CMA_area_app/Kconfig
 
 # LDD: CMA on speical Area Module
 source package/LDD_CMA_area_module/Kconfig
+
+# LDD: I2C Bus Device Driver
+source package/LDD_i2c_bus/Kconfig
 
 # LDD: Input Device Driver application
 source package/LDD_input_app/Kconfig
