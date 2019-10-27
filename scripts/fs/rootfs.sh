@@ -237,6 +237,7 @@ if [ ${SUPPORT_PRI4B} = "Y" ]; then
 	echo '|____/|_|___/\\___|\\__,_|_|\\__|\\___/|____/' >> ${RC}
 	echo '' >> ${RC}
 	echo 'RaspberryPi 4B with BiscuitOS' >> ${RC}
+	echo '' >> ${RC}
 fi
 
 ## group
