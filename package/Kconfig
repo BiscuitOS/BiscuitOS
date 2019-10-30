@@ -162,6 +162,18 @@ source package/LDD_misc_module/Kconfig
 # LDD: Timer Device Driver module
 source package/LDD_timer_module/Kconfig
 
+# LDD: UIO Interrupt Application
+source package/LDD_UIO_intr_app/Kconfig
+
+# LDD: UIO Interrupt Device Driver module
+source package/LDD_UIO_intr_module/Kconfig
+
+# LDD: UIO memory Application
+source package/LDD_UIO_mem_app/Kconfig
+
+# LDD: UIO memory Device Driver module
+source package/LDD_UIO_mem_module/Kconfig
+
 # libdrm
 source package/libdrm/Kconfig
 
