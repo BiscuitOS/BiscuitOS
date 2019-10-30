@@ -81,6 +81,9 @@ source package/kbproto/Kconfig
 # LDD: AT24C08 application
 source package/LDD_at24c08_app/Kconfig
 
+# LDD: AT24C08 chest
+source package/LDD_at24c08_chest/Kconfig
+
 # LDD: AT24C08 Module
 source package/LDD_at24c08_module/Kconfig
 
@@ -113,6 +116,12 @@ source package/LDD_input_app/Kconfig
 
 # LDD: Input Device Driver Module
 source package/LDD_input_module/Kconfig
+
+# LDD: PCF8574 application
+source package/LDD_pcf8574_app/Kconfig
+
+# LDD: PCF8574 module
+source package/LDD_pcf8574_module/Kconfig
 
 # LDD: Platform Attribute application
 source package/LDD_platform_attr_app/Kconfig
