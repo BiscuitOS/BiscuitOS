@@ -1,0 +1,54 @@
+menuconfig PK_RPI_3B_BOOTLOADER
+	bool "RaspberryPi 3B Bootloader"
+
+if PK_RPI_3B_BOOTLOADER
+
+config PK_RPI_3B_BOOTLOADER_VERSION
+	default "1.0.0"
+	string "verstion"
+
+config PK_RPI_3B_BOOTLOADER_TAR
+	default "tar.bz2"
+	string "tar type"
+
+config PK_RPI_3B_BOOTLOADER_URL
+	default "https://raw.githubusercontent.com/BiscuitOS/PackageManage/master/package/"
+	string "url"
+
+config PK_RPI_3B_BOOTLOADER_GITHUB
+	string "GitHub"
+
+config PK_RPI_3B_BOOTLOADER_SRCFILE
+	default "rpi-3b-bootloader.tar.bz2"
+	string "Source code list"
+
+config PK_RPI_3B_BOOTLOADER_CONFIG
+	default ""
+	string "CONFIG: Project Configure Options"
+
+config PK_RPI_3B_BOOTLOADER_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_RPI_3B_BOOTLOADER_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_RPI_3B_BOOTLOADER_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_RPI_3B_BOOTLOADER_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_RPI_3B_BOOTLOADER_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_RPI_3B_BOOTLOADER_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_RPI_3B_BOOTLOADER_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_RPI_3B_BOOTLOADER_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_RPI_3B_BOOTLOADER

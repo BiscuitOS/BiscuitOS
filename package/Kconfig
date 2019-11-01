@@ -273,6 +273,9 @@ source package/resourceproto/Kconfig
 # riscv-pk
 source package/riscv-pk/Kconfig
 
+# RaspberryPi 3B
+source package/rpi-3b-bootloader/Kconfig
+
 # RaspberryPi 4B
 source package/rpi-4b-bootloader/Kconfig
 

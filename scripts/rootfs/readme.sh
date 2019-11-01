@@ -63,7 +63,9 @@ SUPPORT_DISK=N
 SUPPORT_NONE_GNU=N
 SUPPORT_RAMDISK=N
 SUPPORT_UBOOT=N
-SUPPORT_PRI4B=N
+SUPPORT_RPI=N
+SUPPORT_RPI4B=N
+SUPPORT_RPI3B=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -166,8 +168,9 @@ detect_kernel_version_field
 [ ${UBOOT}X = "yX" ] && SUPPORT_UBOOT=Y
 
 # Platform 
-[ ${PROJECT_NAME} = "RaspberryPi_4B" ] && SUPPORT_PRI4B=Y && DEFAULT_CONFIG=bcm2711_defconfig
-[ ${SUPPORT_PRI4B} = "Y" ] && SUPPORT_RAMDISK=N
+[ ${PROJECT_NAME} = "RaspberryPi_4B" ] && SUPPORT_RPI4B=Y && DEFAULT_CONFIG=bcm2711_defconfig
+[ ${PROJECT_NAME} = "RaspberryPi_3B" ] && SUPPORT_RPI3B=Y && DEFAULT_CONFIG=bcm2709_defconfig
+[ ${SUPPORT_RPI4B} = "Y" -o ${SUPPORT_RPI3B} = "Y" ] && SUPPORT_RPI=Y && SUPPORT_RAMDISK=N
 
 ##
 # Rootfs Inforamtion
@@ -455,7 +458,7 @@ echo '' >> ${MF}
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
-if [ ${SUPPORT_PRI4B} = "N" ]; then
+if [ ${SUPPORT_RPI} = "N" ]; then
 	echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
 	echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
 	echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
@@ -513,7 +516,7 @@ if [ ${SUPPORT_PRI4B} = "N" ]; then
 		echo 'w' >> ${MF}
 		echo 'EOF' >> ${MF}
 	fi
-else # RPI
+else # RaspberryPi
 	echo -e '\t# SDCARD Partition: Bootload + Kernel + rootfs' >> ${MF}
 	echo -e '\t#' >> ${MF}
 	echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}
@@ -568,9 +571,21 @@ else # RPI
 	echo -e '\tsudo kpartx -d -v ${loopdev}' >> ${MF}
 	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
 	echo '' >> ${MF}
-	echo -e '\t# RaspberryPi 4B SD Image' >> ${MF}
-	echo -e '\t_bootloader=${OUTPUT}/package/rpi-4b-bootloader-1.0.0' >> ${MF}
-	echo -e '\tif [ ! -d ${_bootloader}/rpi-4b-bootloader ]; then' >> ${MF}
+	echo -e '\t# RaspberryPi SD Image' >> ${MF}
+	if [ ${SUPPORT_RPI4B} = "Y" ]; then 
+		# RaspberryPi 4B
+		echo -e '\t_bootloader=${OUTPUT}/package/rpi-4b-bootloader-1.0.0' >> ${MF}
+		echo -e '\t_bootloaderfile=rpi-4b-bootloader' >> ${MF}
+		echo -e '\t_kernel=kernel7l' >> ${MF}
+		echo -e '\t_dtb=bcm2711-rpi-4-b.dtb' >> ${MF}
+	else
+		# RaspberryPi 3B
+		echo -e '\t_bootloader=${OUTPUT}/package/rpi-3b-bootloader-1.0.0' >> ${MF}
+		echo -e '\t_bootloaderfile=rpi-3b-bootloader' >> ${MF}
+		echo -e '\t_kernel=kernel7' >> ${MF}
+		echo -e '\t_dtb=bcm2710-rpi-3-b.dtb' >> ${MF}
+	fi
+	echo -e '\tif [ ! -d ${_bootloader}/${_bootloaderfile} ]; then' >> ${MF}
 	echo -e '\t\tcd ${_bootloader} > /dev/null 2>&1' >> ${MF}
 	echo -e '\t\tmake download' >> ${MF}
 	echo -e '\t\tmake tar' >> ${MF}
@@ -584,10 +599,10 @@ else # RPI
 	echo -e '\tsudo mkdir -p ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\tsudo mount -o loop,rw ${loopdev} ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\t# bootloader file' >> ${MF}
-	echo -e '\tsudo cp -rf ${_bootloader}/rpi-4b-bootloader/* ${OUTPUT}/.tmpsd' >> ${MF}
+	echo -e '\tsudo cp -rf ${_bootloader}/${_bootloaderfile}/* ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\t# kernel image and DTB' >> ${MF}
-	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/zImage ${OUTPUT}/.tmpsd/kernel7l.img' >> ${MF}
-	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/dts/bcm2711-rpi-4-b.dtb \' >> ${MF}
+	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/zImage ${OUTPUT}/.tmpsd/${_kernel}.img' >> ${MF}
+	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/dts/${_dtb} \' >> ${MF}
 	echo -e '\t                                        ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\tsudo mkdir -p ${OUTPUT}/.tmpsd/overlays' >> ${MF}
 	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/dts/overlays/*.dtb* \' >> ${MF}
@@ -724,7 +739,8 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo '```' >> ${MF}
 	echo "cd ${OUTPUT}/u-boot/u-boot/" >> ${MF}
 	echo "make ARCH=arm clean" >> ${MF}
-	echo "make ARCH=arm vexpress_ca9x4_defconfig" >> ${MF}
+	[ ${SUPPORT_RPI3B} = "N" ] && echo "make ARCH=arm vexpress_ca9x4_defconfig" >> ${MF}
+	[ ${SUPPORT_RPI3B} = "Y" ] && echo "make ARCH=arm rpi_2_defconfig" >> ${MF}
 	echo "make ARCH=arm CROSS_COMPILE=${DEF_KERNEL_CROSS}" >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
@@ -774,7 +790,7 @@ case ${ARCH_NAME} in
 			echo '' >> ${MF}
 		fi
 		# Common Configure
-		if [ ${SUPPORT_PRI4B} = "N" ]; then
+		if [ ${SUPPORT_RPI} = "N" ]; then
 			echo '  Enable the block layer --->' >> ${MF}
 			echo '        [*] Support for large (2TB+) block devices and files' >> ${MF}
 			echo '' >> ${MF}
