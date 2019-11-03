@@ -14,8 +14,17 @@ source package/DemoApo/Kconfig
 # atk
 source package/atk/Kconfig
 
+# autoconf
+source package/autoconf/Kconfig
+
+# automake
+source package/automake/Kconfig
+
 # bigreqsproto
 source package/bigreqsproto/Kconfig
+
+# binutils
+source package/gbinutils/Kconfig
 
 # binutils
 config PK_BINUTILS
@@ -57,6 +66,9 @@ source package/freetype/Kconfig
 # glib
 source package/glib/Kconfig
 
+# glibc
+source package/glibc/Kconfig
+
 # glproto
 source package/glproto/Kconfig
 
@@ -69,8 +81,20 @@ source package/gtk/Kconfig
 config PK_GCC
 	bool "GCC: Ancient linux 0.11"
 
+# Game: 2048
+source package/2048/Kconfig
+
+# Game: snake
+source package/snake/Kconfig
+
+# Game: tetris
+source package/tetris/Kconfig
+
 # harfbuzz
 source package/harfbuzz/Kconfig
+
+# hello
+source package/hello/Kconfig
 
 # inputproto
 source package/inputproto/Kconfig
@@ -236,6 +260,9 @@ source package/libXxf86vm/Kconfig
 
 # mesa
 source package/mesa/Kconfig
+
+# ncurses
+source package/ncurses/Kconfig
 
 # openssl
 source package/openssl/Kconfig

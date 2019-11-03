@@ -1,0 +1,53 @@
+menuconfig PK_AUTOCONF
+	bool "autoconf"
+
+if PK_AUTOCONF
+
+config PK_AUTOCONF_VERSION
+	default "2.69"
+	string "verstion"
+
+config PK_AUTOCONF_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_AUTOCONF_URL
+	default "http://ftp.gnu.org/pub/gnu/autoconf/"
+	string "url"
+
+config PK_AUTOCONF_GITHUB
+	string "GitHub"
+
+config PK_AUTOCONF_SRCFILE
+	string "Source code list"
+
+config PK_AUTOCONF_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_AUTOCONF_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_AUTOCONF_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_AUTOCONF_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_AUTOCONF_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_AUTOCONF_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_AUTOCONF_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_AUTOCONF_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_AUTOCONF_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_AUTOCONF

@@ -1,0 +1,55 @@
+menuconfig PK_2048
+	bool "Game: 2048"
+
+if PK_2048
+
+config PK_2048_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_2048_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_2048_URL
+	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/GAME/2048"
+	string "url"
+
+config PK_2048_GITHUB
+	string "GitHub"
+
+config PK_2048_SRCFILE
+	default "2048.c LICENSE Makefile palette.sh README.md"
+	string "Source code list"
+
+config PK_2048_CSRCFILE
+	string "Compile source code list"
+
+config PK_2048_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_2048_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_2048_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_2048_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_2048_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_2048_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_2048_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_2048_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_2048_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_2048

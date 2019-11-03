@@ -1,0 +1,53 @@
+menuconfig PK_HELLO
+	bool "hello"
+
+if PK_HELLO
+
+config PK_HELLO_VERSION
+	default "2.4"
+	string "verstion"
+
+config PK_HELLO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_HELLO_URL
+	default "http://ftp.gnu.org/pub/gnu/hello/"
+	string "url"
+
+config PK_HELLO_GITHUB
+	string "GitHub"
+
+config PK_HELLO_SRCFILE
+	string "Source code list"
+
+config PK_HELLO_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_HELLO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_HELLO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_HELLO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_HELLO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_HELLO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_HELLO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_HELLO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_HELLO_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_HELLO

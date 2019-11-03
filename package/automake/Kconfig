@@ -1,0 +1,53 @@
+menuconfig PK_AUTOMAKE
+	bool "automake"
+
+if PK_AUTOMAKE
+
+config PK_AUTOMAKE_VERSION
+	default "1.16"
+	string "verstion"
+
+config PK_AUTOMAKE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_AUTOMAKE_URL
+	default "http://ftp.gnu.org/pub/gnu/automake/"
+	string "url"
+
+config PK_AUTOMAKE_GITHUB
+	string "GitHub"
+
+config PK_AUTOMAKE_SRCFILE
+	string "Source code list"
+
+config PK_AUTOMAKE_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_AUTOMAKE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_AUTOMAKE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_AUTOMAKE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_AUTOMAKE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_AUTOMAKE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_AUTOMAKE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_AUTOMAKE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_AUTOMAKE_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_AUTOMAKE
