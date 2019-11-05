@@ -13,7 +13,7 @@ config PK_SNAKE_TAR
 	string "tar type"
 
 config PK_SNAKE_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/GAME/snake"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/GAME/snake"
 	string "url"
 
 config PK_SNAKE_GITHUB

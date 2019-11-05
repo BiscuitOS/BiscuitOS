@@ -12,7 +12,7 @@ config PK_2048_TAR
 	string "tar type"
 
 config PK_2048_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/GAME/2048"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/GAME/2048"
 	string "url"
 
 config PK_2048_GITHUB

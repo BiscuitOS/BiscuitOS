@@ -13,7 +13,7 @@ config PK_TETRIS_TAR
 	string "tar type"
 
 config PK_TETRIS_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/GAME/tetris"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/GAME/tetris"
 	string "url"
 
 config PK_TETRIS_GITHUB

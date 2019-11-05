@@ -153,6 +153,12 @@ source package/LDD_input_touch_app/Kconfig
 # LDD: Input Touch Device Driver Module
 source package/LDD_input_touch_module/Kconfig
 
+# LDD: LM75A application
+source package/LDD_lm75a_app/Kconfig
+
+# LDD: LM75A module
+source package/LDD_lm75a_module/Kconfig
+
 # LDD: PCF8574 application
 source package/LDD_pcf8574_app/Kconfig
 
