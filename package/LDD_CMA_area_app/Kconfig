@@ -13,7 +13,7 @@ config PK_LDD_CMA_AREA_APP_TAR
 	string "tar type"
 
 config PK_LDD_CMA_AREA_APP_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Device-Driver/CMA/Areas/userland"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/CMA/Areas/userland"
 	string "url"
 
 config PK_LDD_CMA_AREA_APP_GITHUB

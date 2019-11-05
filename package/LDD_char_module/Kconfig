@@ -12,7 +12,7 @@ config PK_LDD_CHAR_MOD_TAR
 	string "tar type"
 
 config PK_LDD_CHAR_MOD_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Device-Driver/char/Base/kernel"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/char/Base/kernel"
 	string "url"
 
 config PK_LDD_CHAR_MOD_GITHUB

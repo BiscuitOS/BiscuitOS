@@ -13,7 +13,7 @@ config PK_LDD_INPUT_APP_TAR
 	string "tar type"
 
 config PK_LDD_INPUT_APP_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Device-Driver/input/Base/userland"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/input/Base/userland"
 	string "url"
 
 config PK_LDD_INPUT_APP_GITHUB

@@ -12,7 +12,7 @@ config PK_LDD_PCF8574_APP_TAR
 	string "tar type"
 
 config PK_LDD_PCF8574_APP_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Device-Driver/i2c/Device/PCF8574/Base/userland"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/i2c/Device/PCF8574/Base/userland"
 	string "url"
 
 config PK_LDD_PCF8574_APP_GITHUB

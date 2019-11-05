@@ -13,7 +13,7 @@ config PK_LDD_UIO_INTR_APP_TAR
 	string "tar type"
 
 config PK_LDD_UIO_INTR_APP_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Device-Driver/i2c/Device/UIO/Interrupt/userland"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/i2c/Device/UIO/Interrupt/userland"
 	string "url"
 
 config PK_LDD_UIO_INTR_APP_GITHUB

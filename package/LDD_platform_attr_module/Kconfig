@@ -12,7 +12,7 @@ config PK_LDD_PLATFORM_ATTR_MOD_TAR
 	string "tar type"
 
 config PK_LDD_PLATFORM_ATTR_MOD_URL
-	default "https://raw.githubusercontent.com/BiscuitOS/HardStack/master/Device-Driver/Platform/Common/Attribute/kernel"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/Platform/Common/Attribute/kernel"
 	string "url"
 
 config PK_LDD_PLATFORM_ATTR_MOD_GITHUB
