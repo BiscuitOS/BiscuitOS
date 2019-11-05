@@ -141,6 +141,18 @@ source package/LDD_input_app/Kconfig
 # LDD: Input Device Driver Module
 source package/LDD_input_module/Kconfig
 
+# LDD: Input Key Device Driver application
+source package/LDD_input_key_app/Kconfig
+
+# LDD: Input Key Device Driver Module
+source package/LDD_input_key_module/Kconfig
+
+# LDD: Input Touch Device Driver application
+source package/LDD_input_touch_app/Kconfig
+
+# LDD: Input Touch Device Driver Module
+source package/LDD_input_touch_module/Kconfig
+
 # LDD: PCF8574 application
 source package/LDD_pcf8574_app/Kconfig
 

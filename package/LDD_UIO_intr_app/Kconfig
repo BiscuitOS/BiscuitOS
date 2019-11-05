@@ -1,4 +1,5 @@
 menuconfig PK_LDD_UIO_INTR_APP
+	select PK_LDD_UIO_INTR_MOD
 	bool "LDD: UIO Interrupt Application"
 
 if PK_LDD_UIO_INTR_APP
@@ -19,7 +20,7 @@ config PK_LDD_UIO_INTR_APP_GITHUB
 	string "GitHub"
 
 config PK_LDD_UIO_INTR_APP_SRCFILE
-	default "UIO.c UIO.sh Makefile"
+	default "UIO.c Makefile"
 	string "Source code list"
 
 config PK_LDD_UIO_INTR_APP_CSRCFILE
