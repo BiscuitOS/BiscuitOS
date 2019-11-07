@@ -159,6 +159,12 @@ source package/LDD_lm75a_app/Kconfig
 # LDD: LM75A module
 source package/LDD_lm75a_module/Kconfig
 
+# LDD: LM75A input application
+source package/LDD_lm75a_input_app/Kconfig
+
+# LDD: LM75A input module
+source package/LDD_lm75a_input_module/Kconfig
+
 # LDD: PCF8574 application
 source package/LDD_pcf8574_app/Kconfig
 
@@ -195,6 +201,9 @@ source package/LDD_platform_resDTS_app/Kconfig
 # LDD: Platform Resource from DTS module
 source package/LDD_platform_resDTS_module/Kconfig
 
+# LDD: Platform Simple Module
+source package/LDD_platform_simple_module/Kconfig
+
 # LDD: MISC application
 source package/LDD_misc_app/Kconfig
 
@@ -215,6 +224,9 @@ source package/LDD_UIO_mem_app/Kconfig
 
 # LDD: UIO memory Device Driver module
 source package/LDD_UIO_mem_module/Kconfig
+
+# LDD: Work Queue Device Driver module
+source package/LDD_workqueue_module/Kconfig
 
 # libdrm
 source package/libdrm/Kconfig

@@ -115,7 +115,11 @@ PACKAGE-$(CONFIG_PK_LDD_PLATFORM_COREDTS_APP)	+= LDD_platform_coreDTS_app/
 PACKAGE-$(CONFIG_PK_LDD_PLATFORM_COREDTS_MOD)	+= LDD_platform_coreDTS_module/
 PACKAGE-$(CONFIG_PK_LDD_PLATFORM_CORE_APP)	+= LDD_platform_core_app/
 PACKAGE-$(CONFIG_PK_LDD_PLATFORM_CORE_MOD)	+= LDD_platform_core_module/
+PACKAGE-$(CONFIG_PK_LDD_PLATFORM_SIMPLE_MOD)	+= LDD_platform_simple_module/
 PACKAGE-$(CONFIG_PK_LDD_TIMER_MOD)		+= LDD_timer_module/
+PACKAGE-$(CONFIG_PK_LDD_WQ_MOD)			+= LDD_workqueue_module/
+PACKAGE-$(CONFIG_PK_LDD_LM75A_INPUT_APP)	+= LDD_lm75a_input_app/
+PACKAGE-$(CONFIG_PK_LDD_LM75A_INPUT_MOD)	+= LDD_lm75a_input_module/
 PACKAGE-$(CONFIG_PK_GOBJECT_INTROSPECTION)	+= gobject-introspection/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/%/Makefile, $(PACKAGE-y))
