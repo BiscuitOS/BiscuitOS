@@ -1,5 +1,5 @@
 menuconfig PK_LDD_PCF8574_MOD
-	bool "LDD: PCF8574 IO Device Driver"
+	bool "LDD: PCF8574 IO Expander Device Driver"
 
 if PK_LDD_PCF8574_MOD
 

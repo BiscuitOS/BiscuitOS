@@ -1,5 +1,5 @@
 menuconfig PK_LDD_PCF8574_APP
-	bool "LDD: PCF8574 Application"
+	bool "LDD: PCF8574 IO Expander Application"
 
 if PK_LDD_PCF8574_APP
 

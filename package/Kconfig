@@ -171,6 +171,15 @@ source package/LDD_pcf8574_app/Kconfig
 # LDD: PCF8574 module
 source package/LDD_pcf8574_module/Kconfig
 
+# LDD: PCF8574 Interrupt module
+source package/LDD_pcf8574_intr_module/Kconfig
+
+# LDD: PCF8574 Interrupt error
+source package/LDD_pcf8574_err0/Kconfig
+
+# LDD: PCF8574 Traffic Light
+source package/LDD_pcf8574_traffic/Kconfig
+
 # LDD: Platform Attribute application
 source package/LDD_platform_attr_app/Kconfig
 
