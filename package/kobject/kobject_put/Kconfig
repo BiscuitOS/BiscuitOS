@@ -1,0 +1,55 @@
+menuconfig PK_KOBJECT_PUT
+	bool "kobject_put()"
+
+if PK_KOBJECT_PUT
+
+config PK_KOBJECT_PUT_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KOBJECT_PUT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KOBJECT_PUT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/kobject/API/kobject_put"
+	string "url"
+
+config PK_KOBJECT_PUT_GITHUB
+	string "GitHub"
+
+config PK_KOBJECT_PUT_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_KOBJECT_PUT_CSRCFILE
+	string "Compile source code list"
+
+config PK_KOBJECT_PUT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KOBJECT_PUT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KOBJECT_PUT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KOBJECT_PUT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KOBJECT_PUT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KOBJECT_PUT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KOBJECT_PUT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KOBJECT_PUT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KOBJECT_PUT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KOBJECT_PUT

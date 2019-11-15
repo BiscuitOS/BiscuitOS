@@ -1,0 +1,49 @@
+################################################
+#
+# kobject_create_and_add
+#
+################################################
+PK_KOBJECT_CREATE_ADD_NAME        := kobject_create_and_add
+PK_KOBJECT_CREATE_ADD_VERSION     := $(CONFIG_PK_KOBJECT_CREATE_ADD_VERSION)
+PK_KOBJECT_CREATE_ADD_SITE        := $(CONFIG_PK_KOBJECT_CREATE_ADD_URL)
+PK_KOBJECT_CREATE_ADD_GITHUB      := $(CONFIG_PK_KOBJECT_CREATE_ADD_GITHUB)
+PK_KOBJECT_CREATE_ADD_SUBNAME     :=
+PK_KOBJECT_CREATE_ADD_BUILDARCH   := $(CONFIG_PK_KOBJECT_CREATE_ADD_BUILDARCH)
+PK_KOBJECT_CREATE_ADD_DIR         := $(srctree)/package/kobject/kobject_create_and_add
+PK_KOBJECT_CREATE_ADD_PATCH       := $(PK_KOBJECT_CREATE_ADD_DIR)/patch
+PK_KOBJECT_CREATE_ADD_BSBIT       := kobject_create_and_add-$(PK_KOBJECT_CREATE_ADD_VERSION).bsbit
+PK_KOBJECT_CREATE_ADD_OUT         :=
+PK_KOBJECT_CREATE_ADD_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_KOBJECT_CREATE_ADD_TAR         := $(CONFIG_PK_KOBJECT_CREATE_ADD_TAR)
+PK_KOBJECT_CREATE_ADD_PACKAGE     :=
+PK_KOBJECT_CREATE_ADD_CONFIG      := $(CONFIG_PK_KOBJECT_CREATE_ADD_CONFIG)
+SUB_TARGET                  += $(PK_KOBJECT_CREATE_ADD_DIR)/build
+
+PK_KOBJECT_CREATE_ADD_sh = $(CONFIG_SHELL) $(PK_KOBJECT_CREATE_ADD_SCRIPTS) \
+                 $1X \
+                 $(PK_KOBJECT_CREATE_ADD_NAME)X \
+                 $(PK_KOBJECT_CREATE_ADD_VERSION)X \
+                 $(PK_KOBJECT_CREATE_ADD_SITE)X \
+                 $(PK_KOBJECT_CREATE_ADD_GITHUB)X \
+                 $(PK_KOBJECT_CREATE_ADD_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_KOBJECT_CREATE_ADD_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_KOBJECT_CREATE_ADD_SUBNAME)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_CONFIG)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_LIBPATH)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_CPPFLAGS)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_DPKCONFIG)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_CFLAGS)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_LDFLAGS)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_CXXFLAGS)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_ASFLAGS)X \
+                 $(PK_KOBJECT_CREATE_ADD_BSBIT)X \
+                 $(PK_KOBJECT_CREATE_ADD_BUILDARCH)X \
+		 $(PK_KOBJECT_CREATE_ADD_CSRCFILE)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_SRCFILE)X \
+                 $(CONFIG_PK_KOBJECT_CREATE_ADD_CSRCFILE)
+
+$(PK_KOBJECT_CREATE_ADD_DIR)/build: FORCE
+	$(Q)$(call PK_KOBJECT_CREATE_ADD_sh,$(srctree))

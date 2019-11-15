@@ -93,14 +93,23 @@ source package/tetris/Kconfig
 # harfbuzz
 source package/harfbuzz/Kconfig
 
+# hashlist
+source package/hashlist/Kconfig
+
 # hello
 source package/hello/Kconfig
+
+# i2c
+source package/i2c/Kconfig
 
 # inputproto
 source package/inputproto/Kconfig
 
 # kbproto
 source package/kbproto/Kconfig
+
+# kobject
+source package/kobject/Kconfig
 
 # LDD: AT24C08 application
 source package/LDD_at24c08_app/Kconfig
@@ -110,6 +119,9 @@ source package/LDD_at24c08_chest/Kconfig
 
 # LDD: AT24C08 Module
 source package/LDD_at24c08_module/Kconfig
+
+# LDD: Basic Device Driver Module
+source package/LDD_core_module/Kconfig
 
 # LDD: Character application
 source package/LDD_char_app/Kconfig

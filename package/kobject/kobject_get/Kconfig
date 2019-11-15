@@ -1,0 +1,55 @@
+menuconfig PK_KOBJECT_GET
+	bool "kobject_get()"
+
+if PK_KOBJECT_GET
+
+config PK_KOBJECT_GET_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KOBJECT_GET_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KOBJECT_GET_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/kobject/API/kobject_get"
+	string "url"
+
+config PK_KOBJECT_GET_GITHUB
+	string "GitHub"
+
+config PK_KOBJECT_GET_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_KOBJECT_GET_CSRCFILE
+	string "Compile source code list"
+
+config PK_KOBJECT_GET_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KOBJECT_GET_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KOBJECT_GET_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KOBJECT_GET_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KOBJECT_GET_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KOBJECT_GET_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KOBJECT_GET_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KOBJECT_GET_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KOBJECT_GET_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KOBJECT_GET

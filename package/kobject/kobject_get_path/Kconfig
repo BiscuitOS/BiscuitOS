@@ -1,0 +1,55 @@
+menuconfig PK_KOBJECT_GET_PATH
+	bool "kobject_get_path()"
+
+if PK_KOBJECT_GET_PATH
+
+config PK_KOBJECT_GET_PATH_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KOBJECT_GET_PATH_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KOBJECT_GET_PATH_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/kobject/API/kobject_get_path"
+	string "url"
+
+config PK_KOBJECT_GET_PATH_GITHUB
+	string "GitHub"
+
+config PK_KOBJECT_GET_PATH_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_KOBJECT_GET_PATH_CSRCFILE
+	string "Compile source code list"
+
+config PK_KOBJECT_GET_PATH_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KOBJECT_GET_PATH_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KOBJECT_GET_PATH_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KOBJECT_GET_PATH_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KOBJECT_GET_PATH_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KOBJECT_GET_PATH_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KOBJECT_GET_PATH_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KOBJECT_GET_PATH_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KOBJECT_GET_PATH_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KOBJECT_GET_PATH

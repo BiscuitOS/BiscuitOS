@@ -1,0 +1,55 @@
+menuconfig PK_KOBJECT_CREATE_ADD
+	bool "kobject_create_and_add()"
+
+if PK_KOBJECT_CREATE_ADD
+
+config PK_KOBJECT_CREATE_ADD_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KOBJECT_CREATE_ADD_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KOBJECT_CREATE_ADD_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/kobject/API/kobject_create_and_add"
+	string "url"
+
+config PK_KOBJECT_CREATE_ADD_GITHUB
+	string "GitHub"
+
+config PK_KOBJECT_CREATE_ADD_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_KOBJECT_CREATE_ADD_CSRCFILE
+	string "Compile source code list"
+
+config PK_KOBJECT_CREATE_ADD_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KOBJECT_CREATE_ADD_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KOBJECT_CREATE_ADD_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KOBJECT_CREATE_ADD_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KOBJECT_CREATE_ADD_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KOBJECT_CREATE_ADD_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KOBJECT_CREATE_ADD_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KOBJECT_CREATE_ADD_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KOBJECT_CREATE_ADD_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KOBJECT_CREATE_ADD

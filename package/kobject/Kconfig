@@ -1,0 +1,21 @@
+menuconfig PK_KOBJECT
+	bool "Kobject and Kset"
+
+if PK_KOBJECT
+
+# kobject_create_and_add
+source "package/kobject/kobject_create_and_add/Kconfig"
+
+# kobject_get
+source "package/kobject/kobject_get/Kconfig"
+
+# kobject_get_path
+source "package/kobject/kobject_get_path/Kconfig"
+
+# kobject_init
+source "package/kobject/kobject_init/Kconfig"
+
+# kobject_put
+source "package/kobject/kobject_put/Kconfig"
+
+endif # PK_KOBJECT

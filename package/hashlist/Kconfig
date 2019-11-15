@@ -1,0 +1,8 @@
+menuconfig PK_HLIST
+	bool "Hash list"
+
+if PK_HLIST
+
+source "package/hashlist/hlist_bl/Kconfig"
+
+endif # PK_HLIST

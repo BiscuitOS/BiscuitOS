@@ -1,0 +1,7 @@
+menuconfig PK_I2C
+	bool "I2C Bus"
+
+if PK_I2C
+
+
+endif # PK_I2C
