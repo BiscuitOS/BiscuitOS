@@ -175,6 +175,7 @@ mkdir -p /tmp
 mkdir -p /sys
 mkdir -p /mnt
 mkdir -p /nfs
+mkdir -p /bsvfs
 /bin/mount -a
 /bin/hostname BiscuitOS
 
@@ -211,6 +212,7 @@ cat << EOF > ${RC}
 proc /proc proc defaults 0 0
 tmpfs /tmp tmpfs defaults 0 0
 sysfs /sys sysfs defaults 0 0
+bsvfs /bsvfs bsvfs defaults 0 0
 tmpfs /dev tmpfs defaults 0 0
 debugfs /sys/kernel/debug debugfs defaults 0 0
 EOF

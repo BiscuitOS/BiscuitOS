@@ -9,8 +9,6 @@ set -e
 # it under the terms of the GNU General Public License version 2 as
 # published by the Free Software Foundation.
 
-# Rootfs path for BiscuitOS
-ROOT=${1%X}
 # Root Dir for BiscuitOS
 ROOT=${1%X}
 # Project NAME
@@ -66,6 +64,7 @@ SUPPORT_UBOOT=N
 SUPPORT_RPI=N
 SUPPORT_RPI4B=N
 SUPPORT_RPI3B=N
+SUPPORT_DESKTOP=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -172,6 +171,9 @@ detect_kernel_version_field
 [ ${PROJECT_NAME} = "RaspberryPi_3B" ] && SUPPORT_RPI3B=Y && DEFAULT_CONFIG=bcm2709_defconfig
 [ ${SUPPORT_RPI4B} = "Y" -o ${SUPPORT_RPI3B} = "Y" ] && SUPPORT_RPI=Y && SUPPORT_RAMDISK=N
 
+# Desktop
+[ ${PROJECT_NAME} = "BiscuitOS-Desktop" ] && SUPPORT_DESKTOP=Y
+
 ##
 # Rootfs Inforamtion
 FS_TYPE=
@@ -236,7 +238,9 @@ ROOTFS_NAME=${ROOTFS_NAME}
 CROSS_COMPILE=${CROSS_COMPILE}
 FS_TYPE=${FS_TYPE}
 FS_TYPE_TOOLS=${FS_TYPE_TOOLS}
-ROOTFS_SIZE=${18%X}
+ROOTFS_SIZE=${17%X}
+FREEZE_SIZE=${18%X}
+DL=${ROOT}/dl
 EOF
 # RAM size
 [ ${SUPPORT_2_X} = "Y" ] && echo 'RAM_SIZE=256' >> ${MF} 
@@ -248,8 +252,12 @@ echo 'LINUX_DIR=${ROOT}/linux/linux/arch' >> ${MF}
 echo 'NET_CFG=${ROOT}/package/networking' >> ${MF}
 case ${ARCH_NAME} in
 	arm)
-		[ ${SUPPORT_RAMDISK} = "Y" ] && echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
-		[ ${SUPPORT_RAMDISK} = "N" ] && echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+		if [ ${SUPPORT_DESKTOP} = "N" ]; then
+			[ ${SUPPORT_RAMDISK} = "Y" ] && echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+			[ ${SUPPORT_RAMDISK} = "N" ] && echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+		else
+			echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/sbin/init loglevel=8"' >> ${MF}
+		fi
 	;;
 	arm64)
 		[ ${SUPPORT_RAMDISK} = "Y" ] && echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
@@ -380,12 +388,13 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
 		# Support Mount root on HardDisk
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_DESKTOP} = "N" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_DESKTOP} = "Y" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS-Desktop.img,format=raw,id=hd0 \' >> ${MF} 
 		# Support RAMDISK only
 		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
 		# Support Networking
 		echo -e '\t-serial stdio \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
+		[ ${SUPPORT_DESKTOP} = "N" ] && echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
@@ -458,7 +467,7 @@ echo '' >> ${MF}
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
-if [ ${SUPPORT_RPI} = "N" ]; then
+if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DESKTOP} = "N" ]; then
 	echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
 	echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
 	echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
@@ -516,7 +525,7 @@ if [ ${SUPPORT_RPI} = "N" ]; then
 		echo 'w' >> ${MF}
 		echo 'EOF' >> ${MF}
 	fi
-else # RaspberryPi
+elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DESKTOP} = "N" ]; then
 	echo -e '\t# SDCARD Partition: Bootload + Kernel + rootfs' >> ${MF}
 	echo -e '\t#' >> ${MF}
 	echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}
@@ -624,6 +633,38 @@ else # RaspberryPi
 	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
+else # Qemu Desktop
+	echo -e '\tif [ ! -f ${OUTPUT}/Freeze.img ]; then' >> ${MF}
+	echo -e '\t\tsudo dd if=/dev/zero of=${OUTPUT}/Freeze.img bs=1M count=${FREEZE_SIZE} > /dev/null 2>&1' >> ${MF}
+	echo -e '\t\tloopdev=`sudo losetup -f`' >> ${MF}
+	echo -e '\t\tdev=${loopdev#/dev/}' >> ${MF}
+	echo -e '\t\tsudo losetup ${loopdev} ${OUTPUT}/Freeze.img' >> ${MF}
+	echo -e '\t\tsudo mkfs.ext4 ${loopdev}' >> ${MF}
+	echo -e '\t\tsudo losetup -d ${loopdev}' >> ${MF}
+	echo -e '\tfi' >> ${MF}
+	echo -e '\tif [ ! -f ${OUTPUT}/${ROOTFS_NAME}.img ]; then' >> ${MF}
+	echo -e '\t\tsudo dd if=/dev/zero of=${OUTPUT}/${ROOTFS_NAME}.img bs=1M count=${ROOTFS_SIZE} > /dev/null 2>&1' >> ${MF}
+	echo -e '\t\tloopdev=`sudo losetup -f`' >> ${MF}
+	echo -e '\t\tdev=${loopdev#/dev/}' >> ${MF}
+	echo -e '\t\tsudo losetup ${loopdev} ${OUTPUT}/${ROOTFS_NAME}.img' >> ${MF}
+	echo -e '\t\tsudo mkfs.ext4 ${loopdev}' >> ${MF}
+	echo -e '\t\tsudo losetup -d ${loopdev}' >> ${MF}
+	echo -e '\t\t[ -d ${OUTPUT}/rootfs/rootfs ] && sudo rm -rf ${OUTPUT}/rootfs/rootfs' >> ${MF}
+	echo -e '\t\tmkdir -p ${OUTPUT}/rootfs/rootfs' >> ${MF}
+	echo -e '\t\tcd ${OUTPUT}/rootfs/rootfs > /dev/null 2>&1' >> ${MF}
+	echo -e '\t\t[ ! -f ${DL}/buster-base-armel.tar.gz.bsp ] && echo "Buster not found!" && exit -1' >> ${MF}
+	echo -e '\t\tcp ${DL}/buster-base-armel.tar.gz.bsp ${OUTPUT}/rootfs/rootfs' >> ${MF}
+	echo -e '\t\tsudo bsdtar -xpf buster-base-armel.tar.gz.bsp' >> ${MF}
+	echo -e '\t\tsudo rm -rf buster-base-armel.tar.gz.bsp' >> ${MF}
+	echo -e '\t\tcd - > /dev/null 2>&1' >> ${MF}
+	echo -e '\tfi' >> ${MF}
+	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	echo -e '\tsudo mount -t ${FS_TYPE} ${OUTPUT}/${ROOTFS_NAME}.img \' >> ${MF}
+	echo -e '\t\t\t${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
+	echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/rootfs/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
+	echo -e '\tsync' >> ${MF}
+	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 fi
 echo '}' >> ${MF}
 echo '' >> ${MF}
@@ -840,26 +881,28 @@ esac
 echo '```' >> ${MF}
 echo '' >> ${MF}
 
-##
-# Busybox Configure and Compile
-echo '---------------------------------' >> ${MF}
-echo '<span id="A1"></span>' >> ${MF}
-echo '' >> ${MF}
-echo '## Build Busybox' >> ${MF}
-echo '' >> ${MF}
-echo '```' >> ${MF}
-echo "cd ${OUTPUT}/busybox/busybox" >> ${MF}
-echo 'make clean' >> ${MF}
-echo 'make menuconfig' >> ${MF}
-echo '' >> ${MF}
-echo '  Busybox Settings --->' >> ${MF}
-echo '    Build Options --->' >> ${MF}
-echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
-echo '' >> ${MF}
-echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} -j4" >> ${MF}
-echo '' >> ${MF}
-echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} install" >> ${MF}
-echo '```' >> ${MF}
+if [ ${SUPPORT_DESKTOP} = "N" ]; then
+	##
+	# Busybox Configure and Compile
+	echo '---------------------------------' >> ${MF}
+	echo '<span id="A1"></span>' >> ${MF}
+	echo '' >> ${MF}
+	echo '## Build Busybox' >> ${MF}
+	echo '' >> ${MF}
+	echo '```' >> ${MF}
+	echo "cd ${OUTPUT}/busybox/busybox" >> ${MF}
+	echo 'make clean' >> ${MF}
+	echo 'make menuconfig' >> ${MF}
+	echo '' >> ${MF}
+	echo '  Busybox Settings --->' >> ${MF}
+	echo '    Build Options --->' >> ${MF}
+	echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
+	echo '' >> ${MF}
+	echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} -j4" >> ${MF}
+	echo '' >> ${MF}
+	echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} install" >> ${MF}
+	echo '```' >> ${MF}
+fi
 
 ##
 # Re-build Rootfs

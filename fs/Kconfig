@@ -31,6 +31,9 @@ source fs/Apollo/Kconfig
 # Debian
 source fs/Debian/Kconfig
 
+# BiscuitOS-Desktop
+source fs/BiscuitOS/Kconfig
+
 config ROOTFS_SIZE
 	default 150
 	int "The size of Rootfs (MB)"
