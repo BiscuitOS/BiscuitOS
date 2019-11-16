@@ -650,21 +650,21 @@ else # Qemu Desktop
 	echo -e '\t\tsudo mkfs.ext4 ${loopdev}' >> ${MF}
 	echo -e '\t\tsudo losetup -d ${loopdev}' >> ${MF}
 	echo -e '\t\t[ -d ${OUTPUT}/rootfs/rootfs ] && sudo rm -rf ${OUTPUT}/rootfs/rootfs' >> ${MF}
-	echo -e '\t\tmkdir -p ${OUTPUT}/rootfs/rootfs' >> ${MF}
+	echo -e '\t\tsudo mkdir -p ${OUTPUT}/rootfs/rootfs' >> ${MF}
 	echo -e '\t\tcd ${OUTPUT}/rootfs/rootfs > /dev/null 2>&1' >> ${MF}
 	echo -e '\t\t[ ! -f ${DL}/buster-base-armel.tar.gz.bsp ] && echo "Buster not found!" && exit -1' >> ${MF}
-	echo -e '\t\tcp ${DL}/buster-base-armel.tar.gz.bsp ${OUTPUT}/rootfs/rootfs' >> ${MF}
+	echo -e '\t\tsudo cp ${DL}/buster-base-armel.tar.gz.bsp ${OUTPUT}/rootfs/rootfs' >> ${MF}
 	echo -e '\t\tsudo bsdtar -xpf buster-base-armel.tar.gz.bsp' >> ${MF}
 	echo -e '\t\tsudo rm -rf buster-base-armel.tar.gz.bsp' >> ${MF}
 	echo -e '\t\tcd - > /dev/null 2>&1' >> ${MF}
 	echo -e '\tfi' >> ${MF}
-	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	echo -e '\tsudo mkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\tsudo mount -t ${FS_TYPE} ${OUTPUT}/${ROOTFS_NAME}.img \' >> ${MF}
 	echo -e '\t\t\t${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
 	echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/rootfs/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
 	echo -e '\tsync' >> ${MF}
 	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+	echo -e '\tsudo rm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 fi
 echo '}' >> ${MF}
 echo '' >> ${MF}
