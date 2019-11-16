@@ -12,7 +12,7 @@ config PK_LDD_UIO_INTR_MOD_TAR
 	string "tar type"
 
 config PK_LDD_UIO_INTR_MOD_URL
-	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/i2c/Device/UIO/Interrupt/kernel"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/UIO/Interrupt/kernel"
 	string "url"
 
 config PK_LDD_UIO_INTR_MOD_GITHUB

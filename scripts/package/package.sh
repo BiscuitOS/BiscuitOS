@@ -53,6 +53,8 @@ BSFILE=${20%X}
 HBARCH=${21%X}
 # Compile Source list
 CSRC=${22%X}
+# Package Path
+PPATH=${PACKAGE_PATCH%%/patch}
 
 ## Establish static Path
 OUTPUT=${PROJECT_ROOT}/output/${PROJECT_NAME}
@@ -61,7 +63,7 @@ ROOTFS_ROOT=${OUTPUT}/rootfs/rootfs
 CROSS_PATH=${OUTPUT}/${PACKAGE_TOOL}/${PACKAGE_TOOL}
 DATE_COMT=`date +"%Y.%m.%d"`
 BASEPKNAME=${PACKAGE_NAME}-${PACKAGE_VERSION}
-PACKAGE_BSBIT=${PROJECT_ROOT}/package/${PACKAGE_NAME}/bsbit
+PACKAGE_BSBIT=${PPATH}/bsbit
 
 ## Prepare
 mkdir -p ${ROOTFS_ROOT}/usr/lib

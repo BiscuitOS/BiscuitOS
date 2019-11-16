@@ -1,7 +1,18 @@
 menuconfig PK_I2C
-	bool "I2C Bus"
+	bool "I2C: Inter-Integrated Circuit"
 
 if PK_I2C
 
+# LM75A Application
+source "package/i2c/lm75a_app/Kconfig"
+
+# LM75A Device Driver
+source "package/i2c/lm75a_module/Kconfig"
+
+# LM75A input Application
+source "package/i2c/lm75a_input_app/Kconfig"
+
+# LM75A input Device Driver
+source "package/i2c/lm75a_input_module/Kconfig"
 
 endif # PK_I2C

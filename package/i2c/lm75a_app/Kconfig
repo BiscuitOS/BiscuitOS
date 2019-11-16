@@ -1,55 +1,55 @@
-menuconfig PK_LDD_LM75A_APP
-	bool "LDD: LM75A Application"
+menuconfig PK_LM75A_APP
+	bool "LM75A: Application"
 
-if PK_LDD_LM75A_APP
+if PK_LM75A_APP
 
-config PK_LDD_LM75A_APP_VERSION
+config PK_LM75A_APP_VERSION
 	default "0.0.1"
 	string "verstion"
 
-config PK_LDD_LM75A_APP_TAR
+config PK_LM75A_APP_TAR
 	default "tar.gz"
 	string "tar type"
 
-config PK_LDD_LM75A_APP_URL
+config PK_LM75A_APP_URL
 	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/i2c/Device/LM75A/Base/userland"
 	string "url"
 
-config PK_LDD_LM75A_APP_GITHUB
+config PK_LM75A_APP_GITHUB
 	string "GitHub"
 
-config PK_LDD_LM75A_APP_SRCFILE
+config PK_LM75A_APP_SRCFILE
 	default "lm75a.c lm75a.sh Makefile"
 	string "Source code list"
 
-config PK_LDD_LM75A_APP_CSRCFILE
+config PK_LM75A_APP_CSRCFILE
 	string "Compile source code list"
 
-config PK_LDD_LM75A_APP_CONFIG
+config PK_LM75A_APP_CONFIG
 	string "CONFIG: Project Configure Options"
 
-config PK_LDD_LM75A_APP_LIBPATH
+config PK_LM75A_APP_LIBPATH
 	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
 
-config PK_LDD_LM75A_APP_CPPFLAGS
+config PK_LM75A_APP_CPPFLAGS
 	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
 
-config PK_LDD_LM75A_APP_DPKCONFIG
+config PK_LM75A_APP_DPKCONFIG
 	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
 
-config PK_LDD_LM75A_APP_CFLAGS
+config PK_LM75A_APP_CFLAGS
 	string "CFLAGS: C compiler flags"
 
-config PK_LDD_LM75A_APP_LDFLAGS
+config PK_LM75A_APP_LDFLAGS
 	string "LDFLAGS: Linker flags"
 
-config PK_LDD_LM75A_APP_CXXFLAGS
+config PK_LM75A_APP_CXXFLAGS
 	string "CXXFLAGS: C++ compiler flags"
 
-config PK_LDD_LM75A_APP_ASFLAGS
+config PK_LM75A_APP_ASFLAGS
 	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
 
-config PK_LDD_LM75A_APP_BUILDARCH
+config PK_LM75A_APP_BUILDARCH
 	string "--host options on configure for Architecture"
 
-endif # PK_LDD_LM75A_APP
+endif # PK_LM75A_APP
