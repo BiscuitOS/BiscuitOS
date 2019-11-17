@@ -15,4 +15,7 @@ source "package/i2c/lm75a_input_app/Kconfig"
 # LM75A input Device Driver
 source "package/i2c/lm75a_input_module/Kconfig"
 
+# LM75A thermal Watchdog
+source "package/i2c/lm75a_thermal_watchdog/Kconfig"
+
 endif # PK_I2C

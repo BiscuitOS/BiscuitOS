@@ -99,7 +99,7 @@ case ${LINUX_KERNEL_SRC} in
 			cd ${ROOT}/dl/${GIT_OUT}
 		else
 			cd ${ROOT}/dl/${GIT_OUT}
-			git pull
+			#git pull
 		fi
 		mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}
 		[ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ] && rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github
