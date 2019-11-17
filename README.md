@@ -31,7 +31,7 @@ sudo apt-get install -y device-tree-compiler
 sudo apt-get install -y flex bison libssl-dev libglib2.0-dev
 sudo apt-get install -y libfdt-dev libpixman-1-dev
 sudo apt-get install -y python pkg-config u-boot-tools intltool xsltproc
-sudo apt-get install -y gpref libglib2.0-dev libgirepository1.0-dev
+sudo apt-get install -y gperf libglib2.0-dev libgirepository1.0-dev
 sudo apt-get install -y gobject-introspection
 sudo apt-get install -y python2.7-dev python-dev bridge-utils
 sudo apt-get install -y uml-utilities net-tools
