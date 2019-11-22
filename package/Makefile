@@ -14,6 +14,7 @@ PACKAGE-$(CONFIG_PK_KOBJECT)		+= kobject/
 PACKAGE-$(CONFIG_PK_HELLO)		+= hello/
 PACKAGE-$(CONFIG_PK_I2C)		+= i2c/
 PACKAGE-$(CONFIG_PK_FS)			+= filesystem/
+PACKAGE-$(CONFIG_PK_SPI)		+= spi/
 PACKAGE-$(CONFIG_PK_INPUT)		+= input/
 PACKAGE-$(CONFIG_PK_HLIST)		+= hashlist/
 PACKAGE-$(CONFIG_PK_AUTOCONF)		+= autoconf/

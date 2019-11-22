@@ -252,6 +252,9 @@ source package/rpi-4b-bootloader/Kconfig
 # scrnsaverproto
 source package/scrnsaverproto/Kconfig
 
+# spi
+source package/spi/Kconfig
+
 # util-linux
 source package/util-linux/Kconfig
 

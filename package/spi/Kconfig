@@ -1,0 +1,9 @@
+menuconfig PK_SPI
+	bool "SPI: Serial Peripheral Interface"
+
+if PK_SPI
+
+# SPI Module
+source package/spi/spi_module/Kconfig
+
+endif # PK_SPI
