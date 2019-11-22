@@ -1,0 +1,12 @@
+menuconfig PK_CHAR
+	bool "Character Device Driver and Application"
+
+if PK_CHAR
+
+# Character application
+source package/char/char_app/Kconfig
+
+# Character Module
+source package/char/char_module/Kconfig
+
+endif # PK_CHAR

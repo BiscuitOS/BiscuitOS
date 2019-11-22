@@ -1,0 +1,55 @@
+menuconfig PK_FS_KERNFS_MOD
+	bool "kernfs module"
+
+if PK_FS_KERNFS_MOD
+
+config PK_FS_KERNFS_MOD_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_FS_KERNFS_MOD_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_FS_KERNFS_MOD_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/fs/kernfs/module"
+	string "url"
+
+config PK_FS_KERNFS_MOD_GITHUB
+	string "GitHub"
+
+config PK_FS_KERNFS_MOD_SRCFILE
+	default "bsfs/dir.c bsfs/file.c bsfs/symlink.c bsfs/inode.c bsfs/mount.c core.c include/linux/bsfs.h Kconfig Makefile"
+	string "Source code list"
+
+config PK_FS_KERNFS_MOD_CSRCFILE
+	string "Compile source code list"
+
+config PK_FS_KERNFS_MOD_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_FS_KERNFS_MOD_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_FS_KERNFS_MOD_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_FS_KERNFS_MOD_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_FS_KERNFS_MOD_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_FS_KERNFS_MOD_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_FS_KERNFS_MOD_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_FS_KERNFS_MOD_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_FS_KERNFS_MOD_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_FS_KERNFS_MOD

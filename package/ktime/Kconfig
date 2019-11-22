@@ -1,0 +1,18 @@
+menuconfig PK_KTIME
+	bool "ktime: Kernel Timming"
+
+if PK_KTIME
+
+# ktime_get_ts64
+source "package/ktime/ktime_get_ts64/Kconfig"
+
+# ktime_get_real_ts64
+source "package/ktime/ktime_get_real_ts64/Kconfig"
+
+# timespec64_sub
+source "package/ktime/timespec64_sub/Kconfig"
+
+# timer
+source "package/ktime/timer_module/Kconfig"
+
+endif # PK_KTIME

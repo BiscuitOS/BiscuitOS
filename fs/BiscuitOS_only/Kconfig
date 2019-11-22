@@ -1,0 +1,2 @@
+menuconfig FS_BISCUITOS_ONLY
+	bool "(only Run)BiscuitOS Desktop Filesystem(rootfs)"

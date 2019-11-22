@@ -1,0 +1,24 @@
+menuconfig PK_INPUT
+	bool "Input: Device Driver and Application"
+
+if PK_INPUT
+
+# LDD: Input Device Driver application
+source package/input/input_app/Kconfig
+
+# LDD: Input Device Driver Module
+source package/input/input_module/Kconfig
+
+# LDD: Input Key Device Driver application
+source package/input/input_key_app/Kconfig
+
+# LDD: Input Key Device Driver Module
+source package/input/input_key_module/Kconfig
+
+# LDD: Input Touch Device Driver application
+source package/input/input_touch_app/Kconfig
+
+# LDD: Input Touch Device Driver Module
+source package/input/input_touch_module/Kconfig
+
+endif # PK_INPUT

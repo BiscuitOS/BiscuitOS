@@ -1,0 +1,55 @@
+menuconfig PK_KTIME_GET_REAL_TS64
+	bool "ktime_get_real_ts64()"
+
+if PK_KTIME_GET_REAL_TS64
+
+config PK_KTIME_GET_REAL_TS64_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KTIME_GET_REAL_TS64_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KTIME_GET_REAL_TS64_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/time/kernel_time/API/ktime_get_real_ts64"
+	string "url"
+
+config PK_KTIME_GET_REAL_TS64_GITHUB
+	string "GitHub"
+
+config PK_KTIME_GET_REAL_TS64_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_KTIME_GET_REAL_TS64_CSRCFILE
+	string "Compile source code list"
+
+config PK_KTIME_GET_REAL_TS64_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KTIME_GET_REAL_TS64_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KTIME_GET_REAL_TS64_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KTIME_GET_REAL_TS64_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KTIME_GET_REAL_TS64_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KTIME_GET_REAL_TS64_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KTIME_GET_REAL_TS64_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KTIME_GET_REAL_TS64_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KTIME_GET_REAL_TS64_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KTIME_GET_REAL_TS64

@@ -1,0 +1,18 @@
+menuconfig PK_CMA
+	bool "CMA: Contiguous Memory Allocator"
+
+if PK_CMA
+
+# LDD: Contiguous Memory Allocate application
+source package/CMA/CMA_app/Kconfig
+
+# LDD: Contiguous Memory Allocate Module
+source package/CMA/CMA_module/Kconfig
+
+# LDD: CMA on special Area application
+source package/CMA/CMA_area_app/Kconfig
+
+# LDD: CMA on speical Area Module
+source package/CMA/CMA_area_module/Kconfig
+
+endif # PK_CMA

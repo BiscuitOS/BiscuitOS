@@ -1,0 +1,9 @@
+menuconfig PK_FS_KERNFS
+	bool "kernfs"
+
+if PK_FS_KERNFS
+
+# kernfs module
+source "package/filesystem/kernfs/kernfs_module/Kconfig"
+
+endif # PK_FS_KERNFS

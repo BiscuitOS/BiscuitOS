@@ -1,0 +1,12 @@
+menuconfig PK_MISC
+	bool "MISC Device Driver and Application"
+
+if PK_MISC
+
+# MISC application
+source package/misc/misc_app/Kconfig
+
+# MISC Module
+source package/misc/misc_module/Kconfig
+
+endif # PK_MISC

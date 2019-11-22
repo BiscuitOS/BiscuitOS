@@ -1,0 +1,9 @@
+menuconfig PK_WQ
+	bool "Workqueue: Device Driver and Application"
+
+if PK_WQ
+
+# Work Queue Device Driver module
+source package/workqueue/workqueue_module/Kconfig
+
+endif # PK_WQ

@@ -1,0 +1,18 @@
+menuconfig PK_UIO
+	bool "UIO: Userspace I/O Device Driver and Application"
+
+if PK_UIO
+
+# LDD: UIO Interrupt Application
+source package/UIO/UIO_intr_app/Kconfig
+
+# LDD: UIO Interrupt Device Driver module
+source package/UIO/UIO_intr_module/Kconfig
+
+# LDD: UIO memory Application
+source package/UIO/UIO_mem_app/Kconfig
+
+# LDD: UIO memory Device Driver module
+source package/UIO/UIO_mem_module/Kconfig
+
+endif # PK_UIO

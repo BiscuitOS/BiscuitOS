@@ -1,0 +1,55 @@
+menuconfig PK_AT24C08_CHEST
+	bool "AT24C08 Chest"
+
+if PK_AT24C08_CHEST
+
+config PK_AT24C08_CHEST_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_AT24C08_CHEST_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_AT24C08_CHEST_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/i2c/Device/AT24C08/Chest"
+	string "url"
+
+config PK_AT24C08_CHEST_GITHUB
+	string "GitHub"
+
+config PK_AT24C08_CHEST_SRCFILE
+	default "Makefile src/at24c08_lib.c src/chest.c src/main.c src/user_command.c include/at24c08_lib.h include/chest.h include/command.h"
+	string "Source code list"
+
+config PK_AT24C08_CHEST_CSRCFILE
+	string "Compile source code list"
+
+config PK_AT24C08_CHEST_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_AT24C08_CHEST_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_AT24C08_CHEST_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_AT24C08_CHEST_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_AT24C08_CHEST_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_AT24C08_CHEST_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_AT24C08_CHEST_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_AT24C08_CHEST_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_AT24C08_CHEST_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_AT24C08_CHEST

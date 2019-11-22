@@ -36,8 +36,14 @@ source package/busybox/Kconfig
 # cairo
 source package/cairo/Kconfig
 
+# char
+source package/char/Kconfig
+
 # compositeproto
 source package/compositeproto/Kconfig
+
+# CMA
+source package/CMA/Kconfig
 
 # damageproto
 source package/damageproto/Kconfig
@@ -50,6 +56,9 @@ source package/dri3proto/Kconfig
 
 # expat
 source package/expat/Kconfig
+
+# filesystem
+source package/filesystem/Kconfig
 
 # fixesproto
 source package/fixesproto/Kconfig
@@ -90,6 +99,9 @@ source package/snake/Kconfig
 # Game: tetris
 source package/tetris/Kconfig
 
+# GPIO
+source package/GPIO/Kconfig
+
 # harfbuzz
 source package/harfbuzz/Kconfig
 
@@ -102,6 +114,9 @@ source package/hello/Kconfig
 # i2c
 source package/i2c/Kconfig
 
+# input
+source package/input/Kconfig
+
 # inputproto
 source package/inputproto/Kconfig
 
@@ -111,131 +126,8 @@ source package/kbproto/Kconfig
 # kobject
 source package/kobject/Kconfig
 
-# LDD: AT24C08 application
-source package/LDD_at24c08_app/Kconfig
-
-# LDD: AT24C08 chest
-source package/LDD_at24c08_chest/Kconfig
-
-# LDD: AT24C08 Module
-source package/LDD_at24c08_module/Kconfig
-
-# LDD: Basic Device Driver Module
-source package/LDD_core_module/Kconfig
-
-# LDD: Character application
-source package/LDD_char_app/Kconfig
-
-# LDD: Character Module
-source package/LDD_char_module/Kconfig
-
-# LDD: Contiguous Memory Allocate application
-source package/LDD_CMA_app/Kconfig
-
-# LDD: Contiguous Memory Allocate Module
-source package/LDD_CMA_module/Kconfig
-
-# LDD: CMA on special Area application
-source package/LDD_CMA_area_app/Kconfig
-
-# LDD: CMA on speical Area Module
-source package/LDD_CMA_area_module/Kconfig
-
-# LDD: GPIO Device Driver Module
-source package/LDD_GPIO_module/Kconfig
-
-# LDD: I2C Bus Device Driver
-source package/LDD_i2c_bus/Kconfig
-
-# LDD: Input Device Driver application
-source package/LDD_input_app/Kconfig
-
-# LDD: Input Device Driver Module
-source package/LDD_input_module/Kconfig
-
-# LDD: Input Key Device Driver application
-source package/LDD_input_key_app/Kconfig
-
-# LDD: Input Key Device Driver Module
-source package/LDD_input_key_module/Kconfig
-
-# LDD: Input Touch Device Driver application
-source package/LDD_input_touch_app/Kconfig
-
-# LDD: Input Touch Device Driver Module
-source package/LDD_input_touch_module/Kconfig
-
-# LDD: PCF8574 application
-source package/LDD_pcf8574_app/Kconfig
-
-# LDD: PCF8574 module
-source package/LDD_pcf8574_module/Kconfig
-
-# LDD: PCF8574 Interrupt module
-source package/LDD_pcf8574_intr_module/Kconfig
-
-# LDD: PCF8574 Interrupt error
-source package/LDD_pcf8574_err0/Kconfig
-
-# LDD: PCF8574 Traffic Light
-source package/LDD_pcf8574_traffic/Kconfig
-
-# LDD: Platform Attribute application
-source package/LDD_platform_attr_app/Kconfig
-
-# LDD: Platform Attribute Module
-source package/LDD_platform_attr_module/Kconfig
-
-# LDD: Platform Core application
-source package/LDD_platform_core_app/Kconfig
-
-# LDD: Platform Core Module
-source package/LDD_platform_core_module/Kconfig
-
-# LDD: Platform Core from DTS application
-source package/LDD_platform_coreDTS_app/Kconfig
-
-# LDD: Platform Core from DTS Module
-source package/LDD_platform_coreDTS_module/Kconfig
-
-# LDD: Platform Resource application
-source package/LDD_platform_res_app/Kconfig
-
-# LDD: Platform Resource module
-source package/LDD_platform_res_module/Kconfig
-
-# LDD: Platform Resource from DTS application
-source package/LDD_platform_resDTS_app/Kconfig
-
-# LDD: Platform Resource from DTS module
-source package/LDD_platform_resDTS_module/Kconfig
-
-# LDD: Platform Simple Module
-source package/LDD_platform_simple_module/Kconfig
-
-# LDD: MISC application
-source package/LDD_misc_app/Kconfig
-
-# LDD: MISC Module
-source package/LDD_misc_module/Kconfig
-
-# LDD: Timer Device Driver module
-source package/LDD_timer_module/Kconfig
-
-# LDD: UIO Interrupt Application
-source package/LDD_UIO_intr_app/Kconfig
-
-# LDD: UIO Interrupt Device Driver module
-source package/LDD_UIO_intr_module/Kconfig
-
-# LDD: UIO memory Application
-source package/LDD_UIO_mem_app/Kconfig
-
-# LDD: UIO memory Device Driver module
-source package/LDD_UIO_mem_module/Kconfig
-
-# LDD: Work Queue Device Driver module
-source package/LDD_workqueue_module/Kconfig
+# ktime
+source package/ktime/Kconfig
 
 # libdrm
 source package/libdrm/Kconfig
@@ -300,6 +192,12 @@ source package/libXxf86vm/Kconfig
 # mesa
 source package/mesa/Kconfig
 
+# misc
+source package/misc/Kconfig
+
+# module
+source package/module/Kconfig
+
 # ncurses
 source package/ncurses/Kconfig
 
@@ -315,6 +213,9 @@ source package/pcre/Kconfig
 # pixman
 source package/pixman/Kconfig
 
+# platform
+source package/platform/Kconfig
+
 # presentproto
 source package/presentproto/Kconfig
 
@@ -326,6 +227,9 @@ source package/qemu/Kconfig
 
 # randrproto
 source package/randrproto/Kconfig
+
+# rbtree
+source package/rbtree/Kconfig
 
 # recordproto
 source package/recordproto/Kconfig
@@ -351,8 +255,14 @@ source package/scrnsaverproto/Kconfig
 # util-linux
 source package/util-linux/Kconfig
 
+# UIO
+source package/UIO/Kconfig
+
 # videoproto
 source package/videoproto/Kconfig
+
+# workqueue
+source package/workqueue/Kconfig
 
 # xcb-proto
 source package/xcb-proto/Kconfig

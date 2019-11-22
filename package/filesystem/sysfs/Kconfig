@@ -1,0 +1,9 @@
+menuconfig PK_FS_SYSFS
+	bool "sysfs"
+
+if PK_FS_SYSFS
+
+# sysfs module
+source "package/filesystem/sysfs/sysfs_module/Kconfig"
+
+endif # PK_FS_SYSFS

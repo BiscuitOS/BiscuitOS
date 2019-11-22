@@ -1,0 +1,55 @@
+menuconfig PK_PCF8574_ERR0
+	bool "PCF8574 Interrupt Error"
+
+if PK_PCF8574_ERR0
+
+config PK_PCF8574_ERR0_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_PCF8574_ERR0_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PCF8574_ERR0_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/i2c/Device/PCF8574/Error/intr_handler"
+	string "url"
+
+config PK_PCF8574_ERR0_GITHUB
+	string "GitHub"
+
+config PK_PCF8574_ERR0_SRCFILE
+	default "pcf8574.c default.dts Kconfig Makefile Error_log.txt"
+	string "Source code list"
+
+config PK_PCF8574_ERR0_CSRCFILE
+	string "Compile source code list"
+
+config PK_PCF8574_ERR0_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PCF8574_ERR0_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PCF8574_ERR0_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PCF8574_ERR0_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PCF8574_ERR0_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PCF8574_ERR0_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PCF8574_ERR0_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PCF8574_ERR0_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PCF8574_ERR0_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PCF8574_ERR0

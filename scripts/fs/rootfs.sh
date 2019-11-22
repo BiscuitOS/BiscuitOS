@@ -175,7 +175,6 @@ mkdir -p /tmp
 mkdir -p /sys
 mkdir -p /mnt
 mkdir -p /nfs
-mkdir -p /bsvfs
 /bin/mount -a
 /bin/hostname BiscuitOS
 
@@ -212,7 +211,6 @@ cat << EOF > ${RC}
 proc /proc proc defaults 0 0
 tmpfs /tmp tmpfs defaults 0 0
 sysfs /sys sysfs defaults 0 0
-bsvfs /bsvfs bsvfs defaults 0 0
 tmpfs /dev tmpfs defaults 0 0
 debugfs /sys/kernel/debug debugfs defaults 0 0
 EOF
@@ -331,7 +329,7 @@ fi
 ## Auto build README.md
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \
-					${FREEZE_DISK}X ${DISK_SIZE}X
+					${FREEZE_SIZE}X ${DISK_SIZE}X
 
 ## Output directory
 echo ""

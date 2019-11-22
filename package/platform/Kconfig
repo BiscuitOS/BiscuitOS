@@ -1,0 +1,40 @@
+menuconfig PK_PLATFORM
+	bool "Platofrm: Device Driver and Application"
+
+if PK_PLATFORM
+
+# LDD: Platform Attribute application
+source package/platform/platform_attr_app/Kconfig
+
+# LDD: Platform Attribute Module
+source package/platform/platform_attr_module/Kconfig
+
+# LDD: Platform Core application
+source package/platform/platform_core_app/Kconfig
+
+# LDD: Platform Core Module
+source package/platform/platform_core_module/Kconfig
+
+# LDD: Platform Core from DTS application
+source package/platform/platform_coreDTS_app/Kconfig
+
+# LDD: Platform Core from DTS Module
+source package/platform/platform_coreDTS_module/Kconfig
+
+# LDD: Platform Resource application
+source package/platform/platform_res_app/Kconfig
+
+# LDD: Platform Resource module
+source package/platform/platform_res_module/Kconfig
+
+# LDD: Platform Resource from DTS application
+source package/platform/platform_resDTS_app/Kconfig
+
+# LDD: Platform Resource from DTS module
+source package/platform/platform_resDTS_module/Kconfig
+
+# LDD: Platform Simple Module
+source package/platform/platform_simple_module/Kconfig
+
+
+endif # PK_PLATFORM

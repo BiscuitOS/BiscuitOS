@@ -1,0 +1,55 @@
+menuconfig PK_I2C_BUS
+	bool "I2C Bus Device Driver"
+
+if PK_I2C_BUS
+
+config PK_I2C_BUS_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_I2C_BUS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_I2C_BUS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/i2c/Bus/kernel"
+	string "url"
+
+config PK_I2C_BUS_GITHUB
+	string "GitHub"
+
+config PK_I2C_BUS_SRCFILE
+	default "i2c_bus.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_I2C_BUS_CSRCFILE
+	string "Compile source code list"
+
+config PK_I2C_BUS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_I2C_BUS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_I2C_BUS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_I2C_BUS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_I2C_BUS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_I2C_BUS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_I2C_BUS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_I2C_BUS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_I2C_BUS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_I2C_BUS

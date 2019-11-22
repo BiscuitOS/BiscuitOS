@@ -1,0 +1,9 @@
+menuconfig PK_GPIO
+	bool "GPIO Device Driver and Application"
+
+if PK_GPIO
+
+# GPIO Device Driver Module
+source package/GPIO/GPIO_module/Kconfig
+
+endif # PK_GPIO

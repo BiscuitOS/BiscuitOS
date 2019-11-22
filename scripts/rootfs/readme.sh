@@ -27,7 +27,7 @@ UBOOT=${15%X}
 UBOOT_CROSS=${16%X}
 # Kernel Version
 KERNEL_VERSION=${7%X}
-[ ${KERNEL_VERSION} = "newest" ] && KERNEL_VERSION=6.0.0
+[ ${KERNEL_VERSION}X = "newestX" ] && KERNEL_VERSION=6.0.0
 # Rootfs NAME
 ROOTFS_NAME=${2%X}
 # Rootfs Version
@@ -35,7 +35,7 @@ ROOTFS_VERSION=${3%X}
 # Rootfs Path
 ROOTFS_PATH=${OUTPUT}/rootfs/${ROOTFS_NAME}
 # Disk size (MB)
-DISK_SIZE=${17%X}
+DISK_SIZE=${18%X}
 [ ! ${DISK_SIZE} ] && DISK_SIZE=512
 # Freeze Information
 FREEZE_NAME=${17%X}
@@ -47,6 +47,10 @@ KCROSS_PATH=${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}
 QEMU_PATH=${OUTPUT}/qemu-system/qemu-system
 # Module Install Path
 MODULE_INSTALL_PATH=${OUTPUT}/rootfs/rootfs/
+# Running Only
+ONLYRUN=${19%X}
+SUPPORT_ONLYRUN=N
+[ ${ONLYRUN}X = "YX" ] && SUPPORT_ONLYRUN=Y && KERNEL_VERSION=6.0.0
 
 # Don't edit
 README_NAME=README.md
@@ -173,6 +177,7 @@ detect_kernel_version_field
 
 # Desktop
 [ ${PROJECT_NAME} = "BiscuitOS-Desktop" ] && SUPPORT_DESKTOP=Y
+[ ${SUPPORT_ONLYRUN} = "Y" ] && SUPPORT_DESKTOP=Y
 
 ##
 # Rootfs Inforamtion
@@ -238,8 +243,8 @@ ROOTFS_NAME=${ROOTFS_NAME}
 CROSS_COMPILE=${CROSS_COMPILE}
 FS_TYPE=${FS_TYPE}
 FS_TYPE_TOOLS=${FS_TYPE_TOOLS}
-ROOTFS_SIZE=${17%X}
-FREEZE_SIZE=${18%X}
+ROOTFS_SIZE=${18%X}
+FREEZE_SIZE=${17%X}
 DL=${ROOT}/dl
 EOF
 # RAM size
@@ -377,12 +382,15 @@ echo -e '\t' >> ${MF}
 echo '' >> ${MF}
 case ${ARCH_NAME} in
 	arm) 
+		echo -e '\t${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_COMPILE}' >> ${MF}
 		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-M ${MACH} \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		[ ${SUPPORT_ONLYRUN} = "N" ] && echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/zImage \' >> ${MF}
+		[ ${SUPPORT_ONLYRUN} = "Y" ] && echo -e '\t-kernel ${ROOT}/images/zImage \' >> ${MF}
 		# Support DTB/DTS/FDT
-		[ ${SUPPORT_DTB} = "Y" ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
+		[ ${SUPPORT_DTB} = "Y" -a ${SUPPORT_ONLYRUN} = "N" ] && echo -e '\t-dtb ${LINUX_DIR}/${ARCH}/boot/dts/vexpress-v2p-ca9.dtb \' >> ${MF}
+		[ ${SUPPORT_DTB} = "Y" -a ${SUPPORT_ONLYRUN} = "Y" ] && echo -e '\t-dtb ${ROOT}/images/vexpress-v2p-ca9.dtb \' >> ${MF}
 		# Support HardDisk
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
@@ -710,7 +718,8 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 fi
 echo -e '\t"pack")' >> ${MF}
 echo -e '\t\t# Package BiscuitOS.img' >> ${MF}
-echo -e '\t\tdo_package' >> ${MF}
+[ ${SUPPORT_ONLYRUN} = "N" ] && echo -e '\t\tdo_package' >> ${MF}
+[ ${SUPPORT_ONLYRUN} = "Y" ] && echo -e '\t\techo "Packing"' >> ${MF}
 echo -e '\t\t;;' >> ${MF}
 echo -e '\t"debug")' >> ${MF}
 echo -e '\t\t# Debugging BiscuitOS' >> ${MF}

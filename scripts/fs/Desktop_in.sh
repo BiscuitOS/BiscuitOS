@@ -38,6 +38,8 @@ ARCH_MAGIC=${11%X}
 DISK_SIZE=${17%X}
 # Freeze Disk size
 FREEZE_SIZE=${18%X}
+# Only Running 
+SUPPORT_ONLYRUN=${19%X}
 
 [ ${ARCH_MAGIC} -eq 2 ] && ARCH=armel
 [ ${ARCH_MAGIC} -eq 3 ] && ARCH=arm64
@@ -51,7 +53,7 @@ do_README()
 		$4X $5X $6X ${KERNEL_VERSION}X $8X ${PROJECT}X ${10}X \
 		${ARCH_MAGIC}X ${CROSS_COMPILE}X ${13}X ${14}X \
 		${UBOOT}X ${UBOOT_COMPILE}X \
-		${DISK_SIZE}X ${FREEZE_SIZE}X
+		${FREEZE_SIZE}X ${DISK_SIZE}X ${SUPPORT_ONLYRUN}X
 
 	## Output directory
 	echo ""
@@ -73,9 +75,22 @@ do_README()
 
 }
 
+do_freeze()
+{
+	FREEZE_DISK=Freeze.img
+	FREEZE_SIZE=${18%X}
+	[ ! ${FREEZE_SIZE} ] && FREEZE_SIZE=512
+	if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
+		dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/${FREEZE_DISK}
+		sync
+		mkfs.ext4 -F ${OUTPUT}/${FREEZE_DISK}
+	fi
+}
+
 # Build basic ENV
 prepare()
 {
+	[ ${SUPPORT_ONLYRUN} = "Y" ] && do_freeze && do_README && exit 0
 	[ -f ${DL}/${PACKAGE}.bsp ] && do_README && exit 0
 	[ ! -d ${DL} ] && mkdir -p ${DL}
 	[ -d ${TEMP} ] && sudo rm -rf ${TEMP}

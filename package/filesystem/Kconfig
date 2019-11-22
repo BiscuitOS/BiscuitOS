@@ -1,0 +1,12 @@
+menuconfig PK_FS
+	bool "Filesystem"
+
+if PK_FS
+
+# Kernfs
+source "package/filesystem/kernfs/Kconfig"
+
+# sysfs
+source "package/filesystem/sysfs/Kconfig"
+
+endif # PK_FS

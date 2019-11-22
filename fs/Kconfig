@@ -34,6 +34,9 @@ source fs/Debian/Kconfig
 # BiscuitOS-Desktop
 source fs/BiscuitOS/Kconfig
 
+# BiscuitOS-Desktop only running
+source fs/BiscuitOS_only/Kconfig
+
 config ROOTFS_SIZE
 	default 150
 	int "The size of Rootfs (MB)"
