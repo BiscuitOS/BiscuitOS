@@ -250,6 +250,7 @@ EOF
 # RAM size
 [ ${SUPPORT_2_X} = "Y" ] && echo 'RAM_SIZE=256' >> ${MF} 
 [ ${SUPPORT_2_X} = "N" ] && echo 'RAM_SIZE=512' >> ${MF}
+[ ${SUPPORT_ONLYRUN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
 # Platform
 [ ${SUPPORT_2_X} = "Y" -a ${ARCH_NAME} == "arm" ] && echo 'MACH=versatilepb' >> ${MF} 
 [ ${SUPPORT_2_X} = "N" -a ${ARCH_NAME} == "arm" ] && echo 'MACH=vexpress-a9' >> ${MF}
@@ -382,7 +383,7 @@ echo -e '\t' >> ${MF}
 echo '' >> ${MF}
 case ${ARCH_NAME} in
 	arm) 
-		echo -e '\t${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_COMPILE}' >> ${MF}
+		[ ${SUPPORT_ONLYRUN} = "N" ] && echo -e '\t${ROOT}/package/gdb/gdb.pl ${ROOT} ${CROSS_COMPILE}' >> ${MF}
 		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-M ${MACH} \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
