@@ -1,0 +1,10 @@
+menuconfig PK_SYSCALL
+	bool "System Call (arm)"
+
+if PK_SYSCALL
+
+source "package/syscall/open_kapi/Kconfig"
+
+source "package/syscall/open_uapi/Kconfig"
+
+endif # PK_SYSCALL

@@ -255,6 +255,9 @@ source package/scrnsaverproto/Kconfig
 # spi
 source package/spi/Kconfig
 
+# system call arm
+source package/syscall/Kconfig
+
 # util-linux
 source package/util-linux/Kconfig
 

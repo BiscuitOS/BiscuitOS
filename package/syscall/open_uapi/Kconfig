@@ -1,0 +1,56 @@
+menuconfig PK_OPEN_UAPI
+	select PK_OPEN_KAPI
+	bool "open: userspace"
+
+if PK_OPEN_UAPI
+
+config PK_OPEN_UAPI_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_OPEN_UAPI_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_OPEN_UAPI_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/SystemCall/arm/open/userland"
+	string "url"
+
+config PK_OPEN_UAPI_GITHUB
+	string "GitHub"
+
+config PK_OPEN_UAPI_SRCFILE
+	default "open.c Makefile"
+	string "Source code list"
+
+config PK_OPEN_UAPI_CSRCFILE
+	string "Compile source code list"
+
+config PK_OPEN_UAPI_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_OPEN_UAPI_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_OPEN_UAPI_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_OPEN_UAPI_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_OPEN_UAPI_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_OPEN_UAPI_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_OPEN_UAPI_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_OPEN_UAPI_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_OPEN_UAPI_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_OPEN_UAPI
