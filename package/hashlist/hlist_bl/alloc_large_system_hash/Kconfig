@@ -1,0 +1,55 @@
+menuconfig PK_HLIST_BL_ALLOC_SYS_HASH
+	bool "alloc_large_system_hash()"
+
+if PK_HLIST_BL_ALLOC_SYS_HASH
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/list/hlist_bl/API/alloc_large_system_hash"
+	string "url"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_GITHUB
+	string "GitHub"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_SRCFILE
+	default "core.c Makefile"
+	string "Source code list"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_CSRCFILE
+	string "Compile source code list"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_HLIST_BL_ALLOC_SYS_HASH_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_HLIST_BL_ALLOC_SYS_HASH

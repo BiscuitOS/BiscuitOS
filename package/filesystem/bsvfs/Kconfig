@@ -1,0 +1,9 @@
+menuconfig PK_BISCUITOS_VFS
+	bool "BiscuitOS Virtual Filesystem"
+
+if PK_BISCUITOS_VFS
+
+# Basic BiscuitOS filesystem
+source "package/filesystem/bsvfs/basic/Kconfig"
+
+endif # PK_BISCUITOS_VFS

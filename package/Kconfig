@@ -114,6 +114,9 @@ source package/hello/Kconfig
 # i2c
 source package/i2c/Kconfig
 
+# idr
+source package/idr/Kconfig
+
 # input
 source package/input/Kconfig
 
@@ -210,6 +213,9 @@ source package/pango/Kconfig
 # pcre
 source package/pcre/Kconfig
 
+# percpu
+source package/percpu/Kconfig
+
 # pixman
 source package/pixman/Kconfig
 
@@ -251,6 +257,9 @@ source package/rpi-4b-bootloader/Kconfig
 
 # scrnsaverproto
 source package/scrnsaverproto/Kconfig
+
+# slab
+source package/slab/Kconfig
 
 # spi
 source package/spi/Kconfig

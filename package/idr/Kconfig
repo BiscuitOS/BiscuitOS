@@ -1,0 +1,12 @@
+menuconfig PK_IDR
+	bool "IDR: ID Radix-Tree"
+
+if PK_IDR
+
+# DEFINE_IDR
+source package/idr/DEFINE_IDR/Kconfig
+
+# idr_init
+source package/idr/idr_init/Kconfig
+
+endif # PK_IDR

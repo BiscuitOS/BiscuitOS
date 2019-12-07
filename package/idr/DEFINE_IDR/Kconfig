@@ -1,0 +1,55 @@
+menuconfig PK_DEFINE_IDR
+	bool "DEFINE_IDR()"
+
+if PK_DEFINE_IDR
+
+config PK_DEFINE_IDR_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_DEFINE_IDR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DEFINE_IDR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/IDR/API/DEFINE_IDR"
+	string "url"
+
+config PK_DEFINE_IDR_GITHUB
+	string "GitHub"
+
+config PK_DEFINE_IDR_SRCFILE
+	default "idr.c Makefile README.md"
+	string "Source code list"
+
+config PK_DEFINE_IDR_CSRCFILE
+	string "Compile source code list"
+
+config PK_DEFINE_IDR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DEFINE_IDR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DEFINE_IDR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DEFINE_IDR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DEFINE_IDR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DEFINE_IDR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DEFINE_IDR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DEFINE_IDR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DEFINE_IDR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DEFINE_IDR

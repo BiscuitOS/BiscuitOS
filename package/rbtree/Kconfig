@@ -3,6 +3,9 @@ menuconfig PK_RBTREE
 
 if PK_RBTREE
 
+# rb_link_node
+source "package/rbtree/rb_link_node/Kconfig"
+
 # rbtree Application
 source "package/rbtree/rbtree_app/Kconfig"
 

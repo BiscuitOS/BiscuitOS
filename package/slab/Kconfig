@@ -1,0 +1,24 @@
+menuconfig PK_SLAB
+	bool "Slab/Slub/Slob Memory Allocator"
+
+if PK_SLAB
+
+# kfree_const
+source package/slab/kfree_const/Kconfig
+
+# kmemdup
+source package/slab/kmemdup/Kconfig
+
+# kmem_cache_create_usercopy module
+source package/slab/kmem_cache_create_usercopy_mod/Kconfig
+
+# kmem_cache_create_usercopy app
+source package/slab/kmem_cache_create_usercopy_app/Kconfig
+
+# KMEM_CACHE_USERCOPY
+source package/slab/KMEM_CACHE_USERCOPY/Kconfig
+
+# kstrdup_const
+source package/slab/kstrdup_const/Kconfig
+
+endif # PK_SLAB

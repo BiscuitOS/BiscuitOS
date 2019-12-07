@@ -1,0 +1,55 @@
+menuconfig PK_PERCPU_COUNTER_DEC
+	bool "percpu_counter_dec()"
+
+if PK_PERCPU_COUNTER_DEC
+
+config PK_PERCPU_COUNTER_DEC_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_PERCPU_COUNTER_DEC_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PERCPU_COUNTER_DEC_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/percpu/API/percpu_counter_dec"
+	string "url"
+
+config PK_PERCPU_COUNTER_DEC_GITHUB
+	string "GitHub"
+
+config PK_PERCPU_COUNTER_DEC_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_PERCPU_COUNTER_DEC_CSRCFILE
+	string "Compile source code list"
+
+config PK_PERCPU_COUNTER_DEC_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PERCPU_COUNTER_DEC_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PERCPU_COUNTER_DEC_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PERCPU_COUNTER_DEC_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PERCPU_COUNTER_DEC_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PERCPU_COUNTER_DEC_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PERCPU_COUNTER_DEC_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PERCPU_COUNTER_DEC_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PERCPU_COUNTER_DEC_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PERCPU_COUNTER_DEC

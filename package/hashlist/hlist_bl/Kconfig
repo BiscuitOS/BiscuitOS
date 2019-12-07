@@ -3,6 +3,9 @@ menuconfig PK_HLIST_BL
 
 if PK_HLIST_BL
 
+# alloc_large_system_hash
+source "package/hashlist/hlist_bl/alloc_large_system_hash/Kconfig"
+
 # Hlist_bl Base
 source "package/hashlist/hlist_bl/hlist_bl_base/Kconfig"
 

@@ -1,0 +1,55 @@
+menuconfig PK_RB_LINK_NODE
+	bool "rb_link_node"
+
+if PK_RB_LINK_NODE
+
+config PK_RB_LINK_NODE_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_RB_LINK_NODE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_RB_LINK_NODE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/tree/rb-tree/API/rb_link_node"
+	string "url"
+
+config PK_RB_LINK_NODE_GITHUB
+	string "GitHub"
+
+config PK_RB_LINK_NODE_SRCFILE
+	default "rbtree.c README.md Makefile"
+	string "Source code list"
+
+config PK_RB_LINK_NODE_CSRCFILE
+	string "Compile source code list"
+
+config PK_RB_LINK_NODE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_RB_LINK_NODE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_RB_LINK_NODE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_RB_LINK_NODE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_RB_LINK_NODE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_RB_LINK_NODE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_RB_LINK_NODE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_RB_LINK_NODE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_RB_LINK_NODE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_RB_LINK_NODE

@@ -1,0 +1,55 @@
+menuconfig PK_FS_SGET
+	bool "sget()"
+
+if PK_FS_SGET
+
+config PK_FS_SGET_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_FS_SGET_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_FS_SGET_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/fs/vfs/API/sget"
+	string "url"
+
+config PK_FS_SGET_GITHUB
+	string "GitHub"
+
+config PK_FS_SGET_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_FS_SGET_CSRCFILE
+	string "Compile source code list"
+
+config PK_FS_SGET_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_FS_SGET_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_FS_SGET_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_FS_SGET_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_FS_SGET_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_FS_SGET_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_FS_SGET_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_FS_SGET_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_FS_SGET_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_FS_SGET

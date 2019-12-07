@@ -1,0 +1,55 @@
+menuconfig PK_FS_INODE_INIT_OWNER
+	bool "inode_init_owner()"
+
+if PK_FS_INODE_INIT_OWNER
+
+config PK_FS_INODE_INIT_OWNER_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_FS_INODE_INIT_OWNER_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_FS_INODE_INIT_OWNER_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/fs/vfs/API/inode_init_owner"
+	string "url"
+
+config PK_FS_INODE_INIT_OWNER_GITHUB
+	string "GitHub"
+
+config PK_FS_INODE_INIT_OWNER_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_FS_INODE_INIT_OWNER_CSRCFILE
+	string "Compile source code list"
+
+config PK_FS_INODE_INIT_OWNER_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_FS_INODE_INIT_OWNER_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_FS_INODE_INIT_OWNER_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_FS_INODE_INIT_OWNER_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_FS_INODE_INIT_OWNER_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_FS_INODE_INIT_OWNER_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_FS_INODE_INIT_OWNER_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_FS_INODE_INIT_OWNER_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_FS_INODE_INIT_OWNER_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_FS_INODE_INIT_OWNER

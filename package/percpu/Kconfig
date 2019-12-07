@@ -1,0 +1,21 @@
+menuconfig PK_PERCPU
+	bool "percpu"
+
+if PK_PERCPU
+
+# percpu_counter_dec
+source package/percpu/percpu_counter_dec/Kconfig
+
+# percpu_counter_inc
+source package/percpu/percpu_counter_inc/Kconfig
+
+# percpu_counter_init
+source package/percpu/percpu_counter_init/Kconfig
+
+# percpu_counter_sub
+source package/percpu/percpu_counter_sub/Kconfig
+
+# percpu_counter_sum
+source package/percpu/percpu_counter_sum/Kconfig
+
+endif # PK_PERCPU
