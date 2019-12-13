@@ -40,6 +40,15 @@ DISK_SIZE=${17%X}
 FREEZE_SIZE=${18%X}
 # Only Running 
 SUPPORT_ONLYRUN=${19%X}
+# Rootfs Type
+ROOTFS_TYPE=${20%X}
+
+SUPPORT_DESKTOP=N
+SUPPORT_SERVER=N
+SUPPORT_DOCKER=N
+[ ${ROOTFS_TYPE} = "Desktop" ] && SUPPORT_DESKTOP=Y
+[ ${ROOTFS_TYPE} = "Docker" ]  && SUPPORT_DOCKER=Y
+[ ${ROOTFS_TYPE} = "Server" ]  && SUPPORT_SERVER=Y
 
 [ ${ARCH_MAGIC} -eq 2 ] && ARCH=armel
 [ ${ARCH_MAGIC} -eq 3 ] && ARCH=arm64
@@ -53,7 +62,8 @@ do_README()
 		$4X $5X $6X ${KERNEL_VERSION}X $8X ${PROJECT}X ${10}X \
 		${ARCH_MAGIC}X ${CROSS_COMPILE}X ${13}X ${14}X \
 		${UBOOT}X ${UBOOT_COMPILE}X \
-		${FREEZE_SIZE}X ${DISK_SIZE}X ${SUPPORT_ONLYRUN}X
+		${FREEZE_SIZE}X ${DISK_SIZE}X ${SUPPORT_ONLYRUN}X \
+		${ROOTFS_TYPE}X
 
 	## Output directory
 	echo ""
@@ -91,7 +101,7 @@ do_freeze()
 prepare()
 {
 	[ ${SUPPORT_ONLYRUN} = "Y" ] && do_freeze && do_README && exit 0
-	[ -f ${DL}/${PACKAGE}.bsp ] && do_README && exit 0
+	[ -f ${DL}/${PACKAGE}.${ROOTFS_TYPE}.bsp ] && do_README && exit 0
 	[ ! -d ${DL} ] && mkdir -p ${DL}
 	[ -d ${TEMP} ] && sudo rm -rf ${TEMP}
 
@@ -141,6 +151,9 @@ deb-src http://deb.debian.org/debian ${release} main contrib non-free
 deb http://security.debian.org/debian-security ${release}/updates main contrib
 deb-src http://security.debian.org/debian-security ${release}/updates main contrib
 EOF
+if [ ${SUPPORT_DOCKER} = "Y" ]; then
+	echo "deb https://download.docker.com/linux/debian ${release} stable" >> ${aptsrcfile}
+fi
 }
 
 do_chroot() {
@@ -189,6 +202,7 @@ cat > "${ROOTFS}/usr/sbin/policy-rc.d" <<EOF
 exit 101
 EOF
 sudo chmod a+x "${ROOTFS}/usr/sbin/policy-rc.d"
+[ ${SUPPORT_DOCKER} = "Y" ] && curl -fsSL http://download.docker.com/linux/debian/gpg > ${ROOTFS}/usr/debian.gpg
 
 # Run stuff in new system
 case ${DISTRO} in
@@ -204,6 +218,8 @@ case ${DISTRO} in
 		sudo chroot ${ROOTFS} usermod -aG tty ${DEBUSER}
 		sudo chroot ${ROOTFS} usermod -aG dialout ${DEBUSER}
 		echo "${DEBUSER}:root" | sudo chroot ${ROOTFS} chpasswd
+# Desktop
+if [ ${SUPPORT_DESKTOP} = "Y" ]; then
 		cat > "${ROOTFS}/second-phase" << EOF
 #!/bin/sh
 apt -y update
@@ -214,6 +230,35 @@ apt install -y network-manager-gnome
 apt -y autoremove
 apt clean
 EOF
+elif [ ${SUPPORT_SERVER} = "Y" ]; then
+		cat > "${ROOTFS}/second-phase" << EOF
+#!/bin/sh
+apt -y update
+apt install -y nfs-common nfs-kernel-server
+apt install -y net-tools
+apt -y autoremove
+apt clean
+EOF
+elif [ ${SUPPORT_DOCKER} = "Y" ]; then
+		cat > "${ROOTFS}/second-phase" << EOF
+#!/bin/sh
+apt -y update
+apt install -y nfs-common nfs-kernel-server
+apt install -y net-tools
+echo "Install Docker"
+apt install -y curl wget apt-transport-https
+apt install -y ca-certificates gnupg
+apt install -y software-properties-common
+echo "Install Docker.io"
+cat /usr/debian.gpg | apt-key add -
+apt-key fingerprint 0EBFCD88
+apt install -y docker.io docker
+apt install -y docker-ce
+docker pull ubuntu
+apt -y autoremove
+apt clean
+EOF
+fi
 		chmod +x "${ROOTFS}/second-phase"
 		do_chroot /second-phase
 
@@ -351,19 +396,24 @@ echo 'TimeoutStartSec=2sec' >> ${RC}
 mkdir -p "${ROOTFS}/lib"
 mkdir -p "${ROOTFS}/usr"
 
-# Backgroud
-wget https://gitee.com/BiscuitOS_team/PictureSet/raw/Gitee/BiscuitOS/Desktop/BiscuitOS_Desktop_0001.png
-sudo mv BiscuitOS_Desktop_0001.png ${ROOTFS}/usr/share/images/desktop-base/
-wget https://gitee.com/BiscuitOS_team/PictureSet/raw/Gitee/BiscuitOS/Desktop/BiscuitOS_login0.png
-sudo mv BiscuitOS_login0.png ${ROOTFS}/usr/share/images/desktop-base/
-MF=${ROOTFS}/etc/lightdm/lightdm-gtk-greeter.conf
-echo 'background=/usr/share/images/desktop-base/BiscuitOS_login0.png' >> ${MF}
+if [ ${SUPPORT_DESKTOP} = "Y" ]; then
+	# Backgroud
+	wget https://gitee.com/BiscuitOS_team/PictureSet/raw/Gitee/BiscuitOS/Desktop/BiscuitOS_Desktop_0001.png
+	sudo mv BiscuitOS_Desktop_0001.png ${ROOTFS}/usr/share/images/desktop-base/
+	wget https://gitee.com/BiscuitOS_team/PictureSet/raw/Gitee/BiscuitOS/Desktop/BiscuitOS_login0.png
+	sudo mv BiscuitOS_login0.png ${ROOTFS}/usr/share/images/desktop-base/
+	MF=${ROOTFS}/etc/lightdm/lightdm-gtk-greeter.conf
+	echo 'background=/usr/share/images/desktop-base/BiscuitOS_login0.png' >> ${MF}
+fi
 
 
 # Cleanup
 rm -f "${ROOTFS}/usr/bin/qemu-aarch64-static"
 rm -f "${ROOTFS}/usr/sbin/policy-rc.d"
-echo "${DISTRO} Build OK ...."
 
-bsdtar -C ${ROOTFS} -a -cf ${DL}/$(basename ${PACKAGE}).bsp .
+# Zip/Tar
+bsdtar -C ${ROOTFS} -a -cf ${DL}/$(basename ${PACKAGE}).${ROOTFS_TYPE}.bsp .
+
+echo "$(basename ${PACKAGE}).${ROOTFS_TYPE}.bsp  Build OK ...."
+echo "Install ${DL}/$(basename ${PACKAGE}).${ROOTFS_TYPE}.bsp"
 do_README

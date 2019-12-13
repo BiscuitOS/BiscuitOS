@@ -37,6 +37,13 @@ source fs/BiscuitOS/Kconfig
 # BiscuitOS-Desktop only running
 source fs/BiscuitOS_only/Kconfig
 
+# Debian Server
+source fs/Debian_Server/Kconfig
+
+# Docker
+source fs/Docker/Kconfig
+
+
 config ROOTFS_SIZE
 	default 150
 	int "The size of Rootfs (MB)"

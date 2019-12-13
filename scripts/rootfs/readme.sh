@@ -50,6 +50,9 @@ MODULE_INSTALL_PATH=${OUTPUT}/rootfs/rootfs/
 # Running Only
 ONLYRUN=${19%X}
 SUPPORT_ONLYRUN=N
+# Rootfs type
+ROOTFS_TYPE=${20%X}
+
 [ ${ONLYRUN}X = "YX" ] && SUPPORT_ONLYRUN=Y && KERNEL_VERSION=6.0.0
 
 # Don't edit
@@ -69,6 +72,9 @@ SUPPORT_RPI=N
 SUPPORT_RPI4B=N
 SUPPORT_RPI3B=N
 SUPPORT_DESKTOP=N
+SUPPORT_DEBIAN=N
+SUPPORT_DOCKER=N
+SUPPORT_SERVER=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -76,6 +82,8 @@ KERNEL_MINOR_NO=
 KERNEL_MINIR_NO=
 
 DEFAULT_CONFIG=defconfig
+# Debian Package
+DEBIAN_PACKAGE=
 
 ##
 ## Architecture information
@@ -95,11 +103,13 @@ case ${ARCH} in
 	ARCH_NAME=arm
 	QEMU=${QEMU_PATH}/arm-softmmu/qemu-system-arm
 	DEFAULT_CONFIG=vexpress_defconfig
+	DEBIAN_PACKAGE=buster-base-armel.tar.gz.${ROOTFS_TYPE}.bsp
 	;;
 	3)
 	ARCH_NAME=arm64
 	QEMU=${QEMU_PATH}/aarch64-softmmu/qemu-system-aarch64
 	DEFAULT_CONFIG=defconfig
+	DEBIAN_PACKAGE=buster-base-arm64.tar.gz.${ROOTFS_TYPE}.bsp
 	;;
 	4)
 	ARCH_NAME=riscv32
@@ -175,9 +185,11 @@ detect_kernel_version_field
 [ ${PROJECT_NAME} = "RaspberryPi_3B" ] && SUPPORT_RPI3B=Y && DEFAULT_CONFIG=bcm2709_defconfig
 [ ${SUPPORT_RPI4B} = "Y" -o ${SUPPORT_RPI3B} = "Y" ] && SUPPORT_RPI=Y && SUPPORT_RAMDISK=N
 
-# Desktop
-[ ${PROJECT_NAME} = "BiscuitOS-Desktop" ] && SUPPORT_DESKTOP=Y
-[ ${SUPPORT_ONLYRUN} = "Y" ] && SUPPORT_DESKTOP=Y
+# Debian/Desktop/Docker
+[ ${ROOTFS_TYPE} = "Desktop" ] && SUPPORT_DESKTOP=Y && SUPPORT_DEBIAN=Y
+[ ${ROOTFS_TYPE} = "Docker" ]  && SUPPORT_DOCKER=Y && SUPPORT_DEBIAN=Y
+[ ${ROOTFS_TYPE} = "Server" ]  && SUPPORT_SERVER=Y && SUPPORT_DEBIAN=Y
+[ ${SUPPORT_ONLYRUN} = "Y" ] && SUPPORT_DESKTOP=Y && SUPPORT_DEBIAN=Y
 
 ##
 # Rootfs Inforamtion
@@ -246,11 +258,13 @@ FS_TYPE_TOOLS=${FS_TYPE_TOOLS}
 ROOTFS_SIZE=${18%X}
 FREEZE_SIZE=${17%X}
 DL=${ROOT}/dl
+DEBIAN_PACKAGE=${DEBIAN_PACKAGE}
 EOF
 # RAM size
 [ ${SUPPORT_2_X} = "Y" ] && echo 'RAM_SIZE=256' >> ${MF} 
 [ ${SUPPORT_2_X} = "N" ] && echo 'RAM_SIZE=512' >> ${MF}
 [ ${SUPPORT_ONLYRUN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
+[ ${SUPPORT_DEBIAN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
 # Platform
 [ ${SUPPORT_2_X} = "Y" -a ${ARCH_NAME} == "arm" ] && echo 'MACH=versatilepb' >> ${MF} 
 [ ${SUPPORT_2_X} = "N" -a ${ARCH_NAME} == "arm" ] && echo 'MACH=vexpress-a9' >> ${MF}
@@ -258,7 +272,7 @@ echo 'LINUX_DIR=${ROOT}/linux/linux/arch' >> ${MF}
 echo 'NET_CFG=${ROOT}/package/networking' >> ${MF}
 case ${ARCH_NAME} in
 	arm)
-		if [ ${SUPPORT_DESKTOP} = "N" ]; then
+		if [ ${SUPPORT_DEBIAN} = "N" ]; then
 			[ ${SUPPORT_RAMDISK} = "Y" ] && echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
 			[ ${SUPPORT_RAMDISK} = "N" ] && echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
 		else
@@ -266,8 +280,13 @@ case ${ARCH_NAME} in
 		fi
 	;;
 	arm64)
-		[ ${SUPPORT_RAMDISK} = "Y" ] && echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
-		[ ${SUPPORT_RAMDISK} = "N" ] && echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+		if [ ${SUPPORT_DEBIAN} = "N" ]; then
+			[ ${SUPPORT_RAMDISK} = "Y" ] && echo 'CMDLINE="earlycon root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+			[ ${SUPPORT_RAMDISK} = "N" ] && echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/linuxrc loglevel=8"' >> ${MF}
+		else
+			echo 'CMDLINE="earlycon root=/dev/vda rw rootfstype=${FS_TYPE} console=ttyAMA0 init=/sbin/init loglevel=8"' >> ${MF}
+
+		fi
 	;;
 	riscv32)
 		echo 'CMDLINE="root=/dev/vda rw console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
@@ -397,8 +416,7 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
 		# Support Mount root on HardDisk
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_DESKTOP} = "N" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
-		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_DESKTOP} = "Y" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS-Desktop.img,format=raw,id=hd0 \' >> ${MF} 
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
 		# Support RAMDISK only
 		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
 		# Support Networking
@@ -476,7 +494,7 @@ echo '' >> ${MF}
 echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
-if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DESKTOP} = "N" ]; then
+if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
 	echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
 	echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
@@ -534,7 +552,7 @@ if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DESKTOP} = "N" ]; then
 		echo 'w' >> ${MF}
 		echo 'EOF' >> ${MF}
 	fi
-elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DESKTOP} = "N" ]; then
+elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\t# SDCARD Partition: Bootload + Kernel + rootfs' >> ${MF}
 	echo -e '\t#' >> ${MF}
 	echo -e '\t# +-----------------+-----------------------+-------------------+' >> ${MF}
@@ -642,7 +660,7 @@ elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DESKTOP} = "N" ]; then
 	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
-else # Qemu Desktop
+else # Qemu Debian
 	echo -e '\tif [ ! -f ${OUTPUT}/Freeze.img ]; then' >> ${MF}
 	echo -e '\t\tsudo dd if=/dev/zero of=${OUTPUT}/Freeze.img bs=1M count=${FREEZE_SIZE} > /dev/null 2>&1' >> ${MF}
 	echo -e '\t\tloopdev=`sudo losetup -f`' >> ${MF}
@@ -661,10 +679,10 @@ else # Qemu Desktop
 	echo -e '\t\t[ -d ${OUTPUT}/rootfs/rootfs ] && sudo rm -rf ${OUTPUT}/rootfs/rootfs' >> ${MF}
 	echo -e '\t\tsudo mkdir -p ${OUTPUT}/rootfs/rootfs' >> ${MF}
 	echo -e '\t\tcd ${OUTPUT}/rootfs/rootfs > /dev/null 2>&1' >> ${MF}
-	echo -e '\t\t[ ! -f ${DL}/buster-base-armel.tar.gz.bsp ] && echo "Buster not found!" && exit -1' >> ${MF}
-	echo -e '\t\tsudo cp ${DL}/buster-base-armel.tar.gz.bsp ${OUTPUT}/rootfs/rootfs' >> ${MF}
-	echo -e '\t\tsudo bsdtar -xpf buster-base-armel.tar.gz.bsp' >> ${MF}
-	echo -e '\t\tsudo rm -rf buster-base-armel.tar.gz.bsp' >> ${MF}
+	echo -e '\t\t[ ! -f ${DL}/${DEBIAN_PACKAGE} ] && echo "Buster not found!" && exit -1' >> ${MF}
+	echo -e '\t\tsudo cp ${DL}/${DEBIAN_PACKAGE} ${OUTPUT}/rootfs/rootfs' >> ${MF}
+	echo -e '\t\tsudo bsdtar -xpf ${DEBIAN_PACKAGE}' >> ${MF}
+	echo -e '\t\tsudo rm -rf ${DEBIAN_PACKAGE}' >> ${MF}
 	echo -e '\t\tcd - > /dev/null 2>&1' >> ${MF}
 	echo -e '\tfi' >> ${MF}
 	echo -e '\tsudo mkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
@@ -891,7 +909,7 @@ esac
 echo '```' >> ${MF}
 echo '' >> ${MF}
 
-if [ ${SUPPORT_DESKTOP} = "N" ]; then
+if [ ${SUPPORT_DEBIAN} = "N" ]; then
 	##
 	# Busybox Configure and Compile
 	echo '---------------------------------' >> ${MF}

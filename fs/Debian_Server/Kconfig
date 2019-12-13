@@ -1,0 +1,2 @@
+menuconfig FS_DEBIAN_SERVER
+	bool "Debian Server (Buster)"

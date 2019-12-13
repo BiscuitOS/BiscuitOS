@@ -175,7 +175,6 @@ mkdir -p /tmp
 mkdir -p /sys
 mkdir -p /mnt
 mkdir -p /nfs
-mkdir -p /bsvfs
 /bin/mount -a
 /bin/hostname BiscuitOS
 
@@ -183,7 +182,7 @@ mkdir -p /bsvfs
 ifconfig eth0 up > /dev/null 2>&1
 ifconfig eth0 172.88.1.6
 route add default gw 172.88.1.1
-mount -t nfs 172.88.1.2:/xspace/OpenSource/BiscuitOS/BiscuitOS /nfs -o nolock
+# mount -t nfs 172.88.1.2:/xspace/OpenSource/BiscuitOS/BiscuitOS /nfs -o nolock
 # Setup default gw
 # -> route add default gw gatway_ipaddr
 
@@ -198,11 +197,11 @@ mkdir -p /mnt/Freeze
 [ -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vdb /mnt/Freeze > /dev/null 2>&1
 [ ! -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
 
-#echo " ____  _                _ _    ___  ____  "
-#echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
-#echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "
-#echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
-#echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
+echo " ____  _                _ _    ___  ____  "
+echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
+echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "
+echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
+echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
 
 echo "Welcome to BiscuitOS"
 
@@ -218,7 +217,6 @@ tmpfs /tmp tmpfs defaults 0 0
 sysfs /sys sysfs defaults 0 0
 tmpfs /dev tmpfs defaults 0 0
 debugfs /sys/kernel/debug debugfs defaults 0 0
-BiscuitOS_fs /bsvfs BiscuitOS_fs defaults 0 0
 EOF
 chmod 664 ${RC}
 
@@ -330,6 +328,13 @@ if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
        	dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/${FREEZE_DISK}
 	sync
 	${FS_TYPE_TOOLS} -F ${OUTPUT}/${FREEZE_DISK}
+fi
+
+# Build a ext2 fs for BiscuitOS-hfs
+if [ ! -f ${OUTPUT}/BiscuitOS-hfs.img ]; then
+	dd bs=1M count=20 if=/dev/zero of=${OUTPUT}/BiscuitOS-hfs.img
+	sync
+	mkfs.ext2 ${OUTPUT}/BiscuitOS-hfs.img
 fi
 
 ## Auto build README.md

@@ -1,0 +1,34 @@
+################################################
+#
+# Debian-server filesystem
+#
+################################################
+DEBIAN_SERVER_NAME       := BiscuitOS
+DEBIAN_SERVER_VERSION    := $(CONFIG_DEBIAN_SERVER_VERSION)
+DEBIAN_SERVER_SITE       := $(CONFIG_DEBIAN_SERVER_WGET_SITE)
+DEBIAN_SERVER_GITHUB     := $(DEBIAN_SERVER_GITHUB_SITE)
+DEBIAN_SERVER_SUBNAME    := $(CONFIG_DEBIAN_SERVER_DL_NAME)
+DEBIAN_SERVER_DIR        := $(srctree)/fs/
+DEBIAN_SERVER_PATCH      := $(srctree)/fs/patch
+DEBIAN_SERVER_OUT        := 
+DEBIAN_SERVER_SCRIPTS    := $(srctree)/scripts/fs/Desktop.sh
+DEBIAN_SERVER_TAR        := $(CONFIG_DEBIAN_SERVER_TAR_TYPE)
+DEBIAN_SERVER_PACKAGE    := 
+DEBIAN_SERVER_RUN_ONLY   := N
+SUB_TARGET      += $(DEBIAN_SERVER_DIR)/build
+
+DEBIAN_SERVER_sh = $(CONFIG_SHELL) $(DEBIAN_SERVER_SCRIPTS) \
+               ${1}X $(DEBIAN_SERVER_NAME)X $(DEBIAN_SERVER_VERSION)X \
+               $(DEBIAN_SERVER_SITE)X $(DEBIAN_SERVER_GITHUB)X \
+               $(DEBIAN_SERVER_PATCH)X $(CONFIG_LINUX_KERNEL_VERSION)X \
+	       $(CONFIG_DEBIAN_SERVER_SRC)X $(CONFIG_MAIN_PROJ_NAME)X \
+               $(DEBIAN_SERVER_TAR)X $(CONFIG_ARCH_MAGIC)X \
+               $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X $(DEBIAN_SERVER_SUBNAME)X \
+               $(CONFIG_LINUX_BUILD_HIST)X $(CONFIG_UBOOT)X \
+               $(CONFIG_UBOOT_CROSS_COMPILE)X \
+               $(CONFIG_ROOTFS_SIZE)X \
+               $(CONFIG_FREEZE_SIZE)X $(DEBIAN_SERVER_RUN_ONLY)X \
+               ServerX
+
+$(DEBIAN_SERVER_DIR)/build: FORCE
+	$(Q)$(call DEBIAN_SERVER_sh,$(srctree))
