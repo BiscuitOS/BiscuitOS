@@ -48,8 +48,8 @@ MAINTAINER BuddyZhang1 <buddy.zhang@aliyun.com>
 RUN /bin/bash -c '\
 apt-get update && \
 apt-get install -y qemu gcc make gdb git figlet && \
-apt-get install -y libncurses5-dev iasl && \
-apt-get install -y device-tree-compiler && \
+apt-get install -y libncurses5-dev iasl sudo && \
+apt-get install -y device-tree-compiler bc && \
 apt-get install -y flex bison libssl-dev libglib2.0-dev && \
 apt-get install -y libfdt-dev libpixman-1-dev && \
 apt-get install -y python pkg-config u-boot-tools intltool xsltproc && \
