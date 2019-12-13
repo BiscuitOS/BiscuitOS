@@ -59,7 +59,8 @@ apt-get install -y python2.7-dev python-dev bridge-utils && \
 apt-get install -y uml-utilities net-tools && \
 apt-get install -y libattr1-dev libcap-dev && \
 apt-get install -y kpartx libsdl2-dev libsdl1.2-dev && \
-apt-get install -y debootstrap bsdtar'
+apt-get install -y debootstrap bsdtar && \
+git clone https://github.com/BiscuitOS/BiscuitOS.git'
 EOF
 }
 
@@ -89,7 +90,7 @@ docker()
 	sudo docker run \
 		--rm --privileged --tty -i \
 		-v /dev\:/dev \
-		-v ${ROOTDIR}\:/BiscuitOS \
+		-v ${ROOTDIR}\:/rootdir \
 		-e "FETCH_PACKAGES=false" \
 		-e "HEADLESS_BUILD=" \
 		-e "IS_EXTERNAL=true" \
