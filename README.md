@@ -21,8 +21,16 @@ BiscuitOS without hardware. So, don't stop, play Linux with BiscuitOS.
 
 ## To Prepare
 
-Before your tour, you need install essential toolchain on host PC (
-such as `Ubuntu16.04`). Execute command:
+BiscuitOS support build on host or Docker, if you want build on docker,
+such as:
+
+```
+wget https://raw.githubusercontent.com/BiscuitOS/BiscuitOS/Stable_long/scripts/Docker/build.sh
+./build.sh
+```
+
+If you want not use Docker, Before your tour, you need install 
+essential toolchain on host PC (such as `Ubuntu16.04`). Execute command:
 
 ```
 sudo apt-get install -y qemu gcc make gdb git figlet
