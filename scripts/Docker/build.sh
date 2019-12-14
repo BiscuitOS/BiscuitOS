@@ -47,7 +47,7 @@ MAINTAINER BuddyZhang1 <buddy.zhang@aliyun.com>
 # Base Build ENV tools
 RUN /bin/bash -c '\
 apt-get update && \
-apt-get install -y qemu gcc make gdb git figlet && \
+apt-get install -y qemu bc gcc make gdb git figlet && \
 apt-get install -y libncurses5-dev iasl sudo && \
 apt-get install -y device-tree-compiler bc && \
 apt-get install -y flex bison libssl-dev libglib2.0-dev && \
