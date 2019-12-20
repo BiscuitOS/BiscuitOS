@@ -1,0 +1,49 @@
+################################################
+#
+# platform_char_module
+#
+################################################
+PK_PLATFORM_CHAR_MOD_NAME        := platform_char_module
+PK_PLATFORM_CHAR_MOD_VERSION     := $(CONFIG_PK_PLATFORM_CHAR_MOD_VERSION)
+PK_PLATFORM_CHAR_MOD_SITE        := $(CONFIG_PK_PLATFORM_CHAR_MOD_URL)
+PK_PLATFORM_CHAR_MOD_GITHUB      := $(CONFIG_PK_PLATFORM_CHAR_MOD_GITHUB)
+PK_PLATFORM_CHAR_MOD_SUBNAME     :=
+PK_PLATFORM_CHAR_MOD_BUILDARCH   := $(CONFIG_PK_PLATFORM_CHAR_MOD_BUILDARCH)
+PK_PLATFORM_CHAR_MOD_DIR         := $(srctree)/package/platform/platform_char_module
+PK_PLATFORM_CHAR_MOD_PATCH       := $(PK_PLATFORM_CHAR_MOD_DIR)/patch
+PK_PLATFORM_CHAR_MOD_BSBIT       := platform_char_module-$(PK_PLATFORM_CHAR_MOD_VERSION).bsbit
+PK_PLATFORM_CHAR_MOD_OUT         :=
+PK_PLATFORM_CHAR_MOD_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_PLATFORM_CHAR_MOD_TAR         := $(CONFIG_PK_PLATFORM_CHAR_MOD_TAR)
+PK_PLATFORM_CHAR_MOD_PACKAGE     :=
+PK_PLATFORM_CHAR_MOD_CONFIG      := $(CONFIG_PK_PLATFORM_CHAR_MOD_CONFIG)
+SUB_TARGET                  += $(PK_PLATFORM_CHAR_MOD_DIR)/build
+
+PK_PLATFORM_CHAR_MOD_sh = $(CONFIG_SHELL) $(PK_PLATFORM_CHAR_MOD_SCRIPTS) \
+                 $1X \
+                 $(PK_PLATFORM_CHAR_MOD_NAME)X \
+                 $(PK_PLATFORM_CHAR_MOD_VERSION)X \
+                 $(PK_PLATFORM_CHAR_MOD_SITE)X \
+                 $(PK_PLATFORM_CHAR_MOD_GITHUB)X \
+                 $(PK_PLATFORM_CHAR_MOD_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_PLATFORM_CHAR_MOD_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_PLATFORM_CHAR_MOD_SUBNAME)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_CONFIG)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_LIBPATH)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_CPPFLAGS)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_DPKCONFIG)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_CFLAGS)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_LDFLAGS)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_CXXFLAGS)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_ASFLAGS)X \
+                 $(PK_PLATFORM_CHAR_MOD_BSBIT)X \
+                 $(PK_PLATFORM_CHAR_MOD_BUILDARCH)X \
+		 $(PK_PLATFORM_CHAR_MOD_CSRCFILE)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_SRCFILE)X \
+                 $(CONFIG_PK_PLATFORM_CHAR_MOD_CSRCFILE)
+
+$(PK_PLATFORM_CHAR_MOD_DIR)/build: FORCE
+	$(Q)$(call PK_PLATFORM_CHAR_MOD_sh,$(srctree))

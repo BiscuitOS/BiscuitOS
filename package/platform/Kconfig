@@ -9,6 +9,9 @@ source package/platform/platform_attr_app/Kconfig
 # LDD: Platform Attribute Module
 source package/platform/platform_attr_module/Kconfig
 
+# LDD: Platform Character modules
+source package/platform/platform_char_module/Kconfig
+
 # LDD: Platform Core application
 source package/platform/platform_core_app/Kconfig
 

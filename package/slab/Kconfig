@@ -3,6 +3,9 @@ menuconfig PK_SLAB
 
 if PK_SLAB
 
+# __getname
+source package/slab/__getname/Kconfig
+
 # kfree_const
 source package/slab/kfree_const/Kconfig
 
@@ -20,5 +23,14 @@ source package/slab/KMEM_CACHE_USERCOPY/Kconfig
 
 # kstrdup_const
 source package/slab/kstrdup_const/Kconfig
+
+# __putname
+source package/slab/__putname/Kconfig
+
+# strncpy_from_user app
+source package/slab/strncpy_from_user_app/Kconfig
+
+# strncpy_from_user module
+source package/slab/strncpy_from_user_mod/Kconfig
 
 endif # PK_SLAB

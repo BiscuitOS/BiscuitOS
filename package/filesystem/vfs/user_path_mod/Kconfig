@@ -1,0 +1,55 @@
+menuconfig PK_USER_PATH_MOD
+	bool "user_path() module"
+
+if PK_USER_PATH_MOD
+
+config PK_USER_PATH_MOD_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_USER_PATH_MOD_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_USER_PATH_MOD_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/fs/vfs/API/user_path/kernel"
+	string "url"
+
+config PK_USER_PATH_MOD_GITHUB
+	string "GitHub"
+
+config PK_USER_PATH_MOD_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_USER_PATH_MOD_CSRCFILE
+	string "Compile source code list"
+
+config PK_USER_PATH_MOD_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_USER_PATH_MOD_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_USER_PATH_MOD_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_USER_PATH_MOD_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_USER_PATH_MOD_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_USER_PATH_MOD_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_USER_PATH_MOD_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_USER_PATH_MOD_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_USER_PATH_MOD_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_USER_PATH_MOD

@@ -1,0 +1,55 @@
+menuconfig PK_KH_OFFSETOF
+	bool "offsetof"
+
+if PK_KH_OFFSETOF
+
+config PK_KH_OFFSETOF_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KH_OFFSETOF_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KH_OFFSETOF_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Kernel_hacking/API/offsetof"
+	string "url"
+
+config PK_KH_OFFSETOF_GITHUB
+	string "GitHub"
+
+config PK_KH_OFFSETOF_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_KH_OFFSETOF_CSRCFILE
+	string "Compile source code list"
+
+config PK_KH_OFFSETOF_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KH_OFFSETOF_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KH_OFFSETOF_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KH_OFFSETOF_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KH_OFFSETOF_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KH_OFFSETOF_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KH_OFFSETOF_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KH_OFFSETOF_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KH_OFFSETOF_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KH_OFFSETOF

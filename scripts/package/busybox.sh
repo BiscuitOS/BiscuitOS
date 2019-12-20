@@ -111,7 +111,7 @@ elif [ ${ARCH_SRC} = "3" ]; then
 fi
 cd ${OUTPUT}/${BUSYBOX_NAME}/${BUSYBOX_NAME}
 LEACY_CROSS=${CROSS_COMPILE}
-export CROSS_COMPILE=${CROSS_GCC}
+[ ${ARCH_SRC} -eq 6 ] && export CROSS_COMPILE=${CROSS_GCC}
 make clean
 make defconfig
 make -j8

@@ -45,6 +45,9 @@ source package/compositeproto/Kconfig
 # CMA
 source package/CMA/Kconfig
 
+# DMA
+source package/DMA/Kconfig
+
 # damageproto
 source package/damageproto/Kconfig
 
@@ -125,6 +128,9 @@ source package/inputproto/Kconfig
 
 # kbproto
 source package/kbproto/Kconfig
+
+# kernel hacking
+source package/kernel_hacking/Kconfig
 
 # kobject
 source package/kobject/Kconfig

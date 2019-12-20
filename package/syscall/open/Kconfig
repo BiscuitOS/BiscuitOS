@@ -1,0 +1,18 @@
+menuconfig PK_OPEN
+	bool "open (arm)"
+
+if PK_OPEN
+
+# open flags
+source "package/syscall/open/open_flags/Kconfig"
+
+# open kernel api
+source "package/syscall/open/open_kapi/Kconfig"
+
+# open pathlen
+source "package/syscall/open/open_pathlen/Kconfig"
+
+# open userland api
+source "package/syscall/open/open_uapi/Kconfig"
+
+endif # PK_OPEN

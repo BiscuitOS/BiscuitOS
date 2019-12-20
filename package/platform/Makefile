@@ -9,6 +9,7 @@ platform-$(CONFIG_PK_PLATFORM_COREDTS_MOD)	+= platform_coreDTS_module/
 platform-$(CONFIG_PK_PLATFORM_CORE_APP)		+= platform_core_app/
 platform-$(CONFIG_PK_PLATFORM_CORE_MOD)		+= platform_core_module/
 platform-$(CONFIG_PK_PLATFORM_SIMPLE_MOD)	+= platform_simple_module/
+platform-$(CONFIG_PK_PLATFORM_CHAR_MOD)		+= platform_char_module/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/platform/%/Makefile, $(platform-y))
 

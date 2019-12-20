@@ -1,0 +1,12 @@
+menuconfig PK_DMA
+	bool "DMA: Coherent Memory Allocate"
+
+if PK_DMA
+
+# DMA-Buffer application
+source package/DMA/dma_buf_app/Kconfig
+
+# DMA-Buffer module
+source package/DMA/dma_buf_module/Kconfig
+
+endif # PK_DMA

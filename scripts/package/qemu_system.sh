@@ -39,7 +39,7 @@ fi
 case ${ARCH_MAGIC} in
 	1)
 	# X86
-	EMULATER=x86_64-softmmu,x86_64-linux-user
+	EMULATER=i386-softmmu,i386-linux-user
 	CONFIG="--enable-kvm --enable-virtfs"
 	;;
 	2)
@@ -62,6 +62,11 @@ case ${ARCH_MAGIC} in
 	EMULATER=riscv64-softmmu
 	CONFIG="--enable-kvm --enable-virtfs"
 	;;
+        6)
+        # X86_64
+        EMULATER=x86_64-softmmu,x86_64-linux-user
+        CONFIG="--enable-kvm --enable-virtfs"
+        ;;
 esac
 
 ## Get from github

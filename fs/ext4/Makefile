@@ -26,7 +26,8 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
                $(CONFIG_LINUX_BUILD_HIST)X $(CONFIG_UBOOT)X \
                $(CONFIG_UBOOT_CROSS_COMPILE)X \
                $(CONFIG_ROOTFS_SIZE)X \
-               $(CONFIG_FREEZE_SIZE)X
+               $(CONFIG_FREEZE_SIZE)X \
+               NX NX
 
 $(EXT4_DIR)/build: FORCE
 	$(Q)$(call EXT4_sh,$(srctree))

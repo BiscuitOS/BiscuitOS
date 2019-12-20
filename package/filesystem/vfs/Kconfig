@@ -21,4 +21,16 @@ source "package/filesystem/vfs/new_inode/Kconfig"
 # sget
 source "package/filesystem/vfs/sget/Kconfig"
 
+# user_path app
+source "package/filesystem/vfs/user_path_app/Kconfig"
+
+# user_path module
+source "package/filesystem/vfs/user_path_mod/Kconfig"
+
+# user_path_at_empty app
+source "package/filesystem/vfs/user_path_at_empty_app/Kconfig"
+
+# user_path_at_empty module
+source "package/filesystem/vfs/user_path_at_empty_mod/Kconfig"
+
 endif # PK_FS_VFS

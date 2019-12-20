@@ -18,6 +18,9 @@ config RISCV32
 config RISCV64
 	bool "RISC-V 64-bit"
 
+config X86_64
+	bool "X86_84 (AMD)"
+
 endchoice
 
 config ARCH_MAGIC
@@ -27,5 +30,6 @@ config ARCH_MAGIC
 	default "3" if ARM64
 	default "4" if RISCV32
 	default "5" if RISCV64
+	default "6" if X86_64
 
 endmenu

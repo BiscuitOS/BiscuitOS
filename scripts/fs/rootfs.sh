@@ -197,11 +197,11 @@ mkdir -p /mnt/Freeze
 [ -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vdb /mnt/Freeze > /dev/null 2>&1
 [ ! -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
 
-echo " ____  _                _ _    ___  ____  "
-echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
-echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "
-echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
-echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
+#echo " ____  _                _ _    ___  ____  "
+#echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
+#echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "
+#echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
+#echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
 
 echo "Welcome to BiscuitOS"
 
@@ -340,7 +340,8 @@ fi
 ## Auto build README.md
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \
-					${FREEZE_SIZE}X ${DISK_SIZE}X
+					${FREEZE_SIZE}X ${DISK_SIZE}X \
+					${19} ${20}
 
 ## Output directory
 echo ""

@@ -48,6 +48,11 @@ case ${ARCH_MAGIC} in
 	5)
 		ARCH_NAME=riscv64
 		ARCH_LINUX_DIR=riscv
+		;;
+	6)
+		ARCH_NAME=X86_64
+		ARCH_LINUX_DIR=X86_64
+		;;
 esac
 
 CONFIG_DIR=${LINUX_KERNEL_DIR}/config/${ARCH_NAME}/

@@ -1,0 +1,55 @@
+menuconfig PK___PUTNAME
+	bool "__putname()"
+
+if PK___PUTNAME
+
+config PK___PUTNAME_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK___PUTNAME_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK___PUTNAME_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/slab/API/__putname"
+	string "url"
+
+config PK___PUTNAME_GITHUB
+	string "GitHub"
+
+config PK___PUTNAME_SRCFILE
+	default "core.c Makefile"
+	string "Source code list"
+
+config PK___PUTNAME_CSRCFILE
+	string "Compile source code list"
+
+config PK___PUTNAME_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK___PUTNAME_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK___PUTNAME_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK___PUTNAME_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK___PUTNAME_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK___PUTNAME_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK___PUTNAME_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK___PUTNAME_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK___PUTNAME_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK___PUTNAME

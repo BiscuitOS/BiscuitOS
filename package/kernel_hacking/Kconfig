@@ -1,0 +1,9 @@
+menuconfig PK_KH
+	bool "kernel hacking"
+
+if PK_KH
+
+# offsetof
+source package/kernel_hacking/offsetof/Kconfig
+
+endif # PK_KH
