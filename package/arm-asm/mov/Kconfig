@@ -1,0 +1,55 @@
+menuconfig PK_ARM_ASM_MOV
+	bool "mov"
+
+if PK_ARM_ASM_MOV
+
+config PK_ARM_ASM_MOV_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_ARM_ASM_MOV_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_ARM_ASM_MOV_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Language/Assembly/ARM-GNU-Assembly/Instruction/mov"
+	string "url"
+
+config PK_ARM_ASM_MOV_GITHUB
+	string "GitHub"
+
+config PK_ARM_ASM_MOV_SRCFILE
+	default "asm.c Makefile"
+	string "Source code list"
+
+config PK_ARM_ASM_MOV_CSRCFILE
+	string "Compile source code list"
+
+config PK_ARM_ASM_MOV_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_ARM_ASM_MOV_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_ARM_ASM_MOV_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_ARM_ASM_MOV_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_ARM_ASM_MOV_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_ARM_ASM_MOV_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_ARM_ASM_MOV_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_ARM_ASM_MOV_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_ARM_ASM_MOV_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_ARM_ASM_MOV

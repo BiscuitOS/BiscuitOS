@@ -1,0 +1,55 @@
+menuconfig PK_ARM_ASM_PUSHSECTION
+	bool ".pushsection"
+
+if PK_ARM_ASM_PUSHSECTION
+
+config PK_ARM_ASM_PUSHSECTION_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_ARM_ASM_PUSHSECTION_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_ARM_ASM_PUSHSECTION_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Language/Assembly/ARM-GNU-Assembly/Instruction/pushsection"
+	string "url"
+
+config PK_ARM_ASM_PUSHSECTION_GITHUB
+	string "GitHub"
+
+config PK_ARM_ASM_PUSHSECTION_SRCFILE
+	default "asm.c Makefile 00001-biscuitos-section-lds.patch"
+	string "Source code list"
+
+config PK_ARM_ASM_PUSHSECTION_CSRCFILE
+	string "Compile source code list"
+
+config PK_ARM_ASM_PUSHSECTION_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_ARM_ASM_PUSHSECTION_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_ARM_ASM_PUSHSECTION_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_ARM_ASM_PUSHSECTION_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_ARM_ASM_PUSHSECTION_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_ARM_ASM_PUSHSECTION_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_ARM_ASM_PUSHSECTION_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_ARM_ASM_PUSHSECTION_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_ARM_ASM_PUSHSECTION_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_ARM_ASM_PUSHSECTION

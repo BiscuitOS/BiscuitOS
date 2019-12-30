@@ -6,6 +6,18 @@ if PK_OPEN
 # open flags
 source "package/syscall/open/open_flags/Kconfig"
 
+# open flags: O_RDONLY
+source "package/syscall/open/open_flags_RDONLY/Kconfig"
+
+# open flags: O_WRONLY
+source "package/syscall/open/open_flags_WRONLY/Kconfig"
+
+# open flags: O_RDWR
+source "package/syscall/open/open_flags_RDWR/Kconfig"
+
+# open flags: O_TMPFILE
+source "package/syscall/open/open_flags_TMPFILE/Kconfig"
+
 # open kernel api
 source "package/syscall/open/open_kapi/Kconfig"
 

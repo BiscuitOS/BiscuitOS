@@ -11,6 +11,9 @@ if COMMON_UTILISE
 # Application Demo
 source package/DemoApo/Kconfig
 
+# arm-asm
+source package/arm-asm/Kconfig
+
 # atk
 source package/atk/Kconfig
 

@@ -1,0 +1,55 @@
+menuconfig PK_CMA_MONITOR
+	bool "CMA Monitor Module"
+
+if PK_CMA_MONITOR
+
+config PK_CMA_MONITOR_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_CMA_MONITOR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CMA_MONITOR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/CMA/monitor"
+	string "url"
+
+config PK_CMA_MONITOR_GITHUB
+	string "GitHub"
+
+config PK_CMA_MONITOR_SRCFILE
+	default "cma_diagnosis.c 0001-CMA-export-sympol.patch"
+	string "Source code list"
+
+config PK_CMA_MONITOR_CSRCFILE
+	string "Compile source code list"
+
+config PK_CMA_MONITOR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CMA_MONITOR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CMA_MONITOR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CMA_MONITOR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CMA_MONITOR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CMA_MONITOR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CMA_MONITOR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CMA_MONITOR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CMA_MONITOR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CMA_MONITOR
