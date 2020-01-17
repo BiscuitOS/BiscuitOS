@@ -1,0 +1,12 @@
+menuconfig PK_DR
+	bool "dr: Device resource manager"
+
+if PK_DR
+
+# devres_alloc
+source package/dr/devres_alloc/Kconfig
+
+# devres_free
+source package/dr/devres_free/Kconfig
+
+endif # PK_DR

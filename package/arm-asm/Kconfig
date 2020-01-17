@@ -3,6 +3,9 @@ menuconfig PK_ARM_ASM
 
 if PK_ARM_ASM
 
+# bic
+source package/arm-asm/bic/Kconfig
+
 # mov
 source package/arm-asm/mov/Kconfig
 

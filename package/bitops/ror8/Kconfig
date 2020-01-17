@@ -1,0 +1,55 @@
+menuconfig PK_BITOPS_ROR8
+	bool "ror8()"
+
+if PK_BITOPS_ROR8
+
+config PK_BITOPS_ROR8_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_BITOPS_ROR8_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BITOPS_ROR8_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/bitmap/API/ror8"
+	string "url"
+
+config PK_BITOPS_ROR8_GITHUB
+	string "GitHub"
+
+config PK_BITOPS_ROR8_SRCFILE
+	default "bitops.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_BITOPS_ROR8_CSRCFILE
+	string "Compile source code list"
+
+config PK_BITOPS_ROR8_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BITOPS_ROR8_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BITOPS_ROR8_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BITOPS_ROR8_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BITOPS_ROR8_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BITOPS_ROR8_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BITOPS_ROR8_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BITOPS_ROR8_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BITOPS_ROR8_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BITOPS_ROR8

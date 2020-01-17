@@ -1,0 +1,55 @@
+menuconfig PK_DEVRES_ALLOC
+	bool "devres_alloc()"
+
+if PK_DEVRES_ALLOC
+
+config PK_DEVRES_ALLOC_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_DEVRES_ALLOC_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DEVRES_ALLOC_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/DR/API/devres_alloc"
+	string "url"
+
+config PK_DEVRES_ALLOC_GITHUB
+	string "GitHub"
+
+config PK_DEVRES_ALLOC_SRCFILE
+	default "dr.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_DEVRES_ALLOC_CSRCFILE
+	string "Compile source code list"
+
+config PK_DEVRES_ALLOC_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DEVRES_ALLOC_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DEVRES_ALLOC_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DEVRES_ALLOC_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DEVRES_ALLOC_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DEVRES_ALLOC_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DEVRES_ALLOC_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DEVRES_ALLOC_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DEVRES_ALLOC_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DEVRES_ALLOC

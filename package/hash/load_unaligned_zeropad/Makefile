@@ -1,0 +1,49 @@
+################################################
+#
+# load_unaligned_zeropad
+#
+################################################
+PK_HASH_LOAD_UNALIGN_NAME        := load_unaligned_zeropad
+PK_HASH_LOAD_UNALIGN_VERSION     := $(CONFIG_PK_HASH_LOAD_UNALIGN_VERSION)
+PK_HASH_LOAD_UNALIGN_SITE        := $(CONFIG_PK_HASH_LOAD_UNALIGN_URL)
+PK_HASH_LOAD_UNALIGN_GITHUB      := $(CONFIG_PK_HASH_LOAD_UNALIGN_GITHUB)
+PK_HASH_LOAD_UNALIGN_SUBNAME     :=
+PK_HASH_LOAD_UNALIGN_BUILDARCH   := $(CONFIG_PK_HASH_LOAD_UNALIGN_BUILDARCH)
+PK_HASH_LOAD_UNALIGN_DIR         := $(srctree)/package/hash/load_unaligned_zeropad
+PK_HASH_LOAD_UNALIGN_PATCH       := $(PK_HASH_LOAD_UNALIGN_DIR)/patch
+PK_HASH_LOAD_UNALIGN_BSBIT       := load_unaligned_zeropad-$(PK_HASH_LOAD_UNALIGN_VERSION).bsbit
+PK_HASH_LOAD_UNALIGN_OUT         :=
+PK_HASH_LOAD_UNALIGN_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_HASH_LOAD_UNALIGN_TAR         := $(CONFIG_PK_HASH_LOAD_UNALIGN_TAR)
+PK_HASH_LOAD_UNALIGN_PACKAGE     :=
+PK_HASH_LOAD_UNALIGN_CONFIG      := $(CONFIG_PK_HASH_LOAD_UNALIGN_CONFIG)
+SUB_TARGET                  += $(PK_HASH_LOAD_UNALIGN_DIR)/build
+
+PK_HASH_LOAD_UNALIGN_sh = $(CONFIG_SHELL) $(PK_HASH_LOAD_UNALIGN_SCRIPTS) \
+                 $1X \
+                 $(PK_HASH_LOAD_UNALIGN_NAME)X \
+                 $(PK_HASH_LOAD_UNALIGN_VERSION)X \
+                 $(PK_HASH_LOAD_UNALIGN_SITE)X \
+                 $(PK_HASH_LOAD_UNALIGN_GITHUB)X \
+                 $(PK_HASH_LOAD_UNALIGN_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_HASH_LOAD_UNALIGN_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_HASH_LOAD_UNALIGN_SUBNAME)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_CONFIG)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_LIBPATH)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_CPPFLAGS)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_DPKCONFIG)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_CFLAGS)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_LDFLAGS)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_CXXFLAGS)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_ASFLAGS)X \
+                 $(PK_HASH_LOAD_UNALIGN_BSBIT)X \
+                 $(PK_HASH_LOAD_UNALIGN_BUILDARCH)X \
+		 $(PK_HASH_LOAD_UNALIGN_CSRCFILE)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_SRCFILE)X \
+                 $(CONFIG_PK_HASH_LOAD_UNALIGN_CSRCFILE)
+
+$(PK_HASH_LOAD_UNALIGN_DIR)/build: FORCE
+	$(Q)$(call PK_HASH_LOAD_UNALIGN_sh,$(srctree))

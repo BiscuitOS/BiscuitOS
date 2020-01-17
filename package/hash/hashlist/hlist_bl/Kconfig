@@ -1,0 +1,12 @@
+menuconfig PK_HLIST_BL
+	bool "hlist_bl hash table"
+
+if PK_HLIST_BL
+
+# alloc_large_system_hash
+source "package/hash/hashlist/hlist_bl/alloc_large_system_hash/Kconfig"
+
+# Hlist_bl Base
+source "package/hash/hashlist/hlist_bl/hlist_bl_base/Kconfig"
+
+endif # PK_HLIST_BL

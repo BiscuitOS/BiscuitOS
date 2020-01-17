@@ -1,0 +1,55 @@
+menuconfig PK_DEVRES_FREE
+	bool "devres_free()"
+
+if PK_DEVRES_FREE
+
+config PK_DEVRES_FREE_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_DEVRES_FREE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DEVRES_FREE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/DR/API/devres_free"
+	string "url"
+
+config PK_DEVRES_FREE_GITHUB
+	string "GitHub"
+
+config PK_DEVRES_FREE_SRCFILE
+	default "dr.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_DEVRES_FREE_CSRCFILE
+	string "Compile source code list"
+
+config PK_DEVRES_FREE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DEVRES_FREE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DEVRES_FREE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DEVRES_FREE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DEVRES_FREE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DEVRES_FREE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DEVRES_FREE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DEVRES_FREE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DEVRES_FREE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DEVRES_FREE

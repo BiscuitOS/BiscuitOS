@@ -1,0 +1,55 @@
+menuconfig PK_ARM_ASM_BIC
+	bool "bic"
+
+if PK_ARM_ASM_BIC
+
+config PK_ARM_ASM_BIC_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_ARM_ASM_BIC_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_ARM_ASM_BIC_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Language/Assembly/ARM-GNU-Assembly/Instruction/bic"
+	string "url"
+
+config PK_ARM_ASM_BIC_GITHUB
+	string "GitHub"
+
+config PK_ARM_ASM_BIC_SRCFILE
+	default "asm.c Makefile"
+	string "Source code list"
+
+config PK_ARM_ASM_BIC_CSRCFILE
+	string "Compile source code list"
+
+config PK_ARM_ASM_BIC_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_ARM_ASM_BIC_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_ARM_ASM_BIC_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_ARM_ASM_BIC_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_ARM_ASM_BIC_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_ARM_ASM_BIC_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_ARM_ASM_BIC_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_ARM_ASM_BIC_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_ARM_ASM_BIC_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_ARM_ASM_BIC

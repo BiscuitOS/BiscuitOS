@@ -1,0 +1,18 @@
+menuconfig PK_HASH
+	bool "Hash"
+
+if PK_HASH
+
+# hashlist
+source "package/hash/hashlist/Kconfig"
+
+# HASH_MIX
+source "package/hash/HASH_MIX/Kconfig"
+
+# load_unaligned_zeropad
+source "package/hash/load_unaligned_zeropad/Kconfig"
+
+# REPEAT_BYTE
+source "package/hash/REPEAT_BYTE/Kconfig"
+
+endif # PK_HASH

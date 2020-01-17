@@ -3,6 +3,6 @@ menuconfig PK_HLIST
 
 if PK_HLIST
 
-source "package/hashlist/hlist_bl/Kconfig"
+source "package/hash/hashlist/hlist_bl/Kconfig"
 
 endif # PK_HLIST

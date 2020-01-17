@@ -19,7 +19,7 @@ config PK_ARM_ASM_POPSECTION_GITHUB
 	string "GitHub"
 
 config PK_ARM_ASM_POPSECTION_SRCFILE
-	default "asm.c Makefile 00001-biscuitos-section-lds.patch"
+	default "asm.c Makefile Kconfig"
 	string "Source code list"
 
 config PK_ARM_ASM_POPSECTION_CSRCFILE

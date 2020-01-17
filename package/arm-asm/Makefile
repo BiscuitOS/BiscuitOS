@@ -1,4 +1,5 @@
 arm-asm-$(CONFIG_PK_ARM_ASM_MOV)		+= mov/
+arm-asm-$(CONFIG_PK_ARM_ASM_BIC)		+= bic/
 arm-asm-$(CONFIG_PK_ARM_ASM_PUSHSECTION)	+= pushsection/
 arm-asm-$(CONFIG_PK_ARM_ASM_POPSECTION)		+= popsection/
 

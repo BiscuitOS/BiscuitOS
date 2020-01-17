@@ -1,0 +1,24 @@
+menuconfig PK_BITOPS
+	bool "bitops"
+
+if PK_BITOPS
+
+# rol8
+source package/bitops/rol8/Kconfig
+
+# rol16
+source package/bitops/rol16/Kconfig
+
+# rol32
+source package/bitops/rol32/Kconfig
+
+# ror8
+source package/bitops/ror8/Kconfig
+
+# ror16
+source package/bitops/ror16/Kconfig
+
+# ror32
+source package/bitops/ror32/Kconfig
+
+endif # PK_BITOPS

@@ -1,0 +1,55 @@
+menuconfig PK_OF_ADDRESS_TO_RES
+	bool "of_address_to_resource()"
+
+if PK_OF_ADDRESS_TO_RES
+
+config PK_OF_ADDRESS_TO_RES_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_OF_ADDRESS_TO_RES_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_OF_ADDRESS_TO_RES_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Tree/kernel/API/of_address_to_resource"
+	string "url"
+
+config PK_OF_ADDRESS_TO_RES_GITHUB
+	string "GitHub"
+
+config PK_OF_ADDRESS_TO_RES_SRCFILE
+	default "dts.c Kconfig Makefile default.dts"
+	string "Source code list"
+
+config PK_OF_ADDRESS_TO_RES_CSRCFILE
+	string "Compile source code list"
+
+config PK_OF_ADDRESS_TO_RES_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_OF_ADDRESS_TO_RES_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_OF_ADDRESS_TO_RES_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_OF_ADDRESS_TO_RES_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_OF_ADDRESS_TO_RES_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_OF_ADDRESS_TO_RES_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_OF_ADDRESS_TO_RES_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_OF_ADDRESS_TO_RES_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_OF_ADDRESS_TO_RES_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_OF_ADDRESS_TO_RES

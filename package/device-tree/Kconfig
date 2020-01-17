@@ -1,0 +1,9 @@
+menuconfig PK_DTS
+	bool "DTS: Device Tree"
+
+if PK_DTS
+
+# of_address_to_resource
+source package/device-tree/of_address_to_resource/Kconfig
+
+endif # PK_DTS

@@ -1,0 +1,55 @@
+menuconfig PK_BITOPS_ROL16
+	bool "rol16()"
+
+if PK_BITOPS_ROL16
+
+config PK_BITOPS_ROL16_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_BITOPS_ROL16_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BITOPS_ROL16_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/bitmap/API/rol16"
+	string "url"
+
+config PK_BITOPS_ROL16_GITHUB
+	string "GitHub"
+
+config PK_BITOPS_ROL16_SRCFILE
+	default "bitops.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_BITOPS_ROL16_CSRCFILE
+	string "Compile source code list"
+
+config PK_BITOPS_ROL16_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BITOPS_ROL16_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BITOPS_ROL16_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BITOPS_ROL16_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BITOPS_ROL16_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BITOPS_ROL16_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BITOPS_ROL16_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BITOPS_ROL16_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BITOPS_ROL16_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BITOPS_ROL16

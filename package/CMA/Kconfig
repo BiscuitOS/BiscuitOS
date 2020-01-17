@@ -21,6 +21,12 @@ source package/CMA/CMA_debris_app/Kconfig
 # CMA Debris Modules
 source package/CMA/CMA_debris_module/Kconfig
 
+# CMA Debris long Application
+source package/CMA/CMA_debris_long_app/Kconfig
+
+# CMA Debris long Modules
+source package/CMA/CMA_debris_long_module/Kconfig
+
 # CMA Monitor
 source package/CMA/CMA_monitor/Kconfig
 

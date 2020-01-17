@@ -1,0 +1,55 @@
+menuconfig PK_HASH_LOAD_UNALIGN
+	bool "load_unaligned_zeropad()"
+
+if PK_HASH_LOAD_UNALIGN
+
+config PK_HASH_LOAD_UNALIGN_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_HASH_LOAD_UNALIGN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_HASH_LOAD_UNALIGN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/hash/API/load_unaligned_zeropad"
+	string "url"
+
+config PK_HASH_LOAD_UNALIGN_GITHUB
+	string "GitHub"
+
+config PK_HASH_LOAD_UNALIGN_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_HASH_LOAD_UNALIGN_CSRCFILE
+	string "Compile source code list"
+
+config PK_HASH_LOAD_UNALIGN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_HASH_LOAD_UNALIGN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_HASH_LOAD_UNALIGN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_HASH_LOAD_UNALIGN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_HASH_LOAD_UNALIGN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_HASH_LOAD_UNALIGN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_HASH_LOAD_UNALIGN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_HASH_LOAD_UNALIGN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_HASH_LOAD_UNALIGN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_HASH_LOAD_UNALIGN
