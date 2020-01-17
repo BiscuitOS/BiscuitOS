@@ -40,6 +40,9 @@ config LINUX_KERNEL_DL
 config LINUX_KERNEL_WGET
 	bool "Linux kernel source code from Wget"
 
+config LINUX_KERNEL_NEXT
+	bool "linux kernel from github for patching"
+
 endchoice
 
 if LINUX_KERNEL_DL
@@ -68,6 +71,7 @@ config LINUX_KERNEL_SRC
 	default 1 if LINUX_KERNEL_GITHUB
 	default 2 if LINUX_KERNEL_DL
 	default 3 if LINUX_KERNEL_WGET
+	default 4 if LINUX_KERNEL_NEXT
 
 config LINUX_KERNEL_TAR_TYPE
 	string "linux kernel source code tar type"

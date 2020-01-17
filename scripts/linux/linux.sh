@@ -73,6 +73,7 @@ esac
 if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${LINUX_KERNEL_NAME}/version`
 
+	[ ${version} = "linux-next" ] && exit 0
 	[ ${version} = ${LINUX_KERNEL_VERSION} ] && exit 0
 	if [ ${LINUX_KERNEL_SRC} = 1 ]; then
 		[ -f ${OUTPUT}/${LINUX_KERNEL_NAME}/version ] && exit 0
@@ -158,6 +159,26 @@ case ${LINUX_KERNEL_SRC} in
 		echo ${LINUX_KERNEL_VERSION} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
 		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
 		ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${BASE} ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		;;
+	# Patching for kernel
+	4)
+		if [ ! -d ${ROOT}/dl/linux-next ]; then
+			cd ${ROOT}/dl/
+			git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+ linux-next
+			cd ${ROOT}/dl/${GIT_OUT}
+		else
+			cd ${ROOT}/dl/${GIT_OUT}
+			#git pull
+		fi
+
+		mkdir -p ${OUTPUT}/${LINUX_KERNEL_NAME}
+		[ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/linux-next ] && rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/linux-next
+		cp -rfa ${ROOT}/dl/linux-next ${OUTPUT}/${LINUX_KERNEL_NAME}/linux-next
+		cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
+		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/linux-next ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
+		echo linux-next > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
 		;;
 esac
 

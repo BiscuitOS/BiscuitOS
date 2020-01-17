@@ -115,6 +115,9 @@ case ${ARCH_MAGIC} in
 		LDSO_TARGET=$(readlink ${CROSS_PATH}/sysroot/lib/${LDSO_NAME})
 		RISCV_LIB_INSTALL=Y
 	;;
+	6)
+		ARCH_NAME=x86_64
+	;;
 	*)
 		ARCH_NAME=unknown
 	;;
@@ -132,6 +135,8 @@ esac
 # --> Mount / at RAMDISK
 [ ${KERNEL_MAJOR_NO} -lt 4 ] && SUPPORT_RAMDISK=Y
 [ ${ARCH_NAME} == "arm64" ]  && SUPPORT_RAMDISK=N
+[ ${ARCH_NAME} == "x86" ] && SUPPORT_RAMDISK=Y
+[ ${ARCH_NAME} == "x86_64" ] && SUPPORT_RAMDISK=Y
 
 # RaspberryPi 4B
 [ ${PROJECT_NAME} = "RaspberryPi_4B" ] && SUPPORT_RPI4B=Y
@@ -154,7 +159,7 @@ fi
 # Prepare Direct on Rootfs
 rm -rf ${OUTPUT}/rootfs/
 mkdir -p ${ROOTFS_PATH}
-cp ${BUSYBOX}/_install/*  ${ROOTFS_PATH} -raf 
+[ -d ${BUSYBOX}/_install/ ] && cp ${BUSYBOX}/_install/*  ${ROOTFS_PATH} -raf 
 mkdir -p ${ROOTFS_PATH}/proc/
 mkdir -p ${ROOTFS_PATH}/sys/
 mkdir -p ${ROOTFS_PATH}/tmp/
@@ -197,11 +202,11 @@ mkdir -p /mnt/Freeze
 [ -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vdb /mnt/Freeze > /dev/null 2>&1
 [ ! -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
 
-echo " ____  _                _ _    ___  ____  "
-echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
-echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "
-echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
-echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
+#echo " ____  _                _ _    ___  ____  "
+#echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
+#echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "
+#echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
+#echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
 
 echo "Welcome to BiscuitOS"
 
@@ -286,6 +291,9 @@ else
 			cp -arf ${LIBS_PATH_IN}/${CROSS_COMPILE}/* \
 				${ROOTFS_PATH}/lib/
 		else
+			# X86/i386
+			[ ${ARCH_NAME}Y = "x86Y" ] && LIBS_PATH_IN=/lib/i386-linux-gnu
+			[ ${ARCH_NAME}Y = "x86_64Y" ] && LIBS_PATH_IN=/lib/x86_64-linux-gnu
 			cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
 		fi
 	fi
@@ -309,7 +317,11 @@ sudo umount ${OUTPUT}/rootfs/tmpfs
 if [ ${SUPPORT_RAMDISK} = "Y" ]; then
 	# Support RAMdisk
 	gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz
-	mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
+	if [ ${ARCH_NAME} = "x86" -o ${ARCH_NAME} = "x86_64" ]; then
+		mv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
+	else
+		mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
+	fi
 	rm -rf ${OUTPUT}/rootfs/ramdisk
 else
 	# Support HardDisk
@@ -328,13 +340,6 @@ if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
        	dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/${FREEZE_DISK}
 	sync
 	${FS_TYPE_TOOLS} -F ${OUTPUT}/${FREEZE_DISK}
-fi
-
-# Build a ext2 fs for BiscuitOS-hfs
-if [ ! -f ${OUTPUT}/BiscuitOS-hfs.img ]; then
-	dd bs=1M count=20 if=/dev/zero of=${OUTPUT}/BiscuitOS-hfs.img
-	sync
-	mkfs.ext2 ${OUTPUT}/BiscuitOS-hfs.img
 fi
 
 ## Auto build README.md

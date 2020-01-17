@@ -97,7 +97,7 @@ case ${ARCH} in
 	;;
 	1)
 	ARCH_NAME=x86
-	QEMU=${QEMU_PATH}/x86_64-softmmu/qemu-system-x86_64
+	QEMU=${QEMU_PATH}/i386-softmmu/qemu-system-i386
 	;;
 	2)
 	ARCH_NAME=arm
@@ -120,6 +120,10 @@ case ${ARCH} in
 	ARCH_NAME=riscv64
 	QEMU=${QEMU_PATH}/riscv64-softmmu/qemu-system-riscv64
 	DEFAULT_CONFIG=BiscuitOS_riscv64_defconfig
+	;;
+	6)
+	ARCH_NAME=x86_64
+	QEMU=${QEMU_PATH}/x86_64-softmmu/qemu-system-x86_64
 	;;
 esac
 
@@ -150,6 +154,8 @@ detect_kernel_version_field
 # --> Mount / at RAMDISK
 [ ${KERNEL_MAJOR_NO} -lt 4 ] && SUPPORT_RAMDISK=Y
 [ ${ARCH_NAME} == "arm64" ] && SUPPORT_RAMDISK=N
+[ ${ARCH_NAME} == "x86" ] && SUPPORT_RAMDISK=Y
+[ ${ARCH_NAME} == "x86_64" ] && SUPPORT_RAMDISK=Y
 
 # Support Disk mount /
 # --> Mount / at /dev/vda
@@ -293,6 +299,12 @@ case ${ARCH_NAME} in
 	;;
 	riscv64)
 		echo 'CMDLINE="root=/dev/vda rw console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+	;;
+	x86)
+		echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+	;;
+	x86_64)
+		echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
 	;;
 esac
 
@@ -484,6 +496,30 @@ case ${ARCH_NAME} in
 		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
+	x86)
+		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
+		echo -e '\t-smp 2 \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/bzImage \' >> ${MF}
+		# Support Ramdisk
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		# Support Networking
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}"' >> ${MF}
+	;;
+	x86_64)
+		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
+		echo -e '\t-smp 2 \' >> ${MF}
+		echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
+		# Support Ramdisk
+		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		# Support Networking
+		echo -e '\t-serial stdio \' >> ${MF}
+		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-nodefaults \' >> ${MF}
+		echo -e '\t-append "${CMDLINE}"' >> ${MF}
+	;;
 esac
 echo '}' >> ${MF}
 echo '' >> ${MF}
@@ -506,8 +542,13 @@ if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	if [ ${SUPPORT_RAMDISK} = "Y" ]; then
 		echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
-		echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
-		echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
+		if [ ${ARCH_NAME} = "x86" -o ${ARCH_NAME} = "x86_64" ]; then
+			echo -e '\tmv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
+			
+		else
+			echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
+			echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
+		fi
 		echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 		echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 	else
@@ -905,6 +946,40 @@ case ${ARCH_NAME} in
 		echo "make ARCH=riscv CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j4" >> ${MF}
 		echo "make ARCH=riscv INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
 	;;
+	x86)
+		echo "make ARCH=i386 clean" >> ${MF}
+		echo "make ARCH=i386 i386_defconfig" >> ${MF}
+		echo "make ARCH=i386 menuconfig" >> ${MF}
+		echo '' >> ${MF}
+		echo '  General setup --->' >> ${MF}
+		echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
+		echo '' >> ${MF}
+		echo '  Device Driver --->' >> ${MF}
+		echo '        [*] Block devices --->' >> ${MF}
+		echo '              <*> RAM block device support' >> ${MF}
+		echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
+		echo '' >> ${MF}
+		echo "make ARCH=i386 bzImage -j4" >> ${MF}
+		echo "make ARCH=i386 modules -j4" >> ${MF}
+		echo "make ARCH=i386 INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
+	;;
+	x86_64)
+		echo "make ARCH=x86_64 clean" >> ${MF}
+		echo "make ARCH=x86_64 x86_64_defconfig" >> ${MF}
+		echo "make ARCH=x86_64 menuconfig" >> ${MF}
+		echo '' >> ${MF}
+		echo '  General setup --->' >> ${MF}
+		echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
+		echo '' >> ${MF}
+		echo '  Device Driver --->' >> ${MF}
+		echo '        [*] Block devices --->' >> ${MF}
+		echo '              <*> RAM block device support' >> ${MF}
+		echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
+		echo '' >> ${MF}
+		echo "make ARCH=x86_64 bzImage -j4" >> ${MF}
+		echo "make ARCH=x86_64 modules -j4" >> ${MF}
+		echo "make ARCH=x86_64 INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}
+	;;
 esac
 echo '```' >> ${MF}
 echo '' >> ${MF}
@@ -925,11 +1000,25 @@ if [ ${SUPPORT_DEBIAN} = "N" ]; then
 	echo '  Busybox Settings --->' >> ${MF}
 	echo '    Build Options --->' >> ${MF}
 	echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${MF}
-	echo '' >> ${MF}
-	echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} -j4" >> ${MF}
-	echo '' >> ${MF}
-	echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} install" >> ${MF}
-	echo '```' >> ${MF}
+	if [ ${ARCH_NAME}Y = "x86Y" ]; then
+		echo '      (-m32 -march=i386 -mtune=i386) Additional CFLAGS' >> ${MF}
+		echo '      (-m32) Additional LDFLAGS' >> ${MF}
+		echo '' >> ${MF}
+		echo "make -j4" >> ${MF}
+		echo "make install" >> ${MF}
+		echo '```' >> ${MF}
+	elif [ ${ARCH_NAME}Y = "x86_64Y" ]; then
+		echo '' >> ${MF}
+		echo "make -j4" >> ${MF}
+		echo "make install" >> ${MF}
+		echo '```' >> ${MF}
+	else
+		echo '' >> ${MF}
+		echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} -j4" >> ${MF}
+		echo '' >> ${MF}
+		echo "make CROSS_COMPILE=${DEF_KERNEL_CROSS} install" >> ${MF}
+		echo '```' >> ${MF}
+	fi
 fi
 
 ##
