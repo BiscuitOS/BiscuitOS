@@ -36,6 +36,9 @@ config PK_BINUTILS
 # bitops
 source package/bitops/Kconfig
 
+# buddy
+source package/buddy/Kconfig
+
 # busybox
 source package/busybox/Kconfig
 

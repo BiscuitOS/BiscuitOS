@@ -1,6 +1,7 @@
 PACKAGE-$(CONFIG_PK_BINUTILS)		+= binutils/
 PACKAGE-$(CONFIG_PK_GBINUTILS)		+= gbinutils/
 PACKAGE-$(CONFIG_PK_GCC)		+= gcc/
+PACKAGE-$(CONFIG_PK_BUDDY)		+= buddy/
 PACKAGE-$(CONFIG_PK_ARM_ASM)		+= arm-asm/
 PACKAGE-$(CONFIG_PK_SLAB)		+= slab/
 PACKAGE-$(CONFIG_PK_IDR)		+= idr/

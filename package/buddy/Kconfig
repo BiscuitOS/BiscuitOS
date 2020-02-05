@@ -1,0 +1,9 @@
+menuconfig PK_BUDDY
+	bool "Buddy Physical Memory Allocator"
+
+if PK_BUDDY
+
+# Buddy Userspace demo
+source package/buddy/buddy_userspace/Kconfig
+
+endif # PK_BUDDY
