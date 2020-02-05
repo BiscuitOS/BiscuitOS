@@ -6,4 +6,7 @@ if PK_BUDDY
 # Buddy Userspace demo
 source package/buddy/buddy_userspace/Kconfig
 
+# PCP Userspace demo
+source package/buddy/PCP_userspace/Kconfig
+
 endif # PK_BUDDY
