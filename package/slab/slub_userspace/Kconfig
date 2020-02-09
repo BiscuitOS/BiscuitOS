@@ -19,7 +19,7 @@ config PK_SLUB_USERSPACE_GITHUB
 	string "GitHub"
 
 config PK_SLUB_USERSPACE_SRCFILE
-	default "core.c include/linux/buddy.h include/linux/list.h include/linux/bitmap.h include/linux/getorder.h README.md include/linux/gfp.h include/linux/slub.h mm/buddy.c Makefile mm/slub.c"
+	default "core.c include/linux/buddy.h include/linux/list.h include/linux/bitmap.h include/linux/getorder.h include/linux/biscuitos.h mm/kasprintf.c README.md include/linux/gfp.h include/linux/slub.h mm/buddy.c Makefile mm/slub.c"
 	string "Source code list"
 
 config PK_SLUB_USERSPACE_CSRCFILE
