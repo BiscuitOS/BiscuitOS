@@ -1,0 +1,55 @@
+menuconfig PK_THIS_CPU_READ
+	bool "this_cpu_read"
+
+if PK_THIS_CPU_READ
+
+config PK_THIS_CPU_READ_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_THIS_CPU_READ_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_THIS_CPU_READ_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/percpu/API/this_cpu_read"
+	string "url"
+
+config PK_THIS_CPU_READ_GITHUB
+	string "GitHub"
+
+config PK_THIS_CPU_READ_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_THIS_CPU_READ_CSRCFILE
+	string "Compile source code list"
+
+config PK_THIS_CPU_READ_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_THIS_CPU_READ_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_THIS_CPU_READ_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_THIS_CPU_READ_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_THIS_CPU_READ_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_THIS_CPU_READ_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_THIS_CPU_READ_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_THIS_CPU_READ_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_THIS_CPU_READ_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_THIS_CPU_READ

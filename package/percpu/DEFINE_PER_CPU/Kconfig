@@ -1,0 +1,55 @@
+menuconfig PK_DEFINE_PER_CPU
+	bool "DEFINE_PER_CPU"
+
+if PK_DEFINE_PER_CPU
+
+config PK_DEFINE_PER_CPU_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_DEFINE_PER_CPU_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DEFINE_PER_CPU_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/percpu/API/DEFINE_PER_CPU"
+	string "url"
+
+config PK_DEFINE_PER_CPU_GITHUB
+	string "GitHub"
+
+config PK_DEFINE_PER_CPU_SRCFILE
+	default "core.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_DEFINE_PER_CPU_CSRCFILE
+	string "Compile source code list"
+
+config PK_DEFINE_PER_CPU_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DEFINE_PER_CPU_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DEFINE_PER_CPU_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DEFINE_PER_CPU_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DEFINE_PER_CPU_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DEFINE_PER_CPU_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DEFINE_PER_CPU_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DEFINE_PER_CPU_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DEFINE_PER_CPU_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DEFINE_PER_CPU

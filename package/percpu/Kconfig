@@ -3,8 +3,56 @@ menuconfig PK_PERCPU
 
 if PK_PERCPU
 
+# alloc_percpu
+source package/percpu/alloc_percpu/Kconfig
+
+# DECLARE_PER_CPU
+source package/percpu/DECLARE_PER_CPU/Kconfig
+
+# DECLARE_PER_CPU_FIRST
+source package/percpu/DECLARE_PER_CPU_FIRST/Kconfig
+
+# DECLARE_PER_CPU_PAGE_ALIGNED
+source package/percpu/DECLARE_PER_CPU_PAGE_ALIGNED/Kconfig
+
+# DECLARE_PER_CPU_SHARED_ALIGNED
+source package/percpu/DECLARE_PER_CPU_SHARED_ALIGNED/Kconfig
+
+# DEFINE_PER_CPU
+source package/percpu/DEFINE_PER_CPU/Kconfig
+
+# DEFINE_PER_CPU_FIRST
+source package/percpu/DEFINE_PER_CPU_FIRST/Kconfig
+
+# DEFINE_PER_CPU_PAGE_ALIGNED
+source package/percpu/DEFINE_PER_CPU_PAGE_ALIGNED/Kconfig
+
+# DEFINE_PER_CPU_SHARED_ALIGNED
+source package/percpu/DEFINE_PER_CPU_SHARED_ALIGNED/Kconfig
+
+# free_percpu
+source package/percpu/free_percpu/Kconfig
+
+# for_each_possible_cpu
+source package/percpu/for_each_possible_cpu/Kconfig
+
+# get_cpu_ptr
+source package/percpu/get_cpu_ptr/Kconfig
+
+# get_cpu_var
+source package/percpu/get_cpu_var/Kconfig
+
+# this_cpu_read
+source package/percpu/this_cpu_read/Kconfig
+
 # percpu
 source package/percpu/percpu/Kconfig
+
+# per_cpu
+source package/percpu/per_cpu/Kconfig
+
+# per_cpu_ptr
+source package/percpu/per_cpu_ptr/Kconfig
 
 # percpu_counter_dec
 source package/percpu/percpu_counter_dec/Kconfig
@@ -20,5 +68,14 @@ source package/percpu/percpu_counter_sub/Kconfig
 
 # percpu_counter_sum
 source package/percpu/percpu_counter_sum/Kconfig
+
+# put_cpu_ptr
+source package/percpu/put_cpu_ptr/Kconfig
+
+# put_cpu_var
+source package/percpu/put_cpu_var/Kconfig
+
+# raw_cpu_ptr
+source package/percpu/raw_cpu_ptr/Kconfig
 
 endif # PK_PERCPU
