@@ -1,3 +1,4 @@
+percpu-$(CONFIG_PK_PERCPU_BASE)		+= percpu/
 percpu-$(CONFIG_PK_PERCPU_COUNTER_INIT)	+= percpu_counter_init/
 percpu-$(CONFIG_PK_PERCPU_COUNTER_DEC)	+= percpu_counter_dec/
 percpu-$(CONFIG_PK_PERCPU_COUNTER_INC)	+= percpu_counter_inc/

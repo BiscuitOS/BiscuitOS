@@ -3,6 +3,9 @@ menuconfig PK_PERCPU
 
 if PK_PERCPU
 
+# percpu
+source package/percpu/percpu/Kconfig
+
 # percpu_counter_dec
 source package/percpu/percpu_counter_dec/Kconfig
 
