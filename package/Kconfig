@@ -294,6 +294,9 @@ source package/util-linux/Kconfig
 # UIO
 source package/UIO/Kconfig
 
+# vmalloc
+source package/vmalloc/Kconfig
+
 # videoproto
 source package/videoproto/Kconfig
 

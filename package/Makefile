@@ -6,6 +6,7 @@ PACKAGE-$(CONFIG_PK_ARM_ASM)		+= arm-asm/
 PACKAGE-$(CONFIG_PK_SLAB)		+= slab/
 PACKAGE-$(CONFIG_PK_IDR)		+= idr/
 PACKAGE-$(CONFIG_PK_DR)			+= dr/
+PACKAGE-$(CONFIG_PK_VMALLOC)		+= vmalloc/
 PACKAGE-$(CONFIG_PK_DTS)		+= device-tree/
 PACKAGE-$(CONFIG_PK_2048)		+= 2048/
 PACKAGE-$(CONFIG_PK_KTIME)		+= ktime/

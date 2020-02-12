@@ -1,0 +1,18 @@
+menuconfig PK_VMALLOC
+	bool "Vmalloc Memory Allocator"
+
+if PK_VMALLOC
+
+# vfree
+source package/vmalloc/vfree/Kconfig
+
+# vmalloc
+source package/vmalloc/vmalloc/Kconfig
+
+# vmalloc_to_page
+source package/vmalloc/vmalloc_to_page/Kconfig
+
+# vmalloc on userspace
+source package/vmalloc/vmalloc_userspace/Kconfig
+
+endif # PK_VMALLOC
