@@ -1,0 +1,55 @@
+menuconfig PK_VMALLOC_TO_PFN
+	bool "vmalloc_to_pfn()"
+
+if PK_VMALLOC_TO_PFN
+
+config PK_VMALLOC_TO_PFN_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_VMALLOC_TO_PFN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_VMALLOC_TO_PFN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/vmalloc/vmalloc_to_pfn"
+	string "url"
+
+config PK_VMALLOC_TO_PFN_GITHUB
+	string "GitHub"
+
+config PK_VMALLOC_TO_PFN_SRCFILE
+	default "core.c Makefile Kconfig"
+	string "Source code list"
+
+config PK_VMALLOC_TO_PFN_CSRCFILE
+	string "Compile source code list"
+
+config PK_VMALLOC_TO_PFN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_VMALLOC_TO_PFN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_VMALLOC_TO_PFN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_VMALLOC_TO_PFN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_VMALLOC_TO_PFN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_VMALLOC_TO_PFN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_VMALLOC_TO_PFN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_VMALLOC_TO_PFN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_VMALLOC_TO_PFN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_VMALLOC_TO_PFN

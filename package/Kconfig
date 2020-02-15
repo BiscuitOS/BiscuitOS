@@ -213,6 +213,9 @@ source package/libXrender/Kconfig
 # libXxf86vm
 source package/libXxf86vm/Kconfig
 
+# memblock
+source package/memblock/Kconfig
+
 # mesa
 source package/mesa/Kconfig
 
@@ -227,6 +230,9 @@ source package/ncurses/Kconfig
 
 # openssl
 source package/openssl/Kconfig
+
+# paging
+source package/paging/Kconfig
 
 # pango
 source package/pango/Kconfig

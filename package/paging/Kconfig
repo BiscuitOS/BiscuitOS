@@ -1,0 +1,9 @@
+menuconfig PK_PAGING
+	bool "Paging: PGDIR/PTE/Page Table"
+
+if PK_PAGING
+
+# paging on userspace
+source package/paging/paging_userspace/Kconfig
+
+endif # PK_PAGING

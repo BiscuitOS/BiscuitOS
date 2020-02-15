@@ -1,0 +1,9 @@
+menuconfig PK_MEMBLOCK
+	bool "MEMBLOCK Memory Allocator"
+
+if PK_MEMBLOCK
+
+# memblock on userspace
+source package/memblock/memblock_userspace/Kconfig
+
+endif # PK_MEMBLOCK

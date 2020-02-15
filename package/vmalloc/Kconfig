@@ -12,6 +12,9 @@ source package/vmalloc/vmalloc/Kconfig
 # vmalloc_to_page
 source package/vmalloc/vmalloc_to_page/Kconfig
 
+# vmalloc_to_pfn
+source package/vmalloc/vmalloc_to_pfn/Kconfig
+
 # vmalloc on userspace
 source package/vmalloc/vmalloc_userspace/Kconfig
 

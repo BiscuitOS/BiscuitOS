@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_USERSPACE
+	bool "Paging on Userspace"
+
+if PK_PAGING_USERSPACE
+
+config PK_PAGING_USERSPACE_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_PAGING_USERSPACE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_USERSPACE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Paging/Paging_userspace"
+	string "url"
+
+config PK_PAGING_USERSPACE_GITHUB
+	string "GitHub"
+
+config PK_PAGING_USERSPACE_SRCFILE
+	default "README.md Makefile main.c mm/memblock.c mm/page_table.c include/linux/biscuitos.h include/linux/memblock.h include/linux/mm.h"
+	string "Source code list"
+
+config PK_PAGING_USERSPACE_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_USERSPACE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_USERSPACE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_USERSPACE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_USERSPACE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_USERSPACE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_USERSPACE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_USERSPACE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_USERSPACE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_USERSPACE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_USERSPACE
