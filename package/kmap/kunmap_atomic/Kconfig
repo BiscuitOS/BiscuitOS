@@ -1,0 +1,55 @@
+menuconfig PK_KUNMAP_ATOMIC
+	bool "kunmap_atomic()"
+
+if PK_KUNMAP_ATOMIC
+
+config PK_KUNMAP_ATOMIC_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KUNMAP_ATOMIC_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KUNMAP_ATOMIC_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Kmap/kunmap_atomic"
+	string "url"
+
+config PK_KUNMAP_ATOMIC_GITHUB
+	string "GitHub"
+
+config PK_KUNMAP_ATOMIC_SRCFILE
+	default "core.c Makefile Kconfig"
+	string "Source code list"
+
+config PK_KUNMAP_ATOMIC_CSRCFILE
+	string "Compile source code list"
+
+config PK_KUNMAP_ATOMIC_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KUNMAP_ATOMIC_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KUNMAP_ATOMIC_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KUNMAP_ATOMIC_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KUNMAP_ATOMIC_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KUNMAP_ATOMIC_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KUNMAP_ATOMIC_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KUNMAP_ATOMIC_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KUNMAP_ATOMIC_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KUNMAP_ATOMIC

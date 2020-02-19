@@ -1,0 +1,55 @@
+menuconfig PK_KMAP_F
+	bool "kmap()"
+
+if PK_KMAP_F
+
+config PK_KMAP_F_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KMAP_F_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KMAP_F_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Kmap/kmap"
+	string "url"
+
+config PK_KMAP_F_GITHUB
+	string "GitHub"
+
+config PK_KMAP_F_SRCFILE
+	default "core.c Makefile Kconfig"
+	string "Source code list"
+
+config PK_KMAP_F_CSRCFILE
+	string "Compile source code list"
+
+config PK_KMAP_F_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KMAP_F_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KMAP_F_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KMAP_F_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KMAP_F_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KMAP_F_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KMAP_F_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KMAP_F_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KMAP_F_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KMAP_F

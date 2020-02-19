@@ -3,10 +3,13 @@ menuconfig PK_BUDDY
 
 if PK_BUDDY
 
-# Buddy Userspace demo
+# Buddy Userspace
 source package/buddy/buddy_userspace/Kconfig
 
-# PCP Userspace demo
+# Buddy Highmem Userspace
+source package/buddy/buddy_highmem_userspace/Kconfig
+
+# PCP Userspace
 source package/buddy/PCP_userspace/Kconfig
 
 endif # PK_BUDDY

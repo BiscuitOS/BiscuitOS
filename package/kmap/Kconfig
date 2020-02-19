@@ -1,0 +1,27 @@
+menuconfig PK_KMAP
+	bool "Kmap Memory Allocator"
+
+if PK_KMAP
+
+# kmap
+source package/kmap/kmap/Kconfig
+
+# kmap_atomic
+source package/kmap/kmap_atomic/Kconfig
+
+# kmap_atomic_pfn
+source package/kmap/kmap_atomic_pfn/Kconfig
+
+# kmap_to_page
+source package/kmap/kmap_to_page/Kconfig
+
+# kmap on userspace
+source package/kmap/kmap_userspace/Kconfig
+
+# kunmap
+source package/kmap/kunmap/Kconfig
+
+# kunmap_atomic
+source package/kmap/kunmap_atomic/Kconfig
+
+endif # PK_KMAP

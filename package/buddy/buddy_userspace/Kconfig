@@ -19,7 +19,7 @@ config PK_BUDDY_USERSPACE_GITHUB
 	string "GitHub"
 
 config PK_BUDDY_USERSPACE_SRCFILE
-	default "core.c include/linux/buddy.h include/linux/list.h mm/buddy.c Makefile"
+	default "main.c Makefile README.md include/linux/buddy.h include/linux/list.h mm/buddy.c"
 	string "Source code list"
 
 config PK_BUDDY_USERSPACE_CSRCFILE

@@ -129,6 +129,9 @@ source package/hash/Kconfig
 # hello
 source package/hello/Kconfig
 
+# highmem
+source package/highmem/Kconfig
+
 # i2c
 source package/i2c/Kconfig
 
@@ -149,6 +152,9 @@ source package/kernel_hacking/Kconfig
 
 # kobject
 source package/kobject/Kconfig
+
+# kmap
+source package/kmap/Kconfig
 
 # ktime
 source package/ktime/Kconfig

@@ -1,0 +1,9 @@
+menuconfig PK_HIGHMEM
+	bool "High-Memory Zone"
+
+if PK_HIGHMEM
+
+# highmem on userspace
+source package/highmem/highmem_userspace/Kconfig
+
+endif # PK_HIGHMEM

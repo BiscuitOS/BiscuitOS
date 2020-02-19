@@ -1,5 +1,5 @@
 menuconfig PK_PCP_USERSPACE
-	bool "PCP: Per CPU Page Allocator on Userspace"
+	bool "PCP Allocator on Userspace"
 
 if PK_PCP_USERSPACE
 
@@ -12,14 +12,14 @@ config PK_PCP_USERSPACE_TAR
 	string "tar type"
 
 config PK_PCP_USERSPACE_URL
-	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PCP/Userspace"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Buddy/PCP_userspace"
 	string "url"
 
 config PK_PCP_USERSPACE_GITHUB
 	string "GitHub"
 
 config PK_PCP_USERSPACE_SRCFILE
-	default "core.c include/linux/buddy.h include/linux/list.h mm/buddy.c Makefile"
+	default "main.c Makefile README.md include/linux/buddy.h include/linux/list.h mm/buddy.c"
 	string "Source code list"
 
 config PK_PCP_USERSPACE_CSRCFILE
