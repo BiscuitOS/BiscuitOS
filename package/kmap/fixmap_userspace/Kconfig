@@ -1,55 +1,55 @@
-menuconfig PK_KMAP_USERSPACE
-	bool "Kmap Memory Allocator on Userspace"
+menuconfig PK_FIXMAP_USERSPACE
+	bool "Fixmap Memory Allocator on Userspace"
 
-if PK_KMAP_USERSPACE
+if PK_FIXMAP_USERSPACE
 
-config PK_KMAP_USERSPACE_VERSION
+config PK_FIXMAP_USERSPACE_VERSION
 	default "0.0.1"
 	string "verstion"
 
-config PK_KMAP_USERSPACE_TAR
+config PK_FIXMAP_USERSPACE_TAR
 	default "tar.gz"
 	string "tar type"
 
-config PK_KMAP_USERSPACE_URL
-	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Kmap/kmap_userspace"
+config PK_FIXMAP_USERSPACE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Kmap/fixmap_userspace"
 	string "url"
 
-config PK_KMAP_USERSPACE_GITHUB
+config PK_FIXMAP_USERSPACE_GITHUB
 	string "GitHub"
 
-config PK_KMAP_USERSPACE_SRCFILE
+config PK_FIXMAP_USERSPACE_SRCFILE
 	default "main.c Makefile README.md include/linux/biscuitos.h include/linux/bitmap.h include/linux/buddy.h include/linux/getorder.h include/linux/gfp.h include/linux/highmem.h include/linux/list.h include/linux/pgtable.h include/linux/slub.h mm/buddy.c mm/highmem.c mm/kasprintf.c mm/pgtable.c mm/slub.c"
 	string "Source code list"
 
-config PK_KMAP_USERSPACE_CSRCFILE
+config PK_FIXMAP_USERSPACE_CSRCFILE
 	string "Compile source code list"
 
-config PK_KMAP_USERSPACE_CONFIG
+config PK_FIXMAP_USERSPACE_CONFIG
 	string "CONFIG: Project Configure Options"
 
-config PK_KMAP_USERSPACE_LIBPATH
+config PK_FIXMAP_USERSPACE_LIBPATH
 	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
 
-config PK_KMAP_USERSPACE_CPPFLAGS
+config PK_FIXMAP_USERSPACE_CPPFLAGS
 	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
 
-config PK_KMAP_USERSPACE_DPKCONFIG
+config PK_FIXMAP_USERSPACE_DPKCONFIG
 	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
 
-config PK_KMAP_USERSPACE_CFLAGS
+config PK_FIXMAP_USERSPACE_CFLAGS
 	string "CFLAGS: C compiler flags"
 
-config PK_KMAP_USERSPACE_LDFLAGS
+config PK_FIXMAP_USERSPACE_LDFLAGS
 	string "LDFLAGS: Linker flags"
 
-config PK_KMAP_USERSPACE_CXXFLAGS
+config PK_FIXMAP_USERSPACE_CXXFLAGS
 	string "CXXFLAGS: C++ compiler flags"
 
-config PK_KMAP_USERSPACE_ASFLAGS
+config PK_FIXMAP_USERSPACE_ASFLAGS
 	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
 
-config PK_KMAP_USERSPACE_BUILDARCH
+config PK_FIXMAP_USERSPACE_BUILDARCH
 	string "--host options on configure for Architecture"
 
-endif # PK_KMAP_USERSPACE
+endif # PK_FIXMAP_USERSPACE

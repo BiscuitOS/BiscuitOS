@@ -45,6 +45,12 @@ source package/percpu/get_cpu_var/Kconfig
 # this_cpu_read
 source package/percpu/this_cpu_read/Kconfig
 
+# PERCPU(SMP) Allocator
+source package/percpu/SMP_PERCPU_userspace/Kconfig
+
+# PERCPU(UP) Allocator
+source package/percpu/UP_PERCPU_userspace/Kconfig
+
 # percpu
 source package/percpu/percpu/Kconfig
 

@@ -1,4 +1,5 @@
 kmap-$(CONFIG_PK_KMAP_USERSPACE)		+= kmap_userspace/
+kmap-$(CONFIG_PK_FIXMAP_USERSPACE)		+= fixmap_userspace/
 kmap-$(CONFIG_PK_KMAP_F)			+= kmap/
 kmap-$(CONFIG_PK_KUNMAP)			+= kunmap/
 kmap-$(CONFIG_PK_KMAP_TO_PAGE)			+= kmap_to_page/

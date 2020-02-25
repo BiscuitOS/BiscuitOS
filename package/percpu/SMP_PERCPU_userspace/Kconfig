@@ -1,0 +1,55 @@
+menuconfig PK_SMP_PERCPU_USERSPACE
+	bool "PERCPU(SMP) Memory Allocator on Userspace"
+
+if PK_SMP_PERCPU_USERSPACE
+
+config PK_SMP_PERCPU_USERSPACE_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_SMP_PERCPU_USERSPACE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_SMP_PERCPU_USERSPACE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PERCPU/SMP_PERCPU_userspace"
+	string "url"
+
+config PK_SMP_PERCPU_USERSPACE_GITHUB
+	string "GitHub"
+
+config PK_SMP_PERCPU_USERSPACE_SRCFILE
+	default "main.c Makefile README.md include/linux/biscuitos.h include/linux/bitmap.h include/linux/getorder.h include/linux/gfp.h include/linux/list.h include/linux/memblock.h include/linux/mm.h include/linux/percpu.h mm/bitmap.c mm/memblock.c mm/percpu.c"
+	string "Source code list"
+
+config PK_SMP_PERCPU_USERSPACE_CSRCFILE
+	string "Compile source code list"
+
+config PK_SMP_PERCPU_USERSPACE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_SMP_PERCPU_USERSPACE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_SMP_PERCPU_USERSPACE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_SMP_PERCPU_USERSPACE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_SMP_PERCPU_USERSPACE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_SMP_PERCPU_USERSPACE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_SMP_PERCPU_USERSPACE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_SMP_PERCPU_USERSPACE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_SMP_PERCPU_USERSPACE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_SMP_PERCPU_USERSPACE

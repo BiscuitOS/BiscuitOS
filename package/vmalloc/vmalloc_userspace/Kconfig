@@ -19,7 +19,7 @@ config PK_VMALLOC_USERSPACE_GITHUB
 	string "GitHub"
 
 config PK_VMALLOC_USERSPACE_SRCFILE
-	default "core.c include/linux/buddy.h include/linux/list.h include/linux/bitmap.h include/linux/getorder.h include/linux/biscuitos.h mm/kasprintf.c README.md include/linux/gfp.h include/linux/slub.h mm/buddy.c mm/rbtree.c mm/vmalloc.c include/linux/rbtree.h include/linux/vmalloc.h Makefile mm/slub.c"
+	default "main.c include/linux/buddy.h include/linux/list.h include/linux/bitmap.h include/linux/getorder.h include/linux/biscuitos.h mm/kasprintf.c README.md include/linux/gfp.h include/linux/slub.h mm/buddy.c mm/rbtree.c mm/vmalloc.c include/linux/rbtree.h include/linux/vmalloc.h Makefile mm/slub.c"
 	string "Source code list"
 
 config PK_VMALLOC_USERSPACE_CSRCFILE

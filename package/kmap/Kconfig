@@ -3,6 +3,9 @@ menuconfig PK_KMAP
 
 if PK_KMAP
 
+# fixmap on userspace
+source package/kmap/fixmap_userspace/Kconfig
+
 # kmap
 source package/kmap/kmap/Kconfig
 
