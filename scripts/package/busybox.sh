@@ -101,6 +101,7 @@ if [ ${ARCH_SRC} = "1" ]; then
 elif [ ${ARCH_SRC} = "2" ]; then
 	if [ ${BUSYBOX_VERSION} = "1.18.1" ]; then
 		CROSS_GCC=${OUTPUT}/${ARCH_CROSS}/${ARCH_CROSS}/bin/arm-none-linux-gnueabi-
+		exit 0
 	else
 		CROSS_GCC=${OUTPUT}/${ARCH_CROSS}/${ARCH_CROSS}/bin/${ARCH_CROSS}-
 	fi
