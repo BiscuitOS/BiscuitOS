@@ -151,7 +151,7 @@ detect_kernel_version_field
 # DTB support
 # --> Only ARM >= 4.x support DTB
 [ ${ARCH_NAME} == "arm" -a ${KERNEL_MAJOR_NO} -ge 4 ] && SUPPORT_DTB=Y
-[ ${ARCH_NAME} == "arm" -a ${KERNEL_MAJOR_NO} -ge 3 -a ${KERNEL_MINOR_NO} -gt 4 ] && SUPPORT_DTB=Y
+[ ${ARCH_NAME} == "arm" -a ${KERNEL_MAJOR_NO} -ge 3 -a ${KERNEL_MINOR_NO} -gt 15 ] && SUPPORT_DTB=Y
 
 # Support RAMDISK (2.x/3.x Support)
 # --> Mount / at RAMDISK
@@ -179,6 +179,7 @@ detect_kernel_version_field
 # --> Kernel < 3.10 Only support EXT3
 [ ${KERNEL_MAJOR_NO} -eq 3 -a ${KERNEL_MINOR_NO} -lt 10 ] && SUPPORT_EXT3=Y
 [ ${KERNEL_MAJOR_NO} -lt 3 ] && SUPPORT_EXT3=Y
+[ ${KERNEL_MAJOR_NO} -eq 3 -a ${KERNEL_MINOR_NO} -lt 21 -a ${ARCH_NAME} = "arm" ] && SUPPORT_EXT3=Y
 
 # CROSS_CROMPILE
 [ ${SUPPORT_2_X} = "Y" ] && SUPPORT_NONE_GNU=Y

@@ -127,6 +127,7 @@ esac
 # --> Kernel < 3.10 Only support EXT3
 [ ${KERNEL_MAJOR_NO} -eq 3 -a ${KERNEL_MINOR_NO} -lt 10 ] && SUPPORT_EXT3=Y
 [ ${KERNEL_MAJOR_NO} -lt 3 ] && SUPPORT_EXT3=Y
+[ ${KERNEL_MAJOR_NO} -eq 3 -a ${KERNEL_MINOR_NO} -lt 21 -a ${ARCH_NAME} == "arm" ] && SUPPORT_EXT3=Y
 
 # Linux 2.6 Lib support
 [ ${KERNEL_MAJOR_NO} -eq 2 -a ${KERNEL_MINOR_NO} -eq 6 ] && SUPPORT_CROSS_LIB=N
