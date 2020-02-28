@@ -100,6 +100,7 @@ if [ ${UBOOT_SRC} = "3" ]; then
 	if [ ! -f ${ROOT}/dl/${BASE_NAME} ]; then
 		cd ${ROOT}/dl/
 		wget ${UBOOT_SITE}/${BASE_NAME}
+		echo "Downloading finish"
 	fi
 	mkdir -p ${OUTPUT}/${UBOOT_NAME}/
 	cp ${ROOT}/dl/${BASE_NAME} ${OUTPUT}/${UBOOT_NAME}/
