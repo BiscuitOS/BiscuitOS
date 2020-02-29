@@ -22,6 +22,7 @@ UBOOT_SUBNAME=${13%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 ARCH_MAGIC=${14%X}
 ARCH_NAME=
+UBOOT_TOOLS=${12%X}
 
 if [ -d ${OUTPUT}/${UBOOT_NAME}/${UBOOT_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${UBOOT_NAME}/version`

@@ -21,13 +21,24 @@ GNU_ARM_TAR=${8%X}
 GNU_ARM_SUBNAME=${10%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 GNU_ARM_WGET_NAME=${GNU_ARM_SITE##*/}
+UBOOT=${11}
 
+# Normal Check
 if [ -d ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME} ]; then
-        version=`sed -n 1p ${OUTPUT}/${GNU_ARM_NAME}/version`
+	version=`sed -n 1p ${OUTPUT}/${GNU_ARM_NAME}/version`
 
-        if [ ${version} = ${GNU_ARM_VERSION} ]; then
-                exit 0
-        fi
+	if [ ${version} = ${GNU_ARM_VERSION} ]; then
+        	exit 0
+	fi
+fi
+
+# Uboot Check
+if [ -d ${OUTPUT}/${GNU_ARM_NAME}/uboot-${GNU_ARM_NAME} -a ${UBOOT} = "yX" ]; then
+	version=`sed -n 1p ${OUTPUT}/${GNU_ARM_NAME}/version_uboot`
+
+	if [ ${version} = ${GNU_ARM_VERSION} ]; then
+		exit 0
+	fi
 fi
 
 ## Get from github
@@ -94,11 +105,18 @@ if [ ${GNU_ARM_SRC} = "2" ]; then
 	cd ${OUTPUT}/${GNU_ARM_NAME}/
 	tar -xvf ${GNU_ARM_WGET_NAME}
 	rm -rf ${GNU_ARM_WGET_NAME}
-        echo ${GNU_ARM_VERSION} > ${OUTPUT}/${GNU_ARM_NAME}/version
-        rm -rf ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
 	if [ ${GNU_ARM_VERSION} = "arm-2009q3-67" ]; then
-        	ln -s ${OUTPUT}/${GNU_ARM_NAME}/arm-2009q3 ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
+		if [ ${UBOOT} = "yX" ]; then
+        		ln -s ${OUTPUT}/${GNU_ARM_NAME}/arm-2009q3 ${OUTPUT}/${GNU_ARM_NAME}/uboot-${GNU_ARM_NAME}
+			echo ${GNU_ARM_VERSION} > ${OUTPUT}/${GNU_ARM_NAME}/version_uboot
+		else
+			[ -d ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME} ] && rm -rf ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
+        		ln -s ${OUTPUT}/${GNU_ARM_NAME}/arm-2009q3 ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
+        		echo ${GNU_ARM_VERSION} > ${OUTPUT}/${GNU_ARM_NAME}/version
+		fi
 	else
+		[ -d ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME} ] && rm -rf ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
         	ln -s ${OUTPUT}/${GNU_ARM_NAME}/${BASE_NAME} ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME}
+        	echo ${GNU_ARM_VERSION} > ${OUTPUT}/${GNU_ARM_NAME}/version
 	fi
 fi

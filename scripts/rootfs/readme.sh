@@ -225,6 +225,11 @@ else
 	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/${CROSS_COMPILE}-
 fi
 
+## Lower version uboot tools
+if [ ${UBOOT_CROSS} = "arm-none-linux-gnueabi" ]; then
+	DEF_UBOOT_CROOS=${OUTPUT}/${CROSS_COMPILE}/uboot-${CROSS_COMPILE}/bin/arm-none-linux-gnueabi-
+fi
+
 ##
 # Debug Stuff
 [ -d ${OUTPUT}/package/gdb ] && rm -rf ${OUTPUT}/package/gdb
@@ -866,7 +871,7 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo "make ARCH=arm clean" >> ${MF}
 	[ ${SUPPORT_RPI3B} = "N" ] && echo "make ARCH=arm vexpress_ca9x4_defconfig" >> ${MF}
 	[ ${SUPPORT_RPI3B} = "Y" ] && echo "make ARCH=arm rpi_2_defconfig" >> ${MF}
-	echo "make ARCH=arm CROSS_COMPILE=${DEF_KERNEL_CROSS}" >> ${MF}
+	echo "make ARCH=arm CROSS_COMPILE=${DEF_UBOOT_CROOS}" >> ${MF}
 	echo '```' >> ${MF}
 	echo '' >> ${MF}
 fi

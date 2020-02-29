@@ -63,11 +63,16 @@ config UBOOT_CROSS_GNUEABIHF
 	bool "arm-linux-gnueabihf"
 	select TOOL_ARM_GNUEABIHF
 
+config UBOOT_CROSS_NONE_GNUEABI
+	bool "arm-none-linux-gnueabi"
+	select TOOL_ARM_NONE_GNUEABI 
+
 endchoice
 
 config UBOOT_CROSS_COMPILE
 	string
 	default "arm-linux-gnueabi" if UBOOT_CROSS_GUNEABI
 	default "arm-linux-gnueabihf" if UBOOT_CROSS_GNUEABIHF
+	default "arm-none-linux-gnueabi" if UBOOT_CROSS_NONE_GNUEABI
 
 endif # PK_UBOOT_
