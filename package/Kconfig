@@ -297,6 +297,9 @@ source package/slab/Kconfig
 # spi
 source package/spi/Kconfig
 
+# strace
+source package/strace/Kconfig
+
 # system call arm
 source package/syscall/Kconfig
 

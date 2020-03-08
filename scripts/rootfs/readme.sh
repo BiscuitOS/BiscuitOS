@@ -226,7 +226,7 @@ else
 fi
 
 ## Lower version uboot tools
-if [ ${UBOOT_CROSS} = "arm-none-linux-gnueabi" ]; then
+if [ ${UBOOT_CROSS}X = "arm-none-linux-gnueabiX" ]; then
 	DEF_UBOOT_CROOS=${OUTPUT}/${CROSS_COMPILE}/uboot-${CROSS_COMPILE}/bin/arm-none-linux-gnueabi-
 fi
 

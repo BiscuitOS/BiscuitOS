@@ -1,0 +1,53 @@
+menuconfig PK_STRACE
+	bool "strace"
+
+if PK_STRACE
+
+config PK_STRACE_VERSION
+	default "5.0"
+	string "verstion"
+
+config PK_STRACE_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_STRACE_URL
+	default "https://src.fedoraproject.org/repo/pkgs/strace/strace-5.0.tar.xz/sha512/cba3280ada27ef434eda54d0e150f04ab89ad227d67b29bd0993f9ac7747eb32b0e49af8cc493b92eab99c0848ec8dc6bbd9b1db423abd53f19129dacbddf265/"
+	string "url"
+
+config PK_STRACE_GITHUB
+	string "GitHub"
+
+config PK_STRACE_SRCFILE
+	string "Source code list"
+
+config PK_STRACE_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_STRACE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_STRACE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_STRACE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_STRACE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_STRACE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_STRACE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_STRACE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_STRACE_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_STRACE
