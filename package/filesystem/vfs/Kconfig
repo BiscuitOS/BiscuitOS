@@ -9,6 +9,9 @@ source "package/filesystem/vfs/d_alloc/Kconfig"
 # d_alloc_anon
 source "package/filesystem/vfs/d_alloc_anon/Kconfig"
 
+# dcache_hash
+source "package/filesystem/vfs/dcache_hash/Kconfig"
+
 # get_fs_type
 source "package/filesystem/vfs/get_fs_type/Kconfig"
 

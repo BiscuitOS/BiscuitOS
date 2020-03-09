@@ -1,5 +1,6 @@
 vfs-$(CONFIG_PK_FS_GET_FS_TYPE)		+= get_fs_type/
 vfs-$(CONFIG_PK_FS_SGET)		+= sget/
+vfs-$(CONFIG_PK_DCACHE_HASH)		+= dcache_hash/
 vfs-$(CONFIG_PK_FS_NEW_INODE)		+= new_inode/
 vfs-$(CONFIG_PK_FS_INODE_INIT_OWNER)	+= inode_init_owner/
 vfs-$(CONFIG_PK_FS_D_ALLOC_ANON)	+= d_alloc_anon/
