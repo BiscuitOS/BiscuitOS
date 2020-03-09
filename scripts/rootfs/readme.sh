@@ -440,10 +440,10 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
 		# Support RAMDISK only
 		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		# Support Networking
-		echo -e '\t-serial stdio \' >> ${MF}
+		# Discard Ctrl-C to exit and default Ctrl-A + X
+		# echo -e '\t-serial stdio \' >> ${MF}
+		# echo -e '\t-nodefaults \' >> ${MF}
 		[ ${SUPPORT_DESKTOP} = "N" ] && echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	arm64)
@@ -461,10 +461,10 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
 		# Support RAMDISK only
 		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		# Support Networking
-		echo -e '\t-serial stdio \' >> ${MF}
+		# discard Ctrl-C to exit and default Ctrl-A + X
+		# echo -e '\t-serial stdio \' >> ${MF}
+		# echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	riscv32)
@@ -480,10 +480,10 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
 		# Support RAMDISK only
 		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		# Support Networking
-		echo -e '\t-serial stdio \' >> ${MF}
+		# Discard Ctrl-C to exit and default Ctrl-A + X
+		# echo -e '\t-serial stdio \' >> ${MF}
+		# echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	riscv64)
@@ -499,10 +499,10 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
 		# Support RAMDISK only
 		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		# Support Networking
-		echo -e '\t-serial stdio \' >> ${MF}
+		# Discard Ctrl-C to exit and default Ctrl-A + X
+		# echo -e '\t-serial stdio \' >> ${MF}
+		# echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	x86)
@@ -512,10 +512,10 @@ case ${ARCH_NAME} in
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
 		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		# Support Networking
-		echo -e '\t-serial stdio \' >> ${MF}
+		# Discard Ctrl-C to exit and default Ctrl-A + X
+		# echo -e '\t-serial stdio \' >> ${MF}
+		# echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	x86_64)
@@ -524,11 +524,11 @@ case ${ARCH_NAME} in
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
+		# Discard Ctrl-C to exit and default Ctrl-A + X
+		# echo -e '\t-serial stdio \' >> ${MF}
+		# echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		# Support Networking
-		echo -e '\t-serial stdio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-nodefaults \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 esac
@@ -1126,6 +1126,8 @@ cat << EOF >> ${1}
 cd ${OUTPUT}
 ./${RUNSCP_NAME}
 \`\`\`
+
+If you want exit from BiscuitOS, pls use: Ctrl-A + X
 
 EOF
 }

@@ -21,7 +21,7 @@ GNU_ARM_TAR=${8%X}
 GNU_ARM_SUBNAME=${10%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 GNU_ARM_WGET_NAME=${GNU_ARM_SITE##*/}
-UBOOT=${11}
+UBOOT=${11%X}
 
 # Normal Check
 if [ -d ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME} ]; then
@@ -33,7 +33,7 @@ if [ -d ${OUTPUT}/${GNU_ARM_NAME}/${GNU_ARM_NAME} ]; then
 fi
 
 # Uboot Check
-if [ -d ${OUTPUT}/${GNU_ARM_NAME}/uboot-${GNU_ARM_NAME} -a ${UBOOT} = "yX" ]; then
+if [ -d ${OUTPUT}/${GNU_ARM_NAME}/uboot-${GNU_ARM_NAME} -a ${UBOOT}X = "yX" ]; then
 	version=`sed -n 1p ${OUTPUT}/${GNU_ARM_NAME}/version_uboot`
 
 	if [ ${version} = ${GNU_ARM_VERSION} ]; then
