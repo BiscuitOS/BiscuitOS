@@ -1,0 +1,9 @@
+menuconfig PK_SYS_READ
+	bool "sys_read"
+
+if PK_SYS_READ
+
+# C read
+source "package/syscall/sys_read/read_common/Kconfig"
+
+endif # PK_SYS_READ

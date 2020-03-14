@@ -946,6 +946,10 @@ case ${ARCH_NAME} in
 			echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
 			echo '' >> ${MF}
 		fi
+		echo '' >> ${MF}
+		echo '  [*] Enable loadable module support  --->' >> ${MF}
+		echo '' >> ${MF}
+		echo '' >> ${MF}
 		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} Image -j4" >> ${MF}
 		echo "make ARCH=${ARCH_NAME} CROSS_COMPILE=${DEF_KERNEL_CROSS} modules -j4" >> ${MF}
 		echo "make ARCH=${ARCH_NAME} INSTALL_MOD_PATH=${MODULE_INSTALL_PATH} modules_install" >> ${MF}

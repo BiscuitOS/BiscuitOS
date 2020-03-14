@@ -1,0 +1,9 @@
+menuconfig PK_IO_ASYNC
+	bool "Asynchronous"
+
+if PK_IO_ASYNC
+
+# select_socket
+source "package/IO/Async/select_socket/Kconfig"
+
+endif # PK_IO_ASYNC

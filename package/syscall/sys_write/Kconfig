@@ -1,0 +1,9 @@
+menuconfig PK_SYS_WRITE
+	bool "sys_write"
+
+if PK_SYS_WRITE
+
+# C write
+source "package/syscall/sys_write/write_common/Kconfig"
+
+endif # PK_SYS_WRITE

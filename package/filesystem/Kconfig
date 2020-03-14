@@ -3,16 +3,7 @@ menuconfig PK_FS
 
 if PK_FS
 
-# BiscuitOS Filesystem
-source "package/filesystem/bsvfs/Kconfig"
-
-# Kernfs
-source "package/filesystem/kernfs/Kconfig"
-
-# sysfs
-source "package/filesystem/sysfs/Kconfig"
-
 # vfs
-source "package/filesystem/vfs/Kconfig"
+source "package/filesystem/tmpfs/Kconfig"
 
 endif # PK_FS

@@ -1,0 +1,9 @@
+menuconfig PK_FS_TMPFS
+	bool "tmpfs"
+
+if PK_FS_TMPFS
+
+# tmpfs_bs
+source "package/filesystem/tmpfs/tmpfs_bs/Kconfig"
+
+endif # PK_FS_TMPFS

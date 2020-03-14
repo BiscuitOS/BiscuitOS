@@ -144,6 +144,9 @@ source package/input/Kconfig
 # inputproto
 source package/inputproto/Kconfig
 
+# IO
+source package/IO/Kconfig
+
 # kbproto
 source package/kbproto/Kconfig
 
@@ -317,6 +320,9 @@ source package/videoproto/Kconfig
 
 # workqueue
 source package/workqueue/Kconfig
+
+# xarray
+source package/xarray/Kconfig
 
 # xcb-proto
 source package/xcb-proto/Kconfig

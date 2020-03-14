@@ -1,0 +1,9 @@
+menuconfig PK_XARRAY
+	bool "xarray"
+
+if PK_XARRAY
+
+# xarray base
+source "package/xarray/xarray_base/Kconfig"
+
+endif # PK_XARRAY

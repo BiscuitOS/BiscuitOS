@@ -1,0 +1,9 @@
+menuconfig PK_SYS_CLOSE
+	bool "sys_close"
+
+if PK_SYS_CLOSE
+
+# C close
+source "package/syscall/sys_close/close_common/Kconfig"
+
+endif # PK_SYS_CLOSE

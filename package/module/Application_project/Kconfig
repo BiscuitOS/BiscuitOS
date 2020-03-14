@@ -19,7 +19,7 @@ config PK_APP_PROJ_GITHUB
 	string "GitHub"
 
 config PK_APP_PROJ_SRCFILE
-	default "core.c include/linux/demo.h src/demo.c Makefile"
+	default "main.c include/linux/demo.h src/demo.c Makefile"
 	string "Source code list"
 
 config PK_APP_PROJ_CSRCFILE

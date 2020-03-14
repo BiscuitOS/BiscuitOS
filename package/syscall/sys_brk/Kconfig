@@ -1,0 +1,9 @@
+menuconfig PK_SYS_BRK
+	bool "sys_brk"
+
+if PK_SYS_BRK
+
+# C brk
+source "package/syscall/sys_brk/brk_common/Kconfig"
+
+endif # PK_SYS_BRK

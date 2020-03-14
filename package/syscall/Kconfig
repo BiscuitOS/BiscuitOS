@@ -3,7 +3,25 @@ menuconfig PK_SYSCALL
 
 if PK_SYSCALL
 
-# open
-source "package/syscall/open/Kconfig"
+# sys_brk
+source "package/syscall/sys_brk/Kconfig"
+
+# sys_close
+source "package/syscall/sys_close/Kconfig"
+
+# sys_open
+source "package/syscall/sys_open/Kconfig"
+
+# sys_mkdir
+source "package/syscall/sys_mkdir/Kconfig"
+
+# sys_mount
+source "package/syscall/sys_mount/Kconfig"
+
+# sys_read
+source "package/syscall/sys_read/Kconfig"
+
+# sys_write
+source "package/syscall/sys_write/Kconfig"
 
 endif # PK_SYSCALL

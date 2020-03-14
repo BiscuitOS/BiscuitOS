@@ -1,0 +1,9 @@
+menuconfig PK_SYS_OPEN
+	bool "sys_open"
+
+if PK_SYS_OPEN
+
+# C open
+source "package/syscall/sys_open/open_common/Kconfig"
+
+endif # PK_SYS_OPEN

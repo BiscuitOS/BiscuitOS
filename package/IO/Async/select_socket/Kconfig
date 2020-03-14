@@ -1,0 +1,55 @@
+menuconfig PK_SELECT_SOCKET
+	bool "select on socket"
+
+if PK_SELECT_SOCKET
+
+config PK_SELECT_SOCKET_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_SELECT_SOCKET_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_SELECT_SOCKET_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/IO/AsyncBlock/select_common"
+	string "url"
+
+config PK_SELECT_SOCKET_GITHUB
+	string "GitHub"
+
+config PK_SELECT_SOCKET_SRCFILE
+	default "client.c service.c Makefile"
+	string "Source code list"
+
+config PK_SELECT_SOCKET_CSRCFILE
+	string "Compile source code list"
+
+config PK_SELECT_SOCKET_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_SELECT_SOCKET_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_SELECT_SOCKET_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_SELECT_SOCKET_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_SELECT_SOCKET_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_SELECT_SOCKET_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_SELECT_SOCKET_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_SELECT_SOCKET_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_SELECT_SOCKET_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_SELECT_SOCKET

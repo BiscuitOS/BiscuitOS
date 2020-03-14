@@ -295,7 +295,14 @@ else
 			# X86/i386
 			[ ${ARCH_NAME}Y = "x86Y" ] && LIBS_PATH_IN=/lib/i386-linux-gnu
 			[ ${ARCH_NAME}Y = "x86_64Y" ] && LIBS_PATH_IN=/lib/x86_64-linux-gnu
-			cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+			if [ ${ARCH_NAME}Y = "x86_64Y" ]; then
+				mkdir -p ${ROOTFS_PATH}/lib64/
+				cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
+				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
+				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+			else
+				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+			fi
 		fi
 	fi
 	rm -rf ${ROOTFS_PATH}/lib/*.a

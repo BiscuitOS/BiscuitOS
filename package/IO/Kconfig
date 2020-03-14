@@ -1,0 +1,9 @@
+menuconfig PK_IO
+	bool "IO"
+
+if PK_IO
+
+# Async
+source "package/IO/Async/Kconfig"
+
+endif # PK_IO
