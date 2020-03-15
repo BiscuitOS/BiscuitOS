@@ -65,6 +65,27 @@ DATE_COMT=`date +"%Y.%m.%d"`
 BASEPKNAME=${PACKAGE_NAME}-${PACKAGE_VERSION}
 PACKAGE_BSBIT=${PPATH}/bsbit
 
+# Determine Architecture
+ARCH=unknown
+[[ ${PROJECT_NAME} == *arm32* ]]   && ARCH=arm
+[[ ${PROJECT_NAME} == *aarch* ]]   && ARCH=arm64
+[[ ${PROJECT_NAME} == *i386* ]]    && ARCH=i386
+[[ ${PROJECT_NAME} == *x86_64* ]]  && ARCH=x86_64
+[[ ${PROJECT_NAME} == *riscv* ]]   && ARCH=riscv
+
+HOST_NAME=${PACKAGE_TOOL}
+[ ${ARCH} == "arm64" ] && HOST_NAME=aarch64-linux
+[ ${ARCH} == "i386" ] && HOST_NAME=i386-linux
+[ ${ARCH} == "x86_64" ] && HOST_NAME=x86_64-linux
+
+# Fixup aarch64 on legacy package
+if [ ${ARCH} == "arm64" ]; then
+	if [ ! -f ${PROJECT_ROOT}/dl/aarch64_config.sub ]; then
+		wget -O ${PROJECT_ROOT}/dl/aarch64_config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+		wget -O ${PROJECT_ROOT}/dl/aarch64_config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+	fi
+fi
+
 ## Prepare
 mkdir -p ${ROOTFS_ROOT}/usr/lib
 mkdir -p ${ROOTFS_ROOT}/usr/include
@@ -87,7 +108,9 @@ echo '' >> ${MF}
 echo '## Default Setup' >> ${MF}
 echo "ROOT        := ${OUTPUT}" >> ${MF}
 echo "BSROOT      := ${PROJECT_ROOT}" >> ${MF}
+echo "ARCH        := ${ARCH}" >> ${MF}
 echo "CROSS_NAME  := ${PACKAGE_TOOL}" >> ${MF}
+echo "HOST_NAME   := ${HOST_NAME}" >> ${MF}
 echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
 echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK        := $(ROOT)/RunBiscuitOS.sh' >> ${MF}
@@ -111,7 +134,7 @@ echo 'TARCMD    := tar -xvf' >> ${MF}
 echo 'PATCH     := patch/$(BASENAME)' >> ${MF}
 echo "URL       := ${PACKAGE_SITE}" >> ${MF}
 echo "BSFILE    := ${BSFILE}" >> ${MF}
-echo 'CONFIG    := --prefix=$(INS_PATH) --host=$(CROSS_NAME)' >> ${MF}
+echo 'CONFIG    := --prefix=$(INS_PATH) --host=$(HOST_NAME)' >> ${MF}
 echo "CONFIG    += --build=${HBARCH}" >> ${MF}
 echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)"' >> ${MF}
 echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)"' >> ${MF}
@@ -165,15 +188,23 @@ echo -e '\t\texit 0 ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t@for patchname in $(shell ls $(PATCH)) ; \' >> ${MF}
 echo -e '\tdo \' >> ${MF}
-echo -e '\t\tcp -rf $(PATCH)/$${patchname} $(BASENAM) ; \' >> ${MF}
-echo -e '\t\tcd $(BASENAM) > /dev/null 2>&1 ; \' >> ${MF}
+echo -e '\t\tcp -rf $(PATCH)/$${patchname} $(BASENAME) ; \' >> ${MF}
+echo -e '\t\tcd $(BASENAME) > /dev/null 2>&1 ; \' >> ${MF}
 echo -e '\t\tpatch -p1 < $${patchname} ; \' >> ${MF}
 echo -e '\t\tcd - > /dev/null 2>&1 ; \' >> ${MF}
 echo -e '\tdone' >> ${MF}
+echo -e '\t@if [ "$(ARCH)X" = "arm64X"  ]; then \' >> ${MF}
+echo -e '\t\tcp -rfa $(BSROOT)/dl/aarch64_config.sub $(BASENAME)/config.sub ; \' >> ${MF}
+echo -e '\t\tcp -rfa $(BSROOT)/dl/aarch64_config.guess $(BASENAME)/config.guess ; \' >> ${MF}
+echo -e '\t\tif [ -d  $(BASENAME)/build-aux ]; then \' >> ${MF}
+echo -e '\t\t\tcp -rfa $(BSROOT)/dl/aarch64_config.sub $(BASENAME)/build-aux/config.sub ; \' >> ${MF}
+echo -e '\t\t\tcp -rfa $(BSROOT)/dl/aarch64_config.guess $(BASENAME)/build-aux/config.guess ; \' >> ${MF}
+echo -e '\t\tfi \' >> ${MF}
+echo -e '\tfi' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
-echo -e '\t$(info "Decompression $(PACKAGE) => $(BASENAM) done.")' >> ${MF}
+echo -e '\t$(info "Decompression $(PACKAGE) => $(BASENAME) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'configure:' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
@@ -202,6 +233,19 @@ echo '' >> ${MF}
 echo 'pack:' >> ${MF}
 echo -e '\t@$(PACK) pack' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
+echo '' >> ${MF}
+echo 'build:' >> ${MF}
+echo -e '\tmake' >> ${MF}
+echo -e '\tmake install pack' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
+echo '' >> ${MF}
+echo 'kernel:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
+echo 'run:' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}
 echo 'clean:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}

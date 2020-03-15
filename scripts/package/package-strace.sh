@@ -235,6 +235,9 @@ echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
 echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
+echo 'run:' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
+echo '' >> ${MF}
 echo 'clean:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tmake clean' >> ${MF}
