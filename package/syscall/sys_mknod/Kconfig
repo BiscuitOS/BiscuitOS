@@ -1,0 +1,9 @@
+menuconfig PK_SYS_MKNOD
+	bool "sys_mknod"
+
+if PK_SYS_MKNOD
+
+# C mknod
+source "package/syscall/sys_mknod/mknod_common/Kconfig"
+
+endif # PK_SYS_MKNOD

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FORK
+	bool "sys_fork"
+
+if PK_SYS_FORK
+
+# C fork
+source "package/syscall/sys_fork/fork_common/Kconfig"
+
+endif # PK_SYS_FORK

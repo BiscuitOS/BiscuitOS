@@ -1,0 +1,9 @@
+menuconfig PK_SYS_CHDIR
+	bool "sys_chdir"
+
+if PK_SYS_CHDIR
+
+# C chdir
+source "package/syscall/sys_chdir/chdir_common/Kconfig"
+
+endif # PK_SYS_CHDIR

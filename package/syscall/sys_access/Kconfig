@@ -1,0 +1,9 @@
+menuconfig PK_SYS_ACCESS
+	bool "sys_access"
+
+if PK_SYS_ACCESS
+
+# C access
+source "package/syscall/sys_access/access_common/Kconfig"
+
+endif # PK_SYS_ACCESS

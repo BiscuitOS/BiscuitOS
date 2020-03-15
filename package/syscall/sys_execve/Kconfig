@@ -1,0 +1,9 @@
+menuconfig PK_SYS_EXECVE
+	bool "sys_execve"
+
+if PK_SYS_EXECVE
+
+# C execve
+source "package/syscall/sys_execve/execve_common/Kconfig"
+
+endif # PK_SYS_EXECVE

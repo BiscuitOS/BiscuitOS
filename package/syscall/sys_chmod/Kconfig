@@ -1,0 +1,9 @@
+menuconfig PK_SYS_CHMOD
+	bool "sys_chmod"
+
+if PK_SYS_CHMOD
+
+# C chmod
+source "package/syscall/sys_chmod/chmod_common/Kconfig"
+
+endif # PK_SYS_CHMOD

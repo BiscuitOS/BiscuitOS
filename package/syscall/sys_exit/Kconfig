@@ -1,0 +1,9 @@
+menuconfig PK_SYS_EXIT
+	bool "sys_exit"
+
+if PK_SYS_EXIT
+
+# C exit
+source "package/syscall/sys_exit/exit_common/Kconfig"
+
+endif # PK_SYS_EXIT

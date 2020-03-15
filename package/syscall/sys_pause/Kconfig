@@ -1,0 +1,9 @@
+menuconfig PK_SYS_PAUSE
+	bool "sys_pause"
+
+if PK_SYS_PAUSE
+
+# C pause
+source "package/syscall/sys_pause/pause_common/Kconfig"
+
+endif # PK_SYS_PAUSE

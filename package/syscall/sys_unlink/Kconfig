@@ -1,0 +1,9 @@
+menuconfig PK_SYS_UNLINK
+	bool "sys_unlink"
+
+if PK_SYS_UNLINK
+
+# C unlink
+source "package/syscall/sys_unlink/unlink_common/Kconfig"
+
+endif # PK_SYS_UNLINK

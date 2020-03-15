@@ -3,23 +3,68 @@ menuconfig PK_SYSCALL
 
 if PK_SYSCALL
 
+# sys_access
+source "package/syscall/sys_access/Kconfig"
+
 # sys_brk
 source "package/syscall/sys_brk/Kconfig"
+
+# sys_chdir
+source "package/syscall/sys_chdir/Kconfig"
+
+# sys_chmod
+source "package/syscall/sys_chmod/Kconfig"
 
 # sys_close
 source "package/syscall/sys_close/Kconfig"
 
-# sys_open
-source "package/syscall/sys_open/Kconfig"
+# sys_creat
+source "package/syscall/sys_creat/Kconfig"
+
+# sys_execve
+source "package/syscall/sys_execve/Kconfig"
+
+# sys_exit
+source "package/syscall/sys_exit/Kconfig"
+
+# sys_fork
+source "package/syscall/sys_fork/Kconfig"
+
+# sys_getpid
+source "package/syscall/sys_getpid/Kconfig"
+
+# sys_getuid16
+source "package/syscall/sys_getuid16/Kconfig"
+
+# sys_link
+source "package/syscall/sys_link/Kconfig"
+
+# sys_lseek
+source "package/syscall/sys_lseek/Kconfig"
 
 # sys_mkdir
 source "package/syscall/sys_mkdir/Kconfig"
 
+# sys_mknod
+source "package/syscall/sys_mknod/Kconfig"
+
 # sys_mount
 source "package/syscall/sys_mount/Kconfig"
 
+# sys_open
+source "package/syscall/sys_open/Kconfig"
+
+# sys_pause
+source "package/syscall/sys_pause/Kconfig"
+
+# sys_unlink
+source "package/syscall/sys_unlink/Kconfig"
+
 # sys_read
 source "package/syscall/sys_read/Kconfig"
+
+# sys_setuid16
+source "package/syscall/sys_setuid16/Kconfig"
 
 # sys_write
 source "package/syscall/sys_write/Kconfig"

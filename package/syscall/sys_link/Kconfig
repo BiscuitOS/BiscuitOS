@@ -1,0 +1,9 @@
+menuconfig PK_SYS_LINK
+	bool "sys_link"
+
+if PK_SYS_LINK
+
+# C link
+source "package/syscall/sys_link/link_common/Kconfig"
+
+endif # PK_SYS_LINK
