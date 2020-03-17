@@ -36,6 +36,9 @@ source "package/syscall/sys_getpid/Kconfig"
 # sys_getuid16
 source "package/syscall/sys_getuid16/Kconfig"
 
+# sys_kill
+source "package/syscall/sys_kill/Kconfig"
+
 # sys_link
 source "package/syscall/sys_link/Kconfig"
 
@@ -51,6 +54,9 @@ source "package/syscall/sys_mknod/Kconfig"
 # sys_mount
 source "package/syscall/sys_mount/Kconfig"
 
+# sys_nice
+source "package/syscall/sys_nice/Kconfig"
+
 # sys_open
 source "package/syscall/sys_open/Kconfig"
 
@@ -63,8 +69,17 @@ source "package/syscall/sys_unlink/Kconfig"
 # sys_read
 source "package/syscall/sys_read/Kconfig"
 
+# sys_rename
+source "package/syscall/sys_rename/Kconfig"
+
+# sys_rmdir
+source "package/syscall/sys_rmdir/Kconfig"
+
 # sys_setuid16
 source "package/syscall/sys_setuid16/Kconfig"
+
+# sys_sync
+source "package/syscall/sys_sync/Kconfig"
 
 # sys_write
 source "package/syscall/sys_write/Kconfig"

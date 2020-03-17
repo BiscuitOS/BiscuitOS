@@ -1,0 +1,9 @@
+menuconfig PK_SYS_NICE
+	bool "sys_nice"
+
+if PK_SYS_NICE
+
+# C nice
+source "package/syscall/sys_nice/nice_common/Kconfig"
+
+endif # PK_SYS_NICE

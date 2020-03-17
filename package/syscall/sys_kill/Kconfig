@@ -1,0 +1,9 @@
+menuconfig PK_SYS_KILL
+	bool "sys_kill"
+
+if PK_SYS_KILL
+
+# C kill
+source "package/syscall/sys_kill/kill_common/Kconfig"
+
+endif # PK_SYS_KILL

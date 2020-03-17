@@ -1,0 +1,9 @@
+menuconfig PK_SYS_RENAME
+	bool "sys_rename"
+
+if PK_SYS_RENAME
+
+# C rename
+source "package/syscall/sys_rename/rename_common/Kconfig"
+
+endif # PK_SYS_RENAME

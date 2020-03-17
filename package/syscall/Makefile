@@ -20,6 +20,11 @@ syscall-$(CONFIG_PK_SYS_SETUID16)	+= sys_setuid16/
 syscall-$(CONFIG_PK_SYS_GETUID16)	+= sys_getuid16/
 syscall-$(CONFIG_PK_SYS_PAUSE)		+= sys_pause/
 syscall-$(CONFIG_PK_SYS_ACCESS)		+= sys_access/
+syscall-$(CONFIG_PK_SYS_NICE)		+= sys_nice/
+syscall-$(CONFIG_PK_SYS_SYNC)		+= sys_sync/
+syscall-$(CONFIG_PK_SYS_KILL)		+= sys_kill/
+syscall-$(CONFIG_PK_SYS_RENAME)		+= sys_rename/
+syscall-$(CONFIG_PK_SYS_RMDIR)		+= sys_rmdir/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/syscall/%/Makefile, $(syscall-y))
 

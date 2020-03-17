@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SYNC
+	bool "sys_sync"
+
+if PK_SYS_SYNC
+
+# C sync
+source "package/syscall/sys_sync/sync_common/Kconfig"
+
+endif # PK_SYS_SYNC
