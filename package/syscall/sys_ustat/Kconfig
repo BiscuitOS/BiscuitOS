@@ -1,0 +1,9 @@
+menuconfig PK_SYS_USTAT
+	bool "sys_ustat"
+
+if PK_SYS_USTAT
+
+# C ustat
+source "package/syscall/sys_ustat/ustat_common/Kconfig"
+
+endif # PK_SYS_USTAT

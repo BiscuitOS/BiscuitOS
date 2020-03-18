@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETHOSTNAME
+	bool "sys_sethostname"
+
+if PK_SYS_SETHOSTNAME
+
+# C sethostname
+source "package/syscall/sys_sethostname/sethostname_common/Kconfig"
+
+endif # PK_SYS_SETHOSTNAME

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETRLIMIT
+	bool "sys_setrlimit"
+
+if PK_SYS_SETRLIMIT
+
+# C setrlimit
+source "package/syscall/sys_setrlimit/setrlimit_common/Kconfig"
+
+endif # PK_SYS_SETRLIMIT

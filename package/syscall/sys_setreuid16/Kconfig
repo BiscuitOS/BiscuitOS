@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETREUID16
+	bool "sys_setreuid16"
+
+if PK_SYS_SETREUID16
+
+# C setreuid16
+source "package/syscall/sys_setreuid16/setreuid16_common/Kconfig"
+
+endif # PK_SYS_SETREUID16

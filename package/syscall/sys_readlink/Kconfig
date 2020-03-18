@@ -1,0 +1,9 @@
+menuconfig PK_SYS_READLINK
+	bool "sys_readlink"
+
+if PK_SYS_READLINK
+
+# C readlink
+source "package/syscall/sys_readlink/readlink_common/Kconfig"
+
+endif # PK_SYS_READLINK

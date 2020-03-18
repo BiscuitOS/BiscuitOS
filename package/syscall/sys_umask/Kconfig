@@ -1,0 +1,9 @@
+menuconfig PK_SYS_UMASK
+	bool "sys_umask"
+
+if PK_SYS_UMASK
+
+# C umask
+source "package/syscall/sys_umask/umask_common/Kconfig"
+
+endif # PK_SYS_UMASK

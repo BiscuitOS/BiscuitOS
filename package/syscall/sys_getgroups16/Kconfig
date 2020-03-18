@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETGROUPS16
+	bool "sys_getgroups16"
+
+if PK_SYS_GETGROUPS16
+
+# C getgroups16
+source "package/syscall/sys_getgroups16/getgroups16_common/Kconfig"
+
+endif # PK_SYS_GETGROUPS16

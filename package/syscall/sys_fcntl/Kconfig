@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FCNTL
+	bool "sys_fcntl"
+
+if PK_SYS_FCNTL
+
+# C fcntl
+source "package/syscall/sys_fcntl/fcntl_common/Kconfig"
+
+endif # PK_SYS_FCNTL

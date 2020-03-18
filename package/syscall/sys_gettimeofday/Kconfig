@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETTIMEOFDAY
+	bool "sys_gettimeofday"
+
+if PK_SYS_GETTIMEOFDAY
+
+# C gettimeofday
+source "package/syscall/sys_gettimeofday/gettimeofday_common/Kconfig"
+
+endif # PK_SYS_GETTIMEOFDAY

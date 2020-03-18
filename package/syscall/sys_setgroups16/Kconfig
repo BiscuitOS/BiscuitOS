@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETGROUPS16
+	bool "sys_setgroups16"
+
+if PK_SYS_SETGROUPS16
+
+# C setgroups16
+source "package/syscall/sys_setgroups16/setgroups16_common/Kconfig"
+
+endif # PK_SYS_SETGROUPS16

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_REBOOT
+	bool "sys_reboot"
+
+if PK_SYS_REBOOT
+
+# C reboot
+source "package/syscall/sys_reboot/reboot_common/Kconfig"
+
+endif # PK_SYS_REBOOT

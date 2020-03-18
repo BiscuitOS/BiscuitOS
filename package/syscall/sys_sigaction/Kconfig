@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SIGACTION
+	bool "sys_sigaction"
+
+if PK_SYS_SIGACTION
+
+# C sigaction
+source "package/syscall/sys_sigaction/sigaction_common/Kconfig"
+
+endif # PK_SYS_SIGACTION

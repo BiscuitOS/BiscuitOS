@@ -1,0 +1,9 @@
+menuconfig PK_SYS_DUP
+	bool "sys_dup"
+
+if PK_SYS_DUP
+
+# C dup
+source "package/syscall/sys_dup/dup_common/Kconfig"
+
+endif # PK_SYS_DUP

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SIGSUSPEND
+	bool "sys_sigsuspend"
+
+if PK_SYS_SIGSUSPEND
+
+# C sigsuspend
+source "package/syscall/sys_sigsuspend/sigsuspend_common/Kconfig"
+
+endif # PK_SYS_SIGSUSPEND

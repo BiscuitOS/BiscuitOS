@@ -1,0 +1,9 @@
+menuconfig PK_SYS_ACCT
+	bool "sys_acct"
+
+if PK_SYS_ACCT
+
+# C acct
+source "package/syscall/sys_acct/acct_common/Kconfig"
+
+endif # PK_SYS_ACCT

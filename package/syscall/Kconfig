@@ -6,6 +6,9 @@ if PK_SYSCALL
 # sys_access
 source "package/syscall/sys_access/Kconfig"
 
+# sys_acct
+source "package/syscall/sys_acct/Kconfig"
+
 # sys_brk
 source "package/syscall/sys_brk/Kconfig"
 
@@ -15,11 +18,20 @@ source "package/syscall/sys_chdir/Kconfig"
 # sys_chmod
 source "package/syscall/sys_chmod/Kconfig"
 
+# sys_chroot
+source "package/syscall/sys_chroot/Kconfig"
+
 # sys_close
 source "package/syscall/sys_close/Kconfig"
 
 # sys_creat
 source "package/syscall/sys_creat/Kconfig"
+
+# sys_dup
+source "package/syscall/sys_dup/Kconfig"
+
+# sys_dup2
+source "package/syscall/sys_dup2/Kconfig"
 
 # sys_execve
 source "package/syscall/sys_execve/Kconfig"
@@ -27,14 +39,47 @@ source "package/syscall/sys_execve/Kconfig"
 # sys_exit
 source "package/syscall/sys_exit/Kconfig"
 
+# sys_fcntl.h
+source "package/syscall/sys_fcntl/Kconfig"
+
 # sys_fork
 source "package/syscall/sys_fork/Kconfig"
+
+# sys_getcwd
+source "package/syscall/sys_getcwd/Kconfig"
+
+# sys_getgid16
+source "package/syscall/sys_getgid16/Kconfig"
+
+# sys_getgroups16
+source "package/syscall/sys_getgroups16/Kconfig"
+
+# sys_getpgid
+source "package/syscall/sys_getpgid/Kconfig"
 
 # sys_getpid
 source "package/syscall/sys_getpid/Kconfig"
 
+# sys_getpgrp
+source "package/syscall/sys_getpgrp/Kconfig"
+
+# sys_getppid
+source "package/syscall/sys_getppid/Kconfig"
+
+# sys_getrlimit
+source "package/syscall/sys_getrlimit/Kconfig"
+
+# sys_getrusage
+source "package/syscall/sys_getrusage/Kconfig"
+
+# sys_gettimeofday
+source "package/syscall/sys_gettimeofday/Kconfig"
+
 # sys_getuid16
 source "package/syscall/sys_getuid16/Kconfig"
+
+# sys_ioctl
+source "package/syscall/sys_ioctl/Kconfig"
 
 # sys_kill
 source "package/syscall/sys_kill/Kconfig"
@@ -45,6 +90,9 @@ source "package/syscall/sys_link/Kconfig"
 # sys_lseek
 source "package/syscall/sys_lseek/Kconfig"
 
+# sys_mmap2
+source "package/syscall/sys_mmap2/Kconfig"
+
 # sys_mkdir
 source "package/syscall/sys_mkdir/Kconfig"
 
@@ -53,6 +101,9 @@ source "package/syscall/sys_mknod/Kconfig"
 
 # sys_mount
 source "package/syscall/sys_mount/Kconfig"
+
+# sys_munmap
+source "package/syscall/sys_munmap/Kconfig"
 
 # sys_nice
 source "package/syscall/sys_nice/Kconfig"
@@ -63,11 +114,20 @@ source "package/syscall/sys_open/Kconfig"
 # sys_pause
 source "package/syscall/sys_pause/Kconfig"
 
+# sys_pipe
+source "package/syscall/sys_pipe/Kconfig"
+
 # sys_unlink
 source "package/syscall/sys_unlink/Kconfig"
 
 # sys_read
 source "package/syscall/sys_read/Kconfig"
+
+# sys_readlink
+source "package/syscall/sys_readlink/Kconfig"
+
+# sys_reboot
+source "package/syscall/sys_reboot/Kconfig"
 
 # sys_rename
 source "package/syscall/sys_rename/Kconfig"
@@ -75,11 +135,62 @@ source "package/syscall/sys_rename/Kconfig"
 # sys_rmdir
 source "package/syscall/sys_rmdir/Kconfig"
 
+# sys_setgid16
+source "package/syscall/sys_setgid16/Kconfig"
+
+# sys_setgroups16
+source "package/syscall/sys_setgroups16/Kconfig"
+
+# sys_sethostname
+source "package/syscall/sys_sethostname/Kconfig"
+
+# sys_setpgid
+source "package/syscall/sys_setpgid/Kconfig"
+
+# sys_setregid16
+source "package/syscall/sys_setregid16/Kconfig"
+
+# sys_setreuid16
+source "package/syscall/sys_setreuid16/Kconfig"
+
+# sys_setrlimit
+source "package/syscall/sys_setrlimit/Kconfig"
+
+# sys_setsid
+source "package/syscall/sys_setsid/Kconfig"
+
+# sys_settimeofday
+source "package/syscall/sys_settimeofday/Kconfig"
+
 # sys_setuid16
 source "package/syscall/sys_setuid16/Kconfig"
 
+# sys_sigaction
+source "package/syscall/sys_sigaction/Kconfig"
+
+# sys_sigpending
+source "package/syscall/sys_sigpending/Kconfig"
+
+# sys_sigsuspend
+source "package/syscall/sys_sigsuspend/Kconfig"
+
+# sys_symlink
+source "package/syscall/sys_symlink/Kconfig"
+
 # sys_sync
 source "package/syscall/sys_sync/Kconfig"
+
+# sys_times
+source "package/syscall/sys_times/Kconfig"
+
+# sys_umask
+source "package/syscall/sys_umask/Kconfig"
+
+# sys_uselib
+source "package/syscall/sys_uselib/Kconfig"
+
+# sys_ustat
+source "package/syscall/sys_ustat/Kconfig"
 
 # sys_write
 source "package/syscall/sys_write/Kconfig"

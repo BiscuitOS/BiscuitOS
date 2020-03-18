@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETSID
+	bool "sys_setsid"
+
+if PK_SYS_SETSID
+
+# C setsid
+source "package/syscall/sys_setsid/setsid_common/Kconfig"
+
+endif # PK_SYS_SETSID

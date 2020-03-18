@@ -1,0 +1,9 @@
+menuconfig PK_SYS_USELIB
+	bool "sys_uselib"
+
+if PK_SYS_USELIB
+
+# C uselib
+source "package/syscall/sys_uselib/uselib_common/Kconfig"
+
+endif # PK_SYS_USELIB

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_MMAP2
+	bool "sys_mmap2"
+
+if PK_SYS_MMAP2
+
+# C mmap2
+source "package/syscall/sys_mmap2/mmap2_common/Kconfig"
+
+endif # PK_SYS_MMAP2

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETPPID
+	bool "sys_getppid"
+
+if PK_SYS_GETPPID
+
+# C getppid
+source "package/syscall/sys_getppid/getppid_common/Kconfig"
+
+endif # PK_SYS_GETPPID

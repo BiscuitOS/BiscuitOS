@@ -1,0 +1,9 @@
+menuconfig PK_SYS_MUNMAP
+	bool "sys_munmap"
+
+if PK_SYS_MUNMAP
+
+# C munmap
+source "package/syscall/sys_munmap/munmap_common/Kconfig"
+
+endif # PK_SYS_MUNMAP

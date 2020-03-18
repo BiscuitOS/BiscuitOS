@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETREGID16
+	bool "sys_setregid16"
+
+if PK_SYS_SETREGID16
+
+# C setregid16
+source "package/syscall/sys_setregid16/setregid16_common/Kconfig"
+
+endif # PK_SYS_SETREGID16

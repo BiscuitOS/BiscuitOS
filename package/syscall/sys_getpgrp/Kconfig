@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETPGRP
+	bool "sys_getpgrp"
+
+if PK_SYS_GETPGRP
+
+# C getpgrp
+source "package/syscall/sys_getpgrp/getpgrp_common/Kconfig"
+
+endif # PK_SYS_GETPGRP

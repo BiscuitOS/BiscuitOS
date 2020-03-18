@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETRUSAGE
+	bool "sys_getrusage"
+
+if PK_SYS_GETRUSAGE
+
+# C getrusage
+source "package/syscall/sys_getrusage/getrusage_common/Kconfig"
+
+endif # PK_SYS_GETRUSAGE

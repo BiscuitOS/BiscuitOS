@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SIGPENDING
+	bool "sys_sigpending"
+
+if PK_SYS_SIGPENDING
+
+# C sigpending
+source "package/syscall/sys_sigpending/sigpending_common/Kconfig"
+
+endif # PK_SYS_SIGPENDING

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETTIMEOFDAY
+	bool "sys_settimeofday"
+
+if PK_SYS_SETTIMEOFDAY
+
+# C settimeofday
+source "package/syscall/sys_settimeofday/settimeofday_common/Kconfig"
+
+endif # PK_SYS_SETTIMEOFDAY

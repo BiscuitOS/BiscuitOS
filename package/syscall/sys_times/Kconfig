@@ -1,0 +1,9 @@
+menuconfig PK_SYS_TIMES
+	bool "sys_times"
+
+if PK_SYS_TIMES
+
+# C times
+source "package/syscall/sys_times/times_common/Kconfig"
+
+endif # PK_SYS_TIMES

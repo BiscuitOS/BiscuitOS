@@ -1,0 +1,9 @@
+menuconfig PK_SYS_CHROOT
+	bool "sys_chroot"
+
+if PK_SYS_CHROOT
+
+# C chroot
+source "package/syscall/sys_chroot/chroot_common/Kconfig"
+
+endif # PK_SYS_CHROOT

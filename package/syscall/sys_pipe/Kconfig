@@ -1,0 +1,9 @@
+menuconfig PK_SYS_PIPE
+	bool "sys_pipe"
+
+if PK_SYS_PIPE
+
+# C pipe
+source "package/syscall/sys_pipe/pipe_common/Kconfig"
+
+endif # PK_SYS_PIPE
