@@ -1,0 +1,9 @@
+menuconfig PK_SYS_CHOWN16
+	bool "sys_chown16"
+
+if PK_SYS_CHOWN16
+
+# C chown16
+source "package/syscall/sys_chown16/chown16_common/Kconfig"
+
+endif # PK_SYS_CHOWN16

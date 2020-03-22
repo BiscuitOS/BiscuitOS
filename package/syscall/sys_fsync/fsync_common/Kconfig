@@ -1,0 +1,55 @@
+menuconfig PK_SYS_FSYNC_C
+	bool "fsync() in C"
+
+if PK_SYS_FSYNC_C
+
+config PK_SYS_FSYNC_C_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_SYS_FSYNC_C_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_SYS_FSYNC_C_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/SystemCall/sys_fsync/fsync_common"
+	string "url"
+
+config PK_SYS_FSYNC_C_GITHUB
+	string "GitHub"
+
+config PK_SYS_FSYNC_C_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_SYS_FSYNC_C_CSRCFILE
+	string "Compile source code list"
+
+config PK_SYS_FSYNC_C_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_SYS_FSYNC_C_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_SYS_FSYNC_C_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_SYS_FSYNC_C_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_SYS_FSYNC_C_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_SYS_FSYNC_C_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_SYS_FSYNC_C_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_SYS_FSYNC_C_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_SYS_FSYNC_C_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_SYS_FSYNC_C

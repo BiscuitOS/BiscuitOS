@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FDATASYNC
+	bool "sys_fdatasync"
+
+if PK_SYS_FDATASYNC
+
+# C fdatasync
+source "package/syscall/sys_fdatasync/fdatasync_common/Kconfig"
+
+endif # PK_SYS_FDATASYNC

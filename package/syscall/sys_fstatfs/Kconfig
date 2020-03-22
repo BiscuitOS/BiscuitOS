@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FSTATFS
+	bool "sys_fstatfs"
+
+if PK_SYS_FSTATFS
+
+# C fstatfs
+source "package/syscall/sys_fstatfs/fstatfs_common/Kconfig"
+
+endif # PK_SYS_FSTATFS

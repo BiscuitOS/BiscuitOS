@@ -1,0 +1,9 @@
+menuconfig PK_SYS_STAT64
+	bool "sys_stat64"
+
+if PK_SYS_STAT64
+
+# C stat64
+source "package/syscall/sys_stat64/stat64_common/Kconfig"
+
+endif # PK_SYS_STAT64

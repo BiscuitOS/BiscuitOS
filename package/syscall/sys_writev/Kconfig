@@ -1,0 +1,9 @@
+menuconfig PK_SYS_WRITEV
+	bool "sys_writev"
+
+if PK_SYS_WRITEV
+
+# C writev
+source "package/syscall/sys_writev/writev_common/Kconfig"
+
+endif # PK_SYS_WRITEV

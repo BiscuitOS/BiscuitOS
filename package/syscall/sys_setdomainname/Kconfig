@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETDOMAINNAME
+	bool "sys_setdomainname"
+
+if PK_SYS_SETDOMAINNAME
+
+# C setdomainname
+source "package/syscall/sys_setdomainname/setdomainname_common/Kconfig"
+
+endif # PK_SYS_SETDOMAINNAME

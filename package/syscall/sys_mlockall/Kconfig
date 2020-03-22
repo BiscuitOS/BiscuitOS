@@ -1,0 +1,9 @@
+menuconfig PK_SYS_MLOCKALL
+	bool "sys_mlockall"
+
+if PK_SYS_MLOCKALL
+
+# C mlockall
+source "package/syscall/sys_mlockall/mlockall_common/Kconfig"
+
+endif # PK_SYS_MLOCKALL

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_TRUNCATE
+	bool "sys_truncate"
+
+if PK_SYS_TRUNCATE
+
+# C truncate
+source "package/syscall/sys_truncate/truncate_common/Kconfig"
+
+endif # PK_SYS_TRUNCATE

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_TRUNCATE64
+	bool "sys_truncate64"
+
+if PK_SYS_TRUNCATE64
+
+# C truncate64
+source "package/syscall/sys_truncate64/truncate64_common/Kconfig"
+
+endif # PK_SYS_TRUNCATE64

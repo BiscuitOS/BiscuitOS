@@ -1,0 +1,9 @@
+menuconfig PK_SYS_LSTAT64
+	bool "sys_lstat64"
+
+if PK_SYS_LSTAT64
+
+# C lstat64
+source "package/syscall/sys_lstat64/lstat64_common/Kconfig"
+
+endif # PK_SYS_LSTAT64

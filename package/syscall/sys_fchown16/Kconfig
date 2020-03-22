@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FCHOWN16
+	bool "sys_fchown16"
+
+if PK_SYS_FCHOWN16
+
+# C fchown16
+source "package/syscall/sys_fchown16/fchown16_common/Kconfig"
+
+endif # PK_SYS_FCHOWN16

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_NEWFSTAT
+	bool "sys_newfstat"
+
+if PK_SYS_NEWFSTAT
+
+# C newfstat
+source "package/syscall/sys_newfstat/newfstat_common/Kconfig"
+
+endif # PK_SYS_NEWFSTAT

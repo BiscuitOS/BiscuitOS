@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETDENTS
+	bool "sys_getdents"
+
+if PK_SYS_GETDENTS
+
+# C getdents
+source "package/syscall/sys_getdents/getdents_common/Kconfig"
+
+endif # PK_SYS_GETDENTS

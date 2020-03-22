@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FCHMOD
+	bool "sys_fchmod"
+
+if PK_SYS_FCHMOD
+
+# C fchmod
+source "package/syscall/sys_fchmod/fchmod_common/Kconfig"
+
+endif # PK_SYS_FCHMOD

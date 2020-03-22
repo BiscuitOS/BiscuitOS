@@ -1,0 +1,9 @@
+menuconfig PK_SYS_NEWUNAME
+	bool "sys_newuname"
+
+if PK_SYS_NEWUNAME
+
+# C newuname
+source "package/syscall/sys_newuname/newuname_common/Kconfig"
+
+endif # PK_SYS_NEWUNAME

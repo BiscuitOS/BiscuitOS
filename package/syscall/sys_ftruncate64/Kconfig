@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FTRUNCATE64
+	bool "sys_ftruncate64"
+
+if PK_SYS_FTRUNCATE64
+
+# C ftruncate64
+source "package/syscall/sys_ftruncate64/ftruncate64_common/Kconfig"
+
+endif # PK_SYS_FTRUNCATE64

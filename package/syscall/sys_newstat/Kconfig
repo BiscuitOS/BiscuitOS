@@ -1,0 +1,9 @@
+menuconfig PK_SYS_NEWSTAT
+	bool "sys_newstat"
+
+if PK_SYS_NEWSTAT
+
+# C newstat
+source "package/syscall/sys_newstat/newstat_common/Kconfig"
+
+endif # PK_SYS_NEWSTAT

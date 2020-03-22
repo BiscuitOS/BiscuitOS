@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FTRUNCATE
+	bool "sys_ftruncate"
+
+if PK_SYS_FTRUNCATE
+
+# C ftruncate
+source "package/syscall/sys_ftruncate/ftruncate_common/Kconfig"
+
+endif # PK_SYS_FTRUNCATE

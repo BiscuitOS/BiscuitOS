@@ -18,6 +18,9 @@ source "package/syscall/sys_chdir/Kconfig"
 # sys_chmod
 source "package/syscall/sys_chmod/Kconfig"
 
+# sys_chown16
+source "package/syscall/sys_chown16/Kconfig"
+
 # sys_chroot
 source "package/syscall/sys_chroot/Kconfig"
 
@@ -39,32 +42,89 @@ source "package/syscall/sys_execve/Kconfig"
 # sys_exit
 source "package/syscall/sys_exit/Kconfig"
 
+# sys_fchdir
+source "package/syscall/sys_fchdir/Kconfig"
+
+# sys_fchmod
+source "package/syscall/sys_fchmod/Kconfig"
+
+# sys_fchown16
+source "package/syscall/sys_fchown16/Kconfig"
+
 # sys_fcntl.h
 source "package/syscall/sys_fcntl/Kconfig"
+
+# sys_fdatasync.h
+source "package/syscall/sys_fdatasync/Kconfig"
+
+# sys_flock
+source "package/syscall/sys_flock/Kconfig"
 
 # sys_fork
 source "package/syscall/sys_fork/Kconfig"
 
+# sys_fstat64
+source "package/syscall/sys_fstat64/Kconfig"
+
+# sys_fstatfs
+source "package/syscall/sys_fstatfs/Kconfig"
+
+# sys_fsync
+source "package/syscall/sys_fsync/Kconfig"
+
+# sys_ftruncate
+source "package/syscall/sys_ftruncate/Kconfig"
+
+# sys_ftruncate64
+source "package/syscall/sys_ftruncate64/Kconfig"
+
 # sys_getcwd
 source "package/syscall/sys_getcwd/Kconfig"
+
+# sys_getdents
+source "package/syscall/sys_getdents/Kconfig"
+
+# sys_getegid
+source "package/syscall/sys_getegid/Kconfig"
+
+# sys_geteuid
+source "package/syscall/sys_geteuid/Kconfig"
+
+# sys_getgid
+source "package/syscall/sys_getgid/Kconfig"
 
 # sys_getgid16
 source "package/syscall/sys_getgid16/Kconfig"
 
+# sys_getgroups
+source "package/syscall/sys_getgroups/Kconfig"
+
 # sys_getgroups16
 source "package/syscall/sys_getgroups16/Kconfig"
+
+# sys_getitimer
+source "package/syscall/sys_getitimer/Kconfig"
 
 # sys_getpgid
 source "package/syscall/sys_getpgid/Kconfig"
 
-# sys_getpid
-source "package/syscall/sys_getpid/Kconfig"
-
 # sys_getpgrp
 source "package/syscall/sys_getpgrp/Kconfig"
 
+# sys_getpid
+source "package/syscall/sys_getpid/Kconfig"
+
 # sys_getppid
 source "package/syscall/sys_getppid/Kconfig"
+
+# sys_getpriority
+source "package/syscall/sys_getpriority/Kconfig"
+
+# sys_getresgid16
+source "package/syscall/sys_getresgid16/Kconfig"
+
+# sys_getresuid16
+source "package/syscall/sys_getresuid16/Kconfig"
 
 # sys_getrlimit
 source "package/syscall/sys_getrlimit/Kconfig"
@@ -72,11 +132,20 @@ source "package/syscall/sys_getrlimit/Kconfig"
 # sys_getrusage
 source "package/syscall/sys_getrusage/Kconfig"
 
+# sys_getsid
+source "package/syscall/sys_getsid/Kconfig"
+
 # sys_gettimeofday
 source "package/syscall/sys_gettimeofday/Kconfig"
 
+# sys_getuid
+source "package/syscall/sys_getuid/Kconfig"
+
 # sys_getuid16
 source "package/syscall/sys_getuid16/Kconfig"
+
+# sys_hello_BiscuitOS
+source "package/syscall/sys_hello_BiscuitOS/Kconfig"
 
 # sys_ioctl
 source "package/syscall/sys_ioctl/Kconfig"
@@ -84,11 +153,26 @@ source "package/syscall/sys_ioctl/Kconfig"
 # sys_kill
 source "package/syscall/sys_kill/Kconfig"
 
+# sys_lchown
+source "package/syscall/sys_lchown/Kconfig"
+
 # sys_link
 source "package/syscall/sys_link/Kconfig"
 
+# sys_llseek
+source "package/syscall/sys_llseek/Kconfig"
+
 # sys_lseek
 source "package/syscall/sys_lseek/Kconfig"
+
+# sys_lstat64
+source "package/syscall/sys_lstat64/Kconfig"
+
+# sys_mlock
+source "package/syscall/sys_mlock/Kconfig"
+
+# sys_mlockall
+source "package/syscall/sys_mlockall/Kconfig"
 
 # sys_mmap2
 source "package/syscall/sys_mmap2/Kconfig"
@@ -102,8 +186,29 @@ source "package/syscall/sys_mknod/Kconfig"
 # sys_mount
 source "package/syscall/sys_mount/Kconfig"
 
+# sys_mprotect
+source "package/syscall/sys_mprotect/Kconfig"
+
+# sys_munlock
+source "package/syscall/sys_munlock/Kconfig"
+
+# sys_munlockall
+source "package/syscall/sys_munlockall/Kconfig"
+
 # sys_munmap
 source "package/syscall/sys_munmap/Kconfig"
+
+# sys_newfstat
+source "package/syscall/sys_newfstat/Kconfig"
+
+# sys_newlstat
+source "package/syscall/sys_newlstat/Kconfig"
+
+# sys_newstat
+source "package/syscall/sys_newstat/Kconfig"
+
+# sys_newuname
+source "package/syscall/sys_newuname/Kconfig"
 
 # sys_nice
 source "package/syscall/sys_nice/Kconfig"
@@ -126,6 +231,9 @@ source "package/syscall/sys_read/Kconfig"
 # sys_readlink
 source "package/syscall/sys_readlink/Kconfig"
 
+# sys_readv
+source "package/syscall/sys_readv/Kconfig"
+
 # sys_reboot
 source "package/syscall/sys_reboot/Kconfig"
 
@@ -135,20 +243,53 @@ source "package/syscall/sys_rename/Kconfig"
 # sys_rmdir
 source "package/syscall/sys_rmdir/Kconfig"
 
+# sys_setfsgid16
+source "package/syscall/sys_setfsgid16/Kconfig"
+
+# sys_setfsuid16
+source "package/syscall/sys_setfsuid16/Kconfig"
+
+# sys_setgid
+source "package/syscall/sys_setgid/Kconfig"
+
 # sys_setgid16
 source "package/syscall/sys_setgid16/Kconfig"
+
+# sys_setgroups
+source "package/syscall/sys_setgroups/Kconfig"
 
 # sys_setgroups16
 source "package/syscall/sys_setgroups16/Kconfig"
 
+# sys_setdomainname
+source "package/syscall/sys_setdomainname/Kconfig"
+
 # sys_sethostname
 source "package/syscall/sys_sethostname/Kconfig"
+
+# sys_setitimer
+source "package/syscall/sys_setitimer/Kconfig"
 
 # sys_setpgid
 source "package/syscall/sys_setpgid/Kconfig"
 
+# sys_setpriority
+source "package/syscall/sys_setpriority/Kconfig"
+
+# sys_setregid
+source "package/syscall/sys_setregid/Kconfig"
+
 # sys_setregid16
 source "package/syscall/sys_setregid16/Kconfig"
+
+# sys_setresgid16
+source "package/syscall/sys_setresgid16/Kconfig"
+
+# sys_setresuid16
+source "package/syscall/sys_setresuid16/Kconfig"
+
+# sys_setreuid
+source "package/syscall/sys_setreuid/Kconfig"
 
 # sys_setreuid16
 source "package/syscall/sys_setreuid16/Kconfig"
@@ -162,6 +303,9 @@ source "package/syscall/sys_setsid/Kconfig"
 # sys_settimeofday
 source "package/syscall/sys_settimeofday/Kconfig"
 
+# sys_setuid
+source "package/syscall/sys_setuid/Kconfig"
+
 # sys_setuid16
 source "package/syscall/sys_setuid16/Kconfig"
 
@@ -171,8 +315,17 @@ source "package/syscall/sys_sigaction/Kconfig"
 # sys_sigpending
 source "package/syscall/sys_sigpending/Kconfig"
 
+# sys_sigprocmask
+source "package/syscall/sys_sigprocmask/Kconfig"
+
 # sys_sigsuspend
 source "package/syscall/sys_sigsuspend/Kconfig"
+
+# sys_stat64
+source "package/syscall/sys_stat64/Kconfig"
+
+# sys_statfs
+source "package/syscall/sys_statfs/Kconfig"
 
 # sys_symlink
 source "package/syscall/sys_symlink/Kconfig"
@@ -180,8 +333,20 @@ source "package/syscall/sys_symlink/Kconfig"
 # sys_sync
 source "package/syscall/sys_sync/Kconfig"
 
+# sys_sysinfo
+source "package/syscall/sys_sysinfo/Kconfig"
+
+# sys_syslog
+source "package/syscall/sys_syslog/Kconfig"
+
 # sys_times
 source "package/syscall/sys_times/Kconfig"
+
+# sys_truncate
+source "package/syscall/sys_truncate/Kconfig"
+
+# sys_truncate64
+source "package/syscall/sys_truncate64/Kconfig"
 
 # sys_umask
 source "package/syscall/sys_umask/Kconfig"
@@ -192,7 +357,16 @@ source "package/syscall/sys_uselib/Kconfig"
 # sys_ustat
 source "package/syscall/sys_ustat/Kconfig"
 
+# sys_vfork
+source "package/syscall/sys_vfork/Kconfig"
+
+# sys_vhangup
+source "package/syscall/sys_vhangup/Kconfig"
+
 # sys_write
 source "package/syscall/sys_write/Kconfig"
+
+# sys_writev
+source "package/syscall/sys_writev/Kconfig"
 
 endif # PK_SYSCALL

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETITIMER
+	bool "sys_setitimer"
+
+if PK_SYS_SETITIMER
+
+# C setitimer
+source "package/syscall/sys_setitimer/setitimer_common/Kconfig"
+
+endif # PK_SYS_SETITIMER

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETRESUID16
+	bool "sys_getresuid16"
+
+if PK_SYS_GETRESUID16
+
+# C getresuid16
+source "package/syscall/sys_getresuid16/getresuid16_common/Kconfig"
+
+endif # PK_SYS_GETRESUID16

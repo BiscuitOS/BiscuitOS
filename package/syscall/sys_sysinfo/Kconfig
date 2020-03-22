@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SYSINFO
+	bool "sys_sysinfo"
+
+if PK_SYS_SYSINFO
+
+# C sysinfo
+source "package/syscall/sys_sysinfo/sysinfo_common/Kconfig"
+
+endif # PK_SYS_SYSINFO

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_VHANGUP
+	bool "sys_vhangup"
+
+if PK_SYS_VHANGUP
+
+# C vhangup
+source "package/syscall/sys_vhangup/vhangup_common/Kconfig"
+
+endif # PK_SYS_VHANGUP

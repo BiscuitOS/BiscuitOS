@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SYSLOG
+	bool "sys_syslog"
+
+if PK_SYS_SYSLOG
+
+# C syslog
+source "package/syscall/sys_syslog/syslog_common/Kconfig"
+
+endif # PK_SYS_SYSLOG

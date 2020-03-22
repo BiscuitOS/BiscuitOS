@@ -1,0 +1,9 @@
+menuconfig PK_SYS_READV
+	bool "sys_readv"
+
+if PK_SYS_READV
+
+# C readv
+source "package/syscall/sys_readv/readv_common/Kconfig"
+
+endif # PK_SYS_READV

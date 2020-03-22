@@ -1,0 +1,9 @@
+menuconfig PK_SYS_MUNLOCK
+	bool "sys_munlock"
+
+if PK_SYS_MUNLOCK
+
+# C munlock
+source "package/syscall/sys_munlock/munlock_common/Kconfig"
+
+endif # PK_SYS_MUNLOCK

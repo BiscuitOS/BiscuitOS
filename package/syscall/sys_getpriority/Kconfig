@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETPRIORITY
+	bool "sys_getpriority"
+
+if PK_SYS_GETPRIORITY
+
+# C getpriority
+source "package/syscall/sys_getpriority/getpriority_common/Kconfig"
+
+endif # PK_SYS_GETPRIORITY

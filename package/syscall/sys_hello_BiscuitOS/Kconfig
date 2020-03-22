@@ -1,0 +1,10 @@
+menuconfig PK_SYS_HELLO_BISCUITOS
+	bool "sys_hello_BiscuitOS"
+	select PK_STRACE
+
+if PK_SYS_HELLO_BISCUITOS
+
+# C hello_BiscuitOS
+source "package/syscall/sys_hello_BiscuitOS/hello_BiscuitOS_common/Kconfig"
+
+endif # PK_SYS_HELLO_BISCUITOS

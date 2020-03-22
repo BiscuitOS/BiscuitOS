@@ -1,0 +1,9 @@
+menuconfig PK_SYS_SETFSGID16
+	bool "sys_setfsgid16"
+
+if PK_SYS_SETFSGID16
+
+# C setfsgid16
+source "package/syscall/sys_setfsgid16/setfsgid16_common/Kconfig"
+
+endif # PK_SYS_SETFSGID16

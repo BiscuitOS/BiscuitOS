@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FLOCK
+	bool "sys_flock"
+
+if PK_SYS_FLOCK
+
+# C flock
+source "package/syscall/sys_flock/flock_common/Kconfig"
+
+endif # PK_SYS_FLOCK

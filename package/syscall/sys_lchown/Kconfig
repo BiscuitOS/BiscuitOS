@@ -1,0 +1,9 @@
+menuconfig PK_SYS_LCHOWN
+	bool "sys_lchown"
+
+if PK_SYS_LCHOWN
+
+# C lchown
+source "package/syscall/sys_lchown/lchown_common/Kconfig"
+
+endif # PK_SYS_LCHOWN

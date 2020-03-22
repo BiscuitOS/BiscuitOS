@@ -1,0 +1,9 @@
+menuconfig PK_SYS_LLSEEK
+	bool "sys_llseek"
+
+if PK_SYS_LLSEEK
+
+# C llseek
+source "package/syscall/sys_llseek/llseek_common/Kconfig"
+
+endif # PK_SYS_LLSEEK

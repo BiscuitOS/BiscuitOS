@@ -1,0 +1,9 @@
+menuconfig PK_SYS_GETRESGID16
+	bool "sys_getresgid16"
+
+if PK_SYS_GETRESGID16
+
+# C getresgid16
+source "package/syscall/sys_getresgid16/getresgid16_common/Kconfig"
+
+endif # PK_SYS_GETRESGID16

@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FSTAT64
+	bool "sys_fstat64"
+
+if PK_SYS_FSTAT64
+
+# C fstat64
+source "package/syscall/sys_fstat64/fstat64_common/Kconfig"
+
+endif # PK_SYS_FSTAT64

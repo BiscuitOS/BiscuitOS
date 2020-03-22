@@ -1,0 +1,9 @@
+menuconfig PK_SYS_FSYNC
+	bool "sys_fsync"
+
+if PK_SYS_FSYNC
+
+# C fsync
+source "package/syscall/sys_fsync/fsync_common/Kconfig"
+
+endif # PK_SYS_FSYNC
