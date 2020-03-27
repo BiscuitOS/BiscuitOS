@@ -1,5 +1,6 @@
 menuconfig PK_SYS_HELLO_BISCUITOS_C
 	bool "hello_BiscuitOS() in C"
+	select PK_STRACE
 
 if PK_SYS_HELLO_BISCUITOS_C
 
@@ -19,7 +20,7 @@ config PK_SYS_HELLO_BISCUITOS_C_GITHUB
 	string "GitHub"
 
 config PK_SYS_HELLO_BISCUITOS_C_SRCFILE
-	default "main.c Makefile"
+	default "main.c Makefile BiscuitOS_syscall.c"
 	string "Source code list"
 
 config PK_SYS_HELLO_BISCUITOS_C_CSRCFILE

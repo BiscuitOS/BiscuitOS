@@ -4,6 +4,9 @@ menuconfig PK_SYS_HELLO_BISCUITOS
 
 if PK_SYS_HELLO_BISCUITOS
 
+# C debug_BiscuitOS
+source "package/syscall/sys_hello_BiscuitOS/debug_BiscuitOS_common/Kconfig"
+
 # C hello_BiscuitOS
 source "package/syscall/sys_hello_BiscuitOS/hello_BiscuitOS_common/Kconfig"
 
@@ -28,8 +31,14 @@ source "package/syscall/sys_hello_BiscuitOS/SYSCALL_DEFINE5_common/Kconfig"
 # SYSCALL_DEFINE6
 source "package/syscall/sys_hello_BiscuitOS/SYSCALL_DEFINE6_common/Kconfig"
 
+# Paramenter: Array
+source "package/syscall/sys_hello_BiscuitOS/SYSCALL_Array_common/Kconfig"
+
 # Paramenter: Integer
 source "package/syscall/sys_hello_BiscuitOS/SYSCALL_Integer_common/Kconfig"
+
+# Paramenter: Pointer
+source "package/syscall/sys_hello_BiscuitOS/SYSCALL_Pointer_common/Kconfig"
 
 # Paramenter: Strings
 source "package/syscall/sys_hello_BiscuitOS/SYSCALL_Strings_common/Kconfig"

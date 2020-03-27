@@ -1,5 +1,6 @@
 menuconfig PK_SYS_SYSCALL_DEFINE0
 	bool "SYSCALL_DEFINE0(): Zero Paramenter"
+	select PK_STRACE
 
 if PK_SYS_SYSCALL_DEFINE0
 

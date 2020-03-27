@@ -206,7 +206,11 @@ echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
-echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
+if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
+	echo -e '\tmake  ARCH=$(ARCH) bzImage -j4 ;\' >> ${MF}
+else
+	echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
+fi
 echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
 echo 'run:' >> ${MF}

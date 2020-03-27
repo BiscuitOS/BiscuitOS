@@ -1,5 +1,6 @@
 menuconfig PK_SYS_SYSCALL_INTEGER
 	bool "Syscall paramenter: Ineger"
+	select PK_STRACE
 
 if PK_SYS_SYSCALL_INTEGER
 

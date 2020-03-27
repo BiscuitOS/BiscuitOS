@@ -1,5 +1,6 @@
 menuconfig PK_SYS_SYSCALL_DEFINE6
 	bool "SYSCALL_DEFINE6(): Six Paramenter"
+	select PK_STRACE
 
 if PK_SYS_SYSCALL_DEFINE6
 

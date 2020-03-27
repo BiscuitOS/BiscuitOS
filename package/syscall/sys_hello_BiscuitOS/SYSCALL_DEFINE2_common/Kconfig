@@ -1,5 +1,6 @@
 menuconfig PK_SYS_SYSCALL_DEFINE2
 	bool "SYSCALL_DEFINE2(): Two Paramenter"
+	select PK_STRACE
 
 if PK_SYS_SYSCALL_DEFINE2
 
