@@ -6,4 +6,7 @@ if PK_SYS_OPEN
 # C open
 source "package/syscall/sys_open/open_common/Kconfig"
 
+# getname
+source "package/syscall/sys_open/getname_common/Kconfig"
+
 endif # PK_SYS_OPEN

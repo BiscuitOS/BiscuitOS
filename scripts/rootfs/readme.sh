@@ -544,12 +544,15 @@ echo '{' >> ${MF}
 if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
 	echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
-	echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+	if [ ${FS_TYPE_TOOLS}X = "mkfs.ext4X" ]; then
+		echo -e '\t${FS_TYPE_TOOLS} -E lazy_itable_init=1,lazy_journal_init=1 -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+	else
+		echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+	fi
 	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\tsudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk \' >> ${MF}
 	echo -e '\t              ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
 	echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
-	echo -e '\tsync' >> ${MF}
 	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	if [ ${SUPPORT_RAMDISK} = "Y" ]; then
 		echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
