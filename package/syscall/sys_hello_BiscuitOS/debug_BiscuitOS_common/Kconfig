@@ -20,7 +20,7 @@ config PK_SYS_DEBUG_BISCUITOS_C_GITHUB
 	string "GitHub"
 
 config PK_SYS_DEBUG_BISCUITOS_C_SRCFILE
-	default "main.c Makefile BiscuitOS_debug.c"
+	default "main.c Makefile BiscuitOS_debug.c BiscuitOS_debug.h"
 	string "Source code list"
 
 config PK_SYS_DEBUG_BISCUITOS_C_CSRCFILE
