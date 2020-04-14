@@ -3,7 +3,7 @@ menuconfig PK_FS_SYSFS
 
 if PK_FS_SYSFS
 
-# sysfs module
-source "package/filesystem/sysfs/sysfs_module/Kconfig"
+# sysfs_bs
+source "package/filesystem/sysfs/sysfs_bs/Kconfig"
 
 endif # PK_FS_SYSFS

@@ -1,0 +1,9 @@
+menuconfig PK_FS_ADFS
+	bool "adfs"
+
+if PK_FS_ADFS
+
+# adfs_bs
+source "package/filesystem/adfs/adfs_bs/Kconfig"
+
+endif # PK_FS_ADFS

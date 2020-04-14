@@ -35,3 +35,6 @@ source kernel/xv6/Kconfig
 
 # Apollo
 source kernel/Apollo/Kconfig
+
+# Kernel History
+source package/history/Kconfig

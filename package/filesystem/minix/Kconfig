@@ -1,0 +1,9 @@
+menuconfig PK_FS_MINIX
+	bool "minix"
+
+if PK_FS_MINIX
+
+# minix_bs
+source "package/filesystem/minix/minix_bs/Kconfig"
+
+endif # PK_FS_MINIX

@@ -508,6 +508,8 @@ case ${ARCH_NAME} in
 	x86)
 		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
+		echo -e '\t-cpu host \' >> ${MF}
+		echo -e '\t-enable-kvm \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
@@ -521,6 +523,8 @@ case ${ARCH_NAME} in
 	x86_64)
 		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
+		echo -e '\t-cpu host \' >> ${MF}
+		echo -e '\t-enable-kvm \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
@@ -542,7 +546,8 @@ echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
 if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
-	echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+	echo -e '\tsudo cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+	echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
 	echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
 	if [ ${FS_TYPE_TOOLS}X = "mkfs.ext4X" ]; then
 		echo -e '\t${FS_TYPE_TOOLS} -E lazy_itable_init=1,lazy_journal_init=1 -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
@@ -704,7 +709,8 @@ elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\tsudo rm -rf ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
 	echo -e '\t# Mount rootfs partition' >> ${MF}
-	echo -e '\tcp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+	echo -e '\tsudo cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+	echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
 	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
 	echo -e '\tsudo losetup -o `expr ${SD_MMC1_BEG} \* 512` ${loopdev} \' >> ${MF}

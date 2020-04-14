@@ -46,7 +46,7 @@ sudo apt-get install -y uml-utilities net-tools
 sudo apt-get install -y libattr1-dev libcap-dev
 sudo apt-get install -y kpartx libsdl2-dev libsdl1.2-dev
 sudo apt-get install -y debootstrap bsdtar
-sudo apt-get install -y libelf-dev
+sudo apt-get install -y libelf-dev gcc-multilib g++-multilib
 
 On 64-Bit Machine:
 

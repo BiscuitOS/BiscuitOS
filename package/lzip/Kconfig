@@ -1,0 +1,53 @@
+menuconfig PK_LZIP
+	bool "lzip"
+
+if PK_LZIP
+
+config PK_LZIP_VERSION
+	default "1.20"
+	string "verstion"
+
+config PK_LZIP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LZIP_URL
+	default "http://download.savannah.gnu.org/releases/lzip"
+	string "url"
+
+config PK_LZIP_GITHUB
+	string "GitHub"
+
+config PK_LZIP_SRCFILE
+	string "Source code list"
+
+config PK_LZIP_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_LZIP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LZIP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LZIP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LZIP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LZIP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LZIP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LZIP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LZIP_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LZIP

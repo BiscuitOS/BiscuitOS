@@ -99,6 +99,12 @@ source package/glibc/Kconfig
 # glproto
 source package/glproto/Kconfig
 
+# gmp
+source package/gmp/Kconfig
+
+# gnutls
+source package/gnutls/Kconfig
+
 # gobject-introspection
 source package/gobject-introspection/Kconfig
 
@@ -162,6 +168,9 @@ source package/kmap/Kconfig
 # ktime
 source package/ktime/Kconfig
 
+# kvm
+source package/kvm/Kconfig
+
 # libdrm
 source package/libdrm/Kconfig
 
@@ -177,11 +186,17 @@ source package/libffi/Kconfig
 # libfontenc
 source package/libfontenc/Kconfig
 
+# libnl
+source package/libnl/Kconfig
+
 # libpciaccess
 source package/libpciaccess/Kconfig
 
 # libpng
 source package/libpng/Kconfig
+
+# libvirt
+source package/libvirt/Kconfig
 
 # libxcb
 source package/libxcb/Kconfig
@@ -222,6 +237,12 @@ source package/libXrender/Kconfig
 # libXxf86vm
 source package/libXxf86vm/Kconfig
 
+# lock
+source package/lock/Kconfig
+
+# lzip
+source package/lzip/Kconfig
+
 # memblock
 source package/memblock/Kconfig
 
@@ -237,6 +258,9 @@ source package/module/Kconfig
 # ncurses
 source package/ncurses/Kconfig
 
+# nettle
+source package/nettle/Kconfig
+
 # openssl
 source package/openssl/Kconfig
 
@@ -251,6 +275,9 @@ source package/pcre/Kconfig
 
 # percpu
 source package/percpu/Kconfig
+
+# pgcache_scan
+source package/pgcache_scan/Kconfig
 
 # pixman
 source package/pixman/Kconfig

@@ -1,0 +1,12 @@
+menuconfig PK_KVM
+	bool "KVM"
+
+if PK_KVM
+
+# kvm_module
+source package/kvm/kvm_module/Kconfig
+
+# kvm_userspace
+source package/kvm/kvm_userspace/Kconfig
+
+endif # PK_KVM

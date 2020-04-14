@@ -391,6 +391,11 @@ ifdef CONFIG_APOLLO
 include kernel/Apollo/Makefile
 endif
 
+ifdef CONFIG_PK_HISTORY
+# Kernel History
+include package/history/Makefile
+endif
+
 ifdef CONFIG_ROOTFS
 # Filesystem (must be last invoked)
 include fs/Makefile

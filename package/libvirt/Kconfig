@@ -1,0 +1,56 @@
+menuconfig PK_LIBVIRT
+	bool "libvirt"
+	select PK_GNUTLS
+	select PK_LIBNL
+	select PK_LIBXML2
+
+if PK_LIBVIRT
+
+config PK_LIBVIRT_VERSION
+	default "6.0.0"
+	string "verstion"
+
+config PK_LIBVIRT_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_LIBVIRT_URL
+	default "https://libvirt.org/sources"
+	string "url"
+
+config PK_LIBVIRT_GITHUB
+	string "GitHub"
+
+config PK_LIBVIRT_SRCFILE
+	string "Source code list"
+
+config PK_LIBVIRT_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBVIRT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBVIRT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBVIRT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBVIRT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBVIRT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBVIRT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBVIRT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBVIRT_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBVIRT

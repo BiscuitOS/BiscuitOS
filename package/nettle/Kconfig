@@ -1,0 +1,54 @@
+menuconfig PK_NETTLE
+	bool "nettle"
+	select PK_GMP
+
+if PK_NETTLE
+
+config PK_NETTLE_VERSION
+	default "3.4"
+	string "verstion"
+
+config PK_NETTLE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NETTLE_URL
+	default "https://ftp.gnu.org/gnu/nettle"
+	string "url"
+
+config PK_NETTLE_GITHUB
+	string "GitHub"
+
+config PK_NETTLE_SRCFILE
+	string "Source code list"
+
+config PK_NETTLE_CONFIG
+	default "--disable-openssl --enable-shared"
+	string "CONFIG: Project Configure Options"
+
+config PK_NETTLE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NETTLE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NETTLE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NETTLE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NETTLE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NETTLE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NETTLE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NETTLE_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_NETTLE

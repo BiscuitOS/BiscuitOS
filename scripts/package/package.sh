@@ -87,8 +87,8 @@ if [ ${ARCH} == "arm64" ]; then
 fi
 
 ## Prepare
-mkdir -p ${ROOTFS_ROOT}/usr/lib
-mkdir -p ${ROOTFS_ROOT}/usr/include
+sudo mkdir -p ${ROOTFS_ROOT}/usr/lib
+sudo mkdir -p ${ROOTFS_ROOT}/usr/include
 
 if [ -d ${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION} ]; then
 	exit 0
@@ -120,7 +120,11 @@ echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
 echo "DLD_PATH    := \"-L\$(INS_PATH)/lib -L\$(CROSS_PATH)/lib ${KBUILD_LIBPATH}\"" >> ${MF}
-echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I\$(CROSS_PATH)/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
+if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
+	echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I/usr/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
+else
+	echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I\$(CROSS_PATH)/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
+fi
 echo "DPK_PATH    := ${KBUILD_DPKCONFIG}\$(INS_PATH)/lib/pkgconfig:\$(INS_PATH)/share/pkgconfig" >> ${MF}
 echo "KBUDCFLAG   := ${KBUILD_CFLAGS}" >> ${MF}
 echo "KBLDFLAGS   := ${KBUILD_LDFLAGS}" >> ${MF}
@@ -136,8 +140,13 @@ echo "URL       := ${PACKAGE_SITE}" >> ${MF}
 echo "BSFILE    := ${BSFILE}" >> ${MF}
 echo 'CONFIG    := --prefix=$(INS_PATH) --host=$(HOST_NAME)' >> ${MF}
 echo "CONFIG    += --build=${HBARCH}" >> ${MF}
-echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)"' >> ${MF}
-echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)"' >> ${MF}
+if [ ${ARCH} == "i386" ]; then
+	echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS) -m32" CFLAGS="$(KBUDCFLAG) -m32"' >> ${MF}
+	echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS) -m32" CCASFLAGS="$(KBASFLAGS) -m32"' >> ${MF}
+else
+	echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)"' >> ${MF}
+	echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)"' >> ${MF}
+fi
 echo 'CONFIG    += LIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH)' >> ${MF}
 echo 'CONFIG    += PKG_CONFIG_PATH=$(DPK_PATH)' >> ${MF}
 echo "CONFIG    += ${KBUILD_CONFIG}" >> ${MF}
@@ -224,7 +233,7 @@ echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
-echo -e '\tmake install' >> ${MF}
+echo -e '\tsudo make install' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}

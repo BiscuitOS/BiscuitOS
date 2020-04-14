@@ -1,0 +1,55 @@
+menuconfig PK_KVM_MODULE
+	bool "KVM on Module"
+
+if PK_KVM_MODULE
+
+config PK_KVM_MODULE_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_KVM_MODULE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KVM_MODULE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Virtualization/KVM/kvm_module"
+	string "url"
+
+config PK_KVM_MODULE_GITHUB
+	string "GitHub"
+
+config PK_KVM_MODULE_SRCFILE
+	default "Kconfig Makefile README.md RunBiscuitOS_kvm.sh kvm/cpuid.c kvm/hyperv.c kvm/lapic.c kvm/mmu.c kvm/page_track.c kvm/x86.c virt/coalesced_mmio.c virt/eventfd.c virt/kvm_main.c virt/vfio.c vmx/evmcs.c vmx/nested.c vmx/vmx.c include/kvm/async_pf.h include/kvm/capabilities.h include/kvm/evmcs.h include/kvm/internal.h include/kvm/mmu.h include/kvm/ops.h include/kvm/virtext.h include/kvm/vmcs12.h include/kvm/vmcs.h include/kvm/vmcs_shadow_fields.h include/kvm/vmx.h include/kvm/x86.h"
+	string "Source code list"
+
+config PK_KVM_MODULE_CSRCFILE
+	string "Compile source code list"
+
+config PK_KVM_MODULE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KVM_MODULE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KVM_MODULE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KVM_MODULE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KVM_MODULE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KVM_MODULE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KVM_MODULE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KVM_MODULE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KVM_MODULE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KVM_MODULE

@@ -1,0 +1,54 @@
+menuconfig PK_LIBNL
+	bool "libnl"
+	select PK_GNUTLS
+
+if PK_LIBNL
+
+config PK_LIBNL_VERSION
+	default "3.5.0"
+	string "verstion"
+
+config PK_LIBNL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBNL_URL
+	default "https://github.com/thom311/libnl/releases/download/libnl3_5_0"
+	string "url"
+
+config PK_LIBNL_GITHUB
+	string "GitHub"
+
+config PK_LIBNL_SRCFILE
+	string "Source code list"
+
+config PK_LIBNL_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBNL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBNL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBNL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBNL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBNL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBNL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBNL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBNL_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBNL

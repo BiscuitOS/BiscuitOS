@@ -1,0 +1,23 @@
+menuconfig PK_HISTORY
+	bool "kernel history"
+
+if PK_HISTORY
+
+config PK_HISTORY_BUILD_NEW
+	bool "Build new split subdir"
+
+if PK_HISTORY_BUILD_NEW
+
+config PK_HISTORY_SRC_DIR
+	string "The subdir for spliting"
+
+config PK_HISTORY_DEST_DIR
+	string "The new directory/branch name"
+
+config PK_HISTORY_KERNEL_TAG
+	string "Kernel tag"
+	default "normal"
+
+endif # PK_HISTORY_BUILD_NEW
+
+endif # PK_HISTORY

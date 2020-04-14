@@ -1,0 +1,53 @@
+menuconfig PK_GMP
+	bool "gmp"
+
+if PK_GMP
+
+config PK_GMP_VERSION
+	default "6.1.2"
+	string "verstion"
+
+config PK_GMP_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_GMP_URL
+	default "https://gmplib.org/download/gmp"
+	string "url"
+
+config PK_GMP_GITHUB
+	string "GitHub"
+
+config PK_GMP_SRCFILE
+	string "Source code list"
+
+config PK_GMP_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_GMP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_GMP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_GMP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_GMP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_GMP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_GMP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_GMP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_GMP_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_GMP

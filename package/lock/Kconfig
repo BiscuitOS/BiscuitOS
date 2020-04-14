@@ -1,0 +1,15 @@
+menuconfig PK_LOCK
+	bool "Lock Mechanism on Linux"
+
+if PK_LOCK
+
+# rculock
+source package/lock/rculock/Kconfig
+
+# rwlock
+source package/lock/rwlock/Kconfig
+
+# seqlock
+source package/lock/seqlock/Kconfig
+
+endif # PK_LOCK

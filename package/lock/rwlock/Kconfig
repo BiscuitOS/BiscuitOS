@@ -1,0 +1,9 @@
+menuconfig PK_RWLOCK
+	bool "rwlock"
+
+if PK_RWLOCK
+
+# rwlock base
+source package/lock/rwlock/rwlock_base/Kconfig
+
+endif # PK_RWLOCK

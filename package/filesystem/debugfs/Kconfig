@@ -1,0 +1,9 @@
+menuconfig PK_FS_DEBUGFS
+	bool "debugfs"
+
+if PK_FS_DEBUGFS
+
+# debugfs_bs
+source "package/filesystem/debugfs/debugfs_bs/Kconfig"
+
+endif # PK_FS_DEBUGFS

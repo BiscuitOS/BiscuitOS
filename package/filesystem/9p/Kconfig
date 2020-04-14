@@ -1,0 +1,9 @@
+menuconfig PK_FS_9P
+	bool "9p"
+
+if PK_FS_9P
+
+# 9p_bs
+source "package/filesystem/9p/9p_bs/Kconfig"
+
+endif # PK_FS_9P

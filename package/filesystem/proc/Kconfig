@@ -1,0 +1,9 @@
+menuconfig PK_FS_PROC
+	bool "proc"
+
+if PK_FS_PROC
+
+# proc_bs
+source "package/filesystem/proc/proc_bs/Kconfig"
+
+endif # PK_FS_PROC

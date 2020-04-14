@@ -1,0 +1,65 @@
+menuconfig PK_SYSFS_BS
+	select PK_STRACE
+	select PK_SYSCALL
+	select PK_SYS_OPEN
+	select PK_SYS_OPEN_C
+	select PK_SYS_OPEN_GETNAME
+	select PK_SYS_OPEN_NUMBER
+	select PK_SYS_CLOSE
+	select PK_SYS_CLOSE_C
+	select PK_SYS_MOUNT
+	select PK_SYS_MOUNT_C
+	bool "sysfs (BiscuitOS Tracking)"
+
+if PK_SYSFS_BS
+
+config PK_SYSFS_BS_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_SYSFS_BS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_SYSFS_BS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/fs/sysfs/sysfs_bs"
+	string "url"
+
+config PK_SYSFS_BS_GITHUB
+	string "GitHub"
+
+config PK_SYSFS_BS_SRCFILE
+	default "README.md RunBiscuitOS_sysfs.sh Makefile mount.c internal.h"
+	string "Source code list"
+
+config PK_SYSFS_BS_CSRCFILE
+	string "Compile source code list"
+
+config PK_SYSFS_BS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_SYSFS_BS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_SYSFS_BS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_SYSFS_BS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_SYSFS_BS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_SYSFS_BS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_SYSFS_BS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_SYSFS_BS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_SYSFS_BS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_SYSFS_BS

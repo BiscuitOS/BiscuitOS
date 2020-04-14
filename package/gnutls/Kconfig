@@ -1,0 +1,54 @@
+menuconfig PK_GNUTLS
+	bool "gnutls"
+	select PK_NETTLE
+
+if PK_GNUTLS
+
+config PK_GNUTLS_VERSION
+	default "3.5.9"
+	string "verstion"
+
+config PK_GNUTLS_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_GNUTLS_URL
+	default "ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5"
+	string "url"
+
+config PK_GNUTLS_GITHUB
+	string "GitHub"
+
+config PK_GNUTLS_SRCFILE
+	string "Source code list"
+
+config PK_GNUTLS_CONFIG
+	default "--enable-silent-rules --with-included-libtasn1 --with-included-unistring --without-p11-kit"
+	string "CONFIG: Project Configure Options"
+
+config PK_GNUTLS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_GNUTLS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_GNUTLS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_GNUTLS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_GNUTLS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_GNUTLS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_GNUTLS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_GNUTLS_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_GNUTLS

@@ -1,0 +1,9 @@
+menuconfig PK_FS_AFFS
+	bool "affs"
+
+if PK_FS_AFFS
+
+# affs_bs
+source "package/filesystem/affs/affs_bs/Kconfig"
+
+endif # PK_FS_AFFS

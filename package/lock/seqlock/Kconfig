@@ -1,0 +1,9 @@
+menuconfig PK_SEQLOCK
+	bool "seqlock"
+
+if PK_SEQLOCK
+
+# seqlock base
+source package/lock/seqlock/seqlock_base/Kconfig
+
+endif # PK_SEQLOCK

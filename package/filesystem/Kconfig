@@ -1,9 +1,36 @@
 menuconfig PK_FS
-	bool "Filesystem"
+	bool "filesystem"
 
 if PK_FS
 
-# vfs
+# 9p
+source "package/filesystem/9p/Kconfig"
+
+# adfs
+source "package/filesystem/adfs/Kconfig"
+
+# affs
+source "package/filesystem/affs/Kconfig"
+
+# bdev
+source "package/filesystem/bdev/Kconfig"
+
+# debugfs
+source "package/filesystem/debugfs/Kconfig"
+
+# minix
+source "package/filesystem/minix/Kconfig"
+
+# proc
+source "package/filesystem/proc/Kconfig"
+
+# ramfs
+source "package/filesystem/ramfs/Kconfig"
+
+# sysfs
+source "package/filesystem/sysfs/Kconfig"
+
+# tmpfs
 source "package/filesystem/tmpfs/Kconfig"
 
 endif # PK_FS

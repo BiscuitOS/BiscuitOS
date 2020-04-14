@@ -1,0 +1,9 @@
+menuconfig PK_RCULOCK
+	bool "rculock"
+
+if PK_RCULOCK
+
+# rculock base
+source package/lock/rculock/rculock_base/Kconfig
+
+endif # PK_RCULOCK

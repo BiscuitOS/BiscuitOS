@@ -66,8 +66,8 @@ BASEPKNAME=${PACKAGE_NAME}
 PACKAGE_BSBIT=${PPATH}/bsbit
 
 ## Prepare
-mkdir -p ${ROOTFS_ROOT}/usr/lib
-mkdir -p ${ROOTFS_ROOT}/usr/include
+sudo mkdir -p ${ROOTFS_ROOT}/usr/lib
+sudo mkdir -p ${ROOTFS_ROOT}/usr/include
 
 if [ -d ${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION} ]; then
 	exit 0
@@ -166,7 +166,7 @@ echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
-echo -e '\tmake install CROSS_TOOLS=$(CROSS_NAME) \' >> ${MF}
+echo -e '\tsudo make install CROSS_TOOLS=$(CROSS_NAME) \' >> ${MF}
 echo -e '\tBSROOT=$(ROOT)' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}

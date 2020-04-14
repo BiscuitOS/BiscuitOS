@@ -1,0 +1,9 @@
+menuconfig PK_FS_BDEV
+	bool "bdev"
+
+if PK_FS_BDEV
+
+# bdev_bs
+source "package/filesystem/bdev/bdev_bs/Kconfig"
+
+endif # PK_FS_BDEV

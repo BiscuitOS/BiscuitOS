@@ -1,0 +1,55 @@
+menuconfig PK_PGCACHE_SCAN
+	bool "pgcache_scan"
+
+if PK_PGCACHE_SCAN
+
+config PK_PGCACHE_SCAN_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_PGCACHE_SCAN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PGCACHE_SCAN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/pagecache_scan"
+	string "url"
+
+config PK_PGCACHE_SCAN_GITHUB
+	string "GitHub"
+
+config PK_PGCACHE_SCAN_SRCFILE
+	default "cache_scan.c extern.h include.h kernel.c Makefile pgcache_scan.h README.md RunBiscuitOS_pgcache_scan.sh sysctl.c"
+	string "Source code list"
+
+config PK_PGCACHE_SCAN_CSRCFILE
+	string "Compile source code list"
+
+config PK_PGCACHE_SCAN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PGCACHE_SCAN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PGCACHE_SCAN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PGCACHE_SCAN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PGCACHE_SCAN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PGCACHE_SCAN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PGCACHE_SCAN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PGCACHE_SCAN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PGCACHE_SCAN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PGCACHE_SCAN

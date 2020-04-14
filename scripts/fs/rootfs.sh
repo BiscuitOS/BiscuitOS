@@ -158,7 +158,7 @@ else
 fi
 
 # Prepare Direct on Rootfs
-rm -rf ${OUTPUT}/rootfs/
+sudo rm -rf ${OUTPUT}/rootfs/
 mkdir -p ${ROOTFS_PATH}
 [ -d ${BUSYBOX}/_install/ ] && cp ${BUSYBOX}/_install/*  ${ROOTFS_PATH} -raf 
 mkdir -p ${ROOTFS_PATH}/proc/
@@ -183,6 +183,7 @@ mkdir -p /mnt
 mkdir -p /nfs
 /bin/mount -a
 /bin/hostname BiscuitOS
+[ -f /bin/busybox ] && chmod 7755 /bin/busybox
 
 # Netwroking
 ifconfig eth0 up > /dev/null 2>&1
@@ -305,7 +306,7 @@ else
 			fi
 		fi
 	fi
-	rm -rf ${ROOTFS_PATH}/lib/*.a
+	sudo rm -rf ${ROOTFS_PATH}/lib/*.a
 fi
 
 mkdir -p ${ROOTFS_PATH}/dev/
@@ -315,6 +316,10 @@ sudo mknod ${ROOTFS_PATH}/dev/tty3 c 4 3
 sudo mknod ${ROOTFS_PATH}/dev/tty4 c 4 4
 sudo mknod ${ROOTFS_PATH}/dev/console c 5 1
 sudo mknod ${ROOTFS_PATH}/dev/null c 1 3
+
+## Change root
+sudo chown root.root ${ROOTFS_PATH}/* -R
+
 dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${DISK_SIZE}
 ${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk
 mkdir -p ${OUTPUT}/rootfs/tmpfs
@@ -330,14 +335,14 @@ if [ ${SUPPORT_RAMDISK} = "Y" ]; then
 	else
 		mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
 	fi
-	rm -rf ${OUTPUT}/rootfs/ramdisk
+	sudo rm -rf ${OUTPUT}/rootfs/ramdisk
 else
 	# Support HardDisk
 	mv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/BiscuitOS.img
 fi
 
-rm -rf ${OUTPUT}/rootfs/tmpfs
-[ -d ${OUTPUT}/rootfs/rootfs ] && rm -rf ${OUTPUT}/rootfs/rootfs
+sudo rm -rf ${OUTPUT}/rootfs/tmpfs
+[ -d ${OUTPUT}/rootfs/rootfs ] && sudo rm -rf ${OUTPUT}/rootfs/rootfs
 ln -s ${OUTPUT}/rootfs/${ROOTFS_NAME} ${OUTPUT}/rootfs/rootfs
 
 ## Establish a freeze disk

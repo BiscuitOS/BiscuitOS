@@ -1,0 +1,9 @@
+menuconfig PK_FS_RAMFS
+	bool "ramfs"
+
+if PK_FS_RAMFS
+
+# ramfs_bs
+source "package/filesystem/ramfs/ramfs_bs/Kconfig"
+
+endif # PK_FS_RAMFS

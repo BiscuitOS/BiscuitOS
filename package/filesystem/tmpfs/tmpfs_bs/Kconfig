@@ -4,9 +4,12 @@ menuconfig PK_TMPFS_BS
 	select PK_SYS_OPEN
 	select PK_SYS_OPEN_C
 	select PK_SYS_OPEN_GETNAME
+	select PK_SYS_OPEN_NUMBER
+	select PK_SYS_CLOSE
+	select PK_SYS_CLOSE_C
 	select PK_SYS_MOUNT
 	select PK_SYS_MOUNT_C
-	bool "tmpfs_bs"
+	bool "tmpfs (BiscuitOS Tracking)"
 
 if PK_TMPFS_BS
 
