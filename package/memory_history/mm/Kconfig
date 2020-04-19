@@ -1,0 +1,9 @@
+menuconfig PK_MM_HISTORY
+	bool "mm"
+
+if PK_MM_HISTORY
+
+# mm_bs
+source "package/memory_history/mm/mm_bs/Kconfig"
+
+endif # PK_MM_HISTORY

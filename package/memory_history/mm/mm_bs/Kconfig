@@ -1,0 +1,56 @@
+menuconfig PK_MM_BS
+	bool "mm (BiscuitOS Cornerstone)"
+
+if PK_MM_BS
+
+config PK_MM_BS_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_MM_BS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MM_BS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/History/mm/mm_bs"
+	string "url"
+
+config PK_MM_BS_GITHUB
+	string "GitHub"
+	default "https://gitee.com/BiscuitOS_team/BiscuitOS_Memory.git"
+
+config PK_MM_BS_SRCFILE
+	default "README.md main.c RunBiscuitOS_mm.sh Makefile default.dts Kconfig include/linux/demo.h src/demo.c mm/demo.c"
+	string "Source code list"
+
+config PK_MM_BS_CSRCFILE
+	string "Compile source code list"
+
+config PK_MM_BS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MM_BS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MM_BS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MM_BS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MM_BS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MM_BS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MM_BS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MM_BS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MM_BS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MM_BS

@@ -246,6 +246,9 @@ source package/lzip/Kconfig
 # memblock
 source package/memblock/Kconfig
 
+# memory_history
+source package/memory_history/Kconfig
+
 # mesa
 source package/mesa/Kconfig
 
