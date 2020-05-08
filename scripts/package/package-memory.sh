@@ -117,6 +117,7 @@ echo '' >> ${MF}
 echo '# Package information' >> ${MF}
 echo "PACKAGE   := ${BASEPKNAME}.${PACKAGE_TARTYPE}" >> ${MF}
 echo "BASENAME  := ${BASEPKNAME}" >> ${MF}
+echo "VERSION   := ${PACKAGE_VERSION}" >> ${MF}
 echo 'TARCMD    := tar -xvf' >> ${MF}
 echo 'PATCH     := patch/$(BASENAME)' >> ${MF}
 echo "URL       := ${PACKAGE_SITE}" >> ${MF}
@@ -153,7 +154,7 @@ echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
 if [ ${PACKAGE_GITHIB}X != X ]; then
-	echo -e '\tgit clone $(GITHUB) $(BASENAME)' >> ${MF}
+	echo -e '\tgit clone $(GITHUB) $(BASENAME) -b linux-$(VERSION)' >> ${MF}
 else
 	echo -e '\t@mkdir -p $(BASENAME)' >> ${MF}
 	echo -e '\t@cd $(BASENAME) ; \' >> ${MF}

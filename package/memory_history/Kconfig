@@ -1,9 +1,33 @@
 menuconfig PK_MEMORY_HISTORY
-	bool "memory_history"
+	bool "Memory Development History"
 
 if PK_MEMORY_HISTORY
 
-# Common 
-source "package/memory_history/mm/Kconfig"
+# MMU 
+source "package/memory_history/MMU/Kconfig"
+
+# Bootmem
+source "package/memory_history/bootmem/Kconfig"
+
+# Buddy
+source "package/memory_history/buddy/Kconfig"
+
+# PCP
+source "package/memory_history/PCP/Kconfig"
+
+# PERCPU
+source "package/memory_history/PERCPU/Kconfig"
+
+# Slab
+source "package/memory_history/slab/Kconfig"
+
+# VMALLOC
+source "package/memory_history/VMALLOC/Kconfig"
+
+# kmap
+source "package/memory_history/kmap/Kconfig"
+
+# fixmap
+source "package/memory_history/fixmap/Kconfig"
 
 endif # PK_MEMORY_HISTORY

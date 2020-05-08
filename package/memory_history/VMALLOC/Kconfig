@@ -1,0 +1,9 @@
+menuconfig PK_VMALLOC_HISTORY
+	bool "VMALLOC Allocator"
+
+if PK_VMALLOC_HISTORY
+
+# linux 2.6.12
+source "package/memory_history/VMALLOC/linux-2.6.12/Kconfig"
+
+endif # PK_VMALLOC_HISTORY
