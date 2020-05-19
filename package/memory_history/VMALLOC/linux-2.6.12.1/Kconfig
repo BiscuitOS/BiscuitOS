@@ -1,0 +1,56 @@
+menuconfig PK_VMALLOC_2_6_12_1
+	bool "VMALLOC on linux 2.6.12.1"
+
+if PK_VMALLOC_2_6_12_1
+
+config PK_VMALLOC_2_6_12_1_VERSION
+	default "2.6.12.1"
+	string "verstion"
+
+config PK_VMALLOC_2_6_12_1_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_VMALLOC_2_6_12_1_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/History/mm/mm_bs"
+	string "url"
+
+config PK_VMALLOC_2_6_12_1_GITHUB
+	string "GitHub"
+	default "https://gitee.com/BiscuitOS_team/BiscuitOS_Memory.git"
+
+config PK_VMALLOC_2_6_12_1_SRCFILE
+	default "README.md"
+	string "Source code list"
+
+config PK_VMALLOC_2_6_12_1_CSRCFILE
+	string "Compile source code list"
+
+config PK_VMALLOC_2_6_12_1_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_VMALLOC_2_6_12_1_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_VMALLOC_2_6_12_1_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_VMALLOC_2_6_12_1_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_VMALLOC_2_6_12_1_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_VMALLOC_2_6_12_1_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_VMALLOC_2_6_12_1_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_VMALLOC_2_6_12_1_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_VMALLOC_2_6_12_1_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_VMALLOC_2_6_12_1

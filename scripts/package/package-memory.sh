@@ -64,6 +64,7 @@ CROSS_PATH=${OUTPUT}/${PACKAGE_TOOL}/${PACKAGE_TOOL}
 DATE_COMT=`date +"%Y.%m.%d"`
 BASEPKNAME=${PACKAGE_NAME}-${PACKAGE_VERSION}
 PACKAGE_BSBIT=${PPATH}/bsbit
+SUPPORT_BISCUITOS_MEMORY=N
 
 # Determine Architecture
 ARCH=unknown
@@ -73,6 +74,7 @@ ARCH=unknown
 [[ ${PROJECT_NAME} == *x86_64* ]]  && ARCH=x86_64
 [[ ${PROJECT_NAME} == *riscv* ]]   && ARCH=riscv
 
+[ ${PACKAGE_NAME}X = "BiscuitOS_MemoryX" ] && SUPPORT_BISCUITOS_MEMORY=Y
 ## Prepare
 sudo mkdir -p ${ROOTFS_ROOT}/usr/lib
 sudo mkdir -p ${ROOTFS_ROOT}/usr/include
@@ -154,7 +156,11 @@ echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
 if [ ${PACKAGE_GITHIB}X != X ]; then
-	echo -e '\tgit clone $(GITHUB) $(BASENAME) -b linux-$(VERSION)' >> ${MF}
+	if [ ${SUPPORT_BISCUITOS_MEMORY} = Y ]; then
+		echo -e '\tgit clone $(GITHUB) $(BASENAME) -b BiscuitOS_Memory-$(VERSION)' >> ${MF}
+	else
+		echo -e '\tgit clone $(GITHUB) $(BASENAME) -b linux-$(VERSION)' >> ${MF}
+	fi
 else
 	echo -e '\t@mkdir -p $(BASENAME)' >> ${MF}
 	echo -e '\t@cd $(BASENAME) ; \' >> ${MF}

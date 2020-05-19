@@ -1,0 +1,12 @@
+menuconfig PK_BISCUITOS_MEMORY
+	bool "BiscuitOS MMU Design"
+
+if PK_BISCUITOS_MEMORY
+
+# BiscuitOS-Base
+source "package/memory_history/BiscuitOS/BiscuitOS_Memory-Base/Kconfig"
+
+# BiscuitOS-0.11
+source "package/memory_history/BiscuitOS/BiscuitOS_Memory-0.11/Kconfig"
+
+endif # PK_BISCUITOS_MEMORY

@@ -1,0 +1,7 @@
+menuconfig PK_CMA_HISTORY
+	bool "CMA Allocator"
+
+if PK_CMA_HISTORY
+
+
+endif # PK_CMA_HISTORY

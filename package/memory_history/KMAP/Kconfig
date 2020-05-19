@@ -1,0 +1,39 @@
+menuconfig PK_KMAP_HISTORY
+	bool "KMAP Allocator"
+
+if PK_KMAP_HISTORY
+
+# linux 2.6.12
+source "package/memory_history/KMAP/linux-2.6.12/Kconfig"
+
+# linux 2.6.12.1
+source "package/memory_history/KMAP/linux-2.6.12.1/Kconfig"
+
+# linux 2.6.12.2
+source "package/memory_history/KMAP/linux-2.6.12.2/Kconfig"
+
+# linux 2.6.12.3
+source "package/memory_history/KMAP/linux-2.6.12.3/Kconfig"
+
+# linux 2.6.12.4
+source "package/memory_history/KMAP/linux-2.6.12.4/Kconfig"
+
+# linux 2.6.12.5
+source "package/memory_history/KMAP/linux-2.6.12.5/Kconfig"
+
+# linux 2.6.12.6
+source "package/memory_history/KMAP/linux-2.6.12.6/Kconfig"
+
+# linux 2.6.13
+source "package/memory_history/KMAP/linux-2.6.13/Kconfig"
+
+# linux 2.6.13.1
+source "package/memory_history/KMAP/linux-2.6.13.1/Kconfig"
+
+# linux 2.6.14
+source "package/memory_history/KMAP/linux-2.6.14/Kconfig"
+
+# linux 2.6.15
+source "package/memory_history/KMAP/linux-2.6.15/Kconfig"
+
+endif # PK_KMAP_HISTORY

@@ -1,9 +1,0 @@
-menuconfig PK_KMAP_HISTORY
-	bool "Kmap Allocator"
-
-if PK_KMAP_HISTORY
-
-# linux 2.6.12
-source "package/memory_history/kmap/linux-2.6.12/Kconfig"
-
-endif # PK_KMAP_HISTORY

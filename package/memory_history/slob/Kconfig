@@ -1,0 +1,6 @@
+menuconfig PK_SLOB_HISTORY
+	bool "SLOB Allocator"
+
+if PK_SLOB_HISTORY
+
+endif # PK_SLOB_HISTORY

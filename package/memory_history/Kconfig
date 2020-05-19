@@ -19,15 +19,27 @@ source "package/memory_history/PCP/Kconfig"
 source "package/memory_history/PERCPU/Kconfig"
 
 # Slab
-source "package/memory_history/slab/Kconfig"
+source "package/memory_history/SLAB/Kconfig"
+
+# Slub
+source "package/memory_history/slub/Kconfig"
+
+# Slob
+source "package/memory_history/slob/Kconfig"
 
 # VMALLOC
 source "package/memory_history/VMALLOC/Kconfig"
 
 # kmap
-source "package/memory_history/kmap/Kconfig"
+source "package/memory_history/KMAP/Kconfig"
 
 # fixmap
-source "package/memory_history/fixmap/Kconfig"
+source "package/memory_history/FIXMAP/Kconfig"
+
+# CMA
+source "package/memory_history/CMA/Kconfig"
+
+# BiscuitOS Memory
+source "package/memory_history/BiscuitOS/Kconfig"
 
 endif # PK_MEMORY_HISTORY

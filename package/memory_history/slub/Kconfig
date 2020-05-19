@@ -1,0 +1,6 @@
+menuconfig PK_SLUB_HISTORY
+	bool "SLUB Allocator"
+
+if PK_SLUB_HISTORY
+
+endif # PK_SLUB_HISTORY

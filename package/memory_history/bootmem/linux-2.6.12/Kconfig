@@ -1,5 +1,5 @@
 menuconfig PK_BOOTMEM_2_6_12
-	bool "Bootmem on linux 2.6.12"
+	bool "bootmem on linux 2.6.12"
 
 if PK_BOOTMEM_2_6_12
 

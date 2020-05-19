@@ -1,0 +1,56 @@
+menuconfig PK_BISCUITOS_MEMORY_0_11
+	bool "BiscuitOS Memory Design: 0.11"
+
+if PK_BISCUITOS_MEMORY_0_11
+
+config PK_BISCUITOS_MEMORY_0_11_VERSION
+	default "0.11"
+	string "verstion"
+
+config PK_BISCUITOS_MEMORY_0_11_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_MEMORY_0_11_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/History/mm/mm_bs"
+	string "url"
+
+config PK_BISCUITOS_MEMORY_0_11_GITHUB
+	string "GitHub"
+	default "https://gitee.com/BiscuitOS_team/BiscuitOS_Memory.git"
+
+config PK_BISCUITOS_MEMORY_0_11_SRCFILE
+	default "README.md"
+	string "Source code list"
+
+config PK_BISCUITOS_MEMORY_0_11_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_MEMORY_0_11_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_MEMORY_0_11_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_MEMORY_0_11_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_MEMORY_0_11_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_MEMORY_0_11_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_MEMORY_0_11_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_MEMORY_0_11_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_MEMORY_0_11_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_MEMORY_0_11_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_MEMORY_0_11

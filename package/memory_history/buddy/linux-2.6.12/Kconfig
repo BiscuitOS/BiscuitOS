@@ -1,5 +1,5 @@
 menuconfig PK_BUDDY_2_6_12
-	bool "Buddy on linux 2.6.12"
+	bool "buddy on linux 2.6.12"
 
 if PK_BUDDY_2_6_12
 
