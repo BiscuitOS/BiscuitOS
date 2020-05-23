@@ -1,0 +1,12 @@
+diff -uprN old/kernel/timeconst.pl new/kernel/timeconst.pl
+--- old/kernel/timeconst.pl	2009-06-10 11:05:27.000000000 +0800
++++ new/kernel/timeconst.pl	2020-05-23 13:49:22.725674839 +0800
+@@ -370,7 +370,7 @@ if ($hz eq '--can') {
+ 	}
+ 
+ 	@val = @{$canned_values{$hz}};
+-	if (!defined(@val)) {
++	if (!(@val)) {
+ 		@val = compute_values($hz);
+ 	}
+ 	output($hz, @val);

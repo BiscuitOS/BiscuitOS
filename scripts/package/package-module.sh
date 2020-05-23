@@ -65,6 +65,41 @@ DATE_COMT=`date +"%Y.%m.%d"`
 BASEPKNAME=${PACKAGE_NAME}-${PACKAGE_VERSION}
 PACKAGE_BSBIT=${PPATH}/bsbit
 
+# Kernel Version field
+KERNEL_MAJOR_NO=
+KERNEL_MINOR_NO=
+KERNEL_MINIR_NO=
+SUPPORT_GCC341=N
+SUPPORT_26X24=N
+
+# Detect Kernel version field
+#   Kernek version field
+#   --> Major.minor.minir
+#   --> 5.0.1
+#   --> Major: 5
+#   --> Minor: 0
+#   --> minir: 1
+detect_kernel_version_field()
+{
+	[ ! ${KERNEL_VERSION} ] && echo "Invalid kernel version" && exit -1
+	# Major field of Kernel version
+	KERNEL_MAJOR_NO=${KERNEL_VERSION%%.*}
+	tmpv1=${KERNEL_VERSION#*.}
+	# Minor field of kernel version
+	KERNEL_MINOR_NO=${tmpv1%%.*}
+	# minir field of kernel version
+	KERNEL_MINIR_NO=${tmpv1#*.}
+}
+detect_kernel_version_field
+
+# Compile
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 24 ] && SUPPORT_GCC341=Y && SUPPORT_26X24=Y
+
+# Linux 2.6.x < 24
+if [ ${SUPPORT_26X24} = "Y" ]; then
+	PACKAGE_TOOL=arm-linux
+fi
+
 # Determine Architecture
 ARCH=unknown
 [[ ${PROJECT_NAME} == *arm32* ]]   && ARCH=arm

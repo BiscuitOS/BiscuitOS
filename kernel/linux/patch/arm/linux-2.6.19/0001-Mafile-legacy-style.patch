@@ -1,0 +1,32 @@
+diff -uprN old/Makefile new/Makefile
+--- old/Makefile	2006-11-30 05:57:37.000000000 +0800
++++ new/Makefile	2020-05-23 10:22:14.321463034 +0800
+@@ -413,7 +413,7 @@ ifeq ($(config-targets),1)
+ include $(srctree)/arch/$(ARCH)/Makefile
+ export KBUILD_DEFCONFIG
+ 
+-config %config: scripts_basic outputmakefile FORCE
++%config: scripts_basic outputmakefile FORCE
+ 	$(Q)mkdir -p include/linux include/config
+ 	$(Q)$(MAKE) $(build)=scripts/kconfig $@
+ 
+@@ -1439,7 +1439,7 @@ endif
+ 	$(Q)$(MAKE) $(build)=$(build-dir) $(target-dir)$(notdir $@)
+ 
+ # Modules
+-/ %/: prepare scripts FORCE
++%/: prepare scripts FORCE
+ 	$(Q)$(MAKE) KBUILD_MODULES=$(if $(CONFIG_MODULES),1) \
+ 	$(build)=$(build-dir)
+ %.ko: prepare scripts FORCE
+diff -uprN old/scripts/mod/sumversion.c new/scripts/mod/sumversion.c
+--- old/scripts/mod/sumversion.c	2006-11-30 05:57:37.000000000 +0800
++++ new/scripts/mod/sumversion.c	2020-05-23 10:22:29.153952625 +0800
+@@ -373,6 +373,7 @@ out:
+ 	return ret;
+ }
+ 
++#define PATH_MAX	4096
+ /* Calc and record src checksum. */
+ void get_src_version(const char *modname, char sum[], unsigned sumlen)
+ {

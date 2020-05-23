@@ -37,6 +37,8 @@ ROOTFS_PATH=${OUTPUT}/rootfs/${ROOTFS_NAME}
 # Disk size (MB)
 DISK_SIZE=${17%X}
 [ ! ${DISK_SIZE} ] && DISK_SIZE=512
+# Freeze size
+FREEZE_SIZE=${18%X}
 
 ##
 # Feature Area
@@ -88,8 +90,13 @@ detect_kernel_version_field()
 	tmpv1=${KERNEL_VERSION#*.}
 	# Minor field of kernel version
 	KERNEL_MINOR_NO=${tmpv1%%.*}
+	# minir field of kernel version
+	KERNEL_MINIR_NO=${tmpv1#*.}
 }
 detect_kernel_version_field
+
+# Kernel Version setup
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" ] && DISK_SIZE=10 && FREEZE_SIZE=4 
 
 # Architecture information
 # 
@@ -347,7 +354,6 @@ ln -s ${OUTPUT}/rootfs/${ROOTFS_NAME} ${OUTPUT}/rootfs/rootfs
 
 ## Establish a freeze disk
 FREEZE_DISK=Freeze.img
-FREEZE_SIZE=${18%X}
 [ ! ${FREEZE_SIZE} ] && FREEZE_SIZE=512
 if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
        	dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/${FREEZE_DISK}

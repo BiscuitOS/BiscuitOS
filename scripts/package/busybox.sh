@@ -30,6 +30,8 @@ if [ -d ${OUTPUT}/${BUSYBOX_NAME}/${BUSYBOX_NAME} ]; then
         fi
 fi
 
+PATCH_DIR=${ROOT}/package/busybox/patch/${BUSYBOX_VERSION}/
+
 ## Get from github
 if [ ${BUSYBOX_SRC} = "1" ]; then
 	if [ ! -d ${ROOT}/dl/busybox ]; then
@@ -90,6 +92,25 @@ if [ ${BUSYBOX_SRC} = "3" ]; then
         echo ${BUSYBOX_VERSION} > ${OUTPUT}/${BUSYBOX_NAME}/version
         rm -rf ${OUTPUT}/${BUSYBOX_NAME}/${BUSYBOX_NAME}
         ln -s ${OUTPUT}/${BUSYBOX_NAME}/${BASE} ${OUTPUT}/${BUSYBOX_NAME}/${BUSYBOX_NAME}
+fi
+
+# PATCH
+# --> Create a patch
+#     --> diff -uprN old/ new/ > 000001.patch
+# --> Apply a patch
+#     --> copy 000001.patch into old/
+#     --> patch -p1 < 000001.patch
+if [ -d ${PATCH_DIR} ]; then
+	echo "Patching for ${OUTPUT}/busybox/busybox"
+	for patchfile in `ls ${PATCH_DIR}`
+	do
+		cp ${PATCH_DIR}/${patchfile} ${OUTPUT}/busybox/busybox
+		cd ${OUTPUT}/busybox/busybox > /dev/null 2>&1
+		patch -p1 < ${patchfile}
+		cd - > /dev/null 2>&1
+		rm -rf ${OUTPUT}/busybox/busybox/${patchfile} > /dev/null 2>&1
+	done
+	exit 0
 fi
 
 # Compile BusyBox

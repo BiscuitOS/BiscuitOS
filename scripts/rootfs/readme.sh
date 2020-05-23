@@ -78,6 +78,8 @@ SUPPORT_SERVER=N
 SUPPORT_FREEZE_DISK=Y
 SUPPORT_BUSYBOX=Y
 SUPPORT_NETWORK=Y
+SUPPORT_GCC341=N
+SUPPORT_26X24=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -145,6 +147,8 @@ detect_kernel_version_field()
 	tmpv1=${KERNEL_VERSION#*.}
 	# Minor field of kernel version
 	KERNEL_MINOR_NO=${tmpv1%%.*}
+	# minir field of kernel version
+	KERNEL_MINIR_NO=${tmpv1#*.}
 }
 detect_kernel_version_field
 
@@ -182,7 +186,8 @@ detect_kernel_version_field
 [ ${KERNEL_MAJOR_NO} -eq 3 -a ${KERNEL_MINOR_NO} -lt 21 -a ${ARCH_NAME} = "arm" ] && SUPPORT_EXT3=Y
 
 # CROSS_CROMPILE
-[ ${SUPPORT_2_X} = "Y" ] && SUPPORT_NONE_GNU=Y
+[ ${SUPPORT_2_X} = "Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -ge 34 ] && SUPPORT_NONE_GNU=Y
+[ ${SUPPORT_2_X} = "Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 34 ] && SUPPORT_GCC341=Y && SUPPORT_26X24=Y
 
 # ARM Kernel Configure
 [ ${SUPPORT_2_X} = "Y" ] && DEFAULT_CONFIG=versatile_defconfig
@@ -220,6 +225,10 @@ if [ ${SUPPORT_NONE_GNU} = "Y" ]; then
 	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/arm-none-linux-gnueabi-
 	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/arm-none-linux-gnueabi-
 	CROSS_COMPILE=arm-none-linux-gnueabi
+elif [ ${SUPPORT_GCC341} = "Y" ]; then
+	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/arm-linux-
+	DEF_KERNEL_CROSS=${OUTPUT}/arm-linux/arm-linux/bin/arm-linux-
+	CROSS_COMPILE=arm-linux
 else
 	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/${UBOOT_CROSS}-
 	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/${CROSS_COMPILE}-
@@ -898,13 +907,13 @@ echo '```' >> ${MF}
 echo "cd ${OUTPUT}/linux/linux"  >> ${MF}
 case ${ARCH_NAME} in
 	arm)
-		echo "make ARCH=${ARCH_NAME} clean" >> ${MF}
+		[ ${SUPPORT_26X24} = "N" ] && echo "make ARCH=${ARCH_NAME} clean" >> ${MF}
 		echo "make ARCH=${ARCH_NAME} ${DEFAULT_CONFIG}" >> ${MF}
 		# Kbuild menuconfig
 		echo "make ARCH=${ARCH_NAME} menuconfig" >> ${MF}
 		echo '' >> ${MF}
 		# RamDisk
-		if [ ${SUPPORT_RAMDISK} = "Y" ]; then
+		if [ ${SUPPORT_RAMDISK} = "Y" -a ${SUPPORT_26X24} = "N" ]; then
 			echo '' >> ${MF}
 			echo '  General setup --->' >> ${MF}
 			echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
@@ -914,9 +923,15 @@ case ${ARCH_NAME} in
 			echo '              <*> RAM block device support' >> ${MF}
 			echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
 			echo '' >> ${MF}
-		fi
+		elif [ ${SUPPORT_RAMDISK} = "Y" -a ${SUPPORT_26X24} = "Y" ]; then
+			echo '  Device Driver --->' >> ${MF}
+			echo '        [*] Block devices --->' >> ${MF}
+			echo '              <*> RAM disk support' >> ${MF}
+			echo "              (${ROOTFS_BLOCKS}) Default RAM disk size (kbytes)" >> ${MF}
+			echo '' >> ${MF}
+		fi 
 		# Linux 2.6 Special Configure
-		if [ ${SUPPORT_2_X} = "Y" ]; then
+		if [ ${SUPPORT_2_X} = "Y" -a ${SUPPORT_26X24} = "N" ]; then
 			echo '  Kernel Features --->' >> ${MF}
 			echo '        [*] Use the ARM EABI to compile the kernel' >> ${MF}
 			echo '' >> ${MF}
@@ -929,7 +944,7 @@ case ${ARCH_NAME} in
 			echo '' >> ${MF}
 		fi
 		# Common Configure
-		if [ ${SUPPORT_RPI} = "N" ]; then
+		if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_26X24} = "N" ]; then
 			echo '  Enable the block layer --->' >> ${MF}
 			echo '        [*] Support for large (2TB+) block devices and files' >> ${MF}
 			echo '' >> ${MF}

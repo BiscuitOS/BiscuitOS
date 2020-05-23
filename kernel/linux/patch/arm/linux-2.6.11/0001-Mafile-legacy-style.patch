@@ -1,0 +1,11 @@
+diff -uprN old/drivers/media/dvb/b2c2/Makefile new/drivers/media/dvb/b2c2/Makefile
+--- old/drivers/media/dvb/b2c2/Makefile	2005-03-02 15:37:49.000000000 +0800
++++ new/drivers/media/dvb/b2c2/Makefile	2020-05-23 14:15:56.658324367 +0800
+@@ -1,6 +1,6 @@
+ obj-b2c2-usb = b2c2-usb-core.o b2c2-common.o
+ 
+ obj-$(CONFIG_DVB_B2C2_SKYSTAR) += skystar2.o
+-obj-$(CONFIG_DVB_B2C2_USB) + = b2c2-usb.o
++obj-$(CONFIG_DVB_B2C2_USB) += b2c2-usb.o
+ 
+ EXTRA_CFLAGS = -Idrivers/media/dvb/dvb-core/ -Idrivers/media/dvb/frontends/

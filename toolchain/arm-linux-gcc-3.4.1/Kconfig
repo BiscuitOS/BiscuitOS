@@ -1,0 +1,3 @@
+menuconfig TOOL_ARM_LINUX_GCC341
+	bool "arm-linux-gcc 3.4.1"
+

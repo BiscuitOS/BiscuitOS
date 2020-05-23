@@ -19,6 +19,9 @@ source toolchain/aarch64-linux-gnu/Kconfig
 # ARM none-gnueabi
 source toolchain/arm-none-linux-gnueabi/Kconfig
 
+# ARM none-gnueabi 3.4.1
+source toolchain/arm-linux-gcc-3.4.1/Kconfig
+
 # RISCV-64
 source toolchain/riscv64-biscuitos-linux-gnu/Kconfig
 

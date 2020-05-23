@@ -1,0 +1,32 @@
+diff -uprN old/Makefile new/Makefile
+--- old/Makefile	2009-02-26 19:56:23.000000000 +0800
++++ new/Makefile	2020-05-22 16:41:10.216453400 +0800
+@@ -418,7 +418,7 @@ ifeq ($(config-targets),1)
+ -include $(srctree)/arch/$(ARCH)/Makefile
+ export KBUILD_DEFCONFIG
+ 
+-config %config: scripts_basic outputmakefile FORCE
++%config: scripts_basic outputmakefile FORCE
+ 	$(Q)mkdir -p include
+ 	$(Q)$(MAKE) $(build)=scripts/kconfig $@
+ 	$(Q)$(MAKE) -C $(srctree) KBUILD_SRC= .kernelrelease
+@@ -1266,7 +1266,7 @@ endif
+ 	$(Q)$(MAKE) $(build)=$(build-dir) $(target-dir)$(notdir $@)
+ 
+ # Modules
+-/ %/: prepare scripts FORCE
++%/: prepare scripts FORCE
+ 	$(Q)$(MAKE) KBUILD_MODULES=$(if $(CONFIG_MODULES),1) \
+ 	$(build)=$(build-dir)
+ %.ko: prepare scripts FORCE
+diff -uprN old/networking/interface.c new/networking/interface.c
+--- old/networking/interface.c	2009-02-26 19:46:24.000000000 +0800
++++ new/networking/interface.c	2020-05-22 16:41:38.384739881 +0800
+@@ -815,7 +815,6 @@ static const struct hwtype sit_hwtype =
+ static const struct hwtype ib_hwtype = {
+ 	.name  = "infiniband",
+ 	.title = "InfiniBand",
+-	.type  = ARPHRD_INFINIBAND,
+ 	.alen  = INFINIBAND_ALEN,
+ 	.print = UNSPEC_print,
+ 	.input = in_ib,

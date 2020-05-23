@@ -3,7 +3,7 @@
 # arm-none-linux-gnueabi for ARM32/Uboot
 #
 ################################################
-ARM_NONE_GNUEABI_GCC_NAME       := arm-linux-gnueabi
+ARM_NONE_GNUEABI_GCC_NAME       := arm-none-linux-gnueabi
 ARM_NONE_GNUEABI_GCC_VERSION    := arm-2009q3-67
 ARM_NONE_GNUEABI_GCC_SITE       := https://raw.githubusercontent.com/BiscuitOS/PackageManage/master/cross-tools/arm-2009q3-67-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2
 ARM_NONE_GNUEABI_GCC_SUBNAME    := arm-2009q3-67-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2

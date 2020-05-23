@@ -1,0 +1,12 @@
+diff -uprN old/Makefile new/Makefile
+--- old/Makefile	2005-10-28 08:02:08.000000000 +0800
++++ new/Makefile	2020-05-23 09:35:55.653093119 +0800
+@@ -447,7 +447,7 @@ ifeq ($(config-targets),1)
+ include $(srctree)/arch/$(ARCH)/Makefile
+ export KBUILD_DEFCONFIG
+ 
+-config %config: scripts_basic outputmakefile FORCE
++%config: scripts_basic outputmakefile FORCE
+ 	$(Q)mkdir -p include/linux
+ 	$(Q)$(MAKE) $(build)=scripts/kconfig $@
+ 
