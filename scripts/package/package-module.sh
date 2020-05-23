@@ -70,6 +70,7 @@ KERNEL_MAJOR_NO=
 KERNEL_MINOR_NO=
 KERNEL_MINIR_NO=
 SUPPORT_GCC341=N
+SUPPORT_GCCNONE=N
 SUPPORT_26X24=N
 
 # Detect Kernel version field
@@ -94,6 +95,8 @@ detect_kernel_version_field
 
 # Compile
 [ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 24 ] && SUPPORT_GCC341=Y && SUPPORT_26X24=Y
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -ge 24 ] && SUPPORT_GCCNONE=Y && PACKAGE_TOOL=arm-none-linux-gnueabi
+
 
 # Linux 2.6.x < 24
 if [ ${SUPPORT_26X24} = "Y" ]; then

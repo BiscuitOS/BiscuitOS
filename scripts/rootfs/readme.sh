@@ -223,7 +223,7 @@ fi
 
 if [ ${SUPPORT_NONE_GNU} = "Y" ]; then
 	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/arm-none-linux-gnueabi-
-	DEF_KERNEL_CROSS=${KCROSS_PATH}/bin/arm-none-linux-gnueabi-
+	DEF_KERNEL_CROSS=${OUTPUT}/arm-none-linux-gnueabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-
 	CROSS_COMPILE=arm-none-linux-gnueabi
 elif [ ${SUPPORT_GCC341} = "Y" ]; then
 	DEF_UBOOT_CROOS=${UCROSS_PATH}/bin/arm-linux-

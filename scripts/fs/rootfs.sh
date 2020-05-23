@@ -49,6 +49,8 @@ RISCV_LIB_INSTALL=N
 SUPPORT_RPI=N
 SUPPORT_RPI4B=N
 SUPPORT_RPI3B=N
+SUPPORT_LIB26=N
+SUPPORT_LIB2611=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -96,7 +98,13 @@ detect_kernel_version_field()
 detect_kernel_version_field
 
 # Kernel Version setup
-[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" ] && DISK_SIZE=10 && FREEZE_SIZE=4 
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" ] && DISK_SIZE=20 && FREEZE_SIZE=4 
+# Compile
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 24 ] && CROSS_COMPILE=arm-linux && SUPPORT_LIB2611=Y
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -ge 24 ] && CROSS_COMPILE=arm-none-linux-gnueabi && SUPPORT_LIB26=Y
+
+# CROSS PATH
+CROSS_PATH=${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}
 
 # Architecture information
 # 
@@ -135,9 +143,6 @@ esac
 [ ${KERNEL_MAJOR_NO} -eq 3 -a ${KERNEL_MINOR_NO} -lt 10 ] && SUPPORT_EXT3=Y
 [ ${KERNEL_MAJOR_NO} -lt 3 ] && SUPPORT_EXT3=Y
 [ ${KERNEL_MAJOR_NO} -eq 3 -a ${KERNEL_MINOR_NO} -lt 21 -a ${ARCH_NAME} == "arm" ] && SUPPORT_EXT3=Y
-
-# Linux 2.6 Lib support
-[ ${KERNEL_MAJOR_NO} -eq 2 -a ${KERNEL_MINOR_NO} -eq 6 ] && SUPPORT_CROSS_LIB=N
 
 # Support RAMDISK (2.x Support)
 # --> Mount / at RAMDISK
@@ -291,9 +296,16 @@ if [ ${RISCV_LIB_INSTALL} = "Y" ]; then
 	copy_libs $(dirname ${CROSS_PATH}/sysroot/lib/${LDSO_TARGET}) ${ROOTFS_PATH}/lib
 	copy_libs ${CROSS_PATH}/sysroot/usr/lib ${ROOTFS_PATH}/lib
 else
-	if [ ${SUPPORT_CROSS_LIB} = "N" ]; then
-		# Linux 2.6.x
-		echo "Linux 2.6.x" > /dev/null
+	if [ ${SUPPORT_LIB26} = "Y" ]; then
+		LIBS_PATH_IN=${CROSS_PATH}/${CROSS_COMPILE}/libc/lib
+		if [ -d ${LIBS_PATH_IN} ]; then
+			cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+		fi
+	elif [ ${SUPPORT_LIB2611} = "Y" ]; then
+		LIBS_PATH_IN=${CROSS_PATH}/${CROSS_COMPILE}/lib
+		if [ -d ${LIBS_PATH_IN} ]; then
+			cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+		fi
 	else
 		LIBS_PATH_IN=${CROSS_PATH}/${CROSS_COMPILE}/libc/lib
 		if [ -d ${LIBS_PATH_IN}/${CROSS_COMPILE} ]; then
