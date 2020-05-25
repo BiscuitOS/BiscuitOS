@@ -98,7 +98,7 @@ detect_kernel_version_field()
 detect_kernel_version_field
 
 # Kernel Version setup
-[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" ] && DISK_SIZE=10 && FREEZE_SIZE=4 
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" ] && DISK_SIZE=20 && FREEZE_SIZE=4 
 # Compile
 [ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 24 ] && CROSS_COMPILE=arm-linux && SUPPORT_LIB2611=Y
 [ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -ge 24 ] && CROSS_COMPILE=arm-none-linux-gnueabi && SUPPORT_LIB26=Y
