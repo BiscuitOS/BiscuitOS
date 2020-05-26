@@ -9,6 +9,7 @@ MMU-$(CONFIG_PK_MMU_2_6_13)		+= linux-2.6.13/
 MMU-$(CONFIG_PK_MMU_2_6_13_1)		+= linux-2.6.13.1/
 MMU-$(CONFIG_PK_MMU_2_6_14)		+= linux-2.6.14/
 MMU-$(CONFIG_PK_MMU_2_6_15)		+= linux-2.6.15/
+MMU-$(CONFIG_PK_MMU_2_6_16)		+= linux-2.6.16/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/memory_history/MMU/%/Makefile, $(MMU-y))
 

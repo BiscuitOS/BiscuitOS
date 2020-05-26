@@ -36,4 +36,7 @@ source "package/memory_history/MMU/linux-2.6.14/Kconfig"
 # linux 2.6.15
 source "package/memory_history/MMU/linux-2.6.15/Kconfig"
 
+# linux 2.6.16
+source "package/memory_history/MMU/linux-2.6.16/Kconfig"
+
 endif # PK_MMU_HISTORY

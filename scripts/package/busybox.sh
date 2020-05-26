@@ -113,6 +113,8 @@ if [ -d ${PATCH_DIR} ]; then
 	exit 0
 fi
 
+exit 0
+
 # Compile BusyBox
 ARCH_SRC=${11%X}
 ARCH_CROSS=${12%X}
