@@ -517,8 +517,8 @@ case ${ARCH_NAME} in
 	x86)
 		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
-		echo -e '\t-cpu host \' >> ${MF}
-		echo -e '\t-enable-kvm \' >> ${MF}
+		# echo -e '\t-cpu host \' >> ${MF}
+		# echo -e '\t-enable-kvm \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
@@ -532,8 +532,8 @@ case ${ARCH_NAME} in
 	x86_64)
 		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
-		echo -e '\t-cpu host \' >> ${MF}
-		echo -e '\t-enable-kvm \' >> ${MF}
+		# echo -e '\t-cpu host \' >> ${MF}
+		# echo -e '\t-enable-kvm \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
 		# Support Ramdisk

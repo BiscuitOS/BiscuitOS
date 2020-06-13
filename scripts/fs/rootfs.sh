@@ -296,12 +296,12 @@ if [ ${RISCV_LIB_INSTALL} = "Y" ]; then
 	copy_libs $(dirname ${CROSS_PATH}/sysroot/lib/${LDSO_TARGET}) ${ROOTFS_PATH}/lib
 	copy_libs ${CROSS_PATH}/sysroot/usr/lib ${ROOTFS_PATH}/lib
 else
-	if [ ${SUPPORT_LIB26} = "Y" ]; then
+	if [ ${SUPPORT_LIB26} = "Y" -a ${ARCH_NAME} = "arm" ]; then
 		LIBS_PATH_IN=${CROSS_PATH}/${CROSS_COMPILE}/libc/lib
 		if [ -d ${LIBS_PATH_IN} ]; then
 			cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
 		fi
-	elif [ ${SUPPORT_LIB2611} = "Y" ]; then
+	elif [ ${SUPPORT_LIB2611} = "Y" -a ${ARCH_NAME} = "arm" ]; then
 		LIBS_PATH_IN=${CROSS_PATH}/${CROSS_COMPILE}/lib
 		if [ -d ${LIBS_PATH_IN} ]; then
 			cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/

@@ -73,6 +73,14 @@ SUPPORT_GCC341=N
 SUPPORT_GCCNONE=N
 SUPPORT_26X24=N
 
+# Determine Architecture
+ARCH=unknown
+[[ ${PROJECT_NAME} == *arm32* ]]   && ARCH=arm
+[[ ${PROJECT_NAME} == *aarch* ]]   && ARCH=arm64
+[[ ${PROJECT_NAME} == *i386* ]]    && ARCH=i386
+[[ ${PROJECT_NAME} == *x86_64* ]]  && ARCH=x86_64
+[[ ${PROJECT_NAME} == *riscv* ]]   && ARCH=riscv
+
 # Detect Kernel version field
 #   Kernek version field
 #   --> Major.minor.minir
@@ -94,22 +102,14 @@ detect_kernel_version_field()
 detect_kernel_version_field
 
 # Compile
-[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 24 ] && SUPPORT_GCC341=Y && SUPPORT_26X24=Y
-[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -ge 24 ] && SUPPORT_GCCNONE=Y && PACKAGE_TOOL=arm-none-linux-gnueabi
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 24 -a ${ARCH} = "arm" ] && SUPPORT_GCC341=Y && SUPPORT_26X24=Y
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -ge 24 -a ${ARCH} = "arm" ] && SUPPORT_GCCNONE=Y && PACKAGE_TOOL=arm-none-linux-gnueabi
 
 
 # Linux 2.6.x < 24
 if [ ${SUPPORT_26X24} = "Y" ]; then
 	PACKAGE_TOOL=arm-linux
 fi
-
-# Determine Architecture
-ARCH=unknown
-[[ ${PROJECT_NAME} == *arm32* ]]   && ARCH=arm
-[[ ${PROJECT_NAME} == *aarch* ]]   && ARCH=arm64
-[[ ${PROJECT_NAME} == *i386* ]]    && ARCH=i386
-[[ ${PROJECT_NAME} == *x86_64* ]]  && ARCH=x86_64
-[[ ${PROJECT_NAME} == *riscv* ]]   && ARCH=riscv
 
 ## Prepare
 sudo mkdir -p ${ROOTFS_ROOT}/usr/lib

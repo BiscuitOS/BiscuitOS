@@ -1,0 +1,21 @@
+diff -uprN old/kernel/timeconst.pl new/kernel/timeconst.pl
+--- old/kernel/timeconst.pl	2011-03-15 09:20:32.000000000 +0800
++++ new/kernel/timeconst.pl	2020-06-05 20:01:29.924597842 +0800
+@@ -370,7 +370,7 @@ if ($hz eq '--can') {
+ 	}
+ 
+ 	@val = @{$canned_values{$hz}};
+-	if (!defined(@val)) {
++	if (!(@val)) {
+ 		@val = compute_values($hz);
+ 	}
+ 	output($hz, @val);
+diff -uprN old/Makefile new/Makefile
+--- old/Makefile	2011-03-15 09:20:32.000000000 +0800
++++ new/Makefile	2020-06-05 20:01:23.392557303 +0800
+@@ -1,4 +1,4 @@
+-VERSION = 2
++VERSION = 20
+ PATCHLEVEL = 6
+ SUBLEVEL = 38
+ EXTRAVERSION =
