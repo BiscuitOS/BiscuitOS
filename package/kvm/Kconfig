@@ -9,4 +9,7 @@ source package/kvm/kvm_module/Kconfig
 # kvm_userspace
 source package/kvm/kvm_userspace/Kconfig
 
+# kvm_hisotry
+source package/kvm/kvm_history/Kconfig
+
 endif # PK_KVM

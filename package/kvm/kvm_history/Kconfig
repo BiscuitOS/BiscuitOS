@@ -1,0 +1,12 @@
+menuconfig PK_KVM_HISTORY
+	bool "KVM Development History"
+
+if PK_KVM_HISTORY
+
+# linux-2.6.20 
+source "package/kvm/kvm_history/linux-2.6.20/Kconfig"
+
+# Userspace linux-2.6.20 
+source "package/kvm/kvm_history/userspace-2.6.20/Kconfig"
+
+endif # PK_KVM_HISTORY

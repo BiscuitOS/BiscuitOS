@@ -194,7 +194,7 @@ echo 'install:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
 echo -e '\tsudo make install CROSS_TOOLS=$(CROSS_NAME) \' >> ${MF}
-echo -e '\tBSROOT=$(ROOT) ARCH=$(ARCH) PWD=`pwd`' >> ${MF}
+echo -e '\tBSROOT=$(ROOT) ARCH=$(ARCH) PWD=`pwd` MODULE_NAME=$(BASENAME)' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
