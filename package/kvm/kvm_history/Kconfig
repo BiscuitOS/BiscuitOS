@@ -9,4 +9,10 @@ source "package/kvm/kvm_history/linux-2.6.20/Kconfig"
 # Userspace linux-2.6.20 
 source "package/kvm/kvm_history/userspace-2.6.20/Kconfig"
 
+# linux-2.6.32 
+source "package/kvm/kvm_history/linux-2.6.32/Kconfig"
+
+# Userspace linux-2.6.32 
+source "package/kvm/kvm_history/userspace-2.6.32/Kconfig"
+
 endif # PK_KVM_HISTORY

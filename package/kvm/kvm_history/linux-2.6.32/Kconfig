@@ -1,0 +1,56 @@
+menuconfig PK_KVM_2_6_32
+	bool "KVM on linux 2.6.32"
+
+if PK_KVM_2_6_32
+
+config PK_KVM_2_6_32_VERSION
+	default "2.6.32"
+	string "verstion"
+
+config PK_KVM_2_6_32_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_KVM_2_6_32_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/History/mm/mm_bs"
+	string "url"
+
+config PK_KVM_2_6_32_GITHUB
+	string "GitHub"
+	default "https://gitee.com/BiscuitOS_team/BiscuitOS_KVM.git"
+
+config PK_KVM_2_6_32_SRCFILE
+	default "README.md"
+	string "Source code list"
+
+config PK_KVM_2_6_32_CSRCFILE
+	string "Compile source code list"
+
+config PK_KVM_2_6_32_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_KVM_2_6_32_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_KVM_2_6_32_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_KVM_2_6_32_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_KVM_2_6_32_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_KVM_2_6_32_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_KVM_2_6_32_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_KVM_2_6_32_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_KVM_2_6_32_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_KVM_2_6_32
