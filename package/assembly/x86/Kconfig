@@ -1,0 +1,9 @@
+menuconfig PK_ASSEMBLY_X86
+	bool "X86/i386/X64 Assembly"
+
+if PK_ASSEMBLY_X86
+
+# mov 
+source "package/assembly/x86/mov/Kconfig"
+
+endif # PK_ASSEMBLY_X86

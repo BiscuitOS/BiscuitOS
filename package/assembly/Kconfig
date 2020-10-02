@@ -1,0 +1,12 @@
+menuconfig PK_ASSEMBLY
+	bool "Assembly"
+
+if PK_ASSEMBLY
+
+# X86 Architecture assembly
+source package/assembly/x86/Kconfig
+
+# inline assembly
+source package/assembly/inline-asm/Kconfig
+
+endif # PK_ASSEMBLY

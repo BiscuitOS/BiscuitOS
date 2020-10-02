@@ -1,0 +1,9 @@
+menuconfig PK_ASSEMBLY_INLINE
+	bool "Inline Assembly"
+
+if PK_ASSEMBLY_INLINE
+
+# demo 
+source "package/assembly/inline-asm/demo/Kconfig"
+
+endif # PK_ASSEMBLY_INLINE

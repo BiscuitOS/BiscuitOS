@@ -219,7 +219,12 @@ install_file()
     cd ${ROOT}/dl
     # Download source code from websit
     if [ ! -f ${ROOT}/dl/${PACKAGE_NAME} ]; then
-        wget ${GITHUB}/${PACKAGE_NAME}
+	mkdir -p .top_tmp
+	cd .top_tmp/
+	git clone https://gitee.com/BiscuitOS_team/linux-0.11-package.git
+	mv linux-0.11-package/* ${ROOT}/dl/
+	cd -
+	rm -rf .top_tmp > /dev/null 2>&1
     fi
     # Unpress tarpackage.
     if [ ! -f ${STAGING_DIR}/usr/bin/cat ]; then
