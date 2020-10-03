@@ -1,0 +1,21 @@
+menuconfig PK_BISCUITOS_DEMO
+	bool "BiscuitOS Demo Code"
+
+if PK_BISCUITOS_DEMO
+
+# Kernel Demo 
+source package/BiscuitOS-demo/BiscuitOS-kernel/Kconfig
+
+# Modules Demo 
+source package/BiscuitOS-demo/BiscuitOS-modules/Kconfig
+
+# Modules Project Demo 
+source package/BiscuitOS-demo/BiscuitOS-modules-project/Kconfig
+
+# Application Demo 
+source package/BiscuitOS-demo/BiscuitOS-Application/Kconfig
+
+# Application Project Demo 
+source package/BiscuitOS-demo/BiscuitOS-Application-project/Kconfig
+
+endif # PK_BISCUITOS_DEMO
