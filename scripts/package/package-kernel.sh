@@ -175,10 +175,10 @@ echo "CONFIG    += ${KBUILD_CONFIG}" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
-echo -e '\t@if [ -d $(ROOT)/linux/linux/lib/BiscuitOS ]; then \' >> ${MF}
+echo -e '\t@if [ -d $(ROOT)/linux/linux/lib/BiscuitOS -o -L $(ROOT)/linux/linux/lib/BiscuitOS ]; then \' >> ${MF}
 echo -e '\t\trm -rf $(ROOT)/linux/linux/lib/BiscuitOS ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
-echo -e '\tln -s $(PACKDIR)/$(BASENAME)/$(BASENAME) $(ROOT)/linux/linux/lib/BiscuitOS' >> ${MF}
+echo -e '\tln -s $(PWD)/$(BASENAME) $(ROOT)/linux/linux/lib/BiscuitOS' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
         echo -e '\tmake  ARCH=$(ARCH) bzImage -j4 ;\' >> ${MF}
