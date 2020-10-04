@@ -1,0 +1,9 @@
+menuconfig PK_MMU_SHRINK
+	bool "MMU Shrink"
+
+if PK_MMU_SHRINK
+
+# register_shrink
+source package/MMU_shrink/register_shrink/Kconfig
+
+endif # PK_MMU_SHRINK

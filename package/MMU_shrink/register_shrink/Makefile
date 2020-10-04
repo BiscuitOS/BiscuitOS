@@ -1,0 +1,49 @@
+################################################
+#
+# register_shrink
+#
+################################################
+PK_REGISTER_SHRINK_NAME        := register_shrink
+PK_REGISTER_SHRINK_VERSION     := $(CONFIG_PK_REGISTER_SHRINK_VERSION)
+PK_REGISTER_SHRINK_SITE        := $(CONFIG_PK_REGISTER_SHRINK_URL)
+PK_REGISTER_SHRINK_GITHUB      := $(CONFIG_PK_REGISTER_SHRINK_GITHUB)
+PK_REGISTER_SHRINK_SUBNAME     :=
+PK_REGISTER_SHRINK_BUILDARCH   := $(CONFIG_PK_REGISTER_SHRINK_BUILDARCH)
+PK_REGISTER_SHRINK_DIR         := $(srctree)/package/MMU_shrink/register_shrink
+PK_REGISTER_SHRINK_PATCH       := $(PK_REGISTER_SHRINK_DIR)/patch
+PK_REGISTER_SHRINK_BSBIT       := register_shrink-$(PK_REGISTER_SHRINK_VERSION).bsbit
+PK_REGISTER_SHRINK_OUT         :=
+PK_REGISTER_SHRINK_SCRIPTS     := $(srctree)/scripts/package/package-kernel.sh
+PK_REGISTER_SHRINK_TAR         := $(CONFIG_PK_REGISTER_SHRINK_TAR)
+PK_REGISTER_SHRINK_PACKAGE     :=
+PK_REGISTER_SHRINK_CONFIG      := $(CONFIG_PK_REGISTER_SHRINK_CONFIG)
+SUB_TARGET                  += $(PK_REGISTER_SHRINK_DIR)/build
+
+PK_REGISTER_SHRINK_sh = $(CONFIG_SHELL) $(PK_REGISTER_SHRINK_SCRIPTS) \
+                 $1X \
+                 $(PK_REGISTER_SHRINK_NAME)X \
+                 $(PK_REGISTER_SHRINK_VERSION)X \
+                 $(PK_REGISTER_SHRINK_SITE)X \
+                 $(PK_REGISTER_SHRINK_GITHUB)X \
+                 $(PK_REGISTER_SHRINK_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_REGISTER_SHRINK_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_REGISTER_SHRINK_SUBNAME)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_CONFIG)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_LIBPATH)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_CPPFLAGS)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_DPKCONFIG)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_CFLAGS)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_LDFLAGS)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_CXXFLAGS)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_ASFLAGS)X \
+                 $(PK_REGISTER_SHRINK_BSBIT)X \
+                 $(PK_REGISTER_SHRINK_BUILDARCH)X \
+		 $(PK_REGISTER_SHRINK_CSRCFILE)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_SRCFILE)X \
+                 $(CONFIG_PK_REGISTER_SHRINK_CSRCFILE)
+
+$(PK_REGISTER_SHRINK_DIR)/build: FORCE
+	$(Q)$(call PK_REGISTER_SHRINK_sh,$(srctree))

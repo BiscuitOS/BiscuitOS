@@ -249,6 +249,9 @@ source package/lock/Kconfig
 # lzip
 source package/lzip/Kconfig
 
+# MMU shrink
+source package/MMU_shrink/Kconfig
+
 # memblock
 source package/memblock/Kconfig
 
