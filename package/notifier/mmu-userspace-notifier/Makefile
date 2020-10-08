@@ -1,0 +1,49 @@
+################################################
+#
+# MMU-userspace-notifier
+#
+################################################
+PK_NOTIFIER_MMU_USER_NAME        := MMU-userspace-notifier
+PK_NOTIFIER_MMU_USER_VERSION     := $(CONFIG_PK_NOTIFIER_MMU_USER_VERSION)
+PK_NOTIFIER_MMU_USER_SITE        := $(CONFIG_PK_NOTIFIER_MMU_USER_URL)
+PK_NOTIFIER_MMU_USER_GITHUB      := $(CONFIG_PK_NOTIFIER_MMU_USER_GITHUB)
+PK_NOTIFIER_MMU_USER_SUBNAME     :=
+PK_NOTIFIER_MMU_USER_BUILDARCH   := $(CONFIG_PK_NOTIFIER_MMU_USER_BUILDARCH)
+PK_NOTIFIER_MMU_USER_DIR         := $(srctree)/package/notifier/mmu-userspace-notifier
+PK_NOTIFIER_MMU_USER_PATCH       := $(PK_NOTIFIER_MMU_USER_DIR)/patch
+PK_NOTIFIER_MMU_USER_BSBIT       := MMU-userspace-notifier-$(PK_NOTIFIER_MMU_USER_VERSION).bsbit
+PK_NOTIFIER_MMU_USER_OUT         :=
+PK_NOTIFIER_MMU_USER_SCRIPTS     := $(srctree)/scripts/package/package-app.sh
+PK_NOTIFIER_MMU_USER_TAR         := $(CONFIG_PK_NOTIFIER_MMU_USER_TAR)
+PK_NOTIFIER_MMU_USER_PACKAGE     :=
+PK_NOTIFIER_MMU_USER_CONFIG      := $(CONFIG_PK_NOTIFIER_MMU_USER_CONFIG)
+SUB_TARGET                  += $(PK_NOTIFIER_MMU_USER_DIR)/build
+
+PK_NOTIFIER_MMU_USER_sh = $(CONFIG_SHELL) $(PK_NOTIFIER_MMU_USER_SCRIPTS) \
+                 $1X \
+                 $(PK_NOTIFIER_MMU_USER_NAME)X \
+                 $(PK_NOTIFIER_MMU_USER_VERSION)X \
+                 $(PK_NOTIFIER_MMU_USER_SITE)X \
+                 $(PK_NOTIFIER_MMU_USER_GITHUB)X \
+                 $(PK_NOTIFIER_MMU_USER_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_NOTIFIER_MMU_USER_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_NOTIFIER_MMU_USER_SUBNAME)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_CONFIG)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_LIBPATH)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_CPPFLAGS)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_DPKCONFIG)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_CFLAGS)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_LDFLAGS)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_CXXFLAGS)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_ASFLAGS)X \
+                 $(PK_NOTIFIER_MMU_USER_BSBIT)X \
+                 $(PK_NOTIFIER_MMU_USER_BUILDARCH)X \
+		 $(PK_NOTIFIER_MMU_USER_CSRCFILE)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_SRCFILE)X \
+                 $(CONFIG_PK_NOTIFIER_MMU_USER_CSRCFILE)
+
+$(PK_NOTIFIER_MMU_USER_DIR)/build: FORCE
+	$(Q)$(call PK_NOTIFIER_MMU_USER_sh,$(srctree))

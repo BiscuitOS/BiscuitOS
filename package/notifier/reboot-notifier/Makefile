@@ -1,0 +1,49 @@
+################################################
+#
+# reboot-notifier
+#
+################################################
+PK_NOTIFIER_REBOOT_NAME        := reboot-notifier
+PK_NOTIFIER_REBOOT_VERSION     := $(CONFIG_PK_NOTIFIER_REBOOT_VERSION)
+PK_NOTIFIER_REBOOT_SITE        := $(CONFIG_PK_NOTIFIER_REBOOT_URL)
+PK_NOTIFIER_REBOOT_GITHUB      := $(CONFIG_PK_NOTIFIER_REBOOT_GITHUB)
+PK_NOTIFIER_REBOOT_SUBNAME     :=
+PK_NOTIFIER_REBOOT_BUILDARCH   := $(CONFIG_PK_NOTIFIER_REBOOT_BUILDARCH)
+PK_NOTIFIER_REBOOT_DIR         := $(srctree)/package/notifier/reboot-notifier
+PK_NOTIFIER_REBOOT_PATCH       := $(PK_NOTIFIER_REBOOT_DIR)/patch
+PK_NOTIFIER_REBOOT_BSBIT       := reboot-notifier-$(PK_NOTIFIER_REBOOT_VERSION).bsbit
+PK_NOTIFIER_REBOOT_OUT         :=
+PK_NOTIFIER_REBOOT_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_NOTIFIER_REBOOT_TAR         := $(CONFIG_PK_NOTIFIER_REBOOT_TAR)
+PK_NOTIFIER_REBOOT_PACKAGE     :=
+PK_NOTIFIER_REBOOT_CONFIG      := $(CONFIG_PK_NOTIFIER_REBOOT_CONFIG)
+SUB_TARGET                  += $(PK_NOTIFIER_REBOOT_DIR)/build
+
+PK_NOTIFIER_REBOOT_sh = $(CONFIG_SHELL) $(PK_NOTIFIER_REBOOT_SCRIPTS) \
+                 $1X \
+                 $(PK_NOTIFIER_REBOOT_NAME)X \
+                 $(PK_NOTIFIER_REBOOT_VERSION)X \
+                 $(PK_NOTIFIER_REBOOT_SITE)X \
+                 $(PK_NOTIFIER_REBOOT_GITHUB)X \
+                 $(PK_NOTIFIER_REBOOT_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_NOTIFIER_REBOOT_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_NOTIFIER_REBOOT_SUBNAME)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_CONFIG)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_LIBPATH)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_CPPFLAGS)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_DPKCONFIG)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_CFLAGS)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_LDFLAGS)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_CXXFLAGS)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_ASFLAGS)X \
+                 $(PK_NOTIFIER_REBOOT_BSBIT)X \
+                 $(PK_NOTIFIER_REBOOT_BUILDARCH)X \
+		 $(PK_NOTIFIER_REBOOT_CSRCFILE)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_SRCFILE)X \
+                 $(CONFIG_PK_NOTIFIER_REBOOT_CSRCFILE)
+
+$(PK_NOTIFIER_REBOOT_DIR)/build: FORCE
+	$(Q)$(call PK_NOTIFIER_REBOOT_sh,$(srctree))

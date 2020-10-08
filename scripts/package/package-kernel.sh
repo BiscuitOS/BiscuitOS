@@ -110,6 +110,9 @@ cat ${KENRNEL_DEMO_MAKEFILE} | grep "BiscuitOS" > /dev/null
 if [ $? -ne 0 ]; then
 	mkdir -p ${OUTPUT}/linux/linux/lib/BiscuitOS > /dev/null
 	echo "obj-y += BiscuitOS/" >> ${KENRNEL_DEMO_MAKEFILE}
+	touch ${OUTPUT}/linux/linux/lib/BiscuitOS/Makefile
+	echo "obj-y += BiscuitOS.o" > ${OUTPUT}/linux/linux/lib/BiscuitOS/Makefile
+	touch ${OUTPUT}/linux/linux/lib/BiscuitOS/BiscuitOS.c
 fi
 
 # Linux 2.6.x < 24

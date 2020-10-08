@@ -1,6 +1,6 @@
 #/bin/bash
   
-set -e
+# set -e
 # Auto create README.
 #
 # (C) 2019.05.11 BiscuitOS <buddy.zhang@aliyun.com>
@@ -80,6 +80,7 @@ SUPPORT_BUSYBOX=Y
 SUPPORT_NETWORK=Y
 SUPPORT_GCC341=N
 SUPPORT_26X24=N
+SUPPORT_SEABIOS=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -151,6 +152,24 @@ detect_kernel_version_field()
 	KERNEL_MINIR_NO=${tmpv1#*.}
 }
 detect_kernel_version_field
+
+# Detect SeaBIOS
+detect_seaBIOS()
+{
+	cat ${OUTPUT}/bootloader/version | grep "BiscuitOS_seaBIOS" > /dev/null 
+	if [ $? -eq 0 ]; then
+		SUPPORT_SEABIOS=Y
+		rm -rf ${OUTPUT}/bootloader/seaBIOS > /dev/null 2>&1
+		ln -s ${OUTPUT}/qemu-system/qemu-system/roms/seabios ${OUTPUT}/bootloader/seaBIOS
+		if [ ! -f ${OUTPUT}/bootloader/seaBIOS/out/bios.bin ]; then
+			cd ${OUTPUT}/bootloader/seaBIOS/ > /dev/null 2>&1
+			make -j4
+			cd - > /dev/null 2>&1
+		fi
+	fi
+}
+
+[ -d ${OUTPUT}/bootloader/ ] && detect_seaBIOS
 
 # DTB support
 # --> Only ARM >= 4.x support DTB
@@ -520,6 +539,7 @@ case ${ARCH_NAME} in
 		echo -e '\t-cpu host \' >> ${MF}
 		echo -e '\t-enable-kvm \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
 		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
@@ -535,6 +555,7 @@ case ${ARCH_NAME} in
 		# echo -e '\t-cpu host \' >> ${MF}
 		# echo -e '\t-enable-kvm \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+		[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
 		# Discard Ctrl-C to exit and default Ctrl-A + X

@@ -19,7 +19,7 @@ config PK_PLATFORM_SIMPLE_MOD_GITHUB
 	string "GitHub"
 
 config PK_PLATFORM_SIMPLE_MOD_SRCFILE
-	default "platform.c Kconfig Makefile"
+	default "main.c Kconfig Makefile"
 	string "Source code list"
 
 config PK_PLATFORM_SIMPLE_MOD_CSRCFILE

@@ -3,7 +3,7 @@ menuconfig PK_MMU_SHRINK
 
 if PK_MMU_SHRINK
 
-# register_shrink
-source package/MMU_shrink/register_shrink/Kconfig
+# kernel-slab-shrink-base
+source package/MMU_shrink/kernel-slab-shrink-base/Kconfig
 
 endif # PK_MMU_SHRINK

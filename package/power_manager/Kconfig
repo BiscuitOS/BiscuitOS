@@ -1,0 +1,12 @@
+menuconfig PK_POWER_MANAGER
+	bool "Power Manager"
+
+if PK_POWER_MANAGER
+
+# Tirgger suspend
+source package/power_manager/suspend-base/Kconfig
+
+# Tirgger resume
+source package/power_manager/resume-base/Kconfig
+
+endif # PK_POWER_MANAGER

@@ -1,0 +1,9 @@
+menuconfig PK_REGISTER
+	bool "Register"
+
+if PK_REGISTER
+
+# X86 Architecture
+source package/Register/x86/Kconfig
+
+endif # PK_REGISTER

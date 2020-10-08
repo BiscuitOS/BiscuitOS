@@ -112,6 +112,12 @@ establish_BIOS()
     fi
 }
 
+if [ X${BIOS_VERSION} = "XBiscuitOS_seaBIOS" ]; then
+	mkdir -p ${OUTPUT}/bootloader
+	echo ${BIOS_VERSION} > ${OUTPUT}/bootloader/version
+	exit 0
+fi
+
 if [ ! -f ${TARGET}/BIOS.bin ]; then
 ## Start working
     precheck

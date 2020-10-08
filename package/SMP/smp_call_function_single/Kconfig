@@ -1,0 +1,55 @@
+menuconfig PK_SMP_CALL_FUNCTION_SINGLE
+	bool "smp_call_function_single"
+
+if PK_SMP_CALL_FUNCTION_SINGLE
+
+config PK_SMP_CALL_FUNCTION_SINGLE_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/SubSystem/smp/smp_call_function_single"
+	string "url"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_GITHUB
+	string "GitHub"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_SRCFILE
+	default "Kconfig main.c Makefile"
+	string "Source code list"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_CSRCFILE
+	string "Compile source code list"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_SMP_CALL_FUNCTION_SINGLE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_SMP_CALL_FUNCTION_SINGLE

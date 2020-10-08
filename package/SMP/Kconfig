@@ -1,0 +1,12 @@
+menuconfig PK_SMP
+	bool "SMP"
+
+if PK_SMP
+
+# on_each_cpu
+source package/SMP/on_each_cpu/Kconfig
+
+# smp_call_function_single
+source package/SMP/smp_call_function_single/Kconfig
+
+endif # PK_SMP

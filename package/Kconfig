@@ -57,6 +57,9 @@ source package/char/Kconfig
 # compositeproto
 source package/compositeproto/Kconfig
 
+# cpumask
+source package/cpumask/Kconfig
+
 # CMA
 source package/CMA/Kconfig
 
@@ -273,6 +276,9 @@ source package/ncurses/Kconfig
 # nettle
 source package/nettle/Kconfig
 
+# notifier
+source package/notifier/Kconfig
+
 # openssl
 source package/openssl/Kconfig
 
@@ -296,6 +302,9 @@ source package/pixman/Kconfig
 
 # platform
 source package/platform/Kconfig
+
+# power manager
+source package/power_manager/Kconfig
 
 # presentproto
 source package/presentproto/Kconfig
@@ -330,11 +339,17 @@ source package/rpi-3b-bootloader/Kconfig
 # RaspberryPi 4B
 source package/rpi-4b-bootloader/Kconfig
 
+# Register
+source package/Register/Kconfig
+
 # scrnsaverproto
 source package/scrnsaverproto/Kconfig
 
 # slab
 source package/slab/Kconfig
+
+# SMP
+source package/SMP/Kconfig
 
 # spi
 source package/spi/Kconfig

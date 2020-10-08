@@ -1,0 +1,18 @@
+menuconfig PK_KERNEL_NOTIFIER
+	bool "Notifier mechanism on Kernel"
+
+if PK_KERNEL_NOTIFIER
+
+# Base 
+source package/notifier/kernel-notifier-base/Kconfig
+
+# reboot-notifer
+source package/notifier/reboot-notifier/Kconfig
+
+# mmu-notifer
+source package/notifier/mmu-notifier/Kconfig
+
+# mmu-userspace-notifer
+source package/notifier/mmu-userspace-notifier/Kconfig
+
+endif # PK_KERNEL_NOTIFIER

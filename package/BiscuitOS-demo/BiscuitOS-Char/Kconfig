@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_CHAR_DEMO
+	bool "Char-DD Demo Code on BiscuitOS"
+
+if PK_BISCUITOS_CHAR_DEMO
+
+config PK_BISCUITOS_CHAR_DEMO_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_BISCUITOS_CHAR_DEMO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_CHAR_DEMO_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Demo/char-dd"
+	string "url"
+
+config PK_BISCUITOS_CHAR_DEMO_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_CHAR_DEMO_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_BISCUITOS_CHAR_DEMO_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_CHAR_DEMO_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_CHAR_DEMO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_CHAR_DEMO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_CHAR_DEMO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_CHAR_DEMO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_CHAR_DEMO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_CHAR_DEMO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_CHAR_DEMO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_CHAR_DEMO_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_CHAR_DEMO

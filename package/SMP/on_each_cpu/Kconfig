@@ -1,0 +1,55 @@
+menuconfig PK_ON_EACH_CPU
+	bool "on_each_cpu"
+
+if PK_ON_EACH_CPU
+
+config PK_ON_EACH_CPU_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_ON_EACH_CPU_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_ON_EACH_CPU_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/SubSystem/smp/on_each_cpu"
+	string "url"
+
+config PK_ON_EACH_CPU_GITHUB
+	string "GitHub"
+
+config PK_ON_EACH_CPU_SRCFILE
+	default "Kconfig main.c Makefile"
+	string "Source code list"
+
+config PK_ON_EACH_CPU_CSRCFILE
+	string "Compile source code list"
+
+config PK_ON_EACH_CPU_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_ON_EACH_CPU_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_ON_EACH_CPU_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_ON_EACH_CPU_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_ON_EACH_CPU_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_ON_EACH_CPU_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_ON_EACH_CPU_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_ON_EACH_CPU_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_ON_EACH_CPU_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_ON_EACH_CPU

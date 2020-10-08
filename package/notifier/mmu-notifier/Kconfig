@@ -1,0 +1,55 @@
+menuconfig PK_NOTIFIER_MMU
+	bool "MMU notifier (Kernel Portion)"
+
+if PK_NOTIFIER_MMU
+
+config PK_NOTIFIER_MMU_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_NOTIFIER_MMU_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NOTIFIER_MMU_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/SubSystem/notifier/mmu_notifier/kernel"
+	string "url"
+
+config PK_NOTIFIER_MMU_GITHUB
+	string "GitHub"
+
+config PK_NOTIFIER_MMU_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NOTIFIER_MMU_CSRCFILE
+	string "Compile source code list"
+
+config PK_NOTIFIER_MMU_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NOTIFIER_MMU_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NOTIFIER_MMU_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NOTIFIER_MMU_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NOTIFIER_MMU_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NOTIFIER_MMU_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NOTIFIER_MMU_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NOTIFIER_MMU_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NOTIFIER_MMU_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NOTIFIER_MMU

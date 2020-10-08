@@ -1,0 +1,9 @@
+menuconfig PK_KERNEL_CPUMASK
+	bool "CPUMASK mechanism on Kernel"
+
+if PK_KERNEL_CPUMASK
+
+# Base 
+source package/cpumask/kernel-cpumask-base/Kconfig
+
+endif # PK_KERNEL_CPUMASK

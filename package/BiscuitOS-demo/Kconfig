@@ -18,4 +18,16 @@ source package/BiscuitOS-demo/BiscuitOS-Application/Kconfig
 # Application Project Demo 
 source package/BiscuitOS-demo/BiscuitOS-Application-project/Kconfig
 
+# Char-DD Demo
+source package/BiscuitOS-demo/BiscuitOS-Char/Kconfig
+
+# Char-DD Application Demo
+source package/BiscuitOS-demo/BiscuitOS-Char-Application/Kconfig
+
+# MISC-DD Demo
+source package/BiscuitOS-demo/BiscuitOS-MISC/Kconfig
+
+# MISC-DD Application Demo
+source package/BiscuitOS-demo/BiscuitOS-MISC-Application/Kconfig
+
 endif # PK_BISCUITOS_DEMO

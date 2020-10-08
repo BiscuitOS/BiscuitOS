@@ -6,4 +6,16 @@ if PK_ASSEMBLY_X86
 # mov 
 source "package/assembly/x86/mov/Kconfig"
 
+# rdmsr 
+source "package/assembly/x86/rdmsr/Kconfig"
+
+# rdtsc
+source "package/assembly/x86/rdtsc/Kconfig"
+
+# rdtsc-app
+source "package/assembly/x86/rdtsc-app/Kconfig"
+
+# wrmsr 
+source "package/assembly/x86/wrmsr/Kconfig"
+
 endif # PK_ASSEMBLY_X86

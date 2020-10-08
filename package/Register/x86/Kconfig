@@ -1,0 +1,9 @@
+menuconfig PK_REGISTER_X86
+	bool "X86/i386/X64 Register"
+
+if PK_REGISTER_X86
+
+# MSR_IA32_VMX_PINBASED_CTLS 
+source "package/Register/x86/MSR_IA32_VMX_PINBASED_CTLS/Kconfig"
+
+endif # PK_REGISTER_X86

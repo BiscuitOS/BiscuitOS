@@ -1,0 +1,55 @@
+menuconfig PK_NOTIFIER_REBOOT
+	bool "Reboot notifier"
+
+if PK_NOTIFIER_REBOOT
+
+config PK_NOTIFIER_REBOOT_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_NOTIFIER_REBOOT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NOTIFIER_REBOOT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/SubSystem/notifier/reboot_notifier"
+	string "url"
+
+config PK_NOTIFIER_REBOOT_GITHUB
+	string "GitHub"
+
+config PK_NOTIFIER_REBOOT_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NOTIFIER_REBOOT_CSRCFILE
+	string "Compile source code list"
+
+config PK_NOTIFIER_REBOOT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NOTIFIER_REBOOT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NOTIFIER_REBOOT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NOTIFIER_REBOOT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NOTIFIER_REBOOT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NOTIFIER_REBOOT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NOTIFIER_REBOOT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NOTIFIER_REBOOT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NOTIFIER_REBOOT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NOTIFIER_REBOOT
