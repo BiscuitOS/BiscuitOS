@@ -39,6 +39,9 @@ source package/gbinutils/Kconfig
 config PK_BINUTILS
 	bool "binutils: Linux 0.x and 1.x"
 
+# bitmap
+source package/bitmap/Kconfig
+
 # bitops
 source package/bitops/Kconfig
 

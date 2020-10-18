@@ -1,0 +1,55 @@
+menuconfig PK_BITMAP_EMULATE_PID
+	bool "Emulate PID Allocating and Releasing"
+
+if PK_BITMAP_EMULATE_PID
+
+config PK_BITMAP_EMULATE_PID_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_BITMAP_EMULATE_PID_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BITMAP_EMULATE_PID_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/bitmap/Emulate_PID"
+	string "url"
+
+config PK_BITMAP_EMULATE_PID_GITHUB
+	string "GitHub"
+
+config PK_BITMAP_EMULATE_PID_SRCFILE
+	default "Kconfig main.c Makefile"
+	string "Source code list"
+
+config PK_BITMAP_EMULATE_PID_CSRCFILE
+	string "Compile source code list"
+
+config PK_BITMAP_EMULATE_PID_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BITMAP_EMULATE_PID_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BITMAP_EMULATE_PID_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BITMAP_EMULATE_PID_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BITMAP_EMULATE_PID_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BITMAP_EMULATE_PID_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BITMAP_EMULATE_PID_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BITMAP_EMULATE_PID_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BITMAP_EMULATE_PID_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BITMAP_EMULATE_PID

@@ -1,0 +1,12 @@
+menuconfig PK_BITMAP
+	bool "Bitmap"
+
+if PK_BITMAP
+
+# Emulate PID
+source package/bitmap/emulate-pid/Kconfig
+
+# C-trie Protocol
+source package/bitmap/LC-trie/Kconfig
+
+endif # PK_BITMAP
