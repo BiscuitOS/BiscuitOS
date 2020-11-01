@@ -1,0 +1,18 @@
+menuconfig PK_BISCUITOS_VFS
+	bool "VFS (BiscuitOS+)"
+
+if PK_BISCUITOS_VFS
+
+# Anonymous file (Kernel Part+)
+source package/VFS/Anonymous-file-kernel/Kconfig
+
+# Anonymous file (Userspace Part+)
+source package/VFS/Anonymous-file-userspace/Kconfig
+
+# Kernel read Userspace file
+source package/VFS/Kernel-read-Userspace-file/Kconfig
+
+# Kernel write Userspace file
+source package/VFS/Kernel-write-Userspace-file/Kconfig
+
+endif # PK_BISCUITOS_VFS

@@ -1,0 +1,55 @@
+menuconfig PK_VFS_KERNEL_WRITE_UFILE
+	bool "Kernel write Userspace file"
+
+if PK_VFS_KERNEL_WRITE_UFILE
+
+config PK_VFS_KERNEL_WRITE_UFILE_VERSION
+	default "0.0.1"
+	string "verstion"
+
+config PK_VFS_KERNEL_WRITE_UFILE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_VFS_KERNEL_WRITE_UFILE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/fs/vfs/Kernel-write-Userspace-file"
+	string "url"
+
+config PK_VFS_KERNEL_WRITE_UFILE_GITHUB
+	string "GitHub"
+
+config PK_VFS_KERNEL_WRITE_UFILE_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_VFS_KERNEL_WRITE_UFILE_CSRCFILE
+	string "Compile source code list"
+
+config PK_VFS_KERNEL_WRITE_UFILE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_VFS_KERNEL_WRITE_UFILE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_VFS_KERNEL_WRITE_UFILE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_VFS_KERNEL_WRITE_UFILE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_VFS_KERNEL_WRITE_UFILE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_VFS_KERNEL_WRITE_UFILE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_VFS_KERNEL_WRITE_UFILE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_VFS_KERNEL_WRITE_UFILE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_VFS_KERNEL_WRITE_UFILE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_VFS_KERNEL_WRITE_UFILE

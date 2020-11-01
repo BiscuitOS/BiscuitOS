@@ -12,4 +12,19 @@ source package/kvm/kvm_userspace/Kconfig
 # kvm_hisotry
 source package/kvm/kvm_history/Kconfig
 
+# BiscuitOS KVM Application (4KiB)
+source package/kvm/BiscuitOS-UKVM/Kconfig
+
+# BiscuitOS KVM Application (2MiB)
+source package/kvm/BiscuitOS-UKVM-2M/Kconfig
+
+# BiscuitOS KVM Application (SMP/Kernel+)
+source package/kvm/BiscuitOS-UKVM-SMAP-kernel/Kconfig
+
+# BiscuitOS KVM Application (SMP/Userspace+)
+source package/kvm/BiscuitOS-UKVM-SMAP-userspace/Kconfig
+
+# BiscuitOS qemu-kvm
+source package/kvm/BiscuitOS-qemu-kvm/Kconfig
+
 endif # PK_KVM

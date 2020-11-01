@@ -255,6 +255,9 @@ source package/lock/Kconfig
 # lzip
 source package/lzip/Kconfig
 
+# MMU
+source package/MMU/Kconfig
+
 # MMU shrink
 source package/MMU_shrink/Kconfig
 
@@ -368,6 +371,9 @@ source package/util-linux/Kconfig
 
 # UIO
 source package/UIO/Kconfig
+
+# VFS
+source package/VFS/Kconfig
 
 # vmalloc
 source package/vmalloc/Kconfig

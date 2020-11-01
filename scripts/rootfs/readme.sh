@@ -180,8 +180,8 @@ detect_seaBIOS()
 # --> Mount / at RAMDISK
 [ ${KERNEL_MAJOR_NO} -lt 4 ] && SUPPORT_RAMDISK=Y && SUPPORT_FREEZE_DISK=N
 [ ${ARCH_NAME} == "arm64" ] && SUPPORT_RAMDISK=N
-[ ${ARCH_NAME} == "x86" ] && SUPPORT_RAMDISK=Y && SUPPORT_FREEZE_DISK=N
-[ ${ARCH_NAME} == "x86_64" ] && SUPPORT_RAMDISK=Y && SUPPORT_FREEZE_DISK=N
+[ ${ARCH_NAME} == "x86" ] && SUPPORT_RAMDISK=N && SUPPORT_FREEZE_DISK=Y
+[ ${ARCH_NAME} == "x86_64" ] && SUPPORT_RAMDISK=N && SUPPORT_FREEZE_DISK=Y
 
 # Support Disk mount /
 # --> Mount / at /dev/vda
@@ -338,10 +338,12 @@ case ${ARCH_NAME} in
 		echo 'CMDLINE="root=/dev/vda rw console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
 	;;
 	x86)
-		echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
 	;;
 	x86_64)
-		echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
 	;;
 esac
 
@@ -542,18 +544,20 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
 		# Discard Ctrl-C to exit and default Ctrl-A + X
 		# echo -e '\t-serial stdio \' >> ${MF}
 		# echo -e '\t-nodefaults \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	x86_64)
 		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
-		# echo -e '\t-cpu host \' >> ${MF}
-		# echo -e '\t-enable-kvm \' >> ${MF}
+		echo -e '\t-cpu host \' >> ${MF}
+		echo -e '\t-enable-kvm \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
@@ -561,7 +565,10 @@ case ${ARCH_NAME} in
 		# Discard Ctrl-C to exit and default Ctrl-A + X
 		# echo -e '\t-serial stdio \' >> ${MF}
 		# echo -e '\t-nodefaults \' >> ${MF}
-		echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		# Support HardDisk
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;

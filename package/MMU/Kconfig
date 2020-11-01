@@ -1,0 +1,12 @@
+menuconfig PK_BISCUITOS_MMU
+	bool "MMU (BiscuitOS+)"
+
+if PK_BISCUITOS_MMU
+
+# Memory Hotplug in C
+source package/MMU/Memory-Hotplug-in-C/Kconfig
+
+# Memory Hotplug auto
+source package/MMU/Memory-Hotplug-auto/Kconfig
+
+endif # PK_BISCUITOS_MMU

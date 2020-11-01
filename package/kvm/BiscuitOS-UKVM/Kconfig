@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_UKVM
+	bool "KVM Application on BiscuitOS (Default)"
+
+if PK_BISCUITOS_UKVM
+
+config PK_BISCUITOS_UKVM_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_UKVM_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_UKVM_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Virtualization/KVM/BiscuitOS-UKVM"
+	string "url"
+
+config PK_BISCUITOS_UKVM_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_UKVM_SRCFILE
+	default "main.c Makefile BiscuitOS-Virtual-Machine.S"
+	string "Source code list"
+
+config PK_BISCUITOS_UKVM_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_UKVM_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_UKVM_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_UKVM_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_UKVM_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_UKVM_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_UKVM_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_UKVM_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_UKVM_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_UKVM_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_UKVM

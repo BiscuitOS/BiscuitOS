@@ -149,8 +149,8 @@ esac
 # --> Mount / at RAMDISK
 [ ${KERNEL_MAJOR_NO} -lt 4 ] && SUPPORT_RAMDISK=Y
 [ ${ARCH_NAME} == "arm64" ]  && SUPPORT_RAMDISK=N
-[ ${ARCH_NAME} == "x86" ] && SUPPORT_RAMDISK=Y
-[ ${ARCH_NAME} == "x86_64" ] && SUPPORT_RAMDISK=Y
+[ ${ARCH_NAME} == "x86" ] && SUPPORT_RAMDISK=N
+[ ${ARCH_NAME} == "x86_64" ] && SUPPORT_RAMDISK=N
 
 # RaspberryPi 4B
 [ ${PROJECT_NAME} = "RaspberryPi_4B" ] && SUPPORT_RPI4B=Y
@@ -186,7 +186,7 @@ mkdir -p ${ROOTFS_PATH}/etc/init.d
 RC=${ROOTFS_PATH}/etc/init.d/rcS
 ## Auto create rcS file
 cat << EOF > ${RC}
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:
 SHELL=/bin/ash
 export PATH SHELL
 mkdir -p /proc
@@ -216,6 +216,8 @@ mdev -s
 mkdir -p /mnt/Freeze
 [ -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vdb /mnt/Freeze > /dev/null 2>&1
 [ ! -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
+[ -b /dev/sdb ] && mount -t ${FS_TYPE} /dev/sdb /mnt/Freeze > /dev/null 2>&1
+[ -f /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm ] && ln -s /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm /usr/bin/qemu-kvm
 
 echo " ____  _                _ _    ___  ____  "
 echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "

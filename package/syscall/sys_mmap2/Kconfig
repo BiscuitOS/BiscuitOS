@@ -6,4 +6,10 @@ if PK_SYS_MMAP2
 # C mmap2
 source "package/syscall/sys_mmap2/mmap2_common/Kconfig"
 
+# Anonymous mmap on Userspace
+source "package/syscall/sys_mmap2/Anonymous-mmap-userspace/Kconfig"
+
+# Anonymous mmap on Kernel
+source "package/syscall/sys_mmap2/Anonymous-mmap-kernel/Kconfig"
+
 endif # PK_SYS_MMAP2
