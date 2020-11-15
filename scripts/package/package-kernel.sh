@@ -104,17 +104,6 @@ detect_kernel_version_field
 [ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 24 -a ${ARCH} = "arm" ] && SUPPORT_GCC341=Y && SUPPORT_26X24=Y
 [ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -ge 24 -a ${ARCH} = "arm" ] && SUPPORT_GCCNONE=Y && PACKAGE_TOOL=arm-none-linux-gnueabi
 
-# Detect Kernel Directory
-KENRNEL_DEMO_MAKEFILE=${OUTPUT}/linux/linux/lib/Makefile
-cat ${KENRNEL_DEMO_MAKEFILE} | grep "BiscuitOS" > /dev/null
-if [ $? -ne 0 ]; then
-	mkdir -p ${OUTPUT}/linux/linux/lib/BiscuitOS > /dev/null
-	echo "obj-y += BiscuitOS/" >> ${KENRNEL_DEMO_MAKEFILE}
-	touch ${OUTPUT}/linux/linux/lib/BiscuitOS/Makefile
-	echo "obj-y += BiscuitOS.o" > ${OUTPUT}/linux/linux/lib/BiscuitOS/Makefile
-	touch ${OUTPUT}/linux/linux/lib/BiscuitOS/BiscuitOS.c
-fi
-
 # Linux 2.6.x < 24
 if [ ${SUPPORT_26X24} = "Y" ]; then
 	PACKAGE_TOOL=arm-linux
@@ -150,6 +139,7 @@ echo 'PACK        := $(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo 'DL          := $(BSROOT)/dl' >> ${MF}
 echo 'BSCORE      := $(BSROOT)/scripts/package/bsbit_core.sh' >> ${MF}
 echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
+echo 'KERNRU      := $(BSROOT)/scripts/package/kernel_insert.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
 echo "DLD_PATH    := \"-L\$(INS_PATH)/lib -L\$(CROSS_PATH)/lib ${KBUILD_LIBPATH}\"" >> ${MF}
@@ -178,10 +168,7 @@ echo "CONFIG    += ${KBUILD_CONFIG}" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
-echo -e '\t@if [ -d $(ROOT)/linux/linux/lib/BiscuitOS -o -L $(ROOT)/linux/linux/lib/BiscuitOS ]; then \' >> ${MF}
-echo -e '\t\trm -rf $(ROOT)/linux/linux/lib/BiscuitOS ; \' >> ${MF}
-echo -e '\tfi' >> ${MF}
-echo -e '\t@ln -s $(PWD)/$(BASENAME) $(ROOT)/linux/linux/lib/BiscuitOS' >> ${MF}
+echo -e '\t@sh $(KERNRU) install_initcall $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
         echo -e '\tmake  ARCH=$(ARCH) bzImage -j4 ;\' >> ${MF}
@@ -189,6 +176,7 @@ else
         echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
 fi
 echo -e '\tcd - > /dev/null' >> ${MF}
+echo -e '\t@sh $(KERNRU) remove_initcall $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
 echo '' >> ${MF}
 echo 'prepare:' >> ${MF}
 echo -e '\t@$(BSCORE) bsbit/$(BSFILE) $(PACKDIR)' >> ${MF}

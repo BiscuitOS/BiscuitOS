@@ -6,6 +6,9 @@ if PK_BISCUITOS_DEMO
 # Kernel Demo 
 source package/BiscuitOS-demo/BiscuitOS-kernel/Kconfig
 
+# Kernel Any Demo 
+source package/BiscuitOS-demo/BiscuitOS-kernel-any/Kconfig
+
 # Modules Demo 
 source package/BiscuitOS-demo/BiscuitOS-modules/Kconfig
 
