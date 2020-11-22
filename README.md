@@ -49,6 +49,7 @@ sudo apt-get install -y debootstrap bsdtar
 sudo apt-get install -y libelf-dev gcc-multilib g++-multilib
 sudo apt-get install -y libcap-ng-dev
 sudo apt-get install -y libmount-dev libselinux1-dev libffi-dev libpulse-dev
+sudo apt-get install -y liblzma-dev
 
 On 64-Bit Machine:
 

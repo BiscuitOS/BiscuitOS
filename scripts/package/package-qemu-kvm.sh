@@ -164,6 +164,8 @@ echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
 echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
 echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
 echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
+echo -e '\tmake -j8; \' >> ${MF}
+echo -e '\tcd roms/seabios ; \' >> ${MF}
 echo -e '\tmake -j8' >> ${MF}
 echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
@@ -227,6 +229,7 @@ echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
 echo -e '\tsudo cp -rfa x86_64-softmmu/qemu-system-x86_64 $(QEMUDIR)/usr/bin/qemu-kvm  ; \' >> ${MF}
 echo -e '\tsudo cp -rfa pc-bios/bios-256k.bin $(QEMUDIR)/bios-256k.bin ; \' >> ${MF}
+echo -e '\tsudo cp -rfa roms/seabios/out/bios.bin $(QEMUDIR)/bios.bin ; \' >> ${MF}
 echo -e '\tsudo cp -rfa pc-bios/vgabios-stdvga.bin $(QEMUDIR)/vgabios-stdvga.bin ; \' >> ${MF}
 echo -e '\tsudo cp -rfa pc-bios/efi-e1000.rom $(QEMUDIR)/efi-e1000.rom ; \' >> ${MF}
 echo -e '\tsudo cp -rfa pc-bios/kvmvapic.bin $(QEMUDIR)/kvmvapic.bin ; \' >> ${MF}
@@ -347,13 +350,33 @@ echo '# Reserved by BiscuitOS :)' >> ${MF}
 
 MF=${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/RunBiscuitOS.sh
 
+echo "PACKAGE_NAME[${PACKAGE_NAME}]"
 echo '#!/bin/ash' > ${MF}
 echo '' >> ${MF}
+if [ ${PACKAGE_NAME}X = "BiscuitOS-qemu-kvm-2M"X ]; then
+echo 'mkdir -p /mnt/HugePagefs' >> ${MF}
+echo 'mount none /mnt/HugePagefs -t hugetlbfs' >> ${MF}
+echo '' >> ${MF}
+echo 'echo 96 > /proc/sys/vm/nr_hugepages' >> ${MF}
+echo '' >> ${MF}
+elif [ ${PACKAGE_NAME}X = "BiscuitOS-qemu-kvm-1G"X ]; then
+echo 'mkdir -p /mnt/HugePagefs' >> ${MF}
+echo 'mount none /mnt/HugePagefs -t hugetlbfs -o pagesize=1G' >> ${MF}
+echo '' >> ${MF}
+echo 'echo 2 > /proc/sys/vm/nr_hugepages' >> ${MF}
+echo '' >> ${MF}
+fi
 echo 'cd /mnt/Freeze/BiscuitOS' >> ${MF}
 echo '' >> ${MF}
 echo 'mkdir -p /var/log/' >> ${MF}
 echo '' >> ${MF}
-echo 'qemu-kvm -cpu host -m 64M -enable-kvm -nographic -kernel bzImage -append "root=/dev/sda rw rootfstype=ext4 console=ttyS0 init=/linuxrc loglevel=3" -hda BiscuitOS.img -serial stdio -nodefaults -D /var/log/BiscuitOS_qemu.log' >> ${MF}
+if [ ${PACKAGE_NAME}X = "BiscuitOS-qemu-kvm-2M"X ]; then
+	echo 'qemu-kvm -bios bios.bin -cpu host -m 64M -enable-kvm -mem-path /mnt/HugePagefs -mem-prealloc -nographic -kernel bzImage -append "root=/dev/sda rw rootfstype=ext4 console=ttyS0 init=/linuxrc loglevel=5" -hda BiscuitOS.img -serial stdio -nodefaults -D /var/log/BiscuitOS_qemu.log' >> ${MF}
+elif [ ${PACKAGE_NAME}X = "BiscuitOS-qemu-kvm-1G"X ]; then
+	echo 'qemu-kvm -bios bios.bin -cpu host -m 1024M -enable-kvm -mem-path /mnt/HugePagefs -mem-prealloc -nographic -kernel bzImage -append "root=/dev/sda rw rootfstype=ext4 console=ttyS0 init=/linuxrc loglevel=5" -hda BiscuitOS.img -serial stdio -nodefaults -D /var/log/BiscuitOS_qemu.log' >> ${MF}
+else
+	echo 'qemu-kvm -bios bios.bin -cpu host -m 64M -enable-kvm -nographic -kernel bzImage -append "root=/dev/sda rw rootfstype=ext4 console=ttyS0 init=/linuxrc loglevel=5" -hda BiscuitOS.img -serial stdio -nodefaults -D /var/log/BiscuitOS_qemu.log' >> ${MF}
+fi
 
 # Patch work
 #

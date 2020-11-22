@@ -18,6 +18,9 @@ source package/kvm/BiscuitOS-UKVM/Kconfig
 # BiscuitOS KVM Application (2MiB)
 source package/kvm/BiscuitOS-UKVM-2M/Kconfig
 
+# BiscuitOS KVM Application (1Gig)
+source package/kvm/BiscuitOS-UKVM-1G/Kconfig
+
 # BiscuitOS KVM Application (SMP/Kernel+)
 source package/kvm/BiscuitOS-UKVM-SMAP-kernel/Kconfig
 
@@ -26,5 +29,17 @@ source package/kvm/BiscuitOS-UKVM-SMAP-userspace/Kconfig
 
 # BiscuitOS qemu-kvm
 source package/kvm/BiscuitOS-qemu-kvm/Kconfig
+
+# BiscuitOS qemu-kvm 2M HugePage
+source package/kvm/BiscuitOS-qemu-kvm-2M/Kconfig
+
+# BiscuitOS qemu-kvm 1G HugePage
+source package/kvm/BiscuitOS-qemu-kvm-1G/Kconfig
+
+# BiscuitOS QEMU PCI Device Driver
+source package/kvm/BiscuitOS-QEMU-PCI-module/Kconfig
+
+# BiscuitOS QEMU PCI Application
+source package/kvm/BiscuitOS-QEMU-PCI-Application/Kconfig
 
 endif # PK_KVM
