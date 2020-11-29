@@ -115,11 +115,12 @@ echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
 echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK        := $(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo 'DL          := $(BSROOT)/dl' >> ${MF}
+echo "GITHUB      := ${PACKAGE_GITHIB}" >> ${MF}
 echo 'BSCORE      := $(BSROOT)/scripts/package/bsbit_core.sh' >> ${MF}
 echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
 echo 'FREEDIR     := $(ROOT)/FreezeDir' >> ${MF}
-echo 'QEMUDIR     := $(FREEDIR)/BiscuitOS' >> ${MF}
+echo 'KVMDIR     := $(FREEDIR)/BiscuitOS-kvmtool' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
 echo "DLD_PATH    := \"-L\$(INS_PATH)/lib -L\$(CROSS_PATH)/lib ${KBUILD_LIBPATH}\"" >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
@@ -134,8 +135,7 @@ echo "KCXXFLAGS   := ${KBUILD_CXXFLAGS}" >> ${MF}
 echo "KBASFLAGS   := ${KBUILD_ASFLAGS}" >> ${MF}
 echo '' >> ${MF}
 echo '# Package information' >> ${MF}
-echo "PACKAGE   := qemu-${PACKAGE_VERSION}.${PACKAGE_TARTYPE}" >> ${MF}
-echo "_PACKAGE   := qemu-${PACKAGE_VERSION}" >> ${MF}
+echo "PACKAGE   := kvmtool" >> ${MF}
 echo "BASENAME  := ${BASEPKNAME}" >> ${MF}
 echo 'TARCMD    := tar -xvf' >> ${MF}
 echo 'PATCH     := patch/$(BASENAME)' >> ${MF}
@@ -165,8 +165,6 @@ echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
 echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
 echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
 echo -e '\tmake -j8; \' >> ${MF}
-echo -e '\tcd roms/seabios ; \' >> ${MF}
-echo -e '\tmake -j8' >> ${MF}
 echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -182,13 +180,12 @@ echo 'depence-clean:' >> ${MF}
 echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
-echo -e '\t@if [ ! -f $(DL)/$(PACKAGE) ]; \' >> ${MF}
+echo -e '\t@if [ ! -d $(DL)/$(PACKAGE) ]; \' >> ${MF}
 echo -e '\tthen \' >> ${MF}
-echo -e '\t\twget $(URL)/$(PACKAGE) -P $(DL); \' >> ${MF}
-echo -e '\t\tset -e ; \' >> ${MF}
-echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./ ; \' >> ${MF}
+echo -e '\t\tgit clone $(GITHUB) $(DL)/$(PACKAGE) ; \' >> ${MF}
+echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./$(BASENAME) ; \' >> ${MF}
 echo -e '\telse \' >> ${MF}
-echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./ ; \' >> ${MF}
+echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./$(BASENAME) ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -196,26 +193,12 @@ echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Download $(PACKAGE) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'tar:' >> ${MF}
-echo -e '\t$(TARCMD) $(PACKAGE)' >> ${MF}
-echo -e '\t@if [ ! -d $(PATCH) ]; then \' >> ${MF}
-echo -e '\t\texit 0 ; \' >> ${MF}
-echo -e '\tfi' >> ${MF}
-echo -e '\t@for patchname in $(shell ls $(PATCH)) ; \' >> ${MF}
-echo -e '\tdo \' >> ${MF}
-echo -e '\t\tcp -rf $(PATCH)/$${patchname} $(BASENAME) ; \' >> ${MF}
-echo -e '\t\tcd $(BASENAME) > /dev/null 2>&1 ; \' >> ${MF}
-echo -e '\t\tpatch -p1 < $${patchname} ; \' >> ${MF}
-echo -e '\t\tcd - > /dev/null 2>&1 ; \' >> ${MF}
-echo -e '\tdone' >> ${MF}
-echo -e '\tmv $(_PACKAGE) $(BASENAME)' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Decompression $(PACKAGE) => $(BASENAME) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'configure:' >> ${MF}
-echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
-echo -e '\t./configure $(CONFIG)' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
@@ -223,19 +206,12 @@ echo -e '\t$(info "Configure $(BASENAME) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh mount' >> ${MF}
-echo -e '\tmkdir -p $(QEMUDIR)' >> ${MF}
-echo -e '\tmkdir -p $(QEMUDIR)/usr/bin' >> ${MF}
+echo -e '\tmkdir -p $(KVMDIR)' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
-echo -e '\tsudo cp -rfa x86_64-softmmu/qemu-system-x86_64 $(QEMUDIR)/usr/bin/qemu-kvm  ; \' >> ${MF}
-echo -e '\tsudo cp -rfa pc-bios/bios-256k.bin $(QEMUDIR)/bios-256k.bin ; \' >> ${MF}
-echo -e '\tsudo cp -rfa roms/seabios/out/bios.bin $(QEMUDIR)/bios.bin ; \' >> ${MF}
-echo -e '\tsudo cp -rfa pc-bios/vgabios-stdvga.bin $(QEMUDIR)/vgabios-stdvga.bin ; \' >> ${MF}
-echo -e '\tsudo cp -rfa pc-bios/efi-e1000.rom $(QEMUDIR)/efi-e1000.rom ; \' >> ${MF}
-echo -e '\tsudo cp -rfa pc-bios/kvmvapic.bin $(QEMUDIR)/kvmvapic.bin ; \' >> ${MF}
-echo -e '\tsudo cp -rfa pc-bios/linuxboot_dma.bin $(QEMUDIR)/linuxboot_dma.bin ; \' >> ${MF}
-echo -e '\tsudo cp -rfa $(ROOT)/linux/linux/arch/x86/boot/bzImage $(QEMUDIR)/bzImage ; \' >> ${MF}
-echo -e '\tsudo cp -rfa $(ROOT)/BiscuitOS.img $(QEMUDIR)/BiscuitOS.img ; \' >> ${MF}
+echo -e '\tsudo cp -rfa lkvm $(INS_PATH)/bin ; \' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/linux/linux/arch/x86/boot/bzImage $(KVMDIR)/bzImage ; \' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/BiscuitOS.img $(KVMDIR)/BiscuitOS.img ; \' >> ${MF}
 echo -e '\tsudo chmod 755 ../RunBiscuitOS.sh ; \' >> ${MF}
 echo -e '\tsudo cp -rfa ../RunBiscuitOS.sh $(INS_PATH)/bin' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
@@ -276,7 +252,6 @@ echo -e '\t$(info "DClean  .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}
-
 
 MF=${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/README.md
 
@@ -352,29 +327,22 @@ MF=${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/RunBiscuitOS.sh
 
 echo '#!/bin/ash' > ${MF}
 echo '' >> ${MF}
-if [ ${PACKAGE_NAME}X = "BiscuitOS-qemu-kvm-2M"X ]; then
-echo 'mkdir -p /mnt/HugePagefs' >> ${MF}
-echo 'mount none /mnt/HugePagefs -t hugetlbfs' >> ${MF}
-echo '' >> ${MF}
-echo 'echo 96 > /proc/sys/vm/nr_hugepages' >> ${MF}
-echo '' >> ${MF}
-elif [ ${PACKAGE_NAME}X = "BiscuitOS-qemu-kvm-1G"X ]; then
-echo 'mkdir -p /mnt/HugePagefs' >> ${MF}
-echo 'mount none /mnt/HugePagefs -t hugetlbfs -o pagesize=1G' >> ${MF}
-echo '' >> ${MF}
+if [ ${PACKAGE_NAME}X = "BiscuitOS-kvmtool-2M"X ]; then 
+echo 'mkdir -p /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-2M/' >> ${MF}
+echo 'mount none /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-2M/ -t hugetlbfs' >> ${MF}
+echo 'echo 100 > /proc/sys/vm/nr_hugepages' >> ${MF}
+echo 'cd /mnt/Freeze/BiscuitOS-kvmtool' >> ${MF}
+echo 'lkvm run --name BiscuitOS-kvm --cpus 2 --mem 128 --disk BiscuitOS.img --kernel bzImage --params "loglevel=3" --hugetlbfs /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-2M/' >> ${MF}
+elif [ ${PACKAGE_NAME}X = "BiscuitOS-kvmtool-1G"X ]; then
+echo 'mkdir -p /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-1G/' >> ${MF}
+echo 'mount none /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-1G/ -t hugetlbfs' >> ${MF}
 echo 'echo 2 > /proc/sys/vm/nr_hugepages' >> ${MF}
-echo '' >> ${MF}
-fi
-echo 'cd /mnt/Freeze/BiscuitOS' >> ${MF}
-echo '' >> ${MF}
-echo 'mkdir -p /var/log/' >> ${MF}
-echo '' >> ${MF}
-if [ ${PACKAGE_NAME}X = "BiscuitOS-qemu-kvm-2M"X ]; then
-	echo 'qemu-kvm -bios bios.bin -cpu host -m 64M -enable-kvm -mem-path /mnt/HugePagefs -mem-prealloc -nographic -kernel bzImage -append "root=/dev/sda rw rootfstype=ext4 console=ttyS0 init=/linuxrc loglevel=5" -hda BiscuitOS.img -serial stdio -nodefaults -D /var/log/BiscuitOS_qemu.log' >> ${MF}
-elif [ ${PACKAGE_NAME}X = "BiscuitOS-qemu-kvm-1G"X ]; then
-	echo 'qemu-kvm -bios bios.bin -cpu host -m 1024M -enable-kvm -mem-path /mnt/HugePagefs -mem-prealloc -nographic -kernel bzImage -append "root=/dev/sda rw rootfstype=ext4 console=ttyS0 init=/linuxrc loglevel=5" -hda BiscuitOS.img -serial stdio -nodefaults -D /var/log/BiscuitOS_qemu.log' >> ${MF}
+echo 'cd /mnt/Freeze/BiscuitOS-kvmtool' >> ${MF}
+echo 'lkvm run --name BiscuitOS-kvm --cpus 2 --mem 128 --disk BiscuitOS.img --kernel bzImage --params "loglevel=3" --hugetlbfs /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-1G/' >> ${MF}
 else
-	echo 'qemu-kvm -bios bios.bin -cpu host -m 64M -enable-kvm -nographic -kernel bzImage -append "root=/dev/sda rw rootfstype=ext4 console=ttyS0 init=/linuxrc loglevel=5" -hda BiscuitOS.img -serial stdio -nodefaults -D /var/log/BiscuitOS_qemu.log' >> ${MF}
+echo 'cd /mnt/Freeze/BiscuitOS-kvmtool' >> ${MF}
+echo '' >> ${MF}
+echo 'lkvm run --disk BiscuitOS.img --kernel bzImage' >> ${MF}
 fi
 
 # Patch work

@@ -11,6 +11,9 @@ kvm-$(CONFIG_PK_BISCUITOS_UKVM_SMAP_KERNEL)	+= BiscuitOS-UKVM-SMAP-kernel/
 kvm-$(CONFIG_PK_BISCUITOS_UKVM_SMAP_USER)	+= BiscuitOS-UKVM-SMAP-userspace/
 kvm-$(CONFIG_PK_BISCUITOS_QEMU_PCI_MOD)		+= BiscuitOS-QEMU-PCI-module/
 kvm-$(CONFIG_PK_BISCUITOS_QEMU_PCI_APP)		+= BiscuitOS-QEMU-PCI-Application/
+kvm-$(CONFIG_PK_BISCUITOS_KVM_TOOLS)		+= BiscuitOS-kvmtools/
+kvm-$(CONFIG_PK_BISCUITOS_KVM_TOOLS_2M)		+= BiscuitOS-kvmtools-2M/
+kvm-$(CONFIG_PK_BISCUITOS_KVM_TOOLS_1G)		+= BiscuitOS-kvmtools-1G/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/kvm/%/Makefile, $(kvm-y))
 

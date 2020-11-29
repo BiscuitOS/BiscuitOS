@@ -42,4 +42,13 @@ source package/kvm/BiscuitOS-QEMU-PCI-module/Kconfig
 # BiscuitOS QEMU PCI Application
 source package/kvm/BiscuitOS-QEMU-PCI-Application/Kconfig
 
+# Native Linux KVM tool
+source package/kvm/BiscuitOS-kvmtools/Kconfig
+
+# Native Linux KVM tool 2M
+source package/kvm/BiscuitOS-kvmtools-2M/Kconfig
+
+# Native Linux KVM tool 1G
+source package/kvm/BiscuitOS-kvmtools-1G/Kconfig
+
 endif # PK_KVM
