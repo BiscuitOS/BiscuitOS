@@ -282,6 +282,9 @@ source package/ncurses/Kconfig
 # nettle
 source package/nettle/Kconfig
 
+# nodemask
+source package/nodemask/Kconfig
+
 # notifier
 source package/notifier/Kconfig
 

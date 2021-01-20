@@ -1,0 +1,55 @@
+menuconfig PK_CPUID_TOOLS
+	bool "CPUID tools"
+
+if PK_CPUID_TOOLS
+
+config PK_CPUID_TOOLS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CPUID_TOOLS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CPUID_TOOLS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Virtualization/tools/cpuid"
+	string "url"
+
+config PK_CPUID_TOOLS_GITHUB
+	string "GitHub"
+
+config PK_CPUID_TOOLS_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_CPUID_TOOLS_CSRCFILE
+	string "Compile source code list"
+
+config PK_CPUID_TOOLS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CPUID_TOOLS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CPUID_TOOLS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CPUID_TOOLS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CPUID_TOOLS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CPUID_TOOLS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CPUID_TOOLS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CPUID_TOOLS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CPUID_TOOLS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CPUID_TOOLS

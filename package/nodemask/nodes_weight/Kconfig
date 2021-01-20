@@ -1,0 +1,55 @@
+menuconfig PK_NODES_WEIGHT
+	bool "nodes_weight"
+
+if PK_NODES_WEIGHT
+
+config PK_NODES_WEIGHT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NODES_WEIGHT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NODES_WEIGHT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/nodes_weight"
+	string "url"
+
+config PK_NODES_WEIGHT_GITHUB
+	string "GitHub"
+
+config PK_NODES_WEIGHT_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NODES_WEIGHT_CSRCFILE
+	string "Compile source code list"
+
+config PK_NODES_WEIGHT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NODES_WEIGHT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NODES_WEIGHT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NODES_WEIGHT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NODES_WEIGHT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NODES_WEIGHT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NODES_WEIGHT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NODES_WEIGHT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NODES_WEIGHT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NODES_WEIGHT

@@ -51,4 +51,10 @@ source package/kvm/BiscuitOS-kvmtools-2M/Kconfig
 # Native Linux KVM tool 1G
 source package/kvm/BiscuitOS-kvmtools-1G/Kconfig
 
+# MSR Tools
+source package/kvm/MSR-Tools/Kconfig
+
+# CPUID Tools
+source package/kvm/CPUID-Tools/Kconfig
+
 endif # PK_KVM

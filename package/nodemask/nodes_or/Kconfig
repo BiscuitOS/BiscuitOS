@@ -1,0 +1,55 @@
+menuconfig PK_NODES_OR
+	bool "nodes_or"
+
+if PK_NODES_OR
+
+config PK_NODES_OR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NODES_OR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NODES_OR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/nodes_or"
+	string "url"
+
+config PK_NODES_OR_GITHUB
+	string "GitHub"
+
+config PK_NODES_OR_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NODES_OR_CSRCFILE
+	string "Compile source code list"
+
+config PK_NODES_OR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NODES_OR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NODES_OR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NODES_OR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NODES_OR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NODES_OR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NODES_OR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NODES_OR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NODES_OR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NODES_OR

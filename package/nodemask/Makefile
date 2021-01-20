@@ -1,0 +1,42 @@
+nodemask-$(CONFIG_PK_NODE_SET) 			+= node_set/
+nodemask-$(CONFIG_PK_NODE_CLEAR) 		+= node_clear/
+nodemask-$(CONFIG_PK_NODE_ISSET) 		+= node_isset/
+nodemask-$(CONFIG_PK_NODE_TEST_AND_SET) 	+= node_test_and_set/
+nodemask-$(CONFIG_PK_NODES_CLEAR) 		+= nodes_clear/
+nodemask-$(CONFIG_PK_NODES_SETALL) 		+= nodes_setall/
+nodemask-$(CONFIG_PK_NODES_AND) 		+= nodes_and/
+nodemask-$(CONFIG_PK_NODES_ANDNOT) 		+= nodes_andnot/
+nodemask-$(CONFIG_PK_NODES_OR)	 		+= nodes_or/
+nodemask-$(CONFIG_PK_NODES_XOR)	 		+= nodes_xor/
+nodemask-$(CONFIG_PK_NODES_EQUAL)	 	+= nodes_equal/
+nodemask-$(CONFIG_PK_NODES_COMPLEMENT)	 	+= nodes_complement/
+nodemask-$(CONFIG_PK_NODES_INTERSECTS)	 	+= nodes_intersects/
+nodemask-$(CONFIG_PK_NODES_SUBSET)	 	+= nodes_subset/
+nodemask-$(CONFIG_PK_NODES_EMPTY)	 	+= nodes_empty/
+nodemask-$(CONFIG_PK_NODES_FULL)	 	+= nodes_full/
+nodemask-$(CONFIG_PK_NODES_WEIGHT)	 	+= nodes_weight/
+nodemask-$(CONFIG_PK_NODES_SHIFT_RIGHT)	 	+= nodes_shift_right/
+nodemask-$(CONFIG_PK_NODES_SHIFT_LEFT)	 	+= nodes_shift_left/
+nodemask-$(CONFIG_PK_FIRST_NODE)	 	+= first_node/
+nodemask-$(CONFIG_PK_NEXT_NODE)	 		+= next_node/
+nodemask-$(CONFIG_PK_NEXT_NODE_IN)	 	+= next_node_in/
+nodemask-$(CONFIG_PK_FIRST_UNSET_NODE)	 	+= first_unset_node/
+nodemask-$(CONFIG_PK_INIT_NODEMASK_OF_NODE)	+= init_nodemask_of_node/
+nodemask-$(CONFIG_PK_FOR_EACH_NODE_MASK)	+= for_each_node_mask/
+nodemask-$(CONFIG_PK_NODE_STATE)		+= node_state/
+nodemask-$(CONFIG_PK_NODE_SET_STATE)		+= node_set_state/
+nodemask-$(CONFIG_PK_NODE_CLEAR_STATE)		+= node_clear_state/
+nodemask-$(CONFIG_PK_NUM_NODE_STATE)		+= num_node_state/
+nodemask-$(CONFIG_PK_FOR_EACH_NODE_STATE)	+= for_each_node_state/
+nodemask-$(CONFIG_PK_NEXT_ONLINE_NODE)		+= next_online_node/
+nodemask-$(CONFIG_PK_NEXT_MEMORY_NODE)		+= next_memory_node/
+nodemask-$(CONFIG_PK_NODE_SET_OFFLINE)		+= node_set_offline/
+nodemask-$(CONFIG_PK_NODE_SET_ONLINE)		+= node_set_online/
+nodemask-$(CONFIG_PK_NUM_ONLINE_NODES)		+= num_online_nodes/
+nodemask-$(CONFIG_PK_NUM_POSSIBLE_NODES)	+= num_possible_nodes/
+nodemask-$(CONFIG_PK_NODE_ONLINE)		+= node_online/
+nodemask-$(CONFIG_PK_NODE_POSSIBLE)		+= node_possible/
+
+PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/nodemask/%/Makefile, $(nodemask-y))
+
+include $(PACKAGE_MAKEDIR)

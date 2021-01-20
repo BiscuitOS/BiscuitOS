@@ -1,0 +1,55 @@
+menuconfig PK_NODES_COMPLEMENT
+	bool "nodes_complement"
+
+if PK_NODES_COMPLEMENT
+
+config PK_NODES_COMPLEMENT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NODES_COMPLEMENT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NODES_COMPLEMENT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/nodes_complement"
+	string "url"
+
+config PK_NODES_COMPLEMENT_GITHUB
+	string "GitHub"
+
+config PK_NODES_COMPLEMENT_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NODES_COMPLEMENT_CSRCFILE
+	string "Compile source code list"
+
+config PK_NODES_COMPLEMENT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NODES_COMPLEMENT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NODES_COMPLEMENT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NODES_COMPLEMENT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NODES_COMPLEMENT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NODES_COMPLEMENT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NODES_COMPLEMENT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NODES_COMPLEMENT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NODES_COMPLEMENT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NODES_COMPLEMENT

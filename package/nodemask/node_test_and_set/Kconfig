@@ -1,0 +1,55 @@
+menuconfig PK_NODE_TEST_AND_SET
+	bool "node_test_and_set"
+
+if PK_NODE_TEST_AND_SET
+
+config PK_NODE_TEST_AND_SET_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NODE_TEST_AND_SET_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NODE_TEST_AND_SET_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/node_test_and_set"
+	string "url"
+
+config PK_NODE_TEST_AND_SET_GITHUB
+	string "GitHub"
+
+config PK_NODE_TEST_AND_SET_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NODE_TEST_AND_SET_CSRCFILE
+	string "Compile source code list"
+
+config PK_NODE_TEST_AND_SET_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NODE_TEST_AND_SET_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NODE_TEST_AND_SET_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NODE_TEST_AND_SET_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NODE_TEST_AND_SET_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NODE_TEST_AND_SET_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NODE_TEST_AND_SET_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NODE_TEST_AND_SET_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NODE_TEST_AND_SET_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NODE_TEST_AND_SET

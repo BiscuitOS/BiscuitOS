@@ -1,0 +1,55 @@
+menuconfig PK_NODE_ISSET
+	bool "node_isset"
+
+if PK_NODE_ISSET
+
+config PK_NODE_ISSET_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NODE_ISSET_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NODE_ISSET_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/node_isset"
+	string "url"
+
+config PK_NODE_ISSET_GITHUB
+	string "GitHub"
+
+config PK_NODE_ISSET_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NODE_ISSET_CSRCFILE
+	string "Compile source code list"
+
+config PK_NODE_ISSET_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NODE_ISSET_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NODE_ISSET_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NODE_ISSET_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NODE_ISSET_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NODE_ISSET_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NODE_ISSET_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NODE_ISSET_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NODE_ISSET_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NODE_ISSET

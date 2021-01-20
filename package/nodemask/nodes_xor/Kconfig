@@ -1,0 +1,55 @@
+menuconfig PK_NODES_XOR
+	bool "nodes_xor"
+
+if PK_NODES_XOR
+
+config PK_NODES_XOR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NODES_XOR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NODES_XOR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/nodes_xor"
+	string "url"
+
+config PK_NODES_XOR_GITHUB
+	string "GitHub"
+
+config PK_NODES_XOR_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NODES_XOR_CSRCFILE
+	string "Compile source code list"
+
+config PK_NODES_XOR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NODES_XOR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NODES_XOR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NODES_XOR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NODES_XOR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NODES_XOR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NODES_XOR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NODES_XOR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NODES_XOR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NODES_XOR

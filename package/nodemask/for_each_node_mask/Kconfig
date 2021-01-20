@@ -1,0 +1,55 @@
+menuconfig PK_FOR_EACH_NODE_MASK
+	bool "for_each_node_mask"
+
+if PK_FOR_EACH_NODE_MASK
+
+config PK_FOR_EACH_NODE_MASK_VERSION
+	default "default"
+	string "verstion"
+
+config PK_FOR_EACH_NODE_MASK_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_FOR_EACH_NODE_MASK_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/for_each_node_mask"
+	string "url"
+
+config PK_FOR_EACH_NODE_MASK_GITHUB
+	string "GitHub"
+
+config PK_FOR_EACH_NODE_MASK_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_FOR_EACH_NODE_MASK_CSRCFILE
+	string "Compile source code list"
+
+config PK_FOR_EACH_NODE_MASK_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_FOR_EACH_NODE_MASK_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_FOR_EACH_NODE_MASK_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_FOR_EACH_NODE_MASK_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_FOR_EACH_NODE_MASK_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_FOR_EACH_NODE_MASK_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_FOR_EACH_NODE_MASK_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_FOR_EACH_NODE_MASK_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_FOR_EACH_NODE_MASK_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_FOR_EACH_NODE_MASK

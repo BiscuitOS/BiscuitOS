@@ -1,6 +1,8 @@
 kvm-$(CONFIG_PK_KVM_USERSPACE)		+= kvm_userspace/
 kvm-$(CONFIG_PK_KVM_MODULE)		+= kvm_module/
 kvm-$(CONFIG_PK_KVM_HISTORY)		+= kvm_history/
+kvm-$(CONFIG_PK_MSR_TOOLS)		+= MSR-Tools/
+kvm-$(CONFIG_PK_CPUID_TOOLS)		+= CPUID-Tools/
 kvm-$(CONFIG_PK_BISCUITOS_UKVM)		+= BiscuitOS-UKVM/
 kvm-$(CONFIG_PK_BISCUITOS_UKVM_2M)	+= BiscuitOS-UKVM-2M/
 kvm-$(CONFIG_PK_BISCUITOS_UKVM_1G)	+= BiscuitOS-UKVM-1G/

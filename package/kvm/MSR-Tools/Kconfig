@@ -1,0 +1,55 @@
+menuconfig PK_MSR_TOOLS
+	bool "MSR tools (rdmsr and wrmsr)"
+
+if PK_MSR_TOOLS
+
+config PK_MSR_TOOLS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MSR_TOOLS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MSR_TOOLS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Virtualization/tools/msr"
+	string "url"
+
+config PK_MSR_TOOLS_GITHUB
+	string "GitHub"
+
+config PK_MSR_TOOLS_SRCFILE
+	default "rdmsr.c wrmsr.c Makefile"
+	string "Source code list"
+
+config PK_MSR_TOOLS_CSRCFILE
+	string "Compile source code list"
+
+config PK_MSR_TOOLS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MSR_TOOLS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MSR_TOOLS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MSR_TOOLS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MSR_TOOLS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MSR_TOOLS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MSR_TOOLS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MSR_TOOLS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MSR_TOOLS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MSR_TOOLS

@@ -1,0 +1,49 @@
+################################################
+#
+# num_online_nodes
+#
+################################################
+PK_NUM_ONLINE_NODES_NAME        := num_online_nodes
+PK_NUM_ONLINE_NODES_VERSION     := $(CONFIG_PK_NUM_ONLINE_NODES_VERSION)
+PK_NUM_ONLINE_NODES_SITE        := $(CONFIG_PK_NUM_ONLINE_NODES_URL)
+PK_NUM_ONLINE_NODES_GITHUB      := $(CONFIG_PK_NUM_ONLINE_NODES_GITHUB)
+PK_NUM_ONLINE_NODES_SUBNAME     :=
+PK_NUM_ONLINE_NODES_BUILDARCH   := $(CONFIG_PK_NUM_ONLINE_NODES_BUILDARCH)
+PK_NUM_ONLINE_NODES_DIR         := $(srctree)/package/nodemask/num_online_nodes
+PK_NUM_ONLINE_NODES_PATCH       := $(PK_NUM_ONLINE_NODES_DIR)/patch
+PK_NUM_ONLINE_NODES_BSBIT       := num_online_nodes-$(PK_NUM_ONLINE_NODES_VERSION).bsbit
+PK_NUM_ONLINE_NODES_OUT         :=
+PK_NUM_ONLINE_NODES_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_NUM_ONLINE_NODES_TAR         := $(CONFIG_PK_NUM_ONLINE_NODES_TAR)
+PK_NUM_ONLINE_NODES_PACKAGE     :=
+PK_NUM_ONLINE_NODES_CONFIG      := $(CONFIG_PK_NUM_ONLINE_NODES_CONFIG)
+SUB_TARGET                  += $(PK_NUM_ONLINE_NODES_DIR)/build
+
+PK_NUM_ONLINE_NODES_sh = $(CONFIG_SHELL) $(PK_NUM_ONLINE_NODES_SCRIPTS) \
+                 $1X \
+                 $(PK_NUM_ONLINE_NODES_NAME)X \
+                 $(PK_NUM_ONLINE_NODES_VERSION)X \
+                 $(PK_NUM_ONLINE_NODES_SITE)X \
+                 $(PK_NUM_ONLINE_NODES_GITHUB)X \
+                 $(PK_NUM_ONLINE_NODES_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_NUM_ONLINE_NODES_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_NUM_ONLINE_NODES_SUBNAME)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_CONFIG)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_LIBPATH)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_CPPFLAGS)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_DPKCONFIG)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_CFLAGS)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_LDFLAGS)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_CXXFLAGS)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_ASFLAGS)X \
+                 $(PK_NUM_ONLINE_NODES_BSBIT)X \
+                 $(PK_NUM_ONLINE_NODES_BUILDARCH)X \
+		 $(PK_NUM_ONLINE_NODES_CSRCFILE)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_SRCFILE)X \
+                 $(CONFIG_PK_NUM_ONLINE_NODES_CSRCFILE)
+
+$(PK_NUM_ONLINE_NODES_DIR)/build: FORCE
+	$(Q)$(call PK_NUM_ONLINE_NODES_sh,$(srctree))

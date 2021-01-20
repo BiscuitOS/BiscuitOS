@@ -1,0 +1,55 @@
+menuconfig PK_NODE_ONLINE
+	bool "node_online"
+
+if PK_NODE_ONLINE
+
+config PK_NODE_ONLINE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NODE_ONLINE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NODE_ONLINE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/node_online"
+	string "url"
+
+config PK_NODE_ONLINE_GITHUB
+	string "GitHub"
+
+config PK_NODE_ONLINE_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NODE_ONLINE_CSRCFILE
+	string "Compile source code list"
+
+config PK_NODE_ONLINE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NODE_ONLINE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NODE_ONLINE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NODE_ONLINE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NODE_ONLINE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NODE_ONLINE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NODE_ONLINE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NODE_ONLINE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NODE_ONLINE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NODE_ONLINE

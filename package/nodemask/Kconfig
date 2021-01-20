@@ -1,0 +1,120 @@
+menuconfig PK_NODEMASK
+	bool "nodemask"
+
+if PK_NODEMASK
+
+# first_node
+source package/nodemask/first_node/Kconfig
+
+# first_unset_node
+source package/nodemask/first_unset_node/Kconfig
+
+# for_each_node_mask
+source package/nodemask/for_each_node_mask/Kconfig
+
+# for_each_node_state
+source package/nodemask/for_each_node_state/Kconfig
+
+# init_nodemask_of_node
+source package/nodemask/init_nodemask_of_node/Kconfig
+
+# next_memory_node
+source package/nodemask/next_memory_node/Kconfig
+
+# next_node
+source package/nodemask/next_node/Kconfig
+
+# next_node_in
+source package/nodemask/next_node_in/Kconfig
+
+# next_online_node
+source package/nodemask/next_online_node/Kconfig
+
+# node_clear
+source package/nodemask/node_clear/Kconfig
+
+# node_clear_state
+source package/nodemask/node_clear_state/Kconfig
+
+# node_isset
+source package/nodemask/node_isset/Kconfig
+
+# node_online
+source package/nodemask/node_online/Kconfig
+
+# node_possible
+source package/nodemask/node_possible/Kconfig
+
+# node_set
+source package/nodemask/node_set/Kconfig
+
+# node_set_offline
+source package/nodemask/node_set_offline/Kconfig
+
+# node_set_online
+source package/nodemask/node_set_online/Kconfig
+
+# node_set_state
+source package/nodemask/node_set_state/Kconfig
+
+# node_state
+source package/nodemask/node_state/Kconfig
+
+# node_test_and_set
+source package/nodemask/node_test_and_set/Kconfig
+
+# nodes_and
+source package/nodemask/nodes_and/Kconfig
+
+# nodes_andnot
+source package/nodemask/nodes_andnot/Kconfig
+
+# nodes_clear
+source package/nodemask/nodes_clear/Kconfig
+
+# nodes_complement
+source package/nodemask/nodes_complement/Kconfig
+
+# nodes_empty
+source package/nodemask/nodes_empty/Kconfig
+
+# nodes_equal
+source package/nodemask/nodes_equal/Kconfig
+
+# nodes_full
+source package/nodemask/nodes_full/Kconfig
+
+# nodes_intersects
+source package/nodemask/nodes_intersects/Kconfig
+
+# nodes_or
+source package/nodemask/nodes_or/Kconfig
+
+# nodes_setall
+source package/nodemask/nodes_setall/Kconfig
+
+# nodes_shift_left
+source package/nodemask/nodes_shift_left/Kconfig
+
+# nodes_shift_right
+source package/nodemask/nodes_shift_right/Kconfig
+
+# nodes_subset
+source package/nodemask/nodes_subset/Kconfig
+
+# nodes_weight
+source package/nodemask/nodes_weight/Kconfig
+
+# nodes_xor
+source package/nodemask/nodes_xor/Kconfig
+
+# num_node_state
+source package/nodemask/num_node_state/Kconfig
+
+# num_online_nodes
+source package/nodemask/num_online_nodes/Kconfig
+
+# num_possible_nodes
+source package/nodemask/num_possible_nodes/Kconfig
+
+endif # PK_NODEMASK

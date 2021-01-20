@@ -1,0 +1,55 @@
+menuconfig PK_NUM_POSSIBLE_NODES
+	bool "num_possible_nodes"
+
+if PK_NUM_POSSIBLE_NODES
+
+config PK_NUM_POSSIBLE_NODES_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NUM_POSSIBLE_NODES_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NUM_POSSIBLE_NODES_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/num_possible_nodes"
+	string "url"
+
+config PK_NUM_POSSIBLE_NODES_GITHUB
+	string "GitHub"
+
+config PK_NUM_POSSIBLE_NODES_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NUM_POSSIBLE_NODES_CSRCFILE
+	string "Compile source code list"
+
+config PK_NUM_POSSIBLE_NODES_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NUM_POSSIBLE_NODES_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NUM_POSSIBLE_NODES_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NUM_POSSIBLE_NODES_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NUM_POSSIBLE_NODES_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NUM_POSSIBLE_NODES_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NUM_POSSIBLE_NODES_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NUM_POSSIBLE_NODES_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NUM_POSSIBLE_NODES_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NUM_POSSIBLE_NODES

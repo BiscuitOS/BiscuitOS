@@ -1,0 +1,49 @@
+################################################
+#
+# nodes_shift_right
+#
+################################################
+PK_NODES_SHIFT_RIGHT_NAME        := nodes_shift_right
+PK_NODES_SHIFT_RIGHT_VERSION     := $(CONFIG_PK_NODES_SHIFT_RIGHT_VERSION)
+PK_NODES_SHIFT_RIGHT_SITE        := $(CONFIG_PK_NODES_SHIFT_RIGHT_URL)
+PK_NODES_SHIFT_RIGHT_GITHUB      := $(CONFIG_PK_NODES_SHIFT_RIGHT_GITHUB)
+PK_NODES_SHIFT_RIGHT_SUBNAME     :=
+PK_NODES_SHIFT_RIGHT_BUILDARCH   := $(CONFIG_PK_NODES_SHIFT_RIGHT_BUILDARCH)
+PK_NODES_SHIFT_RIGHT_DIR         := $(srctree)/package/nodemask/nodes_shift_right
+PK_NODES_SHIFT_RIGHT_PATCH       := $(PK_NODES_SHIFT_RIGHT_DIR)/patch
+PK_NODES_SHIFT_RIGHT_BSBIT       := nodes_shift_right-$(PK_NODES_SHIFT_RIGHT_VERSION).bsbit
+PK_NODES_SHIFT_RIGHT_OUT         :=
+PK_NODES_SHIFT_RIGHT_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_NODES_SHIFT_RIGHT_TAR         := $(CONFIG_PK_NODES_SHIFT_RIGHT_TAR)
+PK_NODES_SHIFT_RIGHT_PACKAGE     :=
+PK_NODES_SHIFT_RIGHT_CONFIG      := $(CONFIG_PK_NODES_SHIFT_RIGHT_CONFIG)
+SUB_TARGET                  += $(PK_NODES_SHIFT_RIGHT_DIR)/build
+
+PK_NODES_SHIFT_RIGHT_sh = $(CONFIG_SHELL) $(PK_NODES_SHIFT_RIGHT_SCRIPTS) \
+                 $1X \
+                 $(PK_NODES_SHIFT_RIGHT_NAME)X \
+                 $(PK_NODES_SHIFT_RIGHT_VERSION)X \
+                 $(PK_NODES_SHIFT_RIGHT_SITE)X \
+                 $(PK_NODES_SHIFT_RIGHT_GITHUB)X \
+                 $(PK_NODES_SHIFT_RIGHT_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_NODES_SHIFT_RIGHT_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_NODES_SHIFT_RIGHT_SUBNAME)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_CONFIG)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_LIBPATH)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_CPPFLAGS)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_DPKCONFIG)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_CFLAGS)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_LDFLAGS)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_CXXFLAGS)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_ASFLAGS)X \
+                 $(PK_NODES_SHIFT_RIGHT_BSBIT)X \
+                 $(PK_NODES_SHIFT_RIGHT_BUILDARCH)X \
+		 $(PK_NODES_SHIFT_RIGHT_CSRCFILE)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_SRCFILE)X \
+                 $(CONFIG_PK_NODES_SHIFT_RIGHT_CSRCFILE)
+
+$(PK_NODES_SHIFT_RIGHT_DIR)/build: FORCE
+	$(Q)$(call PK_NODES_SHIFT_RIGHT_sh,$(srctree))

@@ -1,0 +1,55 @@
+menuconfig PK_NEXT_NODE_IN
+	bool "next_node_in"
+
+if PK_NEXT_NODE_IN
+
+config PK_NEXT_NODE_IN_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NEXT_NODE_IN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NEXT_NODE_IN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/next_node_in"
+	string "url"
+
+config PK_NEXT_NODE_IN_GITHUB
+	string "GitHub"
+
+config PK_NEXT_NODE_IN_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NEXT_NODE_IN_CSRCFILE
+	string "Compile source code list"
+
+config PK_NEXT_NODE_IN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NEXT_NODE_IN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NEXT_NODE_IN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NEXT_NODE_IN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NEXT_NODE_IN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NEXT_NODE_IN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NEXT_NODE_IN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NEXT_NODE_IN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NEXT_NODE_IN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NEXT_NODE_IN

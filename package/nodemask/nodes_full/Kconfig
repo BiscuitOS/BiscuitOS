@@ -1,0 +1,55 @@
+menuconfig PK_NODES_FULL
+	bool "nodes_full"
+
+if PK_NODES_FULL
+
+config PK_NODES_FULL_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NODES_FULL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NODES_FULL_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/nodemask/nodes_full"
+	string "url"
+
+config PK_NODES_FULL_GITHUB
+	string "GitHub"
+
+config PK_NODES_FULL_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_NODES_FULL_CSRCFILE
+	string "Compile source code list"
+
+config PK_NODES_FULL_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_NODES_FULL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NODES_FULL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NODES_FULL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NODES_FULL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NODES_FULL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NODES_FULL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NODES_FULL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NODES_FULL_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_NODES_FULL
