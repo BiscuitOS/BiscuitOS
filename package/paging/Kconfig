@@ -1,9 +1,75 @@
 menuconfig PK_PAGING
-	bool "Paging: PGDIR/PTE/Page Table"
+	bool "Paging Mechanism"
 
 if PK_PAGING
 
-# paging on userspace
-source package/paging/paging_userspace/Kconfig
+# Paging userspace address (kernel)
+source package/paging/BiscuitOS-Paging-userspace-address-kernel/Kconfig
+
+# Paging userspace address (userspace)
+source package/paging/BiscuitOS-Paging-userspace-address-userspace/Kconfig
+
+# Paging kernel address
+source package/paging/BiscuitOS-Paging-kernel-address/Kconfig
+
+# Paging 4KB (kernel)
+source package/paging/BiscuitOS-Paging-4K-Page-kernel/Kconfig
+
+# Paging 4KB (userspace)
+source package/paging/BiscuitOS-Paging-4K-Page-userspace/Kconfig
+
+# Paging mode
+source package/paging/Paging-mode/Kconfig
+
+# 32-bit Paging mode
+source package/paging/Paging-mode-32bit/Kconfig
+
+# PAE Paging mode
+source package/paging/Paging-mode-PAE/Kconfig
+
+# 4-level Paging mode
+source package/paging/Paging-mode-4level/Kconfig
+
+# PTE PAGE_PRESENT kernel
+source package/paging/PTE-PAGE_PRESENT-kernel/Kconfig
+
+# PTE PAGE_PRESENT userspace
+source package/paging/PTE-PAGE_PRESENT-userspace/Kconfig
+
+# PTE PAGE_RW kernel
+source package/paging/PTE-PAGE_RW-kernel/Kconfig
+
+# PTE PAGE_RW userspace rw
+source package/paging/PTE-PAGE_RW-userspace-rw/Kconfig
+
+# PTE PAGE_RW userspace ro
+source package/paging/PTE-PAGE_RW-userspace-ro/Kconfig
+
+# PTE PAGE_RW userspace wo
+source package/paging/PTE-PAGE_RW-userspace-wo/Kconfig
+
+# PTE PAGE_RW userspace none
+source package/paging/PTE-PAGE_RW-userspace-none/Kconfig
+
+# PTE PAGE_USER U userspace
+source package/paging/PTE-PAGE_USER-U-userspace/Kconfig
+
+# PTE PAGE_USER U kernel
+source package/paging/PTE-PAGE_USER-U-kernel/Kconfig
+
+# PTE PAGE_USER S
+source package/paging/PTE-PAGE_USER-S/Kconfig
+
+# PTE PAGE_ACCESSED userspace
+source package/paging/PTE-PAGE_ACCESSED-userspace/Kconfig
+
+# PTE PAGE_ACCESSED kernel
+source package/paging/PTE-PAGE_ACCESSED-kernel/Kconfig
+
+# PTE PAGE_DIRTY userspace
+source package/paging/PTE-PAGE_DIRTY-userspace/Kconfig
+
+# PTE PAGE_DIRTY kernel
+source package/paging/PTE-PAGE_DIRTY-kernel/Kconfig
 
 endif # PK_PAGING

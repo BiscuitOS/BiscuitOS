@@ -1,0 +1,60 @@
+menuconfig PK_PAGING_MODE_32BIT
+	bool "X86 32bit Paging mode"
+
+if PK_PAGING_MODE_32BIT
+
+# Detect Paging 32bit mode
+source "package/paging/Paging-mode-32bit/Paging-32bit-Detect/Kconfig"
+
+# 4K Page With 32-Bit Paging (U+)
+source "package/paging/Paging-mode-32bit/Paging-32bit-4K-Page-userspace/Kconfig"
+
+# 4K Page With 32-Bit Paging (K+)
+source "package/paging/Paging-mode-32bit/Paging-32bit-4K-Page-kernel/Kconfig"
+
+# 4M Page With 32-Bit Paging (U+)
+source "package/paging/Paging-mode-32bit/Paging-32bit-4M-Page-userspace/Kconfig"
+
+# 4M Page With 32-Bit Paging (K+)
+source "package/paging/Paging-mode-32bit/Paging-32bit-4M-Page-kernel/Kconfig"
+
+# Kernel address 4K Page With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-Kernel-4K-Page/Kconfig"
+
+# Kernel address 4M Page With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-Kernel-4M-Page/Kconfig"
+
+# VMALLOC With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-VMALLOC/Kconfig"
+
+# KMAP With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-KMAP/Kconfig"
+
+# PKMAP With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-PKMAP/Kconfig"
+
+# FIXMAP With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-FIXMAP/Kconfig"
+
+# IO With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-IO/Kconfig"
+
+# PFN Direct Mapping With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-PFN/Kconfig"
+
+# Linear Mapping With 32-Bit Paging 
+source "package/paging/Paging-mode-32bit/Paging-32bit-Linear/Kconfig"
+
+# CR3 on 32bit Paging (U+)
+source "package/paging/Paging-mode-32bit/Paging-32bit-CR3-userspace/Kconfig"
+
+# CR3 on 32bit Paging (K+)
+source "package/paging/Paging-mode-32bit/Paging-32bit-CR3-kernel/Kconfig"
+
+# PGD on 32bit Paging (U+)
+source "package/paging/Paging-mode-32bit/Paging-32bit-PGD-userspace/Kconfig"
+
+# PGD on 32bit Paging (K+)
+source "package/paging/Paging-mode-32bit/Paging-32bit-PGD-kernel/Kconfig"
+
+endif # PK_REGISTER_X86

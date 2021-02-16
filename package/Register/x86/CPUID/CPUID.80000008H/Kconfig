@@ -1,0 +1,9 @@
+menuconfig PK_CPUID_80000008H
+	bool "CPUID.80000008H Register"
+
+if PK_CPUID_80000008H
+
+# CPUID.80000008H Default
+source "package/Register/x86/CPUID/CPUID.80000008H/CPUID.80000008H-Default/Kconfig"
+
+endif # PK_REGISTER_X86

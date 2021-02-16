@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_KERNEL_ADDR
+	bool "Paging kernel address"
+
+if PK_PAGING_KERNEL_ADDR
+
+config PK_PAGING_KERNEL_ADDR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_KERNEL_ADDR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_KERNEL_ADDR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Paging/BiscuitOS-Paging-kernel-address"
+	string "url"
+
+config PK_PAGING_KERNEL_ADDR_GITHUB
+	string "GitHub"
+
+config PK_PAGING_KERNEL_ADDR_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_PAGING_KERNEL_ADDR_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_KERNEL_ADDR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_KERNEL_ADDR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_KERNEL_ADDR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_KERNEL_ADDR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_KERNEL_ADDR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_KERNEL_ADDR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_KERNEL_ADDR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_KERNEL_ADDR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_KERNEL_ADDR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_KERNEL_ADDR

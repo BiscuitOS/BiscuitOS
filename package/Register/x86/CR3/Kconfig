@@ -1,0 +1,9 @@
+menuconfig PK_X86_CR3
+	bool "CR3 Register"
+
+if PK_X86_CR3
+
+# Default
+source "package/Register/x86/CR3/CR3-Default/Kconfig"
+
+endif # PK_REGISTER_X86

@@ -1,0 +1,49 @@
+################################################
+#
+# X86-CPUID
+#
+################################################
+PK_CPUID_DEFAULT_NAME        := X86-CPUID
+PK_CPUID_DEFAULT_VERSION     := $(CONFIG_PK_CPUID_DEFAULT_VERSION)
+PK_CPUID_DEFAULT_SITE        := $(CONFIG_PK_CPUID_DEFAULT_URL)
+PK_CPUID_DEFAULT_GITHUB      := $(CONFIG_PK_CPUID_DEFAULT_GITHUB)
+PK_CPUID_DEFAULT_SUBNAME     :=
+PK_CPUID_DEFAULT_BUILDARCH   := $(CONFIG_PK_CPUID_DEFAULT_BUILDARCH)
+PK_CPUID_DEFAULT_DIR         := $(srctree)/package/Register/x86/CPUID/CPUID-Default
+PK_CPUID_DEFAULT_PATCH       := $(PK_CPUID_DEFAULT_DIR)/patch
+PK_CPUID_DEFAULT_BSBIT       := X86-CPUID-$(PK_CPUID_DEFAULT_VERSION).bsbit
+PK_CPUID_DEFAULT_OUT         :=
+PK_CPUID_DEFAULT_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_CPUID_DEFAULT_TAR         := $(CONFIG_PK_CPUID_DEFAULT_TAR)
+PK_CPUID_DEFAULT_PACKAGE     :=
+PK_CPUID_DEFAULT_CONFIG      := $(CONFIG_PK_CPUID_DEFAULT_CONFIG)
+SUB_TARGET                  += $(PK_CPUID_DEFAULT_DIR)/build
+
+PK_CPUID_DEFAULT_sh = $(CONFIG_SHELL) $(PK_CPUID_DEFAULT_SCRIPTS) \
+                 $1X \
+                 $(PK_CPUID_DEFAULT_NAME)X \
+                 $(PK_CPUID_DEFAULT_VERSION)X \
+                 $(PK_CPUID_DEFAULT_SITE)X \
+                 $(PK_CPUID_DEFAULT_GITHUB)X \
+                 $(PK_CPUID_DEFAULT_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_CPUID_DEFAULT_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_CPUID_DEFAULT_SUBNAME)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_CONFIG)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_LIBPATH)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_CPPFLAGS)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_DPKCONFIG)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_CFLAGS)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_LDFLAGS)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_CXXFLAGS)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_ASFLAGS)X \
+                 $(PK_CPUID_DEFAULT_BSBIT)X \
+                 $(PK_CPUID_DEFAULT_BUILDARCH)X \
+		 $(PK_CPUID_DEFAULT_CSRCFILE)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_SRCFILE)X \
+                 $(CONFIG_PK_CPUID_DEFAULT_CSRCFILE)
+
+$(PK_CPUID_DEFAULT_DIR)/build: FORCE
+	$(Q)$(call PK_CPUID_DEFAULT_sh,$(srctree))

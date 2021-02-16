@@ -1,0 +1,55 @@
+menuconfig PK_CPUID.01H_DEFAULT
+	bool "X86 CPUID.01H Register"
+
+if PK_CPUID.01H_DEFAULT
+
+config PK_CPUID.01H_DEFAULT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CPUID.01H_DEFAULT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CPUID.01H_DEFAULT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Architecture/Intel/Register/CPUID/CPUID.01H/Default"
+	string "url"
+
+config PK_CPUID.01H_DEFAULT_GITHUB
+	string "GitHub"
+
+config PK_CPUID.01H_DEFAULT_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_CPUID.01H_DEFAULT_CSRCFILE
+	string "Compile source code list"
+
+config PK_CPUID.01H_DEFAULT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CPUID.01H_DEFAULT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CPUID.01H_DEFAULT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CPUID.01H_DEFAULT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CPUID.01H_DEFAULT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CPUID.01H_DEFAULT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CPUID.01H_DEFAULT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CPUID.01H_DEFAULT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CPUID.01H_DEFAULT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CPUID.01H_DEFAULT

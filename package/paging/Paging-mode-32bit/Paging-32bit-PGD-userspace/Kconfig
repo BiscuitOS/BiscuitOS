@@ -1,0 +1,56 @@
+menuconfig PK_PAGING_32BIT_PGD_U
+	select PK_PAGING_32BIT_PGD_K
+	bool "PGD on Paing 32bit (Userspace+)"
+
+if PK_PAGING_32BIT_PGD_U
+
+config PK_PAGING_32BIT_PGD_U_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_32BIT_PGD_U_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_32BIT_PGD_U_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Paging/paging_mode_32bit/Paging-32bit-PGD/userspace"
+	string "url"
+
+config PK_PAGING_32BIT_PGD_U_GITHUB
+	string "GitHub"
+
+config PK_PAGING_32BIT_PGD_U_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_PAGING_32BIT_PGD_U_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_32BIT_PGD_U_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_32BIT_PGD_U_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_32BIT_PGD_U_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_32BIT_PGD_U_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_32BIT_PGD_U_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_32BIT_PGD_U_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_32BIT_PGD_U_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_32BIT_PGD_U_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_32BIT_PGD_U_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_32BIT_PGD_U

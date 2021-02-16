@@ -3,7 +3,22 @@ menuconfig PK_REGISTER_X86
 
 if PK_REGISTER_X86
 
-# MSR_IA32_VMX_PINBASED_CTLS 
-source "package/Register/x86/MSR_IA32_VMX_PINBASED_CTLS/Kconfig"
+# CPID
+source "package/Register/x86/CPUID/Kconfig"
+
+# CR0
+source "package/Register/x86/CR0/Kconfig"
+
+# CR3
+source "package/Register/x86/CR3/Kconfig"
+
+# CR4
+source "package/Register/x86/CR4/Kconfig"
+
+# EFLAGS
+source "package/Register/x86/EFLAGS/Kconfig"
+
+# MSR
+source "package/Register/x86/MSR/Kconfig"
 
 endif # PK_REGISTER_X86

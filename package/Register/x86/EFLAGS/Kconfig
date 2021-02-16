@@ -1,0 +1,9 @@
+menuconfig PK_X86_EFLAGS
+	bool "EFLAGS Register"
+
+if PK_X86_EFLAGS
+
+# MSR_IA32_EFER
+source "package/Register/x86/EFLAGS/EFLAGS-Default/Kconfig"
+
+endif # PK_REGISTER_X86

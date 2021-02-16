@@ -1,0 +1,49 @@
+################################################
+#
+# X86-Paging-32bit-PFN
+#
+################################################
+PK_PAGING_32BIT_PFN_NAME        := X86-Paging-32bit-PFN
+PK_PAGING_32BIT_PFN_VERSION     := $(CONFIG_PK_PAGING_32BIT_PFN_VERSION)
+PK_PAGING_32BIT_PFN_SITE        := $(CONFIG_PK_PAGING_32BIT_PFN_URL)
+PK_PAGING_32BIT_PFN_GITHUB      := $(CONFIG_PK_PAGING_32BIT_PFN_GITHUB)
+PK_PAGING_32BIT_PFN_SUBNAME     :=
+PK_PAGING_32BIT_PFN_BUILDARCH   := $(CONFIG_PK_PAGING_32BIT_PFN_BUILDARCH)
+PK_PAGING_32BIT_PFN_DIR         := $(srctree)/package/paging/Paging-mode-32bit/Paging-32bit-PFN
+PK_PAGING_32BIT_PFN_PATCH       := $(PK_PAGING_32BIT_PFN_DIR)/patch
+PK_PAGING_32BIT_PFN_BSBIT       := X86-Paging-32bit-PFN-$(PK_PAGING_32BIT_PFN_VERSION).bsbit
+PK_PAGING_32BIT_PFN_OUT         :=
+PK_PAGING_32BIT_PFN_SCRIPTS     := $(srctree)/scripts/package/package-kernel.sh
+PK_PAGING_32BIT_PFN_TAR         := $(CONFIG_PK_PAGING_32BIT_PFN_TAR)
+PK_PAGING_32BIT_PFN_PACKAGE     :=
+PK_PAGING_32BIT_PFN_CONFIG      := $(CONFIG_PK_PAGING_32BIT_PFN_CONFIG)
+SUB_TARGET                  += $(PK_PAGING_32BIT_PFN_DIR)/build
+
+PK_PAGING_32BIT_PFN_sh = $(CONFIG_SHELL) $(PK_PAGING_32BIT_PFN_SCRIPTS) \
+                 $1X \
+                 $(PK_PAGING_32BIT_PFN_NAME)X \
+                 $(PK_PAGING_32BIT_PFN_VERSION)X \
+                 $(PK_PAGING_32BIT_PFN_SITE)X \
+                 $(PK_PAGING_32BIT_PFN_GITHUB)X \
+                 $(PK_PAGING_32BIT_PFN_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_PAGING_32BIT_PFN_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_PAGING_32BIT_PFN_SUBNAME)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_CONFIG)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_LIBPATH)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_CPPFLAGS)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_DPKCONFIG)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_CFLAGS)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_LDFLAGS)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_CXXFLAGS)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_ASFLAGS)X \
+                 $(PK_PAGING_32BIT_PFN_BSBIT)X \
+                 $(PK_PAGING_32BIT_PFN_BUILDARCH)X \
+		 $(PK_PAGING_32BIT_PFN_CSRCFILE)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_SRCFILE)X \
+                 $(CONFIG_PK_PAGING_32BIT_PFN_CSRCFILE)
+
+$(PK_PAGING_32BIT_PFN_DIR)/build: FORCE
+	$(Q)$(call PK_PAGING_32BIT_PFN_sh,$(srctree))

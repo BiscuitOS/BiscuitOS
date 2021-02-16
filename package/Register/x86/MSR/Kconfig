@@ -1,0 +1,9 @@
+menuconfig PK_X86_MSR
+	bool "MSR Register"
+
+if PK_X86_MSR
+
+# MSR_IA32_EFER
+source "package/Register/x86/MSR/MSR-IA32_EFER/Kconfig"
+
+endif # PK_REGISTER_X86

@@ -1,0 +1,55 @@
+menuconfig PK_X86_CR0
+	bool "CR0 Control Register"
+
+if PK_X86_CR0
+
+config PK_X86_CR0_VERSION
+	default "default"
+	string "verstion"
+
+config PK_X86_CR0_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_X86_CR0_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Architecture/Intel/Register/CR0"
+	string "url"
+
+config PK_X86_CR0_GITHUB
+	string "GitHub"
+
+config PK_X86_CR0_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_X86_CR0_CSRCFILE
+	string "Compile source code list"
+
+config PK_X86_CR0_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_X86_CR0_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_X86_CR0_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_X86_CR0_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_X86_CR0_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_X86_CR0_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_X86_CR0_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_X86_CR0_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_X86_CR0_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_X86_CR0

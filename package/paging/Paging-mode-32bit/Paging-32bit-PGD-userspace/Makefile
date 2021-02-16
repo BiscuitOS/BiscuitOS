@@ -1,0 +1,49 @@
+################################################
+#
+# X86-Paging-32bit-PGD-userspace
+#
+################################################
+PK_PAGING_32BIT_PGD_U_NAME        := X86-Paging-32bit-PGD-userspace
+PK_PAGING_32BIT_PGD_U_VERSION     := $(CONFIG_PK_PAGING_32BIT_PGD_U_VERSION)
+PK_PAGING_32BIT_PGD_U_SITE        := $(CONFIG_PK_PAGING_32BIT_PGD_U_URL)
+PK_PAGING_32BIT_PGD_U_GITHUB      := $(CONFIG_PK_PAGING_32BIT_PGD_U_GITHUB)
+PK_PAGING_32BIT_PGD_U_SUBNAME     :=
+PK_PAGING_32BIT_PGD_U_BUILDARCH   := $(CONFIG_PK_PAGING_32BIT_PGD_U_BUILDARCH)
+PK_PAGING_32BIT_PGD_U_DIR         := $(srctree)/package/paging/Paging-mode-32bit/Paging-32bit-PGD-userspace
+PK_PAGING_32BIT_PGD_U_PATCH       := $(PK_PAGING_32BIT_PGD_U_DIR)/patch
+PK_PAGING_32BIT_PGD_U_BSBIT       := X86-Paging-32bit-PGD-userspace-$(PK_PAGING_32BIT_PGD_U_VERSION).bsbit
+PK_PAGING_32BIT_PGD_U_OUT         :=
+PK_PAGING_32BIT_PGD_U_SCRIPTS     := $(srctree)/scripts/package/package-app.sh
+PK_PAGING_32BIT_PGD_U_TAR         := $(CONFIG_PK_PAGING_32BIT_PGD_U_TAR)
+PK_PAGING_32BIT_PGD_U_PACKAGE     :=
+PK_PAGING_32BIT_PGD_U_CONFIG      := $(CONFIG_PK_PAGING_32BIT_PGD_U_CONFIG)
+SUB_TARGET                  += $(PK_PAGING_32BIT_PGD_U_DIR)/build
+
+PK_PAGING_32BIT_PGD_U_sh = $(CONFIG_SHELL) $(PK_PAGING_32BIT_PGD_U_SCRIPTS) \
+                 $1X \
+                 $(PK_PAGING_32BIT_PGD_U_NAME)X \
+                 $(PK_PAGING_32BIT_PGD_U_VERSION)X \
+                 $(PK_PAGING_32BIT_PGD_U_SITE)X \
+                 $(PK_PAGING_32BIT_PGD_U_GITHUB)X \
+                 $(PK_PAGING_32BIT_PGD_U_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_PAGING_32BIT_PGD_U_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_PAGING_32BIT_PGD_U_SUBNAME)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_CONFIG)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_LIBPATH)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_CPPFLAGS)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_DPKCONFIG)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_CFLAGS)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_LDFLAGS)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_CXXFLAGS)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_ASFLAGS)X \
+                 $(PK_PAGING_32BIT_PGD_U_BSBIT)X \
+                 $(PK_PAGING_32BIT_PGD_U_BUILDARCH)X \
+		 $(PK_PAGING_32BIT_PGD_U_CSRCFILE)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_SRCFILE)X \
+                 $(CONFIG_PK_PAGING_32BIT_PGD_U_CSRCFILE)
+
+$(PK_PAGING_32BIT_PGD_U_DIR)/build: FORCE
+	$(Q)$(call PK_PAGING_32BIT_PGD_U_sh,$(srctree))
