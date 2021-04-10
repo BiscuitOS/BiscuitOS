@@ -9,8 +9,14 @@ source package/memory-mapping/BiscuitOS-anonymous-mmap-userspace/Kconfig
 # Hugetlbfs 2M mmap on userspace
 source package/memory-mapping/BiscuitOS-hugetlbfs-2M-mmap-userspace/Kconfig
 
+# Hugetlbfs 2M anonymous mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-2M-anonymous-mmap-userspace/Kconfig
+
 # Hugetlbfs 1G mmap on userspace
 source package/memory-mapping/BiscuitOS-hugetlbfs-1G-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G anonymous mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-1G-anonymous-mmap-userspace/Kconfig
 
 # Normal/Direction mmap on userspace
 source package/memory-mapping/BiscuitOS-mmap-userspace/Kconfig
