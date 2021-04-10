@@ -51,8 +51,8 @@ KBUILD_ASFLAGS=${19%X}
 BSFILE=${20%X}
 # Host Build-Architecture
 HBARCH=${21%X}
-# Compile Source list
-CSRC=${22%X}
+# DL source file
+DLSFILE=${23%X}
 # Package Path
 PPATH=${PACKAGE_PATCH%%/patch}
 
@@ -65,6 +65,14 @@ DATE_COMT=`date +"%Y.%m.%d"`
 BASEPKNAME=${PACKAGE_NAME}-${PACKAGE_VERSION}
 PACKAGE_BSBIT=${PPATH}/bsbit
 
+# Kernel Version field
+KERNEL_MAJOR_NO=
+KERNEL_MINOR_NO=
+KERNEL_MINIR_NO=
+SUPPORT_GCC341=N
+SUPPORT_GCCNONE=N
+SUPPORT_26X24=N
+
 # Determine Architecture
 ARCH=unknown
 [[ ${PROJECT_NAME} == *arm32* ]]   && ARCH=arm
@@ -73,17 +81,33 @@ ARCH=unknown
 [[ ${PROJECT_NAME} == *x86_64* ]]  && ARCH=x86_64
 [[ ${PROJECT_NAME} == *riscv* ]]   && ARCH=riscv
 
-HOST_NAME=${PACKAGE_TOOL}
-[ ${ARCH} == "arm64" ] && HOST_NAME=aarch64-linux
-[ ${ARCH} == "i386" ] && HOST_NAME=i386-linux
-[ ${ARCH} == "x86_64" ] && HOST_NAME=x86_64-linux
+# Detect Kernel version field
+#   Kernek version field
+#   --> Major.minor.minir
+#   --> 5.0.1
+#   --> Major: 5
+#   --> Minor: 0
+#   --> minir: 1
+detect_kernel_version_field()
+{
+	[ ! ${KERNEL_VERSION} ] && echo "Invalid kernel version" && exit -1
+	# Major field of Kernel version
+	KERNEL_MAJOR_NO=${KERNEL_VERSION%%.*}
+	tmpv1=${KERNEL_VERSION#*.}
+	# Minor field of kernel version
+	KERNEL_MINOR_NO=${tmpv1%%.*}
+	# minir field of kernel version
+	KERNEL_MINIR_NO=${tmpv1#*.}
+}
+detect_kernel_version_field
 
-# Fixup aarch64 on legacy package
-if [ ${ARCH} == "arm64" ]; then
-	if [ ! -f ${PROJECT_ROOT}/dl/aarch64_config.sub ]; then
-		wget -O ${PROJECT_ROOT}/dl/aarch64_config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-		wget -O ${PROJECT_ROOT}/dl/aarch64_config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-	fi
+# Compile
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -lt 24 -a ${ARCH} = "arm" ] && SUPPORT_GCC341=Y && SUPPORT_26X24=Y
+[ ${KERNEL_MAJOR_NO}Y = "2Y" -a ${KERNEL_MINOR_NO}Y = "6Y" -a ${KERNEL_MINIR_NO} -ge 24 -a ${ARCH} = "arm" ] && SUPPORT_GCCNONE=Y && PACKAGE_TOOL=arm-none-linux-gnueabi
+
+# Linux 2.6.x < 24
+if [ ${SUPPORT_26X24} = "Y" ]; then
+	PACKAGE_TOOL=arm-linux
 fi
 
 ## Prepare
@@ -108,26 +132,21 @@ echo '' >> ${MF}
 echo '## Default Setup' >> ${MF}
 echo "ROOT        := ${OUTPUT}" >> ${MF}
 echo "BSROOT      := ${PROJECT_ROOT}" >> ${MF}
-echo "ARCH        := ${ARCH}" >> ${MF}
 echo "CROSS_NAME  := ${PACKAGE_TOOL}" >> ${MF}
-echo "HOST_NAME   := ${HOST_NAME}" >> ${MF}
+echo "ARCH        := ${ARCH}" >> ${MF}
 echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
 echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK        := $(ROOT)/RunBiscuitOS.sh' >> ${MF}
-echo 'DL          := $(BSROOT)/dl' >> ${MF}
 echo "GITHUB      := ${PACKAGE_GITHIB}" >> ${MF}
+echo 'DL          := $(BSROOT)/dl' >> ${MF}
 echo 'BSCORE      := $(BSROOT)/scripts/package/bsbit_core.sh' >> ${MF}
 echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
 echo 'FREEDIR     := $(ROOT)/FreezeDir' >> ${MF}
-echo 'KVMDIR     := $(FREEDIR)/BiscuitOS-kvmtool' >> ${MF}
+echo 'KVMDIR     := $(FREEDIR)/BiscuitOS-KVM' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
 echo "DLD_PATH    := \"-L\$(INS_PATH)/lib -L\$(CROSS_PATH)/lib ${KBUILD_LIBPATH}\"" >> ${MF}
-if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
-	echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I/usr/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
-else
-	echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I\$(CROSS_PATH)/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
-fi
+echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I\$(CROSS_PATH)/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
 echo "DPK_PATH    := ${KBUILD_DPKCONFIG}\$(INS_PATH)/lib/pkgconfig:\$(INS_PATH)/share/pkgconfig" >> ${MF}
 echo "KBUDCFLAG   := ${KBUILD_CFLAGS}" >> ${MF}
 echo "KBLDFLAGS   := ${KBUILD_LDFLAGS}" >> ${MF}
@@ -135,36 +154,34 @@ echo "KCXXFLAGS   := ${KBUILD_CXXFLAGS}" >> ${MF}
 echo "KBASFLAGS   := ${KBUILD_ASFLAGS}" >> ${MF}
 echo '' >> ${MF}
 echo '# Package information' >> ${MF}
-echo "PACKAGE   := kvmtool" >> ${MF}
+echo "PACKAGE   := ${BASEPKNAME}.${PACKAGE_TARTYPE}" >> ${MF}
 echo "BASENAME  := ${BASEPKNAME}" >> ${MF}
 echo 'TARCMD    := tar -xvf' >> ${MF}
 echo 'PATCH     := patch/$(BASENAME)' >> ${MF}
 echo "URL       := ${PACKAGE_SITE}" >> ${MF}
 echo "BSFILE    := ${BSFILE}" >> ${MF}
-echo 'CONFIG    := --prefix=$(INS_PATH) --host=$(HOST_NAME)' >> ${MF}
+echo "DLFILE    := ${DLSFILE}" >> ${MF}
+echo 'CONFIG    := --prefix=$(INS_PATH) --host=$(CROSS_NAME)' >> ${MF}
 echo "CONFIG    += --build=${HBARCH}" >> ${MF}
-if [ ${ARCH} == "i386" ]; then
-	echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS) -m32" CFLAGS="$(KBUDCFLAG) -m32"' >> ${MF}
-	echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS) -m32" CCASFLAGS="$(KBASFLAGS) -m32"' >> ${MF}
-else
-	echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)"' >> ${MF}
-	echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)"' >> ${MF}
-fi
+echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)"' >> ${MF}
+echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)"' >> ${MF}
 echo 'CONFIG    += LIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH)' >> ${MF}
 echo 'CONFIG    += PKG_CONFIG_PATH=$(DPK_PATH)' >> ${MF}
-echo "CONFIG    = ${KBUILD_CONFIG}" >> ${MF}
+echo "CONFIG    += ${KBUILD_CONFIG}" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
-echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} CC=$(CROSS_TOOL)gcc \' >> ${MF}
+echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH}  \' >> ${MF}
+echo -e '\tmake CC=$(CROSS_TOOL)gcc \' >> ${MF}
 echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++  \' >> ${MF}
 echo -e '\tCFLAGS="$(KBUDCFLAG)" LDFLAGS="$(KBLDFLAGS)" \' >> ${MF}
 echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
 echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
 echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
 echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
-echo -e '\tmake -j8; \' >> ${MF}
+echo -e '\tCROSS_COMPILE=$(CROSS_NAME) ARCH=$(ARCH) \' >> ${MF}
+echo -e '\tTARGETA=$(BASENAME)' >> ${MF}
 echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -180,23 +197,13 @@ echo 'depence-clean:' >> ${MF}
 echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
-echo -e '\t@if [ ! -d $(DL)/$(PACKAGE) ]; \' >> ${MF}
-echo -e '\tthen \' >> ${MF}
-echo -e '\t\tgit clone $(GITHUB) $(DL)/$(PACKAGE) ; \' >> ${MF}
-echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./$(BASENAME) ; \' >> ${MF}
-echo -e '\telse \' >> ${MF}
-echo -e '\t\tcp -rfa $(DL)/$(PACKAGE) ./$(BASENAME) ; \' >> ${MF}
-echo -e '\tfi' >> ${MF}
-echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
-echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
-echo -e '\tfi' >> ${MF}
-echo -e '\t$(info "Download $(PACKAGE) done.")' >> ${MF}
+echo -e '\tgit clone $(GITHUB) $(BASENAME)' >> ${MF}
 echo '' >> ${MF}
 echo 'tar:' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
-echo -e '\t$(info "Decompression $(PACKAGE) => $(BASENAME) done.")' >> ${MF}
+echo -e '\t$(info "Decompression $(PACKAGE) => $(BASENAM) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'configure:' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
@@ -209,7 +216,7 @@ echo -e '\t$(ROOT)/RunBiscuitOS.sh mount' >> ${MF}
 echo -e '\tmkdir -p $(KVMDIR)' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
-echo -e '\tsudo cp -rfa lkvm $(INS_PATH)/bin ; \' >> ${MF}
+echo -e '\tsudo cp -rfa $(BASENAME) $(INS_PATH)/bin ; \' >> ${MF}
 echo -e '\tsudo cp -rfa $(ROOT)/linux/linux/arch/x86/boot/bzImage $(KVMDIR)/bzImage ; \' >> ${MF}
 echo -e '\tsudo cp -rfa $(ROOT)/BiscuitOS.img $(KVMDIR)/BiscuitOS.img ; \' >> ${MF}
 echo -e '\tsudo chmod 755 ../RunBiscuitOS.sh ; \' >> ${MF}
@@ -223,6 +230,7 @@ echo '' >> ${MF}
 echo 'pack:' >> ${MF}
 echo -e '\t@$(PACK) pack' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
+echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'build:' >> ${MF}
 echo -e '\tmake' >> ${MF}
@@ -243,7 +251,7 @@ echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}
 echo 'clean:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
-echo -e '\tmake clean' >> ${MF}
+echo -e '\tmake clean TARGETA=$(BASENAME)' >> ${MF}
 echo -e '\t$(info "Clean   .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'distclean:' >> ${MF}
@@ -252,6 +260,7 @@ echo -e '\t$(info "DClean  .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}
+
 
 MF=${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/README.md
 
@@ -327,24 +336,21 @@ MF=${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/RunBiscuitOS.sh
 
 echo '#!/bin/ash' > ${MF}
 echo '' >> ${MF}
-if [ ${PACKAGE_NAME}X = "BiscuitOS-kvmtool-2M"X ]; then 
-  echo 'mkdir -p /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-2M/' >> ${MF}
-  echo 'mount none /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-2M/ -t hugetlbfs' >> ${MF}
+if [ ${PACKAGE_NAME}X = "BiscuitOS-KVM-2M"X ]; then
+  echo 'mkdir -p /mnt/Freeze/BiscuitOS-KVM/hugetlb-2M/' >> ${MF}
+  echo 'mount none /mnt/Freeze/BiscuitOS-KVM/hugetlb-2M/ -t hugetlbfs' >> ${MF}
   echo 'echo 100 > /proc/sys/vm/nr_hugepages' >> ${MF}
-  echo 'cd /mnt/Freeze/BiscuitOS-kvmtool' >> ${MF}
-  echo 'rm -rf /.lkvm//BiscuitOS-kvm.sock > /dev/null' >> ${MF}
-  echo 'lkvm run --name BiscuitOS-kvm --cpus 2 --mem 128 --disk BiscuitOS.img --kernel bzImage --params "loglevel=3" --hugetlbfs /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-2M/' >> ${MF}
-elif [ ${PACKAGE_NAME}X = "BiscuitOS-kvmtool-1G"X ]; then
-  echo 'mkdir -p /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-1G/' >> ${MF}
-  echo 'mount none /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-1G/ -t hugetlbfs' >> ${MF}
+  echo 'cd /mnt/Freeze/BiscuitOS-KVM' >> ${MF}
+  echo "${BASEPKNAME}" >> ${MF}
+elif [ ${PACKAGE_NAME}X = "BiscuitOS-KVM-1G"X ]; then
+  echo 'mkdir -p /mnt/Freeze/BiscuitOS-KVM/hugetlb-1G/' >> ${MF}
+  echo 'mount none /mnt/Freeze/BiscuitOS-KVM/hugetlb-1G/ -t hugetlbfs' >> ${MF}
   echo 'echo 2 > /proc/sys/vm/nr_hugepages' >> ${MF}
-  echo 'cd /mnt/Freeze/BiscuitOS-kvmtool' >> ${MF}
-  echo 'rm -rf /.lkvm//BiscuitOS-kvm.sock > /dev/null' >> ${MF}
-  echo 'lkvm run --name BiscuitOS-kvm --cpus 2 --mem 128 --disk BiscuitOS.img --kernel bzImage --params "loglevel=3" --hugetlbfs /mnt/Freeze/BiscuitOS-kvmtool/hugetlb-1G/' >> ${MF}
+  echo 'cd /mnt/Freeze/BiscuitOS-KVM' >> ${MF}
+  echo "${BASEPKNAME}" >> ${MF}
 else
-  echo 'cd /mnt/Freeze/BiscuitOS-kvmtool' >> ${MF}
-  echo 'rm -rf /.lkvm//BiscuitOS-kvm.sock > /dev/null' >> ${MF}
-  echo 'lkvm run --disk BiscuitOS.img --kernel bzImage' >> ${MF}
+  echo 'cd /mnt/Freeze/BiscuitOS-KVM' >> ${MF}
+  echo "${BASEPKNAME}" >> ${MF}
 fi
 
 # Patch work

@@ -6,4 +6,7 @@ if PK_XARRAY
 # xarray base
 source "package/xarray/xarray_base/Kconfig"
 
+# xa_init_flags
+source "package/xarray/xa_init_flags/Kconfig"
+
 endif # PK_XARRAY

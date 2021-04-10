@@ -1,0 +1,56 @@
+menuconfig PK_COMPACT_USERSPACE
+	select PK_COMPACT_KERNEL
+	bool "Memory Compact Mechanism on BiscuitOS (Userspace+)"
+
+if PK_COMPACT_USERSPACE
+
+config PK_COMPACT_USERSPACE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_COMPACT_USERSPACE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_COMPACT_USERSPACE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Paging/BiscuitOS-Compact/userspace"
+	string "url"
+
+config PK_COMPACT_USERSPACE_GITHUB
+	string "GitHub"
+
+config PK_COMPACT_USERSPACE_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_COMPACT_USERSPACE_CSRCFILE
+	string "Compile source code list"
+
+config PK_COMPACT_USERSPACE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_COMPACT_USERSPACE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_COMPACT_USERSPACE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_COMPACT_USERSPACE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_COMPACT_USERSPACE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_COMPACT_USERSPACE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_COMPACT_USERSPACE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_COMPACT_USERSPACE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_COMPACT_USERSPACE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_COMPACT_USERSPACE

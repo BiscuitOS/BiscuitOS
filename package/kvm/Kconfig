@@ -51,6 +51,9 @@ source package/kvm/BiscuitOS-kvmtools-2M/Kconfig
 # Native Linux KVM tool 1G
 source package/kvm/BiscuitOS-kvmtools-1G/Kconfig
 
+# BiscuitOS KVM 2M
+source package/kvm/BiscuitOS-KVM-2M/Kconfig
+
 # MSR Tools
 source package/kvm/MSR-Tools/Kconfig
 

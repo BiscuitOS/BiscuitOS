@@ -267,6 +267,9 @@ source package/memblock/Kconfig
 # memory_history
 source package/memory_history/Kconfig
 
+# memory mapping
+source package/memory-mapping/Kconfig
+
 # mesa
 source package/mesa/Kconfig
 
@@ -365,6 +368,9 @@ source package/spi/Kconfig
 
 # strace
 source package/strace/Kconfig
+
+# SWAP
+source package/SWAP/Kconfig
 
 # system call arm
 source package/syscall/Kconfig

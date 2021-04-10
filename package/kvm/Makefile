@@ -16,6 +16,7 @@ kvm-$(CONFIG_PK_BISCUITOS_QEMU_PCI_APP)		+= BiscuitOS-QEMU-PCI-Application/
 kvm-$(CONFIG_PK_BISCUITOS_KVM_TOOLS)		+= BiscuitOS-kvmtools/
 kvm-$(CONFIG_PK_BISCUITOS_KVM_TOOLS_2M)		+= BiscuitOS-kvmtools-2M/
 kvm-$(CONFIG_PK_BISCUITOS_KVM_TOOLS_1G)		+= BiscuitOS-kvmtools-1G/
+kvm-$(CONFIG_PK_BISCUITOS_KVM_2M)		+= BiscuitOS-KVM-2M/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/kvm/%/Makefile, $(kvm-y))
 

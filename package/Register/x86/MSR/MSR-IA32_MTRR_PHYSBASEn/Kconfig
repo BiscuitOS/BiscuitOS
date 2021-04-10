@@ -1,0 +1,55 @@
+menuconfig PK_MSR_IA32_MTRR_PHYSBASEn
+	bool "MSR IA32_MTRR_PHYSBASEn"
+
+if PK_MSR_IA32_MTRR_PHYSBASEn
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Architecture/Intel/Register/MSR-IA32_MTRR_PHYSBASEn"
+	string "url"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_GITHUB
+	string "GitHub"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_CSRCFILE
+	string "Compile source code list"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MSR_IA32_MTRR_PHYSBASEn_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MSR_IA32_MTRR_PHYSBASEn

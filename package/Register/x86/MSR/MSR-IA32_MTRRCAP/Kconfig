@@ -1,0 +1,55 @@
+menuconfig PK_MSR_IA32_MTRRCAP
+	bool "MSR IA32_MTRRCAP"
+
+if PK_MSR_IA32_MTRRCAP
+
+config PK_MSR_IA32_MTRRCAP_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MSR_IA32_MTRRCAP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MSR_IA32_MTRRCAP_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Architecture/Intel/Register/MSR-IA32_MTRRCAP"
+	string "url"
+
+config PK_MSR_IA32_MTRRCAP_GITHUB
+	string "GitHub"
+
+config PK_MSR_IA32_MTRRCAP_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_MSR_IA32_MTRRCAP_CSRCFILE
+	string "Compile source code list"
+
+config PK_MSR_IA32_MTRRCAP_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MSR_IA32_MTRRCAP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MSR_IA32_MTRRCAP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MSR_IA32_MTRRCAP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MSR_IA32_MTRRCAP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MSR_IA32_MTRRCAP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MSR_IA32_MTRRCAP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MSR_IA32_MTRRCAP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MSR_IA32_MTRRCAP_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MSR_IA32_MTRRCAP

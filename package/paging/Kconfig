@@ -30,6 +30,18 @@ source package/paging/Paging-mode-PAE/Kconfig
 # 4-level Paging mode
 source package/paging/Paging-mode-4level/Kconfig
 
+# SWAP (kernel)
+source package/paging/BiscuitOS-SWAP-kernel/Kconfig
+
+# SWAP (userspace)
+source package/paging/BiscuitOS-SWAP-userspace/Kconfig
+
+# Compact (kernel)
+source package/paging/BiscuitOS-Compact-kernel/Kconfig
+
+# Compact (userspace)
+source package/paging/BiscuitOS-Compact-userspace/Kconfig
+
 # PTE PAGE_PRESENT kernel
 source package/paging/PTE-PAGE_PRESENT-kernel/Kconfig
 

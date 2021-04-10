@@ -1,0 +1,9 @@
+menuconfig PK_SWAP
+	bool "SWAP Mechanism"
+
+if PK_SWAP
+
+# mkswap and swapon on Userspace
+source package/SWAP/BiscuitOS-mkswap-swapon/Kconfig
+
+endif # PK_SWAP

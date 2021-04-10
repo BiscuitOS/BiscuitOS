@@ -1,0 +1,18 @@
+menuconfig PK_MEMORY_MAPPING
+	bool "Memory Mapping Mechanism"
+
+if PK_MEMORY_MAPPING
+
+# Anonymout mmap on userspace
+source package/memory-mapping/BiscuitOS-anonymous-mmap-userspace/Kconfig
+
+# Hugetlbfs 2M mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-2M-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-1G-mmap-userspace/Kconfig
+
+# Normal/Direction mmap on userspace
+source package/memory-mapping/BiscuitOS-mmap-userspace/Kconfig
+
+endif # PK_MEMORY_MAPPING
