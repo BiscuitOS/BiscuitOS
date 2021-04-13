@@ -291,6 +291,9 @@ source package/nodemask/Kconfig
 # notifier
 source package/notifier/Kconfig
 
+# NUMA
+source package/NUMA/Kconfig
+
 # openssl
 source package/openssl/Kconfig
 

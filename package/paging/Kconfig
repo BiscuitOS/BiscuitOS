@@ -42,6 +42,9 @@ source package/paging/BiscuitOS-Compact-kernel/Kconfig
 # Compact (userspace)
 source package/paging/BiscuitOS-Compact-userspace/Kconfig
 
+# userfaultfd
+source package/paging/BiscuitOS-userfaultfd/Kconfig
+
 # PTE PAGE_PRESENT kernel
 source package/paging/PTE-PAGE_PRESENT-kernel/Kconfig
 

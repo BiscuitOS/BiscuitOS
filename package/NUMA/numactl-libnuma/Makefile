@@ -1,0 +1,46 @@
+################################################
+#
+# numactl-libnuma
+#
+################################################
+PK_NUMACTL_LIBNUMA_NAME        := numactl-libnuma
+PK_NUMACTL_LIBNUMA_VERSION     := $(CONFIG_PK_NUMACTL_LIBNUMA_VERSION)
+PK_NUMACTL_LIBNUMA_SITE        := $(CONFIG_PK_NUMACTL_LIBNUMA_URL)
+PK_NUMACTL_LIBNUMA_GITHUB      := $(CONFIG_PK_NUMACTL_LIBNUMA_GITHUB)
+PK_NUMACTL_LIBNUMA_SUBNAME     :=
+PK_NUMACTL_LIBNUMA_BUILDARCH   := $(CONFIG_PK_NUMACTL_LIBNUMA_BUILDARCH)
+PK_NUMACTL_LIBNUMA_DIR         := $(srctree)/package/NUMA/numactl-libnuma
+PK_NUMACTL_LIBNUMA_PATCH       := $(PK_NUMACTL_LIBNUMA_DIR)/patch
+PK_NUMACTL_LIBNUMA_BSBIT       := numactl-libnuma-$(PK_NUMACTL_LIBNUMA_VERSION).bsbit
+PK_NUMACTL_LIBNUMA_OUT         :=
+PK_NUMACTL_LIBNUMA_SCRIPTS     := $(srctree)/scripts/package/package-libnuma.sh
+PK_NUMACTL_LIBNUMA_TAR         := $(CONFIG_PK_NUMACTL_LIBNUMA_TAR)
+PK_NUMACTL_LIBNUMA_PACKAGE     :=
+PK_NUMACTL_LIBNUMA_CONFIG      := $(CONFIG_PK_NUMACTL_LIBNUMA_CONFIG)
+SUB_TARGET            += $(PK_NUMACTL_LIBNUMA_DIR)/build
+
+PK_NUMACTL_LIBNUMA_sh = $(CONFIG_SHELL) $(PK_NUMACTL_LIBNUMA_SCRIPTS) \
+                 $1X \
+                 $(PK_NUMACTL_LIBNUMA_NAME)X \
+                 $(PK_NUMACTL_LIBNUMA_VERSION)X \
+                 $(PK_NUMACTL_LIBNUMA_SITE)X \
+                 $(PK_NUMACTL_LIBNUMA_GITHUB)X \
+                 $(PK_NUMACTL_LIBNUMA_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_NUMACTL_LIBNUMA_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_NUMACTL_LIBNUMA_SUBNAME)X \
+                 $(CONFIG_PK_NUMACTL_LIBNUMA_CONFIG)X \
+                 $(CONFIG_PK_NUMACTL_LIBNUMA_LIBPATH)X \
+                 $(CONFIG_PK_NUMACTL_LIBNUMA_CPPFLAGS)X \
+                 $(CONFIG_PK_NUMACTL_LIBNUMA_DPKCONFIG)X \
+                 $(CONFIG_PK_NUMACTL_LIBNUMA_CFLAGS)X \
+                 $(CONFIG_PK_NUMACTL_LIBNUMA_LDFLAGS)X \
+                 $(CONFIG_PK_NUMACTL_LIBNUMA_CXXFLAGS)X \
+                 $(CONFIG_PK_NUMACTL_LIBNUMA_ASFLAGS)X \
+                 $(PK_NUMACTL_LIBNUMA_BSBIT)X \
+                 $(PK_NUMACTL_LIBNUMA_BUILDARCH)X
+
+$(PK_NUMACTL_LIBNUMA_DIR)/build: FORCE
+	$(Q)$(call PK_NUMACTL_LIBNUMA_sh,$(srctree))

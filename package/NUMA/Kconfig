@@ -1,0 +1,9 @@
+menuconfig PK_NUMA
+	bool "NUMA Mechanism"
+
+if PK_NUMA
+
+# numactl and libnuma
+source package/NUMA/numactl-libnuma/Kconfig
+
+endif # PK_NUMA

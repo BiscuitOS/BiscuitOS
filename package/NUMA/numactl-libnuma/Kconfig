@@ -1,0 +1,54 @@
+menuconfig PK_NUMACTL_LIBNUMA
+	bool "numctl tools and libnuma library"
+
+if PK_NUMACTL_LIBNUMA
+
+config PK_NUMACTL_LIBNUMA_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NUMACTL_LIBNUMA_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_NUMACTL_LIBNUMA_URL
+	default ""
+	string "url"
+
+config PK_NUMACTL_LIBNUMA_GITHUB
+	default "https://github.com/numactl/numactl.git"
+	string "GitHub"
+
+config PK_NUMACTL_LIBNUMA_SRCFILE
+	string "Source code list"
+
+config PK_NUMACTL_LIBNUMA_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_NUMACTL_LIBNUMA_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NUMACTL_LIBNUMA_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NUMACTL_LIBNUMA_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NUMACTL_LIBNUMA_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NUMACTL_LIBNUMA_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NUMACTL_LIBNUMA_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NUMACTL_LIBNUMA_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NUMACTL_LIBNUMA_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_NUMACTL_LIBNUMA

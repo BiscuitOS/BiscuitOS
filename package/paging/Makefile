@@ -16,6 +16,7 @@ paging-$(CONFIG_PK_SWAP_KERNEL)			+= BiscuitOS-SWAP-kernel/
 paging-$(CONFIG_PK_SWAP_USERSPACE)		+= BiscuitOS-SWAP-userspace/
 paging-$(CONFIG_PK_COMPACT_KERNEL)		+= BiscuitOS-Compact-kernel/
 paging-$(CONFIG_PK_COMPACT_USERSPACE)		+= BiscuitOS-Compact-userspace/
+paging-$(CONFIG_PK_USERFAULTFD)			+= BiscuitOS-userfaultfd/
 paging-$(CONFIG_PK_PAGING_USER_ADDR_KERNEL)	+= BiscuitOS-Paging-userspace-address-kernel/
 paging-$(CONFIG_PK_PAGING_USER_ADDR_USERSPACE)	+= BiscuitOS-Paging-userspace-address-userspace/
 paging-$(CONFIG_PK_PAGING_4K_PAGE_KERNEL)	+= BiscuitOS-Paging-4K-Page-kernel/
