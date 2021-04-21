@@ -6,4 +6,13 @@ if PK_NUMA
 # numactl and libnuma
 source package/NUMA/numactl-libnuma/Kconfig
 
+# libuma: Allocate memory on current NODE
+source package/NUMA/libnuma-alloc-memory-current-memory/Kconfig
+
+# libuma: Detect NUMA node for VADDR
+source package/NUMA/libnuma-detect-vaddr-numa-node/Kconfig
+
+# libuma: move page
+source package/NUMA/libnuma-numa-move-page/Kconfig
+
 endif # PK_NUMA

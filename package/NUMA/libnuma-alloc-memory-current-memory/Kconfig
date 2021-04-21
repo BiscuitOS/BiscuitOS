@@ -1,0 +1,55 @@
+menuconfig PK_LIBNUMA_ALLOC_CUR
+	bool "libnuma: Allocate memory on current NODE"
+
+if PK_LIBNUMA_ALLOC_CUR
+
+config PK_LIBNUMA_ALLOC_CUR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_LIBNUMA_ALLOC_CUR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_LIBNUMA_ALLOC_CUR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/NUMA/libnuma-alloc-memory-current-memory"
+	string "url"
+
+config PK_LIBNUMA_ALLOC_CUR_GITHUB
+	string "GitHub"
+
+config PK_LIBNUMA_ALLOC_CUR_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_LIBNUMA_ALLOC_CUR_CSRCFILE
+	string "Compile source code list"
+
+config PK_LIBNUMA_ALLOC_CUR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBNUMA_ALLOC_CUR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBNUMA_ALLOC_CUR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBNUMA_ALLOC_CUR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBNUMA_ALLOC_CUR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBNUMA_ALLOC_CUR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBNUMA_ALLOC_CUR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBNUMA_ALLOC_CUR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBNUMA_ALLOC_CUR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBNUMA_ALLOC_CUR

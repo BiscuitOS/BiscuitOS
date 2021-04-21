@@ -320,6 +320,8 @@ else
 			[ ${ARCH_NAME}Y = "x86_64Y" ] && LIBS_PATH_IN=/lib/x86_64-linux-gnu
 			if [ ${ARCH_NAME}Y = "x86_64Y" ]; then
 				mkdir -p ${ROOTFS_PATH}/lib64/
+				mkdir -p ${ROOTFS_PATH}/usr/lib/
+				[ -f /usr/lib/x86_64-linux-gnu/libnuma.so ] && cp -rf /usr/lib/x86_64-linux-gnu/libnuma.* ${ROOTFS_PATH}/usr/lib/
 				cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
 				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/

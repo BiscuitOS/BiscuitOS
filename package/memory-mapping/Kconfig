@@ -3,22 +3,70 @@ menuconfig PK_MEMORY_MAPPING
 
 if PK_MEMORY_MAPPING
 
-# Anonymout mmap on userspace
-source package/memory-mapping/BiscuitOS-anonymous-mmap-userspace/Kconfig
+# Anonymout share mmap on userspace
+source package/memory-mapping/BiscuitOS-anonymous-share-mmap-userspace/Kconfig
 
-# Hugetlbfs 2M mmap on userspace
-source package/memory-mapping/BiscuitOS-hugetlbfs-2M-mmap-userspace/Kconfig
+# Anonymout private mmap on userspace
+source package/memory-mapping/BiscuitOS-anonymous-private-mmap-userspace/Kconfig
 
-# Hugetlbfs 2M anonymous mmap on userspace
-source package/memory-mapping/BiscuitOS-hugetlbfs-2M-anonymous-mmap-userspace/Kconfig
+# Memory share mmap on userspace
+source package/memory-mapping/BiscuitOS-memory-share-mmap-userspace/Kconfig
 
-# Hugetlbfs 1G mmap on userspace
-source package/memory-mapping/BiscuitOS-hugetlbfs-1G-mmap-userspace/Kconfig
+# Memory private mmap on userspace
+source package/memory-mapping/BiscuitOS-memory-private-mmap-userspace/Kconfig
 
-# Hugetlbfs 1G anonymous mmap on userspace
-source package/memory-mapping/BiscuitOS-hugetlbfs-1G-anonymous-mmap-userspace/Kconfig
+# File share mmap on userspace
+source package/memory-mapping/BiscuitOS-file-share-mmap-userspace/Kconfig
 
-# Normal/Direction mmap on userspace
-source package/memory-mapping/BiscuitOS-mmap-userspace/Kconfig
+# File private mmap on userspace
+source package/memory-mapping/BiscuitOS-file-private-mmap-userspace/Kconfig
+
+# File mmap on tmpfs (userspace+)
+source package/memory-mapping/BiscuitOS-file-mmap-tmpfs-userspace/Kconfig
+
+# File mmap on ext2 (userspace+)
+source package/memory-mapping/BiscuitOS-file-mmap-ext2-userspace/Kconfig
+
+# File mmap on ext3 (userspace+)
+source package/memory-mapping/BiscuitOS-file-mmap-ext3-userspace/Kconfig
+
+# File mmap on ext4 (userspace+)
+source package/memory-mapping/BiscuitOS-file-mmap-ext4-userspace/Kconfig
+
+# File mmap on minix (userspace+)
+source package/memory-mapping/BiscuitOS-file-mmap-minix-userspace/Kconfig
+
+# File mmap on vfat (userspace+)
+source package/memory-mapping/BiscuitOS-file-mmap-vfat-userspace/Kconfig
+
+# File mmap on msdos (userspace+)
+source package/memory-mapping/BiscuitOS-file-mmap-msdos-userspace/Kconfig
+
+# Hugetlbfs 2M share mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-2M-share-mmap-userspace/Kconfig
+
+# Hugetlbfs 2M private mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-2M-private-mmap-userspace/Kconfig
+
+# Hugetlbfs 2M anonymous share mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-2M-anonymous-share-mmap-userspace/Kconfig
+
+# Hugetlbfs 2M anonymous private mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-2M-anonymous-private-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G share mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-1G-share-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G private mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-1G-private-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G anonymous share mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-1G-anonymous-share-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G anonymous private mmap on userspace
+source package/memory-mapping/BiscuitOS-hugetlbfs-1G-anonymous-private-mmap-userspace/Kconfig
+
+# VMA merge
+source package/memory-mapping/BiscuitOS-vma-merge/Kconfig
 
 endif # PK_MEMORY_MAPPING

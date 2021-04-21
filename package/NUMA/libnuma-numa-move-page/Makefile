@@ -1,0 +1,49 @@
+################################################
+#
+# libnuma-numa-move-page
+#
+################################################
+PK_LIBNUMA_MOVE_PAGE_NAME        := libnuma-numa-move-page
+PK_LIBNUMA_MOVE_PAGE_VERSION     := $(CONFIG_PK_LIBNUMA_MOVE_PAGE_VERSION)
+PK_LIBNUMA_MOVE_PAGE_SITE        := $(CONFIG_PK_LIBNUMA_MOVE_PAGE_URL)
+PK_LIBNUMA_MOVE_PAGE_GITHUB      := $(CONFIG_PK_LIBNUMA_MOVE_PAGE_GITHUB)
+PK_LIBNUMA_MOVE_PAGE_SUBNAME     :=
+PK_LIBNUMA_MOVE_PAGE_BUILDARCH   := $(CONFIG_PK_LIBNUMA_MOVE_PAGE_BUILDARCH)
+PK_LIBNUMA_MOVE_PAGE_DIR         := $(srctree)/package/NUMA/libnuma-numa-move-page
+PK_LIBNUMA_MOVE_PAGE_PATCH       := $(PK_LIBNUMA_MOVE_PAGE_DIR)/patch
+PK_LIBNUMA_MOVE_PAGE_BSBIT       := libnuma-numa-move-page-$(PK_LIBNUMA_MOVE_PAGE_VERSION).bsbit
+PK_LIBNUMA_MOVE_PAGE_OUT         :=
+PK_LIBNUMA_MOVE_PAGE_SCRIPTS     := $(srctree)/scripts/package/package-app.sh
+PK_LIBNUMA_MOVE_PAGE_TAR         := $(CONFIG_PK_LIBNUMA_MOVE_PAGE_TAR)
+PK_LIBNUMA_MOVE_PAGE_PACKAGE     :=
+PK_LIBNUMA_MOVE_PAGE_CONFIG      := $(CONFIG_PK_LIBNUMA_MOVE_PAGE_CONFIG)
+SUB_TARGET                  += $(PK_LIBNUMA_MOVE_PAGE_DIR)/build
+
+PK_LIBNUMA_MOVE_PAGE_sh = $(CONFIG_SHELL) $(PK_LIBNUMA_MOVE_PAGE_SCRIPTS) \
+                 $1X \
+                 $(PK_LIBNUMA_MOVE_PAGE_NAME)X \
+                 $(PK_LIBNUMA_MOVE_PAGE_VERSION)X \
+                 $(PK_LIBNUMA_MOVE_PAGE_SITE)X \
+                 $(PK_LIBNUMA_MOVE_PAGE_GITHUB)X \
+                 $(PK_LIBNUMA_MOVE_PAGE_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_LIBNUMA_MOVE_PAGE_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_LIBNUMA_MOVE_PAGE_SUBNAME)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_CONFIG)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_LIBPATH)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_CPPFLAGS)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_DPKCONFIG)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_CFLAGS)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_LDFLAGS)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_CXXFLAGS)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_ASFLAGS)X \
+                 $(PK_LIBNUMA_MOVE_PAGE_BSBIT)X \
+                 $(PK_LIBNUMA_MOVE_PAGE_BUILDARCH)X \
+		 $(PK_LIBNUMA_MOVE_PAGE_CSRCFILE)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_SRCFILE)X \
+                 $(CONFIG_PK_LIBNUMA_MOVE_PAGE_CSRCFILE)
+
+$(PK_LIBNUMA_MOVE_PAGE_DIR)/build: FORCE
+	$(Q)$(call PK_LIBNUMA_MOVE_PAGE_sh,$(srctree))

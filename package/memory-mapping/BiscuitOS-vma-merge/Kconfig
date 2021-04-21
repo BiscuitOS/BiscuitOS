@@ -1,0 +1,9 @@
+menuconfig PK_BISCUITOS_VMA_MERGE
+	bool "VMA Merge Region Algorithm"
+
+if PK_BISCUITOS_VMA_MERGE
+
+# Case 0
+source "package/memory-mapping/BiscuitOS-vma-merge/BiscuitOS-vma-merge-case0/Kconfig"
+
+endif # 

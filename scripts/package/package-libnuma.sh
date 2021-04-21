@@ -162,7 +162,7 @@ echo 'depence-clean:' >> ${MF}
 echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
-echo -e '\t@if [ ! -f $(DL)/$(BASENAME) ]; \' >> ${MF}
+echo -e '\t@if [ ! -d $(DL)/$(BASENAME) ]; \' >> ${MF}
 echo -e '\tthen \' >> ${MF}
 echo -e '\t\tgit clone $(GITHUB) $(DL)/$(BASENAME); \' >> ${MF}
 echo -e '\t\tset -e ; \' >> ${MF}
