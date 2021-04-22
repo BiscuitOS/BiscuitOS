@@ -42,6 +42,18 @@ source package/memory-mapping/BiscuitOS-file-mmap-vfat-userspace/Kconfig
 # File mmap on msdos (userspace+)
 source package/memory-mapping/BiscuitOS-file-mmap-msdos-userspace/Kconfig
 
+# Special share mmap on userspace
+source package/memory-mapping/BiscuitOS-special-share-mmap-userspace/Kconfig
+
+# Special share mmap on kernel
+source package/memory-mapping/BiscuitOS-special-share-mmap-kernel/Kconfig
+
+# Special private mmap on userspace
+source package/memory-mapping/BiscuitOS-special-private-mmap-userspace/Kconfig
+
+# Special private mmap on kernel
+source package/memory-mapping/BiscuitOS-special-private-mmap-kernel/Kconfig
+
 # Hugetlbfs 2M share mmap on userspace
 source package/memory-mapping/BiscuitOS-hugetlbfs-2M-share-mmap-userspace/Kconfig
 
