@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN
+	bool "Layout1: adjoin with NEXT region"
+
+if PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP/BiscuitOS-vma-merge/BiscuitOS-vma-merge-layout1-adjoin"
+	string "url"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_VMA_MERGE_LAYOUT1_ADJOIN

@@ -89,7 +89,7 @@ do_freeze()
 {
 	FREEZE_DISK=Freeze.img
 	FREEZE_SIZE=${18%X}
-	[ ! ${FREEZE_SIZE} ] && FREEZE_SIZE=512
+	[ ! ${FREEZE_SIZE} ] && FREEZE_SIZE=1024
 	if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
 		dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/${FREEZE_DISK}
 		sync

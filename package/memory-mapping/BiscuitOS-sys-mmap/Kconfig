@@ -1,0 +1,27 @@
+menuconfig PK_BISCUITOS_SYS_MMAP
+	bool "SYSCALL: mmap/mmap2"
+
+if PK_BISCUITOS_SYS_MMAP
+
+# Example 00
+source "package/memory-mapping/BiscuitOS-sys-mmap/BiscuitOS-sys-mmap-example-00/Kconfig"
+
+# Example 01
+source "package/memory-mapping/BiscuitOS-sys-mmap/BiscuitOS-sys-mmap-example-01/Kconfig"
+
+# Example 02
+source "package/memory-mapping/BiscuitOS-sys-mmap/BiscuitOS-sys-mmap-example-02/Kconfig"
+
+# Example 03
+source "package/memory-mapping/BiscuitOS-sys-mmap/BiscuitOS-sys-mmap-example-03/Kconfig"
+
+# Example 04
+source "package/memory-mapping/BiscuitOS-sys-mmap/BiscuitOS-sys-mmap-example-04/Kconfig"
+
+# Example 05 (U)
+source "package/memory-mapping/BiscuitOS-sys-mmap/BiscuitOS-sys-mmap-example-05-u/Kconfig"
+
+# Example 05 (K)
+source "package/memory-mapping/BiscuitOS-sys-mmap/BiscuitOS-sys-mmap-example-05-k/Kconfig"
+
+endif # 

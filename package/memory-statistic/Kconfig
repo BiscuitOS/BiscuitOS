@@ -1,0 +1,9 @@
+menuconfig PK_MEMORY_STATISTIC
+	bool "Memory Statistic Tools"
+
+if PK_MEMORY_STATISTIC
+
+# Memory Cgroup
+source package/memory-mapping/BiscuitOS-Cgroup/Kconfig
+
+endif # PK_MEMORY_STATISTIC

@@ -3,7 +3,19 @@ menuconfig PK_BISCUITOS_VMA_MERGE
 
 if PK_BISCUITOS_VMA_MERGE
 
-# Case 0
-source "package/memory-mapping/BiscuitOS-vma-merge/BiscuitOS-vma-merge-case0/Kconfig"
+# Layout 0: Disconnect with NEXT
+source "package/memory-mapping/BiscuitOS-vma-merge/BiscuitOS-vma-merge-layout0-disconnect/Kconfig"
+
+# Layout 0: Adjoin with NEXT
+source "package/memory-mapping/BiscuitOS-vma-merge/BiscuitOS-vma-merge-layout0-adjoin/Kconfig"
+
+# Layout 0: Intersect with NEXT
+source "package/memory-mapping/BiscuitOS-vma-merge/BiscuitOS-vma-merge-layout0-intersect/Kconfig"
+
+# Layout 1: Disconnect with NEXT
+source "package/memory-mapping/BiscuitOS-vma-merge/BiscuitOS-vma-merge-layout1-disconnect/Kconfig"
+
+# Layout 1: Adjoin with NEXT
+source "package/memory-mapping/BiscuitOS-vma-merge/BiscuitOS-vma-merge-layout1-adjoin/Kconfig"
 
 endif # 

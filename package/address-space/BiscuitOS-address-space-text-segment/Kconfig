@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_AS_TEXT_SEGMENT
+	bool "Text Segment: Stores ELF binary image"
+
+if PK_BISCUITOS_AS_TEXT_SEGMENT
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Address-Space/BiscuitOS-address-space-text-segment"
+	string "url"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_AS_TEXT_SEGMENT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_AS_TEXT_SEGMENT

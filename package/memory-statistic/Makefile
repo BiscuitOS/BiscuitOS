@@ -24,7 +24,6 @@ BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_HUGE1G_PRIVATE_MMAP_USERSPACE) 	+= Biscu
 BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_HUGE1G_SHARE_ANON_USERSPACE) 	+= BiscuitOS-hugetlbfs-1G-anonymous-share-mmap-userspace/
 BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_HUGE1G_PRIVATE_ANON_USERSPACE) 	+= BiscuitOS-hugetlbfs-1G-anonymous-private-mmap-userspace/
 BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_VMA_MERGE) 			+= BiscuitOS-vma-merge/
-BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_SYS_MMAP) 			+= BiscuitOS-sys-mmap/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/memory-mapping/%/Makefile, $(BiscuitOS-mapping-y))
 

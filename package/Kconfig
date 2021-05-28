@@ -11,6 +11,9 @@ if COMMON_UTILISE
 # BiscuitOS Demo
 source package/BiscuitOS-demo/Kconfig
 
+# Address Space
+source package/address-space/Kconfig
+
 # Application Demo
 source package/DemoApo/Kconfig
 
@@ -62,6 +65,9 @@ source package/compositeproto/Kconfig
 
 # cpumask
 source package/cpumask/Kconfig
+
+# crash
+source package/crash/Kconfig
 
 # CMA
 source package/CMA/Kconfig

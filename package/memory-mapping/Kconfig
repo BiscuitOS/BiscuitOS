@@ -81,4 +81,7 @@ source package/memory-mapping/BiscuitOS-hugetlbfs-1G-anonymous-private-mmap-user
 # VMA merge
 source package/memory-mapping/BiscuitOS-vma-merge/Kconfig
 
+# sys_mmap
+source package/memory-mapping/BiscuitOS-sys-mmap/Kconfig
+
 endif # PK_MEMORY_MAPPING

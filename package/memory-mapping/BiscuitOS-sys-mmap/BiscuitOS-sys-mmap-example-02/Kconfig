@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_SYS_MMAP_EXAMPLE_02
+	bool "Example 02: Exception for NULL"
+
+if PK_BISCUITOS_SYS_MMAP_EXAMPLE_02
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP/BiscuitOS-sys-mmap/BiscuitOS-sys-mmap-example-02"
+	string "url"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_SYS_MMAP_EXAMPLE_02_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_SYS_MMAP_EXAMPLE_02

@@ -1,0 +1,9 @@
+menuconfig PK_BISCUITOS_VMA_MERGE
+	bool "VMA Merge Region Algorithm"
+
+if PK_BISCUITOS_VMA_MERGE
+
+# Layout 0: Disconnect with NEXT
+source "package/memory-mapping/BiscuitOS-vma-merge/BiscuitOS-vma-merge-layout0-disconnect/Kconfig"
+
+endif # 

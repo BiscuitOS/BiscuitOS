@@ -1,0 +1,21 @@
+menuconfig PK_ADDRESS_SPACE
+	bool "Address Space Layout"
+
+if PK_ADDRESS_SPACE
+
+# TEXT Segment
+source package/address-space/BiscuitOS-address-space-text-segment/Kconfig
+
+# DATA Segment
+source package/address-space/BiscuitOS-address-space-data-segment/Kconfig
+
+# DATA Segment: Global variable
+source package/address-space/BiscuitOS-address-space-data-segment-global/Kconfig
+
+# DATA Segment: Global variable (Dynamic)
+source package/address-space/BiscuitOS-address-space-data-segment-global-dynamic/Kconfig
+
+# Process Address Space
+source package/address-space/BiscuitOS-address-space-process/Kconfig
+
+endif # PK_ADDRESS_SPACE

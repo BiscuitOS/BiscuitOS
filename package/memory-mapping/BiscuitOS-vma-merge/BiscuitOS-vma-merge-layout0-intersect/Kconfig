@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT
+	bool "Layout0: intersect with NEXT region"
+
+if PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP/BiscuitOS-vma-merge/BiscuitOS-vma-merge-layout0-intersect"
+	string "url"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_VMA_MERGE_LAYOUT0_INTERSECT
