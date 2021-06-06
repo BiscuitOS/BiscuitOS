@@ -1,0 +1,14 @@
+menu "SerenityOS"
+
+config SERENITYOS
+	bool "SerenityOS"
+
+if SERENITYOS
+
+config SERENITYOS_GITHUB
+	default "https://gitee.com/mirrors/Serenity.git"
+	string "Github/Gitee"
+
+endif # SERENITYOS
+
+endmenu

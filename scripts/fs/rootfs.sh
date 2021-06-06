@@ -13,6 +13,7 @@ set -e
 ROOT=${1%X}
 # Project NAME
 PROJECT_NAME=${9%X}
+[ ${PROJECT_NAME} = "SerenityOS-on-BiscuitOS" ] && exit 0
 # Project ROOT
 OUTPUT=${ROOT}/output/${PROJECT_NAME}
 # BUSYBOX

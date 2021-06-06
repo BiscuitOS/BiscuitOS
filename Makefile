@@ -391,6 +391,11 @@ ifdef CONFIG_APOLLO
 include kernel/Apollo/Makefile
 endif
 
+ifdef CONFIG_SERENITYOS
+# SerenityOS
+include kernel/SerenityOS/Makefile
+endif
+
 ifdef CONFIG_PK_HISTORY
 # Kernel History
 include package/history/Makefile

@@ -60,6 +60,9 @@ source package/cairo/Kconfig
 # char
 source package/char/Kconfig
 
+# cmake
+source package/cmake/Kconfig
+
 # compositeproto
 source package/compositeproto/Kconfig
 

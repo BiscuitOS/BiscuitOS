@@ -36,5 +36,8 @@ source kernel/xv6/Kconfig
 # Apollo
 source kernel/Apollo/Kconfig
 
+# SerenityOS
+source kernel/SerenityOS/Kconfig
+
 # Kernel History
 source package/history/Kconfig

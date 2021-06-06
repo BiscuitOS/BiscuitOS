@@ -41,6 +41,7 @@ case ${ARCH_MAGIC} in
 	# X86
 	EMULATER=i386-softmmu,i386-linux-user
 	CONFIG="--enable-kvm --enable-virtfs"
+	[ ${QEMU_VERSION} = "6.0.0" ] && CONFIG+=" --enable-gtk"
 	;;
 	2)
 	# ARM 32-bit

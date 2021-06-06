@@ -1,0 +1,53 @@
+menuconfig PK_CMAKE
+	bool "cmake"
+
+if PK_CMAKE
+
+config PK_CMAKE_VERSION
+	default "3.16.0"
+	string "verstion"
+
+config PK_CMAKE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CMAKE_URL
+	default "https://cmake.org/files/v3.16/"
+	string "url"
+
+config PK_CMAKE_GITHUB
+	string "GitHub"
+
+config PK_CMAKE_SRCFILE
+	string "Source code list"
+
+config PK_CMAKE_CONFIG
+	default ""
+	string "CONFIG: Project Configure Options"
+
+config PK_CMAKE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CMAKE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CMAKE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CMAKE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CMAKE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CMAKE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CMAKE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CMAKE_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_CMAKE

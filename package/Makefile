@@ -5,6 +5,7 @@ PACKAGE-$(CONFIG_PK_BUDDY)		+= buddy/
 PACKAGE-$(CONFIG_PK_ARM_ASM)		+= arm-asm/
 PACKAGE-$(CONFIG_PK_SLAB)		+= slab/
 PACKAGE-$(CONFIG_PK_IDR)		+= idr/
+PACKAGE-$(CONFIG_PK_CMAKE)		+= cmake/
 PACKAGE-$(CONFIG_PK_ADDRESS_SPACE)	+= address-space/
 PACKAGE-$(CONFIG_PK_DR)			+= dr/
 PACKAGE-$(CONFIG_PK_CRASH)		+= crash/
