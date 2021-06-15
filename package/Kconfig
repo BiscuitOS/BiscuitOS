@@ -180,6 +180,9 @@ source package/kbproto/Kconfig
 # kernel hacking
 source package/kernel_hacking/Kconfig
 
+# kexec-tools
+source package/kexec-tools/Kconfig
+
 # kobject
 source package/kobject/Kconfig
 
@@ -305,6 +308,9 @@ source package/NUMA/Kconfig
 
 # openssl
 source package/openssl/Kconfig
+
+# page-fault
+source package/page-fault/Kconfig
 
 # paging
 source package/paging/Kconfig

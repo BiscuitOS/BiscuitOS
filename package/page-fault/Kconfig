@@ -1,0 +1,12 @@
+menuconfig PK_PAGE_FAULT
+	bool "Page Fault Mechanism"
+
+if PK_PAGE_FAULT
+
+# Page fault user address (Userspace+)
+source package/page-fault/BiscuitOS-page-fault-user-address-on-userspace/Kconfig
+
+# Page fault user address (Kernel+)
+source package/page-fault/BiscuitOS-page-fault-user-address-on-kernel/Kconfig
+
+endif # PK_PAGE_FAULT
