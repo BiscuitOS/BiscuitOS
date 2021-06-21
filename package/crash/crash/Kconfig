@@ -1,0 +1,54 @@
+menuconfig PK_CRASH_TOOLS
+	bool "crash tools"
+
+if PK_CRASH_TOOLS
+
+config PK_CRASH_TOOLS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CRASH_TOOLS_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_CRASH_TOOLS_URL
+	default ""
+	string "url"
+
+config PK_CRASH_TOOLS_GITHUB
+	default "https://gitee.com/mirrors/crash.git"
+	string "GitHub"
+
+config PK_CRASH_TOOLS_SRCFILE
+	string "Source code list"
+
+config PK_CRASH_TOOLS_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_CRASH_TOOLS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CRASH_TOOLS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CRASH_TOOLS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CRASH_TOOLS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CRASH_TOOLS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CRASH_TOOLS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CRASH_TOOLS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CRASH_TOOLS_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_CRASH_TOOLS

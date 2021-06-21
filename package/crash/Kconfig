@@ -1,54 +1,12 @@
 menuconfig PK_CRASH
-	bool "crash"
+	bool "CRASH and BUG Example"
 
 if PK_CRASH
 
-config PK_CRASH_VERSION
-	default "default"
-	string "verstion"
+# CRASH
+source package/crash/crash/Kconfig
 
-config PK_CRASH_TAR
-	default "tar.xz"
-	string "tar type"
-
-config PK_CRASH_URL
-	default ""
-	string "url"
-
-config PK_CRASH_GITHUB
-	default "https://gitee.com/mirrors/crash.git"
-	string "GitHub"
-
-config PK_CRASH_SRCFILE
-	string "Source code list"
-
-config PK_CRASH_CONFIG
-	default "--enable-silent-rules"
-	string "CONFIG: Project Configure Options"
-
-config PK_CRASH_LIBPATH
-	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
-
-config PK_CRASH_CPPFLAGS
-	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
-
-config PK_CRASH_DPKCONFIG
-	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
-
-config PK_CRASH_CFLAGS
-	string "CFLAGS: C compiler flags"
-
-config PK_CRASH_LDFLAGS
-	string "LDFLAGS: Linker flags"
-
-config PK_CRASH_CXXFLAGS
-	string "CXXFLAGS: C++ compiler flags"
-
-config PK_CRASH_ASFLAGS
-	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
-
-config PK_CRASH_BUILDARCH
-	default "x86_64-unknown-linux-gnu"
-	string "--host options on configure for Architecture"
+# CRASH: Function arguments
+source package/crash/BiscuitOS-crash-register-with-func-argument/Kconfig
 
 endif # PK_CRASH
