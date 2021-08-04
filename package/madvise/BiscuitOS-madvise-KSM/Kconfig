@@ -1,0 +1,55 @@
+menuconfig PK_MADVISE_KSM
+	bool "MADVISE: KSM"
+
+if PK_MADVISE_KSM
+
+config PK_MADVISE_KSM_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MADVISE_KSM_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MADVISE_KSM_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/madvise/BiscuitOS-madvise-KSM"
+	string "url"
+
+config PK_MADVISE_KSM_GITHUB
+	string "GitHub"
+
+config PK_MADVISE_KSM_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_MADVISE_KSM_CSRCFILE
+	string "Compile source code list"
+
+config PK_MADVISE_KSM_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MADVISE_KSM_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MADVISE_KSM_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MADVISE_KSM_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MADVISE_KSM_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MADVISE_KSM_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MADVISE_KSM_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MADVISE_KSM_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MADVISE_KSM_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MADVISE_KSM

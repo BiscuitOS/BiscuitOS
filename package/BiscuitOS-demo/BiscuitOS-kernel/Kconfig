@@ -4,7 +4,7 @@ menuconfig PK_KERNEL_DEMO
 if PK_KERNEL_DEMO
 
 config PK_KERNEL_DEMO_VERSION
-	default "0.0.1"
+	default "default"
 	string "verstion"
 
 config PK_KERNEL_DEMO_TAR

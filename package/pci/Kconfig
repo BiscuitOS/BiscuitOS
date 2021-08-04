@@ -1,0 +1,9 @@
+menuconfig PK_PCI
+	bool "PCI: Peripheral Component Interconnect"
+
+if PK_PCI
+
+# PCI Common Device Driver
+source package/pci/BiscuitOS-pci-device-driver/Kconfig
+
+endif # PK_PCI

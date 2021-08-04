@@ -140,7 +140,41 @@ BiscuitOS_remove_initcall()
 	[ -L ${LINUX}/lib/BiscuitOS_initcall ] && rm -rf ${LINUX}/lib/BiscuitOS_initcall
 }
 
+BiscuitOS_install_kernel()
+{
+  _strong_dir=${LINUX}/lib
+  if [ -f ${BISCUITOS_PACK_DIR}/Makefile ]; then
+    find ${_strong_dir} -name Makefile | xargs grep -s "BiscuitOS_kernel/" > /dev/null
+    if [ $? -ne 0 ]; then
+      echo "obj-y	+= BiscuitOS_kernel/" >> ${_strong_dir}/Makefile
+    fi
+    [ -d ${LINUX}/lib/BiscuitOS_kernel ] && rm -rf ${LINUX}/lib/BiscuitOS_kernel
+    cp -rfa ${BISCUITOS_PACK_DIR}/ ${LINUX}/lib/BiscuitOS_kernel
+  fi
+}
+
+BiscuitOS_remove_kernel()
+{
+  _strong_dir=${LINUX}/lib
+  find ${_strong_dir} -name Makefile | xargs grep -s "BiscuitOS_kernel/" > /dev/null
+  if [ $? -eq 0 ]; then
+    cd ${_strong_dir} > /dev/null
+    _strong_line=$(grep "BiscuitOS_kernel/" * -nr --include Makefile | cut -d : -f 2)
+    [ ${_strong_line} -ne 0 ] && sed -i "${_strong_line} d" Makefile 
+    cd - > /dev/null
+  fi
+  [ -d ${LINUX}/lib/BiscuitOS_kernel ] && rm -rf ${LINUX}/lib/BiscuitOS_kernel/
+}
+
 case $1 in
+	"install_kernel")
+		BiscuitOS_install_kernel
+		echo "Install"
+		;;
+	"remove_kernel")
+		BiscuitOS_remove_kernel
+		echo "Remove"
+		;;
 	"install")
 		BiscuitOS_parse_target
 		BiscuitOS_install_strong

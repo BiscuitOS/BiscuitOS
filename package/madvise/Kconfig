@@ -1,0 +1,9 @@
+menuconfig PK_MADVISE
+	bool "Madvise"
+
+if PK_MADVISE
+
+# KSM
+source package/madvise/BiscuitOS-madvise-KSM/Kconfig
+
+endif # PK_MADVISE

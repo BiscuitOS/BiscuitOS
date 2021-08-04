@@ -1,0 +1,55 @@
+menuconfig PK_CRASH_LIST
+	bool "Example: list Common"
+
+if PK_CRASH_LIST
+
+config PK_CRASH_LIST_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CRASH_LIST_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CRASH_LIST_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Tools/Crash/BiscuitOS-crash-list-common"
+	string "url"
+
+config PK_CRASH_LIST_GITHUB
+	string "GitHub"
+
+config PK_CRASH_LIST_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_CRASH_LIST_CSRCFILE
+	string "Compile source code list"
+
+config PK_CRASH_LIST_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CRASH_LIST_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CRASH_LIST_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CRASH_LIST_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CRASH_LIST_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CRASH_LIST_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CRASH_LIST_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CRASH_LIST_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CRASH_LIST_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CRASH_LIST

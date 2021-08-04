@@ -1,0 +1,12 @@
+menuconfig PK_SHMEM
+	bool "SHMEM: IPC Share Memory Mechanism"
+
+if PK_SHMEM
+
+# SHMEM server
+source package/SHMEM/BiscuitOS-SHMEM-server/Kconfig
+
+# SHMEM Client
+source package/SHMEM/BiscuitOS-SHMEM-client/Kconfig
+
+endif # PK_SHMEM

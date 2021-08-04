@@ -226,6 +226,17 @@ echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
+echo 'rootfs_install:' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh mount' >> ${MF}
+echo -e '\tmkdir -p $(ROOT)/FreezeDir/BiscuitOS' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/linux/linux/arch/x86/boot/bzImage $(ROOT)/FreezeDir/BiscuitOS/bzImage ; \' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/BiscuitOS.img $(ROOT)/FreezeDir/BiscuitOS/BiscuitOS.img ; \' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh umount' >> ${MF}
+echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
+echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
+echo -e '\tfi' >> ${MF}
+echo -e '\t$(info "Rootfs Install .... [OK]")' >> ${MF}
+echo '' >> ${MF}
 echo 'pack:' >> ${MF}
 echo -e '\t@$(PACK) pack' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}

@@ -22,7 +22,7 @@ config PK_BISCUITOS_QEMU_KVM_2M_SRCFILE
 	string "Source code list"
 
 config PK_BISCUITOS_QEMU_KVM_2M_CONFIG
-	default "--target-list=x86_64-softmmu --enable-kvm --enable-virtfs --static --disable-libusb --audio-drv-list=oss --disable-werror"
+	default "--target-list=x86_64-softmmu --enable-kvm --enable-virtfs --static --disable-libusb --audio-drv-list=oss --disable-werror --disable-gtk"
 	string "CONFIG: Project Configure Options"
 
 config PK_BISCUITOS_QEMU_KVM_2M_LIBPATH

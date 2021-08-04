@@ -168,7 +168,7 @@ echo "CONFIG    += ${KBUILD_CONFIG}" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
-echo -e '\t@sh $(KERNRU) install_initcall $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
+echo -e '\t@sh $(KERNRU) install_kernel $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
         echo -e '\tmake  ARCH=$(ARCH) bzImage -j4 ;\' >> ${MF}
@@ -176,7 +176,7 @@ else
         echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
 fi
 echo -e '\tcd - > /dev/null' >> ${MF}
-echo -e '\t@sh $(KERNRU) remove_initcall $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
+echo -e '\t@sh $(KERNRU) remove_kernel $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
 echo '' >> ${MF}
 echo 'prepare:' >> ${MF}
 echo -e '\t@$(BSCORE) bsbit/$(BSFILE) $(PACKDIR)' >> ${MF}
@@ -214,6 +214,17 @@ echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Configure $(BASENAME) done.")' >> ${MF}
+echo '' >> ${MF}
+echo 'rootfs_install:' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh mount' >> ${MF}
+echo -e '\tmkdir -p $(ROOT)/FreezeDir/BiscuitOS' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/linux/linux/arch/x86/boot/bzImage $(ROOT)/FreezeDir/BiscuitOS/bzImage ; \' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/BiscuitOS.img $(ROOT)/FreezeDir/BiscuitOS/BiscuitOS.img ; \' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh umount' >> ${MF}
+echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
+echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
+echo -e '\tfi' >> ${MF}
+echo -e '\t$(info "Rootfs Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}

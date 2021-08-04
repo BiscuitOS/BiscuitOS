@@ -9,4 +9,28 @@ source package/crash/crash/Kconfig
 # CRASH: Function arguments
 source package/crash/BiscuitOS-crash-register-with-func-argument/Kconfig
 
+# CRASH: btop
+source package/crash/BiscuitOS-crash-btop/Kconfig
+
+# CRASH: list
+source package/crash/BiscuitOS-crash-list-common/Kconfig
+
+# CRASH: module
+source package/crash/BiscuitOS-crash-module-common/Kconfig
+
+# CRASH: ptob
+source package/crash/BiscuitOS-crash-ptob/Kconfig
+
+# CRASH: ptov
+source package/crash/BiscuitOS-crash-ptov/Kconfig
+
+# CRASH: vtop user address
+source package/crash/BiscuitOS-crash-vtop-user-address/Kconfig
+
+# CRASH: vtop kernel address
+source package/crash/BiscuitOS-crash-vtop-kernel-address/Kconfig
+
+# CRASH: vtop user address with pid
+source package/crash/BiscuitOS-crash-vtop-pid-user-address/Kconfig
+
 endif # PK_CRASH

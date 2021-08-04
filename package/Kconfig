@@ -267,6 +267,9 @@ source package/lock/Kconfig
 # lzip
 source package/lzip/Kconfig
 
+# madvise
+source package/madvise/Kconfig
+
 # MMU
 source package/MMU/Kconfig
 
@@ -317,6 +320,9 @@ source package/paging/Kconfig
 
 # pango
 source package/pango/Kconfig
+
+# pci
+source package/pci/Kconfig
 
 # pcre
 source package/pcre/Kconfig
@@ -374,6 +380,9 @@ source package/Register/Kconfig
 
 # scrnsaverproto
 source package/scrnsaverproto/Kconfig
+
+# SHMEM
+source package/SHMEM/Kconfig
 
 # slab
 source package/slab/Kconfig

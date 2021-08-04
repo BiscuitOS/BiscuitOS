@@ -224,10 +224,10 @@ echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh mount' >> ${MF}
 echo -e '\tmkdir -p $(QEMUDIR)' >> ${MF}
-echo -e '\tmkdir -p $(QEMUDIR)/usr/bin' >> ${MF}
+echo -e '\tmkdir -p $(INS_PATH)/bin' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
-echo -e '\tsudo cp -rfa x86_64-softmmu/qemu-system-x86_64 $(QEMUDIR)/usr/bin/qemu-kvm  ; \' >> ${MF}
+echo -e '\tsudo cp -rfa x86_64-softmmu/qemu-system-x86_64 $(INS_PATH)/bin/qemu-kvm  ; \' >> ${MF}
 echo -e '\tsudo cp -rfa pc-bios/bios-256k.bin $(QEMUDIR)/bios-256k.bin ; \' >> ${MF}
 echo -e '\tsudo cp -rfa roms/seabios/out/bios.bin $(QEMUDIR)/bios.bin ; \' >> ${MF}
 echo -e '\tsudo cp -rfa pc-bios/vgabios-stdvga.bin $(QEMUDIR)/vgabios-stdvga.bin ; \' >> ${MF}
