@@ -81,6 +81,7 @@ SUPPORT_NETWORK=Y
 SUPPORT_GCC341=N
 SUPPORT_26X24=N
 SUPPORT_SEABIOS=N
+SUPPORT_VIRTIO=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -182,6 +183,10 @@ detect_seaBIOS()
 [ ${ARCH_NAME} == "arm64" ] && SUPPORT_RAMDISK=N
 [ ${ARCH_NAME} == "x86" ] && SUPPORT_RAMDISK=N && SUPPORT_FREEZE_DISK=Y
 [ ${ARCH_NAME} == "x86_64" ] && SUPPORT_RAMDISK=N && SUPPORT_FREEZE_DISK=Y
+
+# Support VirtIO
+[ ${KERNEL_MAJOR_NO} -ge 5 -a ${ARCH_NAME} == "x86" ] && SUPPORT_VIRTIO=Y
+[ ${KERNEL_MAJOR_NO} -ge 5 -a ${ARCH_NAME} == "x86_64" ] && SUPPORT_VIRTIO=Y
 
 # Support Disk mount /
 # --> Mount / at /dev/vda
@@ -549,7 +554,8 @@ case ${ARCH_NAME} in
 		# echo -e '\t-serial stdio \' >> ${MF}
 		# echo -e '\t-nodefaults \' >> ${MF}
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
@@ -567,7 +573,8 @@ case ${ARCH_NAME} in
 		# echo -e '\t-nodefaults \' >> ${MF}
 		# Support HardDisk
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
 		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
@@ -1027,13 +1034,22 @@ case ${ARCH_NAME} in
 		echo "make ARCH=i386 i386_defconfig" >> ${MF}
 		echo "make ARCH=i386 menuconfig" >> ${MF}
 		echo '' >> ${MF}
-		echo '  General setup --->' >> ${MF}
-		echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
-		echo '' >> ${MF}
-		echo '  Device Driver --->' >> ${MF}
-		echo '        [*] Block devices --->' >> ${MF}
-		echo '              <*> RAM block device support' >> ${MF}
-		echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
+		if [ ${SUPPORT_RAMDISK} = "Y" ]; then
+			echo '  General setup --->' >> ${MF}
+			echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
+			echo '' >> ${MF}
+			echo '  Device Driver --->' >> ${MF}
+			echo '        [*] Block devices --->' >> ${MF}
+			echo '              <*> RAM block device support' >> ${MF}
+			echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
+		fi
+		if [ ${SUPPORT_VIRTIO} = "Y" ]; then
+			echo '  Device Drivers --->' >> ${MF}
+			echo '        [*] Virtio drivers --->' >> ${MF}
+			echo '            <*> PCI driver for virtio devices' >> ${MF}
+			echo '        [*] Block devices --->' >> ${MF}
+			echo '            <*> Virtio block driver' >> ${MF}
+		fi
 		echo '' >> ${MF}
 		echo "make ARCH=i386 bzImage -j4" >> ${MF}
 		echo "make ARCH=i386 modules -j4" >> ${MF}
@@ -1044,13 +1060,22 @@ case ${ARCH_NAME} in
 		echo "make ARCH=x86_64 x86_64_defconfig" >> ${MF}
 		echo "make ARCH=x86_64 menuconfig" >> ${MF}
 		echo '' >> ${MF}
-		echo '  General setup --->' >> ${MF}
-		echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
-		echo '' >> ${MF}
-		echo '  Device Driver --->' >> ${MF}
-		echo '        [*] Block devices --->' >> ${MF}
-		echo '              <*> RAM block device support' >> ${MF}
-		echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
+		if [ ${SUPPORT_RAMDISK} = "Y" ]; then
+			echo '  General setup --->' >> ${MF}
+			echo '        [*]Initial RAM filesystem and RAM disk (initramfs/initrd) support' >> ${MF}
+			echo '' >> ${MF}
+			echo '  Device Driver --->' >> ${MF}
+			echo '        [*] Block devices --->' >> ${MF}
+			echo '              <*> RAM block device support' >> ${MF}
+			echo "              (${ROOTFS_BLOCKS}) Default RAM disk size" >> ${MF}
+		fi
+		if [ ${SUPPORT_VIRTIO} = "Y" ]; then
+			echo '  Device Drivers --->' >> ${MF}
+			echo '        [*] Virtio drivers --->' >> ${MF}
+			echo '            <*> PCI driver for virtio devices' >> ${MF}
+			echo '        [*] Block devices --->' >> ${MF}
+			echo '            <*> Virtio block driver' >> ${MF}
+		fi
 		echo '' >> ${MF}
 		echo "make ARCH=x86_64 bzImage -j4" >> ${MF}
 		echo "make ARCH=x86_64 modules -j4" >> ${MF}

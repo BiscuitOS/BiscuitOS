@@ -1,0 +1,53 @@
+menuconfig PK_BISCUITOS_QEMU_HOST
+	bool "Host QEMU for BiscuitOS"
+
+if PK_BISCUITOS_QEMU_HOST
+
+config PK_BISCUITOS_QEMU_HOST_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_QEMU_HOST_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_BISCUITOS_QEMU_HOST_URL
+	default "https://download.qemu.org/"
+	string "url"
+
+config PK_BISCUITOS_QEMU_HOST_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_QEMU_HOST_SRCFILE
+	string "Source code list"
+
+config PK_BISCUITOS_QEMU_HOST_CONFIG
+	default "none"
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_QEMU_HOST_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_QEMU_HOST_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_QEMU_HOST_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_QEMU_HOST_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_QEMU_HOST_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_QEMU_HOST_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_QEMU_HOST_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_QEMU_HOST_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_QEMU_HOST

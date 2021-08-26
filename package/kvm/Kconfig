@@ -3,6 +3,9 @@ menuconfig PK_KVM
 
 if PK_KVM
 
+# Host QEMU
+source package/kvm/BiscuitOS-qemu-host/Kconfig
+
 # kvm_module
 source package/kvm/kvm_module/Kconfig
 
