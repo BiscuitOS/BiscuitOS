@@ -4,7 +4,7 @@ menuconfig PK_BISCUITOS_APP_PROJ_DEMO
 if PK_BISCUITOS_APP_PROJ_DEMO
 
 config PK_BISCUITOS_APP_PROJ_DEMO_VERSION
-	default "0.0.1"
+	default "default"
 	string "verstion"
 
 config PK_BISCUITOS_APP_PROJ_DEMO_TAR

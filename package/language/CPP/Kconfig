@@ -1,0 +1,9 @@
+menuconfig PK_LANGUAGE_CPP
+	bool "C++ language: GNU C++/cpp"
+
+if PK_LANGUAGE_CPP
+
+# CPP on BiscuitOS
+source "package/language/CPP/BiscuitOS-CPP/Kconfig"
+
+endif # PK_LANGUAGE_CPP

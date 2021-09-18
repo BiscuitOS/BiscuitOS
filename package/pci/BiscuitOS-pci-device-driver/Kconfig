@@ -19,7 +19,7 @@ config PK_PCI_COMMON_DD_GITHUB
 	string "GitHub"
 
 config PK_PCI_COMMON_DD_SRCFILE
-	default "main.c Kconfig Makefile"
+	default "main.c Kconfig Makefile README.md RunBiscuitOS.sh"
 	string "Source code list"
 
 config PK_PCI_COMMON_DD_CSRCFILE

@@ -5,7 +5,7 @@ menuconfig PK_BISCUITOS_CHAR_APP_DEMO
 if PK_BISCUITOS_CHAR_APP_DEMO
 
 config PK_BISCUITOS_CHAR_APP_DEMO_VERSION
-	default "0.0.1"
+	default "default"
 	string "verstion"
 
 config PK_BISCUITOS_CHAR_APP_DEMO_TAR

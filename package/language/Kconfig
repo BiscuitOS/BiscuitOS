@@ -1,0 +1,18 @@
+menuconfig PK_LANGUAGE
+	bool "Language: C/C++/Phython/Assembly etc"
+
+if PK_LANGUAGE
+
+# C
+source package/language/C/Kconfig
+
+# CPP/C++
+source package/language/CPP/Kconfig
+
+# Python
+source package/language/Python/Kconfig
+
+# Shell
+source package/language/Shell/Kconfig
+
+endif # PK_LANGUAGE

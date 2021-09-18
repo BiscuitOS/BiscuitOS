@@ -1,0 +1,54 @@
+menuconfig PK_LIBHUGETLBFS
+	bool "libhugetlbfs: Dynamic hugetlbfs library"
+
+if PK_LIBHUGETLBFS
+
+config PK_LIBHUGETLBFS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_LIBHUGETLBFS_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_LIBHUGETLBFS_URL
+	default "http://ftp.igh.cnrs.fr/pub/nongnu/dmidecode/"
+	string "url"
+
+config PK_LIBHUGETLBFS_GITHUB
+	default "git@gitee.com:mirrors/libhugetlbfs.git"
+	string "GitHub"
+
+config PK_LIBHUGETLBFS_SRCFILE
+	string "Source code list"
+
+config PK_LIBHUGETLBFS_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_LIBHUGETLBFS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_LIBHUGETLBFS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_LIBHUGETLBFS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_LIBHUGETLBFS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_LIBHUGETLBFS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_LIBHUGETLBFS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_LIBHUGETLBFS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_LIBHUGETLBFS_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_LIBHUGETLBFS

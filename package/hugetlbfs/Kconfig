@@ -1,0 +1,36 @@
+menuconfig PK_HUGETLBFS
+	bool "Hugetlbfs: Hugepage and Transparent Hugepage"
+
+if PK_HUGETLBFS
+
+# libhugetlbfs
+source package/hugetlbfs/libhugetlbfs/Kconfig
+
+# libhugetlbfs-usage
+source package/hugetlbfs/BiscuitOS-libhugetlbfs-usage/Kconfig
+
+# Hugetlbfs 2M share mmap on userspace
+source package/hugetlbfs/BiscuitOS-hugetlbfs-2M-share-mmap-userspace/Kconfig
+
+# Hugetlbfs 2M private mmap on userspace
+source package/hugetlbfs/BiscuitOS-hugetlbfs-2M-private-mmap-userspace/Kconfig
+
+# Hugetlbfs 2M anonymous share mmap on userspace
+source package/hugetlbfs/BiscuitOS-hugetlbfs-2M-anonymous-share-mmap-userspace/Kconfig
+
+# Hugetlbfs 2M anonymous private mmap on userspace
+source package/hugetlbfs/BiscuitOS-hugetlbfs-2M-anonymous-private-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G share mmap on userspace
+source package/hugetlbfs/BiscuitOS-hugetlbfs-1G-share-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G private mmap on userspace
+source package/hugetlbfs/BiscuitOS-hugetlbfs-1G-private-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G anonymous share mmap on userspace
+source package/hugetlbfs/BiscuitOS-hugetlbfs-1G-anonymous-share-mmap-userspace/Kconfig
+
+# Hugetlbfs 1G anonymous private mmap on userspace
+source package/hugetlbfs/BiscuitOS-hugetlbfs-1G-anonymous-private-mmap-userspace/Kconfig
+
+endif # PK_HUGETLBFS

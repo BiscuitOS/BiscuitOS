@@ -1,0 +1,9 @@
+menuconfig PK_LANGUAGE_SHELL
+	bool "Shell language and scripts"
+
+if PK_LANGUAGE_SHELL
+
+# Shell on BiscuitOS
+source "package/language/Shell/BiscuitOS-Shell/Kconfig"
+
+endif # PK_LANGUAGE_SHELL

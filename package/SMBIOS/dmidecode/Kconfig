@@ -1,0 +1,54 @@
+menuconfig PK_DMIDECODE_TOOLS
+	bool "DMI: Desktop Management interface"
+
+if PK_DMIDECODE_TOOLS
+
+config PK_DMIDECODE_TOOLS_VERSION
+	default "3.3"
+	string "verstion"
+
+config PK_DMIDECODE_TOOLS_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_DMIDECODE_TOOLS_URL
+	default "http://ftp.igh.cnrs.fr/pub/nongnu/dmidecode/"
+	string "url"
+
+config PK_DMIDECODE_TOOLS_GITHUB
+	default ""
+	string "GitHub"
+
+config PK_DMIDECODE_TOOLS_SRCFILE
+	string "Source code list"
+
+config PK_DMIDECODE_TOOLS_CONFIG
+	default "--enable-silent-rules"
+	string "CONFIG: Project Configure Options"
+
+config PK_DMIDECODE_TOOLS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DMIDECODE_TOOLS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DMIDECODE_TOOLS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DMIDECODE_TOOLS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DMIDECODE_TOOLS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DMIDECODE_TOOLS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DMIDECODE_TOOLS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DMIDECODE_TOOLS_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_DMIDECODE_TOOLS

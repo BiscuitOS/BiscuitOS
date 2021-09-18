@@ -55,6 +55,10 @@ HBARCH=${21%X}
 CSRC=${22%X}
 # Package Path
 PPATH=${PACKAGE_PATCH%%/patch}
+# GDB Command file
+GDBFILE=BiscuitOS.gdb
+# Kernel Image
+KERNEL_IMAGE=
 
 ## Establish static Path
 OUTPUT=${PROJECT_ROOT}/output/${PROJECT_NAME}
@@ -67,11 +71,11 @@ PACKAGE_BSBIT=${PPATH}/bsbit
 
 # Determine Architecture
 ARCH=unknown
-[[ ${PROJECT_NAME} == *arm32* ]]   && ARCH=arm
-[[ ${PROJECT_NAME} == *aarch* ]]   && ARCH=arm64
-[[ ${PROJECT_NAME} == *i386* ]]    && ARCH=i386
-[[ ${PROJECT_NAME} == *x86_64* ]]  && ARCH=x86_64
-[[ ${PROJECT_NAME} == *riscv* ]]   && ARCH=riscv
+[[ ${PROJECT_NAME} == *arm32* ]]   && ARCH=arm      && KERNEL_IMAGE=/arch/arm/boot/zImage
+[[ ${PROJECT_NAME} == *aarch* ]]   && ARCH=arm64    && KERNEL_IMAGE=/arch/arm64/boot/Image
+[[ ${PROJECT_NAME} == *i386* ]]    && ARCH=i386     && KERNEL_IMAGE=/arch/x86/boot/bzImage
+[[ ${PROJECT_NAME} == *x86_64* ]]  && ARCH=x86_64   && KERNEL_IMAGE=/arch/x86/boot/bzImage
+[[ ${PROJECT_NAME} == *riscv* ]]   && ARCH=riscv    && KERNEL_IMAGE=
 
 HOST_NAME=${PACKAGE_TOOL}
 [ ${ARCH} == "arm64" ] && HOST_NAME=aarch64-linux
@@ -205,6 +209,9 @@ echo 'build:' >> ${MF}
 echo -e '\tmake' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}
+echo 'debug:' >> ${MF}
+echo -e '\tgdb --init-command=BiscuitOS.gdb' >> ${MF}
+echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
@@ -299,6 +306,13 @@ echo "[${PACKAGE_NAME}](${PACKAGE_SITE})" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}
+
+MF=${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/${GDBFILE}
+
+echo "#Target Binary File" >> ${MF}
+echo "file ${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/${PACKAGE_NAME}-${PACKAGE_VERSION}/x86_64-softmmu/qemu-system-x86_64" >> ${MF}
+echo '# QEMU COMMAND' >> ${MF}
+echo "set args -cpu host -enable-kvm -m 64M -kernel ${OUTPUT}/linux/linux/${KERNEL_IMAGE} -hda ${OUTPUT}/BiscuitOS.img -drive file=${OUTPUT}/Freeze.img,if=virtio -nographic -append \"root=/dev/sda rw rootfstype=ext4 console=ttyS0 init=/linuxrc loglevel=8\"" >> ${MF}
 
 # Patch work
 #

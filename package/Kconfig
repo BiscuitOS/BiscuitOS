@@ -159,6 +159,9 @@ source package/hello/Kconfig
 # highmem
 source package/highmem/Kconfig
 
+# hugetlbfs
+source package/hugetlbfs/Kconfig
+
 # i2c
 source package/i2c/Kconfig
 
@@ -194,6 +197,9 @@ source package/ktime/Kconfig
 
 # kvm
 source package/kvm/Kconfig
+
+# Language
+source package/language/Kconfig
 
 # libdrm
 source package/libdrm/Kconfig
@@ -387,6 +393,9 @@ source package/SHMEM/Kconfig
 # slab
 source package/slab/Kconfig
 
+# SMBIOS
+source package/SMBIOS/Kconfig
+
 # SMP
 source package/SMP/Kconfig
 
@@ -401,6 +410,9 @@ source package/SWAP/Kconfig
 
 # system call arm
 source package/syscall/Kconfig
+
+# tcmalloc
+source package/tcmalloc/Kconfig
 
 # util-linux
 source package/util-linux/Kconfig

@@ -1,0 +1,10 @@
+menuconfig PK_LANGUAGE_PYTHON
+	select PK_PYTHON
+	bool "Python: python 2.7"
+
+if PK_LANGUAGE_PYTHON
+
+# Python on BiscuitOS
+source "package/language/Python/BiscuitOS-Python/Kconfig"
+
+endif # PK_LANGUAGE_PYTHON

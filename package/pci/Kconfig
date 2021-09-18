@@ -6,4 +6,10 @@ if PK_PCI
 # PCI Common Device Driver
 source package/pci/BiscuitOS-pci-device-driver/Kconfig
 
+# PCI Device QEMU emulate
+source package/pci/BiscuitOS-pci-device-QEMU-emulate/Kconfig
+
+# PCI Express Configuration via IO
+source package/pci/BiscuitOS-PCI-Express-Configuration-IO/Kconfig
+
 endif # PK_PCI

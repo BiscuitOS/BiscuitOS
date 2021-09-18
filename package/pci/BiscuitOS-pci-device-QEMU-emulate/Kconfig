@@ -1,0 +1,55 @@
+menuconfig PK_PCI_QEMU_EMULATE
+	bool "QEMU emulate PCIe Device (BiscuitOS-pcie)"
+
+if PK_PCI_QEMU_EMULATE
+
+config PK_PCI_QEMU_EMULATE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PCI_QEMU_EMULATE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PCI_QEMU_EMULATE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/PCIe/BiscuitOS-pci-device-QEMU-emulate"
+	string "url"
+
+config PK_PCI_QEMU_EMULATE_GITHUB
+	string "GitHub"
+
+config PK_PCI_QEMU_EMULATE_SRCFILE
+	default "BiscuitOS-pci.c  Kconfig  Makefile.objs  README.md"
+	string "Source code list"
+
+config PK_PCI_QEMU_EMULATE_CSRCFILE
+	string "Compile source code list"
+
+config PK_PCI_QEMU_EMULATE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PCI_QEMU_EMULATE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PCI_QEMU_EMULATE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PCI_QEMU_EMULATE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PCI_QEMU_EMULATE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PCI_QEMU_EMULATE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PCI_QEMU_EMULATE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PCI_QEMU_EMULATE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PCI_QEMU_EMULATE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PCI_QEMU_EMULATE

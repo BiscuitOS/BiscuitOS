@@ -1,0 +1,9 @@
+menuconfig PK_TCMALLOC
+	bool "tcmalloc: Thread-Caching Malloc"
+
+if PK_TCMALLOC
+
+# tcmalloc
+source package/tcmalloc/tcmalloc/Kconfig
+
+endif # PK_TCMALLOC

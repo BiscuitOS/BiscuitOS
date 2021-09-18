@@ -1,0 +1,9 @@
+menuconfig PK_SMBIOS
+	bool "SMBIOS: System Management BIOS"
+
+if PK_SMBIOS
+
+# SMBIOS
+source package/SMBIOS/dmidecode/Kconfig
+
+endif # PK_SMBIOS

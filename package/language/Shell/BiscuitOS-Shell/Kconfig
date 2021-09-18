@@ -1,0 +1,55 @@
+menuconfig PK_SHELL_BISCUITOS
+	bool "Shell language on BiscuitOS"
+
+if PK_SHELL_BISCUITOS
+
+config PK_SHELL_BISCUITOS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_SHELL_BISCUITOS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_SHELL_BISCUITOS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Language/Shell/BiscuitOS-Shell"
+	string "url"
+
+config PK_SHELL_BISCUITOS_GITHUB
+	string "GitHub"
+
+config PK_SHELL_BISCUITOS_SRCFILE
+	default "main.sh Makefile"
+	string "Source code list"
+
+config PK_SHELL_BISCUITOS_CSRCFILE
+	string "Compile source code list"
+
+config PK_SHELL_BISCUITOS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_SHELL_BISCUITOS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_SHELL_BISCUITOS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_SHELL_BISCUITOS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_SHELL_BISCUITOS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_SHELL_BISCUITOS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_SHELL_BISCUITOS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_SHELL_BISCUITOS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_SHELL_BISCUITOS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_SHELL_BISCUITOS

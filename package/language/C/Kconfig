@@ -1,0 +1,9 @@
+menuconfig PK_LANGUAGE_C
+	bool "C language: GNU C/C99/C89"
+
+if PK_LANGUAGE_C
+
+# C on BiscuitOS
+source "package/language/C/BiscuitOS-C/Kconfig"
+
+endif # PK_LANGUAGE_C

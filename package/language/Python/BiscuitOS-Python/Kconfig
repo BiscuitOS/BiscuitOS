@@ -1,0 +1,55 @@
+menuconfig PK_PYTHON_BISCUITOS
+	bool "Python language on BiscuitOS"
+
+if PK_PYTHON_BISCUITOS
+
+config PK_PYTHON_BISCUITOS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PYTHON_BISCUITOS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PYTHON_BISCUITOS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Language/Python/BiscuitOS-Python"
+	string "url"
+
+config PK_PYTHON_BISCUITOS_GITHUB
+	string "GitHub"
+
+config PK_PYTHON_BISCUITOS_SRCFILE
+	default "main.py Makefile"
+	string "Source code list"
+
+config PK_PYTHON_BISCUITOS_CSRCFILE
+	string "Compile source code list"
+
+config PK_PYTHON_BISCUITOS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PYTHON_BISCUITOS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PYTHON_BISCUITOS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PYTHON_BISCUITOS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PYTHON_BISCUITOS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PYTHON_BISCUITOS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PYTHON_BISCUITOS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PYTHON_BISCUITOS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PYTHON_BISCUITOS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PYTHON_BISCUITOS
