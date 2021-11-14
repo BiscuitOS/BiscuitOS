@@ -159,8 +159,8 @@ source package/hello/Kconfig
 # highmem
 source package/highmem/Kconfig
 
-# hugetlbfs
-source package/hugetlbfs/Kconfig
+# hugetlb and hugetlbfs
+source package/hugetlb/Kconfig
 
 # i2c
 source package/i2c/Kconfig

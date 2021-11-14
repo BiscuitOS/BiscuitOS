@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M
+	bool "Hugetlb: Anonymous Privated-mapping for 2MiB Hugepage"
+
+if PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Hugetlb/BiscuitOS-hugetlb-anonymous-private-mapping-2MiB"
+	string "url"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_HUGETLB_ANON_PRIVATE_2M

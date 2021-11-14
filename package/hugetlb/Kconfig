@@ -1,0 +1,33 @@
+menuconfig PK_HUGETLB
+	bool "Hugetlb and Hugetlbfs Mechanism"
+
+if PK_HUGETLB
+
+# libhugetlbfs
+source package/hugetlb/libhugetlbfs/Kconfig
+
+# Usage for libhugetlbfs
+source package/hugetlb/BiscuitOS-libhugetlbfs-usage/Kconfig
+
+# Hugetlb Anonymous Privated-mapping for 2MiB
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-private-mapping-2MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for 2MiB
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-2MiB/Kconfig
+
+# Hugetlb file Privated-mapping for 2MiB
+source package/hugetlb/BiscuitOS-hugetlb-file-private-mapping-2MiB/Kconfig
+
+# Hugetlb file Share-mapping for 2MiB
+source package/hugetlb/BiscuitOS-hugetlb-file-share-mapping-2MiB/Kconfig
+
+# Hugetlb fork on Anonymous Privated-mapping
+source package/hugetlb/BiscuitOS-hugetlb-fork-on-anonymous-private-mapping/Kconfig
+
+# Hugetlb fork on File Privated-mapping
+source package/hugetlb/BiscuitOS-hugetlb-fork-on-file-private-mapping/Kconfig
+
+# Hugetlb history on linux 2.6.6
+source package/hugetlb/BiscuitOS-hugetlb-history-v2.6.6/Kconfig
+
+endif # PK_HUGETLB

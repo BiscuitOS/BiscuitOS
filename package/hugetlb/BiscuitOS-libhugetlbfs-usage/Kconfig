@@ -1,5 +1,6 @@
 menuconfig PK_LIBHUGETLBFS_USAGE
-	bool "The Application for usage of libhugetlbfs"
+	select PK_LIBHUGETLBFS
+	bool "libhugetlbfs: The Application for libhugetlbfs"
 
 if PK_LIBHUGETLBFS_USAGE
 
@@ -12,7 +13,7 @@ config PK_LIBHUGETLBFS_USAGE_TAR
 	string "tar type"
 
 config PK_LIBHUGETLBFS_USAGE_URL
-	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/hugetlbfs/BiscuitOS-libhugetlbfs-usage-default"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Hugetlb/BiscuitOS-libhugetlbfs-usage-default"
 	string "url"
 
 config PK_LIBHUGETLBFS_USAGE_GITHUB

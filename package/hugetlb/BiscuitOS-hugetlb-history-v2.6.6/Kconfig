@@ -1,0 +1,56 @@
+menuconfig PK_HUGETLB_HISTORY_V2_6_6
+	bool "Hugetlb History: Linux 2.6.6"
+
+if PK_HUGETLB_HISTORY_V2_6_6
+
+config PK_HUGETLB_HISTORY_V2_6_6_VERSION
+	default "2.6.6"
+	string "verstion"
+
+config PK_HUGETLB_HISTORY_V2_6_6_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_HUGETLB_HISTORY_V2_6_6_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Hugetlb/BiscuitOS-hugetlb-fork-on-anonymous-private-mapping"
+	string "url"
+
+config PK_HUGETLB_HISTORY_V2_6_6_GITHUB
+	string "GitHub"
+	default "https://gitee.com/BiscuitOS_team/hugetlb-history.git"
+
+config PK_HUGETLB_HISTORY_V2_6_6_SRCFILE
+	default "README.md"
+	string "Source code list"
+
+config PK_HUGETLB_HISTORY_V2_6_6_CSRCFILE
+	string "Compile source code list"
+
+config PK_HUGETLB_HISTORY_V2_6_6_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_HUGETLB_HISTORY_V2_6_6_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_HUGETLB_HISTORY_V2_6_6_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_HUGETLB_HISTORY_V2_6_6_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_HUGETLB_HISTORY_V2_6_6_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_HUGETLB_HISTORY_V2_6_6_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_HUGETLB_HISTORY_V2_6_6_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_HUGETLB_HISTORY_V2_6_6_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_HUGETLB_HISTORY_V2_6_6_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_HUGETLB_HISTORY_V2_6_6
