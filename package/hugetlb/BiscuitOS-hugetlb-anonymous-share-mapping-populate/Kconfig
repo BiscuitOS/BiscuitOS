@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE
+	bool "hugetlb: Anon-Shared on Populate (Default-Size Hugepages+)"
+
+if PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-populate"
+	string "url"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE

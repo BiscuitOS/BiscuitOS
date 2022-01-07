@@ -200,6 +200,8 @@ mkdir -p /nfs
 [ -f /bin/busybox ] && chmod 7755 /bin/busybox
 
 # Netwroking
+ifconfig lo up > /dev/null 2>&1
+ifconfig lo 127.0.0.1
 ifconfig eth0 up > /dev/null 2>&1
 ifconfig eth0 172.88.1.6
 route add default gw 172.88.1.1
@@ -291,6 +293,13 @@ nameserver 1.2.4.8
 nameserver 8.8.8.8
 EOF
 
+## Hosts
+RC=${ROOTFS_PATH}/etc/hosts
+cat << EOF > ${RC}
+127.0.0.1 localhost
+127.0.1.1 BiscuitOS
+EOF
+
 ##
 # Install Cross-compiler library
 # --> linux 2.6 not support library
@@ -322,7 +331,7 @@ else
 			if [ ${ARCH_NAME}Y = "x86_64Y" ]; then
 				mkdir -p ${ROOTFS_PATH}/lib64/
 				mkdir -p ${ROOTFS_PATH}/usr/lib/
-				[ -f /usr/lib/x86_64-linux-gnu/libnuma.so ] && cp -rf /usr/lib/x86_64-linux-gnu/libnuma.* ${ROOTFS_PATH}/usr/lib/
+				# [ -f /usr/lib/x86_64-linux-gnu/libnuma.so ] && cp -rf /usr/lib/x86_64-linux-gnu/libnuma.* ${ROOTFS_PATH}/usr/lib/
 				[ -f /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ] && cp -rf /usr/lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
 				cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/

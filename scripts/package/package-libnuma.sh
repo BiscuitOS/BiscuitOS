@@ -183,15 +183,27 @@ echo -e '\t$(info "Decompression $(PACKAGE) => $(BASENAM) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'configure:' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
-echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} CC=$(CROSS_TOOL)gcc \' >> ${MF}
-echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++  \' >> ${MF}
-echo -e '\tCFLAGS="$(KBUDCFLAG)" LDFLAGS="$(KBLDFLAGS)" \' >> ${MF}
-echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
-echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
-echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
-echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
-echo -e '\t./autogen.sh ; \' >> ${MF}
-echo -e '\t./configure $(CONFIG)' >> ${MF}
+if [ ${ARCH}X = "arm64X" ]; then
+    echo -e '\t./autogen.sh ; \' >> ${MF}
+    echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} CC=$(CROSS_TOOL)gcc \' >> ${MF}
+    echo -e '\tCXX=$(CROSS_TOOL)c++  \' >> ${MF}
+    echo -e '\t./configure $(CONFIG)' >> ${MF}
+elif [  ${ARCH}X = "i386X" ]; then
+    echo -e '\t./autogen.sh ; \' >> ${MF}
+    echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} CC="gcc -m32" \' >> ${MF}
+    echo -e '\tCXX=c++  \' >> ${MF}
+    echo -e '\t./configure $(CONFIG)' >> ${MF}
+else
+    echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} CC=$(CROSS_TOOL)gcc \' >> ${MF}
+    echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++  \' >> ${MF}
+    echo -e '\tCFLAGS="$(KBUDCFLAG)" LDFLAGS="$(KBLDFLAGS)" \' >> ${MF}
+    echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
+    echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
+    echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
+    echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
+    echo -e '\t./autogen.sh ; \' >> ${MF}
+    echo -e '\t./configure $(CONFIG)' >> ${MF}
+fi
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}

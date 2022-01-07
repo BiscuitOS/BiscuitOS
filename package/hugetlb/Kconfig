@@ -9,17 +9,119 @@ source package/hugetlb/libhugetlbfs/Kconfig
 # Usage for libhugetlbfs
 source package/hugetlb/BiscuitOS-libhugetlbfs-usage/Kconfig
 
-# Hugetlb Anonymous Privated-mapping for 2MiB
-source package/hugetlb/BiscuitOS-hugetlb-anonymous-private-mapping-2MiB/Kconfig
+# Hugetlb Anonymous Share-mapping for default hugepage
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping/Kconfig
+
+# Hugetlb Anonymous Share-mapping for SYS V SHMEM
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-sysv/Kconfig
+
+# Hugetlb Anonymous Share-mapping for memfd SHMEM
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-memfd/Kconfig
+
+# Hugetlb Anonymous Share-mapping on libhugetlbfs
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-libhugetlbfs/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Migration
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-migration/Kconfig
+
+# Hugetlb Anonymous Share-mapping for NO-RESERVE
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-noreserve/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Populate
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-populate/Kconfig
+
+# Hugetlb Anonymous Share-mapping for 64KiB
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-64KiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for SYS V SHMEM (64KiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-sysv-64KiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for memfd SHMEM (64KiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-memfd-64KiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping on libhugetlbfs (64KiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-libhugetlbfs-64KiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Migration (64KiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-migration-64KiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for NO-RESERVE (64KiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-noreserve-64KiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Populate (64KiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-populate-64KiB/Kconfig
 
 # Hugetlb Anonymous Share-mapping for 2MiB
 source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-2MiB/Kconfig
 
-# Hugetlb file Privated-mapping for 2MiB
-source package/hugetlb/BiscuitOS-hugetlb-file-private-mapping-2MiB/Kconfig
+# Hugetlb Anonymous Share-mapping for SYS V SHMEM (2MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-sysv-2MiB/Kconfig
 
-# Hugetlb file Share-mapping for 2MiB
-source package/hugetlb/BiscuitOS-hugetlb-file-share-mapping-2MiB/Kconfig
+# Hugetlb Anonymous Share-mapping for memfd SHMEM (2MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-memfd-2MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping on libhugetlbfs (2MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-libhugetlbfs-2MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Migration (2MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-migration-2MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for NO-RESERVE (2MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-noreserve-2MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Populate (2MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-populate-2MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for 4MiB
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-4MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for SYS V SHMEM (4MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-sysv-4MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for memfd SHMEM (4MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-memfd-4MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping on libhugetlbfs (4MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-libhugetlbfs-4MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for NO-RESERVE (4MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-noreserve-4MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Populate (4MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-populate-4MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for 32MiB
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-32MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for SYS V SHMEM (32MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-sysv-32MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for memfd SHMEM (32MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-memfd-32MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping on libhugetlbfs (32MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-libhugetlbfs-32MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Migration (32MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-migration-32MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for NO-RESERVE (32MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-noreserve-32MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Populate (32MiB)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-populate-32MiB/Kconfig
+
+# Hugetlb Anonymous Share-mapping for 1Gig
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-1Gig/Kconfig
+
+# Hugetlb Anonymous Share-mapping for SYS V SHMEM (1Gig)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-sysv-1Gig/Kconfig
+
+# Hugetlb Anonymous Share-mapping for memfd SHMEM (1Gig)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-memfd-1Gig/Kconfig
+
+# Hugetlb Anonymous Share-mapping on libhugetlbfs (1Gig)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-libhugetlbfs-1Gig/Kconfig
 
 # Hugetlb fork on Anonymous Privated-mapping
 source package/hugetlb/BiscuitOS-hugetlb-fork-on-anonymous-private-mapping/Kconfig

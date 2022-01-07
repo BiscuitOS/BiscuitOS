@@ -1,5 +1,5 @@
 menuconfig PK_BISCUITOS_HUGETLB_ANON_SHARE_2M
-	bool "hugetlb: Anonymous Shared-mapping for 2MiB Hugepage"
+	bool "hugetlb: Anon-Shared (2MiB Hugepages+)"
 
 if PK_BISCUITOS_HUGETLB_ANON_SHARE_2M
 

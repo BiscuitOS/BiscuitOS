@@ -150,7 +150,13 @@ echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
 echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
 echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
 echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
-echo -e '\tmake BUILDTYPE=NATIVEONLY' >> ${MF}
+if [ ${ARCH} == "arm64" ]; then
+    echo -e '\tmake ARCH=aarch64 LD=$(CROSS_TOOL)ld' >> ${MF}
+elif [ ${ARCH} == "i386" ]; then
+    echo -e '\tmake ARCH=i386 BUILDTYPE=NATIVEONLY CC="gcc -m32"' >> ${MF}
+else
+    echo -e '\tmake BUILDTYPE=NATIVEONLY' >> ${MF}
+fi
 echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -192,8 +198,17 @@ echo -e '\t$(info "Configure $(BASENAME) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
-echo -e '\tsudo cp obj64/libhugetlbfs.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
-echo -e '\tsudo cp obj64/libhugetlbfs_privutils.so $(ROOT)/rootfs/rootfs/lib/' >> ${MF}
+if  [ ${ARCH} == "i386" ]; then
+    echo -e '\tsudo cp obj32/libhugetlbfs.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
+    echo -e '\tsudo cp obj32/libhugetlbfs_privutils.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
+else
+    echo -e '\tsudo cp obj64/libhugetlbfs.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
+    echo -e '\tsudo cp obj64/libhugetlbfs_privutils.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
+fi
+echo -e '\tsudo cp obj/hugeadm $(ROOT)/rootfs/rootfs/usr/bin/ ; \' >> ${MF}
+echo -e '\tsudo cp obj/hugectl $(ROOT)/rootfs/rootfs/usr/bin/ ; \' >> ${MF}
+echo -e '\tsudo cp obj/hugeedit $(ROOT)/rootfs/rootfs/usr/bin/ ; \' >> ${MF}
+echo -e '\tsudo cp obj/pagesize $(ROOT)/rootfs/rootfs/usr/bin/' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}

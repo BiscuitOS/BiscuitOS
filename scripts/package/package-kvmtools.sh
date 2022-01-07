@@ -164,7 +164,7 @@ echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
 echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
 echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
 echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
-echo -e '\tmake -j8; \' >> ${MF}
+echo -e '\tmake LDFLAGS="-static" -j8; \' >> ${MF}
 echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}

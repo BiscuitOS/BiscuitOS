@@ -39,6 +39,7 @@ config PK_BISCUITOS_KVM_TOOLS_2M_CFLAGS
 	string "CFLAGS: C compiler flags"
 
 config PK_BISCUITOS_KVM_TOOLS_2M_LDFLAGS
+	default "-static"
 	string "LDFLAGS: Linker flags"
 
 config PK_BISCUITOS_KVM_TOOLS_2M_CXXFLAGS
