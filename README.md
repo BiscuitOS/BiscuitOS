@@ -122,8 +122,6 @@ export BS_SILENCE=true
 
 [BiscuitOS Home Page](https://biscuitos.github.io/)
 
-[BiscuitOS Establish More distro-Linux](https://biscuitos.github.io/blog/Kernel_Build/)
-
 [BiscuitOS Blog Index](https://biscuitos.github.io/blog/BiscuitOS_Catalogue/)
 
 > Email: BuddyZhang1 <buddy.zhang@aliyun.com>
