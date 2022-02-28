@@ -1,0 +1,9 @@
+menuconfig PK_MEMORY_SANITIZER
+	bool "Memory Sanitizers"
+
+if PK_MEMORY_SANITIZER
+
+# GCC ASAN
+source package/memory-sanitizers/BiscuitOS-ASAN/Kconfig
+
+endif # PK_MEMORY_SANITIZER

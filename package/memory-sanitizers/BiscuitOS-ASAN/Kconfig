@@ -1,5 +1,5 @@
 menuconfig PK_ASAN
-	bool "GCC Address Sanitizer (ASAN)"
+	bool "GCC Sanitizer Tools (ASAN)"
 
 if PK_ASAN
 
@@ -12,7 +12,7 @@ config PK_ASAN_TAR
 	string "tar type"
 
 config PK_ASAN_URL
-	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Memory-Leak/BiscuitOS-ASAN"
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Memory-Sanitizer/BiscuitOS-ASAN"
 	string "url"
 
 config PK_ASAN_GITHUB
