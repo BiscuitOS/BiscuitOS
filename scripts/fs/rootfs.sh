@@ -333,6 +333,7 @@ else
 				mkdir -p ${ROOTFS_PATH}/usr/lib/
 				# [ -f /usr/lib/x86_64-linux-gnu/libnuma.so ] && cp -rf /usr/lib/x86_64-linux-gnu/libnuma.* ${ROOTFS_PATH}/usr/lib/
 				[ -f /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ] && cp -rf /usr/lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
+				[ -f /usr/lib/x86_64-linux-gnu/libasan.so.4 ] && cp -rf /usr/lib/x86_64-linux-gnu/libasan.so.4* ${ROOTFS_PATH}/usr/lib/
 				cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
 				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/

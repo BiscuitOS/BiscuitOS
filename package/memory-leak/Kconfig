@@ -1,0 +1,9 @@
+menuconfig PK_MEMORY_LEAK
+	bool "Memory Leak"
+
+if PK_MEMORY_LEAK
+
+# GCC ASAN 
+source package/memory-leak/BiscuitOS-ASAN/Kconfig
+
+endif # PK_MEMORY_LEAK

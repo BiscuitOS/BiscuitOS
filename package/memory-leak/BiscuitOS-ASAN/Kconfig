@@ -1,0 +1,55 @@
+menuconfig PK_ASAN
+	bool "GCC Address Sanitizer (ASAN)"
+
+if PK_ASAN
+
+config PK_ASAN_VERSION
+	default "default"
+	string "verstion"
+
+config PK_ASAN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_ASAN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Memory-Leak/BiscuitOS-ASAN"
+	string "url"
+
+config PK_ASAN_GITHUB
+	string "GitHub"
+
+config PK_ASAN_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_ASAN_CSRCFILE
+	string "Compile source code list"
+
+config PK_ASAN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_ASAN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_ASAN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_ASAN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_ASAN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_ASAN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_ASAN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_ASAN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_ASAN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_ASAN

@@ -288,6 +288,9 @@ source package/memblock/Kconfig
 # memory_history
 source package/memory_history/Kconfig
 
+# memory-leak
+source package/memory-leak/Kconfig
+
 # memory mapping
 source package/memory-mapping/Kconfig
 

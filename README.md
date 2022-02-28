@@ -51,7 +51,7 @@ sudo apt-get install -y libcap-ng-dev
 sudo apt-get install -y libmount-dev libselinux1-dev libffi-dev libpulse-dev
 sudo apt-get install -y liblzma-dev python-serial
 sudo apt-get install -y libnuma-dev libnuma1 ninja-build
-sudo apt-get install -y libtool libsysfs-dev
+sudo apt-get install -y libtool libsysfs-dev libasan
 
 On 64-Bit Machine:
 
