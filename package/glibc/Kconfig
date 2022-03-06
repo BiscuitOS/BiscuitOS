@@ -4,7 +4,7 @@ menuconfig PK_GLIBC
 if PK_GLIBC
 
 config PK_GLIBC_VERSION
-	default "2.24"
+	default "2.34"
 	string "verstion"
 
 config PK_GLIBC_TAR
@@ -22,7 +22,7 @@ config PK_GLIBC_SRCFILE
 	string "Source code list"
 
 config PK_GLIBC_CONFIG
-	default "--enable-silent-rules --disable-static"
+	default "--disable-werror --disable-sanity-checks"
 	string "CONFIG: Project Configure Options"
 
 config PK_GLIBC_LIBPATH

@@ -198,17 +198,7 @@ echo -e '\t$(info "Configure $(BASENAME) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
-if  [ ${ARCH} == "i386" ]; then
-    echo -e '\tsudo cp obj32/libhugetlbfs.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
-    echo -e '\tsudo cp obj32/libhugetlbfs_privutils.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
-else
-    echo -e '\tsudo cp obj64/libhugetlbfs.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
-    echo -e '\tsudo cp obj64/libhugetlbfs_privutils.so $(ROOT)/rootfs/rootfs/lib/ ; \' >> ${MF}
-fi
-echo -e '\tsudo cp obj/hugeadm $(ROOT)/rootfs/rootfs/usr/bin/ ; \' >> ${MF}
-echo -e '\tsudo cp obj/hugectl $(ROOT)/rootfs/rootfs/usr/bin/ ; \' >> ${MF}
-echo -e '\tsudo cp obj/hugeedit $(ROOT)/rootfs/rootfs/usr/bin/ ; \' >> ${MF}
-echo -e '\tsudo cp obj/pagesize $(ROOT)/rootfs/rootfs/usr/bin/' >> ${MF}
+echo -e '\tsudo make install PREFIX=$(ROOT)/rootfs/rootfs' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}

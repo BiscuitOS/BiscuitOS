@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_HUGETLB_FILE_SHARE
+	bool "hugetlb: File-Shared (Default-Size Hugepages+)"
+
+if PK_BISCUITOS_HUGETLB_FILE_SHARE
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Hugetlb/BiscuitOS-hugetlb-file-share-mapping"
+	string "url"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_HUGETLB_FILE_SHARE

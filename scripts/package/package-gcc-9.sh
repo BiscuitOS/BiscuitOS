@@ -65,6 +65,27 @@ DATE_COMT=`date +"%Y.%m.%d"`
 BASEPKNAME=${PACKAGE_NAME}-${PACKAGE_VERSION}
 PACKAGE_BSBIT=${PPATH}/bsbit
 
+# Determine Architecture
+ARCH=unknown
+[[ ${PROJECT_NAME} == *arm32* ]]   && ARCH=arm
+[[ ${PROJECT_NAME} == *aarch* ]]   && ARCH=arm64
+[[ ${PROJECT_NAME} == *i386* ]]    && ARCH=i386
+[[ ${PROJECT_NAME} == *x86_64* ]]  && ARCH=x86_64
+[[ ${PROJECT_NAME} == *riscv* ]]   && ARCH=riscv
+
+HOST_NAME=${PACKAGE_TOOL}
+[ ${ARCH} == "arm64" ] && HOST_NAME=aarch64-linux
+[ ${ARCH} == "i386" ] && HOST_NAME=i386-linux
+[ ${ARCH} == "x86_64" ] && HOST_NAME=x86_64-linux
+
+# Fixup aarch64 on legacy package
+if [ ${ARCH} == "arm64" ]; then
+	if [ ! -f ${PROJECT_ROOT}/dl/aarch64_config.sub ]; then
+		wget -O ${PROJECT_ROOT}/dl/aarch64_config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+		wget -O ${PROJECT_ROOT}/dl/aarch64_config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+	fi
+fi
+
 ## Prepare
 sudo mkdir -p ${ROOTFS_ROOT}/usr/lib
 sudo mkdir -p ${ROOTFS_ROOT}/usr/include
@@ -87,9 +108,11 @@ echo '' >> ${MF}
 echo '## Default Setup' >> ${MF}
 echo "ROOT        := ${OUTPUT}" >> ${MF}
 echo "BSROOT      := ${PROJECT_ROOT}" >> ${MF}
+echo "ARCH        := ${ARCH}" >> ${MF}
 echo "CROSS_NAME  := ${PACKAGE_TOOL}" >> ${MF}
-echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
-echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
+echo "HOST_NAME   := ${HOST_NAME}" >> ${MF}
+echo 'CROSS_PATH  := ' >> ${MF}
+echo 'CROSS_TOOL  := ' >> ${MF}
 echo 'PACK        := $(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo 'DL          := $(BSROOT)/dl' >> ${MF}
 echo 'BSCORE      := $(BSROOT)/scripts/package/bsbit_core.sh' >> ${MF}
@@ -97,7 +120,11 @@ echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
 echo "DLD_PATH    := \"-L\$(INS_PATH)/lib -L\$(CROSS_PATH)/lib ${KBUILD_LIBPATH}\"" >> ${MF}
-echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I\$(CROSS_PATH)/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
+if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
+	echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I/usr/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
+else
+	echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I\$(CROSS_PATH)/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
+fi
 echo "DPK_PATH    := ${KBUILD_DPKCONFIG}\$(INS_PATH)/lib/pkgconfig:\$(INS_PATH)/share/pkgconfig" >> ${MF}
 echo "KBUDCFLAG   := ${KBUILD_CFLAGS}" >> ${MF}
 echo "KBLDFLAGS   := ${KBUILD_LDFLAGS}" >> ${MF}
@@ -107,19 +134,30 @@ echo '' >> ${MF}
 echo '# Package information' >> ${MF}
 echo "PACKAGE   := ${BASEPKNAME}.${PACKAGE_TARTYPE}" >> ${MF}
 echo "BASENAME  := ${BASEPKNAME}" >> ${MF}
-echo "DWAME     := glibc-${PACKAGE_VERSION}" >> ${MF}
-echo "DLNAME    := glibc-${PACKAGE_VERSION}.${PACKAGE_TARTYPE}" >> ${MF}
+echo "VERSION   := ${PACKAGE_VERSION}" >> ${MF}
+echo "TARTYPE   := ${PACKAGE_TARTYPE}" >> ${MF}
 echo 'TARCMD    := tar -xvf' >> ${MF}
 echo 'PATCH     := patch/$(BASENAME)' >> ${MF}
 echo "URL       := ${PACKAGE_SITE}" >> ${MF}
 echo "BSFILE    := ${BSFILE}" >> ${MF}
-echo 'CONFIG    := --prefix=$(INS_PATH)' >> ${MF}
+echo 'CONFIG    := --prefix=$(INS_PATH) --host=$(HOST_NAME)' >> ${MF}
+echo "CONFIG    += --build=${HBARCH}" >> ${MF}
+if [ ${ARCH} == "i386" ]; then
+	echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS) -m32" CFLAGS="$(KBUDCFLAG) -m32"' >> ${MF}
+	echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS) -m32" CCASFLAGS="$(KBASFLAGS) -m32"' >> ${MF}
+else
+	echo 'CONFIG    += LDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)"' >> ${MF}
+	echo 'CONFIG    += CXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)"' >> ${MF}
+fi
+echo 'CONFIG    += LIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH)' >> ${MF}
+echo 'CONFIG    += PKG_CONFIG_PATH=$(DPK_PATH)' >> ${MF}
 echo "CONFIG    += ${KBUILD_CONFIG}" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
-echo -e '\t@cd BUILD-$(BASENAME) ; \' >> ${MF}
-echo -e '\tmake -j98' >> ${MF}
+echo -e '\tcd BUILD-GCC ; \' >> ${MF}
+echo -e '\tmake -j96 ; \' >> ${MF}
+echo -e '\tcd -' >> ${MF}
 echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -135,13 +173,27 @@ echo 'depence-clean:' >> ${MF}
 echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
-echo -e '\t@if [ ! -f $(DL)/$(DLNAME) ]; \' >> ${MF}
+echo -e '\t@if [ ! -f $(DL)/gcc-$(VERSION).$(TARTYPE) ]; \' >> ${MF}
 echo -e '\tthen \' >> ${MF}
-echo -e '\t\twget $(URL)/$(DLNAME) -P $(DL); \' >> ${MF}
+echo -e '\t\twget wget $(URL)/gcc-$(VERSION)/gcc-$(VERSION).$(TARTYPE) -O $(DL)/gcc-$(VERSION).$(TARTYPE) ; \' >> ${MF}
 echo -e '\t\tset -e ; \' >> ${MF}
-echo -e '\t\tcp -rfa $(DL)/$(DLNAME) ./ ; \' >> ${MF}
+echo -e '\t\tcp -rfa $(DL)/gcc-$(VERSION).$(TARTYPE) ./$(PACKAGE) ; \' >> ${MF}
 echo -e '\telse \' >> ${MF}
-echo -e '\t\tcp -rfa $(DL)/$(DLNAME) ./ ; \' >> ${MF}
+echo -e '\t\tcp -rfa $(DL)/gcc-$(VERSION).$(TARTYPE) ./$(PACKAGE) ; \' >> ${MF}
+echo -e '\tfi' >> ${MF}
+echo -e '\ttar xvf $(PACKAGE)' >> ${MF}
+echo -e '\t@mv gcc-$(VERSION) $(BASENAME)' >> ${MF}
+echo -e '\t@if [ ! -f $(DL)/gcc-$(VERSION)-package ]; \' >> ${MF}
+echo -e '\tthen \' >> ${MF}
+echo -e '\t\tcd $(BASENAME) ; \' >> ${MF}
+echo -e '\t\tmkdir -p $(DL)/gcc-$(VERSION)-package ; \' >> ${MF}
+echo -e '\t\t./contrib/download_prerequisites --directory=$(DL)/gcc-$(VERSION)-package ; \' >> ${MF}
+echo -e '\t\tcp -rfa $(DL)/gcc-$(VERSION)-package/* ./ ; \' >> ${MF}
+echo -e '\t\tcd - ; \' >> ${MF}
+echo -e '\telse \' >> ${MF}
+echo -e '\t\tcd $(BASENAME) ; \' >> ${MF}
+echo -e '\t\tcp -rfa $(DL)/gcc-$(VERSION)-package/* ./ ; \' >> ${MF}
+echo -e '\t\tcd - ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -149,34 +201,34 @@ echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Download $(PACKAGE) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'tar:' >> ${MF}
-echo -e '\t$(TARCMD) $(DLNAME)' >> ${MF}
-echo -e '\t@mv $(DWAME) $(BASENAME)' >> ${MF}
-echo -e '\t@if [ ! -d $(PATCH) ]; then \' >> ${MF}
-echo -e '\t\texit 0 ; \' >> ${MF}
-echo -e '\tfi' >> ${MF}
-echo -e '\t@for patchname in $(shell ls $(PATCH)) ; \' >> ${MF}
-echo -e '\tdo \' >> ${MF}
-echo -e '\t\tcp -rf $(PATCH)/$${patchname} $(BASENAM) ; \' >> ${MF}
-echo -e '\t\tcd $(BASENAM) > /dev/null 2>&1 ; \' >> ${MF}
-echo -e '\t\tpatch -p1 < $${patchname} ; \' >> ${MF}
-echo -e '\t\tcd - > /dev/null 2>&1 ; \' >> ${MF}
-echo -e '\tdone' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
-echo -e '\t$(info "Decompression $(PACKAGE) => $(BASENAM) done.")' >> ${MF}
+echo -e '\t$(info "Decompression $(PACKAGE) => $(BASENAME) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'configure:' >> ${MF}
-echo -e '\t@mkdir -p BUILD-$(BASENAME) ; \' >> ${MF}
-echo -e '\tcd BUILD-$(BASENAME) ; \' >> ${MF}
-echo -e '\t../$(BASENAME)/configure $(CONFIG)' >> ${MF}
+echo -e '\t@mkdir -p BUILD-GCC ; \' >> ${MF}
+echo -e '\tcd BUILD-GCC ; \' >> ${MF}
+echo -e '\t../$(BASENAME)/configure $(CONFIG) ; \' >> ${MF}
+echo -e '\tcd -' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Configure $(BASENAME) done.")' >> ${MF}
 echo '' >> ${MF}
+echo 'rootfs_install:' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh mount' >> ${MF}
+echo -e '\tmkdir -p $(ROOT)/FreezeDir/BiscuitOS' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/linux/linux/arch/x86/boot/bzImage $(ROOT)/FreezeDir/BiscuitOS/bzImage ; \' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/BiscuitOS.img $(ROOT)/FreezeDir/BiscuitOS/BiscuitOS.img ; \' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh umount' >> ${MF}
+echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
+echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
+echo -e '\tfi' >> ${MF}
+echo -e '\t$(info "Rootfs Install .... [OK]")' >> ${MF}
+echo '' >> ${MF}
 echo 'install:' >> ${MF}
-echo -e '\t@cd BUILD-$(BASENAME) ; \' >> ${MF}
+echo -e '\tcd BUILD-GCC ; \' >> ${MF}
 echo -e '\tsudo make install -j98' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
@@ -187,19 +239,31 @@ echo 'pack:' >> ${MF}
 echo -e '\t@$(PACK) pack' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
 echo '' >> ${MF}
+echo 'build:' >> ${MF}
+echo -e '\tmake' >> ${MF}
+echo -e '\tmake install pack' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
+echo '' >> ${MF}
+echo 'kernel:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
+	echo -e '\tmake  ARCH=$(ARCH) bzImage -j4 ;\' >> ${MF}
+else
+	echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
+fi
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
+echo 'run:' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
+echo '' >> ${MF}
 echo 'clean:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tmake clean' >> ${MF}
 echo -e '\t$(info "Clean   .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'distclean:' >> ${MF}
-echo -e '\t@rm -rf $(BASENAME) BUILD-$(BASENAME)' >> ${MF}
+echo -e '\t@rm -rf $(BASENAME)' >> ${MF}
 echo -e '\t$(info "DClean  .... [OK]")' >> ${MF}
-echo '' >> ${MF}
-echo 'build:' >> ${MF}
-echo -e '\tmake' >> ${MF}
-echo -e '\tmake install pack' >> ${MF}
-echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}

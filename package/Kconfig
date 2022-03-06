@@ -132,6 +132,9 @@ source package/gobject-introspection/Kconfig
 # gtk+
 source package/gtk/Kconfig
 
+# GUN-GCC
+source package/GUN-GCC/Kconfig
+
 config PK_GCC
 	bool "GCC: Ancient linux 0.11"
 
@@ -173,6 +176,9 @@ source package/input/Kconfig
 
 # inputproto
 source package/inputproto/Kconfig
+
+# interval-tree
+source package/interval-tree/Kconfig
 
 # IO
 source package/IO/Kconfig

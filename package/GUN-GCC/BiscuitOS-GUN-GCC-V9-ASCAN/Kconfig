@@ -1,0 +1,56 @@
+menuconfig PK_GUN_GCC_V9_ASCAN
+	bool "GUN GCC V9.X ASCAN on BiscuitOS"
+
+if PK_GUN_GCC_V9_ASCAN
+
+config PK_GUN_GCC_V9_ASCAN_VERSION
+	default "9.2.0"
+	string "verstion"
+
+config PK_GUN_GCC_V9_ASCAN_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_GUN_GCC_V9_ASCAN_URL
+	default "http://ftp.gnu.org/gnu/gcc"
+	string "url"
+
+config PK_GUN_GCC_V9_ASCAN_GITHUB
+	string "GitHub"
+
+config PK_GUN_GCC_V9_ASCAN_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_GUN_GCC_V9_ASCAN_CSRCFILE
+	string "Compile source code list"
+
+config PK_GUN_GCC_V9_ASCAN_CONFIG
+	default "--enable-checking=release --enable-languages=c,c++ --disable-multilib"
+	string "CONFIG: Project Configure Options"
+
+config PK_GUN_GCC_V9_ASCAN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_GUN_GCC_V9_ASCAN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_GUN_GCC_V9_ASCAN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_GUN_GCC_V9_ASCAN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_GUN_GCC_V9_ASCAN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_GUN_GCC_V9_ASCAN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_GUN_GCC_V9_ASCAN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_GUN_GCC_V9_ASCAN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_GUN_GCC_V9_ASCAN

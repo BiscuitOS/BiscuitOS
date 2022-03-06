@@ -1,0 +1,18 @@
+menuconfig PK_INTERVAL_TREE
+	bool "Interval Tree Algorithem"
+
+if PK_INTERVAL_TREE
+
+# anonymous interval tree
+source "package/interval-tree/BiscuitOS-anonymous-interval-tree/Kconfig"
+
+# file interval tree
+source "package/interval-tree/BiscuitOS-file-interval-tree/Kconfig"
+
+# file interval tree for forking
+source "package/interval-tree/BiscuitOS-file-interval-tree-fork/Kconfig"
+
+# file interval tree on 4.9 kernel
+source "package/interval-tree/BiscuitOS-file-interval-tree-4.9/Kconfig"
+
+endif # PK_INTERVAL_TREE

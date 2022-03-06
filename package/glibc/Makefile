@@ -1,23 +1,23 @@
 ################################################
 #
-# glibc
+# BiscuitOS-GUN-GLIBC
 #
 ################################################
-PK_GLIBC_NAME        := glibc
+PK_GLIBC_NAME        := BiscuitOS-GUN-GLIBC
 PK_GLIBC_VERSION     := $(CONFIG_PK_GLIBC_VERSION)
 PK_GLIBC_SITE        := $(CONFIG_PK_GLIBC_URL)
 PK_GLIBC_GITHUB      := $(CONFIG_PK_GLIBC_GITHUB)
 PK_GLIBC_SUBNAME     :=
 PK_GLIBC_BUILDARCH   := $(CONFIG_PK_GLIBC_BUILDARCH)
-PK_GLIBC_DIR         := $(srctree)/package/glibc
+PK_GLIBC_DIR         := $(srctree)/package/BiscuitOS-GUN-GLIBC
 PK_GLIBC_PATCH       := $(PK_GLIBC_DIR)/patch
-PK_GLIBC_BSBIT       := glibc-$(PK_GLIBC_VERSION).bsbit
+PK_GLIBC_BSBIT       := BiscuitOS-GUN-GLIBC-$(PK_GLIBC_VERSION).bsbit
 PK_GLIBC_OUT         :=
 PK_GLIBC_SCRIPTS     := $(srctree)/scripts/package/package-glibc.sh
 PK_GLIBC_TAR         := $(CONFIG_PK_GLIBC_TAR)
 PK_GLIBC_PACKAGE     :=
 PK_GLIBC_CONFIG      := $(CONFIG_PK_GLIBC_CONFIG)
-SUB_TARGET              += $(PK_GLIBC_DIR)/build
+SUB_TARGET           += $(PK_GLIBC_DIR)/build
 
 PK_GLIBC_sh = $(CONFIG_SHELL) $(PK_GLIBC_SCRIPTS) \
                  $1X \

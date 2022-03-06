@@ -123,11 +123,32 @@ source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-memfd-1Gig/Kcon
 # Hugetlb Anonymous Share-mapping on libhugetlbfs (1Gig)
 source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-libhugetlbfs-1Gig/Kconfig
 
-# Hugetlb fork on Anonymous Privated-mapping
-source package/hugetlb/BiscuitOS-hugetlb-fork-on-anonymous-private-mapping/Kconfig
+# Hugetlb Anonymous Share-mapping for Migration (1Gig)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-migration-1Gig/Kconfig
 
-# Hugetlb fork on File Privated-mapping
-source package/hugetlb/BiscuitOS-hugetlb-fork-on-file-private-mapping/Kconfig
+# Hugetlb Anonymous Share-mapping for NO-RESERVE (1Gig)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-noreserve-1Gig/Kconfig
+
+# Hugetlb Anonymous Share-mapping for Populate (1Gig)
+source package/hugetlb/BiscuitOS-hugetlb-anonymous-share-mapping-populate-1Gig/Kconfig
+
+# Hugetlb File Share-mapping for default hugepage
+source package/hugetlb/BiscuitOS-hugetlb-file-share-mapping/Kconfig
+
+# Hugetlb File Share-mapping for UNIX socket SHMEM
+source package/hugetlb/BiscuitOS-hugetlb-file-share-mapping-usock/Kconfig
+
+# Hugetlb File Share-mapping for POSIX SHMEM
+source package/hugetlb/BiscuitOS-hugetlb-file-share-mapping-posix/Kconfig
+
+# Hugetlb File Share-mapping for Migration
+source package/hugetlb/BiscuitOS-hugetlb-file-share-mapping-migration/Kconfig
+
+# Hugetlb File Share-mapping for NO-RESERVE
+source package/hugetlb/BiscuitOS-hugetlb-file-share-mapping-noreserve/Kconfig
+
+# Hugetlb File Share-mapping for Populate
+source package/hugetlb/BiscuitOS-hugetlb-file-share-mapping-populate/Kconfig
 
 # Hugetlb history on linux 2.6.6
 source package/hugetlb/BiscuitOS-hugetlb-history-v2.6.6/Kconfig

@@ -1,0 +1,55 @@
+menuconfig PK_GUN_GCC_V9
+	bool "GUN GCC V9.X Build on BiscuitOS"
+
+if PK_GUN_GCC_V9
+
+config PK_GUN_GCC_V9_VERSION
+	default "9.2.0"
+	string "verstion"
+
+config PK_GUN_GCC_V9_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_GUN_GCC_V9_URL
+	default "http://ftp.gnu.org/gnu/gcc"
+	string "url"
+
+config PK_GUN_GCC_V9_GITHUB
+	string "GitHub"
+
+config PK_GUN_GCC_V9_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_GUN_GCC_V9_CSRCFILE
+	string "Compile source code list"
+
+config PK_GUN_GCC_V9_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_GUN_GCC_V9_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_GUN_GCC_V9_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_GUN_GCC_V9_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_GUN_GCC_V9_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_GUN_GCC_V9_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_GUN_GCC_V9_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_GUN_GCC_V9_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_GUN_GCC_V9_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_GUN_GCC_V9

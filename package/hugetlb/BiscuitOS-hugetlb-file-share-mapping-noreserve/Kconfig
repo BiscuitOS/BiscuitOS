@@ -1,0 +1,55 @@
+menuconfig PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD
+	bool "hugetlb: File-Shared on NO-RESERVE (Default-Size Hugepages+)"
+
+if PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Hugetlb/BiscuitOS-hugetlb-file-share-mapping-noreserve"
+	string "url"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_GITHUB
+	string "GitHub"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_CSRCFILE
+	string "Compile source code list"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD

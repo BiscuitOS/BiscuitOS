@@ -22,7 +22,6 @@ config PK_GBINUTILS_SRCFILE
 	string "Source code list"
 
 config PK_GBINUTILS_CONFIG
-	default "--enable-silent-rules --disable-static"
 	string "CONFIG: Project Configure Options"
 
 config PK_GBINUTILS_LIBPATH

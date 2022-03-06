@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-file-interval-tree
+#
+################################################
+PK_INTERVAL_TREE_FILE_NAME        := BiscuitOS-file-interval-tree
+PK_INTERVAL_TREE_FILE_VERSION     := $(CONFIG_PK_INTERVAL_TREE_FILE_VERSION)
+PK_INTERVAL_TREE_FILE_SITE        := $(CONFIG_PK_INTERVAL_TREE_FILE_URL)
+PK_INTERVAL_TREE_FILE_GITHUB      := $(CONFIG_PK_INTERVAL_TREE_FILE_GITHUB)
+PK_INTERVAL_TREE_FILE_SUBNAME     :=
+PK_INTERVAL_TREE_FILE_BUILDARCH   := $(CONFIG_PK_INTERVAL_TREE_FILE_BUILDARCH)
+PK_INTERVAL_TREE_FILE_DIR         := $(srctree)/package/interval-tree/BiscuitOS-file-interval-tree
+PK_INTERVAL_TREE_FILE_PATCH       := $(PK_INTERVAL_TREE_FILE_DIR)/patch
+PK_INTERVAL_TREE_FILE_BSBIT       := BiscuitOS-file-interval-tree-$(PK_INTERVAL_TREE_FILE_VERSION).bsbit
+PK_INTERVAL_TREE_FILE_OUT         :=
+PK_INTERVAL_TREE_FILE_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_INTERVAL_TREE_FILE_TAR         := $(CONFIG_PK_INTERVAL_TREE_FILE_TAR)
+PK_INTERVAL_TREE_FILE_PACKAGE     :=
+PK_INTERVAL_TREE_FILE_CONFIG      := $(CONFIG_PK_INTERVAL_TREE_FILE_CONFIG)
+SUB_TARGET                  += $(PK_INTERVAL_TREE_FILE_DIR)/build
+
+PK_INTERVAL_TREE_FILE_sh = $(CONFIG_SHELL) $(PK_INTERVAL_TREE_FILE_SCRIPTS) \
+                 $1X \
+                 $(PK_INTERVAL_TREE_FILE_NAME)X \
+                 $(PK_INTERVAL_TREE_FILE_VERSION)X \
+                 $(PK_INTERVAL_TREE_FILE_SITE)X \
+                 $(PK_INTERVAL_TREE_FILE_GITHUB)X \
+                 $(PK_INTERVAL_TREE_FILE_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_INTERVAL_TREE_FILE_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_INTERVAL_TREE_FILE_SUBNAME)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_CONFIG)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_LIBPATH)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_CPPFLAGS)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_DPKCONFIG)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_CFLAGS)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_LDFLAGS)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_CXXFLAGS)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_ASFLAGS)X \
+                 $(PK_INTERVAL_TREE_FILE_BSBIT)X \
+                 $(PK_INTERVAL_TREE_FILE_BUILDARCH)X \
+		 $(PK_INTERVAL_TREE_FILE_CSRCFILE)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_SRCFILE)X \
+                 $(CONFIG_PK_INTERVAL_TREE_FILE_CSRCFILE)
+
+$(PK_INTERVAL_TREE_FILE_DIR)/build: FORCE
+	$(Q)$(call PK_INTERVAL_TREE_FILE_sh,$(srctree))

@@ -1,0 +1,55 @@
+menuconfig PK_INTERVAL_TREE_FILE
+	bool "File interval tree"
+
+if PK_INTERVAL_TREE_FILE
+
+config PK_INTERVAL_TREE_FILE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_INTERVAL_TREE_FILE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_INTERVAL_TREE_FILE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Algorithem/tree/interval-tree/BiscuitOS-file-interval-tree"
+	string "url"
+
+config PK_INTERVAL_TREE_FILE_GITHUB
+	string "GitHub"
+
+config PK_INTERVAL_TREE_FILE_SRCFILE
+	default "main.c Kconfig Makefile file_interval_tree.c file_interval_tree.h RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_INTERVAL_TREE_FILE_CSRCFILE
+	string "Compile source code list"
+
+config PK_INTERVAL_TREE_FILE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_INTERVAL_TREE_FILE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_INTERVAL_TREE_FILE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_INTERVAL_TREE_FILE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_INTERVAL_TREE_FILE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_INTERVAL_TREE_FILE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_INTERVAL_TREE_FILE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_INTERVAL_TREE_FILE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_INTERVAL_TREE_FILE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_INTERVAL_TREE_FILE

@@ -36,11 +36,20 @@ BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_ANON_SHARE_1G)			+= BiscuitOS-hu
 BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_ANON_SHARE_SYSV_1G)		+= BiscuitOS-hugetlb-anonymous-share-mapping-sysv-1Gig/
 BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_ANON_SHARE_MEMFD_1G)		+= BiscuitOS-hugetlb-anonymous-share-mapping-memfd-1Gig/
 BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_ANON_SHARE_LIBHUGE_1G)		+= BiscuitOS-hugetlb-anonymous-share-mapping-libhugetlbfs-1Gig/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_ANON_SHARE_MIGRATE_1G)		+= BiscuitOS-hugetlb-anonymous-share-mapping-migration-1Gig/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_ANON_SHARE_NORSVD_1G)		+= BiscuitOS-hugetlb-anonymous-share-mapping-noreserve-1Gig/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_ANON_SHARE_POPULATE_1G)		+= BiscuitOS-hugetlb-anonymous-share-mapping-populate-1Gig/
 BiscuitOS-hugetlb-$(CONFIG_PK_LIBHUGETLBFS)					+= libhugetlbfs/
 BiscuitOS-hugetlb-$(CONFIG_PK_LIBHUGETLBFS_USAGE)				+= BiscuitOS-libhugetlbfs-usage/
 BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_FORK_ANON_PRIVATE)		+= BiscuitOS-hugetlb-fork-on-anonymous-private-mapping/
 BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_FORK_FILE_PRIVATE)		+= BiscuitOS-hugetlb-fork-on-file-private-mapping/
 BiscuitOS-hugetlb-$(CONFIG_PK_HUGETLB_HISTORY_V2_6_6)				+= BiscuitOS-hugetlb-history-v2.6.6/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_FILE_SHARE)			+= BiscuitOS-hugetlb-file-share-mapping/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_FILE_SHARE_USOCK)		+= BiscuitOS-hugetlb-file-share-mapping-usock/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_FILE_SHARE_POSIX)		+= BiscuitOS-hugetlb-file-share-mapping-posix/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_FILE_SHARE_MIGRATE)		+= BiscuitOS-hugetlb-file-share-mapping-migration/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_FILE_SHARE_NORSVD)		+= BiscuitOS-hugetlb-file-share-mapping-noreserve/
+BiscuitOS-hugetlb-$(CONFIG_PK_BISCUITOS_HUGETLB_FILE_SHARE_POPULATE)		+= BiscuitOS-hugetlb-file-share-mapping-populate/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/hugetlb/%/Makefile, $(BiscuitOS-hugetlb-y))
 
