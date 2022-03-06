@@ -1,0 +1,55 @@
+menuconfig PK_ASAN_STACK_BOF
+	bool "ASAN: Stack buffer overflow (C Version)"
+
+if PK_ASAN_STACK_BOF
+
+config PK_ASAN_STACK_BOF_VERSION
+	default "default"
+	string "verstion"
+
+config PK_ASAN_STACK_BOF_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_ASAN_STACK_BOF_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Memory-Sanitizer/BiscuitOS-ASAN-stack-buffer-overflow"
+	string "url"
+
+config PK_ASAN_STACK_BOF_GITHUB
+	string "GitHub"
+
+config PK_ASAN_STACK_BOF_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_ASAN_STACK_BOF_CSRCFILE
+	string "Compile source code list"
+
+config PK_ASAN_STACK_BOF_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_ASAN_STACK_BOF_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_ASAN_STACK_BOF_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_ASAN_STACK_BOF_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_ASAN_STACK_BOF_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_ASAN_STACK_BOF_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_ASAN_STACK_BOF_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_ASAN_STACK_BOF_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_ASAN_STACK_BOF_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_ASAN_STACK_BOF

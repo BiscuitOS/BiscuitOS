@@ -1,5 +1,5 @@
 menuconfig PK_ASAN
-	bool "GCC Sanitizer Tools (ASAN)"
+	bool "GCC Address Sanitizer Tools (ASAN)"
 
 if PK_ASAN
 

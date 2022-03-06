@@ -6,4 +6,28 @@ if PK_MEMORY_SANITIZER
 # GCC ASAN
 source package/memory-sanitizers/BiscuitOS-ASAN/Kconfig
 
+# GCC ASAN: heap-use-after-free
+source package/memory-sanitizers/BiscuitOS-ASAN-heap-use-after-free/Kconfig
+
+# GCC ASAN: heap-use-after-free on C++
+source package/memory-sanitizers/BiscuitOS-ASAN-heap-use-after-free-CPP/Kconfig
+
+# GCC ASAN: heap-buffer-overflow
+source package/memory-sanitizers/BiscuitOS-ASAN-heap-buffer-overflow/Kconfig
+
+# GCC ASAN: heap-buffer-overflow on C++
+source package/memory-sanitizers/BiscuitOS-ASAN-heap-buffer-overflow-CPP/Kconfig
+
+# GCC ASAN: stack-buffer-overflow
+source package/memory-sanitizers/BiscuitOS-ASAN-stack-buffer-overflow/Kconfig
+
+# GCC ASAN: stack-buffer-overflow on C++
+source package/memory-sanitizers/BiscuitOS-ASAN-stack-buffer-overflow-CPP/Kconfig
+
+# GCC ASAN: global-buffer-overflow
+source package/memory-sanitizers/BiscuitOS-ASAN-global-buffer-overflow/Kconfig
+
+# GCC ASAN: global-buffer-overflow on C++
+source package/memory-sanitizers/BiscuitOS-ASAN-global-buffer-overflow-CPP/Kconfig
+
 endif # PK_MEMORY_SANITIZER
