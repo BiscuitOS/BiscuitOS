@@ -3,34 +3,35 @@ BiscuitOS                                    [中文](https://biscuitos.github.i
 
 ![TOP_PIC](https://github.com/EmulateSpace/PictureSet/blob/master/github/mainmenu.jpg)
 
-BiscuitOS is a linux-Distro that base on legacy or newest linux kernel (such 
-as linux 0.11, 1.x, 2.x, 3.x, 4.x, 5.x and more new). And BiscuitOS is a open 
-and free operating system, development can use it under the GNU General Public 
+BiscuitOS is a Linux-Distro that base on legacy or newest Linux kernel (such 
+as Linux 0.11, 1.x, 2.x, 3.x, 4.x, 5.x and more).  BiscuitOS is an open 
+and free operating system that  developers can use under the GNU General Public 
 License.
 
-The target of BiscuitOS is creating an operating system debugging and 
-running environment that make developer focus on `CODE` and don't
-waste time on how to build and porting an operating system on different 
+The target of BiscuitOS is to create an operating system debugging and 
+running environment that makes developers focus on `CODE` and doesn't
+waste time on how to build or port an operating system to different 
 hardware. 
 
-This project named BiscuitOS which is a specific builtroot for BiscuitOS.
-All developers can configure various kernel/rootfs feature and create a
-full hardisk-image. The BiscuitOS works on Intel-x86 family CPU (such
-as i386, i486 ...)/ ARM32 or ARM64, and project offers a emulate to run 
-BiscuitOS without hardware. So, don't stop, play Linux with BiscuitOS. 
+This project is named BiscuitOS that is a specific builtroot for BiscuitOS.
+All developers can configure various kernel/rootfs features and create a
+full harddisk-image. The BiscuitOS works on Intel-x86 family CPU (such
+as i386, i486 ...)/ ARM32 or ARM64, and the project offers an emulate to run 
+BiscuitOS without hardware. So, don't stop, and play Linux with BiscuitOS. 
 
 ## To Prepare
 
-BiscuitOS support build on host or Docker, if you want build on docker,
-such as:
+BiscuitOS support to build on host and Docker, if you want to build on Docker,
+running the commands below:
 
 ```
 wget https://raw.githubusercontent.com/BiscuitOS/BiscuitOS/Stable_long/scripts/Docker/build.sh
 ./build.sh
 ```
 
-If you want not use Docker, Before your tour, you need install 
-essential toolchain on host PC (such as `Ubuntu16.04`). Execute command:
+If you don't want to use Docker, Before the tour, you need to install 
+essential toolchains on the host PC (such as `Ubuntu16.04`). 
+Execute commands:
 
 ```
 sudo apt-get install -y qemu gcc make gdb git figlet
@@ -60,7 +61,7 @@ sudo apt-get install lib32z1 lib32z1-dev libc6:i386
   
 **NOTE!**
 
-If you first install or use git, please configure git as follow
+If It is the first time you use git, please configure git as below
  
 ```
 git config --global user.name "Your Name"
@@ -68,19 +69,18 @@ git config --global user.email "Your Email"
 ```
 
 ## To Start
-
-First of all, You need obtain source code of BiscuitOS from GitHub, 
-follow these steps to get newest and stable branch. The BiscuitOS
+First of all, You need to obtain the source code of BiscuitOS from GitHub, 
+follow these steps to get the newest and stable branch. The BiscuitOS
 project will help you easily to build a customization-BiscuitOS.
 
 ```
 git clone https://github.com/BiscuitOS/BiscuitOS.git
 ```
 
-The next step, we need to build BiscuitOS with common Kbuild syntax.
-The `BiscuitOS` support multiple kernel version and filesystem type, you
-can configure `BiscuitOS` like you do. The Kbuild will help you easily 
-to build all software and kernel. So utilise command on your terminal:
+Next step, we need to build BiscuitOS with common Kbuild syntax.
+The `BiscuitOS` support multiple kernel version and filesystem types, you
+can configure `BiscuitOS` as you wish. The Kbuild will help you easily 
+to build all software and kernel. So utilize commands on your terminal:
 
 ```
 cd */BiscuitOS
@@ -89,7 +89,7 @@ make
 ```
 
 Then, the BiscuitOS will auto-compile and generate a distro-Linux, more useful
-information will be generated. Check README.md which determine how to use it.
+information will be generated. Check README.md which determines how to use it.
 as follow:
 
 ```
