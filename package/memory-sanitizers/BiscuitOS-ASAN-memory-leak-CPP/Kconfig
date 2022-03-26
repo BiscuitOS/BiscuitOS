@@ -1,0 +1,55 @@
+menuconfig PK_ASAN_MM_LEAK_CPP
+	bool "ASAN: Memory leak (C++ Version)"
+
+if PK_ASAN_MM_LEAK_CPP
+
+config PK_ASAN_MM_LEAK_CPP_VERSION
+	default "default"
+	string "verstion"
+
+config PK_ASAN_MM_LEAK_CPP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_ASAN_MM_LEAK_CPP_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/Memory-Sanitizer/BiscuitOS-ASAN-memory-leak-CPP"
+	string "url"
+
+config PK_ASAN_MM_LEAK_CPP_GITHUB
+	string "GitHub"
+
+config PK_ASAN_MM_LEAK_CPP_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_ASAN_MM_LEAK_CPP_CSRCFILE
+	string "Compile source code list"
+
+config PK_ASAN_MM_LEAK_CPP_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_ASAN_MM_LEAK_CPP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_ASAN_MM_LEAK_CPP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_ASAN_MM_LEAK_CPP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_ASAN_MM_LEAK_CPP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_ASAN_MM_LEAK_CPP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_ASAN_MM_LEAK_CPP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_ASAN_MM_LEAK_CPP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_ASAN_MM_LEAK_CPP_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_ASAN_MM_LEAK_CPP

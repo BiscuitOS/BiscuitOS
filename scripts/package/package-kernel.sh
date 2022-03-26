@@ -178,6 +178,16 @@ fi
 echo -e '\tcd - > /dev/null' >> ${MF}
 echo -e '\t@sh $(KERNRU) remove_kernel $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
 echo '' >> ${MF}
+echo 'menuconfig:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tmake menuconfig ARCH=$(ARCH) ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
+echo 'tags:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tmake tags ARCH=$(ARCH) ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
 echo 'prepare:' >> ${MF}
 echo -e '\t@$(BSCORE) bsbit/$(BSFILE) $(PACKDIR)' >> ${MF}
 echo '' >> ${MF}
@@ -227,12 +237,15 @@ echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Rootfs Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
+echo -e '\tchmod 755 KRunBiscuitOS.sh ; \' >> ${MF}
+echo -e '\tsudo cp KRunBiscuitOS.sh $(INS_PATH)/bin/' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'pack:' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh pack' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'build:' >> ${MF}
@@ -324,6 +337,37 @@ echo "[${PACKAGE_NAME}](${PACKAGE_SITE})" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}
+
+MF=${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/KRunBiscuitOS.sh
+
+echo '#!/bin/ash' >> ${MF}
+echo '# BiscuitOS <buddy.zhang@aliyun.com>' >> ${MF}
+echo '' >> ${MF}
+echo 'AFTER_NUM=0' >> ${MF}
+echo 'BEFORE_NUM=0' >> ${MF}
+echo 'COMMAND=' >> ${MF}
+echo '' >> ${MF}
+echo 'usage() {' >> ${MF}
+echo -e '\tKRunBiscuitOS.sh [-a NUM] [-b NUM]' >> ${MF}
+echo '}' >> ${MF}
+echo '' >> ${MF}
+echo 'while getopts 'a:b:h' OPT; do' >> ${MF}
+echo '  case ${OPT} in' >> ${MF}
+echo '    a)' >> ${MF}
+echo '        AFTER_NUM="$OPTARG";;' >> ${MF}
+echo '    b)' >> ${MF}
+echo '        BEFORE_NUM="$OPTARG";;' >> ${MF}
+echo '    h)' >> ${MF}
+echo '        usage;;' >> ${MF}
+echo '    ?)' >> ${MF}
+echo '        usage;;' >> ${MF}
+echo '  esac' >> ${MF}
+echo 'done' >> ${MF}
+echo '' >> ${MF}
+echo '[ $AFTER_NUM  != "0" ] && COMMAND="${COMMAND} -A $AFTER_NUM"' >> ${MF}
+echo '[ $BEFORE_NUM != "0" ] && COMMAND="${COMMAND} -B $BEFORE_NUM"' >> ${MF}
+echo '' >> ${MF}
+echo 'dmesg | grep "BiscuitOS-stub" ${COMMAND}' >> ${MF}
 
 # Patch work
 #

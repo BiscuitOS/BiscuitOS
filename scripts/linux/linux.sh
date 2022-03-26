@@ -64,6 +64,7 @@ case ${KERNEL_HIS} in
 	;;
 	"Newest")
 		GIT_OUT=linux
+		[ ${LINUX_KERNEL_VERSION}X = "newest-giteeX" ] && GIT_OUT=Linux-Gitee
 	;;
 	"RPI")
 		GIT_OUT=RPI_linux
@@ -74,6 +75,7 @@ if [ -d ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${LINUX_KERNEL_NAME}/version`
 
 	[ ${version} = "linux-next" ] && exit 0
+	[ ${version} = "newest-gitee" ] && exit 0
 	[ ${version} = ${LINUX_KERNEL_VERSION} ] && exit 0
 	if [ ${LINUX_KERNEL_SRC} = 1 ]; then
 		[ -f ${OUTPUT}/${LINUX_KERNEL_NAME}/version ] && exit 0
@@ -97,7 +99,7 @@ establish_legacy_kernel()
 }
 
 case ${LINUX_KERNEL_SRC} in
-	## Get from github
+	## Get from github/gitee
 	1)
 		if [ ! -d ${ROOT}/dl/${GIT_OUT} ]; then
 			cd ${ROOT}/dl/
@@ -113,7 +115,7 @@ case ${LINUX_KERNEL_SRC} in
 		cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
 		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
 		ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-		if [ ${LINUX_KERNEL_VERSION} = "newest" ]; then
+		if [ ${LINUX_KERNEL_VERSION} = "newest" -o ${LINUX_KERNEL_VERSION} = "newest-gitee" ]; then
 			date_X=`date +%s`
 			echo ${LINUX_KERNEL_VERSION}_${date_X} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
 		else

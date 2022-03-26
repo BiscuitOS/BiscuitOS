@@ -6,7 +6,7 @@ if PK_GUN_GCC
 # GUN-GCC-V9
 source package/GUN-GCC/BiscuitOS-GUN-GCC-V9/Kconfig
 
-# GUN-GCC-V9-ASCAN
-source package/GUN-GCC/BiscuitOS-GUN-GCC-V9-ASCAN/Kconfig
+# GUN-GCC-V9-ASAN
+source package/GUN-GCC/BiscuitOS-GUN-GCC-V9-ASAN/Kconfig
 
 endif # PK_GUN_GCC

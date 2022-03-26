@@ -1,56 +1,56 @@
-menuconfig PK_GUN_GCC_V9_ASCAN
-	bool "GUN GCC V9.X ASCAN on BiscuitOS"
+menuconfig PK_GUN_GCC_V9_ASAN
+	bool "GUN GCC V9.X ASAN on BiscuitOS"
 
-if PK_GUN_GCC_V9_ASCAN
+if PK_GUN_GCC_V9_ASAN
 
-config PK_GUN_GCC_V9_ASCAN_VERSION
+config PK_GUN_GCC_V9_ASAN_VERSION
 	default "9.2.0"
 	string "verstion"
 
-config PK_GUN_GCC_V9_ASCAN_TAR
+config PK_GUN_GCC_V9_ASAN_TAR
 	default "tar.xz"
 	string "tar type"
 
-config PK_GUN_GCC_V9_ASCAN_URL
+config PK_GUN_GCC_V9_ASAN_URL
 	default "http://ftp.gnu.org/gnu/gcc"
 	string "url"
 
-config PK_GUN_GCC_V9_ASCAN_GITHUB
+config PK_GUN_GCC_V9_ASAN_GITHUB
 	string "GitHub"
 
-config PK_GUN_GCC_V9_ASCAN_SRCFILE
+config PK_GUN_GCC_V9_ASAN_SRCFILE
 	default "main.c Makefile"
 	string "Source code list"
 
-config PK_GUN_GCC_V9_ASCAN_CSRCFILE
+config PK_GUN_GCC_V9_ASAN_CSRCFILE
 	string "Compile source code list"
 
-config PK_GUN_GCC_V9_ASCAN_CONFIG
+config PK_GUN_GCC_V9_ASAN_CONFIG
 	default "--enable-checking=release --enable-languages=c,c++ --disable-multilib"
 	string "CONFIG: Project Configure Options"
 
-config PK_GUN_GCC_V9_ASCAN_LIBPATH
+config PK_GUN_GCC_V9_ASAN_LIBPATH
 	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
 
-config PK_GUN_GCC_V9_ASCAN_CPPFLAGS
+config PK_GUN_GCC_V9_ASAN_CPPFLAGS
 	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
 
-config PK_GUN_GCC_V9_ASCAN_DPKCONFIG
+config PK_GUN_GCC_V9_ASAN_DPKCONFIG
 	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
 
-config PK_GUN_GCC_V9_ASCAN_CFLAGS
+config PK_GUN_GCC_V9_ASAN_CFLAGS
 	string "CFLAGS: C compiler flags"
 
-config PK_GUN_GCC_V9_ASCAN_LDFLAGS
+config PK_GUN_GCC_V9_ASAN_LDFLAGS
 	string "LDFLAGS: Linker flags"
 
-config PK_GUN_GCC_V9_ASCAN_CXXFLAGS
+config PK_GUN_GCC_V9_ASAN_CXXFLAGS
 	string "CXXFLAGS: C++ compiler flags"
 
-config PK_GUN_GCC_V9_ASCAN_ASFLAGS
+config PK_GUN_GCC_V9_ASAN_ASFLAGS
 	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
 
-config PK_GUN_GCC_V9_ASCAN_BUILDARCH
+config PK_GUN_GCC_V9_ASAN_BUILDARCH
 	string "--host options on configure for Architecture"
 
-endif # PK_GUN_GCC_V9_ASCAN
+endif # PK_GUN_GCC_V9_ASAN

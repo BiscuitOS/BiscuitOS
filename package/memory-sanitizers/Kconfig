@@ -30,4 +30,16 @@ source package/memory-sanitizers/BiscuitOS-ASAN-global-buffer-overflow/Kconfig
 # GCC ASAN: global-buffer-overflow on C++
 source package/memory-sanitizers/BiscuitOS-ASAN-global-buffer-overflow-CPP/Kconfig
 
+# GCC ASAN: stack-use-after-scope
+source package/memory-sanitizers/BiscuitOS-ASAN-stack-use-after-scope/Kconfig
+
+# GCC ASAN: stack-use-after-scope on C++
+source package/memory-sanitizers/BiscuitOS-ASAN-stack-use-after-scope-CPP/Kconfig
+
+# GCC ASAN: memory leak
+source package/memory-sanitizers/BiscuitOS-ASAN-memory-leak/Kconfig
+
+# GCC ASAN: memory leak on C++
+source package/memory-sanitizers/BiscuitOS-ASAN-memory-leak-CPP/Kconfig
+
 endif # PK_MEMORY_SANITIZER
