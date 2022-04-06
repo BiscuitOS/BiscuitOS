@@ -46,6 +46,8 @@ MAINTAINER BuddyZhang1 <buddy.zhang@aliyun.com>
 
 # Base Build ENV tools
 RUN /bin/bash -c '\
+sed -i s/archive.ubuntu.com/mirrors.aliyun.com/g /etc/apt/sources.list && \
+sed -i s/security.ubuntu.com/mirrors.aliyun.com/g /etc/apt/sources.list && \
 apt-get update && \
 apt-get install -y qemu bc gcc make gdb git figlet && \
 apt-get install -y libncurses5-dev iasl sudo && \
