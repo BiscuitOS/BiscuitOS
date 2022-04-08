@@ -212,6 +212,9 @@ echo '' >> ${MF}
 echo 'debug:' >> ${MF}
 echo -e '\tgdb --init-command=BiscuitOS.gdb' >> ${MF}
 echo '' >> ${MF}
+echo 'log:' >> ${MF}
+echo -e '\ttail -f $(ROOT)/qemu-system/BiscuitOS-QEMU.log' >> ${MF}
+echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then

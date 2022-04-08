@@ -463,6 +463,7 @@ echo -e '\tfi' >> ${MF}
 echo -e '\t[ ${1}X = "bios"X ] && ARGS+="-bios ${ROOT}/qemu-system/qemu-system/roms/seabios/out/bios.bin "' >> ${MF}
 echo -e '\t[ ${2}X = "bios-debug"X ] && ARGS+="-chardev pipe,path=${ROOT}/qemu-system/qemu-system/roms/seabios/BiscuitOS-pipe,id=seabios -device isa-debugcon,iobase=0x402,chardev=seabios "' >> ${MF}
 echo -e '\t' >> ${MF}
+echo -e '\tARGS+="-D ${ROOT}/qemu-system/BiscuitOS-QEMU.log "' >> ${MF}
 echo '' >> ${MF}
 case ${ARCH_NAME} in
 	arm) 
