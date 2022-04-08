@@ -6,6 +6,9 @@ if PK_KVM
 # Host QEMU
 source package/kvm/BiscuitOS-qemu-host/Kconfig
 
+# Host seaBIOS
+source package/kvm/BiscuitOS-seaBIOS-host/Kconfig
+
 # kvm_module
 source package/kvm/kvm_module/Kconfig
 

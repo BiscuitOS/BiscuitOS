@@ -83,6 +83,8 @@ SUPPORT_GCC341=N
 SUPPORT_26X24=N
 SUPPORT_SEABIOS=N
 SUPPORT_VIRTIO=N
+SUPPORT_BIOS=N
+SUPPORT_DEBUG_BIOS=N
 
 # Kernel Version field
 KERNEL_MAJOR_NO=
@@ -184,6 +186,9 @@ detect_seaBIOS()
 [ ${ARCH_NAME} == "arm64" ] && SUPPORT_RAMDISK=N
 [ ${ARCH_NAME} == "x86" ] && SUPPORT_RAMDISK=N && SUPPORT_FREEZE_DISK=Y
 [ ${ARCH_NAME} == "x86_64" ] && SUPPORT_RAMDISK=N && SUPPORT_FREEZE_DISK=Y
+
+# Support BIOS and Debug BIOS
+[ ${ARCH_NAME} == "x86_64" -o ${ARCH_NAME} == "x86" ] && SUPPORT_BIOS=Y && SUPPORT_DEBUG_BIOS=Y
 
 # Support VirtIO
 [ ${KERNEL_MAJOR_NO} -ge 5 -a ${ARCH_NAME} == "x86" ] && SUPPORT_VIRTIO=Y
@@ -455,6 +460,8 @@ echo -e '\t\tARGS+="-device virtio-net-device,netdev=bsnet0,"' >> ${MF}
 echo -e '\t\tARGS+="mac=E0:FE:D0:3C:2E:EE "' >> ${MF}
 echo -e '\t\tARGS+="-netdev tap,id=bsnet0,ifname=bsTap0 "' >> ${MF}
 echo -e '\tfi' >> ${MF}
+echo -e '\t[ ${1}X = "bios"X ] && ARGS+="-bios ${ROOT}/qemu-system/qemu-system/roms/seabios/out/bios.bin "' >> ${MF}
+echo -e '\t[ ${2}X = "bios-debug"X ] && ARGS+="-chardev pipe,path=${ROOT}/qemu-system/qemu-system/roms/seabios/BiscuitOS-pipe,id=seabios -device isa-debugcon,iobase=0x402,chardev=seabios "' >> ${MF}
 echo -e '\t' >> ${MF}
 echo '' >> ${MF}
 case ${ARCH_NAME} in
@@ -869,6 +876,18 @@ if [ ${SUPPORT_FREEZE_DISK} = "Y" ]; then
 	echo -e '\t"umount")' >> ${MF}
 	echo -e '\t\t# Umount Freeze Disk' >> ${MF}
 	echo -e '\t\tdo_umount' >> ${MF}
+	echo -e '\t\t;;' >> ${MF}
+fi
+if [ ${SUPPORT_BIOS} = "Y" ]; then
+	echo -e '\t"bios")' >> ${MF}
+	echo -e '\t\t# Build BIOS' >> ${MF}
+	echo -e '\t\tdo_running bios' >> ${MF}
+	echo -e '\t\t;;' >> ${MF}
+fi
+if [ ${SUPPORT_DEBUG_BIOS} = "Y" ]; then
+	echo -e '\t"bios-debug")' >> ${MF}
+	echo -e '\t\t# Debug BIOS' >> ${MF}
+	echo -e '\t\tdo_running bios bios-debug' >> ${MF}
 	echo -e '\t\t;;' >> ${MF}
 fi
 echo -e '\t*)' >> ${MF}

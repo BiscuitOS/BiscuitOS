@@ -27,6 +27,8 @@ QEMU_UNTAR_NAME=qemu-${QEMU_VERSION#v}
 ARCH_MAGIC=${12%X}
 EMULATER=
 CONFIG=
+QEMU_GDB=
+QEMU_BIN=
 
 if [ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${QEMU_NAME}/version`
@@ -41,6 +43,8 @@ case ${ARCH_MAGIC} in
 	# X86
 	EMULATER=i386-softmmu,i386-linux-user
 	CONFIG="--enable-kvm --enable-virtfs"
+	QEMU_GDB="-cpu host --enable-kvm -m 64 -kernel ${OUTPUT}/linux/linux/arch/x86/boot/bzImage"
+	QEMU_BIN=${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}/x86_64-softmmu/qemu-system-x86_64
 	[ ${QEMU_VERSION} = "6.0.0" ] && CONFIG+=" --enable-gtk"
 	;;
 	2)
@@ -141,3 +145,43 @@ if [ ${QEMU_SRC} = "3" ]; then
         rm -rf ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
         ln -s ${OUTPUT}/${QEMU_NAME}/${QEMU_UNTAR_NAME} ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
 fi
+
+MFILE=${OUTPUT}/${QEMU_NAME}/RunQEMU.sh
+
+echo -e '#!/bin/bash' > ${MFILE}
+echo -e '#' >> ${MFILE}
+echo -e '# BiscuitOS QEMU DEBUG' >> ${MFILE}
+echo -e '' >> ${MFILE}
+echo -e "ROOT=${OUTPUT}" >> ${MFILE}
+echo -e "QEMU_DIR=${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}" >> ${MFILE}
+echo -e '' >> ${MFILE}
+echo -e 'while getopts "bghBr" arg' >> ${MFILE}
+echo -e 'do' >> ${MFILE}
+echo -e '\tcase $arg in' >> ${MFILE}
+echo -e '\t\tb) # Build and Run QEMU' >> ${MFILE}
+echo -e '\t\t\tcd ${QEMU_DIR}' >> ${MFILE}
+echo -e '\t\t\tmake -j98' >> ${MFILE}
+echo -e '\t\t\t[ $? -eq 0 ] && ${ROOT}/RunBiscuitOS.sh' >> ${MFILE}
+echo -e '\t\t\tcd -' >> ${MFILE}
+echo -e '\t\t\t;;' >> ${MFILE}
+echo -e '\t\tg) # GDB QEMU' >> ${MFILE}
+echo -e '\t\t\tcd ${QEMU_DIR}' >> ${MFILE}
+echo -e '\t\t\tmake -j98' >> ${MFILE}
+echo -e '\t\t\t[ $? -ne 0 ] && exit -1' >> ${MFILE}
+echo -e "\t\t\tgdb --args ${QEMU_BIN} ${QEMU_GDB}" >> ${MFILE}
+echo -e '\t\t\tcd -' >> ${MFILE}
+echo -e '\t\t\t;;' >> ${MFILE}
+echo -e '\t\tB) # Build seaBIOS' >> ${MFILE}
+echo -e '\t\t\tcd ${QEMU_DIR}/roms/seabios/' >> ${MFILE}
+echo -e '\t\t\tmake -j98' >> ${MFILE}
+echo -e '\t\t\tcd -' >> ${MFILE}
+echo -e '\t\t\t;;' >> ${MFILE}
+echo -e '\t\tr) # Run BiscuitOS' >> ${MFILE}
+echo -e '\t\t\t${ROOT}/RunBiscuitOS.sh' >> ${MFILE}
+echo -e '\t\t\t;;' >> ${MFILE}
+echo -e '\t\th) # Help Information' >> ${MFILE}
+echo -e '\t\t\techo "See: https://biscuitos.github.io/blog/BiscuitOS_Catalogue/"' >> ${MFILE}
+echo -e '\t\t\t;;' >> ${MFILE}
+echo -e '\tesac' >> ${MFILE}
+echo -e 'done' >> ${MFILE}
+chmod 755 ${MFILE}

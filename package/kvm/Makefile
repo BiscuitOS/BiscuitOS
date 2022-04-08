@@ -7,6 +7,7 @@ kvm-$(CONFIG_PK_BISCUITOS_UKVM)		+= BiscuitOS-UKVM/
 kvm-$(CONFIG_PK_BISCUITOS_UKVM_2M)	+= BiscuitOS-UKVM-2M/
 kvm-$(CONFIG_PK_BISCUITOS_UKVM_1G)	+= BiscuitOS-UKVM-1G/
 kvm-$(CONFIG_PK_BISCUITOS_QEMU_HOST)	+= BiscuitOS-qemu-host/
+kvm-$(CONFIG_PK_BISCUITOS_SEABIOS_HOST)	+= BiscuitOS-seaBIOS-host/
 kvm-$(CONFIG_PK_BISCUITOS_QEMU_KVM)	+= BiscuitOS-qemu-kvm/
 kvm-$(CONFIG_PK_BISCUITOS_QEMU_KVM_2M)	+= BiscuitOS-qemu-kvm-2M/
 kvm-$(CONFIG_PK_BISCUITOS_QEMU_KVM_1G)	+= BiscuitOS-qemu-kvm-1G/

@@ -1,0 +1,55 @@
+menuconfig PK_DEBUG_STUB_QEMU
+	bool "BiscuitOS QEMU Debug Stub"
+
+if PK_DEBUG_STUB_QEMU
+
+config PK_DEBUG_STUB_QEMU_VERSION
+	default "default"
+	string "verstion"
+
+config PK_DEBUG_STUB_QEMU_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DEBUG_STUB_QEMU_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Debug-Stub/BiscuitOS-debug-stub-QEMU"
+	string "url"
+
+config PK_DEBUG_STUB_QEMU_GITHUB
+	string "GitHub"
+
+config PK_DEBUG_STUB_QEMU_SRCFILE
+	default "BiscuitOS-stub.c BiscuitOS-stub.h README.md"
+	string "Source code list"
+
+config PK_DEBUG_STUB_QEMU_CSRCFILE
+	string "Compile source code list"
+
+config PK_DEBUG_STUB_QEMU_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DEBUG_STUB_QEMU_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DEBUG_STUB_QEMU_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DEBUG_STUB_QEMU_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DEBUG_STUB_QEMU_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DEBUG_STUB_QEMU_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DEBUG_STUB_QEMU_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DEBUG_STUB_QEMU_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DEBUG_STUB_QEMU_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DEBUG_STUB_QEMU

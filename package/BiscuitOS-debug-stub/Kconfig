@@ -1,0 +1,9 @@
+menuconfig PK_BISCUITOS_DEBUG
+	bool "BiscuitOS Debug Stub Set"
+
+if PK_BISCUITOS_DEBUG
+
+# BiscuitOS QEMU debug stub
+source package/BiscuitOS-debug-stub/BiscuitOS-debug-stub-QEMU/Kconfig
+
+endif # PK_BISCUITOS_DEBUG

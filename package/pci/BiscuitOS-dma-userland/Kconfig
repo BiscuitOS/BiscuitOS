@@ -1,0 +1,56 @@
+menuconfig PK_DMA_USERLAND
+	select PK_DMA_COMMON_DD
+	bool "DMA userland Application (BiscuitOS-DMA module)"
+
+if PK_DMA_USERLAND
+
+config PK_DMA_USERLAND_VERSION
+	default "default"
+	string "verstion"
+
+config PK_DMA_USERLAND_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DMA_USERLAND_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/DMA/BiscuitOS-dma-userland"
+	string "url"
+
+config PK_DMA_USERLAND_GITHUB
+	string "GitHub"
+
+config PK_DMA_USERLAND_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_DMA_USERLAND_CSRCFILE
+	string "Compile source code list"
+
+config PK_DMA_USERLAND_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DMA_USERLAND_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DMA_USERLAND_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DMA_USERLAND_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DMA_USERLAND_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DMA_USERLAND_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DMA_USERLAND_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DMA_USERLAND_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DMA_USERLAND_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DMA_USERLAND

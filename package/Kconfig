@@ -11,6 +11,9 @@ if COMMON_UTILISE
 # BiscuitOS Demo
 source package/BiscuitOS-demo/Kconfig
 
+# BiscuitOS Debug-stub
+source package/BiscuitOS-debug-stub/Kconfig
+
 # Address Space
 source package/address-space/Kconfig
 
