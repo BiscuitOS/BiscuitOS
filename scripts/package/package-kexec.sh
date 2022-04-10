@@ -113,9 +113,9 @@ echo "CROSS_NAME  := ${PACKAGE_TOOL}" >> ${MF}
 echo "HOST_NAME   := ${HOST_NAME}" >> ${MF}
 [[ ${PROJECT_NAME} == *i386* ]]    && echo 'CROSS_TOOL  := ' >> ${MF}
 [[ ${PROJECT_NAME} == *x86_64* ]]  && echo 'CROSS_TOOL  := ' >> ${MF}
-[[ ${PROJECT_NAME} == *arm32* ]]   && echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
-[[ ${PROJECT_NAME} == *aarch* ]]   && echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
-[[ ${PROJECT_NAME} == *riscv* ]]   && echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
+[[ ${PROJECT_NAME} == *arm32* ]]   && echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF} && echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
+[[ ${PROJECT_NAME} == *aarch* ]]   && echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF} && echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
+[[ ${PROJECT_NAME} == *riscv* ]]   && echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF} && echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK        := $(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo 'KERNELDIR   := $(ROOT)/linux/linux' >> ${MF}
 echo 'DL          := $(BSROOT)/dl' >> ${MF}
