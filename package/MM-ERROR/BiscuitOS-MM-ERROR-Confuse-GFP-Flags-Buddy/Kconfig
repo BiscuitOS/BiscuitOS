@@ -1,0 +1,55 @@
+menuconfig PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY
+	bool ".... [Buddy] Confuse GFP Flags trigger Kernel BUG"
+
+if PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags-Buddy"
+	string "url"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_GITHUB
+	string "GitHub"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_CSRCFILE
+	string "Compile source code list"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MM_ERR_CONFUSE_GFP_FLAGS_BUDDY

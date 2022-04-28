@@ -1,0 +1,21 @@
+menuconfig PK_MM_ERROR
+	bool "Memory Error Collect (Kernel/Userspace)"
+
+if PK_MM_ERROR
+
+# Confuse GFP flags
+source package/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags/Kconfig
+
+# Confuse GFP flags on PCP
+source package/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags-PCP/Kconfig
+
+# Confuse GFP flags on Buddy
+source package/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags-Buddy/Kconfig
+
+# Confuse GFP flags on SLAB/SLUB/SLOB
+source package/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags-SLAB/Kconfig
+
+# Confuse GFP flags on VMALLOC
+source package/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags-VMALLOC/Kconfig
+
+endif # PK_MM_ERROR

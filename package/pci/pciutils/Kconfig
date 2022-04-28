@@ -1,0 +1,55 @@
+menuconfig PK_PCIUTILS
+	bool "PCI Utilities: lspci/setpci/update-pciids"
+
+if PK_PCIUTILS
+
+config PK_PCIUTILS_VERSION
+	default "3.7.0"
+	string "verstion"
+
+config PK_PCIUTILS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PCIUTILS_URL
+	default "http://mj.ucw.cz/download/linux/pci/"
+	string "url"
+
+config PK_PCIUTILS_GITHUB
+	string "GitHub"
+
+config PK_PCIUTILS_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_PCIUTILS_CSRCFILE
+	string "Compile source code list"
+
+config PK_PCIUTILS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PCIUTILS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PCIUTILS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PCIUTILS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PCIUTILS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PCIUTILS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PCIUTILS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PCIUTILS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PCIUTILS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PCIUTILS

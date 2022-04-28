@@ -15,4 +15,7 @@ source package/NUMA/libnuma-detect-vaddr-numa-node/Kconfig
 # libuma: move page
 source package/NUMA/libnuma-numa-move-page/Kconfig
 
+# alloc page from current node
+source package/NUMA/BiscuitOS-NUMA-alloc-current-node/Kconfig
+
 endif # PK_NUMA

@@ -1,0 +1,9 @@
+menuconfig PK_ZONE
+	bool "ZONE"
+
+if PK_ZONE
+
+# Alloc page from ZONE_DMA
+source package/ZONE/BiscuitOS-ZONE-alloc-page-ZONE_DMA/Kconfig
+
+endif # PK_ZONE

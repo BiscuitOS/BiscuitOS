@@ -1,0 +1,12 @@
+menuconfig PK_THP
+	bool "THP: Transparent hugepage mechanism"
+
+if PK_THP
+
+# THP on userspace
+source package/THP/BiscuitOS-THP-userspace/Kconfig
+
+# ShmemHugepage on anonymous
+source package/THP/BiscuitOS-THP-ShmemHugepage-anonymous/Kconfig
+
+endif # PK_THP

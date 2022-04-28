@@ -294,6 +294,9 @@ source package/MMU_shrink/Kconfig
 # memblock
 source package/memblock/Kconfig
 
+# MM-ERROR
+source package/MM-ERROR/Kconfig
+
 # memory_history
 source package/memory_history/Kconfig
 
@@ -426,6 +429,9 @@ source package/syscall/Kconfig
 # tcmalloc
 source package/tcmalloc/Kconfig
 
+# transparent_hugepage
+source package/THP/Kconfig
+
 # util-linux
 source package/util-linux/Kconfig
 
@@ -476,5 +482,8 @@ source package/xtrans/Kconfig
 
 # zlib
 source package/zlib/Kconfig
+
+# ZONE
+source package/ZONE/Kconfig
 
 endif

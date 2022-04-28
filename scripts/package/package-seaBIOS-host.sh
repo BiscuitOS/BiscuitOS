@@ -172,6 +172,8 @@ echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
 echo -e '\tmake menuconfig' >> ${MF}
 echo '' >> ${MF}
 echo 'debug:' >> ${MF}
+echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
+echo -e '\tmake -j86' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh bios-debug' >> ${MF}
 echo '' >> ${MF}
 echo 'debug-client:' >> ${MF}
