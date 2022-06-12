@@ -53,6 +53,8 @@ ONLYRUN=${19%X}
 SUPPORT_ONLYRUN=N
 # Rootfs type
 ROOTFS_TYPE=${20%X}
+# Ubuntu Version
+UBUNTU=$(cat /etc/issue | grep "Ubuntu 22.04 LTS" | awk '{print $2}')
 
 [ ${ONLYRUN}X = "YX" ] && SUPPORT_ONLYRUN=Y && KERNEL_VERSION=6.0.0
 
@@ -1071,6 +1073,26 @@ case ${ARCH_NAME} in
 			echo '        [*] Block devices --->' >> ${MF}
 			echo '            <*> Virtio block driver' >> ${MF}
 		fi
+		if [ ${UBUNTU}X = "22.04X" ]; then
+			echo '  Security options  --->' >> ${MF}
+			echo '        [ ] NSA SELinux Support' >> ${MF}
+			echo '' >> ${MF}
+			echo '' >> ${MF}
+			echo 'Patch Modify as follow:' >> ${MF}
+			echo '' >> ${MF}
+			echo '  vi arch/x86/boot/compressed/pgtable_64.c' >> ${MF}
+			echo '    + #ifndef CONFIG_RANDOMIZE_BASE' >> ${MF}
+			echo '    unsigned long __force_order;' >> ${MF}
+			echo '    -#endif' >> ${MF}
+			echo '' >> ${MF}
+			echo '  vi tools/objtool/elf.c' >> ${MF}
+			echo '    symtab = find_section_by_name(elf, ".symtab");' >> ${MF}
+			echo '    if (!symtab) {' >> ${MF}
+			echo '    - 	WARN("missing symbol table");' >> ${MF}
+			echo '    -	return -1;' >> ${MF}
+			echo '    +	return 0;' >> ${MF}
+			echo '  }' >> ${MF}
+		fi
 		echo '' >> ${MF}
 		echo "make ARCH=i386 bzImage -j4" >> ${MF}
 		echo "make ARCH=i386 modules -j4" >> ${MF}
@@ -1097,6 +1119,26 @@ case ${ARCH_NAME} in
 			echo '        [*] Block devices --->' >> ${MF}
 			echo '            <*> Virtio block driver' >> ${MF}
 		fi
+		if [ ${UBUNTU}X = "22.04X" ]; then
+			echo '  Security options  --->' >> ${MF}
+			echo '        [ ] NSA SELinux Support' >> ${MF}
+			echo '' >> ${MF}
+			echo '' >> ${MF}
+			echo 'Patch Modify as follow:' >> ${MF}
+			echo '' >> ${MF}
+			echo '  vi arch/x86/boot/compressed/pgtable_64.c' >> ${MF}
+			echo '    + #ifndef CONFIG_RANDOMIZE_BASE' >> ${MF}
+			echo '    unsigned long __force_order;' >> ${MF}
+			echo '    -#endif' >> ${MF}
+			echo '' >> ${MF}
+			echo '  vi tools/objtool/elf.c' >> ${MF}
+			echo '    symtab = find_section_by_name(elf, ".symtab");' >> ${MF}
+			echo '    if (!symtab) {' >> ${MF}
+			echo '    - 	WARN("missing symbol table");' >> ${MF}
+			echo '    -	return -1;' >> ${MF}
+			echo '    +	return 0;' >> ${MF}
+			echo '    }' >> ${MF}
+		fi
 		echo '' >> ${MF}
 		echo "make ARCH=x86_64 bzImage -j4" >> ${MF}
 		echo "make ARCH=x86_64 modules -j4" >> ${MF}
@@ -1121,11 +1163,15 @@ cat << EOF >> ${1}
 cd ${OUTPUT}/busybox/busybox
 make clean
 make menuconfig
-
-  Busybox Settings --->
-    Build Options --->
-      [*] Build BusyBox as a static binary (no shared libs)
 EOF
+if [ ${UBUNTU}X = "22.04X" ]; then
+  echo '  Settings --->' >> ${1}
+  echo '     [*] Build static binary (no shared libs)' >> ${1}
+else
+  echo '  Busybox Settings --->' >> ${1}
+  echo '    Build Options --->' >> ${1}
+  echo '      [*] Build BusyBox as a static binary (no shared libs)' >> ${1}
+fi
 	if [ ${ARCH_NAME}Y = "x86Y" ]; then
 		echo '      (-m32 -march=i386 -mtune=i386) Additional CFLAGS' >> ${1}
 		echo '      (-m32) Additional LDFLAGS' >> ${1}

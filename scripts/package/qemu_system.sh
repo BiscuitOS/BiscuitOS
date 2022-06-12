@@ -21,14 +21,19 @@ PROJ_NAME=${9%X}
 QEMU_TAR=${10%X}
 QEMU_SUBNAME=${11%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
-QEMU_FULL=${TOOL_SUBNAME%.${QEMU_TAR}}
-QEMU_DL_NAME=qemu-${QEMU_VERSION#v}.${QEMU_TAR}
-QEMU_UNTAR_NAME=qemu-${QEMU_VERSION#v}
 ARCH_MAGIC=${12%X}
+UBUNTU=$(cat /etc/issue | grep "Ubuntu 22.04 LTS" | awk '{print $2}')
 EMULATER=
 CONFIG=
 QEMU_GDB=
 QEMU_BIN=
+
+# Ubuntu 22.04/20.04 need QEMU 5.0.0
+[ ${UBUNTU}X = 22.04X ] && QEMU_VERSION="5.0.0"
+
+QEMU_FULL=${TOOL_SUBNAME%.${QEMU_TAR}}
+QEMU_DL_NAME=qemu-${QEMU_VERSION#v}.${QEMU_TAR}
+QEMU_UNTAR_NAME=qemu-${QEMU_VERSION#v}
 
 if [ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${QEMU_NAME}/version`

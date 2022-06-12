@@ -1,6 +1,9 @@
 #/bin/bash
 
-set -e
+UBUNTU=$(cat /etc/issue | grep "Ubuntu 22.04 LTS" | awk '{print $2}')
+if [ ${UBUNTU}X != "22.04X" ]; then
+  set -e
+fi
 # Establish Rootfs.
 #
 # (C) 2019.01.15 BiscuitOS <buddy.zhang@aliyun.com>
@@ -335,9 +338,16 @@ else
 				# [ -f /usr/lib/x86_64-linux-gnu/libnuma.so ] && cp -rf /usr/lib/x86_64-linux-gnu/libnuma.* ${ROOTFS_PATH}/usr/lib/
 				[ -f /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ] && cp -rf /usr/lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
 				[ -f /usr/lib/x86_64-linux-gnu/libasan.so.4 ] && cp -rf /usr/lib/x86_64-linux-gnu/libasan.so.4* ${ROOTFS_PATH}/usr/lib/
-				cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
-				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
-				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+				if [ ${UBUNTU}X != "22.04X" ]; then
+				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
+				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
+				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+				else
+				  sudo mkdir -p ${ROOTFS_PATH}/usr/lib64/
+				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 ${ROOTFS_PATH}/lib64/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libstdc++.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libc.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libc.so.* ${ROOTFS_PATH}/usr/lib/
+				fi
 			else
 				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
 			fi
