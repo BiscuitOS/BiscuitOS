@@ -1,0 +1,12 @@
+menuconfig PK_PAGE
+	bool "Physical Page"
+
+if PK_PAGE
+
+# Alloc a page on kernel
+source package/PAGE/BiscuitOS-PAGE-kernel/Kconfig
+
+# Alloc a page on userspace
+source package/PAGE/BiscuitOS-PAGE-userspace/Kconfig
+
+endif # PK_PAGE

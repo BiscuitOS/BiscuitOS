@@ -1,0 +1,12 @@
+menuconfig PK_OOM
+	bool "OOM: Out-of-memory mechanism"
+
+if PK_OOM
+
+# OOM on kernel
+source package/OOM/BiscuitOS-OOM-kernel/Kconfig
+
+# OOM on userspace
+source package/OOM/BiscuitOS-OOM-userspace/Kconfig
+
+endif # PK_OOM

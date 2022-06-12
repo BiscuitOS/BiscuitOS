@@ -330,8 +330,14 @@ source package/notifier/Kconfig
 # NUMA
 source package/NUMA/Kconfig
 
+# OOM
+source package/OOM/Kconfig
+
 # openssl
 source package/openssl/Kconfig
+
+# Page
+source package/PAGE/Kconfig
 
 # page-fault
 source package/page-fault/Kconfig

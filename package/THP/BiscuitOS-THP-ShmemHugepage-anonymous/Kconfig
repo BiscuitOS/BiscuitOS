@@ -1,5 +1,5 @@
 menuconfig PK_THP_SHMEMHUGE_ANON
-	bool "ShmemHugepage on anonymous"
+	bool "THP: Alloc an Anonymous ShmemHugepage"
 
 if PK_THP_SHMEMHUGE_ANON
 

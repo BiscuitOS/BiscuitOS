@@ -3,6 +3,9 @@ menuconfig PK_KVM
 
 if PK_KVM
 
+# BiscuitOS Broiler
+source package/kvm/BiscuitOS-Broiler/Kconfig
+
 # Host QEMU
 source package/kvm/BiscuitOS-qemu-host/Kconfig
 

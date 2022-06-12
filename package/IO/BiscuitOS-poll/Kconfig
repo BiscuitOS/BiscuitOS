@@ -1,0 +1,55 @@
+menuconfig PK_IO_BISCUITOS_POLL
+	bool "Poll mechanism on BiscuitOS"
+
+if PK_IO_BISCUITOS_POLL
+
+config PK_IO_BISCUITOS_POLL_VERSION
+	default "default"
+	string "verstion"
+
+config PK_IO_BISCUITOS_POLL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_IO_BISCUITOS_POLL_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/IO/AsyncBlock/BiscuitOS-poll"
+	string "url"
+
+config PK_IO_BISCUITOS_POLL_GITHUB
+	string "GitHub"
+
+config PK_IO_BISCUITOS_POLL_SRCFILE
+	default "poll.c Kconfig Makefile module.c RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_IO_BISCUITOS_POLL_CSRCFILE
+	string "Compile source code list"
+
+config PK_IO_BISCUITOS_POLL_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_IO_BISCUITOS_POLL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_IO_BISCUITOS_POLL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_IO_BISCUITOS_POLL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_IO_BISCUITOS_POLL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_IO_BISCUITOS_POLL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_IO_BISCUITOS_POLL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_IO_BISCUITOS_POLL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_IO_BISCUITOS_POLL_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_IO_BISCUITOS_POLL

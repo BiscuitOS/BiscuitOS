@@ -1,0 +1,55 @@
+menuconfig PK_THP_ANONHUGE
+	bool "THP: Alloc an AnonHugepage"
+
+if PK_THP_ANONHUGE
+
+config PK_THP_ANONHUGE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_THP_ANONHUGE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_THP_ANONHUGE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/THP/BiscuitOS-THP-AnonHugepage"
+	string "url"
+
+config PK_THP_ANONHUGE_GITHUB
+	string "GitHub"
+
+config PK_THP_ANONHUGE_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh README.md"
+	string "Source code list"
+
+config PK_THP_ANONHUGE_CSRCFILE
+	string "Compile source code list"
+
+config PK_THP_ANONHUGE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_THP_ANONHUGE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_THP_ANONHUGE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_THP_ANONHUGE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_THP_ANONHUGE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_THP_ANONHUGE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_THP_ANONHUGE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_THP_ANONHUGE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_THP_ANONHUGE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_THP_ANONHUGE

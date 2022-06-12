@@ -1,3 +1,4 @@
+kvm-$(CONFIG_PK_BROILER)		+= BiscuitOS-Broiler/
 kvm-$(CONFIG_PK_KVM_USERSPACE)		+= kvm_userspace/
 kvm-$(CONFIG_PK_KVM_MODULE)		+= kvm_module/
 kvm-$(CONFIG_PK_KVM_HISTORY)		+= kvm_history/

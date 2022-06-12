@@ -9,4 +9,19 @@ source package/THP/BiscuitOS-THP-userspace/Kconfig
 # ShmemHugepage on anonymous
 source package/THP/BiscuitOS-THP-ShmemHugepage-anonymous/Kconfig
 
+# ShmemHugepage on file shared
+source package/THP/BiscuitOS-THP-ShmemHugepage-file-shared/Kconfig
+
+# ShmemHugepage on file private
+source package/THP/BiscuitOS-THP-ShmemHugepage-file-private/Kconfig
+
+# AnonHugepage
+source package/THP/BiscuitOS-THP-AnonHugepage/Kconfig
+
+# AnonHugepage merge
+source package/THP/BiscuitOS-THP-AnonHugepage-merge/Kconfig
+
+# AnonHugepage madvise
+source package/THP/BiscuitOS-THP-AnonHugepage-madvise/Kconfig
+
 endif # PK_THP

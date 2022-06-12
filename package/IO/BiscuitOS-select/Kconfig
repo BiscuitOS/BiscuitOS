@@ -1,0 +1,55 @@
+menuconfig PK_IO_BISCUITOS_SELECT
+	bool "Select mechanism on BiscuitOS"
+
+if PK_IO_BISCUITOS_SELECT
+
+config PK_IO_BISCUITOS_SELECT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_IO_BISCUITOS_SELECT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_IO_BISCUITOS_SELECT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/IO/AsyncBlock/BiscuitOS-select"
+	string "url"
+
+config PK_IO_BISCUITOS_SELECT_GITHUB
+	string "GitHub"
+
+config PK_IO_BISCUITOS_SELECT_SRCFILE
+	default "select.c Kconfig Makefile module.c RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_IO_BISCUITOS_SELECT_CSRCFILE
+	string "Compile source code list"
+
+config PK_IO_BISCUITOS_SELECT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_IO_BISCUITOS_SELECT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_IO_BISCUITOS_SELECT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_IO_BISCUITOS_SELECT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_IO_BISCUITOS_SELECT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_IO_BISCUITOS_SELECT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_IO_BISCUITOS_SELECT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_IO_BISCUITOS_SELECT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_IO_BISCUITOS_SELECT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_IO_BISCUITOS_SELECT

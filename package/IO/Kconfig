@@ -6,4 +6,13 @@ if PK_IO
 # Async
 source "package/IO/Async/Kconfig"
 
+# BiscuitOS-epoll
+source "package/IO/BiscuitOS-epoll/Kconfig"
+
+# BiscuitOS-poll
+source "package/IO/BiscuitOS-poll/Kconfig"
+
+# BiscuitOS-select
+source "package/IO/BiscuitOS-select/Kconfig"
+
 endif # PK_IO

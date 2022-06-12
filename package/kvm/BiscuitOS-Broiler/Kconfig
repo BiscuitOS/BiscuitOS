@@ -1,0 +1,55 @@
+menuconfig PK_BROILER
+	bool "BiscuitOS hyperv: Broiler"
+
+if PK_BROILER
+
+config PK_BROILER_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BROILER_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_BROILER_URL
+	default ""
+	string "url"
+
+config PK_BROILER_GITHUB
+	default "https://gitee.com/BiscuitOS_team/broiler.git"
+	string "github"
+
+config PK_BROILER_SRCFILE
+	string "Source code list"
+
+config PK_BROILER_CONFIG
+	default ""
+	string "CONFIG: Project Configure Options"
+
+config PK_BROILER_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BROILER_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BROILER_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BROILER_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BROILER_LDFLAGS
+	default "-static"
+	string "LDFLAGS: Linker flags"
+
+config PK_BROILER_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BROILER_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BROILER_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_BROILER
