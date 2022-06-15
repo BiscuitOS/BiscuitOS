@@ -21,8 +21,10 @@ PROJ_NAME=${9%X}
 BUSYBOX_TAR=${10%X}
 BUSYBOX_SUBNAME=${13%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
-UBUNTU=$(cat /etc/issue | grep "Ubuntu 22.04 LTS" | awk '{print $2}')
-[ ${UBUNTU}X = "22.04X" ] && BUSYBOX_VERSION=1.35.0
+UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
+UBUNTU=${UBUNTU_FULL:0:2}
+[ ${UBUNTU}X = "22X" ] && BUSYBOX_VERSION=1.35.0
+[ ${UBUNTU}X = "20X" ] && BUSYBOX_VERSION=1.35.0
 
 if [ -d ${OUTPUT}/${BUSYBOX_NAME}/${BUSYBOX_NAME} ]; then
         version=`sed -n 1p ${OUTPUT}/${BUSYBOX_NAME}/version`

@@ -1,7 +1,8 @@
 #/bin/bash
 
-UBUNTU=$(cat /etc/issue | grep "Ubuntu 22.04 LTS" | awk '{print $2}')
-if [ ${UBUNTU}X != "22.04X" ]; then
+UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
+UBUNTU=${UBUNTU_FULL:0:2}
+if [ ${UBUNTU}X != "22X" ]; then
   set -e
 fi
 # Establish Rootfs.
@@ -338,15 +339,20 @@ else
 				# [ -f /usr/lib/x86_64-linux-gnu/libnuma.so ] && cp -rf /usr/lib/x86_64-linux-gnu/libnuma.* ${ROOTFS_PATH}/usr/lib/
 				[ -f /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ] && cp -rf /usr/lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
 				[ -f /usr/lib/x86_64-linux-gnu/libasan.so.4 ] && cp -rf /usr/lib/x86_64-linux-gnu/libasan.so.4* ${ROOTFS_PATH}/usr/lib/
-				if [ ${UBUNTU}X != "22.04X" ]; then
-				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
-				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
-				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
-				else
+				if [ ${UBUNTU}X == "22X" ]; then
 				  sudo mkdir -p ${ROOTFS_PATH}/usr/lib64/
 				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 ${ROOTFS_PATH}/lib64/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libstdc++.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libc.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libc.so.* ${ROOTFS_PATH}/usr/lib/
+				elif [ ${UBUNTU}X == "20X" ]; then
+				  sudo mkdir -p ${ROOTFS_PATH}/usr/lib64/
+				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-* ${ROOTFS_PATH}/lib64/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libstdc++.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libc.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libc.so.6 ${ROOTFS_PATH}/usr/lib/ && sudo cp -rfa /lib/x86_64-linux-gnu/libc-*.so ${ROOTFS_PATH}/usr/lib/
+				else
+				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
+				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
+				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
 				fi
 			else
 				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/

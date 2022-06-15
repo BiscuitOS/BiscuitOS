@@ -56,7 +56,8 @@ CSRC=${22%X}
 # Package Path
 PPATH=${PACKAGE_PATCH%%/patch}
 # Ubuntu
-UBUNTU=$(cat /etc/issue | grep "Ubuntu 22.04 LTS" | awk '{print $2}')
+UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
+UBUNTU=${UBUNTU_FULL:0:2}
 
 ## Establish static Path
 OUTPUT=${PROJECT_ROOT}/output/${PROJECT_NAME}
@@ -155,7 +156,7 @@ fi
 echo 'CONFIG    += LIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH)' >> ${MF}
 echo 'CONFIG    += PKG_CONFIG_PATH=$(DPK_PATH)' >> ${MF}
 echo "CONFIG    = ${KBUILD_CONFIG}" >> ${MF}
-[ ${UBUNTU}X = "22.04X" ] && echo "CONFIG    += --python=/usr/bin/python3" >> ${MF}
+[ ${UBUNTU}X = "22X" ] && echo "CONFIG    += --python=/usr/bin/python3" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}

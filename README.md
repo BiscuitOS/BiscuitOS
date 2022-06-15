@@ -58,7 +58,35 @@ sudo apt-get install -y libnuma-dev libnuma1 ninja-build
 sudo apt-get install -y libtool libsysfs-dev libasan
 
 -----------------------------------------
-# Ubuntu 20.X/22.X
+# Ubuntu 20.X
+
+#### Add GCC sourcelist
+vi /etc/apt/sources.list
++ deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main universe
+
+sudo apt-get update
+sudo apt-get install -y qemu gcc make gdb git figlet
+sudo apt-get install -y libncurses5-dev iasl wget
+sudo apt-get install -y device-tree-compiler
+sudo apt-get install -y flex bison libglib2.0-dev
+sudo apt-get install -y libfdt-dev libpixman-1-dev
+sudo apt-get install -y python pkg-config u-boot-tools intltool xsltproc
+sudo apt-get install -y gperf libglib2.0-dev libgirepository1.0-dev
+sudo apt-get install -y gobject-introspection
+sudo apt-get install -y python2.7-dev python-dev bridge-utils
+sudo apt-get install -y uml-utilities net-tools
+sudo apt-get install -y libattr1-dev libcap-dev
+sudo apt-get install -y kpartx libsdl2-dev libsdl1.2-dev
+sudo apt-get install -y debootstrap libarchive-tools
+sudo apt-get install -y libelf-dev gcc-multilib g++-multilib
+sudo apt-get install -y libcap-ng-dev
+sudo apt-get install -y libmount-dev libselinux1-dev libffi-dev libpulse-dev
+sudo apt-get install -y liblzma-dev libssl-dev 
+sudo apt-get install -y libnuma-dev libnuma1 ninja-build
+sudo apt-get install -y libtool libsysfs-dev
+
+-----------------------------------------
+# Ubuntu 22.X
 
 #### Add GCC sourcelist
 vi /etc/apt/sources.list
@@ -88,7 +116,7 @@ sudo apt-get install -y libntirpc-dev libtirpc-dev
 sudo ln -s /usr/bin/python3 /usr/bin/python
 ```
 
-On Ubuntu 22.04, GCC must be GCC-7, change default GCC as:
+On Ubuntu 22.X/20.X, GCC must be GCC-7, change default GCC as:
 
 ```
 sudo apt-get update

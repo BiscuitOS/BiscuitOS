@@ -54,7 +54,8 @@ SUPPORT_ONLYRUN=N
 # Rootfs type
 ROOTFS_TYPE=${20%X}
 # Ubuntu Version
-UBUNTU=$(cat /etc/issue | grep "Ubuntu 22.04 LTS" | awk '{print $2}')
+UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
+UBUNTU=${UBUNTU_FULL:0:2}
 
 [ ${ONLYRUN}X = "YX" ] && SUPPORT_ONLYRUN=Y && KERNEL_VERSION=6.0.0
 
@@ -1073,7 +1074,7 @@ case ${ARCH_NAME} in
 			echo '        [*] Block devices --->' >> ${MF}
 			echo '            <*> Virtio block driver' >> ${MF}
 		fi
-		if [ ${UBUNTU}X = "22.04X" ]; then
+		if [ ${UBUNTU}X = "22X" ]; then
 			echo '  Security options  --->' >> ${MF}
 			echo '        [ ] NSA SELinux Support' >> ${MF}
 			echo '' >> ${MF}
@@ -1119,7 +1120,7 @@ case ${ARCH_NAME} in
 			echo '        [*] Block devices --->' >> ${MF}
 			echo '            <*> Virtio block driver' >> ${MF}
 		fi
-		if [ ${UBUNTU}X = "22.04X" ]; then
+		if [ ${UBUNTU}X = "22X" ]; then
 			echo '  Security options  --->' >> ${MF}
 			echo '        [ ] NSA SELinux Support' >> ${MF}
 			echo '' >> ${MF}
@@ -1164,7 +1165,7 @@ cd ${OUTPUT}/busybox/busybox
 make clean
 make menuconfig
 EOF
-if [ ${UBUNTU}X = "22.04X" ]; then
+if [ ${UBUNTU}X = "22X" -o ${UBUNTU}X = "20X" ]; then
   echo '  Settings --->' >> ${1}
   echo '     [*] Build static binary (no shared libs)' >> ${1}
 else
