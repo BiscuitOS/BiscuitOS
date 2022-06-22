@@ -1,0 +1,11 @@
+diff -uprN old/linux-user/syscall.c new/linux-user/syscall.c
+--- old/linux-user/syscall.c	2019-04-24 02:14:46.000000000 +0800
++++ new/linux-user/syscall.c	2022-06-15 22:38:36.819931884 +0800
+@@ -37,6 +37,7 @@
+ #include <sched.h>
+ #include <sys/timex.h>
+ #include <sys/socket.h>
++#include <linux/sockios.h>
+ #include <sys/un.h>
+ #include <sys/uio.h>
+ #include <poll.h>

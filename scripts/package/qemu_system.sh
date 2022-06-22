@@ -28,10 +28,9 @@ EMULATER=
 CONFIG=
 QEMU_GDB=
 QEMU_BIN=
-
 # Ubuntu 22.04/20.04 need QEMU 5.0.0
 [ ${UBUNTU}X = 22X ] && QEMU_VERSION="5.0.0"
-[ ${UBUNTU}X = 20X ] && QEMU_VERSION="5.0.0"
+PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}/
 
 QEMU_FULL=${TOOL_SUBNAME%.${QEMU_TAR}}
 QEMU_DL_NAME=qemu-${QEMU_VERSION#v}.${QEMU_TAR}
@@ -44,6 +43,28 @@ if [ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ]; then
                 exit 0
         fi
 fi
+
+qemu_patch()
+{
+  echo "SB"
+  # PATCH
+  # --> Create a patch
+  #     --> diff -uprN old/ new/ > 000001.patch
+  # --> Apply a patch
+  #     --> copy 000001.patch into old/
+  #     --> patch -p1 < 000001.patch
+  if [ -d ${PATCH_DIR} ]; then
+          echo "Patching for ${OUTPUT}/qemu-system/qemu-system"
+          for patchfile in `ls ${PATCH_DIR}`
+          do
+                cp ${PATCH_DIR}/${patchfile} ${OUTPUT}/qemu-system/qemu-${QEMU_VERSION}/
+                cd ${OUTPUT}/qemu-system/qemu-${QEMU_VERSION} > /dev/null 2>&1
+                patch -p1 < ${patchfile}
+                cd - > /dev/null 2>&1
+                rm -rf ${OUTPUT}/qemu-system/qemu-${QEMU_VERSION}/${patchfile} > /dev/null 2>&1
+          done
+  fi
+}
 
 case ${ARCH_MAGIC} in
 	1)
@@ -123,6 +144,7 @@ if [ ${QEMU_SRC} = "2" ]; then
 	BASE_TAR=${QEMU_SUBNAME##*/}
 	BASE_FILE=${BASE_TAR%.${QEMU_TAR}}
 	tar -xvJf ${BASE_TAR}
+	[ ${UBUNTU}X = 20X ] && qemu_patch
 	cd ${BASE_FILE}
 	./configure --target-list=${EMULATER} ${CONFIG}
         
@@ -143,6 +165,7 @@ if [ ${QEMU_SRC} = "3" ]; then
 	cp ${ROOT}/dl/${QEMU_DL_NAME} ${OUTPUT}/${QEMU_NAME}/
 	cd ${OUTPUT}/${QEMU_NAME}/
 	tar -xvJf ${QEMU_DL_NAME}
+	[ ${UBUNTU}X = 20X ] && qemu_patch
 	rm -rf ${QEMU_DL_NAME}
 	cd ${QEMU_UNTAR_NAME}
         ./configure --target-list=${EMULATER} ${CONFIG}

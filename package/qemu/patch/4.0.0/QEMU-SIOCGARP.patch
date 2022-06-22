@@ -1,0 +1,12 @@
+diff -uprN old/qemu-bridge-helper.c new/qemu-bridge-helper.c
+--- old/qemu-bridge-helper.c	2019-04-24 02:14:46.000000000 +0800
++++ new/qemu-bridge-helper.c	2022-06-15 22:27:39.406451413 +0800
+@@ -23,7 +23,7 @@
+ 
+ #include <net/if.h>
+ 
+-#include <linux/sockios.h>
++//#include <linux/sockios.h>
+ 
+ #ifndef SIOCBRADDIF
+ #include <linux/if_bridge.h>
