@@ -51,7 +51,7 @@ sudo apt-get install -y libattr1-dev libcap-dev
 sudo apt-get install -y kpartx libsdl2-dev libsdl1.2-dev
 sudo apt-get install -y debootstrap bsdtar
 sudo apt-get install -y libelf-dev gcc-multilib g++-multilib
-sudo apt-get install -y libcap-ng-dev
+sudo apt-get install -y libcap-ng-dev binutils-dev
 sudo apt-get install -y libmount-dev libselinux1-dev libffi-dev libpulse-dev
 sudo apt-get install -y liblzma-dev python-serial
 sudo apt-get install -y libnuma-dev libnuma1 ninja-build
@@ -67,7 +67,7 @@ vi /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get install -y qemu gcc make gdb git figlet
 sudo apt-get install -y libncurses5-dev iasl wget
-sudo apt-get install -y device-tree-compiler
+sudo apt-get install -y device-tree-compiler qemu-system-x86
 sudo apt-get install -y flex bison libglib2.0-dev
 sudo apt-get install -y libfdt-dev libpixman-1-dev
 sudo apt-get install -y python pkg-config u-boot-tools intltool xsltproc
@@ -79,7 +79,7 @@ sudo apt-get install -y libattr1-dev libcap-dev
 sudo apt-get install -y kpartx libsdl2-dev libsdl1.2-dev
 sudo apt-get install -y debootstrap libarchive-tools
 sudo apt-get install -y libelf-dev gcc-multilib g++-multilib
-sudo apt-get install -y libcap-ng-dev
+sudo apt-get install -y libcap-ng-dev binutils-dev
 sudo apt-get install -y libmount-dev libselinux1-dev libffi-dev libpulse-dev
 sudo apt-get install -y liblzma-dev libssl-dev 
 sudo apt-get install -y libnuma-dev libnuma1 ninja-build
@@ -94,7 +94,7 @@ vi /etc/apt/sources.list
 
 sudo apt-get update
 sudo apt-get install -y qemu gcc make gdb git figlet
-sudo apt-get install -y libncurses5-dev iasl wget
+sudo apt-get install -y libncurses5-dev iasl wget qemu-system-x86
 sudo apt-get install -y device-tree-compiler build-essential
 sudo apt-get install -y flex bison libssl-dev libglib2.0-dev
 sudo apt-get install -y libfdt-dev libpixman-1-dev
@@ -102,7 +102,7 @@ sudo apt-get install -y python3 pkg-config u-boot-tools intltool xsltproc
 sudo apt-get install -y gperf libglib2.0-dev libgirepository1.0-dev
 sudo apt-get install -y gobject-introspection
 sudo apt-get install -y python3-dev bridge-utils
-sudo apt-get install -y net-tools
+sudo apt-get install -y net-tools binutils-dev
 sudo apt-get install -y libattr1-dev libcap-dev
 sudo apt-get install -y kpartx libsdl2-dev libsdl1.2-dev
 sudo apt-get install -y debootstrap
