@@ -1,7 +1,7 @@
 BiscuitOS                                    [中文](https://biscuitos.github.io/blog/HomePage/)
 ----------------------------------------------
 
-![TOP_PIC](https://github.com/EmulateSpace/PictureSet/blob/master/github/mainmenu.jpg)
+[![jIUFij.md.jpg](https://s1.ax1x.com/2022/07/17/jIUFij.md.jpg)](https://imgtu.com/i/jIUFij)
 
 BiscuitOS is a Linux-Distro that base on legacy or newest Linux kernel (such 
 as Linux 0.11, 1.x, 2.x, 3.x, 4.x, 5.x and more).  BiscuitOS is an open 
