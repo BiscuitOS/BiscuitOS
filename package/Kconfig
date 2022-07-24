@@ -51,6 +51,9 @@ source package/bitmap/Kconfig
 # bitops
 source package/bitops/Kconfig
 
+# Broiler
+source package/Broiler/Kconfig
+
 # buddy
 source package/buddy/Kconfig
 

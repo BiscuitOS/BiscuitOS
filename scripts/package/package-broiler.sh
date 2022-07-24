@@ -211,7 +211,7 @@ echo -e '\t$(ROOT)/RunBiscuitOS.sh mount' >> ${MF}
 echo -e '\tmkdir -p $(BROILERDIR)' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
 echo -e '\tsudo cp -rfa BiscuitOS-Broiler-default $(INS_PATH)/bin/ ; \' >> ${MF}
-echo -e '\tsudo cp -rfa RunBiscuitOS.sh $(INS_PATH)/bin/ ; \' >> ${MF}
+echo -e '\tsudo cp -rfa RunBroiler.sh $(INS_PATH)/bin/ ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
 echo -e '\tsudo cp -rfa $(ROOT)/linux/linux/arch/x86/boot/bzImage $(BROILERDIR)/bzImage ; \' >> ${MF}
 echo -e '\tsudo cp -rfa $(ROOT)/BiscuitOS.img $(BROILERDIR)/BiscuitOS.img ; ' >> ${MF}

@@ -1,0 +1,33 @@
+menuconfig PK_BROILER_SYSTEM
+	bool "Broiler hypervison for BiscuitOS"
+
+if PK_BROILER_SYSTEM
+
+choice
+	prompt "Source of Broiler source code"
+
+config BROILER_SYSTEM_GITHUB
+	bool "Broiler source code from github"
+
+config BROILER_SYSTEM_DL
+	bool "Broiler source code from external file"
+
+config BROILER_SYSTEM_WGET
+	bool "Broiler source code from wget"
+
+endchoice
+
+if BROILER_SYSTEM_DL
+
+config BROILER_SYSTEM_DL_NAME
+	string "External Broiler absolute path"
+
+endif # BROILER_SYSTEM_DL
+
+config BROILER_SYSTEM_SRC
+	int 
+	default 1 if BROILER_SYSTEM_GITHUB
+	default 2 if BROILER_SYSTEM_DL
+	default 3 if BROILER_SYSTEM_WGET
+
+endif # PK_BROILER_SYSTEM

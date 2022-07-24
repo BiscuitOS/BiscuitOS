@@ -46,6 +46,8 @@ UCROSS_PATH=${OUTPUT}/${UBOOT_CROSS}/${UBOOT_CROSS}
 KCROSS_PATH=${OUTPUT}/${CROSS_COMPILE}/${CROSS_COMPILE}
 # Qemu Path
 QEMU_PATH=${OUTPUT}/qemu-system/qemu-system
+# Broiler Path
+BROILER_PATH=${OUTPUT}/Broiler-system/Broiler-system
 # Module Install Path
 MODULE_INSTALL_PATH=${OUTPUT}/rootfs/rootfs/
 # Running Only
@@ -53,6 +55,9 @@ ONLYRUN=${19%X}
 SUPPORT_ONLYRUN=N
 # Rootfs type
 ROOTFS_TYPE=${20%X}
+# HYPV 
+SUPPORT_HYPV=${21%X}
+
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
 UBUNTU=${UBUNTU_FULL:0:2}
@@ -137,6 +142,7 @@ case ${ARCH} in
 	6)
 	ARCH_NAME=x86_64
 	QEMU=${QEMU_PATH}/x86_64-softmmu/qemu-system-x86_64
+	BROILER=${BROILER_PATH}/BiscuitOS_Broiler
 	;;
 esac
 
@@ -234,10 +240,10 @@ detect_seaBIOS()
 [ ${SUPPORT_RPI4B} = "Y" -o ${SUPPORT_RPI3B} = "Y" ] && SUPPORT_RPI=Y && SUPPORT_RAMDISK=N
 
 # Debian/Desktop/Docker
-[ ${ROOTFS_TYPE} = "Desktop" ] && SUPPORT_DESKTOP=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
-[ ${ROOTFS_TYPE} = "Docker" ]  && SUPPORT_DOCKER=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
-[ ${ROOTFS_TYPE} = "Server" ]  && SUPPORT_SERVER=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
-[ ${SUPPORT_ONLYRUN} = "Y" ] && SUPPORT_DESKTOP=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
+[ ${ROOTFS_TYPE}X = "DesktopX" ] && SUPPORT_DESKTOP=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
+[ ${ROOTFS_TYPE}X = "DockerX" ]  && SUPPORT_DOCKER=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
+[ ${ROOTFS_TYPE}X = "ServerX" ]  && SUPPORT_SERVER=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
+[ ${SUPPORT_ONLYRUN}X = "YX" ] && SUPPORT_DESKTOP=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
 
 ##
 # Rootfs Inforamtion
@@ -305,6 +311,7 @@ cat << EOF >> ${MF}
 
 ROOT=${OUTPUT}
 QEMUT=${QEMU}
+BROILER=${BROILER}
 ARCH=${ARCH_NAME}
 BUSYBOX=${BUSYBOX}
 OUTPUT=${OUTPUT}
@@ -356,8 +363,12 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
 	;;
 	x86_64)
-		[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+		if [ ${SUPPORT_HYPV} = "Broiler" ]; then
+			echo 'CMDLINE="noapic noacpi pci=conf1 reboot=k panic=1 i8042.direct=1 i8042.dumbkbd=1 i8042.nopnp=1 i8042.noaux=1 root=/dev/vda rw rootfstype=ext4 console=ttyS0 loglevel=8"' >> ${MF}
+		else
+			[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+		fi
 	;;
 esac
 
@@ -572,24 +583,33 @@ case ${ARCH_NAME} in
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	x86_64)
-		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
-		echo -e '\t-smp 2 \' >> ${MF}
-		echo -e '\t-cpu host \' >> ${MF}
-		echo -e '\t-enable-kvm \' >> ${MF}
-		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-		[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
-		echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
-		# Support Ramdisk
-		# Discard Ctrl-C to exit and default Ctrl-A + X
-		# echo -e '\t-serial stdio \' >> ${MF}
-		# echo -e '\t-nodefaults \' >> ${MF}
-		# Support HardDisk
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
-		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
-		echo -e '\t-nographic \' >> ${MF}
-		echo -e '\t-append "${CMDLINE}"' >> ${MF}
+		if [ ${SUPPORT_HYPV} = "Broiler" ]; then
+			echo -e '\tsudo ${BROILER} \' >> ${MF}
+			echo -e '\t\t--kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
+			echo -e '\t\t--rootfs ${ROOT}/BiscuitOS.img \' >> ${MF}
+			echo -e '\t\t--memory ${RAM_SIZE} \' >> ${MF}
+			echo -e '\t\t--cpu 2 \' >> ${MF}
+			echo -e '\t\t--cmdline "${CMDLINE}"' >> ${MF}
+		else
+			echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
+			echo -e '\t-smp 2 \' >> ${MF}
+			echo -e '\t-cpu host \' >> ${MF}
+			echo -e '\t-enable-kvm \' >> ${MF}
+			echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+			[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
+			echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
+			# Support Ramdisk
+			# Discard Ctrl-C to exit and default Ctrl-A + X
+			# echo -e '\t-serial stdio \' >> ${MF}
+			# echo -e '\t-nodefaults \' >> ${MF}
+			# Support HardDisk
+			[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
+			[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+			echo -e '\t-nographic \' >> ${MF}
+			echo -e '\t-append "${CMDLINE}"' >> ${MF}
+		fi
 	;;
 esac
 echo '}' >> ${MF}

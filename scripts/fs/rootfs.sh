@@ -45,6 +45,13 @@ DISK_SIZE=${17%X}
 [ ! ${DISK_SIZE} ] && DISK_SIZE=512
 # Freeze size
 FREEZE_SIZE=${18%X}
+# Broiler Support
+SUPPORT_BROILER=${19}
+# QEMU Support
+SUPPORT_QEMU=${20}
+[ ${SUPPORT_BROILER} = "yX" -a ${SUPPORT_QEMU} = "yX" ] && echo "Only Support Broiler or QEMU" && exit -1  
+[ ${SUPPORT_BROILER} = "yX" ] && SUPPORT_HYPV="Broiler"
+[ ${SUPPORT_QEMU} = "yX" ] && SUPPORT_HYPV="QEMU"
 
 ##
 # Feature Area
@@ -412,7 +419,7 @@ fi
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \
 					${FREEZE_SIZE}X ${DISK_SIZE}X \
-					${19} ${20}
+					X X ${SUPPORT_HYPV}X
 
 ## Output directory
 echo ""
