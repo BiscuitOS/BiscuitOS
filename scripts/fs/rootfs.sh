@@ -355,6 +355,9 @@ else
 				  sudo mkdir -p ${ROOTFS_PATH}/usr/lib64/
 				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-* ${ROOTFS_PATH}/lib64/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libstdc++.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libz.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libz.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libresolv.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libresolv*.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libudev.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libudev.so.* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libc.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libc.so.6 ${ROOTFS_PATH}/usr/lib/ && sudo cp -rfa /lib/x86_64-linux-gnu/libc-*.so ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libpthread.so.0 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libpthread* ${ROOTFS_PATH}/usr/lib/
 				else

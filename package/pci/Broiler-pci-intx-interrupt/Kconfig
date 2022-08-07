@@ -1,0 +1,55 @@
+menuconfig PK_BROILER_PCI_INTX
+	bool "Broiler PCI INTX Interrupt"
+
+if PK_BROILER_PCI_INTX
+
+config PK_BROILER_PCI_INTX_VERSION
+	default "default"
+	string "verstion"
+
+config PK_BROILER_PCI_INTX_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_BROILER_PCI_INTX_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/PCIe/Broiler-pci-intx-interrupt"
+	string "url"
+
+config PK_BROILER_PCI_INTX_GITHUB
+	string "GitHub"
+
+config PK_BROILER_PCI_INTX_SRCFILE
+	default "main.c Kconfig Makefile README.md RunBiscuitOS.sh Makefile.host"
+	string "Source code list"
+
+config PK_BROILER_PCI_INTX_CSRCFILE
+	string "Compile source code list"
+
+config PK_BROILER_PCI_INTX_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_BROILER_PCI_INTX_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_BROILER_PCI_INTX_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_BROILER_PCI_INTX_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_BROILER_PCI_INTX_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_BROILER_PCI_INTX_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_BROILER_PCI_INTX_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_BROILER_PCI_INTX_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_BROILER_PCI_INTX_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_BROILER_PCI_INTX

@@ -24,4 +24,13 @@ source package/pci/BiscuitOS-dma-device-QEMU-emulate/Kconfig
 # PCI TOOLS: pciutils
 source package/pci/pciutils/Kconfig
 
+# Broiler PCI Device Driver
+source package/pci/Broiler-pci-device-driver/Kconfig
+
+# Broiler PCI INTX Interrupt
+source package/pci/Broiler-pci-intx-interrupt/Kconfig
+
+# Broiler DMA with INTX Interrupt
+source package/pci/Broiler-dma-intx/Kconfig
+
 endif # PK_PCI

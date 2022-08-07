@@ -1,0 +1,9 @@
+menuconfig PK_PIO
+	bool "PIO: Programming Input/Output Model"
+
+if PK_PIO
+
+# Broiler PIO
+source package/pio/BiscuitOS-Broiler-pio/Kconfig
+
+endif # PK_PIO

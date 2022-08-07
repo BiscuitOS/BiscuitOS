@@ -363,6 +363,9 @@ source package/percpu/Kconfig
 # pgcache_scan
 source package/pgcache_scan/Kconfig
 
+# PIO
+source package/pio/Kconfig
+
 # pixman
 source package/pixman/Kconfig
 
