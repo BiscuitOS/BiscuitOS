@@ -30,7 +30,19 @@ source package/pci/Broiler-pci-device-driver/Kconfig
 # Broiler PCI INTX Interrupt
 source package/pci/Broiler-pci-intx-interrupt/Kconfig
 
+# Broiler PCI MSI Interrupt
+source package/pci/Broiler-pci-msi-interrupt/Kconfig
+
+# Broiler PCI MSIX Interrupt
+source package/pci/Broiler-pci-msix-interrupt/Kconfig
+
 # Broiler DMA with INTX Interrupt
 source package/pci/Broiler-dma-intx/Kconfig
+
+# Broiler DMA with MSI Interrupt
+source package/pci/Broiler-dma-msi/Kconfig
+
+# Broiler DMA with MSIX Interrupt
+source package/pci/Broiler-dma-msix/Kconfig
 
 endif # PK_PCI

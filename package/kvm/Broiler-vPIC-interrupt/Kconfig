@@ -1,0 +1,55 @@
+menuconfig PK_VINTR_VPIC
+	bool "vInterrupt: Broiler vPIC interrupt"
+
+if PK_VINTR_VPIC
+
+config PK_VINTR_VPIC_VERSION
+	default "default"
+	string "verstion"
+
+config PK_VINTR_VPIC_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_VINTR_VPIC_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Virtualization/vInterrupt/Broiler-vPIC-interrupt"
+	string "url"
+
+config PK_VINTR_VPIC_GITHUB
+	string "GitHub"
+
+config PK_VINTR_VPIC_SRCFILE
+	default "main.c Kconfig Makefile README.md RunBiscuitOS.sh Makefile.host"
+	string "Source code list"
+
+config PK_VINTR_VPIC_CSRCFILE
+	string "Compile source code list"
+
+config PK_VINTR_VPIC_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_VINTR_VPIC_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_VINTR_VPIC_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_VINTR_VPIC_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_VINTR_VPIC_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_VINTR_VPIC_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_VINTR_VPIC_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_VINTR_VPIC_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_VINTR_VPIC_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_VINTR_VPIC

@@ -69,4 +69,10 @@ source package/kvm/MSR-Tools/Kconfig
 # CPUID Tools
 source package/kvm/CPUID-Tools/Kconfig
 
+# VInterrupt: vPIC interrupt
+source package/kvm/Broiler-vPIC-interrupt/Kconfig
+
+# VInterrupt: vIOAPIC interrupt
+source package/kvm/Broiler-vIOAPIC-interrupt/Kconfig
+
 endif # PK_KVM

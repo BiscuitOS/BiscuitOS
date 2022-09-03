@@ -1,4 +1,6 @@
 kvm-$(CONFIG_PK_BROILER)		+= BiscuitOS-Broiler/
+kvm-$(CONFIG_PK_VINTR_VPIC)		+= Broiler-vPIC-interrupt/
+kvm-$(CONFIG_PK_VINTR_VIOAPIC)		+= Broiler-vIOAPIC-interrupt/
 kvm-$(CONFIG_PK_KVM_USERSPACE)		+= kvm_userspace/
 kvm-$(CONFIG_PK_KVM_MODULE)		+= kvm_module/
 kvm-$(CONFIG_PK_KVM_HISTORY)		+= kvm_history/
