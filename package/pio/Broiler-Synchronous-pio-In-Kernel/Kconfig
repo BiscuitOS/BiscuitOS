@@ -1,0 +1,55 @@
+menuconfig PK_PIO_SYNC_INKERNEL
+	bool "Sychronous PIO Driver In Kernel (Broiler)"
+
+if PK_PIO_SYNC_INKERNEL
+
+config PK_PIO_SYNC_INKERNEL_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PIO_SYNC_INKERNEL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PIO_SYNC_INKERNEL_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PIO/Broiler-Synchronous-pio-In-Kernel"
+	string "url"
+
+config PK_PIO_SYNC_INKERNEL_GITHUB
+	string "GitHub"
+
+config PK_PIO_SYNC_INKERNEL_SRCFILE
+	default "main.c Kconfig Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PIO_SYNC_INKERNEL_CSRCFILE
+	string "Compile source code list"
+
+config PK_PIO_SYNC_INKERNEL_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PIO_SYNC_INKERNEL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PIO_SYNC_INKERNEL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PIO_SYNC_INKERNEL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PIO_SYNC_INKERNEL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PIO_SYNC_INKERNEL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PIO_SYNC_INKERNEL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PIO_SYNC_INKERNEL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PIO_SYNC_INKERNEL_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PIO_SYNC_INKERNEL

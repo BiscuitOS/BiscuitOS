@@ -1,0 +1,9 @@
+menuconfig PK_MMIO
+	bool "MMIO: Memory Mapped IO"
+
+if PK_MMIO
+
+# Broiler Sychronous MMIO
+source package/mmio/Broiler-Synchronous-mmio/Kconfig
+
+endif # PK_MMIO

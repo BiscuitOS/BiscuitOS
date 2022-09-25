@@ -315,6 +315,9 @@ source package/mesa/Kconfig
 # misc
 source package/misc/Kconfig
 
+# mmio
+source package/mmio/Kconfig
+
 # module
 source package/module/Kconfig
 

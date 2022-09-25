@@ -19,7 +19,7 @@ config PK_MODULES_DEMO_GITHUB
 	string "GitHub"
 
 config PK_MODULES_DEMO_SRCFILE
-	default "main.c Kconfig Makefile"
+	default "main.c Kconfig Makefile RunBiscuitOS.sh Makefile.host"
 	string "Source code list"
 
 config PK_MODULES_DEMO_CSRCFILE

@@ -3,7 +3,16 @@ menuconfig PK_PIO
 
 if PK_PIO
 
-# Broiler PIO
-source package/pio/BiscuitOS-Broiler-pio/Kconfig
+# Broiler Sychronous PIO
+source package/pio/Broiler-Synchronous-pio/Kconfig
+
+# Broiler Sychronous PIO In Kernel
+source package/pio/Broiler-Synchronous-pio-In-Kernel/Kconfig
+
+# Broiler Sychronous PIO In PCI
+source package/pio/Broiler-Synchronous-pio-PCI/Kconfig
+
+# Broiler Asychronous PIO
+source package/pio/Broiler-Asynchronous-pio/Kconfig
 
 endif # PK_PIO
