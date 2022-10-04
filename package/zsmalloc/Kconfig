@@ -1,0 +1,9 @@
+menuconfig PK_ZSMALLOC
+	bool "Zsmalloc Memory Allocator"
+
+if PK_ZSMALLOC
+
+# ZSMALLOC Use on kernel
+source package/zsmalloc/BiscuitOS-zsmalloc-kernel/Kconfig
+
+endif # PK_ZSMALLOC

@@ -501,4 +501,7 @@ source package/zlib/Kconfig
 # ZONE
 source package/ZONE/Kconfig
 
+# zsmalloc
+source package/zsmalloc/Kconfig
+
 endif

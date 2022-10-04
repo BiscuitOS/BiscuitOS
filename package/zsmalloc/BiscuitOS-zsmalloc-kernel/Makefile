@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-zsmalloc-kernel
+#
+################################################
+PK_ZSMALLOC_KERNEL_NAME        := BiscuitOS-zsmalloc-kernel
+PK_ZSMALLOC_KERNEL_VERSION     := $(CONFIG_PK_ZSMALLOC_KERNEL_VERSION)
+PK_ZSMALLOC_KERNEL_SITE        := $(CONFIG_PK_ZSMALLOC_KERNEL_URL)
+PK_ZSMALLOC_KERNEL_GITHUB      := $(CONFIG_PK_ZSMALLOC_KERNEL_GITHUB)
+PK_ZSMALLOC_KERNEL_SUBNAME     :=
+PK_ZSMALLOC_KERNEL_BUILDARCH   := $(CONFIG_PK_ZSMALLOC_KERNEL_BUILDARCH)
+PK_ZSMALLOC_KERNEL_DIR         := $(srctree)/package/zsmalloc/BiscuitOS-zsmalloc-kernel
+PK_ZSMALLOC_KERNEL_PATCH       := $(PK_ZSMALLOC_KERNEL_DIR)/patch
+PK_ZSMALLOC_KERNEL_BSBIT       := BiscuitOS-zsmalloc-kernel-$(PK_ZSMALLOC_KERNEL_VERSION).bsbit
+PK_ZSMALLOC_KERNEL_OUT         :=
+PK_ZSMALLOC_KERNEL_SCRIPTS     := $(srctree)/scripts/package/package-kernel.sh
+PK_ZSMALLOC_KERNEL_TAR         := $(CONFIG_PK_ZSMALLOC_KERNEL_TAR)
+PK_ZSMALLOC_KERNEL_PACKAGE     :=
+PK_ZSMALLOC_KERNEL_CONFIG      := $(CONFIG_PK_ZSMALLOC_KERNEL_CONFIG)
+SUB_TARGET                  += $(PK_ZSMALLOC_KERNEL_DIR)/build
+
+PK_ZSMALLOC_KERNEL_sh = $(CONFIG_SHELL) $(PK_ZSMALLOC_KERNEL_SCRIPTS) \
+                 $1X \
+                 $(PK_ZSMALLOC_KERNEL_NAME)X \
+                 $(PK_ZSMALLOC_KERNEL_VERSION)X \
+                 $(PK_ZSMALLOC_KERNEL_SITE)X \
+                 $(PK_ZSMALLOC_KERNEL_GITHUB)X \
+                 $(PK_ZSMALLOC_KERNEL_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_ZSMALLOC_KERNEL_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_ZSMALLOC_KERNEL_SUBNAME)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_CONFIG)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_LIBPATH)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_CPPFLAGS)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_DPKCONFIG)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_CFLAGS)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_LDFLAGS)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_CXXFLAGS)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_ASFLAGS)X \
+                 $(PK_ZSMALLOC_KERNEL_BSBIT)X \
+                 $(PK_ZSMALLOC_KERNEL_BUILDARCH)X \
+		 $(PK_ZSMALLOC_KERNEL_CSRCFILE)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_SRCFILE)X \
+                 $(CONFIG_PK_ZSMALLOC_KERNEL_CSRCFILE)
+
+$(PK_ZSMALLOC_KERNEL_DIR)/build: FORCE
+	$(Q)$(call PK_ZSMALLOC_KERNEL_sh,$(srctree))

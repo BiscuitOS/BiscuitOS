@@ -6,4 +6,10 @@ if PK_MMIO
 # Broiler Sychronous MMIO
 source package/mmio/Broiler-Synchronous-mmio/Kconfig
 
+# Broiler Sychronous MMIO In-Kernel
+source package/mmio/Broiler-Synchronous-mmio-In-Kernel/Kconfig
+
+# Broiler Sychronous MMIO with PCI
+source package/mmio/Broiler-Synchronous-mmio-PCI/Kconfig
+
 endif # PK_MMIO
