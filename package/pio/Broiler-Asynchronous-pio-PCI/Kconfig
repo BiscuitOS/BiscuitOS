@@ -1,0 +1,55 @@
+menuconfig PK_PIO_ASYNC_PCI
+	bool "Asychronous PIO PCI Driver for Broiler"
+
+if PK_PIO_ASYNC_PCI
+
+config PK_PIO_ASYNC_PCI_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PIO_ASYNC_PCI_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PIO_ASYNC_PCI_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PIO/Broiler-Asynchronous-pio-PCI"
+	string "url"
+
+config PK_PIO_ASYNC_PCI_GITHUB
+	string "GitHub"
+
+config PK_PIO_ASYNC_PCI_SRCFILE
+	default "main.c Kconfig Makefile RunBiscuitOS.sh Makefile.host README.md"
+	string "Source code list"
+
+config PK_PIO_ASYNC_PCI_CSRCFILE
+	string "Compile source code list"
+
+config PK_PIO_ASYNC_PCI_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PIO_ASYNC_PCI_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PIO_ASYNC_PCI_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PIO_ASYNC_PCI_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PIO_ASYNC_PCI_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PIO_ASYNC_PCI_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PIO_ASYNC_PCI_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PIO_ASYNC_PCI_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PIO_ASYNC_PCI_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PIO_ASYNC_PCI

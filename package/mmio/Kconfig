@@ -12,4 +12,10 @@ source package/mmio/Broiler-Synchronous-mmio-In-Kernel/Kconfig
 # Broiler Sychronous MMIO with PCI
 source package/mmio/Broiler-Synchronous-mmio-PCI/Kconfig
 
+# Broiler Asychronous MMIO
+source package/mmio/Broiler-Asynchronous-mmio/Kconfig
+
+# Broiler Asychronous MMIO with PCI
+source package/mmio/Broiler-Asynchronous-mmio-PCI/Kconfig
+
 endif # PK_MMIO

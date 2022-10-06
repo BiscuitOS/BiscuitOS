@@ -15,4 +15,7 @@ source package/pio/Broiler-Synchronous-pio-PCI/Kconfig
 # Broiler Asychronous PIO
 source package/pio/Broiler-Asynchronous-pio/Kconfig
 
+# Broiler Asychronous PIO In PCI
+source package/pio/Broiler-Asynchronous-pio-PCI/Kconfig
+
 endif # PK_PIO

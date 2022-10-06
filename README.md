@@ -1,41 +1,32 @@
-BiscuitOS                                    [中文](https://biscuitos.github.io/blog/HomePage/)
+[BiscuitOS](https://biscuitos.github.io/)                                   
 ----------------------------------------------
 
-[![jIUFij.md.jpg](https://s1.ax1x.com/2022/07/17/jIUFij.md.jpg)](https://imgtu.com/i/jIUFij)
+[](https://imgtu.com/i/jIUFij)
 
-BiscuitOS is a Linux-Distro that base on legacy or newest Linux kernel (such 
-as Linux 0.11, 1.x, 2.x, 3.x, 4.x, 5.x and more).  BiscuitOS is an open 
-and free operating system that  developers can use under the GNU General Public 
-License.
+BiscuitOS is a Linux-Distro that base on legacy or newest Linux kernel (such as Linux 0.11, 1.x, 2.x, 3.x, 4.x, 5.x 6.x and more).  BiscuitOS is an open and free operating system that  developers can use under the GNU General Public License.
 
-The target of BiscuitOS is to create an operating system debugging and 
-running environment that makes developers focus on `CODE` and doesn't
-waste time on how to build or port an operating system to different 
-hardware. 
+The target of BiscuitOS is to create an operating system debugging and running environment that makes developers focus on `CODE` and doesn't waste time on how to build or port an operating system to different hardware. 
 
-This project is named BiscuitOS that is a specific builtroot for BiscuitOS.
-All developers can configure various kernel/rootfs features and create a
-full harddisk-image. The BiscuitOS works on Intel-x86 family CPU (such
-as i386, i486 ...)/ ARM32 or ARM64, and the project offers an emulate to run 
-BiscuitOS without hardware. So, don't stop, and play Linux with BiscuitOS. 
+This project is named BiscuitOS that is a specific builtroot for BiscuitOS. All developers can configure various kernel/rootfs features and create a full harddisk-image. The BiscuitOS works on Intel-x86 family CPU (such as i386, i486 ...)/ ARM32 or ARM64, and the project offers an emulate to run BiscuitOS without hardware. So, don't stop, and play Linux with BiscuitOS. 
 
-## To Prepare
+## 1. To Prepare
 
-BiscuitOS support to build on host and Docker, if you want to build on Docker,
-running the commands below:
+#### 1.1 Deploy BiscuitOS on Docker
+
+BiscuitOS support to build on host and Docker, if you want to build on Docker, running the commands below:
 
 ```
 wget https://raw.githubusercontent.com/BiscuitOS/BiscuitOS/Stable_long/scripts/Docker/build.sh
 ./build.sh
 ```
 
-If you don't want to use Docker, Before the tour, you need to install 
-essential toolchains on the host PC (such as `Ubuntu16.04`). 
-Execute commands:
+#### 1.2 Deploy BiscuitOS on Ubuntu 
+
+If you don't want to use Docker, Before the tour, you need to install essential toolchains on the host PC (such as `Ubuntu16.04`). Execute commands:
+
+###### 1.2.1 Ubuntu16.X/18.X
 
 ```
-# Ubuntu16.X/18.X
-
 sudo apt-get update
 sudo apt-get install -y qemu gcc make gdb git figlet
 sudo apt-get install -y libncurses5-dev iasl wget
@@ -56,10 +47,11 @@ sudo apt-get install -y libmount-dev libselinux1-dev libffi-dev libpulse-dev
 sudo apt-get install -y liblzma-dev python-serial
 sudo apt-get install -y libnuma-dev libnuma1 ninja-build
 sudo apt-get install -y libtool libsysfs-dev libasan
+```
 
------------------------------------------
-# Ubuntu 20.X
+###### 1.2.2 Ubuntu 20.X
 
+```
 #### Add GCC sourcelist
 vi /etc/apt/sources.list
 + deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main universe
@@ -85,9 +77,24 @@ sudo apt-get install -y liblzma-dev libssl-dev
 sudo apt-get install -y libnuma-dev libnuma1 ninja-build
 sudo apt-get install -y libtool libsysfs-dev
 
------------------------------------------
-# Ubuntu 22.X
+GCC must be GCC-7, change default GCC as:
 
+sudo apt-get update
+sudo apt-get install -y gcc-7 g++-7
+sudo update-alternatives --remove-all gcc
+sudo update-alternatives --remove-all g++
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 20
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 20
+#### Choose GCC-7 and G++-7
+sudo update-alternatives --config gcc
+sudo update-alternatives --config g++
+```
+
+###### 1.2.3 Ubuntu 22.X
+
+```
 #### Add GCC sourcelist
 vi /etc/apt/sources.list
 + deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main universe
@@ -114,11 +121,9 @@ sudo apt-get install -y libnuma-dev libnuma1 ninja-build
 sudo apt-get install -y libtool libsysfs-dev
 sudo apt-get install -y libntirpc-dev libtirpc-dev
 sudo ln -s /usr/bin/python3 /usr/bin/python
-```
 
-On Ubuntu 22.X/20.X, GCC must be GCC-7, change default GCC as:
+GCC must be GCC-7, change default GCC as:
 
-```
 sudo apt-get update
 sudo apt-get install -y gcc-7 g++-7
 sudo update-alternatives --remove-all gcc
@@ -131,6 +136,8 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 20
 sudo update-alternatives --config gcc
 sudo update-alternatives --config g++
 ```
+
+#### 1.3 Common Setup
 
 On AMD64 Machine, we need be compatible IA32 library and runtime, add command:
 
@@ -148,19 +155,15 @@ git config --global user.name "Your Name"
 git config --global user.email "Your Email"
 ```
 
-## To Start
-First of all, You need to obtain the source code of BiscuitOS from GitHub, 
-follow these steps to get the newest and stable branch. The BiscuitOS
-project will help you easily to build a customization-BiscuitOS.
+## 2. To Start
+
+First of all, You need to obtain the source code of BiscuitOS from GitHub, follow these steps to get the newest and stable branch. The BiscuitOS project will help you easily to build a customization-BiscuitOS.
 
 ```
 git clone https://github.com/BiscuitOS/BiscuitOS.git
 ```
 
-Next step, we need to build BiscuitOS with common Kbuild syntax.
-The `BiscuitOS` support multiple kernel version and filesystem types, you
-can configure `BiscuitOS` as you wish. The Kbuild will help you easily 
-to build all software and kernel. So utilize commands on your terminal:
+Next step, we need to build BiscuitOS with common Kbuild syntax. The `BiscuitOS` support multiple kernel version and filesystem types, you can configure `BiscuitOS` as you wish. The Kbuild will help you easily to build all software and kernel. So utilize commands on your terminal:
 
 ```
 cd */BiscuitOS
@@ -168,9 +171,7 @@ make defconfig
 make
 ```
 
-Then, the BiscuitOS will auto-compile and generate a distro-Linux, more useful
-information will be generated. Check README.md which determines how to use it.
-as follow:
+Then, the BiscuitOS will auto-compile and generate a distro-Linux, more useful information will be generated. Check README.md which determines how to use it. as follow:
 
 ```
  ____  _                _ _    ___  ____  
@@ -192,16 +193,16 @@ README:
 ***********************************************
 ```
 
-## Silence information
+## 3. Silence information
 
 ```
 export BS_SILENCE=true
 ```
 
-## Offical Website and Blog
+## 4. Offical Website and Blog
 
 [BiscuitOS Home Page](https://biscuitos.github.io/)
 
 [BiscuitOS Blog Index](https://biscuitos.github.io/blog/BiscuitOS_Catalogue/)
 
-> Email: BuddyZhang1 <buddy.zhang@aliyun.com>
+> Email: Budhttps://imgtu.com/i/jIUFijdyZhang1 <buddy.zhang@aliyun.com>
