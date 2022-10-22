@@ -1,0 +1,27 @@
+menuconfig PK_EARLY_IOREMAP
+	bool "EARLY-IOREMAP Memory Allocator"
+
+if PK_EARLY_IOREMAP
+
+# EARLY-IOREMAP API: copy_from_early_mem
+source package/EARLY-IOREMAP/BiscuitOS-EARLY-IOREMAP-copy_from_early_mem/Kconfig
+
+# EARLY-IOREMAP API: early_iounmap
+source package/EARLY-IOREMAP/BiscuitOS-EARLY-IOREMAP-early_iounmap/Kconfig
+
+# EARLY-IOREMAP API: early_ioremap
+source package/EARLY-IOREMAP/BiscuitOS-EARLY-IOREMAP-early_ioremap/Kconfig
+
+# EARLY-IOREMAP API: early_memunmap
+source package/EARLY-IOREMAP/BiscuitOS-EARLY-IOREMAP-early_memunmap/Kconfig
+
+# EARLY-IOREMAP API: early_memremap
+source package/EARLY-IOREMAP/BiscuitOS-EARLY-IOREMAP-early_memremap/Kconfig
+
+# EARLY-IOREMAP API: early_memremap_prot
+source package/EARLY-IOREMAP/BiscuitOS-EARLY-IOREMAP-early_memremap_prot/Kconfig
+
+# EARLY-IOREMAP API: early_memremap_ro
+source package/EARLY-IOREMAP/BiscuitOS-EARLY-IOREMAP-early_memremap_ro/Kconfig
+
+endif # PK_EARLY_IOREMAP

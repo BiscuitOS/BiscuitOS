@@ -233,9 +233,9 @@ echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
-	echo -e '\tmake  ARCH=$(ARCH) bzImage -j4 ;\' >> ${MF}
+	echo -e '\tmake  ARCH=$(ARCH) bzImage -j84 || exit 1 ;\' >> ${MF}
 else
-	echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
+	echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j84 || exit 1 ;\' >> ${MF}
 fi
 echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}

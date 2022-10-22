@@ -1,0 +1,48 @@
+menuconfig PK_FIXMAP
+	bool "FIXMAP Memory Allocator"
+
+if PK_FIXMAP
+
+# FIXMAP API: clear_fixmap
+source package/FIXMAP/BiscuitOS-FIXMAP-clear_fixmap/Kconfig
+
+# FIXMAP API: __fix_to_virt
+source package/FIXMAP/BiscuitOS-FIXMAP-__fix_to_virt/Kconfig
+
+# FIXMAP API: fix_to_virt
+source package/FIXMAP/BiscuitOS-FIXMAP-fix_to_virt/Kconfig
+
+# Permanent Mapping
+source package/FIXMAP/BiscuitOS-Permanent/Kconfig
+
+# FIXMAP API: __set_fixmap
+source package/FIXMAP/BiscuitOS-FIXMAP-__set_fixmap/Kconfig
+
+# FIXMAP API: set_fixmap
+source package/FIXMAP/BiscuitOS-FIXMAP-set_fixmap/Kconfig
+
+# FIXMAP API: __set_fixmap_offset
+source package/FIXMAP/BiscuitOS-FIXMAP-__set_fixmap_offset/Kconfig
+
+# FIXMAP API: set_fixmap_offset
+source package/FIXMAP/BiscuitOS-FIXMAP-set_fixmap_offset/Kconfig
+
+# FIXMAP API: set_fixmap_io
+source package/FIXMAP/BiscuitOS-FIXMAP-set_fixmap_io/Kconfig
+
+# FIXMAP API: set_fixmap_offset_io
+source package/FIXMAP/BiscuitOS-FIXMAP-set_fixmap_offset_io/Kconfig
+
+# FIXMAP API: set_fixmap_nocache
+source package/FIXMAP/BiscuitOS-FIXMAP-set_fixmap_nocache/Kconfig
+
+# FIXMAP API: set_fixmap_offset_nocache
+source package/FIXMAP/BiscuitOS-FIXMAP-set_fixmap_offset_nocache/Kconfig
+
+# FIXMAP API: __virt_to_fix
+source package/FIXMAP/BiscuitOS-FIXMAP-__virt_to_fix/Kconfig
+
+# FIXMAP API: virt_to_fix
+source package/FIXMAP/BiscuitOS-FIXMAP-virt_to_fix/Kconfig
+
+endif # PK_FIXMAP

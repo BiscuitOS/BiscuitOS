@@ -366,7 +366,10 @@ else
 				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
 				fi
 			else
-				cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+				#cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
+				mkdir -p ${ROOTFS_PATH}/usr/lib/
+				[ -f /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ] && cp -rf /usr/lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
+				[ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-* ${ROOTFS_PATH}/lib/
 			fi
 		fi
 	fi

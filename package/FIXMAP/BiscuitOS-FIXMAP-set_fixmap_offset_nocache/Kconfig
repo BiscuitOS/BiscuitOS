@@ -1,0 +1,55 @@
+menuconfig PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE
+	bool "FIXMAP API: set_fixmap_offset_nocache()"
+
+if PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/FIXMAP/BiscuitOS-FIXMAP-set_fixmap_offset_nocache"
+	string "url"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_GITHUB
+	string "GitHub"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_CSRCFILE
+	string "Compile source code list"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE

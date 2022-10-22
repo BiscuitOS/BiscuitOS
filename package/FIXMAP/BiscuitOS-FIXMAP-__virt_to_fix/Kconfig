@@ -1,0 +1,55 @@
+menuconfig PK_FIXMAP__VIRT_TO_FIX
+	bool "FIXMAP API: __virt_to_fix()"
+
+if PK_FIXMAP__VIRT_TO_FIX
+
+config PK_FIXMAP__VIRT_TO_FIX_VERSION
+	default "default"
+	string "verstion"
+
+config PK_FIXMAP__VIRT_TO_FIX_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_FIXMAP__VIRT_TO_FIX_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/FIXMAP/BiscuitOS-FIXMAP-__virt_to_fix"
+	string "url"
+
+config PK_FIXMAP__VIRT_TO_FIX_GITHUB
+	string "GitHub"
+
+config PK_FIXMAP__VIRT_TO_FIX_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_FIXMAP__VIRT_TO_FIX_CSRCFILE
+	string "Compile source code list"
+
+config PK_FIXMAP__VIRT_TO_FIX_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_FIXMAP__VIRT_TO_FIX_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_FIXMAP__VIRT_TO_FIX_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_FIXMAP__VIRT_TO_FIX_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_FIXMAP__VIRT_TO_FIX_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_FIXMAP__VIRT_TO_FIX_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_FIXMAP__VIRT_TO_FIX_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_FIXMAP__VIRT_TO_FIX_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_FIXMAP__VIRT_TO_FIX_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_FIXMAP__VIRT_TO_FIX

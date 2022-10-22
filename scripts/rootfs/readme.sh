@@ -285,6 +285,8 @@ mkdir -p ${OUTPUT}/package/gdb
 # GDB pl
 [ ! -f ${OUTPUT}/package/gdb/gdb.pl ] && \
 cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
+[ ${ARCH_NAME} == "x86_64" ] && \
+cp ${ROOT}/scripts/package/gdb-x86-64.pl ${OUTPUT}/package/gdb/gdb.pl
 
 ## 
 # Networking Stuff
@@ -583,6 +585,7 @@ case ${ARCH_NAME} in
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	x86_64)
+		echo -e '\t[ ${1}X = "debug"X -o ${2}X = "debug"X ] && ${ROOT}/package/gdb/gdb.pl ${ROOT}' >> ${MF}
 		if [ ${SUPPORT_HYPV} = "Broiler" ]; then
 			echo -e '\tsudo ${BROILER} \' >> ${MF}
 			echo -e '\t\t--kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}

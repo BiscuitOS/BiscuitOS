@@ -1,0 +1,55 @@
+menuconfig PK_FIXMAP_SET_FIXMAP_IO
+	bool "FIXMAP API: set_fixmap_io()"
+
+if PK_FIXMAP_SET_FIXMAP_IO
+
+config PK_FIXMAP_SET_FIXMAP_IO_VERSION
+	default "default"
+	string "verstion"
+
+config PK_FIXMAP_SET_FIXMAP_IO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_FIXMAP_SET_FIXMAP_IO_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/FIXMAP/BiscuitOS-FIXMAP-set_fixmap_io"
+	string "url"
+
+config PK_FIXMAP_SET_FIXMAP_IO_GITHUB
+	string "GitHub"
+
+config PK_FIXMAP_SET_FIXMAP_IO_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_FIXMAP_SET_FIXMAP_IO_CSRCFILE
+	string "Compile source code list"
+
+config PK_FIXMAP_SET_FIXMAP_IO_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_FIXMAP_SET_FIXMAP_IO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_FIXMAP_SET_FIXMAP_IO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_FIXMAP_SET_FIXMAP_IO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_FIXMAP_SET_FIXMAP_IO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_FIXMAP_SET_FIXMAP_IO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_FIXMAP_SET_FIXMAP_IO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_FIXMAP_SET_FIXMAP_IO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_FIXMAP_SET_FIXMAP_IO_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_FIXMAP_SET_FIXMAP_IO

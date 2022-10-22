@@ -35,6 +35,7 @@ QEMU_BIN=
 [ ${UBUNTU}X = 22X -a ${ARCH_MAGIC}X = 2X ] && QEMU_VERSION="5.0.0"
 [ ${UBUNTU}X = 22X -a ${ARCH_MAGIC}X = 3X ] && QEMU_VERSION="5.0.0"
 PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}/
+[ ${ARCH_MAGIC}X = 1X ] && PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}-i386/
 
 QEMU_FULL=${TOOL_SUBNAME%.${QEMU_TAR}}
 QEMU_DL_NAME=qemu-${QEMU_VERSION#v}.${QEMU_TAR}
@@ -50,7 +51,6 @@ fi
 
 qemu_patch()
 {
-  echo "SB"
   # PATCH
   # --> Create a patch
   #     --> diff -uprN old/ new/ > 000001.patch

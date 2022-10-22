@@ -1,0 +1,55 @@
+menuconfig PK_EARLY_IOREMAP_IOUNMAP
+	bool "EARLY-IOREMAP API: early_iounmap"
+
+if PK_EARLY_IOREMAP_IOUNMAP
+
+config PK_EARLY_IOREMAP_IOUNMAP_VERSION
+	default "default"
+	string "verstion"
+
+config PK_EARLY_IOREMAP_IOUNMAP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_EARLY_IOREMAP_IOUNMAP_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/EARLY-IOREMAP/BiscuitOS-EARLY-IOREMAP-early_iounmap"
+	string "url"
+
+config PK_EARLY_IOREMAP_IOUNMAP_GITHUB
+	string "GitHub"
+
+config PK_EARLY_IOREMAP_IOUNMAP_SRCFILE
+	default "main.c Kconfig Makefile BiscuitOS_Insert.bs"
+	string "Source code list"
+
+config PK_EARLY_IOREMAP_IOUNMAP_CSRCFILE
+	string "Compile source code list"
+
+config PK_EARLY_IOREMAP_IOUNMAP_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_EARLY_IOREMAP_IOUNMAP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_EARLY_IOREMAP_IOUNMAP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_EARLY_IOREMAP_IOUNMAP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_EARLY_IOREMAP_IOUNMAP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_EARLY_IOREMAP_IOUNMAP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_EARLY_IOREMAP_IOUNMAP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_EARLY_IOREMAP_IOUNMAP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_EARLY_IOREMAP_IOUNMAP_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_EARLY_IOREMAP_IOUNMAP

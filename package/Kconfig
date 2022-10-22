@@ -99,11 +99,17 @@ source package/dri2proto/Kconfig
 # dri3proto
 source package/dri3proto/Kconfig
 
+# early-ioremap
+source package/EARLY-IOREMAP/Kconfig
+
 # expat
 source package/expat/Kconfig
 
 # filesystem
 source package/filesystem/Kconfig
+
+# FIXMAP
+source package/FIXMAP/Kconfig
 
 # fixesproto
 source package/fixesproto/Kconfig

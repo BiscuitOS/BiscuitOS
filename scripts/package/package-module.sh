@@ -243,20 +243,31 @@ echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'build:' >> ${MF}
 echo -e '\tmake' >> ${MF}
+echo -e '\t[ $? -ne 0 ] && exit' >> ${MF}
 echo -e '\tmake install pack' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
-	echo -e '\tmake  ARCH=$(ARCH) bzImage -j4 ;\' >> ${MF}
+	echo -e '\tmake  ARCH=$(ARCH) bzImage -j85 || exit 1 ;\' >> ${MF}
 else
-	echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j4 ;\' >> ${MF}
+	echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j84 || exit 1 ;\' >> ${MF}
 fi
 echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
 echo 'run:' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
+echo '' >> ${MF}
+echo 'broiler:' >> ${MF}
+echo -e '\tmake ; \' >> ${MF}
+echo -e '\tmake install ; \' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh pack' >> ${MF}
+echo -e '\tcd $(ROOT)/package/BiscuitOS-Broiler-default ; \' >> ${MF}
+echo -e '\tmake install ; \' >> ${MF}
+echo -e '\t$(ROOT)/RunBiscuitOS.sh pack ; \' >> ${MF}
+echo -e '\tmake run ; \' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
 echo 'clean:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}

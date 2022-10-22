@@ -1,0 +1,39 @@
+diff -uprN old/linux-user/syscall.c new/linux-user/syscall.c
+--- old/linux-user/syscall.c	2019-04-24 02:14:46.000000000 +0800
++++ new/linux-user/syscall.c	2022-10-18 22:17:52.256875435 +0800
+@@ -37,6 +37,7 @@
+ #include <sched.h>
+ #include <sys/timex.h>
+ #include <sys/socket.h>
++#include <linux/sockios.h>
+ #include <sys/un.h>
+ #include <sys/uio.h>
+ #include <poll.h>
+@@ -7384,7 +7385,15 @@ static abi_long do_syscall1(void *cpu_en
+             time_t host_time;
+             if (get_user_sal(host_time, arg1))
+                 return -TARGET_EFAULT;
++#if __GLIBC_MINOR__ == 31
++               {
++                       struct timespec res;
++                       res.tv_sec = host_time;
++                       return get_errno(clock_settime(CLOCK_REALTIME, &res));
++               }
++#else
+             return get_errno(stime(&host_time));
++#endif
+         }
+ #endif
+ #ifdef TARGET_NR_alarm /* not on alpha */
+diff -uprN old/qemu-bridge-helper.c new/qemu-bridge-helper.c
+--- old/qemu-bridge-helper.c	2019-04-24 02:14:46.000000000 +0800
++++ new/qemu-bridge-helper.c	2022-10-18 22:16:02.175314882 +0800
+@@ -23,7 +23,7 @@
+ 
+ #include <net/if.h>
+ 
+-#include <linux/sockios.h>
++//#include <linux/sockios.h>
+ 
+ #ifndef SIOCBRADDIF
+ #include <linux/if_bridge.h>
