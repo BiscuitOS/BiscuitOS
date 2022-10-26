@@ -12,6 +12,7 @@ FIXMAP-$(CONFIG_PK_FIXMAP_SET_FIXMAP_OFFSET_NOCACHE)	+= BiscuitOS-FIXMAP-set_fix
 FIXMAP-$(CONFIG_PK_FIXMAP_VIRT_TO_FIX)			+= BiscuitOS-FIXMAP-virt_to_fix/
 FIXMAP-$(CONFIG_PK_FIXMAP__VIRT_TO_FIX)			+= BiscuitOS-FIXMAP-__virt_to_fix/
 FIXMAP-$(CONFIG_PK_PERMANENT)				+= BiscuitOS-Permanent/
+FIXMAP-$(CONFIG_PK_PERMANENT_VSYSCALL)			+= BiscuitOS-Permanent-VSYSCALL/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/FIXMAP/%/Makefile, $(FIXMAP-y))
 

@@ -1,0 +1,55 @@
+menuconfig PK_PERMANENT_VSYSCALL
+	bool "Permanent Mapping: VSYSCALL"
+
+if PK_PERMANENT_VSYSCALL
+
+config PK_PERMANENT_VSYSCALL_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PERMANENT_VSYSCALL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PERMANENT_VSYSCALL_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/FIXMAP/BiscuitOS-Permanent-VSYSCALL"
+	string "url"
+
+config PK_PERMANENT_VSYSCALL_GITHUB
+	string "GitHub"
+
+config PK_PERMANENT_VSYSCALL_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_PERMANENT_VSYSCALL_CSRCFILE
+	string "Compile source code list"
+
+config PK_PERMANENT_VSYSCALL_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PERMANENT_VSYSCALL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PERMANENT_VSYSCALL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PERMANENT_VSYSCALL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PERMANENT_VSYSCALL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PERMANENT_VSYSCALL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PERMANENT_VSYSCALL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PERMANENT_VSYSCALL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PERMANENT_VSYSCALL_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PERMANENT_VSYSCALL

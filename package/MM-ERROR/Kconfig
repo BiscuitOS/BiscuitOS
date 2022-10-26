@@ -18,4 +18,7 @@ source package/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags-SLAB/Kconfig
 # Confuse GFP flags on VMALLOC
 source package/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags-VMALLOC/Kconfig
 
+# Permanent Mapping Overflow
+source package/MM-ERROR/BiscuitOS-MM-ERROR-Permanent-Overflow/Kconfig
+
 endif # PK_MM_ERROR

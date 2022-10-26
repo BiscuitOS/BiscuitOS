@@ -15,6 +15,9 @@ source package/FIXMAP/BiscuitOS-FIXMAP-fix_to_virt/Kconfig
 # Permanent Mapping
 source package/FIXMAP/BiscuitOS-Permanent/Kconfig
 
+# Permanent Mapping VSYSCALL
+source package/FIXMAP/BiscuitOS-Permanent-VSYSCALL/Kconfig
+
 # FIXMAP API: __set_fixmap
 source package/FIXMAP/BiscuitOS-FIXMAP-__set_fixmap/Kconfig
 
