@@ -1,0 +1,55 @@
+menuconfig PK_MM_ERR_EARLYIOMEM_ZEROLEN
+	bool "EARLY-IOREMAP BUG: Zero Length"
+
+if PK_MM_ERR_EARLYIOMEM_ZEROLEN
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-ZEROLEN"
+	string "url"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_GITHUB
+	string "GitHub"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_SRCFILE
+	default "main.c Kconfig Makefile BiscuitOS_Insert.bs"
+	string "Source code list"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_CSRCFILE
+	string "Compile source code list"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MM_ERR_EARLYIOMEM_ZEROLEN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MM_ERR_EARLYIOMEM_ZEROLEN

@@ -180,7 +180,6 @@ echo -e '\t@sh $(KERNRU) remove_kernel $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF
 echo '' >> ${MF}
 echo 'menuconfig:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
-echo '' >> ${MF}
 echo -e '\tmake menuconfig ARCH=$(ARCH) ;\' >> ${MF}
 echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}

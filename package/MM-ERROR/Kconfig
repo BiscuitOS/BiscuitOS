@@ -21,4 +21,31 @@ source package/MM-ERROR/BiscuitOS-MM-ERROR-Confuse-GFP-Flags-VMALLOC/Kconfig
 # Permanent Mapping Overflow
 source package/MM-ERROR/BiscuitOS-MM-ERROR-Permanent-Overflow/Kconfig
 
+# Early IO/RSVD-MEM Memory Allocator
+source package/MM-ERROR/BiscuitOS-MM-ERROR-WP-ON-EARLY-IO-RSVDMEM-MT/Kconfig
+
+# Early IO/RSVD-MEM Memory Allocator: OverLife
+source package/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-OVERLIFE/Kconfig
+
+# Early IO/RSVD-MEM Memory Allocator: Over slot
+source package/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-OVER-SLOT/Kconfig
+
+# Early IO/RSVD-MEM Memory Allocator: Unfree
+source package/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-UNFREE/Kconfig
+
+# Early IO/RSVD-MEM Memory Allocator: Zero Length
+source package/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-ZEROLEN/Kconfig
+
+# Early IO/RSVD-MEM Memory Allocator: Overflow MaxPhysAddr
+source package/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-OVER-MAXPHYS/Kconfig
+
+# Early IO/RSVD-MEM Memory Allocator: Overflow MaxPhysAddr Range
+source package/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-OVER-MAXPHYS-RANGE/Kconfig
+
+# Early IO/RSVD-MEM Memory Allocator: Re-Free Range
+source package/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-REFREE/Kconfig
+
+# Early IO/RSVD-MEM Memory Allocator: Free Uncorrect Size
+source package/MM-ERROR/BiscuitOS-MM-ERROR-EARLY-IO-RSVDMEM-MT-UESIZE/Kconfig
+
 endif # PK_MM_ERROR
