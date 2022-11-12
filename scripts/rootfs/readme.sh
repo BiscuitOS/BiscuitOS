@@ -57,6 +57,8 @@ SUPPORT_ONLYRUN=N
 ROOTFS_TYPE=${20%X}
 # HYPV 
 SUPPORT_HYPV=${21%X}
+# NUMA
+SUPPORT_NUMA=${22}
 
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
@@ -245,6 +247,28 @@ detect_seaBIOS()
 [ ${ROOTFS_TYPE}X = "ServerX" ]  && SUPPORT_SERVER=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
 [ ${SUPPORT_ONLYRUN}X = "YX" ] && SUPPORT_DESKTOP=Y && SUPPORT_DEBIAN=Y && SUPPORT_BUSYBOX=N
 
+## NUMA
+# CPU
+if [ ${SUPPORT_NUMA} = "yX" ]; then
+	SUPPORT_NUMA=Y
+	SUPPORT_CPU_NR=`grep -c ^processor /proc/cpuinfo`
+	SUPPORT_NUMA_LAYOUT=1
+	if [ ${SUPPORT_CPU_NR} -lt 4 ]; then
+		SUPPORT_NUMA=N
+		echo "NUMA Mechaism must need 4 CPUs!"
+	elif [ ${SUPPORT_CPU_NR} -lt 8 ]; then
+		# 2 CPUs on 2 NUMA NODE
+		SUPPORT_NUMA_LAYOUT=1
+		echo "NUMA Layout: 2CPUs with 2 NUMA NODE"
+	else
+		# 4 CPUS on 3 NUMA NODE
+		SUPPORT_NUMA_LAYOUT=2
+		echo "NUMA Layoyt: 4CPUs with 3 NUMA NODE"
+	fi
+else
+	SUPPORT_NUMA=N
+fi
+
 ##
 # Rootfs Inforamtion
 FS_TYPE=
@@ -326,11 +350,24 @@ FREEZE_SIZE=${17%X}
 DL=${ROOT}/dl
 DEBIAN_PACKAGE=${DEBIAN_PACKAGE}
 EOF
-# RAM size
-[ ${SUPPORT_2_X} = "Y" ] && echo 'RAM_SIZE=256' >> ${MF} 
-[ ${SUPPORT_2_X} = "N" ] && echo 'RAM_SIZE=512' >> ${MF}
-[ ${SUPPORT_ONLYRUN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
-[ ${SUPPORT_DEBIAN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
+## RAM size
+if [ ${SUPPORT_NUMA} = "Y" ]; then
+	if [ ${SUPPORT_NUMA_LAYOUT} = 1 ]; then
+		echo 'RAM_SIZE=512' >> ${MF}
+		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
+	else
+		echo 'RAM_SIZE=1024' >> ${MF}
+		echo "# Don't Modify NUMA_LAYOUT_MEMORY_0/1" >> ${MF}
+		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
+		echo 'NUMA_LAYOUT_MEMORY_1=`echo "${RAM_SIZE}/4"|bc`' >> ${MF}
+	fi
+else
+	[ ${SUPPORT_2_X} = "Y" ] && echo 'RAM_SIZE=256' >> ${MF} 
+	[ ${SUPPORT_2_X} = "N" ] && echo 'RAM_SIZE=512' >> ${MF}
+	[ ${SUPPORT_ONLYRUN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
+	[ ${SUPPORT_DEBIAN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
+fi
+
 # Platform
 [ ${SUPPORT_2_X} = "Y" -a ${ARCH_NAME} == "arm" ] && echo 'MACH=versatilepb' >> ${MF} 
 [ ${SUPPORT_2_X} = "N" -a ${ARCH_NAME} == "arm" ] && echo 'MACH=vexpress-a9' >> ${MF}
@@ -595,10 +632,33 @@ case ${ARCH_NAME} in
 			echo -e '\t\t--cmdline "${CMDLINE}"' >> ${MF}
 		else
 			echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
-			echo -e '\t-smp 2 \' >> ${MF}
+			if [ ${SUPPORT_NUMA} = "Y" ]; then
+				if [ ${SUPPORT_NUMA_LAYOUT} = 1 ]; then
+					echo -e '\t-smp 2 \' >> ${MF}
+					echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=mem0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=mem1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-numa node,memdev=mem0,cpus=0,nodeid=0 \' >> ${MF}
+					echo -e '\t-numa node,memdev=mem1,cpus=1,nodeid=1 \' >> ${MF}
+				elif [ ${SUPPORT_NUMA_LAYOUT} = 2 ]; then
+					echo -e '\t-smp 4 \' >> ${MF}
+					echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=mem0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=mem1,size=${NUMA_LAYOUT_MEMORY_1}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=mem2,size=${NUMA_LAYOUT_MEMORY_1}M \' >> ${MF}
+					echo -e '\t-numa node,memdev=mem0,cpus=0-1,nodeid=0 \' >> ${MF}
+					echo -e '\t-numa node,memdev=mem1,cpus=2,nodeid=1 \' >> ${MF}
+					echo -e '\t-numa node,memdev=mem2,cpus=3,nodeid=2 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=1,val=11 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=2,val=22 \' >> ${MF}
+					echo -e '\t-numa dist,src=1,dst=2,val=33 \' >> ${MF}
+				fi
+			else
+				echo -e '\t-smp 2 \' >> ${MF}
+				echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
+			fi
 			echo -e '\t-cpu host \' >> ${MF}
 			echo -e '\t-enable-kvm \' >> ${MF}
-			echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 			[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
 			echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
 			# Support Ramdisk

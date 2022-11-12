@@ -27,7 +27,8 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
                $(CONFIG_UBOOT_CROSS_COMPILE)X \
                $(CONFIG_ROOTFS_SIZE)X \
                $(CONFIG_FREEZE_SIZE)X \
-               $(CONFIG_PK_BROILER_SYSTEM)X $(CONFIG_PK_QEMU_SYSTEM)X
+               $(CONFIG_PK_BROILER_SYSTEM)X $(CONFIG_PK_QEMU_SYSTEM)X \
+               $(CONFIG_PK_NUMA)X
 
 $(EXT4_DIR)/build: FORCE
 	$(Q)$(call EXT4_sh,$(srctree))

@@ -52,6 +52,8 @@ SUPPORT_QEMU=${20}
 [ ${SUPPORT_BROILER} = "yX" -a ${SUPPORT_QEMU} = "yX" ] && echo "Only Support Broiler or QEMU" && exit -1  
 [ ${SUPPORT_BROILER} = "yX" ] && SUPPORT_HYPV="Broiler"
 [ ${SUPPORT_QEMU} = "yX" ] && SUPPORT_HYPV="QEMU"
+# NUMA
+SUPPORT_NUMA=${21}
 
 ##
 # Feature Area
@@ -376,6 +378,9 @@ else
 	sudo rm -rf ${ROOTFS_PATH}/lib/*.a
 fi
 
+## BiscuitOS/Broiler Scripts
+sudo cp -rf ${ROOT}/scripts/package/KRunBiscuitOS.sh ${ROOTFS_PATH}/usr/bin/
+
 mkdir -p ${ROOTFS_PATH}/dev/
 sudo mknod ${ROOTFS_PATH}/dev/tty1 c 4 1
 sudo mknod ${ROOTFS_PATH}/dev/tty2 c 4 2
@@ -425,7 +430,7 @@ fi
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \
 					${FREEZE_SIZE}X ${DISK_SIZE}X \
-					X X ${SUPPORT_HYPV}X
+					X X ${SUPPORT_HYPV}X ${SUPPORT_NUMA}
 
 ## Output directory
 echo ""

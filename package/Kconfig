@@ -301,7 +301,7 @@ source package/MMU/Kconfig
 source package/MMU_shrink/Kconfig
 
 # memblock
-source package/memblock/Kconfig
+source package/MEMBLOCK/Kconfig
 
 # MM-ERROR
 source package/MM-ERROR/Kconfig

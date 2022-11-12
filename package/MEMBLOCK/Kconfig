@@ -1,0 +1,60 @@
+menuconfig PK_MEMBLOCK
+	bool "MEMBLOCK Memory Allocator"
+
+if PK_MEMBLOCK
+
+# MEMBLOCK API: memblock_add
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_add/Kconfig
+
+# MEMBLOCK API: memblock_add_node
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_add_node/Kconfig
+
+# MEMBLOCK API: memblock_alloc
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc/Kconfig
+
+# MEMBLOCK API: memblock_end_of_DRAM
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_end_of_DRAM/Kconfig
+
+# MEMBLOCK API: memblock_free
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_free/Kconfig
+
+# MEMBLOCK API: memblock_get_current_limit
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_get_current_limit/Kconfig
+
+# MEMBLOCK API: memblock_is_map_memory
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_is_map_memory/Kconfig
+
+# MEMBLOCK API: memblock_is_memory
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_is_memory/Kconfig
+
+# MEMBLOCK API: memblock_is_region_reserved
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_is_region_reserved/Kconfig
+
+# MEMBLOCK API: memblock_is_region_memory
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_is_region_memory/Kconfig
+
+# MEMBLOCK API: memblock_is_reserved
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_is_reserved/Kconfig
+
+# MEMBLOCK API: memblock_overlaps_region
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_overlaps_region/Kconfig
+
+# MEMBLOCK API: memblock_phys_mem_size
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_phys_mem_size/Kconfig
+
+# MEMBLOCK API: memblock_remove
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_remove/Kconfig
+
+# MEMBLOCK API: memblock_reserve
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_reserve/Kconfig
+
+# MEMBLOCK API: memblock_reserved_size
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_reserved_size/Kconfig
+
+# MEMBLOCK API: memblock_set_current_limit
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_set_current_limit/Kconfig
+
+# MEMBLOCK API: memblock_start_of_DRAM
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_start_of_DRAM/Kconfig
+
+endif # PK_MEMBLOCK
