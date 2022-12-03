@@ -3,6 +3,33 @@ menuconfig PK_MEMBLOCK
 
 if PK_MEMBLOCK
 
+# MEMBLOCK API: for_each_free_mem_range
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_free_mem_range/Kconfig
+
+# MEMBLOCK API: for_each_free_mem_range_reverse
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_free_mem_range_reverse/Kconfig
+
+# MEMBLOCK API: __for_each_mem_range
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-__for_each_mem_range/Kconfig
+
+# MEMBLOCK API: __for_each_mem_range_rev
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-__for_each_mem_range_rev/Kconfig
+
+# MEMBLOCK API: for_each_mem_range
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_mem_range/Kconfig
+
+# MEMBLOCK API: for_each_mem_range_rev
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_mem_range_rev/Kconfig
+
+# MEMBLOCK API: for_each_mem_region
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_mem_region/Kconfig
+
+# MEMBLOCK API: for_each_reserved_mem_range
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_reserved_mem_range/Kconfig
+
+# MEMBLOCK API: for_each_reserved_mem_region
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_reserved_mem_region/Kconfig
+
 # MEMBLOCK API: memblock_add
 source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_add/Kconfig
 
@@ -11,6 +38,30 @@ source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_add_node/Kconfig
 
 # MEMBLOCK API: memblock_alloc
 source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc/Kconfig
+
+# MEMBLOCK API: memblock_alloc_exact_nid_raw
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc_exact_nid_raw/Kconfig
+
+# MEMBLOCK API: memblock_alloc_from
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc_from/Kconfig
+
+# MEMBLOCK API: memblock_alloc_low
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc_low/Kconfig
+
+# MEMBLOCK API: memblock_alloc_node
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc_node/Kconfig
+
+# MEMBLOCK API: memblock_alloc_range_nid
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc_range_nid/Kconfig
+
+# MEMBLOCK API: memblock_alloc_raw
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc_raw/Kconfig
+
+# MEMBLOCK API: memblock_alloc_try_nid
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc_try_nid/Kconfig
+
+# MEMBLOCK API: memblock_bottom_up
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_bottom_up/Kconfig
 
 # MEMBLOCK API: memblock_end_of_DRAM
 source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_end_of_DRAM/Kconfig
@@ -39,6 +90,15 @@ source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_is_reserved/Kconfig
 # MEMBLOCK API: memblock_overlaps_region
 source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_overlaps_region/Kconfig
 
+# MEMBLOCK API: memblock_phys_alloc
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_phys_alloc/Kconfig
+
+# MEMBLOCK API: memblock_phys_alloc_range
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_phys_alloc_range/Kconfig
+
+# MEMBLOCK API: memblock_phys_free
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_phys_free/Kconfig
+
 # MEMBLOCK API: memblock_phys_mem_size
 source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_phys_mem_size/Kconfig
 
@@ -54,7 +114,52 @@ source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_reserved_size/Kconfig
 # MEMBLOCK API: memblock_set_current_limit
 source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_set_current_limit/Kconfig
 
+# MEMBLOCK API: memblock_set_bottom_up
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_set_bottom_up/Kconfig
+
 # MEMBLOCK API: memblock_start_of_DRAM
 source package/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_start_of_DRAM/Kconfig
+
+# MEMBLOCK MIRROR MEMORY: Mirror
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-MIRROR-MEMORY/Kconfig
+
+# MEMBLOCK MIRROR MEMORY: lake memory
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-MIRROR-MEMORY-lake-memory/Kconfig
+
+# MEMBLOCK physmem
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-physmem/Kconfig
+
+# MEMBLOCK Keeping Work: Iterate Regions
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-KEEP-iterate-region/Kconfig
+
+# MEMBLOCK Keeping Work: Allocate memory
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-KEEP-allocate-memory/Kconfig
+
+# MEMBLOCK Driver Managed
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-DRIVER-MANAGED/Kconfig
+
+# MEMBLOCK Hotplug
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-Hotplug/Kconfig
+
+# MEMBLOCK NOMAP
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-NOMAP/Kconfig
+
+# MEMBLOCK NOMAP with ioremap
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-NOMAP-IOREMAP/Kconfig
+
+# MEMBLOCK Region: Adding Separation
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-MERGE-Separation/Kconfig
+
+# MEMBLOCK Region: Adding Adjacent
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-MERGE-Adjacent/Kconfig
+
+# MEMBLOCK Region: Adding Adjacent with Diff flags
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-MERGE-Adjacent-Diff-flags/Kconfig
+
+# MEMBLOCK Region: Adding Intersection
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-MERGE-Intersection/Kconfig
+
+# MEMBLOCK Region: Adding Intersection with Diff flags
+source package/MEMBLOCK/BiscuitOS-MEMBLOCK-MERGE-Intersection-Diff-flags/Kconfig
 
 endif # PK_MEMBLOCK

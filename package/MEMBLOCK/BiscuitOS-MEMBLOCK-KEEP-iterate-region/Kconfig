@@ -1,0 +1,55 @@
+menuconfig PK_MEMBLOCK_KEEP_WORK
+	bool "MEMBLOCK KEEP: Iterate Regions"
+
+if PK_MEMBLOCK_KEEP_WORK
+
+config PK_MEMBLOCK_KEEP_WORK_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMBLOCK_KEEP_WORK_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMBLOCK_KEEP_WORK_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MEMBLOCK/BiscuitOS-MEMBLOCK-KEEP-iterate-region"
+	string "url"
+
+config PK_MEMBLOCK_KEEP_WORK_GITHUB
+	string "GitHub"
+
+config PK_MEMBLOCK_KEEP_WORK_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_MEMBLOCK_KEEP_WORK_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMBLOCK_KEEP_WORK_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMBLOCK_KEEP_WORK_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMBLOCK_KEEP_WORK_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMBLOCK_KEEP_WORK_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMBLOCK_KEEP_WORK_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMBLOCK_KEEP_WORK_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMBLOCK_KEEP_WORK_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMBLOCK_KEEP_WORK_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMBLOCK_KEEP_WORK_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMBLOCK_KEEP_WORK

@@ -1,4 +1,5 @@
 menuconfig PK_MEMBLOCK_MEMBLOCK_ADD_NODE
+	select PK_NUMA
 	bool "MEMBLOCK API: memblock_add_node()"
 
 if PK_MEMBLOCK_MEMBLOCK_ADD_NODE

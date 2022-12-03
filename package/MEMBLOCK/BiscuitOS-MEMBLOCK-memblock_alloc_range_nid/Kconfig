@@ -1,0 +1,56 @@
+menuconfig PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID
+	select PK_NUMA
+	bool "MEMBLOCK API: memblock_alloc_range_nid()"
+
+if PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MEMBLOCK/BiscuitOS-MEMBLOCK-memblock_alloc_range_nid"
+	string "url"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_GITHUB
+	string "GitHub"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_SRCFILE
+	default "main.c Kconfig Makefile BiscuitOS_Insert.bs"
+	string "Source code list"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMBLOCK_MEMBLOCK_ALLOC_RANGE_NID

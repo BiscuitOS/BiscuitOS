@@ -1,0 +1,56 @@
+menuconfig PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE
+	select PK_NUMA
+	bool "MEMBLOCK API: for_each_reserved_mem_range()"
+
+if PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_reserved_mem_range"
+	string "url"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_GITHUB
+	string "GitHub"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_SRCFILE
+	default "main.c Kconfig Makefile BiscuitOS_Insert.bs"
+	string "Source code list"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMBLOCK_FOR_EACH_RESERVED_MEM_RANGE

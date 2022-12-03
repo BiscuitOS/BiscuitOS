@@ -1,0 +1,55 @@
+menuconfig PK_MEMBLOCK_KEEP_ALLOC_MEM
+	bool "MEMBLOCK KEEP: Allocate Memory"
+
+if PK_MEMBLOCK_KEEP_ALLOC_MEM
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MEMBLOCK/BiscuitOS-MEMBLOCK-KEEP-allocate-memory"
+	string "url"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_GITHUB
+	string "GitHub"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMBLOCK_KEEP_ALLOC_MEM_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMBLOCK_KEEP_ALLOC_MEM

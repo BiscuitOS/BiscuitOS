@@ -1,0 +1,56 @@
+menuconfig PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE
+	select PK_NUMA
+	bool "MEMBLOCK API: for_each_free_mem_range_reverse()"
+
+if PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MEMBLOCK/BiscuitOS-MEMBLOCK-for_each_free_mem_range_reverse"
+	string "url"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_GITHUB
+	string "GitHub"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_SRCFILE
+	default "main.c Kconfig Makefile BiscuitOS_Insert.bs"
+	string "Source code list"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMBLOCK_FOR_EACH_FREE_MEM_RANGE_REVERSE

@@ -76,6 +76,7 @@ sudo apt-get install -y libmount-dev libselinux1-dev libffi-dev libpulse-dev
 sudo apt-get install -y liblzma-dev libssl-dev 
 sudo apt-get install -y libnuma-dev libnuma1 ninja-build
 sudo apt-get install -y libtool libsysfs-dev
+sudo apt-get install -y libtool libmpc-dev
 
 GCC must be GCC-7, change default GCC as:
 

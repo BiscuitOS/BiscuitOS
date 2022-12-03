@@ -362,6 +362,7 @@ else
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libudev.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libudev.so.* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libc.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libc.so.6 ${ROOTFS_PATH}/usr/lib/ && sudo cp -rfa /lib/x86_64-linux-gnu/libc-*.so ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libpthread.so.0 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libpthread* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/liblzma.so.5 ] && sudo cp -rfa /lib/x86_64-linux-gnu/liblzma.so.* ${ROOTFS_PATH}/usr/lib/
 				else
 				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
@@ -379,6 +380,7 @@ else
 fi
 
 ## BiscuitOS/Broiler Scripts
+[ ! -d ${ROOTFS_PATH}/usr/bin/ ] && sudo mkdir ${ROOTFS_PATH}/usr/bin/
 sudo cp -rf ${ROOT}/scripts/package/KRunBiscuitOS.sh ${ROOTFS_PATH}/usr/bin/
 
 mkdir -p ${ROOTFS_PATH}/dev/
