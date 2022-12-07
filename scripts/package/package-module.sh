@@ -242,8 +242,7 @@ echo -e '\t@$(PACK) pack' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'build:' >> ${MF}
-echo -e '\tmake' >> ${MF}
-echo -e '\t[ $? -ne 0 ] && exit' >> ${MF}
+echo -e '\tmake || exit 1' >> ${MF}
 echo -e '\tmake install pack' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}

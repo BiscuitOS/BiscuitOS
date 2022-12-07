@@ -19,7 +19,7 @@ config PK_BISCUITOS_MISC_DEMO_GITHUB
 	string "GitHub"
 
 config PK_BISCUITOS_MISC_DEMO_SRCFILE
-	default "main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	default "main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh app.c"
 	string "Source code list"
 
 config PK_BISCUITOS_MISC_DEMO_CSRCFILE

@@ -3,6 +3,12 @@ menuconfig PK_PAGING
 
 if PK_PAGING
 
+# PAGING Mechanism Base
+source package/paging/BiscuitOS-PAGING-Base/Kconfig
+
+# PAGING Mechanism TimeCost
+source package/paging/BiscuitOS-PAGING-TimeCost/Kconfig
+
 # Paging userspace address (kernel)
 source package/paging/BiscuitOS-Paging-userspace-address-kernel/Kconfig
 
