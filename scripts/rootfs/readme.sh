@@ -59,6 +59,8 @@ ROOTFS_TYPE=${20%X}
 SUPPORT_HYPV=${21%X}
 # NUMA
 SUPPORT_NUMA=${22}
+# KVM
+SUPPORT_KVM=${23}
 
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
@@ -605,8 +607,8 @@ case ${ARCH_NAME} in
 	x86)
 		echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
 		echo -e '\t-smp 2 \' >> ${MF}
-		echo -e '\t-cpu host \' >> ${MF}
-		echo -e '\t-enable-kvm \' >> ${MF}
+		[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-cpu host \' >> ${MF}
+		[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-enable-kvm \' >> ${MF}
 		echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 		[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/bzImage \' >> ${MF}
@@ -657,8 +659,8 @@ case ${ARCH_NAME} in
 				echo -e '\t-smp 2 \' >> ${MF}
 				echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 			fi
-			echo -e '\t-cpu host \' >> ${MF}
-			echo -e '\t-enable-kvm \' >> ${MF}
+			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-cpu host \' >> ${MF}
+			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-enable-kvm \' >> ${MF}
 			[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
 			echo -e '\t-kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
 			# Support Ramdisk

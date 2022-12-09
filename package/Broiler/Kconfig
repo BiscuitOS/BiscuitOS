@@ -1,4 +1,5 @@
 menuconfig PK_BROILER_SYSTEM
+	select PK_KVM
 	bool "Broiler hypervison for BiscuitOS"
 
 if PK_BROILER_SYSTEM

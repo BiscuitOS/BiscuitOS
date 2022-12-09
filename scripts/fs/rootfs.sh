@@ -54,6 +54,7 @@ SUPPORT_QEMU=${20}
 [ ${SUPPORT_QEMU} = "yX" ] && SUPPORT_HYPV="QEMU"
 # NUMA
 SUPPORT_NUMA=${21}
+SUPPORT_KVM=${22}
 
 ##
 # Feature Area
@@ -432,7 +433,7 @@ fi
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \
 					${FREEZE_SIZE}X ${DISK_SIZE}X \
-					X X ${SUPPORT_HYPV}X ${SUPPORT_NUMA}
+					X X ${SUPPORT_HYPV}X ${SUPPORT_NUMA} ${SUPPORT_KVM}
 
 ## Output directory
 echo ""
