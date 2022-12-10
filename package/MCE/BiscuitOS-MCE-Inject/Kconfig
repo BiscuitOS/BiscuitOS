@@ -1,0 +1,55 @@
+menuconfig PK_MCE_MCE_INJECT
+	select PK_MCE_MCELOG
+	bool "mce-inject: Inject machine check errors on software"
+
+if PK_MCE_MCE_INJECT
+
+config PK_MCE_MCE_INJECT_VERSION
+	default "github"
+	string "verstion"
+
+config PK_MCE_MCE_INJECT_TAR
+	default "tar.xz"
+	string "tar type"
+
+config PK_MCE_MCE_INJECT_URL
+	default "https://download.qemu.org/"
+	string "url"
+
+config PK_MCE_MCE_INJECT_GITHUB
+	default "https://github.com/andikleen/mce-inject.git"
+	string "github"
+
+config PK_MCE_MCE_INJECT_SRCFILE
+	string "Source code list"
+
+config PK_MCE_MCE_INJECT_CONFIG
+	default ""
+	string "CONFIG: Project Configure Options"
+
+config PK_MCE_MCE_INJECT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MCE_MCE_INJECT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MCE_MCE_INJECT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MCE_MCE_INJECT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MCE_MCE_INJECT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MCE_MCE_INJECT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MCE_MCE_INJECT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MCE_MCE_INJECT_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_MCE_MCE_INJECT

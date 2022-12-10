@@ -1,0 +1,46 @@
+################################################
+#
+# BiscuitOS-MCE-Inject
+#
+################################################
+PK_MCE_MCE_INJECT_NAME	:= BiscuitOS-MCE-Inject
+PK_MCE_MCE_INJECT_VERSION	:= $(CONFIG_PK_MCE_MCE_INJECT_VERSION)
+PK_MCE_MCE_INJECT_SITE	:= $(CONFIG_PK_MCE_MCE_INJECT_URL)
+PK_MCE_MCE_INJECT_GITHUB	:= $(CONFIG_PK_MCE_MCE_INJECT_GITHUB)
+PK_MCE_MCE_INJECT_SUBNAME	:=
+PK_MCE_MCE_INJECT_BUILDARCH	:= $(CONFIG_PK_MCE_MCE_INJECT_BUILDARCH)
+PK_MCE_MCE_INJECT_DIR	:= $(srctree)/package/MCE/BiscuitOS-MCE-Inject
+PK_MCE_MCE_INJECT_PATCH	:= $(PK_MCE_MCE_INJECT_DIR)/patch
+PK_MCE_MCE_INJECT_BSBIT	:= BiscuitOS-MCE-Inject-$(PK_MCE_MCE_INJECT_VERSION).bsbit
+PK_MCE_MCE_INJECT_OUT	:=
+PK_MCE_MCE_INJECT_SCRIPTS	:= $(srctree)/scripts/package/package-mce-inject.sh
+PK_MCE_MCE_INJECT_TAR	:= $(CONFIG_PK_MCE_MCE_INJECT_TAR)
+PK_MCE_MCE_INJECT_PACKAGE	:=
+PK_MCE_MCE_INJECT_CONFIG	:= $(CONFIG_PK_MCE_MCE_INJECT_CONFIG)
+SUB_TARGET		+= $(PK_MCE_MCE_INJECT_DIR)/build
+
+PK_MCE_MCE_INJECT_sh = $(CONFIG_SHELL) $(PK_MCE_MCE_INJECT_SCRIPTS) \
+                 $1X \
+                 $(PK_MCE_MCE_INJECT_NAME)X \
+                 $(PK_MCE_MCE_INJECT_VERSION)X \
+                 $(PK_MCE_MCE_INJECT_SITE)X \
+                 $(PK_MCE_MCE_INJECT_GITHUB)X \
+                 $(PK_MCE_MCE_INJECT_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_MCE_MCE_INJECT_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_MCE_MCE_INJECT_SUBNAME)X \
+                 $(CONFIG_PK_MCE_MCE_INJECT_CONFIG)X \
+                 $(CONFIG_PK_MCE_MCE_INJECT_LIBPATH)X \
+                 $(CONFIG_PK_MCE_MCE_INJECT_CPPFLAGS)X \
+                 $(CONFIG_PK_MCE_MCE_INJECT_DPKCONFIG)X \
+                 $(CONFIG_PK_MCE_MCE_INJECT_CFLAGS)X \
+                 $(CONFIG_PK_MCE_MCE_INJECT_LDFLAGS)X \
+                 $(CONFIG_PK_MCE_MCE_INJECT_CXXFLAGS)X \
+                 $(CONFIG_PK_MCE_MCE_INJECT_ASFLAGS)X \
+                 $(PK_MCE_MCE_INJECT_BSBIT)X \
+                 $(PK_MCE_MCE_INJECT_BUILDARCH)X
+
+$(PK_MCE_MCE_INJECT_DIR)/build: FORCE
+	$(Q)$(call PK_MCE_MCE_INJECT_sh,$(srctree))

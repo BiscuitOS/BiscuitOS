@@ -1,0 +1,12 @@
+menuconfig PK_MCE
+	bool "MCE: Machine Check Exception Mechanism"
+
+if PK_MCE
+
+# MCELOG
+source package/MCE/BiscuitOS-MCELOG/Kconfig
+
+# MCE-Inject
+source package/MCE/BiscuitOS-MCE-Inject/Kconfig
+
+endif # PK_MCE

@@ -294,6 +294,9 @@ source package/lzip/Kconfig
 # madvise
 source package/madvise/Kconfig
 
+# MCE
+source package/MCE/Kconfig
+
 # MMU
 source package/MMU/Kconfig
 
