@@ -1,0 +1,55 @@
+menuconfig PK_PAGE_FAULT_ANON_PRIVATE
+	bool "Page Fault: Aonoymous private mapping"
+
+if PK_PAGE_FAULT_ANON_PRIVATE
+
+config PK_PAGE_FAULT_ANON_PRIVATE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGE-FAULT/BiscuitOS-PAGE-FAULT-anonymous-private-mapping/"
+	string "url"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_GITHUB
+	string "GitHub"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGE_FAULT_ANON_PRIVATE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGE_FAULT_ANON_PRIVATE

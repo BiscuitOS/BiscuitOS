@@ -465,6 +465,9 @@ source package/UIO/Kconfig
 # VFS
 source package/VFS/Kconfig
 
+# Virtual address
+source package/Virtual-Address/Kconfig
+
 # vmalloc
 source package/vmalloc/Kconfig
 

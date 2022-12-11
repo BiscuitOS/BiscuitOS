@@ -9,4 +9,10 @@ source package/MCE/BiscuitOS-MCELOG/Kconfig
 # MCE-Inject
 source package/MCE/BiscuitOS-MCE-Inject/Kconfig
 
+# MCE: software-offline poison page
+source package/MCE/BiscuitOS-MCE-software-offline-poison-page/Kconfig
+
+# MCE: hardware-offline poison page
+source package/MCE/BiscuitOS-MCE-hardware-offline-poison-page/Kconfig
+
 endif # PK_MCE

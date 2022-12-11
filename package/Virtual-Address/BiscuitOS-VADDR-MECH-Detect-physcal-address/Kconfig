@@ -1,0 +1,55 @@
+menuconfig PK_VADDR_MECH_DETECT_PADDR
+	bool "Detect Physical Address on Userspace"
+
+if PK_VADDR_MECH_DETECT_PADDR
+
+config PK_VADDR_MECH_DETECT_PADDR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_VADDR_MECH_DETECT_PADDR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_VADDR_MECH_DETECT_PADDR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/VIRTUAL-ADDRESS-MECH/BiscuitOS-VADDR-MECH-Detect-physcal-address/"
+	string "url"
+
+config PK_VADDR_MECH_DETECT_PADDR_GITHUB
+	string "GitHub"
+
+config PK_VADDR_MECH_DETECT_PADDR_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_VADDR_MECH_DETECT_PADDR_CSRCFILE
+	string "Compile source code list"
+
+config PK_VADDR_MECH_DETECT_PADDR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_VADDR_MECH_DETECT_PADDR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_VADDR_MECH_DETECT_PADDR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_VADDR_MECH_DETECT_PADDR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_VADDR_MECH_DETECT_PADDR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_VADDR_MECH_DETECT_PADDR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_VADDR_MECH_DETECT_PADDR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_VADDR_MECH_DETECT_PADDR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_VADDR_MECH_DETECT_PADDR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_VADDR_MECH_DETECT_PADDR

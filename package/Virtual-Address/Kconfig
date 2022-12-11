@@ -1,0 +1,9 @@
+menuconfig PK_VADDR_MECH
+	bool "Virtual Address Mechanism"
+
+if PK_VADDR_MECH
+
+# Detect Physical Address on Userspace
+source package/Virtual-Address/BiscuitOS-VADDR-MECH-Detect-physcal-address/Kconfig
+
+endif # PK_VADDR_MECH

@@ -9,4 +9,7 @@ source package/page-fault/BiscuitOS-page-fault-user-address-on-userspace/Kconfig
 # Page fault user address (Kernel+)
 source package/page-fault/BiscuitOS-page-fault-user-address-on-kernel/Kconfig
 
+# Page fault: anonymous private mapping
+source package/page-fault/BiscuitOS-PAGE-FAULT-anonymous-private-mapping/Kconfig
+
 endif # PK_PAGE_FAULT
