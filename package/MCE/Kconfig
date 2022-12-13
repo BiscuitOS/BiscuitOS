@@ -15,4 +15,10 @@ source package/MCE/BiscuitOS-MCE-software-offline-poison-page/Kconfig
 # MCE: hardware-offline poison page
 source package/MCE/BiscuitOS-MCE-hardware-offline-poison-page/Kconfig
 
+# MCE: madvise hardware-offline poison page
+source package/MCE/BiscuitOS-MCE-madvise-hardware-offline-poison-page/Kconfig
+
+# MCE: madvise software-offline poison page
+source package/MCE/BiscuitOS-MCE-madvise-software-offline-poison-page/Kconfig
+
 endif # PK_MCE

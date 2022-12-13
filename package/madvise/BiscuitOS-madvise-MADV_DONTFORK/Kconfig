@@ -1,0 +1,55 @@
+menuconfig PK_MADVISE_MADV_DONTFORK
+	bool "MADV_DONTFORK: Don't inherit across fork"
+
+if PK_MADVISE_MADV_DONTFORK
+
+config PK_MADVISE_MADV_DONTFORK_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MADVISE_MADV_DONTFORK_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MADVISE_MADV_DONTFORK_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MADVISE-MECH/BiscuitOS-madvise-MADV_DONTFORK"
+	string "url"
+
+config PK_MADVISE_MADV_DONTFORK_GITHUB
+	string "GitHub"
+
+config PK_MADVISE_MADV_DONTFORK_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_MADVISE_MADV_DONTFORK_CSRCFILE
+	string "Compile source code list"
+
+config PK_MADVISE_MADV_DONTFORK_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MADVISE_MADV_DONTFORK_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MADVISE_MADV_DONTFORK_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MADVISE_MADV_DONTFORK_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MADVISE_MADV_DONTFORK_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MADVISE_MADV_DONTFORK_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MADVISE_MADV_DONTFORK_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MADVISE_MADV_DONTFORK_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MADVISE_MADV_DONTFORK_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MADVISE_MADV_DONTFORK

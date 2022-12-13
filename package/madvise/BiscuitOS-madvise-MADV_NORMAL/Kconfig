@@ -1,0 +1,55 @@
+menuconfig PK_MADVISE_MADV_NORMAL
+	bool "MADV_NORMAL: Default madvise"
+
+if PK_MADVISE_MADV_NORMAL
+
+config PK_MADVISE_MADV_NORMAL_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MADVISE_MADV_NORMAL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MADVISE_MADV_NORMAL_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MADVISE-MECH/BiscuitOS-madvise-MADV_NORMAL"
+	string "url"
+
+config PK_MADVISE_MADV_NORMAL_GITHUB
+	string "GitHub"
+
+config PK_MADVISE_MADV_NORMAL_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_MADVISE_MADV_NORMAL_CSRCFILE
+	string "Compile source code list"
+
+config PK_MADVISE_MADV_NORMAL_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MADVISE_MADV_NORMAL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MADVISE_MADV_NORMAL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MADVISE_MADV_NORMAL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MADVISE_MADV_NORMAL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MADVISE_MADV_NORMAL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MADVISE_MADV_NORMAL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MADVISE_MADV_NORMAL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MADVISE_MADV_NORMAL_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MADVISE_MADV_NORMAL

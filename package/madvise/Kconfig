@@ -1,7 +1,31 @@
 menuconfig PK_MADVISE
-	bool "Madvise"
+	bool "Madvise: Memory advise Mechanism"
 
 if PK_MADVISE
+
+# MADV_NORMAL
+source package/madvise/BiscuitOS-madvise-MADV_NORMAL/Kconfig
+
+# MADV_RANDOM
+source package/madvise/BiscuitOS-madvise-MADV_RANDOM/Kconfig
+
+# MADV_SEQUENTIAL
+source package/madvise/BiscuitOS-madvise-MADV_SEQUENTIAL/Kconfig
+
+# MADV_WILLNEED
+source package/madvise/BiscuitOS-madvise-MADV_WILLNEED/Kconfig
+
+# MADV_DONTNEED
+source package/madvise/BiscuitOS-madvise-MADV_DONTNEED/Kconfig
+
+# MADV_FREE
+source package/madvise/BiscuitOS-madvise-MADV_FREE/Kconfig
+
+# MADV_REMOVE
+source package/madvise/BiscuitOS-madvise-MADV_REMOVE/Kconfig
+
+# MADV_DONTFORK
+source package/madvise/BiscuitOS-madvise-MADV_DONTFORK/Kconfig
 
 # KSM
 source package/madvise/BiscuitOS-madvise-KSM/Kconfig
