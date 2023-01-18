@@ -60,6 +60,9 @@ source package/buddy/Kconfig
 # busybox
 source package/busybox/Kconfig
 
+# CACHE
+source package/CACHE/Kconfig
+
 # cairo
 source package/cairo/Kconfig
 
@@ -318,6 +321,9 @@ source package/memory-sanitizers/Kconfig
 # memory mapping
 source package/memory-mapping/Kconfig
 
+# MTRR
+source package/MTRR/Kconfig
+
 # mesa
 source package/mesa/Kconfig
 
@@ -352,7 +358,7 @@ source package/OOM/Kconfig
 source package/openssl/Kconfig
 
 # Page
-source package/PAGE/Kconfig
+source package/page/Kconfig
 
 # page-fault
 source package/page-fault/Kconfig

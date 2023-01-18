@@ -1,0 +1,9 @@
+menuconfig PK_PAGERESERVED
+	bool "PageReserved"
+
+if PK_PAGERESERVED
+
+# PageReserved From MEMBLOCK
+source package/page/PageReserved/BiscuitOS-PageReserved-from-MEMBLOCK/Kconfig
+
+endif # PK_PAGERESERVED

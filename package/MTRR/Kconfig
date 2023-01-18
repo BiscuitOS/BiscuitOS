@@ -1,0 +1,21 @@
+menuconfig PK_MTRR
+	bool "MTRR: Memory Type Range Register Mechanism"
+
+if PK_MTRR
+
+# MTRR: Detect
+source package/MTRR/BiscuitOS-MTRR-Detect/Kconfig
+
+# MTRR: View Cache information
+source package/MTRR/BiscuitOS-MTRR-View-Cache-information/Kconfig
+
+# MTRR: with PAT
+source package/MTRR/BiscuitOS-MTRR-with-PAT/Kconfig
+
+# MTRR: with PAT pagetable level
+source package/MTRR/BiscuitOS-MTRR-PageTable-Level-MTRR-PAT/Kconfig
+
+# MTRR: with PAT pagetable level Application
+source package/MTRR/BiscuitOS-MTRR-PageTable-Level-MTRR-PAT-application/Kconfig
+
+endif # PK_MTRR

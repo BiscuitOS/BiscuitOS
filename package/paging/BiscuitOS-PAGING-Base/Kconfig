@@ -1,5 +1,5 @@
 menuconfig PK_PAGING_BASE
-	bool "Paing Mechanism Base Usage"
+	bool "Paing Mechanism: Base Usage"
 
 if PK_PAGING_BASE
 

@@ -1,0 +1,55 @@
+menuconfig PK_MTRR_DETECT
+	bool "Detect MTRR Special Register"
+
+if PK_MTRR_DETECT
+
+config PK_MTRR_DETECT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MTRR_DETECT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MTRR_DETECT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MTRR-MECH/BiscuitOS-MTRR-Detect/"
+	string "url"
+
+config PK_MTRR_DETECT_GITHUB
+	string "GitHub"
+
+config PK_MTRR_DETECT_SRCFILE
+	default "main.c Kconfig Makefile RunBiscuitOS.sh Makefile.host"
+	string "Source code list"
+
+config PK_MTRR_DETECT_CSRCFILE
+	string "Compile source code list"
+
+config PK_MTRR_DETECT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MTRR_DETECT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MTRR_DETECT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MTRR_DETECT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MTRR_DETECT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MTRR_DETECT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MTRR_DETECT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MTRR_DETECT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MTRR_DETECT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MTRR_DETECT

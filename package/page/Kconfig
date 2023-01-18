@@ -1,0 +1,9 @@
+menuconfig PK_PAGE
+	bool "Page Mechansim"
+
+if PK_PAGE
+
+# PageReserved
+source package/page/PageReserved/Kconfig
+
+endif # PK_PAGE

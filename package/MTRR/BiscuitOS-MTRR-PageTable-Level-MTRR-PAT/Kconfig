@@ -1,0 +1,55 @@
+menuconfig PK_MTRR_PAGETABLE_PAT
+	bool "MTRR and PAT on PageTable-Level"
+
+if PK_MTRR_PAGETABLE_PAT
+
+config PK_MTRR_PAGETABLE_PAT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MTRR_PAGETABLE_PAT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MTRR_PAGETABLE_PAT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MTRR-MECH/BiscuitOS-MTRR-PageTable-Level-MTRR-PAT"
+	string "url"
+
+config PK_MTRR_PAGETABLE_PAT_GITHUB
+	string "GitHub"
+
+config PK_MTRR_PAGETABLE_PAT_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_MTRR_PAGETABLE_PAT_CSRCFILE
+	string "Compile source code list"
+
+config PK_MTRR_PAGETABLE_PAT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MTRR_PAGETABLE_PAT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MTRR_PAGETABLE_PAT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MTRR_PAGETABLE_PAT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MTRR_PAGETABLE_PAT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MTRR_PAGETABLE_PAT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MTRR_PAGETABLE_PAT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MTRR_PAGETABLE_PAT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MTRR_PAGETABLE_PAT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MTRR_PAGETABLE_PAT
