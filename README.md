@@ -202,8 +202,8 @@ export BS_SILENCE=true
 
 ## 4. Offical Website and Blog
 
-[BiscuitOS Home Page](https://biscuitos.github.io/)
+[BiscuitOS Home Page](http://www.biscuitos.cn/)
 
-[BiscuitOS Blog Index](https://biscuitos.github.io/blog/BiscuitOS_Catalogue/)
+[BiscuitOS Blog Index](http://www.biscuitos.cn/blog/BiscuitOS_Catalogue/)
 
 > Email: Budhttps://imgtu.com/i/jIUFijdyZhang1 <buddy.zhang@aliyun.com>
