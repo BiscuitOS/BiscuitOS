@@ -141,6 +141,7 @@ echo 'BSCORE      := $(BSROOT)/scripts/package/bsbit_core.sh' >> ${MF}
 echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
 echo 'KERNRU      := $(BSROOT)/scripts/package/kernel_insert.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
+echo 'HSFILE      := $(ROOT)/HardStack.BS' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
 echo "DLD_PATH    := \"-L\$(INS_PATH)/lib -L\$(CROSS_PATH)/lib ${KBUILD_LIBPATH}\"" >> ${MF}
 echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I\$(CROSS_PATH)/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
@@ -192,15 +193,25 @@ echo -e '\t@mkdir -p $(BASENAME)' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
 echo -e '\tfor file in $(DLFILE) ; \' >> ${MF}
 echo -e '\tdo \' >> ${MF}
-echo -e '\t\tLFILE= ; \' >> ${MF}
-echo -e '\t\tLDIR= ; \' >> ${MF}
-echo -e '\t\tresult=`echo $${file} | grep "/"` ; \' >> ${MF}
-echo -e '\t\t[ ! -z "$${result}" ] && LFILE=$${file##*/} ; \' >> ${MF}
-echo -e '\t\t[ ! -z "$${LFILE}" ] && LDIR=$${file%%/$${LFILE}} ; \' >> ${MF}
-echo -e '\t\t[ ! -z "$${LDIR}" ] && mkdir -p $${LDIR} ; \' >> ${MF}
-echo -e '\t\twget $(URL)/$${file} ; \' >> ${MF}
-echo -e '\t\t[ ! -z "$${LDIR}" ] && mv $${LFILE} $${LDIR} ; \' >> ${MF}
-echo -e '\t\techo "Download $${file}" ; \' >> ${MF}
+echo -e '\t\tif [ ! -f $(HSFILE) ]; then \= ; \' >> ${MF}
+echo -e '\t\t\tLFILE= ; \' >> ${MF}
+echo -e '\t\t\tLDIR= ; \' >> ${MF}
+echo -e '\t\t\tresult=`echo $${file} | grep "/"` ; \' >> ${MF}
+echo -e '\t\t\t[ ! -z "$${result}" ] && LFILE=$${file##*/} ; \' >> ${MF}
+echo -e '\t\t\t[ ! -z "$${LFILE}" ] && LDIR=$${file%%/$${LFILE}} ; \' >> ${MF}
+echo -e '\t\t\t[ ! -z "$${LDIR}" ] && mkdir -p $${LDIR} ; \' >> ${MF}
+echo -e '\t\t\twget $(URL)/$${file} ; \' >> ${MF}
+echo -e '\t\t\t[ ! -z "$${LDIR}" ] && mv $${LFILE} $${LDIR} ; \' >> ${MF}
+echo -e '\t\t\techo "Download $${file}" ; \' >> ${MF}
+echo -e '\t\telse \' >> ${MF}
+echo -e '\t\t\tDefault_URL=$(URL) ; \' >> ${MF}
+echo -e '\t\t\tTarget_DIR=`echo $${Default_URL#https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/}` ; \' >> ${MF}
+echo -e '\t\t\tHS_line=`sed -n -e '/HardStack/=' $(HSFILE)` ; \' >> ${MF}
+echo -e '\t\t\tTarget_PATH="`head -$${HS_line} $(HSFILE) | tail -1`/$${Target_DIR}" ; \' >> ${MF}
+echo -e '\t\t\tcp -rfa $${Target_PATH}/* ./ ; \' >> ${MF}
+echo -e '\t\t\techo "Download Finish" ; \' >> ${MF}
+echo -e '\t\t\texit 0 ; \' >> ${MF}
+echo -e '\t\tfi ; \' >> ${MF}
 echo -e '\tdone' >> ${MF}
 echo '' >> ${MF}
 echo 'tar:' >> ${MF}
