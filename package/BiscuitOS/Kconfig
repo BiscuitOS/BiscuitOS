@@ -1,0 +1,14 @@
+menuconfig PK_BISCUITOS_ARCH
+	bool "BiscuitOS Architecture Specify Setup"
+
+if PK_BISCUITOS_ARCH
+
+config PK_BISCUITOS_CPU_HOST
+	select PK_KVM
+	bool "Support Host CPU Feature Passthrough"
+
+config PK_BISCUITOS_NUMA
+	select PK_NUMA
+	bool "Support NUMA Topology"
+
+endif # PK_BISCUITOS_ARCH

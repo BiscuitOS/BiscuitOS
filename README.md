@@ -58,7 +58,7 @@ vi /etc/apt/sources.list
 
 sudo apt-get update
 sudo apt-get install -y qemu gcc make gdb git figlet
-sudo apt-get install -y libncurses5-dev iasl wget
+sudo apt-get install -y libncurses5-dev iasl wget gawk
 sudo apt-get install -y device-tree-compiler qemu-system-x86
 sudo apt-get install -y flex bison libglib2.0-dev
 sudo apt-get install -y libfdt-dev libpixman-1-dev

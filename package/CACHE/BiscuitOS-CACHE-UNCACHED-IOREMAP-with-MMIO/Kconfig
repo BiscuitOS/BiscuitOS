@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_UCD_IOREMAP_MMIO
+	bool "UNCACHE(UC-): ioremap() with MMIO on Kernel"
+
+if PK_CACHE_UCD_IOREMAP_MMIO
+
+config PK_CACHE_UCD_IOREMAP_MMIO_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-UNCACHED-IOREMAP-with-MMIO"
+	string "url"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_GITHUB
+	string "GitHub"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_SRCFILE
+	default "main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_UCD_IOREMAP_MMIO_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_UCD_IOREMAP_MMIO

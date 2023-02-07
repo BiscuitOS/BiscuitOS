@@ -6,4 +6,25 @@ if PK_CACHE
 # Intel CMT/CAT
 source package/CACHE/BiscuitOS-Intel-CMT-CAT/Kconfig
 
+# UC-: Mapping MMIO on userspace
+source package/CACHE/BiscuitOS-CACHE-UNCACHED-Mapping-MMIO-Userspace/Kconfig
+
+# UC-: ioremap() MMIO on Kernel
+source package/CACHE/BiscuitOS-CACHE-UNCACHED-IOREMAP-with-MMIO/Kconfig
+
+# UC-: ioremap() MEM on Kernel
+source package/CACHE/BiscuitOS-CACHE-UNCACHED-IOREMAP-with-MEM/Kconfig
+
+# UC: ioremap_uc() MMIO on Kernel
+source package/CACHE/BiscuitOS-CACHE-UNCACHE-IOREMAP-with-MMIO/Kconfig
+
+# UC: ioremap_uc() MEM on Kernel
+source package/CACHE/BiscuitOS-CACHE-UNCACHE-IOREMAP-with-MEM/Kconfig
+
+# WC: ioremap_wc() MMIO on Kernel
+source package/CACHE/BiscuitOS-CACHE-WC-IOREMAP-with-MMIO/Kconfig
+
+# WC: ioremap_wc() MEM on Kernel
+source package/CACHE/BiscuitOS-CACHE-WC-IOREMAP-with-MEM/Kconfig
+
 endif # PK_CACHE

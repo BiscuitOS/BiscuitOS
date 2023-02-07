@@ -364,6 +364,7 @@ else
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libc.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libc.so.6 ${ROOTFS_PATH}/usr/lib/ && sudo cp -rfa /lib/x86_64-linux-gnu/libc-*.so ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libpthread.so.0 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libpthread* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/liblzma.so.5 ] && sudo cp -rfa /lib/x86_64-linux-gnu/liblzma.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/librt.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/librt* ${ROOTFS_PATH}/lib/
 				else
 				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/

@@ -8,6 +8,9 @@ menuconfig COMMON_UTILISE
 
 if COMMON_UTILISE
 
+# BiscuitOS Architecture Setup
+source package/BiscuitOS/Kconfig
+
 # BiscuitOS Demo
 source package/BiscuitOS-demo/Kconfig
 
