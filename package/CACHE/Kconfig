@@ -27,4 +27,10 @@ source package/CACHE/BiscuitOS-CACHE-WC-IOREMAP-with-MMIO/Kconfig
 # WC: ioremap_wc() MEM on Kernel
 source package/CACHE/BiscuitOS-CACHE-WC-IOREMAP-with-MEM/Kconfig
 
+# Userspace Page: CACHE on Userspace (Userspace part)
+source package/CACHE/BiscuitOS-CACHE-USER-PAGE-U/Kconfig
+
+# Userspace Page: CACHE on Userspace (Kernel part)
+source package/CACHE/BiscuitOS-CACHE-USER-PAGE-K/Kconfig
+
 endif # PK_CACHE

@@ -224,8 +224,6 @@ echo -e '\t\t\texit 0 ; \' >> ${MF}
 echo -e '\t\tfi ; \' >> ${MF}
 echo -e '\tdone' >> ${MF}
 echo '' >> ${MF}
-echo -e '\tdone' >> ${MF}
-echo '' >> ${MF}
 echo 'tar:' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
