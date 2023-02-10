@@ -11,4 +11,9 @@ config PK_BISCUITOS_NUMA
 	select PK_NUMA
 	bool "Support NUMA Topology"
 
+config PK_BISCUITOS_HARDWARE
+	select PK_KVM
+	select PK_BROILER
+	bool "Support BiscuitOS Hardware Emulate"
+
 endif # PK_BISCUITOS_ARCH

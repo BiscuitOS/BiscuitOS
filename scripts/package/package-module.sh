@@ -170,6 +170,7 @@ echo "CONFIG    += ${KBUILD_CONFIG}" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo 'all:' >> ${MF}
+echo -e '\tsudo rm -rf $(ROOT)/rootfs/rootfs/etc/init.d/rcS.broiler > /dev/null' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH}  \' >> ${MF}
 echo -e '\tmake CROSS_TOOLS=$(CROSS_NAME) \' >> ${MF}
@@ -270,8 +271,14 @@ echo 'run:' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}
 echo 'broiler:' >> ${MF}
-echo -e '\tmake ; \' >> ${MF}
+echo -e '\tmake' >> ${MF}
+echo -e '\tsudo touch $(ROOT)/rootfs/rootfs/etc/init.d/rcS.broiler > /dev/null' >> ${MF}
 echo -e '\tmake install ; \' >> ${MF}
+echo -e '\tif [ ! -d $(ROOT)/package/BiscuitOS-Broiler-default/BiscuitOS-Broiler-default ]; then \' >> ${MF}
+echo -e '\t\tcd $(ROOT)/package/BiscuitOS-Broiler-default/ ; \' >> ${MF}
+echo -e '\t\tmake download ; \' >> ${MF}
+echo -e '\t\tmake ; \' >> ${MF}
+echo -e '\tfi' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh pack' >> ${MF}
 echo -e '\tcd $(ROOT)/package/BiscuitOS-Broiler-default ; \' >> ${MF}
 echo -e '\tmake install ; \' >> ${MF}

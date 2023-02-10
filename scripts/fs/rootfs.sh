@@ -244,9 +244,12 @@ echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
 echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
 
 echo "Welcome to BiscuitOS"
-
 EOF
 chmod 755 ${RC}
+echo '# Auto Running Broiler' >> ${RC}
+echo 'cat /proc/cmdline | grep -w "Broiler" > /dev/null' >> ${RC}
+echo '[ $? -eq 0 ] && echo "Welcome to Broiler" && exit 0' >> ${RC}
+echo '[ -f /etc/init.d/rcS.broiler ] && RunBroiler.sh' >> ${RC}
 
 ### fstab
 RC=${ROOTFS_PATH}/etc/fstab
