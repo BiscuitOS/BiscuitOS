@@ -248,8 +248,9 @@ EOF
 chmod 755 ${RC}
 echo '# Auto Running Broiler' >> ${RC}
 echo 'cat /proc/cmdline | grep -w "Broiler" > /dev/null' >> ${RC}
-echo '[ $? -eq 0 ] && echo "Welcome to Broiler" && exit 0' >> ${RC}
+echo '[ $? -eq 0 ] && echo "Welcome to Broiler" && rm -rf /usr/bin/RunBroiler.sh && exit 0' >> ${RC}
 echo '[ -f /etc/init.d/rcS.broiler ] && RunBroiler.sh' >> ${RC}
+echo '[ ! -f /etc/init.d/rcS.broiler ] && rm -rf /usr/bin/RunBroiler.sh' >> ${RC}
 
 ### fstab
 RC=${ROOTFS_PATH}/etc/fstab
