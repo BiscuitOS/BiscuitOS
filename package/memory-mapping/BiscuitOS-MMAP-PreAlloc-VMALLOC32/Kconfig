@@ -1,0 +1,56 @@
+menuconfig PK_MMAP_PREALLOC_VMALLOC32
+	select PK_MMAP_SPECIAL_U
+	bool "PreAlloc: Memory from VMALLOC32"
+
+if PK_MMAP_PREALLOC_VMALLOC32
+
+config PK_MMAP_PREALLOC_VMALLOC32_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MMAP_PREALLOC_VMALLOC32_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MMAP_PREALLOC_VMALLOC32_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP/BiscuitOS-MMAP-PreAlloc-VMALLOC32"
+	string "url"
+
+config PK_MMAP_PREALLOC_VMALLOC32_GITHUB
+	string "GitHub"
+
+config PK_MMAP_PREALLOC_VMALLOC32_SRCFILE
+	default "main.c Kconfig Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MMAP_PREALLOC_VMALLOC32_CSRCFILE
+	string "Compile source code list"
+
+config PK_MMAP_PREALLOC_VMALLOC32_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MMAP_PREALLOC_VMALLOC32_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MMAP_PREALLOC_VMALLOC32_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MMAP_PREALLOC_VMALLOC32_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MMAP_PREALLOC_VMALLOC32_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MMAP_PREALLOC_VMALLOC32_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MMAP_PREALLOC_VMALLOC32_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MMAP_PREALLOC_VMALLOC32_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MMAP_PREALLOC_VMALLOC32_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MMAP_PREALLOC_VMALLOC32

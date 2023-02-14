@@ -102,4 +102,16 @@ source package/memory-mapping/BiscuitOS-MMAP-LazyAlloc-VMALLOC32/Kconfig
 # PreAlloc for default route
 source package/memory-mapping/BiscuitOS-MMAP-PreAlloc/Kconfig
 
+# PreAlloc for Special ZONE/NODE
+source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-Special-ZONE-NODE/Kconfig
+
+# PreAlloc for VMALLOC
+source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-VMALLOC/Kconfig
+
+# PreAlloc for VMALLOC32
+source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-VMALLOC32/Kconfig
+
+# PreAlloc for RSVDMEM
+source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-RSVDMEM/Kconfig
+
 endif # PK_MEMORY_MAPPING

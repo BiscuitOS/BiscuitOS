@@ -237,6 +237,11 @@ mkdir -p /mnt/Freeze
 [ -b /dev/sdb ] && mount -t ${FS_TYPE} /dev/sdb /mnt/Freeze > /dev/null 2>&1
 [ -f /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm ] && ln -s /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm /usr/bin/qemu-kvm
 
+# SWAP
+dd bs=1M count=1 if=/dev/zero of=/SWAP > /dev/null 2>&1
+mkswap /SWAP > /dev/null 2>&1
+swapon /SWAP > /dev/null 2>&1
+
 echo " ____  _                _ _    ___  ____  "
 echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
 echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "

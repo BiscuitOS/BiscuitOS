@@ -30,4 +30,7 @@ source package/madvise/BiscuitOS-madvise-MADV_DONTFORK/Kconfig
 # KSM
 source package/madvise/BiscuitOS-madvise-KSM/Kconfig
 
+# MADV_PAGEOUT
+source package/madvise/BiscuitOS-madvise-MADV_PAGEOUT/Kconfig
+
 endif # PK_MADVISE

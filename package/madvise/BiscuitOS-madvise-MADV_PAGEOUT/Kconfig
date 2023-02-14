@@ -1,0 +1,55 @@
+menuconfig PK_MADVISE_MADV_PAGEOUT
+	bool "MADV_PAGEOUT: Reclaim or SwapOut Page"
+
+if PK_MADVISE_MADV_PAGEOUT
+
+config PK_MADVISE_MADV_PAGEOUT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MADVISE_MADV_PAGEOUT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MADVISE_MADV_PAGEOUT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MADVISE-MECH/BiscuitOS-madvise-MADV_PAGEOUT"
+	string "url"
+
+config PK_MADVISE_MADV_PAGEOUT_GITHUB
+	string "GitHub"
+
+config PK_MADVISE_MADV_PAGEOUT_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MADVISE_MADV_PAGEOUT_CSRCFILE
+	string "Compile source code list"
+
+config PK_MADVISE_MADV_PAGEOUT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MADVISE_MADV_PAGEOUT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MADVISE_MADV_PAGEOUT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MADVISE_MADV_PAGEOUT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MADVISE_MADV_PAGEOUT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MADVISE_MADV_PAGEOUT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MADVISE_MADV_PAGEOUT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MADVISE_MADV_PAGEOUT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MADVISE_MADV_PAGEOUT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MADVISE_MADV_PAGEOUT
