@@ -25,6 +25,12 @@ BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_HUGE1G_SHARE_ANON_USERSPACE) 	+= Biscuit
 BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_HUGE1G_PRIVATE_ANON_USERSPACE) 	+= BiscuitOS-hugetlbfs-1G-anonymous-private-mmap-userspace/
 BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_VMA_MERGE) 			+= BiscuitOS-vma-merge/
 BiscuitOS-mapping-$(CONFIG_PK_BISCUITOS_SYS_MMAP) 			+= BiscuitOS-sys-mmap/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_SPECIAL_U) 				+= BiscuitOS-MMAP-Alloc-Special-Memory-Userspace/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC) 				+= BiscuitOS-MMAP-LazyAlloc/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC_ZONE_NODE) 		+= BiscuitOS-MMAP-LazyAlloc-Special-ZONE-NODE/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC_VMALLOC) 			+= BiscuitOS-MMAP-LazyAlloc-VMALLOC/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC_VMALLOC32) 		+= BiscuitOS-MMAP-LazyAlloc-VMALLOC32/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC) 				+= BiscuitOS-MMAP-PreAlloc/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/memory-mapping/%/Makefile, $(BiscuitOS-mapping-y))
 

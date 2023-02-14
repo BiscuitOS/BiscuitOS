@@ -12,4 +12,7 @@ source package/page-fault/BiscuitOS-page-fault-user-address-on-kernel/Kconfig
 # Page fault: anonymous private mapping
 source package/page-fault/BiscuitOS-PAGE-FAULT-anonymous-private-mapping/Kconfig
 
+# Page fault: Kernel virtual address with BUG0
+source package/page-fault/BiscuitOS-PAGE-FAULT-Kernel-Virtual-Address-BUG0/Kconfig
+
 endif # PK_PAGE_FAULT

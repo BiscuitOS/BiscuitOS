@@ -84,4 +84,22 @@ source package/memory-mapping/BiscuitOS-vma-merge/Kconfig
 # sys_mmap
 source package/memory-mapping/BiscuitOS-sys-mmap/Kconfig
 
+# Alloc from Special Memory
+source package/memory-mapping/BiscuitOS-MMAP-Alloc-Special-Memory-Userspace/Kconfig
+
+# Lazy-Alloc for default route
+source package/memory-mapping/BiscuitOS-MMAP-LazyAlloc/Kconfig
+
+# Lazy-Alloc from Special ZONE/NODE
+source package/memory-mapping/BiscuitOS-MMAP-LazyAlloc-Special-ZONE-NODE/Kconfig
+
+# Lazy-Alloc from VMALLOC
+source package/memory-mapping/BiscuitOS-MMAP-LazyAlloc-VMALLOC/Kconfig
+
+# Lazy-Alloc from VMALLOC32
+source package/memory-mapping/BiscuitOS-MMAP-LazyAlloc-VMALLOC32/Kconfig
+
+# PreAlloc for default route
+source package/memory-mapping/BiscuitOS-MMAP-PreAlloc/Kconfig
+
 endif # PK_MEMORY_MAPPING

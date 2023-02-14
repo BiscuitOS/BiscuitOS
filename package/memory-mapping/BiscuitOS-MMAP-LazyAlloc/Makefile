@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-MMAP-LazyAlloc
+#
+################################################
+PK_MMAP_LAZYALLOC_NAME        := BiscuitOS-MMAP-LazyAlloc
+PK_MMAP_LAZYALLOC_VERSION     := $(CONFIG_PK_MMAP_LAZYALLOC_VERSION)
+PK_MMAP_LAZYALLOC_SITE        := $(CONFIG_PK_MMAP_LAZYALLOC_URL)
+PK_MMAP_LAZYALLOC_GITHUB      := $(CONFIG_PK_MMAP_LAZYALLOC_GITHUB)
+PK_MMAP_LAZYALLOC_SUBNAME     :=
+PK_MMAP_LAZYALLOC_BUILDARCH   := $(CONFIG_PK_MMAP_LAZYALLOC_BUILDARCH)
+PK_MMAP_LAZYALLOC_DIR         := $(srctree)/package/memory-mapping/BiscuitOS-MMAP-LazyAlloc
+PK_MMAP_LAZYALLOC_PATCH       := $(PK_MMAP_LAZYALLOC_DIR)/patch
+PK_MMAP_LAZYALLOC_BSBIT       := BiscuitOS-MMAP-LazyAlloc-$(PK_MMAP_LAZYALLOC_VERSION).bsbit
+PK_MMAP_LAZYALLOC_OUT         :=
+PK_MMAP_LAZYALLOC_SCRIPTS     := $(srctree)/scripts/package/package-app.sh
+PK_MMAP_LAZYALLOC_TAR         := $(CONFIG_PK_MMAP_LAZYALLOC_TAR)
+PK_MMAP_LAZYALLOC_PACKAGE     :=
+PK_MMAP_LAZYALLOC_CONFIG      := $(CONFIG_PK_MMAP_LAZYALLOC_CONFIG)
+SUB_TARGET                  += $(PK_MMAP_LAZYALLOC_DIR)/build
+
+PK_MMAP_LAZYALLOC_sh = $(CONFIG_SHELL) $(PK_MMAP_LAZYALLOC_SCRIPTS) \
+                 $1X \
+                 $(PK_MMAP_LAZYALLOC_NAME)X \
+                 $(PK_MMAP_LAZYALLOC_VERSION)X \
+                 $(PK_MMAP_LAZYALLOC_SITE)X \
+                 $(PK_MMAP_LAZYALLOC_GITHUB)X \
+                 $(PK_MMAP_LAZYALLOC_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_MMAP_LAZYALLOC_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_MMAP_LAZYALLOC_SUBNAME)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_CONFIG)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_LIBPATH)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_CPPFLAGS)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_DPKCONFIG)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_CFLAGS)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_LDFLAGS)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_CXXFLAGS)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_ASFLAGS)X \
+                 $(PK_MMAP_LAZYALLOC_BSBIT)X \
+                 $(PK_MMAP_LAZYALLOC_BUILDARCH)X \
+		 $(PK_MMAP_LAZYALLOC_CSRCFILE)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_SRCFILE)X \
+                 $(CONFIG_PK_MMAP_LAZYALLOC_CSRCFILE)
+
+$(PK_MMAP_LAZYALLOC_DIR)/build: FORCE
+	$(Q)$(call PK_MMAP_LAZYALLOC_sh,$(srctree))

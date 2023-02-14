@@ -215,7 +215,7 @@ echo -e '\t\tr) # Run BiscuitOS' >> ${MFILE}
 echo -e '\t\t\t${ROOT}/RunBiscuitOS.sh' >> ${MFILE}
 echo -e '\t\t\t;;' >> ${MFILE}
 echo -e '\t\th) # Help Information' >> ${MFILE}
-echo -e '\t\t\techo "See: https://biscuitos.github.io/blog/BiscuitOS_Catalogue/"' >> ${MFILE}
+echo -e '\t\t\techo "See: http://www.biscuitos.cn/blog/BiscuitOS_Catalogue/"' >> ${MFILE}
 echo -e '\t\t\t;;' >> ${MFILE}
 echo -e '\tesac' >> ${MFILE}
 echo -e 'done' >> ${MFILE}

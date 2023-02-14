@@ -1,5 +1,5 @@
 menuconfig PK_CACHE_USER_PAGE_K
-	bool "USER-PAGE: CACHE for Virtual Address(Kernel+)"
+	bool "CACHE WT/WB/WC/WP/UC for Userspace Virtual Address(K)"
 
 if PK_CACHE_USER_PAGE_K
 

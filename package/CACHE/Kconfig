@@ -6,26 +6,32 @@ if PK_CACHE
 # Intel CMT/CAT
 source package/CACHE/BiscuitOS-Intel-CMT-CAT/Kconfig
 
-# UC-: Mapping MMIO on userspace
-source package/CACHE/BiscuitOS-CACHE-UNCACHED-Mapping-MMIO-Userspace/Kconfig
+# UC-: MMIO on Userspace
+source package/CACHE/BiscuitOS-CACHE-UNCACHED-MMIO-USERSPACE/Kconfig
 
-# UC-: ioremap() MMIO on Kernel
-source package/CACHE/BiscuitOS-CACHE-UNCACHED-IOREMAP-with-MMIO/Kconfig
+# UC-: MMIO on Kernel
+source package/CACHE/BiscuitOS-CACHE-UNCACHED-MMIO-KERNEL/Kconfig
 
-# UC-: ioremap() MEM on Kernel
-source package/CACHE/BiscuitOS-CACHE-UNCACHED-IOREMAP-with-MEM/Kconfig
+# UC-:  MEM on Kernel
+source package/CACHE/BiscuitOS-CACHE-UNCACHED-MEM-KERNEL/Kconfig
 
-# UC: ioremap_uc() MMIO on Kernel
-source package/CACHE/BiscuitOS-CACHE-UNCACHE-IOREMAP-with-MMIO/Kconfig
+# UC:  MMIO on Kernel
+source package/CACHE/BiscuitOS-CACHE-UNCACHE-MMIO-KERNEL/Kconfig
 
-# UC: ioremap_uc() MEM on Kernel
-source package/CACHE/BiscuitOS-CACHE-UNCACHE-IOREMAP-with-MEM/Kconfig
+# WC:  MMIO on Kernel
+source package/CACHE/BiscuitOS-CACHE-WC-MMIO-KERNEL/Kconfig
 
-# WC: ioremap_wc() MMIO on Kernel
-source package/CACHE/BiscuitOS-CACHE-WC-IOREMAP-with-MMIO/Kconfig
+# WC:  MEM on Kernel
+source package/CACHE/BiscuitOS-CACHE-WC-MEM-KERNEL/Kconfig
 
-# WC: ioremap_wc() MEM on Kernel
-source package/CACHE/BiscuitOS-CACHE-WC-IOREMAP-with-MEM/Kconfig
+# WT:  MMIO on Kernel
+source package/CACHE/BiscuitOS-CACHE-WT-MMIO-KERNEL/Kconfig
+
+# WT:  MEM on Kernel
+source package/CACHE/BiscuitOS-CACHE-WT-MEM-KERNEL/Kconfig
+
+# WB:  MEM on Kernel
+source package/CACHE/BiscuitOS-CACHE-WB-MEM-KERNEL/Kconfig
 
 # Userspace Page: CACHE on Userspace (Userspace part)
 source package/CACHE/BiscuitOS-CACHE-USER-PAGE-U/Kconfig

@@ -79,7 +79,7 @@ do_README()
 	echo -e "\033[31m ${OUTPUT}/README.md \033[0m"
 	echo ""
 	echo "Blog:"
-	echo -e "\033[31m https://biscuitos.github.io/blog/BiscuitOS_Catalogue/ \033[0m"
+	echo -e "\033[31m http://www.biscuitos.cn/blog/BiscuitOS_Catalogue/ \033[0m"
 	echo ""
 	echo "***********************************************"
 
