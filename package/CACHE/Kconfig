@@ -12,31 +12,109 @@ source package/CACHE/BiscuitOS-CACHE-UNCACHED-MMIO-USERSPACE/Kconfig
 # UC-: MMIO on Kernel
 source package/CACHE/BiscuitOS-CACHE-UNCACHED-MMIO-KERNEL/Kconfig
 
-# UC-:  MEM on Kernel
+# UC-: MEM on Kernel
 source package/CACHE/BiscuitOS-CACHE-UNCACHED-MEM-KERNEL/Kconfig
+
+# UC-: MEM on Userspace
+source package/CACHE/BiscuitOS-CACHE-UNCACHED-MEM-USERSPACE/Kconfig
 
 # UC:  MMIO on Kernel
 source package/CACHE/BiscuitOS-CACHE-UNCACHE-MMIO-KERNEL/Kconfig
 
+# UC:  MMIO on Userspace
+source package/CACHE/BiscuitOS-CACHE-UNCACHE-MMIO-USERSPACE/Kconfig
+
+# UC:  MEM on Kernel
+source package/CACHE/BiscuitOS-CACHE-UNCACHE-MEM-KERNEL/Kconfig
+
+# UC:  MEM on Userspace
+source package/CACHE/BiscuitOS-CACHE-UNCACHE-MEM-USERSPACE/Kconfig
+
 # WC:  MMIO on Kernel
 source package/CACHE/BiscuitOS-CACHE-WC-MMIO-KERNEL/Kconfig
+
+# WC:  MMIO on Userspace
+source package/CACHE/BiscuitOS-CACHE-WC-MMIO-USERSPACE/Kconfig
 
 # WC:  MEM on Kernel
 source package/CACHE/BiscuitOS-CACHE-WC-MEM-KERNEL/Kconfig
 
+# WC:  MEM on Userspace
+source package/CACHE/BiscuitOS-CACHE-WC-MEM-USERSPACE/Kconfig
+
 # WT:  MMIO on Kernel
 source package/CACHE/BiscuitOS-CACHE-WT-MMIO-KERNEL/Kconfig
+
+# WT:  MMIO on Userspace
+source package/CACHE/BiscuitOS-CACHE-WT-MMIO-USERSPACE/Kconfig
 
 # WT:  MEM on Kernel
 source package/CACHE/BiscuitOS-CACHE-WT-MEM-KERNEL/Kconfig
 
+# WT:  MEM on Userspace
+source package/CACHE/BiscuitOS-CACHE-WT-MEM-USERSPACE/Kconfig
+
 # WB:  MEM on Kernel
 source package/CACHE/BiscuitOS-CACHE-WB-MEM-KERNEL/Kconfig
 
-# Userspace Page: CACHE on Userspace (Userspace part)
-source package/CACHE/BiscuitOS-CACHE-USER-PAGE-U/Kconfig
+# WB:  MEM on Userspace
+source package/CACHE/BiscuitOS-CACHE-WB-MEM-USERSPACE/Kconfig
 
-# Userspace Page: CACHE on Userspace (Kernel part)
-source package/CACHE/BiscuitOS-CACHE-USER-PAGE-K/Kconfig
+# WB:  MMIO on Userspace
+source package/CACHE/BiscuitOS-CACHE-WB-MMIO-USERSPACE/Kconfig
+
+# WP:  MEM on Userspace
+source package/CACHE/BiscuitOS-CACHE-WP-MEM-USERSPACE/Kconfig
+
+# WP:  MMIO on Userspace
+source package/CACHE/BiscuitOS-CACHE-WP-MMIO-USERSPACE/Kconfig
+
+# Userspace Page: CACHE Memory on Userspace (Recommend)
+source package/CACHE/BiscuitOS-CACHE-USER-PAGE-USERSPACE/Kconfig
+
+# Userspace Page: Kernel Stub
+source package/CACHE/BiscuitOS-CACHE-USER-PAGE-Kernel-Stub/Kconfig
+
+# CACHE Instruction: CLFLUSH
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-CLFLUSH/Kconfig
+
+# CACHE Instruction: CLFLUSHOPT
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-CLFLUSHOPT/Kconfig
+
+# CACHE Instruction: CLWB
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-CLWB/Kconfig
+
+# CACHE Instruction: PREFETCH
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-PREFETCH/Kconfig
+
+# CACHE Instruction: PREFETCHW
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-PREFETCHW/Kconfig
+
+# CACHE Instruction: MOVNTI
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-MOVNTI/Kconfig
+
+# CACHE Instruction: WBINVD
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-WBINVD/Kconfig
+
+# CACHE Instruction: WBNOINVD
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-WBNOINVD/Kconfig
+
+# CACHE Instruction: INVD
+source package/CACHE/BiscuitOS-CACHE-INSTRUCT-INVD/Kconfig
+
+# CACHE Memory Type: MTRR and PAT (Userspace)
+source package/CACHE/BiscuitOS-CACHE-MEMORY-TYPE-MTRR-PAT-U/Kconfig
+
+# CACHE Memory Type: MTRR and PAT (Kernel)
+source package/CACHE/BiscuitOS-CACHE-MEMORY-TYPE-MTRR-PAT-K/Kconfig
+
+# CACHE Performace: WB Vs. UC
+source package/CACHE/BiscuitOS-CACHE-PERFORMANCE-WB-VS-UC/Kconfig
+
+# MTRRs: IOCTL READ
+source package/CACHE/BiscuitOS-CACHE-MTRR-IOCTL-READ/Kconfig
+
+# MTRRs: IOCTL WRITE
+source package/CACHE/BiscuitOS-CACHE-MTRR-IOCTL-WRITE/Kconfig
 
 endif # PK_CACHE

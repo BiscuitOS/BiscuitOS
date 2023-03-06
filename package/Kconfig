@@ -381,6 +381,9 @@ source package/pcre/Kconfig
 # percpu
 source package/percpu/Kconfig
 
+# perf
+source package/PERF-TOOLS/Kconfig
+
 # pgcache_scan
 source package/pgcache_scan/Kconfig
 

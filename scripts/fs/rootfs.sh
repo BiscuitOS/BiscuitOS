@@ -253,7 +253,7 @@ EOF
 chmod 755 ${RC}
 echo '# Auto Running Broiler' >> ${RC}
 echo 'cat /proc/cmdline | grep -w "Broiler" > /dev/null' >> ${RC}
-echo '[ $? -eq 0 ] && echo "Welcome to Broiler" && rm -rf /usr/bin/RunBroiler.sh && exit 0' >> ${RC}
+echo '[ $? -eq 0 ] && echo "Welcome to Broiler" && rm -rf /usr/bin/RunBroiler.sh && rm -rf /usr/bin/BiscuitOS-Broiler-default  && exit 0' >> ${RC}
 echo '[ -f /etc/init.d/rcS.broiler ] && RunBroiler.sh' >> ${RC}
 echo '[ ! -f /etc/init.d/rcS.broiler ] && rm -rf /usr/bin/RunBroiler.sh' >> ${RC}
 
@@ -374,6 +374,18 @@ else
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libpthread.so.0 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libpthread* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/liblzma.so.5 ] && sudo cp -rfa /lib/x86_64-linux-gnu/liblzma.so.* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/librt.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/librt* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libm.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libm* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libdl.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libdl* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libelf.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libelf* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libcrypto.so.1.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libcrypto.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libslang.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libslang.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libpython3.8.so.1.0 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libpython3.8.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libbfd-2.34-system.so ] && sudo cp -rfa /lib/x86_64-linux-gnu/libbfd-2.34-system.so ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libopcodes-2.34-system.so ] && sudo cp -rfa /lib/x86_64-linux-gnu/libopcodes-2.34-system.so ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libcap.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libcap.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libnuma.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libnuma.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libexpat.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libexpat.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libutil.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libutil* ${ROOTFS_PATH}/lib/
 				else
 				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/

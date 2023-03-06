@@ -1,0 +1,55 @@
+menuconfig PK_MMAP_PREALLOC_MAPLOCKED
+	bool "PreAlloc: Memory from mmap(MAP_LOCKED)"
+
+if PK_MMAP_PREALLOC_MAPLOCKED
+
+config PK_MMAP_PREALLOC_MAPLOCKED_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP/BiscuitOS-MMAP-PreAlloc-MAPLOCKED"
+	string "url"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_GITHUB
+	string "GitHub"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_CSRCFILE
+	string "Compile source code list"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MMAP_PREALLOC_MAPLOCKED_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MMAP_PREALLOC_MAPLOCKED

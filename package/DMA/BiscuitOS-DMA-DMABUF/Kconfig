@@ -1,0 +1,55 @@
+menuconfig PK_DMA_DMABUF
+	bool "DMABUF: Exportor and Multi-Importor Share DMABUF"
+
+if PK_DMA_DMABUF
+
+config PK_DMA_DMABUF_VERSION
+	default "default"
+	string "verstion"
+
+config PK_DMA_DMABUF_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DMA_DMABUF_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/DMA-MEMORY/BiscuitOS-DMA-DMABUF"
+	string "url"
+
+config PK_DMA_DMABUF_GITHUB
+	string "GitHub"
+
+config PK_DMA_DMABUF_SRCFILE
+	default "DMABUF-export.c DMABUF-import.c export-app.c import-app0.c import-app1.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_DMA_DMABUF_CSRCFILE
+	string "Compile source code list"
+
+config PK_DMA_DMABUF_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DMA_DMABUF_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DMA_DMABUF_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DMA_DMABUF_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DMA_DMABUF_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DMA_DMABUF_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DMA_DMABUF_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DMA_DMABUF_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DMA_DMABUF_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DMA_DMABUF

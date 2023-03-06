@@ -1,0 +1,56 @@
+menuconfig PK_CACHE_PERFORMANCE_WB_UC
+	select PK_CACHE_USER_PAGE_KERNEL_STUB
+	bool "CACHE Performance: WB Vs. UC on Normal Memory"
+
+if PK_CACHE_PERFORMANCE_WB_UC
+
+config PK_CACHE_PERFORMANCE_WB_UC_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_PERFORMANCE_WB_UC_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_PERFORMANCE_WB_UC_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-PERFORMANCE-WB-VS-UC"
+	string "url"
+
+config PK_CACHE_PERFORMANCE_WB_UC_GITHUB
+	string "GitHub"
+
+config PK_CACHE_PERFORMANCE_WB_UC_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_CACHE_PERFORMANCE_WB_UC_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_PERFORMANCE_WB_UC_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_PERFORMANCE_WB_UC_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_PERFORMANCE_WB_UC_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_PERFORMANCE_WB_UC_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_PERFORMANCE_WB_UC_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_PERFORMANCE_WB_UC_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_PERFORMANCE_WB_UC_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_PERFORMANCE_WB_UC_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_PERFORMANCE_WB_UC_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_PERFORMANCE_WB_UC

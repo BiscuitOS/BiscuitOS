@@ -1,6 +1,6 @@
-DMA-$(CONFIG_PK_DMA_BUF_APP)	+= dma_buf_app/
-DMA-$(CONFIG_PK_DMA_BUF_MOD)	+= dma_buf_module/
-DMA-$(CONFIG_PK_DMA_MOD)	+= BiscuitOS-DMA-module/
+DMA-$(CONFIG_PK_DMA_MMAP_TO_USERSPACE_K)	+= BiscuitOS-DMA-MMAP-TO-USERSPACE-K/
+DMA-$(CONFIG_PK_DMA_MMAP_TO_USERSPACE_U)	+= BiscuitOS-DMA-MMAP-TO-USERSPACE/
+DMA-$(CONFIG_PK_DMA_DMABUF)			+= BiscuitOS-DMA-DMABUF/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/DMA/%/Makefile, $(DMA-y))
 

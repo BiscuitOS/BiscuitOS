@@ -31,6 +31,7 @@ do
 		make configure ; make ; make install
 	else
 	## Only install package
+		make
 		make prepare ; make install
 	fi
 	cd -

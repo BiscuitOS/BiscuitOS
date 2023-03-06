@@ -3,13 +3,13 @@ menuconfig PK_DMA
 
 if PK_DMA
 
-# DMA-Buffer application
-source package/DMA/dma_buf_app/Kconfig
+# DMA Memory mmap into Userspace (Userspace Stub)
+source package/DMA/BiscuitOS-DMA-MMAP-TO-USERSPACE/Kconfig
 
-# DMA-Buffer module
-source package/DMA/dma_buf_module/Kconfig
+# DMA Memory mmap into Userspace (Kernel Stub)
+source package/DMA/BiscuitOS-DMA-MMAP-TO-USERSPACE-K/Kconfig
 
-# DMA module
-source package/DMA/BiscuitOS-DMA-module/Kconfig
+# DMABUF
+source package/DMA/BiscuitOS-DMA-DMABUF/Kconfig
 
 endif # PK_DMA
