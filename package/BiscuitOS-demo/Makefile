@@ -8,6 +8,7 @@ BiscuitOS-demo-$(CONFIG_PK_BISCUITOS_CHAR_DEMO) 	+= BiscuitOS-Char/
 BiscuitOS-demo-$(CONFIG_PK_BISCUITOS_CHAR_APP_DEMO) 	+= BiscuitOS-Char-Application/
 BiscuitOS-demo-$(CONFIG_PK_BISCUITOS_MISC_DEMO) 	+= BiscuitOS-MISC/
 BiscuitOS-demo-$(CONFIG_PK_BISCUITOS_MISC_APP_DEMO) 	+= BiscuitOS-MISC-Application/
+BiscuitOS-demo-$(CONFIG_PK_PLATFORM_DEMO) 		+= BiscuitOS-Platform/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/BiscuitOS-demo/%/Makefile, $(BiscuitOS-demo-y))
 

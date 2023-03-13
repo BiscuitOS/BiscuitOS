@@ -117,4 +117,16 @@ source package/CACHE/BiscuitOS-CACHE-MTRR-IOCTL-READ/Kconfig
 # MTRRs: IOCTL WRITE
 source package/CACHE/BiscuitOS-CACHE-MTRR-IOCTL-WRITE/Kconfig
 
+# IOREMAP
+source package/CACHE/BiscuitOS-CACHE-IOREMAP/Kconfig
+
+# IOREMAP Change MEMTYPE
+source package/CACHE/BiscuitOS-CACHE-IOREMAP-CHANGE-MEMTYPE/Kconfig
+
+# Normal Memory
+source package/CACHE/BiscuitOS-CACHE-MEMORY/Kconfig
+
+# MMIO
+source package/CACHE/BiscuitOS-CACHE-MMIO/Kconfig
+
 endif # PK_CACHE

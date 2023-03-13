@@ -1,0 +1,56 @@
+menuconfig PK_MMAP_PREALLOC_CMA
+	select PK_MMAP_SPECIAL_U
+	bool "PreAlloc: Memory from CMA Contiguous Memory"
+
+if PK_MMAP_PREALLOC_CMA
+
+config PK_MMAP_PREALLOC_CMA_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MMAP_PREALLOC_CMA_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MMAP_PREALLOC_CMA_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP/BiscuitOS-MMAP-PreAlloc-CMA"
+	string "url"
+
+config PK_MMAP_PREALLOC_CMA_GITHUB
+	string "GitHub"
+
+config PK_MMAP_PREALLOC_CMA_SRCFILE
+	default "main.c Makefile Kconfig"
+	string "Source code list"
+
+config PK_MMAP_PREALLOC_CMA_CSRCFILE
+	string "Compile source code list"
+
+config PK_MMAP_PREALLOC_CMA_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MMAP_PREALLOC_CMA_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MMAP_PREALLOC_CMA_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MMAP_PREALLOC_CMA_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MMAP_PREALLOC_CMA_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MMAP_PREALLOC_CMA_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MMAP_PREALLOC_CMA_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MMAP_PREALLOC_CMA_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MMAP_PREALLOC_CMA_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MMAP_PREALLOC_CMA

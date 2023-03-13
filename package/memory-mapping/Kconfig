@@ -117,4 +117,10 @@ source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-RSVDMEM/Kconfig
 # PreAlloc for MAP_LOCKED
 source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-MAPLOCKED/Kconfig
 
+# PreAlloc for DMA
+source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-DMA/Kconfig
+
+# PreAlloc for CMA
+source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-CMA/Kconfig
+
 endif # PK_MEMORY_MAPPING

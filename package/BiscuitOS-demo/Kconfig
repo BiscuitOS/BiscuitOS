@@ -33,4 +33,7 @@ source package/BiscuitOS-demo/BiscuitOS-MISC/Kconfig
 # MISC-DD Application Demo
 source package/BiscuitOS-demo/BiscuitOS-MISC-Application/Kconfig
 
+# Platform-DD Demo
+source package/BiscuitOS-demo/BiscuitOS-Platform/Kconfig
+
 endif # PK_BISCUITOS_DEMO

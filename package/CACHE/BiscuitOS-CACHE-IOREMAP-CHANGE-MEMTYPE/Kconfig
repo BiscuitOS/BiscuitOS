@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_IOREMAP_CHANGE_MEMTYPE
+	bool "IOREMAP: Change CACHE Mode with IOREMAP Mechanism"
+
+if PK_CACHE_IOREMAP_CHANGE_MEMTYPE
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-IOREMAP-CHANGE-MEMTYPE"
+	string "url"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_GITHUB
+	string "GitHub"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_SRCFILE
+	default "app.c main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_IOREMAP_CHANGE_MEMTYPE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_IOREMAP_CHANGE_MEMTYPE

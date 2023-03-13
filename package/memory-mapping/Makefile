@@ -36,6 +36,8 @@ BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_VMALLOC) 			+= BiscuitOS-MMAP-PreAll
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_VMALLOC32) 			+= BiscuitOS-MMAP-PreAlloc-VMALLOC32/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_RSVDMEM) 			+= BiscuitOS-MMAP-PreAlloc-RSVDMEM/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_MAPLOCKED) 			+= BiscuitOS-MMAP-PreAlloc-MAPLOCKED/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_DMA) 			+= BiscuitOS-MMAP-PreAlloc-DMA/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_CMA) 			+= BiscuitOS-MMAP-PreAlloc-CMA/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/memory-mapping/%/Makefile, $(BiscuitOS-mapping-y))
 

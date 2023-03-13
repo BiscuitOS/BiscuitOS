@@ -1,0 +1,55 @@
+menuconfig PK_DMA_DEV_MMAP_TO_USERSPACE
+	bool "DMA Device Memory mmap into Userspace"
+
+if PK_DMA_DEV_MMAP_TO_USERSPACE
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/DMA-MEMORY/BiscuitOS-DMA-DEVICE-MMAP-TO-USERSPACE"
+	string "url"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_GITHUB
+	string "GitHub"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_SRCFILE
+	default "main.c Kconfig Makefile"
+	string "Source code list"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_CSRCFILE
+	string "Compile source code list"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DMA_DEV_MMAP_TO_USERSPACE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DMA_DEV_MMAP_TO_USERSPACE
