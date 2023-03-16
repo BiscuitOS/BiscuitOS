@@ -1,55 +1,55 @@
-menuconfig PK_CACHE_MEMORY
-	bool "RAM: CACHE MODE with RAM (Recommend)"
+menuconfig PK_CACHE_DEVMMIO
+	bool "MMIO: CACHE MODE with DEVMMIO (Recommend)"
 
-if PK_CACHE_MEMORY
+if PK_CACHE_DEVMMIO
 
-config PK_CACHE_MEMORY_VERSION
+config PK_CACHE_DEVMMIO_VERSION
 	default "default"
 	string "verstion"
 
-config PK_CACHE_MEMORY_TAR
+config PK_CACHE_DEVMMIO_TAR
 	default "tar.gz"
 	string "tar type"
 
-config PK_CACHE_MEMORY_URL
-	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-MEMORY"
+config PK_CACHE_DEVMMIO_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-DEVMMIO"
 	string "url"
 
-config PK_CACHE_MEMORY_GITHUB
+config PK_CACHE_DEVMMIO_GITHUB
 	string "GitHub"
 
-config PK_CACHE_MEMORY_SRCFILE
+config PK_CACHE_DEVMMIO_SRCFILE
 	default "app.c main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
 	string "Source code list"
 
-config PK_CACHE_MEMORY_CSRCFILE
+config PK_CACHE_DEVMMIO_CSRCFILE
 	string "Compile source code list"
 
-config PK_CACHE_MEMORY_CONFIG
+config PK_CACHE_DEVMMIO_CONFIG
 	string "CONFIG: Project Configure Options"
 
-config PK_CACHE_MEMORY_LIBPATH
+config PK_CACHE_DEVMMIO_LIBPATH
 	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
 
-config PK_CACHE_MEMORY_CPPFLAGS
+config PK_CACHE_DEVMMIO_CPPFLAGS
 	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
 
-config PK_CACHE_MEMORY_DPKCONFIG
+config PK_CACHE_DEVMMIO_DPKCONFIG
 	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
 
-config PK_CACHE_MEMORY_CFLAGS
+config PK_CACHE_DEVMMIO_CFLAGS
 	string "CFLAGS: C compiler flags"
 
-config PK_CACHE_MEMORY_LDFLAGS
+config PK_CACHE_DEVMMIO_LDFLAGS
 	string "LDFLAGS: Linker flags"
 
-config PK_CACHE_MEMORY_CXXFLAGS
+config PK_CACHE_DEVMMIO_CXXFLAGS
 	string "CXXFLAGS: C++ compiler flags"
 
-config PK_CACHE_MEMORY_ASFLAGS
+config PK_CACHE_DEVMMIO_ASFLAGS
 	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
 
-config PK_CACHE_MEMORY_BUILDARCH
+config PK_CACHE_DEVMMIO_BUILDARCH
 	string "--host options on configure for Architecture"
 
-endif # PK_CACHE_MEMORY
+endif # PK_CACHE_DEVMMIO

@@ -123,10 +123,31 @@ source package/CACHE/BiscuitOS-CACHE-IOREMAP/Kconfig
 # IOREMAP Change MEMTYPE
 source package/CACHE/BiscuitOS-CACHE-IOREMAP-CHANGE-MEMTYPE/Kconfig
 
-# Normal Memory
-source package/CACHE/BiscuitOS-CACHE-MEMORY/Kconfig
+# RAM: Default
+source package/CACHE/BiscuitOS-CACHE-RAM/Kconfig
+
+# RAM: Direct-Mapping
+source package/CACHE/BiscuitOS-CACHE-RAM-DIRECT-MAPPING/Kconfig
+
+# RAM: DEVMEM
+source package/CACHE/BiscuitOS-CACHE-RAM-DEVMEM/Kconfig
+
+# RAM: DEVMEM with Page-Fault
+source package/CACHE/BiscuitOS-CACHE-RAM-DEVMEM-PAGE-FAULT/Kconfig
+
+# RAM: RSVDMEM
+source package/CACHE/BiscuitOS-CACHE-RAM-RSVDMEM/Kconfig
+
+# RAM: VMALLOC
+source package/CACHE/BiscuitOS-CACHE-RAM-VMALLOC/Kconfig
 
 # MMIO
 source package/CACHE/BiscuitOS-CACHE-MMIO/Kconfig
+
+# DEVMMIO
+source package/CACHE/BiscuitOS-CACHE-DEVMMIO/Kconfig
+
+# CACHE Coherent: DEVMEM
+source package/CACHE/BiscuitOS-CACHE-COHERENT-DEVMEM/Kconfig
 
 endif # PK_CACHE

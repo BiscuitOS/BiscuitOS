@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_RAM_DIRECTM
+	bool "RAM: CACHE Mode on Direct Mapping Area"
+
+if PK_CACHE_RAM_DIRECTM
+
+config PK_CACHE_RAM_DIRECTM_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_RAM_DIRECTM_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_RAM_DIRECTM_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-RAM-DIRECT-MAPPING"
+	string "url"
+
+config PK_CACHE_RAM_DIRECTM_GITHUB
+	string "GitHub"
+
+config PK_CACHE_RAM_DIRECTM_SRCFILE
+	default "main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_CACHE_RAM_DIRECTM_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_RAM_DIRECTM_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_RAM_DIRECTM_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_RAM_DIRECTM_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_RAM_DIRECTM_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_RAM_DIRECTM_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_RAM_DIRECTM_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_RAM_DIRECTM_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_RAM_DIRECTM_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_RAM_DIRECTM_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_RAM_DIRECTM
