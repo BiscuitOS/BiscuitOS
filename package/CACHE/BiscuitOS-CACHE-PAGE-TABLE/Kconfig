@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_PAGE_TABLE
+	bool "PAGE Table: Setup CACHE Mode [Default]"
+
+if PK_CACHE_PAGE_TABLE
+
+config PK_CACHE_PAGE_TABLE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_PAGE_TABLE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_PAGE_TABLE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-PAGE-TABLE"
+	string "url"
+
+config PK_CACHE_PAGE_TABLE_GITHUB
+	string "GitHub"
+
+config PK_CACHE_PAGE_TABLE_SRCFILE
+	default "app.c main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_CACHE_PAGE_TABLE_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_PAGE_TABLE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_PAGE_TABLE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_PAGE_TABLE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_PAGE_TABLE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_PAGE_TABLE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_PAGE_TABLE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_PAGE_TABLE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_PAGE_TABLE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_PAGE_TABLE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_PAGE_TABLE

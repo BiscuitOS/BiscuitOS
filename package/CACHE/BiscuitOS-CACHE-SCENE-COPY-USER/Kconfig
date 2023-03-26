@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_SCENE_COPY_USER
+	bool "CACHE SCENE: copy_{from}_user [Default]"
+
+if PK_CACHE_SCENE_COPY_USER
+
+config PK_CACHE_SCENE_COPY_USER_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_SCENE_COPY_USER_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_SCENE_COPY_USER_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-SCENE-COPY-USER"
+	string "url"
+
+config PK_CACHE_SCENE_COPY_USER_GITHUB
+	string "GitHub"
+
+config PK_CACHE_SCENE_COPY_USER_SRCFILE
+	default "app.c main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_CACHE_SCENE_COPY_USER_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_SCENE_COPY_USER_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_SCENE_COPY_USER_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_SCENE_COPY_USER_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_SCENE_COPY_USER_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_SCENE_COPY_USER_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_SCENE_COPY_USER_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_SCENE_COPY_USER_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_SCENE_COPY_USER_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_SCENE_COPY_USER_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_SCENE_COPY_USER

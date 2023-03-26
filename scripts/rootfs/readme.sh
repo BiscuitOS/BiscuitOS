@@ -29,6 +29,7 @@ UBOOT_CROSS=${16%X}
 KERNEL_VERSION=${7%X}
 [ ${KERNEL_VERSION}X = "newestX" ] && KERNEL_VERSION=6.0.0
 [ ${KERNEL_VERSION}X = "newest-giteeX" ] && KERNEL_VERSION=6.0.0
+[ ${KERNEL_VERSION}X = "nextX" ] && KERNEL_VERSION=6.0.0
 # Rootfs NAME
 ROOTFS_NAME=${2%X}
 # Rootfs Version

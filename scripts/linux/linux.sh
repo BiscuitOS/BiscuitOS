@@ -65,6 +65,7 @@ case ${KERNEL_HIS} in
 	"Newest")
 		GIT_OUT=linux
 		[ ${LINUX_KERNEL_VERSION}X = "newest-giteeX" ] && GIT_OUT=Linux-Gitee
+		[ ${LINUX_KERNEL_VERSION}X = "nextX" ] && GIT_OUT=Linux-Next
 	;;
 	"RPI")
 		GIT_OUT=RPI_linux
@@ -115,7 +116,7 @@ case ${LINUX_KERNEL_SRC} in
 		cd ${OUTPUT}/${LINUX_KERNEL_NAME}/
 		rm -rf ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
 		ln -s ${OUTPUT}/${LINUX_KERNEL_NAME}/${GIT_OUT}_github ${OUTPUT}/${LINUX_KERNEL_NAME}/${LINUX_KERNEL_NAME}
-		if [ ${LINUX_KERNEL_VERSION} = "newest" -o ${LINUX_KERNEL_VERSION} = "newest-gitee" ]; then
+		if [ ${LINUX_KERNEL_VERSION} = "newest" -o ${LINUX_KERNEL_VERSION} = "newest-gitee" -o ${LINUX_KERNEL_VERSION} = "next" ]; then
 			date_X=`date +%s`
 			echo ${LINUX_KERNEL_VERSION}_${date_X} > ${OUTPUT}/${LINUX_KERNEL_NAME}/version
 		else

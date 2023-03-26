@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_SCENE_COPY_USER_NC
+	bool "CACHE SCENE: copy_{from}_user NOCACHE"
+
+if PK_CACHE_SCENE_COPY_USER_NC
+
+config PK_CACHE_SCENE_COPY_USER_NC_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_SCENE_COPY_USER_NC_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_SCENE_COPY_USER_NC_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-SCENE-COPY-USER-NOCACHE"
+	string "url"
+
+config PK_CACHE_SCENE_COPY_USER_NC_GITHUB
+	string "GitHub"
+
+config PK_CACHE_SCENE_COPY_USER_NC_SRCFILE
+	default "app.c main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_CACHE_SCENE_COPY_USER_NC_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_SCENE_COPY_USER_NC_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_SCENE_COPY_USER_NC_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_SCENE_COPY_USER_NC_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_SCENE_COPY_USER_NC_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_SCENE_COPY_USER_NC_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_SCENE_COPY_USER_NC_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_SCENE_COPY_USER_NC_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_SCENE_COPY_USER_NC_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_SCENE_COPY_USER_NC_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_SCENE_COPY_USER_NC

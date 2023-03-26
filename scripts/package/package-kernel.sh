@@ -22,6 +22,9 @@ PACKAGE_GITHIB=${5%X}
 PACKAGE_PATCH=${6%X}
 # Kernel Version
 KERNEL_VERSION=${7%X}
+[ ${KERNEL_VERSION} = "newest" ] && KERNEL_VERSION=6.0.0
+[ ${KERNEL_VERSION} = "newest-gitee" ] && KERNEL_VERSION=6.0.0
+[ ${KERNEL_VERSION} = "next" ] && KERNEL_VERSION=6.0.0
 # Project Name (Default SDK name)
 PROJECT_NAME=${8%X}
 # Compression package type
