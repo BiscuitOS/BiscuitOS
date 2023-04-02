@@ -30,6 +30,7 @@ BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC) 				+= BiscuitOS-MMAP-LazyAlloc/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC_ZONE_NODE) 		+= BiscuitOS-MMAP-LazyAlloc-Special-ZONE-NODE/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC_VMALLOC) 			+= BiscuitOS-MMAP-LazyAlloc-VMALLOC/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC_VMALLOC32) 		+= BiscuitOS-MMAP-LazyAlloc-VMALLOC32/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_LAZYALLOC_RSVDMEM) 			+= BiscuitOS-MMAP-LazyAlloc-RSVDMEM/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC) 				+= BiscuitOS-MMAP-PreAlloc/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_ZONE_NODE) 			+= BiscuitOS-MMAP-PreAlloc-Special-ZONE-NODE/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_VMALLOC) 			+= BiscuitOS-MMAP-PreAlloc-VMALLOC/
@@ -38,6 +39,7 @@ BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_RSVDMEM) 			+= BiscuitOS-MMAP-PreAll
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_MAPLOCKED) 			+= BiscuitOS-MMAP-PreAlloc-MAPLOCKED/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_DMA) 			+= BiscuitOS-MMAP-PreAlloc-DMA/
 BiscuitOS-mapping-$(CONFIG_PK_MMAP_PREALLOC_CMA) 			+= BiscuitOS-MMAP-PreAlloc-CMA/
+BiscuitOS-mapping-$(CONFIG_PK_MMAP_ODALLOC) 				+= BiscuitOS-MMAP-OnDemand-Alloc/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/memory-mapping/%/Makefile, $(BiscuitOS-mapping-y))
 

@@ -1,5 +1,5 @@
 menuconfig PK_CACHE_PAGE_TABLE
-	bool "PAGE Table: Setup CACHE Mode [Default]"
+	bool "PAGE Table: Setup CACHE Mode on 4KiB RSVDMEM"
 
 if PK_CACHE_PAGE_TABLE
 

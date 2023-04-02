@@ -198,4 +198,22 @@ source package/CACHE/BiscuitOS-CACHE-FLUSH-CACHE-WBINVD-USERSPACE/Kconfig
 # Page-Table
 source package/CACHE/BiscuitOS-CACHE-PAGE-TABLE/Kconfig
 
+# Page-Table: RSVDMEM 2MiB APP
+source package/CACHE/BiscuitOS-CACHE-PAGE-TABLE-RSVDMEM-2M-APP/Kconfig
+
+# Page-Table: RSVDMEM 2MiB
+source package/CACHE/BiscuitOS-CACHE-PAGE-TABLE-RSVDMEM-2M/Kconfig
+
+# Page-Table: RSVDMEM 1Gig APP
+source package/CACHE/BiscuitOS-CACHE-PAGE-TABLE-RSVDMEM-1G-APP/Kconfig
+
+# Page-Table: RSVDMEM 1Gig
+source package/CACHE/BiscuitOS-CACHE-PAGE-TABLE-RSVDMEM-1G/Kconfig
+
+# Allocator: PERMANENT
+source package/CACHE/BiscuitOS-CACHE-ALLOC-PERMANENT/Kconfig
+
+# Allocator: VMALLOC
+source package/CACHE/BiscuitOS-CACHE-ALLOC-VMALLOC/Kconfig
+
 endif # PK_CACHE

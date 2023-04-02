@@ -99,6 +99,9 @@ source package/memory-mapping/BiscuitOS-MMAP-LazyAlloc-VMALLOC/Kconfig
 # Lazy-Alloc from VMALLOC32
 source package/memory-mapping/BiscuitOS-MMAP-LazyAlloc-VMALLOC32/Kconfig
 
+# Lazy-Alloc from RSVDMEM
+source package/memory-mapping/BiscuitOS-MMAP-LazyAlloc-RSVDMEM/Kconfig
+
 # PreAlloc for default route
 source package/memory-mapping/BiscuitOS-MMAP-PreAlloc/Kconfig
 
@@ -122,5 +125,8 @@ source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-DMA/Kconfig
 
 # PreAlloc for CMA
 source package/memory-mapping/BiscuitOS-MMAP-PreAlloc-CMA/Kconfig
+
+# On-Demand Alloc
+source package/memory-mapping/BiscuitOS-MMAP-OnDemand-Alloc/Kconfig
 
 endif # PK_MEMORY_MAPPING

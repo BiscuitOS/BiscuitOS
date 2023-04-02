@@ -429,6 +429,10 @@ CLEAN_FILES +=
 MRPROPER_DIRS  += include/config include/generated
 MRPROPER_FILES += .config .config.old tags TAGS cscope* GPATH GTAGS GRTAGS GSYMS
 
+# Install
+install:
+	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/prebuild/release-install.sh
+
 # clean - Delete most, but leave enough to build external modules
 #
 clean: rm-dirs  := $(CLEAN_DIRS)
