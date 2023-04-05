@@ -1,4 +1,5 @@
 #/bin/bash
+# MAX_ARGS 34
   
 # set -e
 # Auto create README.
@@ -62,6 +63,22 @@ SUPPORT_HYPV=${21%X}
 SUPPORT_NUMA=${22}
 # KVM
 SUPPORT_KVM=${23}
+
+## DIY CONFIGURE
+# DIY Memory
+DIY_MEMORY=${26%X}
+# DIY CPU 440FX
+SUPPORT_CPU_440FX=N
+[ ${34%X} = "yX" ] && SUPPORT_CPU_440FX=Y
+# DIY CPU Q35
+SUPPORT_CPU_Q35=N
+[ ${35%X} = "yX" ] && SUPPORT_CPU_Q35=Y
+# DIY vIOMMU
+SUPPORT_vIOMMU=N
+[ ${36%X} = "yX" ] && SUPPORT_vIOMMU=Y
+# DIY CMDLINE
+SUPPORT_CMDLINE=N
+[ "${31%X}" != "X" ] && SUPPORT_CMDLINE=Y && DIY_CMDLINE=${31%XX}
 
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
@@ -352,6 +369,7 @@ ROOTFS_SIZE=${18%X}
 FREEZE_SIZE=${17%X}
 DL=${ROOT}/dl
 DEBIAN_PACKAGE=${DEBIAN_PACKAGE}
+[ ${SUPPORT_CMDLINE} = "Y" ] && DIY_CMDLINE="${DIY_CMDLINE}"
 EOF
 ## RAM size
 if [ ${SUPPORT_NUMA} = "Y" ]; then
@@ -408,8 +426,8 @@ case ${ARCH_NAME} in
 		if [ ${SUPPORT_HYPV} = "Broiler" ]; then
 			echo 'CMDLINE="noapic noacpi pci=conf1 reboot=k panic=1 i8042.direct=1 i8042.dumbkbd=1 i8042.nopnp=1 i8042.noaux=1 root=/dev/vda rw rootfstype=ext4 console=ttyS0 loglevel=8"' >> ${MF}
 		else
-			[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
-			[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+			[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8 ${DIY_CMDLINE}"' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8 ${DIY_CMDLINE}"' >> ${MF}
 		fi
 	;;
 esac
@@ -660,6 +678,8 @@ case ${ARCH_NAME} in
 				echo -e '\t-smp 2 \' >> ${MF}
 				echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 			fi
+			[ ${SUPPORT_CPU_Q35} = "Y" ] && echo -e '\t-M q35 \' >> ${MF}
+			[ ${SUPPORT_vIOMMU} = "Y" ] && echo -e '\t-device intel-iommu,intremap=on \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-cpu host \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-enable-kvm \' >> ${MF}
 			[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}

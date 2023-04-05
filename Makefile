@@ -376,6 +376,11 @@ ifdef CONFIG_SUPPORT_BOARD_INDV
 include board/Makefile
 endif
 
+ifdef CONFIG_SUPPORT_DIY
+# DIY BiscuitOS Hardware
+include board/BiscuitOS/Makefile
+endif
+
 ifdef CONFIG_LINUX_KERNEL
 # kernel
 include kernel/linux/Makefile

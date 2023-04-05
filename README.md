@@ -28,9 +28,9 @@ yum update
 Download BiscuitOS Source Code from Github/Gitee:
 
 ```
-git clone https://github.com/BiscuitOS/BiscuitOS.git
+git clone https://github.com/BiscuitOS/BiscuitOS.git --depth=1
 or
-git clone https://gitee.com/BiscuitOS_team/BiscuitOS.git
+git clone https://gitee.com/BiscuitOS_team/BiscuitOS.git --depth=1
 ```
 
 And then change direct into BiscuitOS, install full toolchains:

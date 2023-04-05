@@ -195,6 +195,18 @@ source package/CACHE/BiscuitOS-CACHE-FLUSH-CACHE-CLFLUSH-USERSPACE/Kconfig
 # FLUSH CACHE: WBINVD on Userspace
 source package/CACHE/BiscuitOS-CACHE-FLUSH-CACHE-WBINVD-USERSPACE/Kconfig
 
+# FLUSH CACHE: Flush for Alias
+source package/CACHE/BiscuitOS-CACHE-FLUSH-CACHE-Alias/Kconfig
+
+# FLUSH CACHE: Flush for DMA
+source package/CACHE/BiscuitOS-CACHE-FLUSH-CACHE-DMA/Kconfig
+
+# FLUSH CACHE: Flush for MOVNTI
+source package/CACHE/BiscuitOS-CACHE-FLUSH-CACHE-MOVNTI/Kconfig
+
+# FLUSH CACHE: Flush for THREAD
+source package/CACHE/BiscuitOS-CACHE-FLUSH-CACHE-THREAD/Kconfig
+
 # Page-Table
 source package/CACHE/BiscuitOS-CACHE-PAGE-TABLE/Kconfig
 
@@ -215,5 +227,8 @@ source package/CACHE/BiscuitOS-CACHE-ALLOC-PERMANENT/Kconfig
 
 # Allocator: VMALLOC
 source package/CACHE/BiscuitOS-CACHE-ALLOC-VMALLOC/Kconfig
+
+# Allocator: EARLY IO/RSVDMEM
+source package/CACHE/BiscuitOS-CACHE-ALLOC-EARLY-IORSVDMEM/Kconfig
 
 endif # PK_CACHE

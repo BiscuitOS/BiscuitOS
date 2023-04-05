@@ -1,4 +1,5 @@
 #/bin/bash
+# MAX ARGS 37
 
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
 UBUNTU=${UBUNTU_FULL:0:2}
@@ -44,6 +45,9 @@ ROOTFS_PATH=${OUTPUT}/rootfs/${ROOTFS_NAME}
 # Disk size (MB)
 DISK_SIZE=${17%X}
 [ ! ${DISK_SIZE} ] && DISK_SIZE=512
+ROOTFS_DIY_SIZE=${29%X}
+[ ${DISK_SIZE} != ${ROOTFS_DIY_SIZE} ] && DISK_SIZE=${ROOTFS_DIY_SIZE}
+
 # Freeze size
 FREEZE_SIZE=${18%X}
 # Broiler Support
@@ -387,6 +391,7 @@ else
 				  [ ! -f ${ROOTFS_PATH}/lib/libnuma.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libnuma.so.* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libexpat.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libexpat.so.* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libutil.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libutil* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libgcc_s.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libgcc_s.so.* ${ROOTFS_PATH}/lib/
 				else
 				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/
@@ -456,7 +461,11 @@ fi
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \
 					${FREEZE_SIZE}X ${DISK_SIZE}X \
-					X X ${SUPPORT_HYPV}X ${SUPPORT_NUMA} ${SUPPORT_KVM}
+					ARG19 ARG20 ${SUPPORT_HYPV}X ${SUPPORT_NUMA} ${SUPPORT_KVM} \
+                                        ARG24 ARG25 \
+                                        ${26}X ${27}X ${28}X ${29}X ${30}X "${31}X" ${32}X ${33}X ${34}X \
+					${35}X ${36}X ${37}X
+                                        
 
 ## Output directory
 echo ""

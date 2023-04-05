@@ -18,6 +18,9 @@ source board/Kconfig
 # Bootloader
 source boot/Kconfig
 
+# DIY Hardware
+source board/BiscuitOS/Kconfig
+
 # Package
 source package/Kconfig
 
