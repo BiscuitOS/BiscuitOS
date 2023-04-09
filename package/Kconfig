@@ -198,6 +198,9 @@ source package/interval-tree/Kconfig
 # IO
 source package/IO/Kconfig
 
+# IOMMU
+source package/IOMMU/Kconfig
+
 # kbproto
 source package/kbproto/Kconfig
 

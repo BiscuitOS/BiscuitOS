@@ -35,16 +35,11 @@ config DIY_CPU_SOCKET
 	int "CPU Socket Number(Default None)"
 	default 0
 
-choice
-	prompt "Intel CPU Architecture"
-
 config DIY_CPU_I440FX
 	bool "Intel i440FX"
 
 config DIY_CPU_Q35
 	bool "Intel Q35"
-
-endchoice
 
 if DIY_CPU_Q35
 
@@ -64,36 +59,43 @@ config PK_BISCUITOS_HARDWARE
         bool "Support BiscuitOS Hardware Emulate"
 
 config HW_PCI_BAR
+	select PK_PCI
 	select PK_PCI_QEMU_DEV_BAR
 	select PK_BROILER_PCI_DD
 	bool "BiscuitOS PCI/PCIe IO-BAR and MMIO-BAR"
 
 config HW_PCI_INTX
+	select PK_PCI
 	select PK_PCI_QEMU_DEV_INTX
 	select PK_BROILER_PCI_INTX
 	bool "BiscuitOS PCI/PCIe with INTX Interrupt"
 
 config HW_PCI_MSI
+	select PK_PCI
 	select PK_PCI_QEMU_DEV_MSI
 	select PK_BROILER_PCI_MSI
 	bool "BiscuitOS PCI/PCIe with MSI Interrupt"
 
 config HW_PCI_MSIX
+	select PK_PCI
 	select PK_PCI_QEMU_DEV_MSIX
 	select PK_BROILER_PCI_MSIX
 	bool "BiscuitOS PCI/PCIe with MSIX Interrupt"
 
 config HW_PCI_DMA_INTX
+	select PK_PCI
 	select PK_BROILER_DMA_INTX
 	select PK_PCI_DMA_QEMU_DEV_INTX
 	bool "BiscuitOS PCI/PCIe DMA with INTX Interrupt"
 
 config HW_PCI_DMA_MSI
+	select PK_PCI
 	select PK_BROILER_DMA_MSI
 	select PK_PCI_DMA_QEMU_DEV_MSI
 	bool "BiscuitOS PCI/PCIe DMA with MSI Interrupt"
 
 config HW_PCI_DMA_MSIX
+	select PK_PCI
 	select PK_BROILER_DMA_MSIX
 	select PK_PCI_DMA_QEMU_DEV_MSIX
 	bool "BiscuitOS PCI/PCIe DMA with MSIX Interrupt"

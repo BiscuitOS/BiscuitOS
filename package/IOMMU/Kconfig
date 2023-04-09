@@ -1,0 +1,12 @@
+menuconfig PK_IOMMU
+	select SUPPORT_DIY
+	select DIY_CPU_Q35
+	select DIY_VIOMMU
+	bool "IOMMU: Input/Output Memory Management Unit"
+
+if PK_IOMMU
+
+# IOMMU: PCI DMA MSIX
+source package/IOMMU/BiscuitOS-IOMMU-PCI-DMA-MSIX/Kconfig
+
+endif # PK_IOMMU
