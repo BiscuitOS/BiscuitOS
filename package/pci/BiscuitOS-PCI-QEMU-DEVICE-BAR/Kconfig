@@ -1,0 +1,55 @@
+menuconfig PK_PCI_QEMU_DEV_BAR
+	bool "QEMU PCI DEVICE: PCI BAR (BiscuitOS-PCI-BAR)"
+
+if PK_PCI_QEMU_DEV_BAR
+
+config PK_PCI_QEMU_DEV_BAR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PCI_QEMU_DEV_BAR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PCI_QEMU_DEV_BAR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/PCIe/BiscuitOS-PCI-QEMU-DEVICE-BAR"
+	string "url"
+
+config PK_PCI_QEMU_DEV_BAR_GITHUB
+	string "GitHub"
+
+config PK_PCI_QEMU_DEV_BAR_SRCFILE
+	default "main.c Kconfig Makefile.objs README.md"
+	string "Source code list"
+
+config PK_PCI_QEMU_DEV_BAR_CSRCFILE
+	string "Compile source code list"
+
+config PK_PCI_QEMU_DEV_BAR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PCI_QEMU_DEV_BAR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PCI_QEMU_DEV_BAR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PCI_QEMU_DEV_BAR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PCI_QEMU_DEV_BAR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PCI_QEMU_DEV_BAR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PCI_QEMU_DEV_BAR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PCI_QEMU_DEV_BAR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PCI_QEMU_DEV_BAR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PCI_QEMU_DEV_BAR

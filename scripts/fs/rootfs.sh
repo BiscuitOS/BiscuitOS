@@ -464,7 +464,8 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					ARG19 ARG20 ${SUPPORT_HYPV}X ${SUPPORT_NUMA} ${SUPPORT_KVM} \
                                         ARG24 ARG25 \
                                         ${26}X ${27}X ${28}X ${29}X ${30}X "${31}X" ${32}X ${33}X ${34}X \
-					${35}X ${36}X ${37}X
+					${35}X ${36}X ${37}X ${38}X ${39}X ${40}X \
+					${41}X ${42}X ${43}X ${44}X ${45}X ${46}X
                                         
 
 ## Output directory

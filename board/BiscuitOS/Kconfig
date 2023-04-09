@@ -63,4 +63,39 @@ config PK_BISCUITOS_HARDWARE
         select PK_BROILER
         bool "Support BiscuitOS Hardware Emulate"
 
+config HW_PCI_BAR
+	select PK_PCI_QEMU_DEV_BAR
+	select PK_BROILER_PCI_DD
+	bool "BiscuitOS PCI/PCIe IO-BAR and MMIO-BAR"
+
+config HW_PCI_INTX
+	select PK_PCI_QEMU_DEV_INTX
+	select PK_BROILER_PCI_INTX
+	bool "BiscuitOS PCI/PCIe with INTX Interrupt"
+
+config HW_PCI_MSI
+	select PK_PCI_QEMU_DEV_MSI
+	select PK_BROILER_PCI_MSI
+	bool "BiscuitOS PCI/PCIe with MSI Interrupt"
+
+config HW_PCI_MSIX
+	select PK_PCI_QEMU_DEV_MSIX
+	select PK_BROILER_PCI_MSIX
+	bool "BiscuitOS PCI/PCIe with MSIX Interrupt"
+
+config HW_PCI_DMA_INTX
+	select PK_BROILER_DMA_INTX
+	select PK_PCI_DMA_QEMU_DEV_INTX
+	bool "BiscuitOS PCI/PCIe DMA with INTX Interrupt"
+
+config HW_PCI_DMA_MSI
+	select PK_BROILER_DMA_MSI
+	select PK_PCI_DMA_QEMU_DEV_MSI
+	bool "BiscuitOS PCI/PCIe DMA with MSI Interrupt"
+
+config HW_PCI_DMA_MSIX
+	select PK_BROILER_DMA_MSIX
+	select PK_PCI_DMA_QEMU_DEV_MSIX
+	bool "BiscuitOS PCI/PCIe DMA with MSIX Interrupt"
+
 endif # SUPPORT_BOARD_INDV

@@ -80,6 +80,29 @@ SUPPORT_vIOMMU=N
 SUPPORT_CMDLINE=N
 [ "${31%X}" != "X" ] && SUPPORT_CMDLINE=Y && DIY_CMDLINE=${31%XX}
 
+## HARDWARE
+# PCI BAR
+SUPPORT_HW_PCI_BAR=N
+[ ${37%X} = "yX" ] && SUPPORT_HW_PCI_BAR=Y
+# PCI INTX
+SUPPORT_HW_PCI_INTX=N
+[ ${38%X} = "yX" ] && SUPPORT_HW_PCI_INTX=Y
+# PCI MSI
+SUPPORT_HW_PCI_MSI=N
+[ ${39%X} = "yX" ] && SUPPORT_HW_PCI_MSI=Y
+# PCI MSIX
+SUPPORT_HW_PCI_MSIX=N
+[ ${40%X} = "yX" ] && SUPPORT_HW_PCI_MSIX=Y
+# PCI DMA INTX
+SUPPORT_HW_PCI_DMA_INTX=N
+[ ${41%X} = "yX" ] && SUPPORT_HW_PCI_DMA_INTX=Y
+# PCI DMA MSI
+SUPPORT_HW_PCI_DMA_MSI=N
+[ ${42%X} = "yX" ] && SUPPORT_HW_PCI_DMA_MSI=Y
+# PCI DMA MSIX
+SUPPORT_HW_PCI_DMA_MSIX=N
+[ ${43%X} = "yX" ] && SUPPORT_HW_PCI_DMA_MSIX=Y
+
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
 UBUNTU=${UBUNTU_FULL:0:2}
@@ -693,6 +716,14 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
 			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
 			[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+			# HW Device
+			[ ${SUPPORT_HW_PCI_BAR} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-BAR \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_INTX} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-INTX \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_MSI} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-MSI \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_MSIX} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-MSIX \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_DMA_INTX} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-DMA-INTX \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_DMA_MSI} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-DMA-MSI \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_DMA_MSIX} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-DMA-MSIX \' >> ${MF}
 			echo -e '\t-nographic \' >> ${MF}
 			echo -e '\t-append "${CMDLINE}"' >> ${MF}
 		fi

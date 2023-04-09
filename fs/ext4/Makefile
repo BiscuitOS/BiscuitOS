@@ -53,7 +53,14 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
                $(CONFIG_DIY_CPU_I440FX)X \
                $(CONFIG_DIY_CPU_Q35)X \
                $(CONFIG_DIY_VIOMMU)X \
-               MAX_ARG37
+               $(CONFIG_HW_PCI_BAR)X \
+               $(CONFIG_HW_PCI_INTX)X \
+               $(CONFIG_HW_PCI_MSI)X \
+               $(CONFIG_HW_PCI_MSIX)X \
+               $(CONFIG_HW_PCI_DMA_INTX)X \
+               $(CONFIG_HW_PCI_DMA_MSI)X \
+               $(CONFIG_HW_PCI_DMA_MSIX)X \
+               MAX_ARG44
 
 # MAX ARGS 30
 

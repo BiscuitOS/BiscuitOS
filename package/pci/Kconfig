@@ -45,4 +45,25 @@ source package/pci/Broiler-dma-msi/Kconfig
 # Broiler DMA with MSIX Interrupt
 source package/pci/Broiler-dma-msix/Kconfig
 
+# QEMU DEVICE: PCI BAR
+source package/pci/BiscuitOS-PCI-QEMU-DEVICE-BAR/Kconfig
+
+# QEMU DEVICE: PCI MSI
+source package/pci/BiscuitOS-PCI-QEMU-DEVICE-MSI/Kconfig
+
+# QEMU DEVICE: PCI MSIX
+source package/pci/BiscuitOS-PCI-QEMU-DEVICE-MSIX/Kconfig
+
+# QEMU DEVICE: PCI INTX
+source package/pci/BiscuitOS-PCI-QEMU-DEVICE-INTX/Kconfig
+
+# QEMU DEVICE: PCI DMA MSIX
+source package/pci/BiscuitOS-PCI-DMA-QEMU-DEVICE-MSIX/Kconfig
+
+# QEMU DEVICE: PCI DMA MSI
+source package/pci/BiscuitOS-PCI-DMA-QEMU-DEVICE-MSI/Kconfig
+
+# QEMU DEVICE: PCI DMA INTX
+source package/pci/BiscuitOS-PCI-DMA-QEMU-DEVICE-INTX/Kconfig
+
 endif # PK_PCI

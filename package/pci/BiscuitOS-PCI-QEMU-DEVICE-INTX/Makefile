@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-PCI-QEMU-DEVICE-INTX
+#
+################################################
+PK_PCI_QEMU_DEV_INTX_NAME        := BiscuitOS-PCI-QEMU-DEVICE-INTX
+PK_PCI_QEMU_DEV_INTX_VERSION     := $(CONFIG_PK_PCI_QEMU_DEV_INTX_VERSION)
+PK_PCI_QEMU_DEV_INTX_SITE        := $(CONFIG_PK_PCI_QEMU_DEV_INTX_URL)
+PK_PCI_QEMU_DEV_INTX_GITHUB      := $(CONFIG_PK_PCI_QEMU_DEV_INTX_GITHUB)
+PK_PCI_QEMU_DEV_INTX_SUBNAME     :=
+PK_PCI_QEMU_DEV_INTX_BUILDARCH   := $(CONFIG_PK_PCI_QEMU_DEV_INTX_BUILDARCH)
+PK_PCI_QEMU_DEV_INTX_DIR         := $(srctree)/package/pci/BiscuitOS-PCI-QEMU-DEVICE-INTX
+PK_PCI_QEMU_DEV_INTX_PATCH       := $(PK_PCI_QEMU_DEV_INTX_DIR)/patch
+PK_PCI_QEMU_DEV_INTX_BSBIT       := BiscuitOS-PCI-QEMU-DEVICE-INTX-$(PK_PCI_QEMU_DEV_INTX_VERSION).bsbit
+PK_PCI_QEMU_DEV_INTX_OUT         :=
+PK_PCI_QEMU_DEV_INTX_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_PCI_QEMU_DEV_INTX_TAR         := $(CONFIG_PK_PCI_QEMU_DEV_INTX_TAR)
+PK_PCI_QEMU_DEV_INTX_PACKAGE     :=
+PK_PCI_QEMU_DEV_INTX_CONFIG      := $(CONFIG_PK_PCI_QEMU_DEV_INTX_CONFIG)
+SUB_TARGET                  += $(PK_PCI_QEMU_DEV_INTX_DIR)/build
+
+PK_PCI_QEMU_DEV_INTX_sh = $(CONFIG_SHELL) $(PK_PCI_QEMU_DEV_INTX_SCRIPTS) \
+                 $1X \
+                 $(PK_PCI_QEMU_DEV_INTX_NAME)X \
+                 $(PK_PCI_QEMU_DEV_INTX_VERSION)X \
+                 $(PK_PCI_QEMU_DEV_INTX_SITE)X \
+                 $(PK_PCI_QEMU_DEV_INTX_GITHUB)X \
+                 $(PK_PCI_QEMU_DEV_INTX_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_PCI_QEMU_DEV_INTX_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_PCI_QEMU_DEV_INTX_SUBNAME)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_CONFIG)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_LIBPATH)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_CPPFLAGS)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_DPKCONFIG)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_CFLAGS)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_LDFLAGS)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_CXXFLAGS)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_ASFLAGS)X \
+                 $(PK_PCI_QEMU_DEV_INTX_BSBIT)X \
+                 $(PK_PCI_QEMU_DEV_INTX_BUILDARCH)X \
+		 $(PK_PCI_QEMU_DEV_INTX_CSRCFILE)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_SRCFILE)X \
+                 $(CONFIG_PK_PCI_QEMU_DEV_INTX_CSRCFILE)
+
+$(PK_PCI_QEMU_DEV_INTX_DIR)/build: FORCE
+	$(Q)$(call PK_PCI_QEMU_DEV_INTX_sh,$(srctree))
