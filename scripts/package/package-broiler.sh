@@ -207,6 +207,7 @@ echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Configure $(BASENAME) done.")' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
+echo -e '\tsudo touch $(ROOT)/rootfs/rootfs/etc/init.d/rcS.broiler > /dev/null' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh mount' >> ${MF}
 echo -e '\tmkdir -p $(BROILERDIR)' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}

@@ -231,4 +231,7 @@ source package/CACHE/BiscuitOS-CACHE-ALLOC-VMALLOC/Kconfig
 # Allocator: EARLY IO/RSVDMEM
 source package/CACHE/BiscuitOS-CACHE-ALLOC-EARLY-IORSVDMEM/Kconfig
 
+# CPA
+source package/CACHE/BiscuitOS-CACHE-CPA/Kconfig
+
 endif # PK_CACHE

@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_CPA
+	bool "CPA: Change Page Attribute with CACHE"
+
+if PK_CACHE_CPA
+
+config PK_CACHE_CPA_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_CPA_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_CPA_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-CPA"
+	string "url"
+
+config PK_CACHE_CPA_GITHUB
+	string "GitHub"
+
+config PK_CACHE_CPA_SRCFILE
+	default "app.c main.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_CACHE_CPA_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_CPA_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_CPA_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_CPA_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_CPA_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_CPA_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_CPA_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_CPA_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_CPA_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_CPA_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_CPA
