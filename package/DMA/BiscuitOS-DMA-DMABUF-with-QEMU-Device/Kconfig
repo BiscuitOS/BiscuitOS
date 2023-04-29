@@ -1,0 +1,57 @@
+menuconfig PK_DMA_DMABUF_QEMU_DEVICE
+	select PK_PCI_DMABUF_QEMU_DEV
+	select HW_DMA_BUF
+	bool "DMABUF: Video-Cpature with 2-GPUs"
+
+if PK_DMA_DMABUF_QEMU_DEVICE
+
+config PK_DMA_DMABUF_QEMU_DEVICE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/DMA-MEMORY/BiscuitOS-DMA-DMABUF-with-QEMU-Device"
+	string "url"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_GITHUB
+	string "GitHub"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_SRCFILE
+	default "APP-Export-Capture.c APP-Import-GPUA.c APP-Import-GPUB.c DMABUF-Export-Capture.c DMABUF-Import-GPUA.c DMABUF-Import-GPUB.c Kconfig Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_CSRCFILE
+	string "Compile source code list"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DMA_DMABUF_QEMU_DEVICE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DMA_DMABUF_QEMU_DEVICE

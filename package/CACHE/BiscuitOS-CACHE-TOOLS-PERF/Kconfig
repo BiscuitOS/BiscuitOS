@@ -1,0 +1,56 @@
+menuconfig PK_CACHE_TOOLS_PERF
+	select PK_LINUX_PERF
+	bool "Analysis/Diagnosis Tools: Perf"
+
+if PK_CACHE_TOOLS_PERF
+
+config PK_CACHE_TOOLS_PERF_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_TOOLS_PERF_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_TOOLS_PERF_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-TOOLS-PERF"
+	string "url"
+
+config PK_CACHE_TOOLS_PERF_GITHUB
+	string "GitHub"
+
+config PK_CACHE_TOOLS_PERF_SRCFILE
+	default "main-A.c main-B.c Makefile"
+	string "Source code list"
+
+config PK_CACHE_TOOLS_PERF_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_TOOLS_PERF_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_TOOLS_PERF_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_TOOLS_PERF_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_TOOLS_PERF_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_TOOLS_PERF_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_TOOLS_PERF_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_TOOLS_PERF_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_TOOLS_PERF_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_TOOLS_PERF_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_TOOLS_PERF

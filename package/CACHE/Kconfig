@@ -234,4 +234,19 @@ source package/CACHE/BiscuitOS-CACHE-ALLOC-EARLY-IORSVDMEM/Kconfig
 # CPA
 source package/CACHE/BiscuitOS-CACHE-CPA/Kconfig
 
+# TOOLS: PERF
+source package/CACHE/BiscuitOS-CACHE-TOOLS-PERF/Kconfig
+
+# TOOLS: VALGRIND
+source package/CACHE/BiscuitOS-CACHE-TOOLS-VALGRIND/Kconfig
+
+# DMA: NOCACHE
+source package/CACHE/BiscuitOS-CACHE-DMA-NOCACHE/Kconfig
+
+# DMA: COHERNET
+source package/CACHE/BiscuitOS-CACHE-DMA-COHERENT/Kconfig
+
+# DMA: STREAMING
+source package/CACHE/BiscuitOS-CACHE-DMA-STREAMING/Kconfig
+
 endif # PK_CACHE

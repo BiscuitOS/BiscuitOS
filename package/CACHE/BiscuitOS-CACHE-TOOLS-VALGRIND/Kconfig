@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_TOOLS_VALGRIND
+	bool "Analysis/Diagnosis Tools: Valgrind"
+
+if PK_CACHE_TOOLS_VALGRIND
+
+config PK_CACHE_TOOLS_VALGRIND_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_TOOLS_VALGRIND_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_TOOLS_VALGRIND_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-TOOLS-VALGRIND"
+	string "url"
+
+config PK_CACHE_TOOLS_VALGRIND_GITHUB
+	string "GitHub"
+
+config PK_CACHE_TOOLS_VALGRIND_SRCFILE
+	default "main-A.c main-B.c Makefile"
+	string "Source code list"
+
+config PK_CACHE_TOOLS_VALGRIND_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_TOOLS_VALGRIND_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_TOOLS_VALGRIND_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_TOOLS_VALGRIND_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_TOOLS_VALGRIND_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_TOOLS_VALGRIND_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_TOOLS_VALGRIND_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_TOOLS_VALGRIND_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_TOOLS_VALGRIND_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_TOOLS_VALGRIND_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_TOOLS_VALGRIND

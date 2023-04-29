@@ -59,6 +59,7 @@ APT_UBUNTU20X04() {
     sudo apt-get install -y libnuma-dev libnuma1 ninja-build
     sudo apt-get install -y libtool libsysfs-dev
     sudo apt-get install -y libntirpc-dev libtirpc-dev
+    sudo apt-get install -y doxygen
     sudo ln -s /usr/bin/python3 /usr/bin/python
     sudo apt-get install -y gcc-7 g++-7
     sudo apt-get install lib32z1 lib32z1-dev libc6:i386
@@ -93,6 +94,7 @@ APT_UBUNTU20X04() {
     sudo apt-get install -y libnuma-dev libnuma1 ninja-build
     sudo apt-get install -y libtool libsysfs-dev
     sudo apt-get install -y libtool libmpc-dev
+    sudo apt-get install -y doxygen
     sudo apt-get install -y gcc-7 g++-7
     sudo apt-get install lib32z1 lib32z1-dev libc6:i386
 }
@@ -118,6 +120,7 @@ APT_UBUNTU16_18() {
     sudo apt-get install -y liblzma-dev python-serial
     sudo apt-get install -y libnuma-dev libnuma1 ninja-build
     sudo apt-get install -y libtool libsysfs-dev libasan
+    sudo apt-get install -y doxygen
 }
 
 APT_UBUNTU20X04

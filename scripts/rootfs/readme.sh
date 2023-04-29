@@ -102,6 +102,9 @@ SUPPORT_HW_PCI_DMA_MSI=N
 # PCI DMA MSIX
 SUPPORT_HW_PCI_DMA_MSIX=N
 [ ${43%X} = "yX" ] && SUPPORT_HW_PCI_DMA_MSIX=Y
+# PCI DMA-BUF
+SUPPORT_HW_PCI_DMA_BUF=N
+[ ${44%X} = "yX" ] && SUPPORT_HW_PCI_DMA_BUF=Y
 
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
@@ -724,6 +727,9 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_HW_PCI_DMA_INTX} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-DMA-INTX \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_MSI} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-DMA-MSI \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_MSIX} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-DMA-MSIX \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-EXPORT \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTA \' >> ${MF}
+			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTB \' >> ${MF}
 			echo -e '\t-nographic \' >> ${MF}
 			echo -e '\t-append "${CMDLINE}"' >> ${MF}
 		fi

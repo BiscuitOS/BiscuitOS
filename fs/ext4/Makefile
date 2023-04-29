@@ -60,7 +60,8 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
                $(CONFIG_HW_PCI_DMA_INTX)X \
                $(CONFIG_HW_PCI_DMA_MSI)X \
                $(CONFIG_HW_PCI_DMA_MSIX)X \
-               MAX_ARG44
+               $(CONFIG_HW_DMA_BUF)X \
+               MAX_ARG45
 
 # MAX ARGS 30
 

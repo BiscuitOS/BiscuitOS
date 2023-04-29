@@ -18,4 +18,7 @@ source package/DMA/BiscuitOS-DMA-MEMORY-USE-ON-USERSPACE/Kconfig
 # DMABUF
 source package/DMA/BiscuitOS-DMA-DMABUF/Kconfig
 
+# DMABUF with QEMU Device
+source package/DMA/BiscuitOS-DMA-DMABUF-with-QEMU-Device/Kconfig
+
 endif # PK_DMA

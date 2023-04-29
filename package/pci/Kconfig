@@ -66,4 +66,7 @@ source package/pci/BiscuitOS-PCI-DMA-QEMU-DEVICE-MSI/Kconfig
 # QEMU DEVICE: PCI DMA INTX
 source package/pci/BiscuitOS-PCI-DMA-QEMU-DEVICE-INTX/Kconfig
 
+# QEMU DEVICE: DMA-BUF
+source package/pci/BiscuitOS-PCI-DMA-BUF-QEMU-DEVICE/Kconfig
+
 endif # PK_PCI
