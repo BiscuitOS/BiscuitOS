@@ -249,4 +249,22 @@ source package/CACHE/BiscuitOS-CACHE-DMA-COHERENT/Kconfig
 # DMA: STREAMING
 source package/CACHE/BiscuitOS-CACHE-DMA-STREAMING/Kconfig
 
+# DMA: DMA-BUF
+source package/CACHE/BiscuitOS-CACHE-DMA-BUF/Kconfig
+
+# DMA: DMA-POOL
+source package/CACHE/BiscuitOS-CACHE-DMA-POOL/Kconfig
+
+# DMA: IOMMU
+source package/CACHE/BiscuitOS-CACHE-DMA-IOMMU/Kconfig
+
+# Aligment: False Sharing
+source package/CACHE/BiscuitOS-CACHE-ALIGN-FALSE-SHARING/Kconfig
+
+# Colouring: CACHE Bin
+source package/CACHE/BiscuitOS-CACHE-COLOURING/Kconfig
+
+# CACHE Alias
+source package/CACHE/BiscuitOS-CACHE-ALIAS/Kconfig
+
 endif # PK_CACHE

@@ -61,7 +61,9 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
                $(CONFIG_HW_PCI_DMA_MSI)X \
                $(CONFIG_HW_PCI_DMA_MSIX)X \
                $(CONFIG_HW_DMA_BUF)X \
-               MAX_ARG45
+	       $(CONFIG_QEMU_CXL) \
+	       $(CONFIG_HW_CXL) \
+               MAX_ARG47
 
 # MAX ARGS 30
 

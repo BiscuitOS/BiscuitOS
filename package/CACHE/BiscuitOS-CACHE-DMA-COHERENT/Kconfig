@@ -1,5 +1,5 @@
 menuconfig PK_CACHE_DMA_COHERENT
-	bool "DMA: DMA Coherent(WB) Memory"
+	bool "DMA: DMA Coherent(WB/UC) Memory"
 
 if PK_CACHE_DMA_COHERENT
 

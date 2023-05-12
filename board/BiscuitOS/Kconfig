@@ -20,7 +20,7 @@ config DIY_ROOTFS_SIZE
 	default "300"
 
 config DIY_CPU_NUMBER
-	string "CPU Number"
+	int "CPU Number"
 	default 2
 
 config DIY_CMDLINE
@@ -105,5 +105,10 @@ config HW_DMA_BUF
 	select PK_BROILER_DMA_MSIX
 	select PK_PCI_DMA_QEMU_DEV_MSIX
 	bool "BiscuitOS PCI/PCIe DMA-BUF"
+
+config HW_CXL
+	select DIY_CPU_Q35
+	select QEMU_CXL
+	bool "CXL: Compute Express Link"
 
 endif # SUPPORT_BOARD_INDV

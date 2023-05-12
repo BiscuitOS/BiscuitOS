@@ -25,7 +25,11 @@ config QEMU_SYSTEM_DL_NAME
 endif # QEMU_SYSTEM_DL
 
 config QEMU_SYSTEM_VERSION
+	default "8.0.0" if HW_CXL=y
 	string "qemu-system verstion"
+
+config QEMU_CXL
+	bool "CXL on QEMU"
 
 config QEMU_SYSTEM_SRC
 	int 

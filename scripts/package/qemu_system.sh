@@ -22,6 +22,7 @@ QEMU_TAR=${10%X}
 QEMU_SUBNAME=${11%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 ARCH_MAGIC=${12%X}
+QEMU_CXL=${13%X}
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
 UBUNTU=${UBUNTU_FULL:0:2}
 EMULATER=
@@ -35,6 +36,8 @@ QEMU_BIN=
 [ ${UBUNTU}X = 20X -a ${ARCH_MAGIC}X = 3X ] && QEMU_VERSION="5.0.0"
 [ ${UBUNTU}X = 22X -a ${ARCH_MAGIC}X = 2X ] && QEMU_VERSION="5.0.0"
 [ ${UBUNTU}X = 22X -a ${ARCH_MAGIC}X = 3X ] && QEMU_VERSION="5.0.0"
+## CXL
+[ ${QEMU_CXL}X = "yX" ] && QEMU_VERSION="8.0.0"
 PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}/
 [ ${ARCH_MAGIC}X = 1X ] && PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}-i386/
 
@@ -48,6 +51,14 @@ if [ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ]; then
         if [ ${version} = ${QEMU_VERSION} ]; then
                 exit 0
         fi
+
+	if [ -d ${OUTPUT}/${QEMU_NAME}/qemu-${QEMU_VERSION} ]; then
+		echo "QEMU Direct Change"
+		[ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ] && rm -rf ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
+		ln -s ${OUTPUT}/${QEMU_NAME}/qemu-${QEMU_VERSION} ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
+		echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
+		exit 0
+	fi
 fi
 
 qemu_patch()

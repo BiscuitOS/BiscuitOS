@@ -1,5 +1,5 @@
 menuconfig PK_CACHE_DMA_STREAMING
-	bool "DMA: DMA Streaming(WB) Memory"
+	bool "DMA: DMA Streaming(WB/UC) Memory"
 
 if PK_CACHE_DMA_STREAMING
 

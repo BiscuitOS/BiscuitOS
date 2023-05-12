@@ -65,8 +65,12 @@ SUPPORT_NUMA=${22}
 SUPPORT_KVM=${23}
 
 ## DIY CONFIGURE
+# DIY CPU NUM
+DIY_CPU_NUM=${30%XX}
+[ ! ${DIY_CPU_NUM} ] && DIY_CPU_NUM=2
 # DIY Memory
-DIY_MEMORY=${26%X}
+DIY_MEMORY=${26%XX}
+[ ! ${DIY_MEMORY} ] && DIY_MEMORY=512
 # DIY CPU 440FX
 SUPPORT_CPU_440FX=N
 [ ${34%X} = "yX" ] && SUPPORT_CPU_440FX=Y
@@ -105,6 +109,12 @@ SUPPORT_HW_PCI_DMA_MSIX=N
 # PCI DMA-BUF
 SUPPORT_HW_PCI_DMA_BUF=N
 [ ${44%X} = "yX" ] && SUPPORT_HW_PCI_DMA_BUF=Y
+# CXL_QEMU
+SUPPORT_CXL_QEMU=N
+[ ${45%X} = "y" ] && SUPPORT_CXL_QEMU=Y
+# CXL DEVICE
+SUPPORT_CXL_HW=N
+[ ${46%X} = "y" ] && SUPPORT_CXL_HW=Y
 
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
@@ -190,6 +200,7 @@ case ${ARCH} in
 	6)
 	ARCH_NAME=x86_64
 	QEMU=${QEMU_PATH}/x86_64-softmmu/qemu-system-x86_64
+	[ ${SUPPORT_CXL_QEMU} = "Y" ] && QEMU=${QEMU_PATH}/build/qemu-system-x86_64
 	BROILER=${BROILER_PATH}/BiscuitOS_Broiler
 	;;
 esac
@@ -364,6 +375,14 @@ mkdir -p ${OUTPUT}/package/networking
 cp ${ROOT}/scripts/rootfs/qemu-if* ${OUTPUT}/package/networking
 cp ${ROOT}/scripts/rootfs/bridge.sh ${OUTPUT}/package/networking
 
+##
+# Memory
+
+[ ${SUPPORT_2_X} = "N" ] && [ ${DIY_MEMORY} -lt 512 ] && DIY_MEMORY=512
+[ ${SUPPORT_2_X} = "Y" ] && [ ${DIY_MEMORY} -lt 256 ] && DIY_MEMORY=256
+[ ${SUPPORT_ONLYRUN} = "Y" ] && [ ${DIY_MEMORY} -lt 1024 ] && DIY_MEMORY=1024
+[ ${SUPPORT_DEBIAN} = "Y" ] && [ ${DIY_MEMORY} -lt 1024 ] && DIY_MEMORY=1024
+
 ## 
 # Auto create Running scripts
 MF=${OUTPUT}/${RUNSCP_NAME}
@@ -393,14 +412,15 @@ FS_TYPE=${FS_TYPE}
 FS_TYPE_TOOLS=${FS_TYPE_TOOLS}
 ROOTFS_SIZE=${18%X}
 FREEZE_SIZE=${17%X}
+CPU_NUM=${DIY_CPU_NUM}
 DL=${ROOT}/dl
 DEBIAN_PACKAGE=${DEBIAN_PACKAGE}
+RAM_SIZE=${DIY_MEMORY}
 [ ${SUPPORT_CMDLINE} = "Y" ] && DIY_CMDLINE="${DIY_CMDLINE}"
 EOF
 ## RAM size
 if [ ${SUPPORT_NUMA} = "Y" ]; then
 	if [ ${SUPPORT_NUMA_LAYOUT} = 1 ]; then
-		echo 'RAM_SIZE=512' >> ${MF}
 		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
 	else
 		echo 'RAM_SIZE=1024' >> ${MF}
@@ -408,11 +428,6 @@ if [ ${SUPPORT_NUMA} = "Y" ]; then
 		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
 		echo 'NUMA_LAYOUT_MEMORY_1=`echo "${RAM_SIZE}/4"|bc`' >> ${MF}
 	fi
-else
-	[ ${SUPPORT_2_X} = "Y" ] && echo 'RAM_SIZE=256' >> ${MF} 
-	[ ${SUPPORT_2_X} = "N" ] && echo 'RAM_SIZE=512' >> ${MF}
-	[ ${SUPPORT_ONLYRUN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
-	[ ${SUPPORT_DEBIAN} = "Y" ] && echo 'RAM_SIZE=1024' >> ${MF}
 fi
 
 # Platform
@@ -701,10 +716,10 @@ case ${ARCH_NAME} in
 					echo -e '\t-numa dist,src=1,dst=2,val=33 \' >> ${MF}
 				fi
 			else
-				echo -e '\t-smp 2 \' >> ${MF}
+				echo -e '\t-smp ${CPU_NUM} \' >> ${MF}
 				echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 			fi
-			[ ${SUPPORT_CPU_Q35} = "Y" ] && echo -e '\t-M q35 \' >> ${MF}
+			[ ${SUPPORT_CPU_Q35} = "Y" ] && echo -e '\t-M q35,cxl=on,nvdimm=on,accel=kvm \' >> ${MF}
 			[ ${SUPPORT_vIOMMU} = "Y" ] && echo -e '\t-device intel-iommu,intremap=on \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-cpu host \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-enable-kvm \' >> ${MF}
@@ -717,7 +732,7 @@ case ${ARCH_NAME} in
 			# Support HardDisk
 			[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
 			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
-			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" -a ${SUPPORT_CXL_HW} = "N" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
 			[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
 			# HW Device
 			[ ${SUPPORT_HW_PCI_BAR} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-BAR \' >> ${MF}
@@ -730,6 +745,20 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-EXPORT \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTA \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTB \' >> ${MF}
+			if [ ${SUPPORT_CXL_HW} = "Y" ]; then
+				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/CXL.MEMORY0,size=128M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM1,share=on,mem-path=${ROOT}/CXL.MEMORY1,size=128M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/CXL.LAB0,size=128M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-LSA1,share=on,mem-path=${ROOT}/CXL.LAB1,size=128M \' >> ${MF}
+				echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=52 \' >> ${MF}
+				echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+				echo -e '\t-device cxl-rp,id=CXL_RP.1,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
+				echo -e '\t-device cxl-rp,id=CXL_RP.2,bus=CXL.0,addr=2.0,chassis=0,slot=2,port=2 \' >> ${MF}
+				echo -e '\t-device cxl-rp,id=CXL_RP.3,bus=CXL.0,addr=3.0,chassis=0,slot=3,port=3 \' >> ${MF}
+				echo -e '\t-device cxl-type3,bus=CXL_RP.1,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
+				echo -e '\t-device cxl-type3,bus=CXL_RP.2,memdev=CXL-HOST-MEM1,id=CXL-PMEM1,lsa=CXL-LSA1 \' >> ${MF}
+				echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=256M \' >> ${MF}
+			fi
 			echo -e '\t-nographic \' >> ${MF}
 			echo -e '\t-append "${CMDLINE}"' >> ${MF}
 		fi

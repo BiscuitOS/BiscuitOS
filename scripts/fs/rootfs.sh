@@ -46,7 +46,8 @@ ROOTFS_PATH=${OUTPUT}/rootfs/${ROOTFS_NAME}
 DISK_SIZE=${17%X}
 [ ! ${DISK_SIZE} ] && DISK_SIZE=512
 ROOTFS_DIY_SIZE=${29%X}
-[ ${DISK_SIZE} != ${ROOTFS_DIY_SIZE} ] && DISK_SIZE=${ROOTFS_DIY_SIZE}
+[ ! ${ROOTFS_DIY_SIZE} ] && ROOTFS_DIY_SIZE=${DISK_SIZE}
+[ ${DISK_SIZE}X != ${ROOTFS_DIY_SIZE}X ] && DISK_SIZE=${ROOTFS_DIY_SIZE}
 
 # Freeze size
 FREEZE_SIZE=${18%X}
@@ -465,7 +466,8 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
                                         ARG24 ARG25 \
                                         ${26}X ${27}X ${28}X ${29}X ${30}X "${31}X" ${32}X ${33}X ${34}X \
 					${35}X ${36}X ${37}X ${38}X ${39}X ${40}X \
-					${41}X ${42}X ${43}X ${44}X ${45}X ${46}X
+					${41}X ${42}X ${43}X ${44}X ${45}X ${46}X ${47}X ${48}X \
+					${49}X
                                         
 
 ## Output directory

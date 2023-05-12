@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-CACHE-DMA-IOMMU
+#
+################################################
+PK_CACHE_DMA_IOMMU_NAME        := BiscuitOS-CACHE-DMA-IOMMU
+PK_CACHE_DMA_IOMMU_VERSION     := $(CONFIG_PK_CACHE_DMA_IOMMU_VERSION)
+PK_CACHE_DMA_IOMMU_SITE        := $(CONFIG_PK_CACHE_DMA_IOMMU_URL)
+PK_CACHE_DMA_IOMMU_GITHUB      := $(CONFIG_PK_CACHE_DMA_IOMMU_GITHUB)
+PK_CACHE_DMA_IOMMU_SUBNAME     :=
+PK_CACHE_DMA_IOMMU_BUILDARCH   := $(CONFIG_PK_CACHE_DMA_IOMMU_BUILDARCH)
+PK_CACHE_DMA_IOMMU_DIR         := $(srctree)/package/CACHE/BiscuitOS-CACHE-DMA-IOMMU
+PK_CACHE_DMA_IOMMU_PATCH       := $(PK_CACHE_DMA_IOMMU_DIR)/patch
+PK_CACHE_DMA_IOMMU_BSBIT       := BiscuitOS-CACHE-DMA-IOMMU-$(PK_CACHE_DMA_IOMMU_VERSION).bsbit
+PK_CACHE_DMA_IOMMU_OUT         :=
+PK_CACHE_DMA_IOMMU_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_CACHE_DMA_IOMMU_TAR         := $(CONFIG_PK_CACHE_DMA_IOMMU_TAR)
+PK_CACHE_DMA_IOMMU_PACKAGE     :=
+PK_CACHE_DMA_IOMMU_CONFIG      := $(CONFIG_PK_CACHE_DMA_IOMMU_CONFIG)
+SUB_TARGET                  += $(PK_CACHE_DMA_IOMMU_DIR)/build
+
+PK_CACHE_DMA_IOMMU_sh = $(CONFIG_SHELL) $(PK_CACHE_DMA_IOMMU_SCRIPTS) \
+                 $1X \
+                 $(PK_CACHE_DMA_IOMMU_NAME)X \
+                 $(PK_CACHE_DMA_IOMMU_VERSION)X \
+                 $(PK_CACHE_DMA_IOMMU_SITE)X \
+                 $(PK_CACHE_DMA_IOMMU_GITHUB)X \
+                 $(PK_CACHE_DMA_IOMMU_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_CACHE_DMA_IOMMU_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_CACHE_DMA_IOMMU_SUBNAME)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_CONFIG)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_LIBPATH)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_CPPFLAGS)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_DPKCONFIG)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_CFLAGS)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_LDFLAGS)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_CXXFLAGS)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_ASFLAGS)X \
+                 $(PK_CACHE_DMA_IOMMU_BSBIT)X \
+                 $(PK_CACHE_DMA_IOMMU_BUILDARCH)X \
+		 $(PK_CACHE_DMA_IOMMU_CSRCFILE)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_SRCFILE)X \
+                 $(CONFIG_PK_CACHE_DMA_IOMMU_CSRCFILE)
+
+$(PK_CACHE_DMA_IOMMU_DIR)/build: FORCE
+	$(Q)$(call PK_CACHE_DMA_IOMMU_sh,$(srctree))

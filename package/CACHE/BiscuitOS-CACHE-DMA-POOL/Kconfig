@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_DMA_POOL
+	bool "DMA: DMA-POOL(WB/UC) Memory"
+
+if PK_CACHE_DMA_POOL
+
+config PK_CACHE_DMA_POOL_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_DMA_POOL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_DMA_POOL_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-DMA-POOL"
+	string "url"
+
+config PK_CACHE_DMA_POOL_GITHUB
+	string "GitHub"
+
+config PK_CACHE_DMA_POOL_SRCFILE
+	default "app.c Kconfig main.c Makefile Makefile.host README.md RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_CACHE_DMA_POOL_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_DMA_POOL_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_DMA_POOL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_DMA_POOL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_DMA_POOL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_DMA_POOL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_DMA_POOL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_DMA_POOL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_DMA_POOL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_DMA_POOL_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_DMA_POOL
