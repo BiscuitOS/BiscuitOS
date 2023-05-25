@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_TOOLS_PAPI_COST
+	bool "Analysis/Diagnosis Tools: PAPI-COST"
+
+if PK_CACHE_TOOLS_PAPI_COST
+
+config PK_CACHE_TOOLS_PAPI_COST_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_TOOLS_PAPI_COST_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_TOOLS_PAPI_COST_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-TOOLS-PAPI-COST"
+	string "url"
+
+config PK_CACHE_TOOLS_PAPI_COST_GITHUB
+	string "GitHub"
+
+config PK_CACHE_TOOLS_PAPI_COST_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_CACHE_TOOLS_PAPI_COST_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_TOOLS_PAPI_COST_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_TOOLS_PAPI_COST_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_TOOLS_PAPI_COST_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_TOOLS_PAPI_COST_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_TOOLS_PAPI_COST_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_TOOLS_PAPI_COST_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_TOOLS_PAPI_COST_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_TOOLS_PAPI_COST_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_TOOLS_PAPI_COST_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_TOOLS_PAPI_COST

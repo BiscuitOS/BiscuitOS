@@ -74,7 +74,7 @@ README:
 
 ![ppfCyEd.md.png](https://s1.ax1x.com/2023/04/02/ppfCyEd.md.png)
 
-## 4. Silence information
+#### Silence information
 
 ```
 export BS_SILENCE=true

@@ -240,6 +240,15 @@ source package/CACHE/BiscuitOS-CACHE-TOOLS-PERF/Kconfig
 # TOOLS: VALGRIND
 source package/CACHE/BiscuitOS-CACHE-TOOLS-VALGRIND/Kconfig
 
+# TOOLS: LIKWID
+source package/CACHE/BiscuitOS-CACHE-TOOLS-LIKWID/Kconfig
+
+# TOOLS: PAPI
+source package/CACHE/BiscuitOS-CACHE-TOOLS-PAPI/Kconfig
+
+# TOOLS: PAPI-COST
+source package/CACHE/BiscuitOS-CACHE-TOOLS-PAPI-COST/Kconfig
+
 # DMA: NOCACHE
 source package/CACHE/BiscuitOS-CACHE-DMA-NOCACHE/Kconfig
 
@@ -266,5 +275,14 @@ source package/CACHE/BiscuitOS-CACHE-COLOURING/Kconfig
 
 # CACHE Alias
 source package/CACHE/BiscuitOS-CACHE-ALIAS/Kconfig
+
+# SPLIT LOCK
+source package/CACHE/BiscuitOS-CACHE-SPLIT-LOCK/Kconfig
+
+# Performance
+source package/CACHE/BiscuitOS-CACHE-PERFORMANCE-FALSE-SHARING/Kconfig
+
+# Performance
+source package/CACHE/BiscuitOS-CACHE-PERFORMANCE-PREFETCH/Kconfig
 
 endif # PK_CACHE

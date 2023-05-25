@@ -1,0 +1,55 @@
+menuconfig PK_CACHE_TOOLS_LIKWID
+	bool "Analysis/Diagnosis Tools: Likwid"
+
+if PK_CACHE_TOOLS_LIKWID
+
+config PK_CACHE_TOOLS_LIKWID_VERSION
+	default "default"
+	string "verstion"
+
+config PK_CACHE_TOOLS_LIKWID_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_CACHE_TOOLS_LIKWID_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/CACHE-MECH/BiscuitOS-CACHE-TOOLS-LIKWID"
+	string "url"
+
+config PK_CACHE_TOOLS_LIKWID_GITHUB
+	string "GitHub"
+
+config PK_CACHE_TOOLS_LIKWID_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_CACHE_TOOLS_LIKWID_CSRCFILE
+	string "Compile source code list"
+
+config PK_CACHE_TOOLS_LIKWID_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_CACHE_TOOLS_LIKWID_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_CACHE_TOOLS_LIKWID_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_CACHE_TOOLS_LIKWID_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_CACHE_TOOLS_LIKWID_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_CACHE_TOOLS_LIKWID_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_CACHE_TOOLS_LIKWID_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_CACHE_TOOLS_LIKWID_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_CACHE_TOOLS_LIKWID_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_CACHE_TOOLS_LIKWID
