@@ -115,6 +115,13 @@ SUPPORT_CXL_QEMU=N
 # CXL DEVICE
 SUPPORT_CXL_HW=N
 [ ${46%X} = "y" ] && SUPPORT_CXL_HW=Y
+# VIRTIO-BLK: ARG 47-49
+SUPPORT_VDB=N
+SUPPORT_VDC=N
+SUPPORT_VDD=N
+[ ${47} != N ] && SUPPORT_VDB=Y
+[ ${48} != N ] && SUPPORT_VDC=Y
+[ ${49} != N ] && SUPPORT_VDD=Y
 
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
@@ -536,7 +543,7 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo -e '\t# SD card boot' >> ${MF}
 	echo -e '\t[ -d ${OUTPUT}/.tmpsd ] && sudo rm -rf ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
-	echo -e '\tsudo losetup -o `expr ${SD_MMC0_BEG} \* 512` ${loopdev} ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo -e '\tsudo losetup -o `expr ${SD_MMC0_BEG} \* 512` ${loopdev} ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 	echo -e '\tsudo mkdir -p ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\tsudo mount -o loop,rw ${loopdev} ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\tsudo cp ${LINUX_DIR}/${ARCH}/boot/uImage ${OUTPUT}/.tmpsd' >> ${MF}
@@ -553,7 +560,7 @@ if [ ${SUPPORT_UBOOT} = "Y" ]; then
 	echo -e '\tsudo ${QEMUT} \' >> ${MF}
 	echo -e '\t-M vexpress-a9 \' >> ${MF}
 	echo -e '\t-kernel ${UBOOT}/u-boot \' >> ${MF}
-	echo -e '\t-sd ${OUTPUT}/BiscuitOS.img \' >> ${MF}
+	echo -e '\t-sd ${OUTPUT}/Hardware/BiscuitOS.img \' >> ${MF}
 	echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 	echo -e '\t-nographic' >> ${MF}
 	echo '}' >> ${MF}
@@ -593,12 +600,12 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_DTB} = "Y" -a ${SUPPORT_ONLYRUN} = "Y" ] && echo -e '\t-dtb ${ROOT}/images/vexpress-v2p-ca9.dtb \' >> ${MF}
 		# Support HardDisk
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
-		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive file=${ROOT}/Hardware/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
 		# Support Mount root on HardDisk
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
 		# Support RAMDISK only
-		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 		# Discard Ctrl-C to exit and default Ctrl-A + X
 		# echo -e '\t-serial stdio \' >> ${MF}
 		# echo -e '\t-nodefaults \' >> ${MF}
@@ -614,12 +621,12 @@ case ${ARCH_NAME} in
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/Image \' >> ${MF}
 		# Support HardDisk
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
-		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Hardware/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
 		# Support Mount root on HardDisk
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/Hardware/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
 		# Support RAMDISK only
-		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 		# discard Ctrl-C to exit and default Ctrl-A + X
 		# echo -e '\t-serial stdio \' >> ${MF}
 		# echo -e '\t-nodefaults \' >> ${MF}
@@ -633,12 +640,12 @@ case ${ARCH_NAME} in
 		echo -e '\t-kernel ${RISCV_BBL} \' >> ${MF}
 		# Support Mount root on HardDisk
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/Hardware/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
 		# Support HardDisk
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
-		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Hardware/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
 		# Support RAMDISK only
-		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 		# Discard Ctrl-C to exit and default Ctrl-A + X
 		# echo -e '\t-serial stdio \' >> ${MF}
 		# echo -e '\t-nodefaults \' >> ${MF}
@@ -652,12 +659,12 @@ case ${ARCH_NAME} in
 		echo -e '\t-kernel ${RISCV_BBL} \' >> ${MF}
 		# Support Mount root on HardDisk
 		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-device virtio-blk-device,drive=hd0 \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-drive if=none,file=${ROOT}/Hardware/BiscuitOS.img,format=raw,id=hd0 \' >> ${MF} 
 		# Support HardDisk
 		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-device virtio-blk-device,drive=hd1 \' >> ${MF}
-		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
+		[ ${SUPPORT_BLK} = "Y" ]  && echo -e '\t-drive if=none,file=${ROOT}/Hardware/Freeze.img,format=raw,id=hd1 \' >> ${MF} 
 		# Support RAMDISK only
-		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 		# Discard Ctrl-C to exit and default Ctrl-A + X
 		# echo -e '\t-serial stdio \' >> ${MF}
 		# echo -e '\t-nodefaults \' >> ${MF}
@@ -673,13 +680,13 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_SEABIOS} = "Y" ] && echo -e '\t-bios ${OUTPUT}/bootloader/seaBIOS/out/bios.bin \' >> ${MF}
 		echo -e '\t-kernel ${LINUX_DIR}/${ARCH}/boot/bzImage \' >> ${MF}
 		# Support Ramdisk
-		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 		# Discard Ctrl-C to exit and default Ctrl-A + X
 		# echo -e '\t-serial stdio \' >> ${MF}
 		# echo -e '\t-nodefaults \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Hardware/Freeze.img \' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/Freeze.img,if=virtio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
@@ -688,7 +695,7 @@ case ${ARCH_NAME} in
 		if [ ${SUPPORT_HYPV} = "Broiler" ]; then
 			echo -e '\tsudo ${BROILER} \' >> ${MF}
 			echo -e '\t\t--kernel ${LINUX_DIR}/x86/boot/bzImage \' >> ${MF}
-			echo -e '\t\t--rootfs ${ROOT}/BiscuitOS.img \' >> ${MF}
+			echo -e '\t\t--rootfs ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 			echo -e '\t\t--memory ${RAM_SIZE} \' >> ${MF}
 			echo -e '\t\t--cpu 2 \' >> ${MF}
 			echo -e '\t\t--cmdline "${CMDLINE}"' >> ${MF}
@@ -730,10 +737,13 @@ case ${ARCH_NAME} in
 			# echo -e '\t-serial stdio \' >> ${MF}
 			# echo -e '\t-nodefaults \' >> ${MF}
 			# Support HardDisk
-			[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/BiscuitOS.img \' >> ${MF}
-			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Freeze.img \' >> ${MF}
-			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" -a ${SUPPORT_CXL_HW} = "N" ] && echo -e '\t-drive file=${ROOT}/Freeze.img,if=virtio \' >> ${MF}
-			[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/BiscuitOS.img \' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Hardware/Freeze.img \' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" -a ${SUPPORT_CXL_HW} = "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/Freeze.img,if=virtio \' >> ${MF}
+			[ ${SUPPORT_VDB} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDB.img,if=virtio \' >> ${MF}
+			[ ${SUPPORT_VDC} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDC.img,if=virtio \' >> ${MF}
+			[ ${SUPPORT_VDD} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDD.img,if=virtio \' >> ${MF}
+			[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 			# HW Device
 			[ ${SUPPORT_HW_PCI_BAR} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-BAR \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_INTX} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-INTX \' >> ${MF}
@@ -790,16 +800,16 @@ if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	if [ ${SUPPORT_RAMDISK} = "Y" ]; then
 		echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
 		if [ ${ARCH_NAME} = "x86" -o ${ARCH_NAME} = "x86_64" ]; then
-			echo -e '\tmv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
+			echo -e '\tmv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 			
 		else
 			echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
-			echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img' >> ${MF}
+			echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 		fi
 		echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 		echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 	else
-		[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
+		[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 		echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	fi
 	## Support UBOOT
@@ -813,19 +823,19 @@ if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
 		echo -e '\t# Header:   ${PART_TAB_SZ}M (Reserve 512 Bytes on legacy fdiks tools)' >> ${MF}
 		echo -e '\t# Bootload: ${MMC0P1_SZ}M (Contain Kernel + Uboot)' >> ${MF}
 		echo -e '\t# Rootfs:   ${ROOTFS_SIZE}M' >> ${MF}
-		echo -e '\tdd bs=1M count=${PART_TAB_SZ} if=/dev/zero of=${OUTPUT}/BiscuitOS.img > \' >> ${MF}
+		echo -e '\tdd bs=1M count=${PART_TAB_SZ} if=/dev/zero of=${OUTPUT}/Hardware/BiscuitOS.img > \' >> ${MF}
 		echo -e '\t                /dev/null 2>&1' >> ${MF}
 		echo -e '\tdd bs=1M count=${MMC0P1_SZ} if=/dev/zero of=${OUTPUT}/bootloader.img > \' >> ${MF}
 		echo -e '\t                /dev/null 2>&1' >> ${MF}
 		echo -e '\tsudo mkfs.vfat ${OUTPUT}/bootloader.img > /dev/null 2>&1' >> ${MF}
-		echo -e '\tdd bs=1M if=${OUTPUT}/bootloader.img of=${OUTPUT}/BiscuitOS.img \' >> ${MF}
+		echo -e '\tdd bs=1M if=${OUTPUT}/bootloader.img of=${OUTPUT}/Hardware/BiscuitOS.img \' >> ${MF}
 		echo -e '\t                conv=notrunc seek=${PART_TAB_SZ} > /dev/null 2>&1' >> ${MF}
-		echo -e '\tdd bs=1M if=${OUTPUT}/rootfs/ramdisk of=${OUTPUT}/BiscuitOS.img \' >> ${MF}
+		echo -e '\tdd bs=1M if=${OUTPUT}/rootfs/ramdisk of=${OUTPUT}/Hardware/BiscuitOS.img \' >> ${MF}
 		echo -e '\t                conv=notrunc seek=${MMC0P1_SEEK} > /dev/null 2>&1' >> ${MF}
 		echo -e '\trm -rf ${OUTPUT}/bootloader.img' >> ${MF}
 		echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 		echo -e '\t# Parting Table' >> ${MF}
-		echo 'cat <<EOF | fdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
+		echo 'cat <<EOF | fdisk ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 		echo 'n' >> ${MF}
 		echo 'p' >> ${MF}
 		echo '1' >> ${MF}
@@ -850,10 +860,10 @@ elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\t# Header:   ${PART_TAB_SZ}M (Reserve 512 Bytes on legacy fdiks tools)' >> ${MF}
 	echo -e '\t# Bootload: ${MMC0P1_SZ}M (Contain Kernel + Uboot)' >> ${MF}
 	echo -e '\t# Rootfs:   ${ROOTFS_SIZE}M' >> ${MF}
-	echo -e '\tsudo dd if=/dev/zero of=${OUTPUT}/BiscuitOS.img bs=1M \' >> ${MF}
+	echo -e '\tsudo dd if=/dev/zero of=${OUTPUT}/Hardware/BiscuitOS.img bs=1M \' >> ${MF}
 	echo -e '\t                                count=${SD_SIZE} > /dev/null 2>&1' >> ${MF}
 	echo -e '\t# Parting Table' >> ${MF}
-	echo 'cat <<EOF | sudo fdisk ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo 'cat <<EOF | sudo fdisk ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 	echo 'n' >> ${MF}
 	echo 'p' >> ${MF}
 	echo '1' >> ${MF}
@@ -882,7 +892,7 @@ elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\t# --> Change LABLE and UUID/PARTUUID' >> ${MF}
 	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
 	echo -e '\tdev=${loopdev#/dev/}' >> ${MF}
-	echo -e '\tsudo losetup ${loopdev} ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo -e '\tsudo losetup ${loopdev} ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 	echo -e '\tsudo kpartx -a -v -s ${loopdev}' >> ${MF}
 	echo -e '\t# Setup Filesystem' >> ${MF}
 	echo -e '\tsudo mkfs.vfat /dev/mapper/${dev}p1' >> ${MF}
@@ -919,7 +929,7 @@ elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\t[ -d ${OUTPUT}/.tmpsd ] && sudo rm -rf ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
 	echo -e '\tsudo losetup -o `expr ${SD_MMC0_BEG} \* 512` ${loopdev} \' >> ${MF}
-	echo -e '\t                                ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo -e '\t                                ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 	echo -e '\tsudo mkdir -p ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\tsudo mount -o loop,rw ${loopdev} ${OUTPUT}/.tmpsd' >> ${MF}
 	echo -e '\t# bootloader file' >> ${MF}
@@ -942,7 +952,7 @@ elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
 	echo -e '\tsudo losetup -o `expr ${SD_MMC1_BEG} \* 512` ${loopdev} \' >> ${MF}
-	echo -e '\t                                        ${OUTPUT}/BiscuitOS.img' >> ${MF}
+	echo -e '\t                                        ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
 	echo -e '\tsudo mount -t ext4 ${loopdev} ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
 	echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
 	echo -e '\tsync' >> ${MF}
@@ -950,11 +960,11 @@ elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
 else # Qemu Debian
-	echo -e '\tif [ ! -f ${OUTPUT}/Freeze.img ]; then' >> ${MF}
-	echo -e '\t\tsudo dd if=/dev/zero of=${OUTPUT}/Freeze.img bs=1M count=${FREEZE_SIZE} > /dev/null 2>&1' >> ${MF}
+	echo -e '\tif [ ! -f ${OUTPUT}/Hardware/Freeze.img ]; then' >> ${MF}
+	echo -e '\t\tsudo dd if=/dev/zero of=${OUTPUT}/Hardware/Freeze.img bs=1M count=${FREEZE_SIZE} > /dev/null 2>&1' >> ${MF}
 	echo -e '\t\tloopdev=`sudo losetup -f`' >> ${MF}
 	echo -e '\t\tdev=${loopdev#/dev/}' >> ${MF}
-	echo -e '\t\tsudo losetup ${loopdev} ${OUTPUT}/Freeze.img' >> ${MF}
+	echo -e '\t\tsudo losetup ${loopdev} ${OUTPUT}/Hardware/Freeze.img' >> ${MF}
 	echo -e '\t\tsudo mkfs.ext4 ${loopdev}' >> ${MF}
 	echo -e '\t\tsudo losetup -d ${loopdev}' >> ${MF}
 	echo -e '\tfi' >> ${MF}
@@ -994,10 +1004,10 @@ if [ ${SUPPORT_FREEZE_DISK} = "Y" ]; then
 	echo -e '\tmountpoint -q ${ROOT}/FreezeDir' >>  ${MF}
 	echo -e '\t[ $? = 0 ] && echo "FreezeDir has mount!" && exit 0' >>  ${MF}
 	echo -e '\t## Mount Image' >>  ${MF}
-	echo -e '\tsudo mount -t ${FS_TYPE} ${ROOT}/Freeze.img ${ROOT}/FreezeDir -o loop >> /dev/null 2>&1' >>  ${MF}
+	echo -e '\tsudo mount -t ${FS_TYPE} ${ROOT}/Hardware/Freeze.img ${ROOT}/FreezeDir -o loop >> /dev/null 2>&1' >>  ${MF}
 	echo -e '\tsudo chown ${USER}.${USER} -R ${ROOT}/FreezeDir' >>  ${MF}
 	echo -e '\techo "=============================================="' >>  ${MF}
-	echo -e '\techo "FreezeDisk: ${ROOT}/Freeze.img"' >>  ${MF}
+	echo -e '\techo "FreezeDisk: ${ROOT}/Hardware/Freeze.img"' >>  ${MF}
 	echo -e '\techo "MountDiret: ${ROOT}/FreezeDir"' >>  ${MF}
 	echo -e '\techo "=============================================="' >>  ${MF}
 	echo '}' >>  ${MF}

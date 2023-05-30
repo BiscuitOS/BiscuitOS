@@ -111,4 +111,16 @@ config HW_CXL
 	select QEMU_CXL
 	bool "CXL: Compute Express Link"
 
+config VIRTIO_BLK_MINIX
+	bool "Virtio-BLK: MINIX Filesystem Disk"
+
+config VIRTIO_BLK_EXT4
+	bool "Virtio-BLK: EXT4 Filesystem Disk"
+
+config VIRTIO_BLK_EXT2
+	bool "Virtio-BLK: EXT2 Filesystem Disk"
+
+config PSEUDO_TMPFS
+	bool "Pseudo Filesystem: TMPFS"
+
 endif # SUPPORT_BOARD_INDV

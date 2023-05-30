@@ -1,0 +1,12 @@
+menuconfig PK_MEMMAP
+	bool "Memory Mapping Mechanism[NEW]"
+
+if PK_MEMMAP
+
+# ALLOC ALIGN MEMORY
+source package/MEMORY-MMAP/BiscuitOS-MEMMAP-ALLOC-ALIGN-MEMORY/Kconfig
+
+# DETECT PHYSICAL MEMORY
+source package/MEMORY-MMAP/BiscuitOS-MEMMAP-DETECT-PHYSMEM/Kconfig
+
+endif # PK_MEMMAP

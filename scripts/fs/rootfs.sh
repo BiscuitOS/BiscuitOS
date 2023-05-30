@@ -84,6 +84,57 @@ ARCH_MAGIC=${11%X}
 ARCH_NAME=unknown
 ARCH=
 
+## DISK
+OPT_SUPPORT_MINIX=N
+OPT_SUPPORT_EXT2=N
+OPT_SUPPORT_EXT4=N
+OPT_SUPPORT_MINIX=N
+SUPPORT_VDA_FREEZE=Y
+SUPPORT_VDB=N
+SUPPORT_VDC=N
+SUPPORT_VDD=N
+[ ${47%} = yX ] && OPT_SUPPORT_MINIX=Y
+[ ${48%} = yX ] && OPT_SUPPORT_EXT4=Y
+[ ${49%} = yX ] && OPT_SUPPORT_EXT2=Y
+
+# Pseudo FS
+SUPPORT_GUEST_TMPFS=N
+[ ${50%} = yX ] && SUPPORT_GUEST_TMPFS=Y
+
+
+if [ ${OPT_SUPPORT_MINIX} = "Y" ]; then
+	SUPPORT_VDB=minix
+	if [ ${OPT_SUPPORT_EXT4} = "Y" ]; then
+		SUPPORT_VDC=ext4
+		if [ ${OPT_SUPPORT_EXT2} = "Y" ]; then
+			SUPPORT_VDD=ext2
+		else
+			SUPPORT_VDD=N
+		fi
+	else
+		if [ ${OPT_SUPPORT_EXT2} = "Y" ]; then
+			SUPPORT_VDC=ext2
+		else
+			SUPPORT_VDC=N
+		fi
+	fi
+else
+	if [ ${OPT_SUPPORT_EXT4} = "Y" ]; then
+		SUPPORT_VDB=ext4
+		if [ ${OPT_SUPPORT_EXT2} = "Y" ]; then
+			SUPPORT_VDC=ext2
+		else
+			SUPPORT_VDC=N
+		fi
+	else
+		if [ ${OPT_SUPPORT_EXT2} = "Y" ]; then
+			SUPPORT_VDB=ext2
+		else
+			SUPPORT_VDB=N
+		fi
+	fi
+fi
+
 # Copy library
 copy_libs() {
 	for lib in $1/*.so*; do
@@ -238,9 +289,7 @@ mdev -s
 
 # Mount Freeze Disk
 mkdir -p /mnt/Freeze
-[ -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vdb /mnt/Freeze > /dev/null 2>&1
-[ ! -b /dev/vdb ] && mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
-[ -b /dev/sdb ] && mount -t ${FS_TYPE} /dev/sdb /mnt/Freeze > /dev/null 2>&1
+[ -b /dev/vda ] && mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
 [ -f /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm ] && ln -s /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm /usr/bin/qemu-kvm
 
 # SWAP
@@ -248,20 +297,42 @@ dd bs=1M count=1 if=/dev/zero of=/SWAP > /dev/null 2>&1
 mkswap /SWAP > /dev/null 2>&1
 swapon /SWAP > /dev/null 2>&1
 
-echo " ____  _                _ _    ___  ____  "
-echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "
-echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "
-echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"
-echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "
-
-echo "Welcome to BiscuitOS"
 EOF
+if [ ${SUPPORT_VDB} != N ]; then 
+	echo "mkdir -p /mnt/${SUPPORT_VDB}" >> ${RC}
+	echo "[ -b /dev/vdb ] && mount /dev/vdb /mnt/${SUPPORT_VDB} > /dev/null 2>&1 " >> ${RC}
+	echo "[ ! -f /mnt/${SUPPORT_VDB}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDB}/BiscuitOS.txt" >> ${RC}
+fi
+if [ ${SUPPORT_VDC} != N ]; then 
+	echo "mkdir -p /mnt/${SUPPORT_VDC}" >> ${RC}
+	echo "[ -b /dev/vdc ] && mount /dev/vdc /mnt/${SUPPORT_VDC} > /dev/null 2>&1 " >> ${RC}
+	echo "[ ! -f /mnt/${SUPPORT_VDC}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDC}/BiscuitOS.txt" >> ${RC}
+fi
+if [ ${SUPPORT_VDD} != N ]; then 
+	echo "mkdir -p /mnt/${SUPPORT_VDD}" >> ${RC}
+	echo "[ -b /dev/vdd ] && mount /dev/vdd /mnt/${SUPPORT_VDD} > /dev/null 2>&1 " >> ${RC}
+	echo "[ ! -f /mnt/${SUPPORT_VDD}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDD}/BiscuitOS.txt" >> ${RC}
+fi
+if [ ${SUPPORT_GUEST_TMPFS} = "Y" ]; then
+	echo 'mkdir -p /mnt/tmpfs ; mount -t tmpfs nodev /mnt/tmpfs/' >> ${RC}
+	echo "[ ! -f /mnt/tmpfs/BiscuitOS.txt ] && dmesg > /mnt/tmpfs/BiscuitOS.txt" >> ${RC}
+fi
+
+echo '' >> ${RC}
+echo 'echo " ____  _                _ _    ___  ____  "' >> ${RC}
+echo 'echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "' >> ${RC}
+echo 'echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "' >> ${RC}
+echo 'echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"' >> ${RC}
+echo 'echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "' >> ${RC}
+echo '' >> ${RC}
+echo 'echo "Welcome to BiscuitOS"' >> ${RC}
 chmod 755 ${RC}
 echo '# Auto Running Broiler' >> ${RC}
 echo 'cat /proc/cmdline | grep -w "Broiler" > /dev/null' >> ${RC}
 echo '[ $? -eq 0 ] && echo "Welcome to Broiler" && rm -rf /usr/bin/RunBroiler.sh && rm -rf /usr/bin/BiscuitOS-Broiler-default  && exit 0' >> ${RC}
 echo '[ -f /etc/init.d/rcS.broiler ] && RunBroiler.sh' >> ${RC}
 echo '[ ! -f /etc/init.d/rcS.broiler ] && rm -rf /usr/bin/RunBroiler.sh' >> ${RC}
+
 
 ### fstab
 RC=${ROOTFS_PATH}/etc/fstab
@@ -423,6 +494,7 @@ sudo mknod ${ROOTFS_PATH}/dev/null c 1 3
 
 ## Change root
 sudo chown root.root ${ROOTFS_PATH}/* -R
+mkdir -p ${OUTPUT}/Hardware
 
 dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${DISK_SIZE}
 ${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk
@@ -435,14 +507,14 @@ if [ ${SUPPORT_RAMDISK} = "Y" ]; then
 	# Support RAMdisk
 	gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz
 	if [ ${ARCH_NAME} = "x86" -o ${ARCH_NAME} = "x86_64" ]; then
-		mv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
+		mv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Haredware/BiscuitOS.img
 	else
-		mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/BiscuitOS.img
+		mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img
 	fi
 	sudo rm -rf ${OUTPUT}/rootfs/ramdisk
 else
 	# Support HardDisk
-	mv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/BiscuitOS.img
+	mv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/Hardware/BiscuitOS.img
 fi
 
 sudo rm -rf ${OUTPUT}/rootfs/tmpfs
@@ -453,9 +525,24 @@ ln -s ${OUTPUT}/rootfs/${ROOTFS_NAME} ${OUTPUT}/rootfs/rootfs
 FREEZE_DISK=Freeze.img
 [ ! ${FREEZE_SIZE} ] && FREEZE_SIZE=1024
 if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
-       	dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/${FREEZE_DISK}
+       	dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/Hardware/${FREEZE_DISK} > /dev/null 2>&1
 	sync
-	${FS_TYPE_TOOLS} -F ${OUTPUT}/${FREEZE_DISK}
+	${FS_TYPE_TOOLS} -F ${OUTPUT}/Hardware/${FREEZE_DISK}
+fi
+if [ ${SUPPORT_VDB} != N ]; then
+	dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDB.img > /dev/null 2>&1
+	sync
+	mkfs.${SUPPORT_VDB} ${OUTPUT}/Hardware/VDB.img
+fi
+if [ ${SUPPORT_VDC} != N ]; then
+	dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDC.img > /dev/null 2>&1
+	sync
+	mkfs.${SUPPORT_VDC} ${OUTPUT}/Hardware/VDC.img
+fi
+if [ ${SUPPORT_VDD} != N ]; then
+	dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDD.img > /dev/null 2>&1
+	sync
+	mkfs.${SUPPORT_VDD} ${OUTPUT}/Hardware/VDD.img
 fi
 
 ## Auto build README.md
@@ -466,8 +553,8 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
                                         ARG24 ARG25 \
                                         ${26}X ${27}X ${28}X ${29}X ${30}X "${31}X" ${32}X ${33}X ${34}X \
 					${35}X ${36}X ${37}X ${38}X ${39}X ${40}X \
-					${41}X ${42}X ${43}X ${44}X ${45}X ${46}X ${47}X ${48}X \
-					${49}X
+					${41}X ${42}X ${43}X ${44}X ${45}X ${46}X ${SUPPORT_VDB} ${SUPPORT_VDC} \
+					${SUPPORT_VDD}
                                         
 
 ## Output directory

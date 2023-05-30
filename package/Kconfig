@@ -324,6 +324,9 @@ source package/memory-sanitizers/Kconfig
 # memory mapping
 source package/memory-mapping/Kconfig
 
+# Memory Mapping
+source package/MEMORY-MMAP/Kconfig
+
 # MTRR
 source package/MTRR/Kconfig
 

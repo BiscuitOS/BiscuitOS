@@ -3,6 +3,9 @@ menuconfig PK_CACHE
 
 if PK_CACHE
 
+# CACHE
+source package/CACHE/BiscuitOS-CACHE/Kconfig
+
 # Intel CMT/CAT
 source package/CACHE/BiscuitOS-Intel-CMT-CAT/Kconfig
 

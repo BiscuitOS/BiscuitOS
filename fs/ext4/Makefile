@@ -61,9 +61,13 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
                $(CONFIG_HW_PCI_DMA_MSI)X \
                $(CONFIG_HW_PCI_DMA_MSIX)X \
                $(CONFIG_HW_DMA_BUF)X \
-	       $(CONFIG_QEMU_CXL) \
-	       $(CONFIG_HW_CXL) \
-               MAX_ARG47
+	       $(CONFIG_QEMU_CXL)X \
+	       $(CONFIG_HW_CXL)X \
+	       $(CONFIG_VIRTIO_BLK_MINIX)X \
+	       $(CONFIG_VIRTIO_BLK_EXT4)X \
+	       $(CONFIG_VIRTIO_BLK_EXT2)X \
+	       $(CONFIG_PSEUDO_TMPFS)X \
+               MAX_ARG51
 
 # MAX ARGS 30
 
