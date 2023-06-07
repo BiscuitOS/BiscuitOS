@@ -60,6 +60,7 @@ SUPPORT_QEMU=${20}
 [ ${SUPPORT_QEMU} = "yX" ] && SUPPORT_HYPV="QEMU"
 # NUMA
 SUPPORT_NUMA=${21}
+[ ${32} == yX ] && SUPPORT_NUMA=yX
 SUPPORT_KVM=${22}
 
 ##
@@ -460,7 +461,6 @@ else
 				  [ ! -f ${ROOTFS_PATH}/lib/libbfd-2.34-system.so ] && sudo cp -rfa /lib/x86_64-linux-gnu/libbfd-2.34-system.so ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libopcodes-2.34-system.so ] && sudo cp -rfa /lib/x86_64-linux-gnu/libopcodes-2.34-system.so ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libcap.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libcap.so.* ${ROOTFS_PATH}/lib/
-				  [ ! -f ${ROOTFS_PATH}/lib/libnuma.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libnuma.so.* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libexpat.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libexpat.so.* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libutil.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libutil* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libgcc_s.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libgcc_s.so.* ${ROOTFS_PATH}/lib/
@@ -524,25 +524,31 @@ ln -s ${OUTPUT}/rootfs/${ROOTFS_NAME} ${OUTPUT}/rootfs/rootfs
 ## Establish a freeze disk
 FREEZE_DISK=Freeze.img
 [ ! ${FREEZE_SIZE} ] && FREEZE_SIZE=1024
-if [ ! -f ${OUTPUT}/${FREEZE_DISK} ]; then
+if [ ! -f ${OUTPUT}/Hardware/${FREEZE_DISK} ]; then
        	dd bs=1M count=${FREEZE_SIZE} if=/dev/zero of=${OUTPUT}/Hardware/${FREEZE_DISK} > /dev/null 2>&1
 	sync
-	${FS_TYPE_TOOLS} -F ${OUTPUT}/Hardware/${FREEZE_DISK}
+	mkfs.ext4 ${OUTPUT}/Hardware/${FREEZE_DISK}
 fi
 if [ ${SUPPORT_VDB} != N ]; then
-	dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDB.img > /dev/null 2>&1
-	sync
-	mkfs.${SUPPORT_VDB} ${OUTPUT}/Hardware/VDB.img
+	if [ ! -f ${OUTPUT}/Hardware/VDB.img ]; then
+		dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDB.img > /dev/null 2>&1
+		sync
+		mkfs.${SUPPORT_VDB} ${OUTPUT}/Hardware/VDB.img
+	fi
 fi
 if [ ${SUPPORT_VDC} != N ]; then
-	dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDC.img > /dev/null 2>&1
-	sync
-	mkfs.${SUPPORT_VDC} ${OUTPUT}/Hardware/VDC.img
+	if [ ! -f ${OUTPUT}/Hardware/VDC.img ]; then
+		dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDC.img > /dev/null 2>&1
+		sync
+		mkfs.${SUPPORT_VDC} ${OUTPUT}/Hardware/VDC.img
+	fi
 fi
 if [ ${SUPPORT_VDD} != N ]; then
-	dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDD.img > /dev/null 2>&1
-	sync
-	mkfs.${SUPPORT_VDD} ${OUTPUT}/Hardware/VDD.img
+	if [ ! -f ${OUTPUT}/Hardware/VDD.img ]; then
+		dd bs=1M count=16 if=/dev/zero of=${OUTPUT}/Hardware/VDD.img > /dev/null 2>&1
+		sync
+		mkfs.${SUPPORT_VDD} ${OUTPUT}/Hardware/VDD.img
+	fi
 fi
 
 ## Auto build README.md

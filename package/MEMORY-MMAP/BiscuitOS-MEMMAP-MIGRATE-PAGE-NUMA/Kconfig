@@ -1,0 +1,57 @@
+menuconfig PK_MEMMAP_MIGRATE_PAGE_NUMA
+	select SUPPORT_DIY
+	select DIY_NUMA
+	bool "Migrate Page on NUMA"
+
+if PK_MEMMAP_MIGRATE_PAGE_NUMA
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MEMORY-MAPPING/BiscuitOS-MEMMAP-MIGRATE-PAGE-NUMA"
+	string "url"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_GITHUB
+	string "GitHub"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMMAP_MIGRATE_PAGE_NUMA_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMMAP_MIGRATE_PAGE_NUMA

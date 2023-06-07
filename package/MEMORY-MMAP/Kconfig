@@ -6,7 +6,19 @@ if PK_MEMMAP
 # ALLOC ALIGN MEMORY
 source package/MEMORY-MMAP/BiscuitOS-MEMMAP-ALLOC-ALIGN-MEMORY/Kconfig
 
-# DETECT PHYSICAL MEMORY
-source package/MEMORY-MMAP/BiscuitOS-MEMMAP-DETECT-PHYSMEM/Kconfig
+# INFO: Physical Address
+source package/MEMORY-MMAP/BiscuitOS-MEMMAP-INFO-PHYSMEM/Kconfig
+
+# INFO: NUMA NODE
+source package/MEMORY-MMAP/BiscuitOS-MEMMAP-INFO-NUMA-NODE/Kconfig
+
+# SWAP IN/OUT MEMORY
+source package/MEMORY-MMAP/BiscuitOS-MEMMAP-SWAP-INOUT-MEMORY/Kconfig
+
+# Trigger OOM
+source package/MEMORY-MMAP/BiscuitOS-MEMMAP-TRIGGER-OOM/Kconfig
+
+# Migrate on NUMA
+source package/MEMORY-MMAP/BiscuitOS-MEMMAP-MIGRATE-PAGE-NUMA/Kconfig
 
 endif # PK_MEMMAP

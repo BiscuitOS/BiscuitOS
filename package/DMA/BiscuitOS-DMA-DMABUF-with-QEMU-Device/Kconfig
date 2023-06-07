@@ -1,6 +1,4 @@
 menuconfig PK_DMA_DMABUF_QEMU_DEVICE
-	select PK_PCI_DMABUF_QEMU_DEV
-	select HW_DMA_BUF
 	bool "DMABUF: Video-Cpature with 2-GPUs"
 
 if PK_DMA_DMABUF_QEMU_DEVICE

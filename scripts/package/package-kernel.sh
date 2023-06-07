@@ -188,6 +188,11 @@ echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 echo -e '\tmake menuconfig ARCH=$(ARCH) ;\' >> ${MF}
 echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
+echo 'module:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tmake modules ARCH=$(ARCH) -j98 ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
 echo 'tags:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 echo -e '\tmake tags ARCH=$(ARCH) ;\' >> ${MF}

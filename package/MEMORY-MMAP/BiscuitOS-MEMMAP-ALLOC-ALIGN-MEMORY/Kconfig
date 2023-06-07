@@ -19,7 +19,7 @@ config PK_MEMMAP_ALLOC_ALIGN_MEM_GITHUB
 	string "GitHub"
 
 config PK_MEMMAP_ALLOC_ALIGN_MEM_SRCFILE
-	default "main.c Makefile"
+	default "main.c Makefile RunBiscuitOS.sh"
 	string "Source code list"
 
 config PK_MEMMAP_ALLOC_ALIGN_MEM_CSRCFILE

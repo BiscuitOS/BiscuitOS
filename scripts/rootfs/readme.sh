@@ -111,10 +111,10 @@ SUPPORT_HW_PCI_DMA_BUF=N
 [ ${44%X} = "yX" ] && SUPPORT_HW_PCI_DMA_BUF=Y
 # CXL_QEMU
 SUPPORT_CXL_QEMU=N
-[ ${45%X} = "y" ] && SUPPORT_CXL_QEMU=Y
+[ ${45%X} = "yX" ] && SUPPORT_CXL_QEMU=Y
 # CXL DEVICE
 SUPPORT_CXL_HW=N
-[ ${46%X} = "y" ] && SUPPORT_CXL_HW=Y
+[ ${46%X} = "yX" ] && SUPPORT_CXL_HW=Y
 # VIRTIO-BLK: ARG 47-49
 SUPPORT_VDB=N
 SUPPORT_VDC=N
@@ -430,7 +430,6 @@ if [ ${SUPPORT_NUMA} = "Y" ]; then
 	if [ ${SUPPORT_NUMA_LAYOUT} = 1 ]; then
 		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
 	else
-		echo 'RAM_SIZE=1024' >> ${MF}
 		echo "# Don't Modify NUMA_LAYOUT_MEMORY_0/1" >> ${MF}
 		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
 		echo 'NUMA_LAYOUT_MEMORY_1=`echo "${RAM_SIZE}/4"|bc`' >> ${MF}
@@ -726,7 +725,8 @@ case ${ARCH_NAME} in
 				echo -e '\t-smp ${CPU_NUM} \' >> ${MF}
 				echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 			fi
-			[ ${SUPPORT_CPU_Q35} = "Y" ] && echo -e '\t-M q35,cxl=on,nvdimm=on,accel=kvm \' >> ${MF}
+			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_CXL_HW} = "Y" ] && echo -e '\t-M q35,cxl=on,nvdimm=on,accel=kvm \' >> ${MF}
+			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_CXL_HW} = "N" ] && echo -e '\t-M q35 \' >> ${MF}
 			[ ${SUPPORT_vIOMMU} = "Y" ] && echo -e '\t-device intel-iommu,intremap=on \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-cpu host \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-enable-kvm \' >> ${MF}
@@ -756,10 +756,10 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTA \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTB \' >> ${MF}
 			if [ ${SUPPORT_CXL_HW} = "Y" ]; then
-				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/CXL.MEMORY0,size=128M \' >> ${MF}
-				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM1,share=on,mem-path=${ROOT}/CXL.MEMORY1,size=128M \' >> ${MF}
-				echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/CXL.LAB0,size=128M \' >> ${MF}
-				echo -e '\t-object memory-backend-file,id=CXL-LSA1,share=on,mem-path=${ROOT}/CXL.LAB1,size=128M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=128M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM1,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY1,size=128M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=128M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-LSA1,share=on,mem-path=${ROOT}/Hardware/CXL.LAB1,size=128M \' >> ${MF}
 				echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=52 \' >> ${MF}
 				echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
 				echo -e '\t-device cxl-rp,id=CXL_RP.1,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}

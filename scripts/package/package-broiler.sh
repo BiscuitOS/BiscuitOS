@@ -215,7 +215,7 @@ echo -e '\tsudo cp -rfa BiscuitOS-Broiler-default $(INS_PATH)/bin/ ; \' >> ${MF}
 echo -e '\tsudo cp -rfa RunBroiler.sh $(INS_PATH)/bin/ ; \' >> ${MF}
 echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
 echo -e '\tsudo cp -rfa $(ROOT)/linux/linux/arch/x86/boot/bzImage $(BROILERDIR)/bzImage ; \' >> ${MF}
-echo -e '\tsudo cp -rfa $(ROOT)/BiscuitOS.img $(BROILERDIR)/BiscuitOS.img ; ' >> ${MF}
+echo -e '\tsudo cp -rfa $(ROOT)/Hardware/BiscuitOS.img $(BROILERDIR)/BiscuitOS.img ; ' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
