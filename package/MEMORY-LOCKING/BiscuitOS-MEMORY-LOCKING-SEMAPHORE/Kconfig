@@ -1,0 +1,55 @@
+menuconfig PK_MEMLOCK_SEMAPHORE
+	bool "Semaphore"
+
+if PK_MEMLOCK_SEMAPHORE
+
+config PK_MEMLOCK_SEMAPHORE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMLOCK_SEMAPHORE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMLOCK_SEMAPHORE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MEMORY-LOCKING/BiscuitOS-MEMORY-LOCKING-SEMAPHORE"
+	string "url"
+
+config PK_MEMLOCK_SEMAPHORE_GITHUB
+	string "GitHub"
+
+config PK_MEMLOCK_SEMAPHORE_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh Makefile.host Kconfig"
+	string "Source code list"
+
+config PK_MEMLOCK_SEMAPHORE_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMLOCK_SEMAPHORE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMLOCK_SEMAPHORE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMLOCK_SEMAPHORE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMLOCK_SEMAPHORE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMLOCK_SEMAPHORE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMLOCK_SEMAPHORE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMLOCK_SEMAPHORE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMLOCK_SEMAPHORE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMLOCK_SEMAPHORE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMLOCK_SEMAPHORE

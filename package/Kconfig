@@ -312,11 +312,17 @@ source package/MMU_shrink/Kconfig
 # memblock
 source package/MEMBLOCK/Kconfig
 
+# MEMORY BARRIER
+source package/MEMORY-BARRIER/Kconfig
+
 # MM-ERROR
 source package/MM-ERROR/Kconfig
 
 # memory_history
 source package/memory_history/Kconfig
+
+# MEMORY LOCKING
+source package/MEMORY-LOCKING/Kconfig
 
 # memory-sanitizers
 source package/memory-sanitizers/Kconfig

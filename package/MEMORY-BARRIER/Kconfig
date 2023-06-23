@@ -1,0 +1,18 @@
+menuconfig PK_MEMORY_BARRIER
+	bool "Memory Barriers Mechanism"
+
+if PK_MEMORY_BARRIER
+
+# SMP R/WMB
+source package/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-SMP-RWMB/Kconfig
+
+# NOLOCKING SYNC
+source package/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-NOLOCKING-SYNC/Kconfig
+
+# NOLOCKING SYNC with smp_wmb
+source package/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-NOLOCKING-SYNC-WMB/Kconfig
+
+# NOLOCKING SYNC with Counter
+source package/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-NOLOCKING-SYNC-COUNTER/Kconfig
+
+endif # PK_MEMORY_BARRIER

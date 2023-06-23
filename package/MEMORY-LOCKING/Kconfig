@@ -1,0 +1,27 @@
+menuconfig PK_MEMORY_LOCKING
+	bool "Memory Locking Mechanism"
+
+if PK_MEMORY_LOCKING
+
+# Spinlock
+source package/MEMORY-LOCKING/BiscuitOS-MEMORY-LOCKING-SPINLOCK/Kconfig
+
+# Semaphore
+source package/MEMORY-LOCKING/BiscuitOS-MEMORY-LOCKING-SEMAPHORE/Kconfig
+
+# MUTEX
+source package/MEMORY-LOCKING/BiscuitOS-MEMORY-LOCKING-MUTEX/Kconfig
+
+# RW-Semaphore
+source package/MEMORY-LOCKING/BiscuitOS-MEMORY-LOCKING-RW_SEMAPHORE/Kconfig
+
+# RWLOCK
+source package/MEMORY-LOCKING/BiscuitOS-MEMORY-LOCKING-RWLOCK/Kconfig
+
+# RCU
+source package/MEMORY-LOCKING/BiscuitOS-MEMORY-LOCKING-RCU/Kconfig
+
+# SEQLOCK
+source package/MEMORY-LOCKING/BiscuitOS-MEMORY-LOCKING-SEQLOCK/Kconfig
+
+endif # PK_MEMORY_LOCKING
