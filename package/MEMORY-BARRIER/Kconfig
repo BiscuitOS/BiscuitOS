@@ -15,4 +15,10 @@ source package/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-NOLOCKING-SYNC-WMB/Kconfi
 # NOLOCKING SYNC with Counter
 source package/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-NOLOCKING-SYNC-COUNTER/Kconfig
 
+# MEMPOOL
+source package/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-MEMPOOL/Kconfig
+
+# Out-of-Order Execution at Compile Time
+source package/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-OUT-COMPILER/Kconfig
+
 endif # PK_MEMORY_BARRIER

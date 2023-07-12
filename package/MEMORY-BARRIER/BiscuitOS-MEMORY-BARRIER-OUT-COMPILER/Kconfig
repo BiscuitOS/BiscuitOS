@@ -1,0 +1,55 @@
+menuconfig PK_MEMBARRIER_OUT_COMPILER
+	bool "Out-of-Order Execution at Compile Time"
+
+if PK_MEMBARRIER_OUT_COMPILER
+
+config PK_MEMBARRIER_OUT_COMPILER_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMBARRIER_OUT_COMPILER_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMBARRIER_OUT_COMPILER_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MEMORY-BARRIER/BiscuitOS-MEMORY-BARRIER-OUT-COMPILER"
+	string "url"
+
+config PK_MEMBARRIER_OUT_COMPILER_GITHUB
+	string "GitHub"
+
+config PK_MEMBARRIER_OUT_COMPILER_SRCFILE
+	default "main.c Makefile main-atomic.c main-barrier.c"
+	string "Source code list"
+
+config PK_MEMBARRIER_OUT_COMPILER_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMBARRIER_OUT_COMPILER_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMBARRIER_OUT_COMPILER_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMBARRIER_OUT_COMPILER_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMBARRIER_OUT_COMPILER_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMBARRIER_OUT_COMPILER_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMBARRIER_OUT_COMPILER_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMBARRIER_OUT_COMPILER_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMBARRIER_OUT_COMPILER_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMBARRIER_OUT_COMPILER_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMBARRIER_OUT_COMPILER
