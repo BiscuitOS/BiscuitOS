@@ -1,0 +1,56 @@
+menuconfig PK_TLB_FLUSH
+	select PK_TLB_FLUSH_APP
+	bool "TLB FLUSH"
+
+if PK_TLB_FLUSH
+
+config PK_TLB_FLUSH_VERSION
+	default "default"
+	string "verstion"
+
+config PK_TLB_FLUSH_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_TLB_FLUSH_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/TLB/BiscuitOS-TLB-FLUSH"
+	string "url"
+
+config PK_TLB_FLUSH_GITHUB
+	string "GitHub"
+
+config PK_TLB_FLUSH_SRCFILE
+	default "main.c Makefile Kconfig"
+	string "Source code list"
+
+config PK_TLB_FLUSH_CSRCFILE
+	string "Compile source code list"
+
+config PK_TLB_FLUSH_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_TLB_FLUSH_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_TLB_FLUSH_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_TLB_FLUSH_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_TLB_FLUSH_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_TLB_FLUSH_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_TLB_FLUSH_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_TLB_FLUSH_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_TLB_FLUSH_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_TLB_FLUSH

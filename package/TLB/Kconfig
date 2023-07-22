@@ -1,0 +1,48 @@
+menuconfig PK_TLB
+	bool "TLB: Translation-Lookaside Buffer"
+
+if PK_TLB
+
+# TLB FLUSH
+source package/TLB/BiscuitOS-TLB-FLUSH/Kconfig
+
+# TLB FLUSH APP
+source package/TLB/BiscuitOS-TLB-FLUSH-APP/Kconfig
+
+# TLB FLUSH ALL
+source package/TLB/BiscuitOS-TLB-FLUSH-ALL/Kconfig
+
+# TLB FLUSH Notifier
+source package/TLB/BiscuitOS-TLB-FLUSH-NOTIFY/Kconfig
+
+# TLB FLUSH: mprotect
+source package/TLB/BiscuitOS-TLB-FLUSH-MPROTECT/Kconfig
+
+# TLB FLUSH: madvise
+source package/TLB/BiscuitOS-TLB-FLUSH-MADVISE/Kconfig
+
+# TLB FLUSH: MADV_FREE
+source package/TLB/BiscuitOS-TLB-FLUSH-MADV-FREE/Kconfig
+
+# TLB FLUSH: MADV_DONTNEED
+source package/TLB/BiscuitOS-TLB-FLUSH-MADV-DONTNEED/Kconfig
+
+# TLB FLUSH: MADV_PAGEOUT
+source package/TLB/BiscuitOS-TLB-FLUSH-MADV-PAGEOUT/Kconfig
+
+# TLB FLUSH: MADV_COLD
+source package/TLB/BiscuitOS-TLB-FLUSH-MADV-COLD/Kconfig
+
+# TLB SHOOTDOWN
+source package/TLB/BiscuitOS-TLB-SHOOTDOWN/Kconfig
+
+# MODIFY PTE
+source package/TLB/BiscuitOS-TLB-FLUSH-MODIFY-PTE/Kconfig
+
+# MODIFY PTE APP
+source package/TLB/BiscuitOS-TLB-FLUSH-MODIFY-PTE-APP/Kconfig
+
+# CPUID
+source package/TLB/BiscuitOS-TLB-CPUID/Kconfig
+
+endif # PK_TLB

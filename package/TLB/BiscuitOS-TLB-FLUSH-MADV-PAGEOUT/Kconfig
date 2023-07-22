@@ -1,0 +1,55 @@
+menuconfig PK_TLB_FLUSH_MADVPAGEOUT
+	bool "TLB FLUSH on MADV_PAGEOUT"
+
+if PK_TLB_FLUSH_MADVPAGEOUT
+
+config PK_TLB_FLUSH_MADVPAGEOUT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/TLB/BiscuitOS-TLB-FLUSH-MADV-PAGEOUT"
+	string "url"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_GITHUB
+	string "GitHub"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_CSRCFILE
+	string "Compile source code list"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_TLB_FLUSH_MADVPAGEOUT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_TLB_FLUSH_MADVPAGEOUT

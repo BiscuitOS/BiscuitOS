@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-TLB-SHOOTDOWN
+#
+################################################
+PK_TLB_SHOOTDOWN_NAME        := BiscuitOS-TLB-SHOOTDOWN
+PK_TLB_SHOOTDOWN_VERSION     := $(CONFIG_PK_TLB_SHOOTDOWN_VERSION)
+PK_TLB_SHOOTDOWN_SITE        := $(CONFIG_PK_TLB_SHOOTDOWN_URL)
+PK_TLB_SHOOTDOWN_GITHUB      := $(CONFIG_PK_TLB_SHOOTDOWN_GITHUB)
+PK_TLB_SHOOTDOWN_SUBNAME     :=
+PK_TLB_SHOOTDOWN_BUILDARCH   := $(CONFIG_PK_TLB_SHOOTDOWN_BUILDARCH)
+PK_TLB_SHOOTDOWN_DIR         := $(srctree)/package/TLB/BiscuitOS-TLB-SHOOTDOWN
+PK_TLB_SHOOTDOWN_PATCH       := $(PK_TLB_SHOOTDOWN_DIR)/patch
+PK_TLB_SHOOTDOWN_BSBIT       := BiscuitOS-TLB-SHOOTDOWN-$(PK_TLB_SHOOTDOWN_VERSION).bsbit
+PK_TLB_SHOOTDOWN_OUT         :=
+PK_TLB_SHOOTDOWN_SCRIPTS     := $(srctree)/scripts/package/package-app.sh
+PK_TLB_SHOOTDOWN_TAR         := $(CONFIG_PK_TLB_SHOOTDOWN_TAR)
+PK_TLB_SHOOTDOWN_PACKAGE     :=
+PK_TLB_SHOOTDOWN_CONFIG      := $(CONFIG_PK_TLB_SHOOTDOWN_CONFIG)
+SUB_TARGET                  += $(PK_TLB_SHOOTDOWN_DIR)/build
+
+PK_TLB_SHOOTDOWN_sh = $(CONFIG_SHELL) $(PK_TLB_SHOOTDOWN_SCRIPTS) \
+                 $1X \
+                 $(PK_TLB_SHOOTDOWN_NAME)X \
+                 $(PK_TLB_SHOOTDOWN_VERSION)X \
+                 $(PK_TLB_SHOOTDOWN_SITE)X \
+                 $(PK_TLB_SHOOTDOWN_GITHUB)X \
+                 $(PK_TLB_SHOOTDOWN_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_TLB_SHOOTDOWN_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_TLB_SHOOTDOWN_SUBNAME)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_CONFIG)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_LIBPATH)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_CPPFLAGS)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_DPKCONFIG)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_CFLAGS)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_LDFLAGS)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_CXXFLAGS)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_ASFLAGS)X \
+                 $(PK_TLB_SHOOTDOWN_BSBIT)X \
+                 $(PK_TLB_SHOOTDOWN_BUILDARCH)X \
+		 $(PK_TLB_SHOOTDOWN_CSRCFILE)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_SRCFILE)X \
+                 $(CONFIG_PK_TLB_SHOOTDOWN_CSRCFILE)
+
+$(PK_TLB_SHOOTDOWN_DIR)/build: FORCE
+	$(Q)$(call PK_TLB_SHOOTDOWN_sh,$(srctree))

@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-TLB-FLUSH-MODIFY-PTE
+#
+################################################
+PK_TLB_FLUSH_MDPTE_NAME        := BiscuitOS-TLB-FLUSH-MODIFY-PTE
+PK_TLB_FLUSH_MDPTE_VERSION     := $(CONFIG_PK_TLB_FLUSH_MDPTE_VERSION)
+PK_TLB_FLUSH_MDPTE_SITE        := $(CONFIG_PK_TLB_FLUSH_MDPTE_URL)
+PK_TLB_FLUSH_MDPTE_GITHUB      := $(CONFIG_PK_TLB_FLUSH_MDPTE_GITHUB)
+PK_TLB_FLUSH_MDPTE_SUBNAME     :=
+PK_TLB_FLUSH_MDPTE_BUILDARCH   := $(CONFIG_PK_TLB_FLUSH_MDPTE_BUILDARCH)
+PK_TLB_FLUSH_MDPTE_DIR         := $(srctree)/package/TLB/BiscuitOS-TLB-FLUSH-MODIFY-PTE
+PK_TLB_FLUSH_MDPTE_PATCH       := $(PK_TLB_FLUSH_MDPTE_DIR)/patch
+PK_TLB_FLUSH_MDPTE_BSBIT       := BiscuitOS-TLB-FLUSH-MODIFY-PTE-$(PK_TLB_FLUSH_MDPTE_VERSION).bsbit
+PK_TLB_FLUSH_MDPTE_OUT         :=
+PK_TLB_FLUSH_MDPTE_SCRIPTS     := $(srctree)/scripts/package/package-kernel.sh
+PK_TLB_FLUSH_MDPTE_TAR         := $(CONFIG_PK_TLB_FLUSH_MDPTE_TAR)
+PK_TLB_FLUSH_MDPTE_PACKAGE     :=
+PK_TLB_FLUSH_MDPTE_CONFIG      := $(CONFIG_PK_TLB_FLUSH_MDPTE_CONFIG)
+SUB_TARGET                  += $(PK_TLB_FLUSH_MDPTE_DIR)/build
+
+PK_TLB_FLUSH_MDPTE_sh = $(CONFIG_SHELL) $(PK_TLB_FLUSH_MDPTE_SCRIPTS) \
+                 $1X \
+                 $(PK_TLB_FLUSH_MDPTE_NAME)X \
+                 $(PK_TLB_FLUSH_MDPTE_VERSION)X \
+                 $(PK_TLB_FLUSH_MDPTE_SITE)X \
+                 $(PK_TLB_FLUSH_MDPTE_GITHUB)X \
+                 $(PK_TLB_FLUSH_MDPTE_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_TLB_FLUSH_MDPTE_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_TLB_FLUSH_MDPTE_SUBNAME)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_CONFIG)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_LIBPATH)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_CPPFLAGS)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_DPKCONFIG)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_CFLAGS)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_LDFLAGS)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_CXXFLAGS)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_ASFLAGS)X \
+                 $(PK_TLB_FLUSH_MDPTE_BSBIT)X \
+                 $(PK_TLB_FLUSH_MDPTE_BUILDARCH)X \
+		 $(PK_TLB_FLUSH_MDPTE_CSRCFILE)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_SRCFILE)X \
+                 $(CONFIG_PK_TLB_FLUSH_MDPTE_CSRCFILE)
+
+$(PK_TLB_FLUSH_MDPTE_DIR)/build: FORCE
+	$(Q)$(call PK_TLB_FLUSH_MDPTE_sh,$(srctree))

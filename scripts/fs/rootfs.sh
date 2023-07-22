@@ -472,8 +472,9 @@ else
 			else
 				#cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
 				mkdir -p ${ROOTFS_PATH}/usr/lib/
-				[ -f /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ] && cp -rf /usr/lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
-				[ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-* ${ROOTFS_PATH}/lib/
+				[ -f /usr/lib/i386-linux-gnu/libstdc++.so.6 ] && cp -rf /usr/lib/i386-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
+				[ ! -f ${ROOTFS_PATH}/lib/ld-2.31.so ] && sudo cp -rfa /lib/i386-linux-gnu/ld-* ${ROOTFS_PATH}/lib/
+				[ ! -f ${ROOTFS_PATH}/lib/libc.so.6 ] && sudo cp -rfa /lib/i386-linux-gnu/libc* ${ROOTFS_PATH}/lib/
 			fi
 		fi
 	fi

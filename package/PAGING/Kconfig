@@ -1,0 +1,9 @@
+menuconfig PK_PAGING
+	bool "Paging Mechanism"
+
+if PK_PAGING
+
+# Paging
+source package/PAGING/BiscuitOS-PAGING/Kconfig
+
+endif # PK_PAGING

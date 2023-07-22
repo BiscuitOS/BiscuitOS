@@ -375,8 +375,8 @@ source package/page/Kconfig
 # page-fault
 source package/page-fault/Kconfig
 
-# paging
-source package/paging/Kconfig
+# PAGING
+source package/PAGING/Kconfig
 
 # pango
 source package/pango/Kconfig
@@ -476,6 +476,9 @@ source package/tcmalloc/Kconfig
 
 # transparent_hugepage
 source package/THP/Kconfig
+
+# TLB
+source package/TLB/Kconfig
 
 # util-linux
 source package/util-linux/Kconfig

@@ -1,0 +1,55 @@
+menuconfig PK_TLB_FLUSH_MPROTECT
+	bool "TLB FLUSH: Adjust VMA Protection(mprotect)"
+
+if PK_TLB_FLUSH_MPROTECT
+
+config PK_TLB_FLUSH_MPROTECT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_TLB_FLUSH_MPROTECT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_TLB_FLUSH_MPROTECT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/TLB/BiscuitOS-TLB-FLUSH-MPROTECT"
+	string "url"
+
+config PK_TLB_FLUSH_MPROTECT_GITHUB
+	string "GitHub"
+
+config PK_TLB_FLUSH_MPROTECT_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_TLB_FLUSH_MPROTECT_CSRCFILE
+	string "Compile source code list"
+
+config PK_TLB_FLUSH_MPROTECT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_TLB_FLUSH_MPROTECT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_TLB_FLUSH_MPROTECT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_TLB_FLUSH_MPROTECT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_TLB_FLUSH_MPROTECT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_TLB_FLUSH_MPROTECT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_TLB_FLUSH_MPROTECT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_TLB_FLUSH_MPROTECT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_TLB_FLUSH_MPROTECT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_TLB_FLUSH_MPROTECT
