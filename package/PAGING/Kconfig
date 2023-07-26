@@ -6,4 +6,16 @@ if PK_PAGING
 # Paging
 source package/PAGING/BiscuitOS-PAGING/Kconfig
 
+# PGD
+source package/PAGING/BiscuitOS-PAGING-PGD/Kconfig
+
+# P4D
+source package/PAGING/BiscuitOS-PAGING-P4D/Kconfig
+
+# PUD
+source package/PAGING/BiscuitOS-PAGING-PUD/Kconfig
+
+# PMD
+source package/PAGING/BiscuitOS-PAGING-PMD/Kconfig
+
 endif # PK_PAGING

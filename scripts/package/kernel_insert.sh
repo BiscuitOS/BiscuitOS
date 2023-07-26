@@ -140,6 +140,22 @@ BiscuitOS_remove_initcall()
 	[ -L ${LINUX}/lib/BiscuitOS_initcall ] && rm -rf ${LINUX}/lib/BiscuitOS_initcall
 }
 
+BiscuitOS_build_app()
+{
+  [ ! -f ${BISCUITOS_PACK_DIR}/Makefile.app ] && return
+  ## Build App with Kernel Module
+  echo "\033[1;34m====== Compile App ==============\033[0m"
+  cd ${BISCUITOS_PACK_DIR}/ > /dev/null
+  [ -f APP ] && rm -rf APP
+  make -f Makefile.app || exit -1
+  sudo cp -rfa APP ${ROOT}/rootfs/rootfs/usr/bin/ || exit -1
+  [ ! -f APP ] && exit -1
+  [ -f RunBiscuitOS.sh ] && chmod 755 RunBiscuitOS.sh
+  [ -f RunBiscuitOS.sh ] && sudo cp -rfa RunBiscuitOS.sh ${ROOT}/rootfs/rootfs/usr/bin/
+  cd - > /dev/null
+  echo "\033[1;34m====== App Compile Finish =======\033[0m"
+}
+
 BiscuitOS_install_kernel()
 {
   _strong_dir=${LINUX}/lib
@@ -151,6 +167,9 @@ BiscuitOS_install_kernel()
     [ -d ${LINUX}/lib/BiscuitOS_kernel ] && rm -rf ${LINUX}/lib/BiscuitOS_kernel
     cp -rfa ${BISCUITOS_PACK_DIR}/ ${LINUX}/lib/BiscuitOS_kernel
   fi
+
+  ## APP
+  BiscuitOS_build_app
 }
 
 BiscuitOS_remove_kernel()
@@ -169,11 +188,11 @@ BiscuitOS_remove_kernel()
 case $1 in
 	"install_kernel")
 		BiscuitOS_install_kernel
-		echo "Install"
+		echo "\033[1;34m Compile Linux Kernel\033[0m"
 		;;
 	"remove_kernel")
 		BiscuitOS_remove_kernel
-		echo "Remove"
+		echo "\033[1;34m Compile Linux Finish\033[0m"
 		;;
 	"install")
 		BiscuitOS_parse_target
