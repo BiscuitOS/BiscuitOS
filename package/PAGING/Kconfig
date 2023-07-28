@@ -18,4 +18,34 @@ source package/PAGING/BiscuitOS-PAGING-PUD/Kconfig
 # PMD
 source package/PAGING/BiscuitOS-PAGING-PMD/Kconfig
 
+# PTE
+source package/PAGING/BiscuitOS-PAGING-PTE/Kconfig
+
+# PGPROT
+source package/PAGING/BiscuitOS-PAGING-PGPROT/Kconfig
+
+# 32-Bit Paging mmap 4MiB
+source package/PAGING/BiscuitOS-PAGING-32Bit-Paging-MMAP-4MiB/Kconfig
+
+# 32-Bit Paging mmap 4KiB
+source package/PAGING/BiscuitOS-PAGING-32Bit-Paging-MMAP-4KiB/Kconfig
+
+# 4-level Paging mmap 1Gig
+source package/PAGING/BiscuitOS-PAGING-4level-Paging-MMAP-1Gig/Kconfig
+
+# 4-level Paging mmap 2MiB
+source package/PAGING/BiscuitOS-PAGING-4level-Paging-MMAP-2MiB/Kconfig
+
+# 4-level Paging mmap 4KiB
+source package/PAGING/BiscuitOS-PAGING-4level-Paging-MMAP-4KiB/Kconfig
+
+# 5-level Paging mmap 1Gig
+source package/PAGING/BiscuitOS-PAGING-5level-Paging-MMAP-1Gig/Kconfig
+
+# 5-level Paging mmap 2MiB
+source package/PAGING/BiscuitOS-PAGING-5level-Paging-MMAP-2MiB/Kconfig
+
+# 5-level Paging mmap 4KiB
+source package/PAGING/BiscuitOS-PAGING-5level-Paging-MMAP-4KiB/Kconfig
+
 endif # PK_PAGING

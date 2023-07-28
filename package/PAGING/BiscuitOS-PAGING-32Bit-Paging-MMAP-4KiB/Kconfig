@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_32BIT_PAGING_MMAP_4K
+	bool "32-Bit Paging mmap 4KiB Physical Memory"
+
+if PK_PAGING_32BIT_PAGING_MMAP_4K
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-32Bit-Paging-MMAP-4KiB"
+	string "url"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_GITHUB
+	string "GitHub"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_SRCFILE
+	default "main.c Makefile Kconfig Mafile.app RunBiscuitOS.sh app.c"
+	string "Source code list"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_32BIT_PAGING_MMAP_4K_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_32BIT_PAGING_MMAP_4K
