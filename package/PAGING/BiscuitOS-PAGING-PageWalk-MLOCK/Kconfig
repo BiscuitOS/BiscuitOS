@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PAGEWALK_MLOCK
+	bool "PageWalk Use-Case: MLOCK"
+
+if PK_PAGING_PAGEWALK_MLOCK
+
+config PK_PAGING_PAGEWALK_MLOCK_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PAGEWALK_MLOCK_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PAGEWALK_MLOCK_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PageWalk-MLOCK"
+	string "url"
+
+config PK_PAGING_PAGEWALK_MLOCK_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PAGEWALK_MLOCK_SRCFILE
+	default "main.c Makefile"
+	string "Source code list"
+
+config PK_PAGING_PAGEWALK_MLOCK_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PAGEWALK_MLOCK_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PAGEWALK_MLOCK_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PAGEWALK_MLOCK_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PAGEWALK_MLOCK_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PAGEWALK_MLOCK_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PAGEWALK_MLOCK_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PAGEWALK_MLOCK_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PAGEWALK_MLOCK_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PAGEWALK_MLOCK_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PAGEWALK_MLOCK

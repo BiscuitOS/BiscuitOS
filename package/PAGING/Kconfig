@@ -48,4 +48,121 @@ source package/PAGING/BiscuitOS-PAGING-5level-Paging-MMAP-2MiB/Kconfig
 # 5-level Paging mmap 4KiB
 source package/PAGING/BiscuitOS-PAGING-5level-Paging-MMAP-4KiB/Kconfig
 
+# PageWalk Mechanism
+source package/PAGING/BiscuitOS-PAGING-PageWalk/Kconfig
+
+# PageWalk: Kernel Space
+source package/PAGING/BiscuitOS-PAGING-PageWalk-Kernel/Kconfig
+
+# PageWalk: VMA
+source package/PAGING/BiscuitOS-PAGING-PageWalk-VMA/Kconfig
+
+# PageWalk: RANGE
+source package/PAGING/BiscuitOS-PAGING-PageWalk-RANGE/Kconfig
+
+# PageWalk: PageCACHE
+source package/PAGING/BiscuitOS-PAGING-PageWalk-PageCACHE/Kconfig
+
+# PageWalk: File
+source package/PAGING/BiscuitOS-PAGING-PageWalk-File/Kconfig
+
+# PageWalk: Anonymous
+source package/PAGING/BiscuitOS-PAGING-PageWalk-Anonymous/Kconfig
+
+# PageWalk: Hugetlbfs
+source package/PAGING/BiscuitOS-PAGING-PageWalk-Hugetlbfs/Kconfig
+
+# PageWalk: THP
+source package/PAGING/BiscuitOS-PAGING-PageWalk-THP/Kconfig
+
+# PageWalk: MMIO
+source package/PAGING/BiscuitOS-PAGING-PageWalk-MMIO/Kconfig
+
+# PageWalk: RSVD-MEM
+source package/PAGING/BiscuitOS-PAGING-PageWalk-RSVDMEM/Kconfig
+
+# PageWalk: VMALLOC
+source package/PAGING/BiscuitOS-PAGING-PageWalk-VMALLOC/Kconfig
+
+# PageWalk: Permanent
+source package/PAGING/BiscuitOS-PAGING-PageWalk-Permanent/Kconfig
+
+# PageWalk: Linear
+source package/PAGING/BiscuitOS-PAGING-PageWalk-Linear/Kconfig
+
+# PageWalk: Temporary
+source package/PAGING/BiscuitOS-PAGING-PageWalk-Temporary/Kconfig
+
+# PageWalk: IOREMAP
+source package/PAGING/BiscuitOS-PAGING-PageWalk-IOREMAP/Kconfig
+
+# PageWalk: CMA
+source package/PAGING/BiscuitOS-PAGING-PageWalk-CMA/Kconfig
+
+# PageWalk: DMA
+source package/PAGING/BiscuitOS-PAGING-PageWalk-DMA/Kconfig
+
+# PageWalk: Modify
+source package/PAGING/BiscuitOS-PAGING-PageWalk-Modify/Kconfig
+
+# PageWalk: ADD
+source package/PAGING/BiscuitOS-PAGING-PageWalk-ADD/Kconfig
+
+# PageWalk: USE-CASE SMAPS
+source package/PAGING/BiscuitOS-PAGING-PageWalk-SMAPS/Kconfig
+
+# PageWalk: USE-CASE NUMA_MAPS
+source package/PAGING/BiscuitOS-PAGING-PageWalk-NUMA-MAPS/Kconfig
+
+# PageWalk: USE-CASE Pagemap
+source package/PAGING/BiscuitOS-PAGING-PageWalk-Pagemap/Kconfig
+
+# PageWalk: USE-CASE Clear_refs
+source package/PAGING/BiscuitOS-PAGING-PageWalk-CLEAR-Reference/Kconfig
+
+# PageWalk: USE-CASE MAVD_COLD
+source package/PAGING/BiscuitOS-PAGING-PageWalk-MADV_COLD/Kconfig
+
+# PageWalk: USE-CASE MAVD_PAGEOUT
+source package/PAGING/BiscuitOS-PAGING-PageWalk-MADV_PAGEOUT/Kconfig
+
+# PageWalk: USE-CASE MAVD_FREE
+source package/PAGING/BiscuitOS-PAGING-PageWalk-MADV_FREE/Kconfig
+
+# PageWalk: USE-CASE MAVD_WILLNEED
+source package/PAGING/BiscuitOS-PAGING-PageWalk-MADV_WILLNEED/Kconfig
+
+# PageWalk: USE-CASE MLOCK
+source package/PAGING/BiscuitOS-PAGING-PageWalk-MLOCK/Kconfig
+
+# PageWalk: CBC walk_page_test 65#
+source package/PAGING/BiscuitOS-PAGING-PageWalk-CBC-walk_page_test-65/Kconfig
+
+# PageWalk: CBC walk_page_test 76#
+source package/PAGING/BiscuitOS-PAGING-PageWalk-CBC-walk_page_test-76/Kconfig
+
+# PageWalk: CBC __walk_page_range 10#
+source package/PAGING/BiscuitOS-PAGING-PageWalk-CBC-__walk_page_range-10/Kconfig
+
+# PageWalk: CBC walk_pmd_range 18#
+source package/PAGING/BiscuitOS-PAGING-PageWalk-CBC-walk_pmd_range-18/Kconfig
+
+# PageWalk: CBC walk_pmd_range 37#
+source package/PAGING/BiscuitOS-PAGING-PageWalk-CBC-walk_pmd_range-37/Kconfig
+
+# PageWalk: CBC walk_pmd_range 49#
+source package/PAGING/BiscuitOS-PAGING-PageWalk-CBC-walk_pmd_range-49/Kconfig
+
+# PageWalk: DeepMind MMAP LOCK
+source package/PAGING/BiscuitOS-PAGING-PageWalk-DM-MMAP-LOCK/Kconfig
+
+# PageWalk: DeepMind ACTION
+source package/PAGING/BiscuitOS-PAGING-PageWalk-DM-ACTION/Kconfig
+
+# PageWalk: DeepMind PTE-LOCK
+source package/PAGING/BiscuitOS-PAGING-PageWalk-DM-PTE-LOCK/Kconfig
+
+# PageWalk: DeepMind SPLIT-THP
+source package/PAGING/BiscuitOS-PAGING-PageWalk-DM-SPLIT-THP/Kconfig
+
 endif # PK_PAGING

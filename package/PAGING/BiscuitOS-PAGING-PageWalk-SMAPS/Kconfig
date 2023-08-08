@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PAGEWALK_SMAPS
+	bool "PageWalk Use-Case: SMAPs"
+
+if PK_PAGING_PAGEWALK_SMAPS
+
+config PK_PAGING_PAGEWALK_SMAPS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PAGEWALK_SMAPS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PAGEWALK_SMAPS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PageWalk-SMAPS"
+	string "url"
+
+config PK_PAGING_PAGEWALK_SMAPS_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PAGEWALK_SMAPS_SRCFILE
+	default "main.c Makefile Kconfig Mafile.app RunBiscuitOS.sh app.c"
+	string "Source code list"
+
+config PK_PAGING_PAGEWALK_SMAPS_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PAGEWALK_SMAPS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PAGEWALK_SMAPS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PAGEWALK_SMAPS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PAGEWALK_SMAPS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PAGEWALK_SMAPS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PAGEWALK_SMAPS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PAGEWALK_SMAPS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PAGEWALK_SMAPS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PAGEWALK_SMAPS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PAGEWALK_SMAPS
