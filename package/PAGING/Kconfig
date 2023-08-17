@@ -165,4 +165,43 @@ source package/PAGING/BiscuitOS-PAGING-PageWalk-DM-PTE-LOCK/Kconfig
 # PageWalk: DeepMind SPLIT-THP
 source package/PAGING/BiscuitOS-PAGING-PageWalk-DM-SPLIT-THP/Kconfig
 
+# PTDUMP: DUMP Current Userspace
+source package/PAGING/BiscuitOS-PAGING-PTDUMP-CURRUSER/Kconfig
+
+# PTDUMP: DUMP Current Kernel Space
+source package/PAGING/BiscuitOS-PAGING-PTDUMP-CURRKERNEL/Kconfig
+
+# PTDUMP: Check NX
+source package/PAGING/BiscuitOS-PAGING-PTDUMP-CHECK-NX/Kconfig
+
+# PROC PageMap
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap/Kconfig
+
+# PROC PageMap: Hugetlbfs
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-Hugetlbfs/Kconfig
+
+# PROC PageMap: THP
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-THP/Kconfig
+
+# PROC PageMap: SWAP
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-SWAP/Kconfig
+
+# PROC PageMap: 1Gig Page
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-1G/Kconfig
+
+# PROC PageMap: HOLE
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-HOLE/Kconfig
+
+# PROC PageMap: MMIO
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-MMIO/Kconfig
+
+# PROC PageMap: Anonymous
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-ANON/Kconfig
+
+# PROC PageMap: File
+source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-FILE/Kconfig
+
+# PROC SMAPS
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS/Kconfig
+
 endif # PK_PAGING

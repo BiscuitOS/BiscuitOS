@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PROC_PAGEMAP
+	bool "PROC PageMap"
+
+if PK_PAGING_PROC_PAGEMAP
+
+config PK_PAGING_PROC_PAGEMAP_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PROC_PAGEMAP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PROC_PAGEMAP_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PROC-PageMap"
+	string "url"
+
+config PK_PAGING_PROC_PAGEMAP_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PROC_PAGEMAP_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PROC_PAGEMAP_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PROC_PAGEMAP_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PROC_PAGEMAP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PROC_PAGEMAP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PROC_PAGEMAP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PROC_PAGEMAP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PROC_PAGEMAP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PROC_PAGEMAP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PROC_PAGEMAP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PROC_PAGEMAP_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PROC_PAGEMAP
