@@ -1,0 +1,54 @@
+menuconfig PK_E2FSPROGS
+	bool "e2fsprogs: mkfs.ext2,3,4"
+
+if PK_E2FSPROGS
+
+config PK_E2FSPROGS_VERSION
+	default "gitee"
+	string "verstion"
+
+config PK_E2FSPROGS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_E2FSPROGS_URL
+	default ""
+	string "url"
+
+config PK_E2FSPROGS_GITHUB
+	default "https://gitee.com/mashoo/e2fsprogs.git"
+	string "Github"
+
+config PK_E2FSPROGS_SRCFILE
+	string "Source code list"
+
+config PK_E2FSPROGS_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_E2FSPROGS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_E2FSPROGS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_E2FSPROGS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_E2FSPROGS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_E2FSPROGS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_E2FSPROGS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_E2FSPROGS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_E2FSPROGS_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_E2FSPROGS

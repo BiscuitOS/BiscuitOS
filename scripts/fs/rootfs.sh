@@ -101,6 +101,9 @@ SUPPORT_VDD=N
 # Pseudo FS
 SUPPORT_GUEST_TMPFS=N
 [ ${50%} = yX ] && SUPPORT_GUEST_TMPFS=Y
+# Pseudo Huge FS
+SUPPORT_GUEST_HUGE_TMPFS=N
+[ ${51%} = yX ] && SUPPORT_GUEST_HUGE_TMPFS=Y
 
 
 if [ ${OPT_SUPPORT_MINIX} = "Y" ]; then
@@ -318,6 +321,10 @@ if [ ${SUPPORT_GUEST_TMPFS} = "Y" ]; then
 	echo 'mkdir -p /mnt/tmpfs ; mount -t tmpfs nodev /mnt/tmpfs/' >> ${RC}
 	echo "[ ! -f /mnt/tmpfs/BiscuitOS.txt ] && dmesg > /mnt/tmpfs/BiscuitOS.txt" >> ${RC}
 fi
+if [ ${SUPPORT_GUEST_HUGE_TMPFS} = "Y" ]; then
+	echo 'mkdir -p /mnt/huge-tmpfs ; mount -t tmpfs nodev -o huge=always /mnt/huge-tmpfs/' >> ${RC}
+	echo "[ ! -f /mnt/huge-tmpfs/BiscuitOS.txt ] && dmesg > /mnt/huge-tmpfs/BiscuitOS.txt" >> ${RC}
+fi
 
 echo '' >> ${RC}
 echo 'echo " ____  _                _ _    ___  ____  "' >> ${RC}
@@ -464,6 +471,8 @@ else
 				  [ ! -f ${ROOTFS_PATH}/lib/libexpat.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libexpat.so.* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libutil.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libutil* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libgcc_s.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libgcc_s.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libblkid.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libblkid.so.1* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libuuid.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libuuid.so.1* ${ROOTFS_PATH}/lib/
 				else
 				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/

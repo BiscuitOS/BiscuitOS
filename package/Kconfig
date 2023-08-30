@@ -108,6 +108,9 @@ source package/EARLY-IOREMAP/Kconfig
 # expat
 source package/expat/Kconfig
 
+# e2fsprogs
+source package/e2fsprogs/Kconfig
+
 # filesystem
 source package/filesystem/Kconfig
 

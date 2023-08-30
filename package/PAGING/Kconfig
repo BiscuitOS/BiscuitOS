@@ -204,4 +204,73 @@ source package/PAGING/BiscuitOS-PAGING-PROC-PageMap-FILE/Kconfig
 # PROC SMAPS
 source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS/Kconfig
 
+# PROC SMAPS: Anonymous
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-ANON/Kconfig
+
+# PROC SMAPS: Anonymous Shared
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-ANON-SHARED/Kconfig
+
+# PROC SMAPS: Anonymous Private
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-ANON-PRIVATE/Kconfig
+
+# PROC SMAPS: File
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-FILE/Kconfig
+
+# PROC SMAPS: File Shared
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-FILE-PRIVATE/Kconfig
+
+# PROC SMAPS: File Shared
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-FILE-SHARED/Kconfig
+
+# PROC SMAPS: SHARED
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-SHARED/Kconfig
+
+# PROC SMAPS: Dirty
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-DIRTY/Kconfig
+
+# PROC SMAPS: Shmem PMD-Mapped
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-SHMEMPMDMAPPED/Kconfig
+
+# PROC SMAPS: Anonymous Huge Page
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-ANONHUGEPAGES/Kconfig
+
+# PROC SMAPS: Private Hugetlb
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-PRIVATE-HUGETLB/Kconfig
+
+# PROC SMAPS: Shared Hugetlb
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-SHARED-HUGETLB/Kconfig
+
+# PROC SMAPS: LOCKED
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-LOCKED/Kconfig
+
+# PROC SMAPS: SWAP
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-SWAP/Kconfig
+
+# PROC SMAPS: File PMD-Mapped
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-FILEPMDMAPPED/Kconfig
+
+# PROC SMAPS: PSS
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-PSS/Kconfig
+
+# PROC SMAPS: REFERENCE
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-REFERENCE/Kconfig
+
+# PROC SMAPS-ROLLUP
+source package/PAGING/BiscuitOS-PAGING-PROC-SMAPS-ROLLUP/Kconfig
+
+# PROC CLEAR-REFS
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS/Kconfig
+
+# PROC CLEAR-REFS: Anonymous
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-ANON/Kconfig
+
+# PROC CLEAR-REFS: File-MApped
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-FILE/Kconfig
+
+# PROC CLEAR-REFS: SoftDirty
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-SOFTDIRTY/Kconfig
+
+# PROC CLEAR-REFS: HiWater RSS
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-HIWATER-RSS/Kconfig
+
 endif # PK_PAGING

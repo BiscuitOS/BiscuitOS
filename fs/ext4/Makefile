@@ -67,7 +67,8 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
 	       $(CONFIG_VIRTIO_BLK_EXT4)X \
 	       $(CONFIG_VIRTIO_BLK_EXT2)X \
 	       $(CONFIG_PSEUDO_TMPFS)X \
-               MAX_ARG51
+	       $(CONFIG_PSEUDO_HUGE_TMPFS)X \
+               MAX_ARG52
 
 # MAX ARGS 30
 

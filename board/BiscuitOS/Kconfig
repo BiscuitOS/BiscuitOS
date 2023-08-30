@@ -124,4 +124,7 @@ config VIRTIO_BLK_EXT2
 config PSEUDO_TMPFS
 	bool "Pseudo Filesystem: TMPFS"
 
+config PSEUDO_HUGE_TMPFS
+	bool "Pseudo Filesystem: Huge TMPFS"
+
 endif # SUPPORT_BOARD_INDV
