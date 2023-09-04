@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_ECODE_INSTR
+	bool "Page Fault ERROR CODE: PF_INSTR"
+
+if PK_PAGING_PF_ECODE_INSTR
+
+config PK_PAGING_PF_ECODE_INSTR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_ECODE_INSTR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_ECODE_INSTR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-ECODE-INSTR"
+	string "url"
+
+config PK_PAGING_PF_ECODE_INSTR_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_ECODE_INSTR_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_ECODE_INSTR_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_ECODE_INSTR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_ECODE_INSTR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_ECODE_INSTR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_ECODE_INSTR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_ECODE_INSTR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_ECODE_INSTR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_ECODE_INSTR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_ECODE_INSTR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_ECODE_INSTR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_ECODE_INSTR

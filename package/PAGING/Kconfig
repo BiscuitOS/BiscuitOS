@@ -264,13 +264,130 @@ source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS/Kconfig
 # PROC CLEAR-REFS: Anonymous
 source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-ANON/Kconfig
 
+# PROC CLEAR-REFS: Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-ANON-THP/Kconfig
+
+# PROC CLEAR-REFS: Anonymous HUGETLB
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-ANON-HUGETLB/Kconfig
+
 # PROC CLEAR-REFS: File-MApped
 source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-FILE/Kconfig
+
+# PROC CLEAR-REFS: File-MApped THP
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-FILE-THP/Kconfig
+
+# PROC CLEAR-REFS: File-MApped HUGETLB
+source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-FILE-HUGETLB/Kconfig
 
 # PROC CLEAR-REFS: SoftDirty
 source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-SOFTDIRTY/Kconfig
 
 # PROC CLEAR-REFS: HiWater RSS
 source package/PAGING/BiscuitOS-PAGING-PROC-CLEAR-REFS-HIWATER-RSS/Kconfig
+
+# Protection Key
+source package/PAGING/BiscuitOS-PAGING-PKEY/Kconfig
+
+# PageFault
+source package/PAGING/BiscuitOS-PAGING-PF/Kconfig
+
+# PageFault: Anonymous
+source package/PAGING/BiscuitOS-PAGING-PF-ANON/Kconfig
+
+# PageFault: Zero Page
+source package/PAGING/BiscuitOS-PAGING-PF-ZERO-PAGE/Kconfig
+
+# PageFault: WP+Zero Page
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-WP-ZERO-PAGE/Kconfig
+
+# PageFault: Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-THP/Kconfig
+
+# PageFault: Huge Zero Page
+source package/PAGING/BiscuitOS-PAGING-PF-HUGE-ZERO-PAGE/Kconfig
+
+# PageFault: SHMEM
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM/Kconfig
+
+# PageFault: FILE
+source package/PAGING/BiscuitOS-PAGING-PF-FILE/Kconfig
+
+# PageFault: FILE EXT2
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT2/Kconfig
+
+# PageFault: FILE EXT3
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT3/Kconfig
+
+# PageFault: FILE EXT4
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT4/Kconfig
+
+# PageFault: FILE MINIXFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-MINIXFS/Kconfig
+
+# PageFault: FILE TMPFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-TMPFS/Kconfig
+
+# PageFault: FILE HUGE-TMPFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-HUGE-TMPFS/Kconfig
+
+# PageFault: FILE VFAT
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-VFAT/Kconfig
+
+# PageFault: FILE FAT
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-FAT/Kconfig
+
+# PageFault: FILE MSDOS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-MSDOS/Kconfig
+
+# PageFault: PFNMAP
+source package/PAGING/BiscuitOS-PAGING-PF-PFNMAP/Kconfig
+
+# PageFault: PAGEMAP
+source package/PAGING/BiscuitOS-PAGING-PF-PAGEMAP/Kconfig
+
+# PageFault: VMALLOC
+source package/PAGING/BiscuitOS-PAGING-PF-VMALLOC/Kconfig
+
+# PageFault: VMALLOC32
+source package/PAGING/BiscuitOS-PAGING-PF-VMALLOC32/Kconfig
+
+# PageFault: Anonymous HugeTLB
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-HUGETLB/Kconfig
+
+# PageFault: File HugeTLB
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-HUGETLB/Kconfig
+
+# PageFault: File DAX
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-DAX/Kconfig
+
+# PageFault: File DIRECT-IO
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-DIRECTIO/Kconfig
+
+# PageFault ERROR CODE: PF_WRITE
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-WRITE/Kconfig
+
+# PageFault ERROR CODE: PF_USER
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-USER/Kconfig
+
+# PageFault ERROR CODE: PF_READ
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-READ/Kconfig
+
+# PageFault ERROR CODE: PF_PRESENT
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PRESENT/Kconfig
+
+# PageFault ERROR CODE: PF_PROT
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PROT/Kconfig
+
+# PageFault ERROR CODE: PF_PK
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PK/Kconfig
+
+# PageFault ERROR CODE: PF_SUPER
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-SUPER/Kconfig
+
+# PageFault ERROR CODE: PF_RSVD
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-RSVD/Kconfig
+
+# PageFault ERROR CODE: PF_INSTR
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-INSTR/Kconfig
 
 endif # PK_PAGING

@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_VMALLOC32
+	bool "Page Fault with VMALLOC32"
+
+if PK_PAGING_PF_VMALLOC32
+
+config PK_PAGING_PF_VMALLOC32_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_VMALLOC32_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_VMALLOC32_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-VMALLOC32"
+	string "url"
+
+config PK_PAGING_PF_VMALLOC32_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_VMALLOC32_SRCFILE
+	default "app.c Kconfig main.c Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_VMALLOC32_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_VMALLOC32_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_VMALLOC32_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_VMALLOC32_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_VMALLOC32_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_VMALLOC32_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_VMALLOC32_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_VMALLOC32_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_VMALLOC32_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_VMALLOC32_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_VMALLOC32

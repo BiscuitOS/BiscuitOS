@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_ECODE_RSVD
+	bool "Page Fault ERROR CODE: PF_RSVD"
+
+if PK_PAGING_PF_ECODE_RSVD
+
+config PK_PAGING_PF_ECODE_RSVD_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_ECODE_RSVD_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_ECODE_RSVD_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-ECODE-RSVD"
+	string "url"
+
+config PK_PAGING_PF_ECODE_RSVD_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_ECODE_RSVD_SRCFILE
+	default "Kconfig Makefile main.c app.c Makefile.app RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_ECODE_RSVD_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_ECODE_RSVD_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_ECODE_RSVD_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_ECODE_RSVD_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_ECODE_RSVD_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_ECODE_RSVD_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_ECODE_RSVD_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_ECODE_RSVD_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_ECODE_RSVD_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_ECODE_RSVD_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_ECODE_RSVD

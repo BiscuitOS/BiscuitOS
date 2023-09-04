@@ -29,7 +29,7 @@ CheckDistro() {
 }
 CheckDistro
 
-APT_UBUNTU20X04() {
+APT_UBUNTU22X04() {
     DEB="deb\ \[arch=amd64\]\ http://archive.ubuntu.com/ubuntu\ focal\ main\ universe"
     DEBSTR="deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main universe"
     DEBFILE="/etc/apt/sources.list"
@@ -60,10 +60,21 @@ APT_UBUNTU20X04() {
     sudo apt-get install -y libtool libsysfs-dev
     sudo apt-get install -y libntirpc-dev libtirpc-dev
     sudo apt-get install -y doxygen
+    sudo apt-get install -y bfs-utils
     sudo ln -s /usr/bin/python3 /usr/bin/python
     sudo apt-get install -y gcc-7 g++-7
-    sudo apt-get install lib32z1 lib32z1-dev libc6:i386
+    sudo apt-get install -y lib32z1 lib32z1-dev libc6:i386
+    sudo apt-get install -y e2fsprogs 
+    sudo apt-get install -y mtd-utils
+    sudo apt-get install -y squashfs-tools
+    sudo apt-get install -y btrfs-progs
+    sudo apt-get install -y reiserfsprogs
+    sudo apt-get install -y jfsutils 
+    sudo apt-get install -y xfsprogs
+    sudo apt-get install -y gfs2-utils
+    sudo apt-get install -y f2fs-tools
 }
+
 APT_UBUNTU20X04() {
     DEB="deb\ \[arch=amd64\]\ http://archive.ubuntu.com/ubuntu\ focal\ main\ universe"
     DEBSTR="deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main universe"
@@ -96,7 +107,16 @@ APT_UBUNTU20X04() {
     sudo apt-get install -y libtool libmpc-dev
     sudo apt-get install -y doxygen
     sudo apt-get install -y gcc-7 g++-7
-    sudo apt-get install lib32z1 lib32z1-dev libc6:i386
+    sudo apt-get install -y lib32z1 lib32z1-dev libc6:i386
+    sudo apt-get install -y e2fsprogs 
+    sudo apt-get install -y mtd-utils
+    sudo apt-get install -y squashfs-tools
+    sudo apt-get install -y btrfs-progs
+    sudo apt-get install -y reiserfsprogs
+    sudo apt-get install -y jfsutils 
+    sudo apt-get install -y xfsprogs
+    sudo apt-get install -y gfs2-utils
+    sudo apt-get install -y f2fs-tools
 }
 
 APT_UBUNTU16_18() {
@@ -121,6 +141,36 @@ APT_UBUNTU16_18() {
     sudo apt-get install -y libnuma-dev libnuma1 ninja-build
     sudo apt-get install -y libtool libsysfs-dev libasan
     sudo apt-get install -y doxygen
+    sudo apt-get install -y e2fsprogs 
+    sudo apt-get install -y mtd-utils
+    sudo apt-get install -y squashfs-tools
+    sudo apt-get install -y btrfs-progs
+    sudo apt-get install -y reiserfsprogs
+    sudo apt-get install -y jfsutils 
+    sudo apt-get install -y xfsprogs
+    sudo apt-get install -y gfs2-utils
+    sudo apt-get install -y f2fs-tools
 }
 
-APT_UBUNTU20X04
+[ ${RELEASE_DISTRO} = "debian" ] && echo "Don't Support Debian" && exit -1
+[ ${RELEASE_DISTRO} = "CentOS" ] && echo "Don't Support CentOS" && exit -1
+[ ${RELEASE_DISTRO} = "Unknown" ] && echo "Don't Support Unknown" && exit -1
+
+case ${UBUNTU_VERSION%%.*} in
+	22)
+		echo "Support Ubuntu 22.X"
+		APT_UBUNTU22X04
+		;;
+	20)
+		echo "Support Ubuntu 20.X"
+		APT_UBUNTU20X04
+		;;
+	18)
+		echo "Support Ubuntu 18.X"
+		APT_UBUNTU16_18
+		;;
+	16)
+		echo "Support Ubuntu 16.X"
+		APT_UBUNTU16_18
+		;;
+esac

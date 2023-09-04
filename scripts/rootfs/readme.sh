@@ -116,12 +116,25 @@ SUPPORT_CXL_QEMU=N
 SUPPORT_CXL_HW=N
 [ ${46%X} = "yX" ] && SUPPORT_CXL_HW=Y
 # VIRTIO-BLK: ARG 47-49
-SUPPORT_VDB=N
-SUPPORT_VDC=N
-SUPPORT_VDD=N
-[ ${47} != N ] && SUPPORT_VDB=Y
-[ ${48} != N ] && SUPPORT_VDC=Y
-[ ${49} != N ] && SUPPORT_VDD=Y
+SUPPORT_VDB=${47%}
+SUPPORT_VDC=${48%}
+SUPPORT_VDD=${49%}
+SUPPORT_VDE=${50%}
+SUPPORT_VDF=${51%}
+SUPPORT_VDG=${52%}
+SUPPORT_VDH=${53%}
+SUPPORT_VDI=${54%}
+SUPPORT_VDJ=${55%}
+SUPPORT_VDK=${56%}
+SUPPORT_VDL=${57%}
+SUPPORT_VDM=${58%}
+SUPPORT_VDN=${59%}
+SUPPORT_VDO=${60%}
+SUPPORT_VDP=${61%}
+SUPPORT_VDQ=${62%}
+SUPPORT_VDR=${63%}
+SUPPORT_VDS=${64%}
+SUPPORT_DEFAULT_DISK=${65%}
 
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
@@ -740,9 +753,26 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_DISK} = "Y" ] && echo -e '\t-hda ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Hardware/Freeze.img \' >> ${MF}
 			[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" -a ${SUPPORT_CXL_HW} = "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/Freeze.img,if=virtio \' >> ${MF}
-			[ ${SUPPORT_VDB} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDB.img,if=virtio \' >> ${MF}
-			[ ${SUPPORT_VDC} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDC.img,if=virtio \' >> ${MF}
-			[ ${SUPPORT_VDD} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDD.img,if=virtio \' >> ${MF}
+			if [ ${SUPPORT_DEFAULT_DISK} = "Y" ]; then
+				[ ${SUPPORT_VDB} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDB.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDC} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDC.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDD} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDD.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDE} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDE.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDF} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDF.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDG} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDG.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDH} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDH.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDI} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDI.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDJ} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDJ.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDK} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDK.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDL} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDL.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDM} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDM.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDN} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDN.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDO} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDO.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDP} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDP.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDQ} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDQ.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDR} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDR.img,if=virtio \' >> ${MF}
+				[ ${SUPPORT_VDS} != "N" ] && echo -e '\t-drive file=${ROOT}/Hardware/VDS.img,if=virtio \' >> ${MF}
+			fi
 			[ ${SUPPORT_DISK} = "N" ] && echo -e '\t-initrd ${ROOT}/Hardware/BiscuitOS.img \' >> ${MF}
 			# HW Device
 			[ ${SUPPORT_HW_PCI_BAR} = "Y" ] && echo -e '\t-device BiscuitOS-PCI-BAR \' >> ${MF}

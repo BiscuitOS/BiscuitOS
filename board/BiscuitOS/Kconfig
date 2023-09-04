@@ -118,8 +118,53 @@ config VIRTIO_BLK_MINIX
 config VIRTIO_BLK_EXT4
 	bool "Virtio-BLK: EXT4 Filesystem Disk"
 
+config VIRTIO_BLK_EXT3
+	bool "Virtio-BLK: EXT3 Filesystem Disk"
+
 config VIRTIO_BLK_EXT2
 	bool "Virtio-BLK: EXT2 Filesystem Disk"
+
+config VIRTIO_BLK_VFAT
+	bool "Virtio-BLK: VFAT Filesystem Disk"
+
+config VIRTIO_BLK_MSDOS
+	bool "Virtio-BLK: MSDOS Filesystem Disk"
+
+config VIRTIO_BLK_FAT
+	bool "Virtio-BLK: FAT Filesystem Disk"
+
+config VIRTIO_BLK_CRAMFS
+	bool "Virtio-BLK: CRAMFS Filesystem Disk"
+
+config VIRTIO_BLK_BFS
+	bool "Virtio-BLK: BFS Filesystem Disk"
+
+config VIRTIO_BLK_JFFS2
+	bool "Virtio-BLK: JFFS2 Filesystem Disk"
+
+config VIRTIO_BLK_UBIFS
+	bool "Virtio-BLK: UBIFS Filesystem Disk"
+
+config VIRTIO_BLK_SQUASHFS
+	bool "Virtio-BLK: SQUASHFS Filesystem Disk"
+
+config VIRTIO_BLK_BTRFS
+	bool "Virtio-BLK: BTRFS Filesystem Disk"
+
+config VIRTIO_BLK_REISERFS
+	bool "Virtio-BLK: REISERFS Filesystem Disk"
+
+config VIRTIO_BLK_JFS
+	bool "Virtio-BLK: JFS Filesystem Disk"
+
+config VIRTIO_BLK_XFS
+	bool "Virtio-BLK: XFS Filesystem Disk"
+
+config VIRTIO_BLK_GFS2
+	bool "Virtio-BLK: GFS2 Filesystem Disk"
+
+config VIRTIO_BLK_F2FS
+	bool "Virtio-BLK: F2FS Filesystem Disk"
 
 config PSEUDO_TMPFS
 	bool "Pseudo Filesystem: TMPFS"
