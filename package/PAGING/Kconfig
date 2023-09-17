@@ -291,14 +291,38 @@ source package/PAGING/BiscuitOS-PAGING-PKEY/Kconfig
 # PageFault
 source package/PAGING/BiscuitOS-PAGING-PF/Kconfig
 
+# PageFault: Trace
+source package/PAGING/BiscuitOS-PAGING-PF-TRACE/Kconfig
+
 # PageFault: Anonymous
 source package/PAGING/BiscuitOS-PAGING-PF-ANON/Kconfig
 
-# PageFault: Zero Page
-source package/PAGING/BiscuitOS-PAGING-PF-ZERO-PAGE/Kconfig
+# PageFault: Anonymous RO
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-RO/Kconfig
 
-# PageFault: WP+Zero Page
-source package/PAGING/BiscuitOS-PAGING-PF-ANON-WP-ZERO-PAGE/Kconfig
+# PageFault: Anonymous WP
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-WP/Kconfig
+
+# PageFault: Anonymous COW
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-COW/Kconfig
+
+# PageFault: Anonymous SWAP
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-SWAP/Kconfig
+
+# PageFault: Anonymous ZSWAP
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-ZSWAP/Kconfig
+
+# PageFault: Anonymous KSM
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-KSM/Kconfig
+
+# PageFault: Anonymous NUMA
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-NUMA/Kconfig
+
+# PageFault: Anonymous Heap
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-HEAP/Kconfig
+
+# PageFault: Anonymous Stack
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-STACK/Kconfig
 
 # PageFault: Anonymous THP
 source package/PAGING/BiscuitOS-PAGING-PF-ANON-THP/Kconfig
@@ -308,6 +332,9 @@ source package/PAGING/BiscuitOS-PAGING-PF-HUGE-ZERO-PAGE/Kconfig
 
 # PageFault: SHMEM
 source package/PAGING/BiscuitOS-PAGING-PF-SHMEM/Kconfig
+
+# PageFault: Read-Only SHMEM
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-RO/Kconfig
 
 # PageFault: FILE
 source package/PAGING/BiscuitOS-PAGING-PF-FILE/Kconfig
@@ -320,6 +347,15 @@ source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT3/Kconfig
 
 # PageFault: FILE EXT4
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT4/Kconfig
+
+# PageFault: FILE XFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS/Kconfig
+
+# PageFault: FILE XFS DAX
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS-DAX/Kconfig
+
+# PageFault: FILE XFS HUGE DAX
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS-HUGE-DAX/Kconfig
 
 # PageFault: FILE MINIXFS
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-MINIXFS/Kconfig
@@ -341,6 +377,21 @@ source package/PAGING/BiscuitOS-PAGING-PF-FILE-MSDOS/Kconfig
 
 # PageFault: PFNMAP
 source package/PAGING/BiscuitOS-PAGING-PF-PFNMAP/Kconfig
+
+# PageFault: PFNMAP Read-Only
+source package/PAGING/BiscuitOS-PAGING-PF-PFNMAP-RO/Kconfig
+
+# PageFault: PFNMAP Write-Protection
+source package/PAGING/BiscuitOS-PAGING-PF-PFNMAP-WP/Kconfig
+
+# PageFault: PFNMAP COW
+source package/PAGING/BiscuitOS-PAGING-PF-PFNMAP-COW/Kconfig
+
+# PageFault: PFNMAP PMDMAPPED
+source package/PAGING/BiscuitOS-PAGING-PF-PFNMAP-PMDMAPPED/Kconfig
+
+# PageFault: PFNMAP PUDMAPPED
+source package/PAGING/BiscuitOS-PAGING-PF-PFNMAP-PUDMAPPED/Kconfig
 
 # PageFault: PAGEMAP
 source package/PAGING/BiscuitOS-PAGING-PF-PAGEMAP/Kconfig
@@ -366,8 +417,14 @@ source package/PAGING/BiscuitOS-PAGING-PF-FILE-DIRECTIO/Kconfig
 # PageFault ERROR CODE: PF_WRITE
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-WRITE/Kconfig
 
+# PageFault ERROR CODE: PF_WRITE with WP
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-WRITE-WP/Kconfig
+
 # PageFault ERROR CODE: PF_USER
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-USER/Kconfig
+
+# PageFault ERROR CODE: PF_USER Access KVADDR
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-USER-KVADDR/Kconfig
 
 # PageFault ERROR CODE: PF_READ
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-READ/Kconfig
@@ -375,8 +432,17 @@ source package/PAGING/BiscuitOS-PAGING-PF-ECODE-READ/Kconfig
 # PageFault ERROR CODE: PF_PRESENT
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PRESENT/Kconfig
 
+# PageFault ERROR CODE: PF_PRESENT with SWAP
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PRESENT-SWAP/Kconfig
+
+# PageFault ERROR CODE: PF_PRESENT with ZSWAP
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PRESENT-ZSWAP/Kconfig
+
 # PageFault ERROR CODE: PF_PROT
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PROT/Kconfig
+
+# PageFault ERROR CODE: PF_PROT with Protection Key
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PROT-PK/Kconfig
 
 # PageFault ERROR CODE: PF_PK
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PK/Kconfig
@@ -384,10 +450,46 @@ source package/PAGING/BiscuitOS-PAGING-PF-ECODE-PK/Kconfig
 # PageFault ERROR CODE: PF_SUPER
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-SUPER/Kconfig
 
+# PageFault ERROR CODE: PF_SUPER Access UVADDR
+source package/PAGING/BiscuitOS-PAGING-PF-ECODE-SUPER-UVADDR/Kconfig
+
 # PageFault ERROR CODE: PF_RSVD
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-RSVD/Kconfig
 
 # PageFault ERROR CODE: PF_INSTR
 source package/PAGING/BiscuitOS-PAGING-PF-ECODE-INSTR/Kconfig
+
+# PageFault: Hugefault
+source package/PAGING/BiscuitOS-PAGING-PF-HUGEPF/Kconfig
+
+# PageFault: Hugefault PAGEMAP
+source package/PAGING/BiscuitOS-PAGING-PF-HUGEPF-PAGEMAP/Kconfig
+
+# PageFault: Hugefault PFNMAP
+source package/PAGING/BiscuitOS-PAGING-PF-HUGEPF-PFNMAP/Kconfig
+
+# PageFault: Hugefault 2MiB PFNMAP
+source package/PAGING/BiscuitOS-PAGING-PF-HUGEPF-PFNMAP-2M/Kconfig
+
+# PageFault: Hugefault 1Gig PFNMAP
+source package/PAGING/BiscuitOS-PAGING-PF-HUGEPF-PFNMAP-1G/Kconfig
+
+# PageFault: THP - AnonHugepages
+source package/PAGING/BiscuitOS-PAGING-PF-THP-ANON/Kconfig
+
+# PageFault: THP - AnonHugepages ZERO
+source package/PAGING/BiscuitOS-PAGING-PF-THP-ANON-ZERO/Kconfig
+
+# PageFault: THP - AnonHugepages WP
+source package/PAGING/BiscuitOS-PAGING-PF-THP-ANON-WP/Kconfig
+
+# PageFault: THP - AnonHugepages COW
+source package/PAGING/BiscuitOS-PAGING-PF-THP-ANON-COW/Kconfig
+
+# PageFault: THP - AnonHugepages SWAP
+source package/PAGING/BiscuitOS-PAGING-PF-THP-ANON-SWAP/Kconfig
+
+# PageFault: THP - AnonHugepages ZSWAP
+source package/PAGING/BiscuitOS-PAGING-PF-THP-ANON-ZSWAP/Kconfig
 
 endif # PK_PAGING

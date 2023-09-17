@@ -19,7 +19,7 @@ config PK_PAGING_PF_ECODE_INSTR_GITHUB
 	string "GitHub"
 
 config PK_PAGING_PF_ECODE_INSTR_SRCFILE
-	default "main.c Makefile RunBiscuitOS.sh"
+	default "main.c Makefile RunBiscuitOS.sh BIN.bin"
 	string "Source code list"
 
 config PK_PAGING_PF_ECODE_INSTR_CSRCFILE

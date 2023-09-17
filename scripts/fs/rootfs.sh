@@ -288,82 +288,66 @@ mkdir -p /mnt/Freeze
 [ -f /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm ] && ln -s /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm /usr/bin/qemu-kvm
 
 # SWAP
-dd bs=1M count=1 if=/dev/zero of=/SWAP > /dev/null 2>&1
+dd bs=1M count=4 if=/dev/zero of=/SWAP > /dev/null 2>&1
 mkswap /SWAP > /dev/null 2>&1
 swapon /SWAP > /dev/null 2>&1
 
+# Mount DISK
+mkdir -p /mnt/ext2
+[ -b /dev/vdb ] && mount /dev/vdb /mnt/ext2 > /dev/null 2>&1 
+[ ! -f /mnt/ext2/BiscuitOS.txt ] && dmesg > /mnt/ext2/BiscuitOS.txt
+mkdir -p /mnt/ext3
+[ -b /dev/vdc ] && mount /dev/vdc /mnt/ext3 > /dev/null 2>&1 
+[ ! -f /mnt/ext3/BiscuitOS.txt ] && dmesg > /mnt/ext3/BiscuitOS.txt
+mkdir -p /mnt/ext4
+[ -b /dev/vdd ] && mount /dev/vdd /mnt/ext4 > /dev/null 2>&1
+[ ! -f /mnt/ext4/BiscuitOS.txt ] && dmesg > /mnt/ext4/BiscuitOS.txt
+mkdir -p /mnt/minix
+[ -b /dev/vde ] && mount /dev/vde /mnt/minix > /dev/null 2>&1
+[ ! -f /mnt/minix/BiscuitOS.txt ] && dmesg > /mnt/minix/BiscuitOS.txt
+mkdir -p /mnt/vfat
+[ -b /dev/vdf ] && mount /dev/vdf /mnt/vfat > /dev/null 2>&1
+[ ! -f /mnt/vfat/BiscuitOS.txt ] && dmesg > /mnt/vfat/BiscuitOS.txt
+mkdir -p /mnt/fat
+[ -b /dev/vdg ] && mount /dev/vdg /mnt/fat > /dev/null 2>&1
+[ ! -f /mnt/fat/BiscuitOS.txt ] && dmesg > /mnt/fat/BiscuitOS.txt
+mkdir -p /mnt/msdos
+[ -b /dev/vdh ] && mount /dev/vdh /mnt/msdos > /dev/null 2>&1
+[ ! -f /mnt/msdos/BiscuitOS.txt ] && dmesg > /mnt/msdos/BiscuitOS.txt
+mkdir -p /mnt/bfs
+[ -b /dev/vdi ] && mount /dev/vdi /mnt/bfs > /dev/null 2>&1
+[ ! -f /mnt/bfs/BiscuitOS.txt ] && dmesg > /mnt/bfs/BiscuitOS.txt
+mkdir -p /mnt/cramfs
+[ -b /dev/vdj ] && mount /dev/vdj /mnt/cramfs > /dev/null 2>&1
+mkdir -p /mnt/jffs2
+[ -b /dev/vdk ] && mount /dev/vdk /mnt/jffs2 > /dev/null 2>&1
+[ ! -f /mnt/jffs2/BiscuitOS.txt ] && dmesg > /mnt/jffs2/BiscuitOS.txt
+mkdir -p /mnt/ubifs
+[ -b /dev/vdl ] && mount /dev/vdl /mnt/ubifs > /dev/null 2>&1
+[ ! -f /mnt/ubifs/BiscuitOS.txt ] && dmesg > /mnt/ubifs/BiscuitOS.txt
+mkdir -p /mnt/squashfs
+[ -b /dev/vdm ] && mount /dev/vdm /mnt/squashfs > /dev/null 2>&1
+[ ! -f /mnt/squashfs/BiscuitOS.txt ] && dmesg > /mnt/squashfs/BiscuitOS.txt
+mkdir -p /mnt/btrfs
+[ -b /dev/vdn ] && mount /dev/vdn /mnt/btrfs > /dev/null 2>&1
+[ ! -f /mnt/btrfs/BiscuitOS.txt ] && dmesg > /mnt/btrfs/BiscuitOS.txt
+mkdir -p /mnt/reiserfs
+[ -b /dev/vdo ] && mount /dev/vdo /mnt/reiserfs > /dev/null 2>&1
+[ ! -f /mnt/reiserfs/BiscuitOS.txt ] && dmesg > /mnt/reiserfs/BiscuitOS.txt
+mkdir -p /mnt/jfs
+[ -b /dev/vdp ] && mount /dev/vdp /mnt/jfs > /dev/null 2>&1
+[ ! -f /mnt/jfs/BiscuitOS.txt ] && dmesg > /mnt/jfs/BiscuitOS.txt
+mkdir -p /mnt/xfs
+[ -b /dev/vdq ] && mount /dev/vdq /mnt/xfs > /dev/null 2>&1
+[ ! -f /mnt/xfs/BiscuitOS.txt ] && dmesg > /mnt/xfs/BiscuitOS.txt
+mkdir -p /mnt/gfs2
+[ -b /dev/vdr ] && mount /dev/vdr /mnt/gfs2 > /dev/null 2>&1
+[ ! -f /mnt/gfs2/BiscuitOS.txt ] && dmesg > /mnt/gfs2/BiscuitOS.txt
+mkdir -p /mnt/f2fs
+[ -b /dev/vds ] && mount /dev/vds /mnt/f2fs > /dev/null 2>&1
+[ ! -f /mnt/f2fs/BiscuitOS.txt ] && dmesg > /mnt/f2fs/BiscuitOS.txt
+
 EOF
-echo "mkdir -p /mnt/${SUPPORT_VDB}" >> ${RC}
-echo "[ -b /dev/vdb ] && mount /dev/vdb /mnt/${SUPPORT_VDB} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDB}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDB}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDC}" >> ${RC}
-echo "[ -b /dev/vdc ] && mount /dev/vdc /mnt/${SUPPORT_VDC} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDC}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDC}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDD}" >> ${RC}
-echo "[ -b /dev/vdd ] && mount /dev/vdd /mnt/${SUPPORT_VDD} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDD}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDD}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDE}" >> ${RC}
-echo "[ -b /dev/vde ] && mount /dev/vde /mnt/${SUPPORT_VDE} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDE}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDE}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDF}" >> ${RC}
-echo "[ -b /dev/vdf ] && mount /dev/vdf /mnt/${SUPPORT_VDF} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDF}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDF}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDG}" >> ${RC}
-echo "[ -b /dev/vdg ] && mount /dev/vdg /mnt/${SUPPORT_VDG} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDG}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDG}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDH}" >> ${RC}
-echo "[ -b /dev/vdh ] && mount /dev/vdh /mnt/${SUPPORT_VDH} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDH}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDH}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDI}" >> ${RC}
-echo "[ -b /dev/vdi ] && mount /dev/vdi /mnt/${SUPPORT_VDI} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDI}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDI}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDJ}" >> ${RC}
-echo "[ -b /dev/vdj ] && mount /dev/vdj /mnt/${SUPPORT_VDJ} > /dev/null 2>&1 " >> ${RC}
-[ ${SUPPORT_VDJ} != cramfs ] && echo "[ ! -f /mnt/${SUPPORT_VDJ}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDJ}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDK}" >> ${RC}
-echo "[ -b /dev/vdk ] && mount /dev/vdk /mnt/${SUPPORT_VDK} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDK}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDK}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDL}" >> ${RC}
-echo "[ -b /dev/vdl ] && mount /dev/vdl /mnt/${SUPPORT_VDL} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDL}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDL}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDM}" >> ${RC}
-echo "[ -b /dev/vdm ] && mount /dev/vdm /mnt/${SUPPORT_VDM} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDM}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDM}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDN}" >> ${RC}
-echo "[ -b /dev/vdn ] && mount /dev/vdn /mnt/${SUPPORT_VDN} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDN}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDN}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDO}" >> ${RC}
-echo "[ -b /dev/vdo ] && mount /dev/vdo /mnt/${SUPPORT_VDO} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDO}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDO}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDP}" >> ${RC}
-echo "[ -b /dev/vdp ] && mount /dev/vdp /mnt/${SUPPORT_VDP} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDP}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDP}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDQ}" >> ${RC}
-echo "[ -b /dev/vdq ] && mount /dev/vdq /mnt/${SUPPORT_VDQ} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDQ}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDQ}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDR}" >> ${RC}
-echo "[ -b /dev/vdr ] && mount /dev/vdr /mnt/${SUPPORT_VDR} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDR}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDR}/BiscuitOS.txt" >> ${RC}
-
-echo "mkdir -p /mnt/${SUPPORT_VDS}" >> ${RC}
-echo "[ -b /dev/vds ] && mount /dev/vds /mnt/${SUPPORT_VDS} > /dev/null 2>&1 " >> ${RC}
-echo "[ ! -f /mnt/${SUPPORT_VDS}/BiscuitOS.txt ] && dmesg > /mnt/${SUPPORT_VDS}/BiscuitOS.txt" >> ${RC}
 
 if [ ${SUPPORT_GUEST_TMPFS} = "Y" ]; then
 	echo 'mkdir -p /mnt/tmpfs ; mount -t tmpfs nodev /mnt/tmpfs/' >> ${RC}
@@ -521,6 +505,11 @@ else
 				  [ ! -f ${ROOTFS_PATH}/lib/libgcc_s.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libgcc_s.so.* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libblkid.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libblkid.so.1* ${ROOTFS_PATH}/lib/
 				  [ ! -f ${ROOTFS_PATH}/lib/libuuid.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libuuid.so.1* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libreadline.so.5 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libreadline.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libdevmapper.so.1.02.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libdevmapper.so.1.02.1 ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libtinfo.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libtinfo.so.* ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libselinux.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libselinux.so.1 ${ROOTFS_PATH}/lib/
+				  [ ! -f ${ROOTFS_PATH}/lib/libpcre2-8.so.0 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libpcre2-8.so.* ${ROOTFS_PATH}/lib/
 				else
 				  cp -rfa /lib64/* ${ROOTFS_PATH}/lib64/
 				  cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib64/

@@ -1,0 +1,57 @@
+menuconfig PK_PAGING_PF_ANON_NUMA
+	select PK_NUMA
+	select PK_NUMACTL_LIBNUMA
+	bool "Page Fault with Anonymous on NUMA Fault"
+
+if PK_PAGING_PF_ANON_NUMA
+
+config PK_PAGING_PF_ANON_NUMA_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_ANON_NUMA_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_ANON_NUMA_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-ANON-NUMA"
+	string "url"
+
+config PK_PAGING_PF_ANON_NUMA_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_ANON_NUMA_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_ANON_NUMA_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_ANON_NUMA_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_ANON_NUMA_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_ANON_NUMA_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_ANON_NUMA_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_ANON_NUMA_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_ANON_NUMA_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_ANON_NUMA_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_ANON_NUMA_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_ANON_NUMA_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_ANON_NUMA

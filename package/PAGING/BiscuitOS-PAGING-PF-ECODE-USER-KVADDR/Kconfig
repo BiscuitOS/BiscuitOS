@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_ECODE_USER_KVADDR
+	bool "Page Fault ERROR CODE: PF_USER Access KVADDR"
+
+if PK_PAGING_PF_ECODE_USER_KVADDR
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-ECODE-USER-KVADDR"
+	string "url"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh app.c Kconfig Makefile.app"
+	string "Source code list"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_ECODE_USER_KVADDR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_ECODE_USER_KVADDR

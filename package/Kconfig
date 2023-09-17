@@ -376,7 +376,7 @@ source package/openssl/Kconfig
 source package/page/Kconfig
 
 # page-fault
-source package/page-fault/Kconfig
+#source package/page-fault/Kconfig
 
 # PAGING
 source package/PAGING/Kconfig

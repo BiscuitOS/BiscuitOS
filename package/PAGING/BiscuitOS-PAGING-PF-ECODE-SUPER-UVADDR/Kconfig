@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_ECODE_SUPER_UVADDR
+	bool "Page Fault ERROR CODE: PF_SUPER Access UVADDR"
+
+if PK_PAGING_PF_ECODE_SUPER_UVADDR
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-ECODE-SUPER-UVADDR"
+	string "url"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh app.c Kconfig Makefile.host"
+	string "Source code list"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_ECODE_SUPER_UVADDR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_ECODE_SUPER_UVADDR

@@ -205,6 +205,8 @@ echo -e '\tsudo make install' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
+echo -e '\tsudo cp -rfa /usr/sbin/mkfs.xfs $(INS_PATH)/sbin' >> ${MF}
+echo -e '\tsudo cp -rfa /usr/sbin/xfs_io $(INS_PATH)/sbin' >> ${MF}
 echo -e '\t$(info "Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'pack:' >> ${MF}
