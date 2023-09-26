@@ -1,5 +1,5 @@
 menuconfig PK_PAGING_PF_SHMEM_RO
-	bool "Page Fault with Read-Only SHMEM Memory"
+	bool "Page Fault with SHMEM Memory on RO(Read-Only)"
 
 if PK_PAGING_PF_SHMEM_RO
 

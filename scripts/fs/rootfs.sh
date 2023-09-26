@@ -262,6 +262,7 @@ mkdir -p /tmp
 mkdir -p /sys
 mkdir -p /mnt
 mkdir -p /nfs
+mkdir -p /dev/shm
 /bin/mount -a
 /bin/hostname BiscuitOS
 [ -f /bin/busybox ] && chmod 7755 /bin/busybox
@@ -382,6 +383,7 @@ proc /proc proc defaults 0 0
 tmpfs /tmp tmpfs defaults 0 0
 sysfs /sys sysfs defaults 0 0
 tmpfs /dev tmpfs defaults 0 0
+tmpfs /dev/shm tmpfs defaults 0 0
 debugfs /sys/kernel/debug debugfs defaults 0 0
 EOF
 chmod 664 ${RC}

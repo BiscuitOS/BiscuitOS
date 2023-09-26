@@ -303,6 +303,9 @@ source package/PAGING/BiscuitOS-PAGING-PF-ANON-RO/Kconfig
 # PageFault: Anonymous WP
 source package/PAGING/BiscuitOS-PAGING-PF-ANON-WP/Kconfig
 
+# PageFault: Anonymous WP REUSE
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-WP-REUSE/Kconfig
+
 # PageFault: Anonymous COW
 source package/PAGING/BiscuitOS-PAGING-PF-ANON-COW/Kconfig
 
@@ -318,11 +321,17 @@ source package/PAGING/BiscuitOS-PAGING-PF-ANON-KSM/Kconfig
 # PageFault: Anonymous NUMA
 source package/PAGING/BiscuitOS-PAGING-PF-ANON-NUMA/Kconfig
 
+# PageFault: Anonymous MCE
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-MCE/Kconfig
+
 # PageFault: Anonymous Heap
 source package/PAGING/BiscuitOS-PAGING-PF-ANON-HEAP/Kconfig
 
 # PageFault: Anonymous Stack
 source package/PAGING/BiscuitOS-PAGING-PF-ANON-STACK/Kconfig
+
+# PageFault: Anonymous Protection Key
+source package/PAGING/BiscuitOS-PAGING-PF-ANON-PK/Kconfig
 
 # PageFault: Anonymous THP
 source package/PAGING/BiscuitOS-PAGING-PF-ANON-THP/Kconfig
@@ -335,6 +344,42 @@ source package/PAGING/BiscuitOS-PAGING-PF-SHMEM/Kconfig
 
 # PageFault: Read-Only SHMEM
 source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-RO/Kconfig
+
+# PageFault: SHMEM fork
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-FORK/Kconfig
+
+# PageFault: SHMEM SWAP
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-SWAP/Kconfig
+
+# PageFault: SHMEM ZSWAP
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-ZSWAP/Kconfig
+
+# PageFault: SHMEM MCE
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-MCE/Kconfig
+
+# PageFault: SHMEM MEMFD
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-MEMFD/Kconfig
+
+# PageFault: SHMEM SYSV
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-SYSV/Kconfig
+
+# PageFault: SHMEM DEVSHM
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-DEVSHM/Kconfig
+
+# PageFault: SHMEM POSIX
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-POSIX/Kconfig
+
+# PageFault: SHMEM USOCK
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-USOCK/Kconfig
+
+# PageFault: SHMEM LOCAL
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-LOCAL/Kconfig
+
+# PageFault: SHMEM THP
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-THP/Kconfig
+
+# PageFault: SHMEM PK
+source package/PAGING/BiscuitOS-PAGING-PF-SHMEM-PK/Kconfig
 
 # PageFault: FILE
 source package/PAGING/BiscuitOS-PAGING-PF-FILE/Kconfig
