@@ -438,6 +438,10 @@ MRPROPER_FILES += .config .config.old tags TAGS cscope* GPATH GTAGS GRTAGS GSYMS
 install:
 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/prebuild/release-install.sh
 
+# Install BiscuitOS Debug-Tools
+install_tools:
+	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/prebuild/debugtools-install.sh $(CONFIG_MAIN_PROJ_NAME)
+
 # clean - Delete most, but leave enough to build external modules
 #
 clean: rm-dirs  := $(CLEAN_DIRS)

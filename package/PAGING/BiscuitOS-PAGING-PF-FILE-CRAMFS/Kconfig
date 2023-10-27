@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_FILE_CRAMFS
+	bool "Page Fault with File-Mapped CRAMFS"
+
+if PK_PAGING_PF_FILE_CRAMFS
+
+config PK_PAGING_PF_FILE_CRAMFS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_FILE_CRAMFS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_FILE_CRAMFS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-FILE-CRAMFS"
+	string "url"
+
+config PK_PAGING_PF_FILE_CRAMFS_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_FILE_CRAMFS_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_FILE_CRAMFS_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_FILE_CRAMFS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_FILE_CRAMFS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_FILE_CRAMFS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_FILE_CRAMFS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_FILE_CRAMFS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_FILE_CRAMFS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_FILE_CRAMFS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_FILE_CRAMFS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_FILE_CRAMFS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_FILE_CRAMFS

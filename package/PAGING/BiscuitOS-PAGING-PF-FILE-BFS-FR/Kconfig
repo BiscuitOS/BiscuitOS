@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_FILE_BFS_FR
+	bool "Page Fault with File-Mapped BFS FAULT AROUND"
+
+if PK_PAGING_PF_FILE_BFS_FR
+
+config PK_PAGING_PF_FILE_BFS_FR_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_FILE_BFS_FR_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_FILE_BFS_FR_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-FILE-BFS-FR"
+	string "url"
+
+config PK_PAGING_PF_FILE_BFS_FR_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_FILE_BFS_FR_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_FILE_BFS_FR_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_FILE_BFS_FR_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_FILE_BFS_FR_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_FILE_BFS_FR_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_FILE_BFS_FR_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_FILE_BFS_FR_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_FILE_BFS_FR_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_FILE_BFS_FR_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_FILE_BFS_FR_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_FILE_BFS_FR_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_FILE_BFS_FR

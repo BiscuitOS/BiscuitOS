@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_FILE_JFFS2
+	bool "Page Fault with File-Mapped JFFS2 FS"
+
+if PK_PAGING_PF_FILE_JFFS2
+
+config PK_PAGING_PF_FILE_JFFS2_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_FILE_JFFS2_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_FILE_JFFS2_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-FILE-JFFS2"
+	string "url"
+
+config PK_PAGING_PF_FILE_JFFS2_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_FILE_JFFS2_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_FILE_JFFS2_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_FILE_JFFS2_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_FILE_JFFS2_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_FILE_JFFS2_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_FILE_JFFS2_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_FILE_JFFS2_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_FILE_JFFS2_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_FILE_JFFS2_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_FILE_JFFS2_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_FILE_JFFS2_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_FILE_JFFS2

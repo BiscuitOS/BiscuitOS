@@ -1,5 +1,5 @@
 menuconfig PK_PAGING_PF_FILE_XFS
-	bool "Page Fault with File-Mapped XFS FS"
+	bool "Page Fault with File-Mapped XFS"
 
 if PK_PAGING_PF_FILE_XFS
 

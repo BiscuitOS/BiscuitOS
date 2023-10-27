@@ -26,6 +26,10 @@ config DIY_CPU_NUMBER
 config DIY_CMDLINE
 	string "CMDLINE on Kernel"
 
+config DIY_DEMSG_LOGLEVEL
+	int "Demsg Loglevel(0-8)"
+	default "8"
+
 config DIY_NUMA
 	bool "Support NUMA Topology"
         select PK_NUMA

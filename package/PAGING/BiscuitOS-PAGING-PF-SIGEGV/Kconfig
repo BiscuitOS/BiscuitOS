@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_SIGEGV
+	bool "Page Fault with SIGEGV(SegmentFault)"
+
+if PK_PAGING_PF_SIGEGV
+
+config PK_PAGING_PF_SIGEGV_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_SIGEGV_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_SIGEGV_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-SIGEGV"
+	string "url"
+
+config PK_PAGING_PF_SIGEGV_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_SIGEGV_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_SIGEGV_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_SIGEGV_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_SIGEGV_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_SIGEGV_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_SIGEGV_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_SIGEGV_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_SIGEGV_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_SIGEGV_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_SIGEGV_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_SIGEGV_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_SIGEGV

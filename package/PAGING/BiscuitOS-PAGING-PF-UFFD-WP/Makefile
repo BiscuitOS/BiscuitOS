@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-PAGING-PF-UFFD-WP
+#
+################################################
+PK_PAGING_PF_UFFD_WP_NAME        := BiscuitOS-PAGING-PF-UFFD-WP
+PK_PAGING_PF_UFFD_WP_VERSION     := $(CONFIG_PK_PAGING_PF_UFFD_WP_VERSION)
+PK_PAGING_PF_UFFD_WP_SITE        := $(CONFIG_PK_PAGING_PF_UFFD_WP_URL)
+PK_PAGING_PF_UFFD_WP_GITHUB      := $(CONFIG_PK_PAGING_PF_UFFD_WP_GITHUB)
+PK_PAGING_PF_UFFD_WP_SUBNAME     :=
+PK_PAGING_PF_UFFD_WP_BUILDARCH   := $(CONFIG_PK_PAGING_PF_UFFD_WP_BUILDARCH)
+PK_PAGING_PF_UFFD_WP_DIR         := $(srctree)/package/PAGING/BiscuitOS-PAGING-PF-UFFD-WP
+PK_PAGING_PF_UFFD_WP_PATCH       := $(PK_PAGING_PF_UFFD_WP_DIR)/patch
+PK_PAGING_PF_UFFD_WP_BSBIT       := BiscuitOS-PAGING-PF-UFFD-WP-$(PK_PAGING_PF_UFFD_WP_VERSION).bsbit
+PK_PAGING_PF_UFFD_WP_OUT         :=
+PK_PAGING_PF_UFFD_WP_SCRIPTS     := $(srctree)/scripts/package/package-app.sh
+PK_PAGING_PF_UFFD_WP_TAR         := $(CONFIG_PK_PAGING_PF_UFFD_WP_TAR)
+PK_PAGING_PF_UFFD_WP_PACKAGE     :=
+PK_PAGING_PF_UFFD_WP_CONFIG      := $(CONFIG_PK_PAGING_PF_UFFD_WP_CONFIG)
+SUB_TARGET                  += $(PK_PAGING_PF_UFFD_WP_DIR)/build
+
+PK_PAGING_PF_UFFD_WP_sh = $(CONFIG_SHELL) $(PK_PAGING_PF_UFFD_WP_SCRIPTS) \
+                 $1X \
+                 $(PK_PAGING_PF_UFFD_WP_NAME)X \
+                 $(PK_PAGING_PF_UFFD_WP_VERSION)X \
+                 $(PK_PAGING_PF_UFFD_WP_SITE)X \
+                 $(PK_PAGING_PF_UFFD_WP_GITHUB)X \
+                 $(PK_PAGING_PF_UFFD_WP_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_PAGING_PF_UFFD_WP_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_PAGING_PF_UFFD_WP_SUBNAME)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_CONFIG)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_LIBPATH)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_CPPFLAGS)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_DPKCONFIG)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_CFLAGS)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_LDFLAGS)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_CXXFLAGS)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_ASFLAGS)X \
+                 $(PK_PAGING_PF_UFFD_WP_BSBIT)X \
+                 $(PK_PAGING_PF_UFFD_WP_BUILDARCH)X \
+		 $(PK_PAGING_PF_UFFD_WP_CSRCFILE)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_SRCFILE)X \
+                 $(CONFIG_PK_PAGING_PF_UFFD_WP_CSRCFILE)
+
+$(PK_PAGING_PF_UFFD_WP_DIR)/build: FORCE
+	$(Q)$(call PK_PAGING_PF_UFFD_WP_sh,$(srctree))

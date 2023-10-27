@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PF_UFFD_FORK
+	bool "Page Fault with userfaultfd on FORK"
+
+if PK_PAGING_PF_UFFD_FORK
+
+config PK_PAGING_PF_UFFD_FORK_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PF_UFFD_FORK_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PF_UFFD_FORK_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PF-UFFD-FORK"
+	string "url"
+
+config PK_PAGING_PF_UFFD_FORK_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PF_UFFD_FORK_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PF_UFFD_FORK_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PF_UFFD_FORK_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PF_UFFD_FORK_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PF_UFFD_FORK_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PF_UFFD_FORK_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PF_UFFD_FORK_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PF_UFFD_FORK_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PF_UFFD_FORK_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PF_UFFD_FORK_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PF_UFFD_FORK_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PF_UFFD_FORK

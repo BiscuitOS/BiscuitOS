@@ -136,6 +136,9 @@ SUPPORT_VDR=${63%}
 SUPPORT_VDS=${64%}
 SUPPORT_DEFAULT_DISK=${65%}
 
+# LOGLVEL
+DMESG_LOGLEVEL=${66}
+
 # Ubuntu Version
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
 UBUNTU=${UBUNTU_FULL:0:2}
@@ -437,6 +440,7 @@ DL=${ROOT}/dl
 DEBIAN_PACKAGE=${DEBIAN_PACKAGE}
 RAM_SIZE=${DIY_MEMORY}
 [ ${SUPPORT_CMDLINE} = "Y" ] && DIY_CMDLINE="${DIY_CMDLINE}"
+DMESG_LOGLEVEL=${DMESG_LOGLEVEL}
 EOF
 ## RAM size
 if [ ${SUPPORT_NUMA} = "Y" ]; then
@@ -479,15 +483,15 @@ case ${ARCH_NAME} in
 		echo 'CMDLINE="root=/dev/vda rw console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
 	;;
 	x86)
-		[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
-		[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8"' >> ${MF}
+		[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=${DMESG_LOGLEVEL}"' >> ${MF}
+		[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=${DMESG_LOGLEVEL}"' >> ${MF}
 	;;
 	x86_64)
 		if [ ${SUPPORT_HYPV} = "Broiler" ]; then
-			echo 'CMDLINE="noapic noacpi pci=conf1 reboot=k panic=1 i8042.direct=1 i8042.dumbkbd=1 i8042.nopnp=1 i8042.noaux=1 root=/dev/vda rw rootfstype=ext4 console=ttyS0 loglevel=8"' >> ${MF}
+			echo 'CMDLINE="noapic noacpi pci=conf1 reboot=k panic=1 i8042.direct=1 i8042.dumbkbd=1 i8042.nopnp=1 i8042.noaux=1 root=/dev/vda rw rootfstype=ext4 console=ttyS0 loglevel=${DMESG_LOGLEVEL}"' >> ${MF}
 		else
-			[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8 ${DIY_CMDLINE}"' >> ${MF}
-			[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=8 ${DIY_CMDLINE}"' >> ${MF}
+			[ ${SUPPORT_DISK} = "N" ] && echo 'CMDLINE="root=/dev/ram0 rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=${DMESG_LOGLEVEL} ${DIY_CMDLINE}"' >> ${MF}
+			[ ${SUPPORT_DISK} = "Y" ] && echo 'CMDLINE="root=/dev/sda rw rootfstype=${FS_TYPE} console=ttyS0 init=/linuxrc loglevel=${DMESG_LOGLEVEL} ${DIY_CMDLINE}"' >> ${MF}
 		fi
 	;;
 esac

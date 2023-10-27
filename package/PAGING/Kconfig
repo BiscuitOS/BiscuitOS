@@ -387,14 +387,29 @@ source package/PAGING/BiscuitOS-PAGING-PF-FILE/Kconfig
 # PageFault: FILE EXT2
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT2/Kconfig
 
+# PageFault: FILE EXT2 FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT2-FR/Kconfig
+
+# PageFault: FILE EXT2 COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT2-COW/Kconfig
+
 # PageFault: FILE EXT3
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT3/Kconfig
+
+# PageFault: FILE EXT3 FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT3-FR/Kconfig
+
+# PageFault: FILE EXT3 COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT3-COW/Kconfig
 
 # PageFault: FILE EXT4
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT4/Kconfig
 
-# PageFault: FILE XFS
-source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS/Kconfig
+# PageFault: FILE EXT4 FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT4-FR/Kconfig
+
+# PageFault: FILE EXT4 COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-EXT4-COW/Kconfig
 
 # PageFault: FILE XFS DAX
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS-DAX/Kconfig
@@ -405,6 +420,12 @@ source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS-HUGE-DAX/Kconfig
 # PageFault: FILE MINIXFS
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-MINIXFS/Kconfig
 
+# PageFault: FILE MINIXFS FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-MINIXFS-FR/Kconfig
+
+# PageFault: FILE MINIXFS COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-MINIXFS-COW/Kconfig
+
 # PageFault: FILE TMPFS
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-TMPFS/Kconfig
 
@@ -414,11 +435,140 @@ source package/PAGING/BiscuitOS-PAGING-PF-FILE-HUGE-TMPFS/Kconfig
 # PageFault: FILE VFAT
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-VFAT/Kconfig
 
+# PageFault: FILE VFAT FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-VFAT-FR/Kconfig
+
+# PageFault: FILE VFAT COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-VFAT-COW/Kconfig
+
 # PageFault: FILE FAT
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-FAT/Kconfig
 
+# PageFault: FILE FAT FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-FAT-FR/Kconfig
+
+# PageFault: FILE FAT COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-FAT-COW/Kconfig
+
 # PageFault: FILE MSDOS
 source package/PAGING/BiscuitOS-PAGING-PF-FILE-MSDOS/Kconfig
+
+# PageFault: FILE MSDOS FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-MSDOS-FR/Kconfig
+
+# PageFault: FILE MSDOS COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-MSDOS-COW/Kconfig
+
+# PageFault: FILE BFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-BFS/Kconfig
+
+# PageFault: FILE BFS FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-BFS-FR/Kconfig
+
+# PageFault: FILE BFS COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-BFS-COW/Kconfig
+
+# PageFault: FILE JFFS2
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-JFFS2/Kconfig
+
+# PageFault: FILE JFFS2 FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-JFFS2-FR/Kconfig
+
+# PageFault: FILE JFFS2 COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-JFFS2-COW/Kconfig
+
+# PageFault: FILE SQUASHFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-SQUASHFS/Kconfig
+
+# PageFault: FILE CRAMFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-CRAMFS/Kconfig
+
+# PageFault: FILE BTRFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-BTRFS/Kconfig
+
+# PageFault: FILE BTRFS FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-BTRFS-FR/Kconfig
+
+# PageFault: FILE BTRFS COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-BTRFS-COW/Kconfig
+
+# PageFault: FILE REISERFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-REISERFS/Kconfig
+
+# PageFault: FILE REISERFS FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-REISERFS-FR/Kconfig
+
+# PageFault: FILE REISERFS COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-REISERFS-COW/Kconfig
+
+# PageFault: FILE JFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-JFS/Kconfig
+
+# PageFault: FILE JFS FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-JFS-FR/Kconfig
+
+# PageFault: FILE JFS COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-JFS-COW/Kconfig
+
+# PageFault: FILE XFS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS/Kconfig
+
+# PageFault: FILE XFS FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS-FR/Kconfig
+
+# PageFault: FILE XFS COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-XFS-COW/Kconfig
+
+# PageFault: FILE GFS2
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-GFS2/Kconfig
+
+# PageFault: FILE GFS2 FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-GFS2-FR/Kconfig
+
+# PageFault: FILE GFS2 COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-GFS2-COW/Kconfig
+
+# PageFault: FILE F2FS
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-F2FS/Kconfig
+
+# PageFault: FILE F2FS FAULT AROUND
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-F2FS-FR/Kconfig
+
+# PageFault: FILE F2FS COW
+source package/PAGING/BiscuitOS-PAGING-PF-FILE-F2FS-COW/Kconfig
+
+# Huge-PageFault: Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-ANON-THP/Kconfig
+
+# Huge-PageFault: RO Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-RO-ANON-THP/Kconfig
+
+# Huge-PageFault: WP Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-WP-ANON-THP/Kconfig
+
+# Huge-PageFault: COW Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-COW-ANON-THP/Kconfig
+
+# Huge-PageFault: SWAP Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-SWAP-ANON-THP/Kconfig
+
+# Huge-PageFault: ZSWAP Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-ZSWAP-ANON-THP/Kconfig
+
+# Huge-PageFault: KSM Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-KSM-ANON-THP/Kconfig
+
+# Huge-PageFault: NUMA Anonymous THP
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-NUMA-ANON-THP/Kconfig
+
+# Huge-PageFault: EXT4 HUGE DAX
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-EXT4-HUGE-DAX/Kconfig
+
+# Huge-PageFault: XFS HUGE DAX
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-XFS-HUGE-DAX/Kconfig
+
+# Huge-PageFault: PUDMAPPED
+source package/PAGING/BiscuitOS-PAGING-HUGE-PF-PUDMAPPED/Kconfig
 
 # PageFault: PFNMAP
 source package/PAGING/BiscuitOS-PAGING-PF-PFNMAP/Kconfig
@@ -536,5 +686,83 @@ source package/PAGING/BiscuitOS-PAGING-PF-THP-ANON-SWAP/Kconfig
 
 # PageFault: THP - AnonHugepages ZSWAP
 source package/PAGING/BiscuitOS-PAGING-PF-THP-ANON-ZSWAP/Kconfig
+
+# PageFault: HUGETLB
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB/Kconfig
+
+# PageFault: HUGETLB MCE
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-MCE/Kconfig
+
+# PageFault: HUGETLB COW
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-COW/Kconfig
+
+# PageFault: HUGETLB COW FAULT
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-COW-FAULT/Kconfig
+
+# PageFault: HUGETLB SYSV
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-SYSV/Kconfig
+
+# PageFault: HUGETLB POSIX
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-POSIX/Kconfig
+
+# PageFault: HUGETLB MEMFD
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-MEMFD/Kconfig
+
+# PageFault: HUGETLB OOM
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-OOM/Kconfig
+
+# PageFault: HUGETLB WP
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-WP/Kconfig
+
+# PageFault: HUGETLB 1G
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-1G/Kconfig
+
+# PageFault: HUGETLB SURPLUS
+source package/PAGING/BiscuitOS-PAGING-PF-HUGETLB-SURPLUS/Kconfig
+
+# PageFault: Userfaultfd
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD/Kconfig
+
+# PageFault: Userfaultfd FORK
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD-FORK/Kconfig
+
+# PageFault: Userfaultfd REMAP
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD-REMAP/Kconfig
+
+# PageFault: Userfaultfd UNMAP
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD-UNMAP/Kconfig
+
+# PageFault: Userfaultfd REMOVE
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD-REMOVE/Kconfig
+
+# PageFault: Userfaultfd HUGETLB
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD-HUGETLB/Kconfig
+
+# PageFault: Userfaultfd SHMEM
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD-SHMEM/Kconfig
+
+# PageFault: Userfaultfd WP
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD-WP/Kconfig
+
+# PageFault: Userfaultfd ZERO
+source package/PAGING/BiscuitOS-PAGING-PF-UFFD-ZERO/Kconfig
+
+# PageFault: SIGBUS
+source package/PAGING/BiscuitOS-PAGING-PF-SIGBUS/Kconfig
+
+# PageFault: SIGEGV
+source package/PAGING/BiscuitOS-PAGING-PF-SIGEGV/Kconfig
+
+# PageFault: ATRP CONSULT
+source package/PAGING/BiscuitOS-PAGING-ATPR-CONSULT/Kconfig
+
+# PageFault: ATRP LAZYALLOC
+source package/PAGING/BiscuitOS-PAGING-ATPR-LAZY/Kconfig
+
+# PageFault: ATRP PREALLOC
+source package/PAGING/BiscuitOS-PAGING-ATPR-PREALLOC/Kconfig
+
+# PageFault: ATRP ONDEMAND
+source package/PAGING/BiscuitOS-PAGING-ATPR-ONDEMAND/Kconfig
 
 endif # PK_PAGING

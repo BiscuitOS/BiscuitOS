@@ -130,6 +130,10 @@ SUPPORT_GUEST_TMPFS=N
 SUPPORT_GUEST_HUGE_TMPFS=N
 [ ${51%} = yX ] && SUPPORT_GUEST_HUGE_TMPFS=Y
 
+# DMESG LOGLEVEL
+DEFAULT_LOGLEVEL=${67%X}
+[ ${67} == "X" ] && DEFAULT_LOGLEVEL=8
+
 # Copy library
 copy_libs() {
 	for lib in $1/*.so*; do
@@ -348,6 +352,8 @@ mkdir -p /mnt/f2fs
 [ -b /dev/vds ] && mount /dev/vds /mnt/f2fs > /dev/null 2>&1
 [ ! -f /mnt/f2fs/BiscuitOS.txt ] && dmesg > /mnt/f2fs/BiscuitOS.txt
 
+# DMESG
+echo 8 > /proc/sys/kernel/printk
 EOF
 
 if [ ${SUPPORT_GUEST_TMPFS} = "Y" ]; then
@@ -666,7 +672,7 @@ if [ ${SUPPORT_VDJ} != N ]; then
                 sync
 		if [ ${SUPPORT_VDJ} == cramfs ]; then
 			mkdir -p .tmp
-			echo "Hello BiscuitOS" > .tmp/READMD.md
+			dmesg > .tmp/BiscuitOS.txt
 			mkfs.cramfs .tmp/ ${OUTPUT}/Hardware/VDJ.img
 			rm -rf .tmp
 		else
@@ -684,8 +690,8 @@ if [ ${SUPPORT_VDK} != N ]; then
                 sync
 		if [ ${SUPPORT_VDK} == jffs2 ]; then
                         mkdir -p .tmp
-                        dmesg > .tmp/READMD.md
-                        mkfs.jffs2 -d .tmp/ -l -e 0x20000 -o ${OUTPUT}/Hardware/VDK.img
+                        dmesg > .tmp/BiscuitOS.txt
+                        mkfs.jffs2 -d .tmp/ -l -e 0x200000 -o ${OUTPUT}/Hardware/VDK.img
                         rm -rf .tmp
                 else
                 	mkfs.${SUPPORT_VDK} ${OUTPUT}/Hardware/VDK.img
@@ -713,7 +719,7 @@ if [ ${SUPPORT_VDM} != N ]; then
                 sync
 		if [ ${SUPPORT_VDM} == squashfs ]; then
                         mkdir -p .tmp
-                        dmesg > .tmp/READMD.md
+                        dmesg > .tmp/BiscuitOS.txt
 			rm ${OUTPUT}/Hardware/VDM.img 
                         mksquashfs .tmp/ ${OUTPUT}/Hardware/VDM.img
                         rm -rf .tmp
@@ -819,7 +825,7 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${SUPPORT_VDJ} ${SUPPORT_VDK} ${SUPPORT_VDL} \
 					${SUPPORT_VDM} ${SUPPORT_VDN} ${SUPPORT_VDO} \
 					${SUPPORT_VDP} ${SUPPORT_VDQ} ${SUPPORT_VDR} \
-					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK}
+					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK} ${DEFAULT_LOGLEVEL}
                                         
 
 ## Output directory

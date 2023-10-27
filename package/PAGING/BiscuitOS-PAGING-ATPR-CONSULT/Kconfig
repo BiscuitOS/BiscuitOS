@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_ATPR_CONSULT
+	bool "ATPR(Apply to page range): Consult Pagetable"
+
+if PK_PAGING_ATPR_CONSULT
+
+config PK_PAGING_ATPR_CONSULT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_ATPR_CONSULT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_ATPR_CONSULT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-ATPR-CONSULT"
+	string "url"
+
+config PK_PAGING_ATPR_CONSULT_GITHUB
+	string "GitHub"
+
+config PK_PAGING_ATPR_CONSULT_SRCFILE
+	default "app.c Kconfig main.c Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_ATPR_CONSULT_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_ATPR_CONSULT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_ATPR_CONSULT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_ATPR_CONSULT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_ATPR_CONSULT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_ATPR_CONSULT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_ATPR_CONSULT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_ATPR_CONSULT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_ATPR_CONSULT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_ATPR_CONSULT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_ATPR_CONSULT
