@@ -1,0 +1,57 @@
+menuconfig PK_PAGING_TEMP_OSMEM_MIGRATE
+	bool "TEMPORARY MAPPING: OSMEM MIGRATE"
+	select PK_NUMA
+	select PK_NUMACTL_LIBNUMA
+
+if PK_PAGING_TEMP_OSMEM_MIGRATE
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-TEMP-OSMEM-MIGRATE"
+	string "url"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_GITHUB
+	string "GitHub"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_TEMP_OSMEM_MIGRATE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_TEMP_OSMEM_MIGRATE

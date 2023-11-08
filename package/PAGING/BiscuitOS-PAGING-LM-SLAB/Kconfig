@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_LM_SLAB
+	bool "Linear Mapping: SLAB Allocator"
+
+if PK_PAGING_LM_SLAB
+
+config PK_PAGING_LM_SLAB_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_LM_SLAB_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_LM_SLAB_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-LM-SLAB"
+	string "url"
+
+config PK_PAGING_LM_SLAB_GITHUB
+	string "GitHub"
+
+config PK_PAGING_LM_SLAB_SRCFILE
+	default "main.c Makefile Kconfig Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_LM_SLAB_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_LM_SLAB_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_LM_SLAB_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_LM_SLAB_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_LM_SLAB_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_LM_SLAB_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_LM_SLAB_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_LM_SLAB_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_LM_SLAB_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_LM_SLAB_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_LM_SLAB

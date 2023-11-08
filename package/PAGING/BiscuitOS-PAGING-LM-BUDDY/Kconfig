@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_LM_BUDDY
+	bool "Linear Mapping: Buddy Allocator"
+
+if PK_PAGING_LM_BUDDY
+
+config PK_PAGING_LM_BUDDY_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_LM_BUDDY_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_LM_BUDDY_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-LM-BUDDY"
+	string "url"
+
+config PK_PAGING_LM_BUDDY_GITHUB
+	string "GitHub"
+
+config PK_PAGING_LM_BUDDY_SRCFILE
+	default "main.c Makefile Kconfig Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_LM_BUDDY_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_LM_BUDDY_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_LM_BUDDY_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_LM_BUDDY_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_LM_BUDDY_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_LM_BUDDY_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_LM_BUDDY_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_LM_BUDDY_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_LM_BUDDY_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_LM_BUDDY_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_LM_BUDDY

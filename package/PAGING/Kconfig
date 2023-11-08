@@ -765,4 +765,169 @@ source package/PAGING/BiscuitOS-PAGING-ATPR-PREALLOC/Kconfig
 # PageFault: ATRP ONDEMAND
 source package/PAGING/BiscuitOS-PAGING-ATPR-ONDEMAND/Kconfig
 
+# CPA
+source package/PAGING/BiscuitOS-PAGING-PT-CPA/Kconfig
+
+# Linear-Mapping
+source package/PAGING/BiscuitOS-PAGING-LM/Kconfig
+
+# Linear-Mapping: Consult PFN Range
+source package/PAGING/BiscuitOS-PAGING-LM-CONSULT-RANGE/Kconfig
+
+# Linear-Mapping: Temporary mapping
+source package/PAGING/BiscuitOS-PAGING-LM-TEMP/Kconfig
+
+# Linear-Mapping: Buddy
+source package/PAGING/BiscuitOS-PAGING-LM-BUDDY/Kconfig
+
+# Linear-Mapping: MEMBLOCK
+source package/PAGING/BiscuitOS-PAGING-LM-MEMBLOCK/Kconfig
+
+# Linear-Mapping: SLAB
+source package/PAGING/BiscuitOS-PAGING-LM-SLAB/Kconfig
+
+# VMALLOC-Mapping
+source package/PAGING/BiscuitOS-PAGING-VMALLOC/Kconfig
+
+# VMALLOC-Mapping: HUGE
+source package/PAGING/BiscuitOS-PAGING-VMALLOC-HUGE/Kconfig
+
+# MMIO-Mapping
+source package/PAGING/BiscuitOS-PAGING-MMIO-MAPPING/Kconfig
+
+# PFNMAP: PFNREMAP
+source package/PAGING/BiscuitOS-PAGING-PFNMAP-PFNREMAP/Kconfig
+
+# PFNMAP: MEMREMAP
+source package/PAGING/BiscuitOS-PAGING-PFNMAP-MEMREMAP/Kconfig
+
+# PFNMAP: CUSTOMIZE PREALLOC
+source package/PAGING/BiscuitOS-PAGING-PFNMAP-CUSTOMIZE-PREALLOC/Kconfig
+
+# PFNMAP: CUSTOMIZE LAZYALLOC
+source package/PAGING/BiscuitOS-PAGING-PFNMAP-CUSTOMIZE-LAZYALLOC/Kconfig
+
+# PFNMAP: CUSTOMIZE ONDEMAND
+source package/PAGING/BiscuitOS-PAGING-PFNMAP-CUSTOMIZE-ONDEMAND/Kconfig
+
+# PFNMAP: CUSTOMIZE 2MiB
+source package/PAGING/BiscuitOS-PAGING-PFNMAP-CUSTOMIZE-2M/Kconfig
+
+# PFNMAP: CUSTOMIZE 1Gig
+source package/PAGING/BiscuitOS-PAGING-PFNMAP-CUSTOMIZE-1G/Kconfig
+
+# UMSPA: RSVDMEM
+source package/PAGING/BiscuitOS-PAGING-UMSPA-RSVDMEM/Kconfig
+
+# UMSPA: MMIO
+source package/PAGING/BiscuitOS-PAGING-UMSPA-MMIO/Kconfig
+
+# UMSPA: STRICT OSMEM
+source package/PAGING/BiscuitOS-PAGING-UMSPA-STRICT-OSMEM/Kconfig
+
+# TEMPORARY: OSMEM OnDemand
+source package/PAGING/BiscuitOS-PAGING-TEMP-OSMEM-ONDEMAND/Kconfig
+
+# TEMPORARY: RSVDMEM OnDemand
+source package/PAGING/BiscuitOS-PAGING-TEMP-RSVDMEM-ONDEMAND/Kconfig
+
+# TEMPORARY: MMIO OnDemand
+source package/PAGING/BiscuitOS-PAGING-TEMP-MMIO-ONDEMAND/Kconfig
+
+# TEMPORARY: OSMEM
+source package/PAGING/BiscuitOS-PAGING-TEMP-OSMEM-MIGRATE/Kconfig
+
+# CPR
+source package/PAGING/BiscuitOS-PAGING-PT-CPR/Kconfig
+
+# CPR: SHMEM
+source package/PAGING/BiscuitOS-PAGING-PT-CPR-SHMEM/Kconfig
+
+# CPR: FILE
+source package/PAGING/BiscuitOS-PAGING-PT-CPR-FILE/Kconfig
+
+# CPR: UFFD WP
+source package/PAGING/BiscuitOS-PAGING-PT-CPR-UFFD-WP/Kconfig
+
+# CPR: PFNMAP
+source package/PAGING/BiscuitOS-PAGING-PT-CPR-PFNMAP/Kconfig
+
+# CPR: NON ANON-VMA
+source package/PAGING/BiscuitOS-PAGING-PT-CPR-NONAV/Kconfig
+
+# CPR: WIPE
+source package/PAGING/BiscuitOS-PAGING-PT-CPR-WIPE/Kconfig
+
+# CPR: HUGETLB
+source package/PAGING/BiscuitOS-PAGING-PT-CPR-HUGETLB/Kconfig
+
+# LOOKUP-ADDRESS
+source package/PAGING/BiscuitOS-PAGING-LOOKUP-ADDR/Kconfig
+
+# LOOKUP-ADDRESS: RSVDMEM
+source package/PAGING/BiscuitOS-PAGING-LOOKUP-ADDR-RSVDMEM/Kconfig
+
+# LOOKUP-ADDRESS: VMALLOC
+source package/PAGING/BiscuitOS-PAGING-LOOKUP-ADDR-VMALLOC/Kconfig
+
+# LOOKUP-ADDRESS: MMIO
+source package/PAGING/BiscuitOS-PAGING-LOOKUP-ADDR-MMIO/Kconfig
+
+# LOOKUP-ADDRESS: MEMBLOCK
+source package/PAGING/BiscuitOS-PAGING-LOOKUP-ADDR-MEMBLOCK/Kconfig
+
+# LOOKUP-ADDRESS: FIXMAP
+source package/PAGING/BiscuitOS-PAGING-LOOKUP-ADDR-FIXMAP/Kconfig
+
+# LOOKUP-ADDRESS: EARLY
+source package/PAGING/BiscuitOS-PAGING-LOOKUP-ADDR-EARLY/Kconfig
+
+# LOOKUP-ADDRESS: PMD
+source package/PAGING/BiscuitOS-PAGING-LOOKUP-ADDR-PMD/Kconfig
+
+# FOLLOW USER PT: PTE
+source package/PAGING/BiscuitOS-PAGING-PT-FUPT-PTE/Kconfig
+
+# FOLLOW USER PT: PFN
+source package/PAGING/BiscuitOS-PAGING-PT-FUPT-PFN/Kconfig
+
+# FOLLOW USER PT: PHYS
+source package/PAGING/BiscuitOS-PAGING-PT-FUPT-PHYS/Kconfig
+
+# PT PAGE_PRESENT: Empty
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-PRESENT-EMPTY/Kconfig
+
+# PT PAGE_PRESENT: PROTNONE
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-PRESENT-PROTNONE/Kconfig
+
+# PT PAGE_PRESENT: SWAP
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-PRESENT-SWAP/Kconfig
+
+# PT PAGE_PRESENT: UE
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-PRESENT-UE/Kconfig
+
+# PT PAGE_RW: RO
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-RW-RO/Kconfig
+
+# PT PAGE_RW: ZERO
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-RW-ZERO/Kconfig
+
+# PT PAGE_RW: WP
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-RW-WP/Kconfig
+
+# PT PAGE_RW: PROTNONE
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-RW-PROTNONE/Kconfig
+
+# PT PAGE_ACCESSED: ANON 
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-ACCESSED-ANON/Kconfig
+
+# PT PAGE_ACCESSED: FILE
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-ACCESSED-FILE/Kconfig
+
+# ENGINERRING APPLICATION: SIMPLE ALLOCATOR
+source package/PAGING/BiscuitOS-PAGING-EA-SIMPLE-ALLOCATOR/Kconfig
+
+# ENGINERRING APPLICATION: SIMPLE KERNEL ALLOCATOR
+source package/PAGING/BiscuitOS-PAGING-EA-SIMPLE-KERNEL-ALLOCATOR/Kconfig
+
 endif # PK_PAGING

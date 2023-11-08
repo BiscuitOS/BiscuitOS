@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PT_PAGE_PRESENT_EMPTY
+	bool "PAGE_PRESENT: Empty Entry"
+
+if PK_PAGING_PT_PAGE_PRESENT_EMPTY
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PT-PAGE-PRESENT-EMPTY"
+	string "url"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PT_PAGE_PRESENT_EMPTY_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PT_PAGE_PRESENT_EMPTY

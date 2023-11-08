@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PT_FUPT_PTE
+	bool "FOLLOW USERSPACE PGTABLE: Consult PTE"
+
+if PK_PAGING_PT_FUPT_PTE
+
+config PK_PAGING_PT_FUPT_PTE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PT_FUPT_PTE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PT_FUPT_PTE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PT-FUPT-PTE"
+	string "url"
+
+config PK_PAGING_PT_FUPT_PTE_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PT_FUPT_PTE_SRCFILE
+	default "app.c Kconfig main.c Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PT_FUPT_PTE_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PT_FUPT_PTE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PT_FUPT_PTE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PT_FUPT_PTE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PT_FUPT_PTE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PT_FUPT_PTE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PT_FUPT_PTE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PT_FUPT_PTE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PT_FUPT_PTE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PT_FUPT_PTE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PT_FUPT_PTE

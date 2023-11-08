@@ -254,6 +254,30 @@ mkdir -p ${ROOTFS_PATH}/var/
 mkdir -p ${ROOTFS_PATH}/mnt/
 mkdir -p ${ROOTFS_PATH}/etc/init.d
 
+### LOG
+RC=${ROOTFS_PATH}/etc/BiscuitOS.log
+## Auto create fstab file
+cat << EOF > ${RC}
+ ____  _                _ _    ___  ____  
+| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| 
+|  _ \| / __|/ __| | | | | __| | | \___ \ 
+| |_) | \__ \ (__| |_| | | |_| |_| |___) |
+|____/|_|___/\___|\__,_|_|\__|\___/|____/
+
+EOF
+
+RC=${ROOTFS_PATH}/etc/Broiler.log
+## Auto create fstab file
+cat << EOF > ${RC}
+ ____            _ _           
+| __ ) _ __ ___ (_) | ___ _ __ 
+|  _ \| '__/ _ \| | |/ _ \ '__|
+| |_) | | | (_) | | |  __/ |   
+|____/|_|  \___/|_|_|\___|_|   
+                             
+EOF
+
+
 ### rcS
 RC=${ROOTFS_PATH}/etc/init.d/rcS
 ## Auto create rcS file
@@ -365,21 +389,14 @@ if [ ${SUPPORT_GUEST_HUGE_TMPFS} = "Y" ]; then
 	echo "[ ! -f /mnt/huge-tmpfs/BiscuitOS.txt ] && dmesg > /mnt/huge-tmpfs/BiscuitOS.txt" >> ${RC}
 fi
 
-echo '' >> ${RC}
-echo 'echo " ____  _                _ _    ___  ____  "' >> ${RC}
-echo 'echo "| __ )(_)___  ___ _   _(_) |_ / _ \/ ___| "' >> ${RC}
-echo 'echo "|  _ \| / __|/ __| | | | | __| | | \___ \ "' >> ${RC}
-echo 'echo "| |_) | \__ \ (__| |_| | | |_| |_| |___) |"' >> ${RC}
-echo 'echo "|____/|_|___/\___|\__,_|_|\__|\___/|____/ "' >> ${RC}
-echo '' >> ${RC}
-echo 'echo "Welcome to BiscuitOS"' >> ${RC}
 chmod 755 ${RC}
 echo '# Auto Running Broiler' >> ${RC}
 echo 'cat /proc/cmdline | grep -w "Broiler" > /dev/null' >> ${RC}
-echo '[ $? -eq 0 ] && echo "Welcome to Broiler" && rm -rf /usr/bin/RunBroiler.sh && rm -rf /usr/bin/BiscuitOS-Broiler-default  && exit 0' >> ${RC}
+echo '[ $? -ne 0 ] && cat /etc/BiscuitOS.log && echo "Welcome to BiscuitOS"' >> ${RC}
+echo 'cat /proc/cmdline | grep -w "Broiler" > /dev/null' >> ${RC}
+echo '[ $? -eq 0 ] && cat /etc/Broiler.log && echo "Welcome to Broiler" && rm -rf /usr/bin/RunBroiler.sh && rm -rf /usr/bin/BiscuitOS-Broiler-default  && exit 0' >> ${RC}
 echo '[ -f /etc/init.d/rcS.broiler ] && RunBroiler.sh' >> ${RC}
 echo '[ ! -f /etc/init.d/rcS.broiler ] && rm -rf /usr/bin/RunBroiler.sh' >> ${RC}
-
 
 ### fstab
 RC=${ROOTFS_PATH}/etc/fstab
@@ -551,25 +568,34 @@ sudo mknod ${ROOTFS_PATH}/dev/null c 1 3
 sudo chown root.root ${ROOTFS_PATH}/* -R
 mkdir -p ${OUTPUT}/Hardware
 
-dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${DISK_SIZE}
-${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk
-mkdir -p ${OUTPUT}/rootfs/tmpfs
-sudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop
-sudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/
-sync
-sudo umount ${OUTPUT}/rootfs/tmpfs
-if [ ${SUPPORT_RAMDISK} = "Y" ]; then
-	# Support RAMdisk
-	gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz
-	if [ ${ARCH_NAME} = "x86" -o ${ARCH_NAME} = "x86_64" ]; then
-		mv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Haredware/BiscuitOS.img
-	else
-		mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img
-	fi
-	sudo rm -rf ${OUTPUT}/rootfs/ramdisk
+if [ ${SUPPORT_RAMDISK}X = "NX" -a -f ${OUTPUT}/Hardware/BiscuitOS.img ]; then
+	mkdir -p ${OUTPUT}/rootfs/tmpfs
+	sudo mount -t ${FS_TYPE} ${OUTPUT}/Hardware/BiscuitOS.img ${OUTPUT}/rootfs/tmpfs/ -o loop
+	sudo rm -rf ${OUTPUT}/rootfs/tmpfs/*
+	sudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/
+	sync
+	sudo umount ${OUTPUT}/rootfs/tmpfs
 else
-	# Support HardDisk
-	mv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/Hardware/BiscuitOS.img
+	dd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${DISK_SIZE}
+	${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk
+	mkdir -p ${OUTPUT}/rootfs/tmpfs
+	sudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/rootfs/tmpfs/ -o loop
+	sudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/
+	sync
+	sudo umount ${OUTPUT}/rootfs/tmpfs
+	if [ ${SUPPORT_RAMDISK} = "Y" ]; then
+		# Support RAMdisk
+		gzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz
+		if [ ${ARCH_NAME} = "x86" -o ${ARCH_NAME} = "x86_64" ]; then
+			mv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img
+		else
+			mkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img
+		fi
+		sudo rm -rf ${OUTPUT}/rootfs/ramdisk
+	else
+		# Support HardDisk
+		mv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/Hardware/BiscuitOS.img
+	fi
 fi
 
 sudo rm -rf ${OUTPUT}/rootfs/tmpfs

@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_UMSPA_STRICT_OSMEM
+	bool "UMSPA: STRICT OSMEM"
+
+if PK_PAGING_UMSPA_STRICT_OSMEM
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-UMSPA-STRICT-OSMEM"
+	string "url"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_GITHUB
+	string "GitHub"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_UMSPA_STRICT_OSMEM_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_UMSPA_STRICT_OSMEM

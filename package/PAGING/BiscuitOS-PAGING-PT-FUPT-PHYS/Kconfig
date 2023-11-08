@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PT_FUPT_PHYS
+	bool "FOLLOW USERSPACE PGTABLE: Consult PHYS"
+
+if PK_PAGING_PT_FUPT_PHYS
+
+config PK_PAGING_PT_FUPT_PHYS_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PT_FUPT_PHYS_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PT_FUPT_PHYS_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PT-FUPT-PHYS"
+	string "url"
+
+config PK_PAGING_PT_FUPT_PHYS_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PT_FUPT_PHYS_SRCFILE
+	default "main.c Makefile Kconfig Mafile.app RunBiscuitOS.sh app.c"
+	string "Source code list"
+
+config PK_PAGING_PT_FUPT_PHYS_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PT_FUPT_PHYS_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PT_FUPT_PHYS_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PT_FUPT_PHYS_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PT_FUPT_PHYS_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PT_FUPT_PHYS_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PT_FUPT_PHYS_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PT_FUPT_PHYS_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PT_FUPT_PHYS_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PT_FUPT_PHYS_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PT_FUPT_PHYS

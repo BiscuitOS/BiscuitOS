@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_LOOKUP_ADDR_MMIO
+	bool "LOOKUP Address: Consult MMIO"
+
+if PK_PAGING_LOOKUP_ADDR_MMIO
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-LOOKUP-ADDR-MMIO"
+	string "url"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_GITHUB
+	string "GitHub"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_SRCFILE
+	default "Kconfig main.c Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_LOOKUP_ADDR_MMIO_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_LOOKUP_ADDR_MMIO

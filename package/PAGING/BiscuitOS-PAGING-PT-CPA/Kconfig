@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PT_CPA
+	bool "CPA: Change Page Attribute"
+
+if PK_PAGING_PT_CPA
+
+config PK_PAGING_PT_CPA_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PT_CPA_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PT_CPA_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PT-CPA"
+	string "url"
+
+config PK_PAGING_PT_CPA_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PT_CPA_SRCFILE
+	default "main.c Makefile Kconfig"
+	string "Source code list"
+
+config PK_PAGING_PT_CPA_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PT_CPA_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PT_CPA_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PT_CPA_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PT_CPA_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PT_CPA_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PT_CPA_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PT_CPA_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PT_CPA_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PT_CPA_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PT_CPA

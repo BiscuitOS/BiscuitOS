@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PT_PAGE_PRESENT_UE
+	bool "PAGE_PRESENT: UE Entry"
+
+if PK_PAGING_PT_PAGE_PRESENT_UE
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PT-PAGE-PRESENT-UE"
+	string "url"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PT_PAGE_PRESENT_UE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PT_PAGE_PRESENT_UE

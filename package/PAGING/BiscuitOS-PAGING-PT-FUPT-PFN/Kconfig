@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_PT_FUPT_PFN
+	bool "FOLLOW USERSPACE PGTABLE: Consult RSVDMEM PFN"
+
+if PK_PAGING_PT_FUPT_PFN
+
+config PK_PAGING_PT_FUPT_PFN_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_PT_FUPT_PFN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_PT_FUPT_PFN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-PT-FUPT-PFN"
+	string "url"
+
+config PK_PAGING_PT_FUPT_PFN_GITHUB
+	string "GitHub"
+
+config PK_PAGING_PT_FUPT_PFN_SRCFILE
+	default "app.c Kconfig main.c Makefile Makefile.host RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_PT_FUPT_PFN_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_PT_FUPT_PFN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_PT_FUPT_PFN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_PT_FUPT_PFN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_PT_FUPT_PFN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_PT_FUPT_PFN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_PT_FUPT_PFN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_PT_FUPT_PFN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_PT_FUPT_PFN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_PT_FUPT_PFN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_PT_FUPT_PFN
