@@ -818,33 +818,61 @@ echo '' >>  ${MF}
 echo 'do_package()' >>  ${MF}
 echo '{' >> ${MF}
 if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
-	echo -e '\tsudo cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
-	echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
-	echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
-	if [ ${FS_TYPE_TOOLS}X = "mkfs.ext4X" ]; then
-		echo -e '\t${FS_TYPE_TOOLS} -E lazy_itable_init=1,lazy_journal_init=1 -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
-	else
-		echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
-	fi
-	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-	echo -e '\tsudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk \' >> ${MF}
-	echo -e '\t              ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
-	echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
-	echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-	if [ ${SUPPORT_RAMDISK} = "Y" ]; then
-		echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
-		if [ ${ARCH_NAME} = "x86" -o ${ARCH_NAME} = "x86_64" ]; then
-			echo -e '\tmv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
-			
+	if [ ${SUPPORT_RAMDISK}X = "NX" ]; then
+		echo -e '\tsudo cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+		echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+		echo -e '\tif [ -f ${OUTPUT}/Hardware/BiscuitOS.img ]; then' >> ${MF}
+		echo -e '\t\tmkdir -p ${OUTPUT}/rootfs/tmpfs'>> ${MF}
+		echo -e '\t\tsudo mount -t ${FS_TYPE} ${OUTPUT}/Hardware/BiscuitOS.img \' >> ${MF}
+		echo -e '\t\t\t\t${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
+		echo -e '\t\tsudo rm -rf ${OUTPUT}/rootfs/tmpfs/*' >> ${MF}
+		echo -e '\t\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
+		echo -e '\t\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		echo -e '\t\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		echo -e '\telse' >> ${MF}
+		echo -e '\t\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
+		if [ ${FS_TYPE_TOOLS}X = "mkfs.ext4X" ]; then
+			echo -e '\t\t${FS_TYPE_TOOLS} -E lazy_itable_init=1,lazy_journal_init=1 -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 		else
-			echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
-			echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
+			echo -e '\t\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
 		fi
-		echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
-		echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+		echo -e '\t\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		echo -e '\t\tsudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk \' >> ${MF}
+		echo -e '\t\t              ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
+		echo -e '\t\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
+		echo -e '\t\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\t\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
+		echo -e '\t\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		echo -e '\tfi' >> ${MF}
 	else
-		[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
-		echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		echo -e '\tsudo cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
+		echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+		echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
+		if [ ${FS_TYPE_TOOLS}X = "mkfs.ext4X" ]; then
+			echo -e '\t${FS_TYPE_TOOLS} -E lazy_itable_init=1,lazy_journal_init=1 -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+		else
+			echo -e '\t${FS_TYPE_TOOLS} -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+		fi
+		echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		echo -e '\tsudo mount -t ${FS_TYPE} ${OUTPUT}/rootfs/ramdisk \' >> ${MF}
+		echo -e '\t              ${OUTPUT}/rootfs/tmpfs/ -o loop' >> ${MF}
+		echo -e '\tsudo cp -raf ${OUTPUT}/rootfs/${ROOTFS_NAME}/*  ${OUTPUT}/rootfs/tmpfs/' >> ${MF}
+		echo -e '\tsudo umount ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		if [ ${SUPPORT_RAMDISK} = "Y" ]; then
+			echo -e '\tgzip --best -c ${OUTPUT}/rootfs/ramdisk > ${OUTPUT}/rootfs/ramdisk.gz' >> ${MF}
+			if [ ${ARCH_NAME} = "x86" -o ${ARCH_NAME} = "x86_64" ]; then
+				echo -e '\tmv ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
+			
+			else
+				echo -e '\tmkimage -n "ramdisk" -A arm -O linux -T ramdisk -C gzip \' >> ${MF}
+				echo -e '\t        -d ${OUTPUT}/rootfs/ramdisk.gz ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
+			fi
+			echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+			echo -e '\trm -rf ${OUTPUT}/rootfs/ramdisk' >> ${MF}
+		else
+			[ ${SUPPORT_UBOOT} = "N" ] && echo -e '\tmv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/Hardware/BiscuitOS.img' >> ${MF}
+			echo -e '\trm -rf ${OUTPUT}/rootfs/tmpfs' >> ${MF}
+		fi
 	fi
 	## Support UBOOT
 	if [ ${SUPPORT_UBOOT} = "Y" ]; then
