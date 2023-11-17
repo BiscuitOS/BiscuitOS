@@ -753,6 +753,24 @@ source package/PAGING/BiscuitOS-PAGING-PF-SIGBUS/Kconfig
 # PageFault: SIGEGV
 source package/PAGING/BiscuitOS-PAGING-PF-SIGEGV/Kconfig
 
+# PageFault: KERNEL
+source package/PAGING/BiscuitOS-PAGING-PF-KERNEL/Kconfig
+
+# PageFault: KERNEL RW
+source package/PAGING/BiscuitOS-PAGING-PF-KERNEL-RW/Kconfig
+
+# PageFault: KERNEL NX
+source package/PAGING/BiscuitOS-PAGING-PF-KERNEL-NX/Kconfig
+
+# PageFault: KERNEL KPROBE
+source package/PAGING/BiscuitOS-PAGING-PF-KERNEL-KPROBE/Kconfig
+
+# PageFault: KERNEL SPUR RW
+source package/PAGING/BiscuitOS-PAGING-PF-KERNEL-SPUR-RW/Kconfig
+
+# PageFault: KERNEL SPUR NX
+source package/PAGING/BiscuitOS-PAGING-PF-KERNEL-SPUR-NX/Kconfig
+
 # PageFault: ATRP CONSULT
 source package/PAGING/BiscuitOS-PAGING-ATPR-CONSULT/Kconfig
 
@@ -924,6 +942,9 @@ source package/PAGING/BiscuitOS-PAGING-PT-PAGE-ACCESSED-ANON/Kconfig
 # PT PAGE_ACCESSED: FILE
 source package/PAGING/BiscuitOS-PAGING-PT-PAGE-ACCESSED-FILE/Kconfig
 
+# PT PAGE_PK
+source package/PAGING/BiscuitOS-PAGING-PT-PAGE-PK/Kconfig
+
 # USER-2-PT: PAGE_PRESENT
 source package/PAGING/BiscuitOS-PAGING-PT-U2PT-PAGE-PRESENT/Kconfig
 
@@ -948,6 +969,42 @@ source package/PAGING/BiscuitOS-PAGING-PT-U2PT-PAGE-ACCESSED-SET/Kconfig
 # USER-2-PT: PAGE_SPECIAL SET
 source package/PAGING/BiscuitOS-PAGING-PT-U2PT-PAGE-SPECIAL-SET/Kconfig
 
+# USER-2-PT: PAGE_PK SET
+source package/PAGING/BiscuitOS-PAGING-PT-U2PT-PAGE-PK-SET/Kconfig
+
+# USER-2-PT: PAGE_PSE SET
+source package/PAGING/BiscuitOS-PAGING-PT-U2PT-PAGE-PSE-SET/Kconfig
+
+# USER-2-PT: PAGE_PAT SET
+source package/PAGING/BiscuitOS-PAGING-PT-U2PT-PAGE-PAT-SET/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL_NOENC
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL-NOENC/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL_RO
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL-RO/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL_EXEC
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL-EXEC/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL_ROX
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL-ROX/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL_NOCACHE
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL-NOCACHE/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL_VVAR
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL-VVAR/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL_IO
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL-IO/Kconfig
+
+# KERNEL-2-PT: PAGE_KERNEL_IO_NOCACHE
+source package/PAGING/BiscuitOS-PAGING-PT-K2PT-PAGE-KERNEL-IO-NOCACHE/Kconfig
+
 # INTEL PAT
 source package/PAGING/BiscuitOS-PAGING-INTEL-PAT/Kconfig
 
@@ -962,6 +1019,9 @@ source package/PAGING/BiscuitOS-PAGING-INTEL-MTRRS-IOCTL2/Kconfig
 
 # INTEL PK
 source package/PAGING/BiscuitOS-PAGING-INTEL-PK/Kconfig
+
+# TOOLS: KPROBE
+source package/PAGING/BiscuitOS-PAGING-TOOLS-KPROBE/Kconfig
 
 # ENGINERRING APPLICATION: SIMPLE ALLOCATOR
 source package/PAGING/BiscuitOS-PAGING-EA-SIMPLE-ALLOCATOR/Kconfig
