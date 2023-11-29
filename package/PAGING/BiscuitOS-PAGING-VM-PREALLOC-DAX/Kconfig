@@ -1,0 +1,56 @@
+menuconfig PK_PAGING_VM_PREALLOC_DAX
+	select PK_E2FSPROGS
+	bool "USER PREALLOC: DAX Memory"
+
+if PK_PAGING_VM_PREALLOC_DAX
+
+config PK_PAGING_VM_PREALLOC_DAX_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_VM_PREALLOC_DAX_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_VM_PREALLOC_DAX_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-VM-PREALLOC-DAX"
+	string "url"
+
+config PK_PAGING_VM_PREALLOC_DAX_GITHUB
+	string "GitHub"
+
+config PK_PAGING_VM_PREALLOC_DAX_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_VM_PREALLOC_DAX_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_VM_PREALLOC_DAX_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_VM_PREALLOC_DAX_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_VM_PREALLOC_DAX_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_VM_PREALLOC_DAX_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_VM_PREALLOC_DAX_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_VM_PREALLOC_DAX_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_VM_PREALLOC_DAX_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_VM_PREALLOC_DAX_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_VM_PREALLOC_DAX_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_VM_PREALLOC_DAX

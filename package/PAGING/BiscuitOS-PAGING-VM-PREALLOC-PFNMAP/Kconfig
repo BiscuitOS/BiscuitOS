@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_VM_PREALLOC_PFNMAP
+	bool "USER PREALLOC: PFNMAP Memory"
+
+if PK_PAGING_VM_PREALLOC_PFNMAP
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-VM-PREALLOC-PFNMAP"
+	string "url"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_GITHUB
+	string "GitHub"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_VM_PREALLOC_PFNMAP_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_VM_PREALLOC_PFNMAP
