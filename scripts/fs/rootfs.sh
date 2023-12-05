@@ -487,9 +487,8 @@ else
 		fi
 	else
 		LIBS_PATH_IN=${CROSS_PATH}/${CROSS_COMPILE}/libc/lib
-		if [ -d ${LIBS_PATH_IN}/${CROSS_COMPILE} ]; then
-			cp -arf ${LIBS_PATH_IN}/${CROSS_COMPILE}/* \
-				${ROOTFS_PATH}/lib/
+		if [ -d ${LIBS_PATH_IN} ]; then
+			cp -arf ${LIBS_PATH_IN}/* ${ROOTFS_PATH}/lib/
 		else
 			# X86/i386
 			[ ${ARCH_NAME}Y = "x86Y" ] && LIBS_PATH_IN=/lib/i386-linux-gnu
@@ -553,7 +552,7 @@ else
 fi
 
 ## BiscuitOS/Broiler Scripts
-[ ! -d ${ROOTFS_PATH}/usr/bin/ ] && sudo mkdir ${ROOTFS_PATH}/usr/bin/
+[ ! -d ${ROOTFS_PATH}/usr/bin/ ] && sudo mkdir -p ${ROOTFS_PATH}/usr/bin/
 sudo cp -rf ${ROOT}/scripts/package/KRunBiscuitOS.sh ${ROOTFS_PATH}/usr/bin/
 
 mkdir -p ${ROOTFS_PATH}/dev/
