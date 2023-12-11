@@ -1,0 +1,55 @@
+menuconfig PK_DEBUG_MEMORY_FLUID
+	bool "BiscuitOS MEMORY FLUID"
+
+if PK_DEBUG_MEMORY_FLUID
+
+config PK_DEBUG_MEMORY_FLUID_VERSION
+	default "default"
+	string "verstion"
+
+config PK_DEBUG_MEMORY_FLUID_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_DEBUG_MEMORY_FLUID_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Debug-Stub/BiscuitOS-MEMORY-FLUID"
+	string "url"
+
+config PK_DEBUG_MEMORY_FLUID_GITHUB
+	string "GitHub"
+
+config PK_DEBUG_MEMORY_FLUID_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_DEBUG_MEMORY_FLUID_CSRCFILE
+	string "Compile source code list"
+
+config PK_DEBUG_MEMORY_FLUID_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_DEBUG_MEMORY_FLUID_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_DEBUG_MEMORY_FLUID_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_DEBUG_MEMORY_FLUID_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_DEBUG_MEMORY_FLUID_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_DEBUG_MEMORY_FLUID_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_DEBUG_MEMORY_FLUID_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_DEBUG_MEMORY_FLUID_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_DEBUG_MEMORY_FLUID_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_DEBUG_MEMORY_FLUID

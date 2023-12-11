@@ -9,4 +9,10 @@ source package/BiscuitOS-debug-stub/BiscuitOS-debug-stub-QEMU/Kconfig
 # BiscuitOS QEMU debug Kernel
 source package/BiscuitOS-debug-stub/BiscuitOS-debug-stub-Kernel/Kconfig
 
+# BiscuitOS MEMORY FLUID
+source package/BiscuitOS-debug-stub/BiscuitOS-MEMORY-FLUID/Kconfig
+
+# BiscuitOS MEMORY FLUID KERNEL
+source package/BiscuitOS-debug-stub/BiscuitOS-MEMORY-FLUID-KERNEL/Kconfig
+
 endif # PK_BISCUITOS_DEBUG
