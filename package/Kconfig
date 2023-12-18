@@ -331,7 +331,7 @@ source package/MEMORY-LOCKING/Kconfig
 source package/memory-sanitizers/Kconfig
 
 # memory mapping
-source package/memory-mapping/Kconfig
+#source package/memory-mapping/Kconfig
 
 # Memory Mapping
 source package/MEMORY-MMAP/Kconfig

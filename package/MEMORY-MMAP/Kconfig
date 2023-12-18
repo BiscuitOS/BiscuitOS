@@ -1,24 +1,12 @@
-menuconfig PK_MEMMAP
-	bool "Memory Mapping Mechanism[NEW]"
+menuconfig PK_MEMORY_MMAP
+	bool "Memory Mapping Mechanism"
 
-if PK_MEMMAP
+if PK_MEMORY_MMAP
 
-# ALLOC ALIGN MEMORY
-source package/MEMORY-MMAP/BiscuitOS-MEMMAP-ALLOC-ALIGN-MEMORY/Kconfig
+# MEMORY MMAP
+source package/MEMORY-MMAP/BiscuitOS-MEMORY-MMAP/Kconfig
 
-# INFO: Physical Address
-source package/MEMORY-MMAP/BiscuitOS-MEMMAP-INFO-PHYSMEM/Kconfig
+# MEMORY MMAP: RBTREE UPDATE GAP
+source package/MEMORY-MMAP/BiscuitOS-MEMORY-MMAP-RB-UPDATE-GAP/Kconfig
 
-# INFO: NUMA NODE
-source package/MEMORY-MMAP/BiscuitOS-MEMMAP-INFO-NUMA-NODE/Kconfig
-
-# SWAP IN/OUT MEMORY
-source package/MEMORY-MMAP/BiscuitOS-MEMMAP-SWAP-INOUT-MEMORY/Kconfig
-
-# Trigger OOM
-source package/MEMORY-MMAP/BiscuitOS-MEMMAP-TRIGGER-OOM/Kconfig
-
-# Migrate on NUMA
-source package/MEMORY-MMAP/BiscuitOS-MEMMAP-MIGRATE-PAGE-NUMA/Kconfig
-
-endif # PK_MEMMAP
+endif # PK_MEMORY_MMAP
