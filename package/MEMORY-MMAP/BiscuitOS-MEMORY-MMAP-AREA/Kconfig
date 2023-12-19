@@ -1,0 +1,55 @@
+menuconfig PK_MEMORY_MMAP_AREA
+	bool "Memory Mapping: AREA"
+
+if PK_MEMORY_MMAP_AREA
+
+config PK_MEMORY_MMAP_AREA_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMORY_MMAP_AREA_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMORY_MMAP_AREA_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP-MECH/BiscuitOS-MEMORY-MMAP-AREA"
+	string "url"
+
+config PK_MEMORY_MMAP_AREA_GITHUB
+	string "GitHub"
+
+config PK_MEMORY_MMAP_AREA_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMORY_MMAP_AREA_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMORY_MMAP_AREA_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMORY_MMAP_AREA_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMORY_MMAP_AREA_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMORY_MMAP_AREA_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMORY_MMAP_AREA_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMORY_MMAP_AREA_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMORY_MMAP_AREA_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMORY_MMAP_AREA_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMORY_MMAP_AREA_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMORY_MMAP_AREA

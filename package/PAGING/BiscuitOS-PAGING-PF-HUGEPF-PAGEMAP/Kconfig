@@ -19,7 +19,7 @@ config PK_PAGING_PF_HUGEPF_PAGEMAP_GITHUB
 	string "GitHub"
 
 config PK_PAGING_PF_HUGEPF_PAGEMAP_SRCFILE
-	default "main.c Makefile Kconfig Mafile.app RunBiscuitOS.sh app.c"
+	default "main.c Makefile Kconfig Makefile.app RunBiscuitOS.sh app.c"
 	string "Source code list"
 
 config PK_PAGING_PF_HUGEPF_PAGEMAP_CSRCFILE

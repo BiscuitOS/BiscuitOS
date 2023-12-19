@@ -19,7 +19,7 @@ config PK_PAGING_4L_PAGING_MMAP_1G_GITHUB
 	string "GitHub"
 
 config PK_PAGING_4L_PAGING_MMAP_1G_SRCFILE
-	default "main.c Makefile Kconfig Mafile.app RunBiscuitOS.sh app.c"
+	default "main.c Makefile Kconfig Makefile.app RunBiscuitOS.sh app.c"
 	string "Source code list"
 
 config PK_PAGING_4L_PAGING_MMAP_1G_CSRCFILE
