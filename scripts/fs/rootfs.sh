@@ -836,6 +836,17 @@ if [ ${SUPPORT_VDS} != N ]; then
         fi
 fi
 
+## MEMORY FLUID
+sudo mkdir -p ${ROOTFS_PATH}/usr/share/ > /dev/null 2>&1
+if [ ! -d ${ROOT}/dl/MEMORY_FLUID/ ]; then
+	echo "Pls Run 'make install_tools' !"
+fi
+if [ ${ARCH_NAME}X = "x86X" ]; then
+	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.i386 ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+elif [ ${ARCH_NAME}X = "x86_64X" ]; then
+	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.x86_64 ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+fi
+
 ## Auto build README.md
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \

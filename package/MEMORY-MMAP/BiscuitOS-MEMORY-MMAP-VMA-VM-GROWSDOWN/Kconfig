@@ -1,0 +1,55 @@
+menuconfig PK_MEMORY_MMAP_VMA_VM_GROWSDOWN
+	bool "Memory Mapping: VMA VM_GROWSDOWN"
+
+if PK_MEMORY_MMAP_VMA_VM_GROWSDOWN
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP-MECH/BiscuitOS-MEMORY-MMAP-VMA-VM-GROWSDOWN"
+	string "url"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_GITHUB
+	string "GitHub"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMORY_MMAP_VMA_VM_GROWSDOWN_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMORY_MMAP_VMA_VM_GROWSDOWN

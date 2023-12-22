@@ -1,0 +1,55 @@
+menuconfig PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING
+	bool "Memory Mapping: VMA VM_UFFD_MISSING"
+
+if PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP-MECH/BiscuitOS-MEMORY-MMAP-VMA-VM-UFFD-MISSING"
+	string "url"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_GITHUB
+	string "GitHub"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMORY_MMAP_VMA_VM_UFFD_MISSING

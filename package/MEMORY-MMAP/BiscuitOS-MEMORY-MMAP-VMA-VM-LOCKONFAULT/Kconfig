@@ -1,0 +1,55 @@
+menuconfig PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT
+	bool "Memory Mapping: VMA VM_LOCKONFAULT"
+
+if PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP-MECH/BiscuitOS-MEMORY-MMAP-VMA-VM-LOCKONFAULT"
+	string "url"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_GITHUB
+	string "GitHub"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMORY_MMAP_VMA_VM_LOCKONFAULT

@@ -1,0 +1,55 @@
+menuconfig PK_MEMORY_MMAP_VMA_VM_DONTDUMP
+	bool "Memory Mapping: VMA VM_DONTDUMP"
+
+if PK_MEMORY_MMAP_VMA_VM_DONTDUMP
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP-MECH/BiscuitOS-MEMORY-MMAP-VMA-VM-DONTDUMP"
+	string "url"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_GITHUB
+	string "GitHub"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMORY_MMAP_VMA_VM_DONTDUMP_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMORY_MMAP_VMA_VM_DONTDUMP
