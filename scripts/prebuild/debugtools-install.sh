@@ -11,9 +11,9 @@ PACKAGE=${ROOT}/package
 # FILE_PATH
 FILE_PATH=https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Debug-Stub/BiscuitOS-debug-stub-Kernel
 # FILE_C
-FILE_C=BiscuitOS-stub.c
+FILE_C=${BROOT}/dl/MEMORY_FLUID/BiscuitOS-stub.c
 # FILE_H
-FILE_H=BiscuitOS-stub.h
+FILE_H=${BROOT}/dl/MEMORY_FLUID/BiscuitOS-stub.h
 # FILE_U_H
 FILE_U_H=BiscuitOS_memory_fluid.h
 # TEMP_PATH
@@ -28,27 +28,47 @@ INSTALL_H=${KERNEL}/include/linux/
 mkdir -p ${BROOT}/dl/MEMORY_FLUID
 
 # CHECK OUT
-[ -f ${KERNEL}/BS_DEBUG ] && echo "Deploy BiscuitOS Tools Done" && exit 0
+[ -f ${KERNEL}/BiscuitOS-MEMORY-FLUID ] && echo "Deploy BiscuitOS Tools Done" && exit 0
 
 # ARCHITECTURE
 if [[ "$LINUX_DESTRO" == *"i386"* ]]; then
 	ARCH=i386
-	LAST_CT=$(tail -n 1 "${ROOT}/linux/linux/arch/x86/entry/syscalls/syscall_32.tbl")
-	read -r __NR_SYS _ <<< "${LAST_CT}"
-	NR_SYS=$((__NR_SYS + 1))
+	MAX_SYS=$(awk '{print $1}' "${ROOT}/linux/linux/arch/x86/entry/syscalls/syscall_32.tbl" | grep '^[0-9]*$' | sort -n | tail -n 1)
+	NR_SYS=$((MAX_SYS + 1))
 	echo "${NR_SYS}     i386  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/x86/entry/syscalls/syscall_32.tbl
 
 	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.i386
 elif [[ "$LINUX_DESTRO" == *"x86_64"* ]]; then
 	ARCH=x86_64
-	LAST_CT=$(tail -n 1 "${ROOT}/linux/linux/arch/x86/entry/syscalls/syscall_64.tbl")
-	read -r __NR_SYS _ <<< "${LAST_CT}"
-	NR_SYS=600 # FORCE
+	MAX_SYS=$(awk '{print $1}' "${ROOT}/linux/linux/arch/x86/entry/syscalls/syscall_64.tbl" | grep '^[0-9]*$' | sort -n | tail -n 1)
+	NR_SYS=$((MAX_SYS + 1))
 	echo "${NR_SYS}     common  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/x86/entry/syscalls/syscall_64.tbl
 
 	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.x86_64
+elif [[ "$LINUX_DESTRO" == *"arm"* ]]; then
+	ARCH=arm
+	MAX_SYS=$(awk '{print $1}' "${ROOT}/linux/linux/arch/arm/tools/syscall.tbl" | grep '^[0-9]*$' | sort -n | tail -n 1)
+	NR_SYS=$((MAX_SYS + 1))
+	echo "${NR_SYS}     common  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/arm/tools/syscall.tbl
+
+	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.arm
+elif [[ "$LINUX_DESTRO" == *"aarch"* ]]; then
+	ARCH=aarch
+	SYS_FILE=${ROOT}/linux/linux/include/uapi/asm-generic/unistd.h
+	NR_SYS=$(awk '/#define __NR_syscalls/ {print $3}' ${SYS_FILE})
+	MAX_SYS=$((NR_SYS + 1))
+
+	sed -i "s/#define __NR_syscalls [0-9]*/#define __NR_syscalls ${MAX_SYS}/" "${SYS_FILE}"
+
+	line_num=$(grep -n '#undef __NR_syscalls' ${SYS_FILE} | cut -d':' -f1)
+	sed -i "$((line_num-1))i __SYSCALL(__NR_debug_BiscuitOS, sys_debug_BiscuitOS)" "${SYS_FILE}"
+	sed -i "$((line_num-1))i #define __NR_debug_BiscuitOS ${NR_SYS}" "${SYS_FILE}"
+	sed -i "$((line_num-1))i\ " "${SYS_FILE}"
+
+	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.aarch
 fi
 
+## Header on LIBC
 echo "#ifndef _BISCUTIOS_MEMORY_FLUID_H" > ${RC}
 echo "#define _BISCUTIOS_MEMORY_FLUID_H" >> ${RC}
 echo "" >> ${RC}
@@ -57,12 +77,145 @@ echo "#define BiscuitOS_memory_fluid_disable()        syscall(${NR_SYS}, 0)" >> 
 echo "" >> ${RC}
 echo "#endif" >> ${RC}
 
-# Donwload
-[ -d ${TEMP_PATH} ] && rm -rf ${TEMP_PATH}
-mkdir -p ${TEMP_PATH} > /dev/null 2>&1
-cd ${TEMP_PATH} > /dev/null 2>&1
-wget ${FILE_PATH}/${FILE_C} > /dev/null 2>&1
-wget ${FILE_PATH}/${FILE_H} > /dev/null 2>&1
+## Source On Kernel
+RC=${FILE_C}
+cat << EOF > ${RC}
+/*
+ * BiscuitOS Kernel Debug Stub
+ *
+ * (C) 2020.03.20 BuddyZhang1 <buddy.zhang@aliyun.com>
+ * (C) 2022.04.01 BiscuitOS
+ *                <https://biscuitos.github.io/blog/BiscuitOS_Catalogue/>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+#include <linux/kernel.h>
+#include <linux/syscalls.h>
+#include <linux/sysctl.h>
+
+int bs_debug_kernel_enable;
+int bs_debug_kernel_enable_one;
+unsigned long bs_debug_async_data;
+EXPORT_SYMBOL_GPL(bs_debug_async_data);
+EXPORT_SYMBOL_GPL(bs_debug_kernel_enable);
+EXPORT_SYMBOL_GPL(bs_debug_kernel_enable_one);
+
+SYSCALL_DEFINE1(debug_BiscuitOS, unsigned long, enable)
+{
+	if (enable == 1) {
+		bs_debug_kernel_enable = 1;
+		bs_debug_kernel_enable_one = 1;
+	} else if (enable == 0) {
+		bs_debug_kernel_enable = 0;
+		bs_debug_kernel_enable_one = 0;
+	} else
+		bs_debug_async_data = enable;
+
+	return 0;
+}
+
+static int BiscuitOS_bs_debug_handler(struct ctl_table *table, int write,
+		void __user *buffer, size_t *length, loff_t *ppos)
+{
+	int ret;
+
+	ret = proc_dointvec(table, write, buffer, length, ppos);
+	if (bs_debug_kernel_enable) {
+		bs_debug_kernel_enable_one = 1;
+		bs_debug_kernel_enable = 1;
+	} else {
+		bs_debug_kernel_enable_one = 0;
+		bs_debug_kernel_enable = 0;
+	}
+
+	return ret;
+}
+
+static struct ctl_table BiscuitOS_table[] = {
+	{
+		.procname	= "BiscuitOS-MEMORY-FLUID",
+		.data		= &bs_debug_kernel_enable,
+		.maxlen		= sizeof(unsigned long),
+		.mode		= 0644,
+		.proc_handler	= BiscuitOS_bs_debug_handler,
+	},
+	{ }
+};
+
+static struct ctl_table sysctl_BiscuitOS_table[] = {
+	{
+		.procname	= "BiscuitOS",
+		.mode		= 0555,
+		.child		= BiscuitOS_table,
+	},
+	{ }
+};
+
+static int __init BiscuitOS_debug_proc(void)
+{
+	register_sysctl_table(sysctl_BiscuitOS_table);
+	return 0;
+}
+device_initcall(BiscuitOS_debug_proc);
+EOF
+
+RC=${FILE_H}
+cat << EOF > ${RC}
+#ifndef _BISCUITOS_DEBUG_H
+#define _BISCUITOS_DEBUG_H
+
+extern int bs_debug_kernel_enable;
+extern int bs_debug_kernel_enable_one;
+extern unsigned long bs_debug_async_data;
+
+/* BiscuitOS Debug stub */
+#define bs_debug(...)                                           \\
+({                                                              \\
+        if (bs_debug_kernel_enable && bs_debug_kernel_enable_one) \\
+		pr_info("[BiscuitOS-stub] " __VA_ARGS__);       \\
+})
+
+#define bs_kdebug(...)                                          \\
+({                                                              \\
+	pr_info("[BiscuitOS-stub] " __VA_ARGS__);               \\
+})
+
+#define BiscuitOS_memory_fluid_enable()                         \\
+({                                                              \\
+        bs_debug_kernel_enable = 1;                             \\
+        bs_debug_kernel_enable_one = 1;                         \\
+})                                                              \\
+
+#define BiscuitOS_memory_fluid_disable()                        \\
+({                                                              \\
+        bs_debug_kernel_enable = 0;                             \\
+        bs_debug_kernel_enable_one = 0;                         \\
+})
+
+#define BiscuitOS_memory_fluid_enable_one()                     \\
+({                                                              \\
+        bs_debug_kernel_enable_one = 1;                         \\
+})                                                              \\
+
+#define BiscuitOS_memory_fluid_disable_one()                    \\
+({                                                              \\
+        bs_debug_kernel_enable_one = 0;                         \\
+})
+
+#define BiscuitOS_memory_fluid_async_enable(x)			\\
+({								\\
+	if ((unsigned long)x == bs_debug_async_data) 		\\
+		bs_debug_enable();				\\
+	else							\\
+		bs_debug_disable();				\\
+})
+
+#define is_memory_fluid_enable()	bs_debug_kernel_enable
+
+#endif
+EOF
 
 # INSTALL C
 cp -rfa ${FILE_C} ${INSTALL_C}
@@ -73,6 +226,5 @@ echo "obj-y += BiscuitOS-stub.o" >> ${INSTALL_C}/Makefile
 # UPDATE KERNEL HEAD
 sed -i '32s/^/\#include "BiscuitOS-stub.h"\n/g' ${INSTALL_H}/kernel.h
 
-echo "BiscuitOS Debug Tools Done" > ${KERNEL}/BS_DEBUG
-rm -rf ${TEMP_PATH}
+echo "$(date) BiscuitOS Debug Tools Done" > ${KERNEL}/BiscuitOS-MEMORY-FLUID
 echo "BiscuitOS Debug Tools Done"

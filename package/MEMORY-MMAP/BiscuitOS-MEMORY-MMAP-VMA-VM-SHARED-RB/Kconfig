@@ -1,0 +1,55 @@
+menuconfig PK_MEMORY_MMAP_VMA_VM_SHARED_RB
+	bool "Memory Mapping: VMA SHARED.RB/SHARED.RB_SUBTREE_LAST"
+
+if PK_MEMORY_MMAP_VMA_VM_SHARED_RB
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP-MECH/BiscuitOS-MEMORY-MMAP-VMA-VM-SHARED-RB"
+	string "url"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_GITHUB
+	string "GitHub"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_SRCFILE
+	default "app.c  Kconfig  main.c  Makefile  Makefile.app  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMORY_MMAP_VMA_VM_SHARED_RB_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMORY_MMAP_VMA_VM_SHARED_RB

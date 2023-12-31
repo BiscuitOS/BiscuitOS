@@ -845,6 +845,10 @@ if [ ${ARCH_NAME}X = "x86X" ]; then
 	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.i386 ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
 elif [ ${ARCH_NAME}X = "x86_64X" ]; then
 	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.x86_64 ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+elif [ ${ARCH_NAME}X = "armX" ]; then
+	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.arm ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+elif [ ${ARCH_NAME}X = "arm64X" ]; then
+	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.aarch ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
 fi
 
 ## Auto build README.md
