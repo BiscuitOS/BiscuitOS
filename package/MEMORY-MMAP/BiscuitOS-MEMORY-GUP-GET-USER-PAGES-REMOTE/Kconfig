@@ -1,0 +1,55 @@
+menuconfig PK_MEMORY_GUP_GET_USER_PAGES_REMOTE
+	bool "GUP: GET REMOTE USER PAGES"
+
+if PK_MEMORY_GUP_GET_USER_PAGES_REMOTE
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP-MECH/BiscuitOS-MEMORY-GUP-GET-USER-PAGES-REMOTE"
+	string "url"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_GITHUB
+	string "GitHub"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_SRCFILE
+	default "app.c  Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMORY_GUP_GET_USER_PAGES_REMOTE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMORY_GUP_GET_USER_PAGES_REMOTE

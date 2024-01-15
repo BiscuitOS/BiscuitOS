@@ -567,7 +567,13 @@ sudo mknod ${ROOTFS_PATH}/dev/null c 1 3
 sudo chown root.root ${ROOTFS_PATH}/* -R
 mkdir -p ${OUTPUT}/Hardware
 
-if [ ${SUPPORT_RAMDISK}X = "NX" -a -f ${OUTPUT}/Hardware/BiscuitOS.img ]; then
+if [ ! -f ${OUTPUT}/Hardware/ROOTFS-SIZE.info ]; then
+	ROOTFS_IMG_SIZE=0
+else
+	ROOTFS_IMG_SIZE=$(cat ${OUTPUT}/Hardware/ROOTFS-SIZE.info)
+fi
+
+if [ ${SUPPORT_RAMDISK}X = "NX" -a -f ${OUTPUT}/Hardware/BiscuitOS.img -a ${ROOTFS_IMG_SIZE} = ${DISK_SIZE} ]; then
 	mkdir -p ${OUTPUT}/rootfs/tmpfs
 	sudo mount -t ${FS_TYPE} ${OUTPUT}/Hardware/BiscuitOS.img ${OUTPUT}/rootfs/tmpfs/ -o loop
 	sudo rm -rf ${OUTPUT}/rootfs/tmpfs/*
@@ -595,6 +601,8 @@ else
 		# Support HardDisk
 		mv ${OUTPUT}/rootfs/ramdisk ${OUTPUT}/Hardware/BiscuitOS.img
 	fi
+	# DISK-SIZE
+	echo ${DISK_SIZE} > ${OUTPUT}/Hardware/ROOTFS-SIZE.info
 fi
 
 sudo rm -rf ${OUTPUT}/rootfs/tmpfs

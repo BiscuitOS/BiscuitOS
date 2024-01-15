@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-MEMORY-GUP-SMAP
+#
+################################################
+PK_MEMORY_GUP_SMAP_NAME        := BiscuitOS-MEMORY-GUP-SMAP
+PK_MEMORY_GUP_SMAP_VERSION     := $(CONFIG_PK_MEMORY_GUP_SMAP_VERSION)
+PK_MEMORY_GUP_SMAP_SITE        := $(CONFIG_PK_MEMORY_GUP_SMAP_URL)
+PK_MEMORY_GUP_SMAP_GITHUB      := $(CONFIG_PK_MEMORY_GUP_SMAP_GITHUB)
+PK_MEMORY_GUP_SMAP_SUBNAME     :=
+PK_MEMORY_GUP_SMAP_BUILDARCH   := $(CONFIG_PK_MEMORY_GUP_SMAP_BUILDARCH)
+PK_MEMORY_GUP_SMAP_DIR         := $(srctree)/package/MEMORY-MMAP/BiscuitOS-MEMORY-GUP-SMAP
+PK_MEMORY_GUP_SMAP_PATCH       := $(PK_MEMORY_GUP_SMAP_DIR)/patch
+PK_MEMORY_GUP_SMAP_BSBIT       := BiscuitOS-MEMORY-GUP-SMAP-$(PK_MEMORY_GUP_SMAP_VERSION).bsbit
+PK_MEMORY_GUP_SMAP_OUT         :=
+PK_MEMORY_GUP_SMAP_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_MEMORY_GUP_SMAP_TAR         := $(CONFIG_PK_MEMORY_GUP_SMAP_TAR)
+PK_MEMORY_GUP_SMAP_PACKAGE     :=
+PK_MEMORY_GUP_SMAP_CONFIG      := $(CONFIG_PK_MEMORY_GUP_SMAP_CONFIG)
+SUB_TARGET                  += $(PK_MEMORY_GUP_SMAP_DIR)/build
+
+PK_MEMORY_GUP_SMAP_sh = $(CONFIG_SHELL) $(PK_MEMORY_GUP_SMAP_SCRIPTS) \
+                 $1X \
+                 $(PK_MEMORY_GUP_SMAP_NAME)X \
+                 $(PK_MEMORY_GUP_SMAP_VERSION)X \
+                 $(PK_MEMORY_GUP_SMAP_SITE)X \
+                 $(PK_MEMORY_GUP_SMAP_GITHUB)X \
+                 $(PK_MEMORY_GUP_SMAP_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_MEMORY_GUP_SMAP_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_MEMORY_GUP_SMAP_SUBNAME)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_CONFIG)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_LIBPATH)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_CPPFLAGS)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_DPKCONFIG)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_CFLAGS)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_LDFLAGS)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_CXXFLAGS)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_ASFLAGS)X \
+                 $(PK_MEMORY_GUP_SMAP_BSBIT)X \
+                 $(PK_MEMORY_GUP_SMAP_BUILDARCH)X \
+		 $(PK_MEMORY_GUP_SMAP_CSRCFILE)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_SRCFILE)X \
+                 $(CONFIG_PK_MEMORY_GUP_SMAP_CSRCFILE)
+
+$(PK_MEMORY_GUP_SMAP_DIR)/build: FORCE
+	$(Q)$(call PK_MEMORY_GUP_SMAP_sh,$(srctree))

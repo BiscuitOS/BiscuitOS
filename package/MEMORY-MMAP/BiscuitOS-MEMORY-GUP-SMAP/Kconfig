@@ -1,0 +1,55 @@
+menuconfig PK_MEMORY_GUP_SMAP
+	bool "GUP: 2ND DEMO"
+
+if PK_MEMORY_GUP_SMAP
+
+config PK_MEMORY_GUP_SMAP_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MEMORY_GUP_SMAP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MEMORY_GUP_SMAP_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/MMAP-MECH/BiscuitOS-MEMORY-GUP-SMAP"
+	string "url"
+
+config PK_MEMORY_GUP_SMAP_GITHUB
+	string "GitHub"
+
+config PK_MEMORY_GUP_SMAP_SRCFILE
+	default "app.c  Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MEMORY_GUP_SMAP_CSRCFILE
+	string "Compile source code list"
+
+config PK_MEMORY_GUP_SMAP_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MEMORY_GUP_SMAP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MEMORY_GUP_SMAP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MEMORY_GUP_SMAP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MEMORY_GUP_SMAP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MEMORY_GUP_SMAP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MEMORY_GUP_SMAP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MEMORY_GUP_SMAP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MEMORY_GUP_SMAP_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MEMORY_GUP_SMAP

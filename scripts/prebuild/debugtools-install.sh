@@ -94,10 +94,12 @@ cat << EOF > ${RC}
 #include <linux/kernel.h>
 #include <linux/syscalls.h>
 #include <linux/sysctl.h>
+#include <linux/delay.h>
 
 int bs_debug_kernel_enable;
 int bs_debug_kernel_enable_one;
 unsigned long bs_debug_async_data;
+atomic_t bs_debug_wait;
 EXPORT_SYMBOL_GPL(bs_debug_async_data);
 EXPORT_SYMBOL_GPL(bs_debug_kernel_enable);
 EXPORT_SYMBOL_GPL(bs_debug_kernel_enable_one);
@@ -153,6 +155,52 @@ static struct ctl_table sysctl_BiscuitOS_table[] = {
 	{ }
 };
 
+int BiscuitOS_memory_fluid_stop(unsigned long time)
+{
+        if (!is_memory_fluid_enable())
+                return 0; /* SKIP */
+
+        /* INCREAM */
+        atomic_inc(&bs_debug_wait);
+        /* WAITER? */
+        if (atomic_read(&bs_debug_wait) == 2) {
+                /* HAS WAITER */
+                return 0;
+        }
+
+        mb();
+        do {
+                if (atomic_read(&bs_debug_wait) == 1) {
+                        /* DISABLE */
+                        BiscuitOS_memory_fluid_disable();
+                        /* DELAY */
+                        mdelay(time);
+                } else {
+                        /* FORCE DELAY */
+                        mdelay(time);
+                        /* STOP WAIT */
+                        atomic_set(&bs_debug_wait, 0);
+                        /* ENABLE */
+                        BiscuitOS_memory_fluid_enable();
+                }
+
+        } while (atomic_read(&bs_debug_wait));
+
+        return 0;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_stop);
+
+int BiscuitOS_memory_fluid_wait(unsigned long time)
+{
+        if (!is_memory_fluid_enable())
+                return 0; /* SKIP */
+
+        mdelay(time);
+
+        return 0;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_wait);
+
 static int __init BiscuitOS_debug_proc(void)
 {
 	register_sysctl_table(sysctl_BiscuitOS_table);
@@ -169,6 +217,8 @@ cat << EOF > ${RC}
 extern int bs_debug_kernel_enable;
 extern int bs_debug_kernel_enable_one;
 extern unsigned long bs_debug_async_data;
+extern int BiscuitOS_memory_fluid_stop(unsigned long time);
+extern int BiscuitOS_memory_fluid_wait(unsigned long time);
 
 /* BiscuitOS Debug stub */
 #define bs_debug(...)                                           \\

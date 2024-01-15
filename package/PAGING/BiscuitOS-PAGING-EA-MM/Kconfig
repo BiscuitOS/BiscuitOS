@@ -1,0 +1,55 @@
+menuconfig PK_PAGING_EA_MM
+	bool "Paging Project: MM BASE"
+
+if PK_PAGING_EA_MM
+
+config PK_PAGING_EA_MM_VERSION
+	default "default"
+	string "verstion"
+
+config PK_PAGING_EA_MM_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_PAGING_EA_MM_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/PAGING-MECH/BiscuitOS-PAGING-EA-MM"
+	string "url"
+
+config PK_PAGING_EA_MM_GITHUB
+	string "GitHub"
+
+config PK_PAGING_EA_MM_SRCFILE
+	default "app.c  Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_PAGING_EA_MM_CSRCFILE
+	string "Compile source code list"
+
+config PK_PAGING_EA_MM_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_PAGING_EA_MM_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_PAGING_EA_MM_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_PAGING_EA_MM_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_PAGING_EA_MM_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_PAGING_EA_MM_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_PAGING_EA_MM_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_PAGING_EA_MM_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_PAGING_EA_MM_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_PAGING_EA_MM
