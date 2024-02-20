@@ -8,8 +8,6 @@ BROOT=$(pwd)
 ROOT=$(pwd)/output/${LINUX_DESTRO}
 # Package 
 PACKAGE=${ROOT}/package
-# FILE_PATH
-FILE_PATH=https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Debug-Stub/BiscuitOS-debug-stub-Kernel
 # FILE_C
 FILE_C=${BROOT}/dl/MEMORY_FLUID/BiscuitOS-stub.c
 # FILE_H
@@ -275,6 +273,21 @@ cp -rfa ${FILE_H} ${INSTALL_H}
 echo "obj-y += BiscuitOS-stub.o" >> ${INSTALL_C}/Makefile
 # UPDATE KERNEL HEAD
 sed -i '32s/^/\#include "BiscuitOS-stub.h"\n/g' ${INSTALL_H}/kernel.h
+
+## KERNEL POINTER
+if [[ "$LINUX_DESTRO" == *"x86_64"* ]]; then
+	KCONFIG_FILE=${KERNEL}/lib/Kconfig.debug
+	if [ ! -f "$KCONFIG_FILE" ]; then
+		exit 1
+	fi
+
+	if grep -q "config ARCH_WANT_FRAME_POINTERS" "$KCONFIG_FILE"; then
+		line_num=$(grep -n "config ARCH_WANT_FRAME_POINTERS" "$KCONFIG_FILE" | cut -d':' -f1)
+		if ! tail -n +$line_num "$KCONFIG_FILE" | head -n 4 | grep -q "default y"; then
+			sed -i "$((line_num+2))i\\\tdefault y" "$KCONFIG_FILE"
+		fi
+	fi
+fi
 
 echo "$(date) BiscuitOS Debug Tools Done" > ${KERNEL}/BiscuitOS-MEMORY-FLUID
 echo "BiscuitOS Debug Tools Done"
