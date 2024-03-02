@@ -22,35 +22,42 @@ KERNEL=${ROOT}/linux/linux
 INSTALL_C=${KERNEL}/lib
 # H INSTALL
 INSTALL_H=${KERNEL}/include/linux/
+# SKIP
+SKIP_SYSCALL=0
+SKIP_GDB=0
 
 mkdir -p ${BROOT}/dl/MEMORY_FLUID
 
 # CHECK OUT
-[ -f ${KERNEL}/BiscuitOS-MEMORY-FLUID ] && echo "Deploy BiscuitOS Tools Done" && exit 0
+[ -f ${KERNEL}/BiscuitOS-MEMORY-FLUID ] && SKIP_SYSCALL=1
+if grep -q "QEMU-KERNEL-GDB" "${KERNEL}/BiscuitOS-MEMORY-FLUID"; then
+	SKIP_GDB=1
+fi
 
-# ARCHITECTURE
-if [[ "$LINUX_DESTRO" == *"i386"* ]]; then
+if [ ${SKIP_SYSCALL} = "0" ]; then
+    # ARCHITECTURE
+    if [[ "$LINUX_DESTRO" == *"i386"* ]]; then
 	ARCH=i386
 	MAX_SYS=$(awk '{print $1}' "${ROOT}/linux/linux/arch/x86/entry/syscalls/syscall_32.tbl" | grep '^[0-9]*$' | sort -n | tail -n 1)
 	NR_SYS=$((MAX_SYS + 1))
 	echo "${NR_SYS}     i386  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/x86/entry/syscalls/syscall_32.tbl
 
 	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.i386
-elif [[ "$LINUX_DESTRO" == *"x86_64"* ]]; then
+    elif [[ "$LINUX_DESTRO" == *"x86_64"* ]]; then
 	ARCH=x86_64
 	MAX_SYS=$(awk '{print $1}' "${ROOT}/linux/linux/arch/x86/entry/syscalls/syscall_64.tbl" | grep '^[0-9]*$' | sort -n | tail -n 1)
 	NR_SYS=$((MAX_SYS + 1))
 	echo "${NR_SYS}     common  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/x86/entry/syscalls/syscall_64.tbl
 
 	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.x86_64
-elif [[ "$LINUX_DESTRO" == *"arm"* ]]; then
+    elif [[ "$LINUX_DESTRO" == *"arm"* ]]; then
 	ARCH=arm
 	MAX_SYS=$(awk '{print $1}' "${ROOT}/linux/linux/arch/arm/tools/syscall.tbl" | grep '^[0-9]*$' | sort -n | tail -n 1)
 	NR_SYS=$((MAX_SYS + 1))
 	echo "${NR_SYS}     common  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/arm/tools/syscall.tbl
 
 	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.arm
-elif [[ "$LINUX_DESTRO" == *"aarch"* ]]; then
+    elif [[ "$LINUX_DESTRO" == *"aarch"* ]]; then
 	ARCH=aarch
 	SYS_FILE=${ROOT}/linux/linux/include/uapi/asm-generic/unistd.h
 	NR_SYS=$(awk '/#define __NR_syscalls/ {print $3}' ${SYS_FILE})
@@ -64,16 +71,17 @@ elif [[ "$LINUX_DESTRO" == *"aarch"* ]]; then
 	sed -i "$((line_num-1))i\ " "${SYS_FILE}"
 
 	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.aarch
-fi
+    fi
 
-## Header on LIBC
-echo "#ifndef _BISCUTIOS_MEMORY_FLUID_H" > ${RC}
-echo "#define _BISCUTIOS_MEMORY_FLUID_H" >> ${RC}
-echo "" >> ${RC}
-echo "#define BiscuitOS_memory_fluid_enable()         syscall(${NR_SYS}, 1)" >> ${RC}
-echo "#define BiscuitOS_memory_fluid_disable()        syscall(${NR_SYS}, 0)" >> ${RC}
-echo "" >> ${RC}
-echo "#endif" >> ${RC}
+    ## Header on LIBC
+    echo "#ifndef _BISCUTIOS_MEMORY_FLUID_H" > ${RC}
+    echo "#define _BISCUTIOS_MEMORY_FLUID_H" >> ${RC}
+    echo "" >> ${RC}
+    echo "#define BiscuitOS_memory_fluid_enable()         syscall(${NR_SYS}, 1)" >> ${RC}
+    echo "#define BiscuitOS_memory_fluid_disable()        syscall(${NR_SYS}, 0)" >> ${RC}
+    echo "" >> ${RC}
+    echo "#endif" >> ${RC}
+fi
 
 ## Source On Kernel
 RC=${FILE_C}
@@ -270,15 +278,59 @@ cp -rfa ${FILE_C} ${INSTALL_C}
 cp -rfa ${FILE_H} ${INSTALL_H}
 
 # UPDATE KERNEL
-echo "obj-y += BiscuitOS-stub.o" >> ${INSTALL_C}/Makefile
-# UPDATE KERNEL HEAD
-sed -i '32s/^/\#include "BiscuitOS-stub.h"\n/g' ${INSTALL_H}/kernel.h
+if grep -q "BiscuitOS-stub" "${INSTALL_C}/Makefile"; then
+	echo "obj-y += BiscuitOS-stub.o" > /dev/null
+else
+	echo "obj-y += BiscuitOS-stub.o" >> ${INSTALL_C}/Makefile
+fi
 
-## KERNEL POINTER
+# UPDATE KERNEL HEAD
+if grep -q "BiscuitOS-stub" "${INSTALL_H}/kernel.h"; then
+	echo "FILE EXIT" > /dev/null
+else
+	sed -i '32s/^/\#include "BiscuitOS-stub.h"\n/g' ${INSTALL_H}/kernel.h
+fi
+
+[ ! -f ${KERNEL}/BiscuitOS-MEMORY-FLUID ] && \
+echo "$(date) BiscuitOS Debug Tools Done" > ${KERNEL}/BiscuitOS-MEMORY-FLUID
+
+## KERNEL GDB
 if [[ "$LINUX_DESTRO" == *"x86_64"* ]]; then
+	if grep -q "CONFIG_ARCH_WANT_FRAME_POINTERS" "${KERNEL}/arch/x86/boot/Makefile"; then
+		echo "TOOLS has deploy" > /dev/null
+	else
+		# INSERT on arch/x86/boot/Makefile
+		awk '
+		/KBUILD_CFLAGS/ && !added {
+			print
+			print "ifdef CONFIG_ARCH_WANT_FRAME_POINTERS"
+			print "KBUILD_CFLAGS   += -g -fomit-frame-pointer"
+			print "KBUILD_AFLAGS_KERNEL += -ggdb"
+			print "endif"
+			added = 1
+			next
+		}
+		{ print }
+		' "${KERNEL}/arch/x86/boot/Makefile" > tmp_file && mv tmp_file "${KERNEL}/arch/x86/boot/Makefile"
+	
+		awk '
+		/KBUILD_CFLAGS/ && !added {
+			print
+			print "ifdef CONFIG_ARCH_WANT_FRAME_POINTERS"
+			print "KBUILD_CFLAGS   += -g -fomit-frame-pointer"
+			print "KBUILD_AFLAGS_KERNEL += -ggdb"
+			print "endif"
+			added = 1
+			next
+		}
+		{ print }
+		' "${KERNEL}/arch/x86/boot/compressed/Makefile" > tmp_file && mv tmp_file "${KERNEL}/arch/x86/boot/compressed/Makefile"
+	fi
+
+	# ENABLE
 	KCONFIG_FILE=${KERNEL}/lib/Kconfig.debug
-	if [ ! -f "$KCONFIG_FILE" ]; then
-		exit 1
+	if [ ! -f "$KCONFIG_FILE" -o ${SKIP_GDB} = '1' ]; then
+		exit 0
 	fi
 
 	if grep -q "config ARCH_WANT_FRAME_POINTERS" "$KCONFIG_FILE"; then
@@ -287,7 +339,8 @@ if [[ "$LINUX_DESTRO" == *"x86_64"* ]]; then
 			sed -i "$((line_num+2))i\\\tdefault y" "$KCONFIG_FILE"
 		fi
 	fi
+
+	echo "QEMU-KERNEL-GDB" >> ${KERNEL}/BiscuitOS-MEMORY-FLUID
 fi
 
-echo "$(date) BiscuitOS Debug Tools Done" > ${KERNEL}/BiscuitOS-MEMORY-FLUID
 echo "BiscuitOS Debug Tools Done"

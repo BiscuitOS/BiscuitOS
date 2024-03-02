@@ -390,7 +390,7 @@ mkdir -p ${OUTPUT}/package/gdb
 [ ! -f ${OUTPUT}/package/gdb/gdb.pl ] && \
 cp ${ROOT}/scripts/package/gdb.pl ${OUTPUT}/package/gdb/
 [ ${ARCH_NAME} == "x86_64" ] && \
-cp ${ROOT}/scripts/package/gdb-x86-64.pl ${OUTPUT}/package/gdb/gdb.pl
+cp ${ROOT}/scripts/package/gdb-x86-64.sh ${OUTPUT}/package/gdb/gdb.pl
 
 ## 
 # Networking Stuff
