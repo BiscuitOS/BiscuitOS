@@ -213,6 +213,23 @@ static int __init BiscuitOS_debug_proc(void)
 	return 0;
 }
 device_initcall(BiscuitOS_debug_proc);
+
+int __attribute__((optimize("O0")))
+BiscuitOS_memory_fluid_gdb_stub(void)
+{
+	/* MUST ENABLE CONFIG_CC_OPTIMIZE_FOR_SIZE */
+        return 0;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_gdb_stub);
+
+int BiscuitOS_memory_fluid_gdb(void)
+{
+        if (is_memory_fluid_enable())
+                BiscuitOS_memory_fluid_gdb_stub();
+
+        return 0;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_gdb);
 EOF
 
 RC=${FILE_H}
@@ -225,6 +242,8 @@ extern int bs_debug_kernel_enable_one;
 extern unsigned long bs_debug_async_data;
 extern int BiscuitOS_memory_fluid_stop(unsigned long time);
 extern int BiscuitOS_memory_fluid_wait(unsigned long time);
+extern int BiscuitOS_memory_fluid_gdb_stub(void);
+extern int BiscuitOS_memory_fluid_gdb(void);
 
 /* BiscuitOS Debug stub */
 #define bs_debug(...)                                           \\
