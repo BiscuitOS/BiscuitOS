@@ -6,4 +6,7 @@ if PK_ZONE
 # Alloc page from ZONE_DMA
 source package/ZONE/BiscuitOS-ZONE-alloc-page-ZONE_DMA/Kconfig
 
+# ZONE DEVICE
+source package/ZONE/BiscuitOS-ZONE-DEVICE/Kconfig
+
 endif # PK_ZONE

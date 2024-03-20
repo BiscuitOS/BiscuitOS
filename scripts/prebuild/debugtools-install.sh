@@ -104,9 +104,11 @@ cat << EOF > ${RC}
 
 int bs_debug_kernel_enable;
 int bs_debug_kernel_enable_one;
-unsigned long bs_debug_async_data;
+long bs_debug_async_data;
+int bs_debug_async_data_count;
 atomic_t bs_debug_wait;
 EXPORT_SYMBOL_GPL(bs_debug_async_data);
+EXPORT_SYMBOL_GPL(bs_debug_async_data_count);
 EXPORT_SYMBOL_GPL(bs_debug_kernel_enable);
 EXPORT_SYMBOL_GPL(bs_debug_kernel_enable_one);
 
@@ -230,6 +232,17 @@ int BiscuitOS_memory_fluid_gdb(void)
         return 0;
 }
 EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_gdb);
+
+int BiscuitOS_memory_fluid_set_async_data(unsigned long data)
+{
+        if (is_memory_fluid_enable()) {
+                bs_debug_async_data = data;
+                bs_debug_async_data_count = 0;
+        }
+
+        return 0;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_set_async_data);
 EOF
 
 RC=${FILE_H}
@@ -239,11 +252,13 @@ cat << EOF > ${RC}
 
 extern int bs_debug_kernel_enable;
 extern int bs_debug_kernel_enable_one;
-extern unsigned long bs_debug_async_data;
+extern long bs_debug_async_data;
+extern int bs_debug_async_data_count;
 extern int BiscuitOS_memory_fluid_stop(unsigned long time);
 extern int BiscuitOS_memory_fluid_wait(unsigned long time);
 extern int BiscuitOS_memory_fluid_gdb_stub(void);
 extern int BiscuitOS_memory_fluid_gdb(void);
+extern int BiscuitOS_memory_fluid_set_async_data(unsigned long data);
 
 /* BiscuitOS Debug stub */
 #define bs_debug(...)                                           \\
@@ -281,7 +296,8 @@ extern int BiscuitOS_memory_fluid_gdb(void);
 
 #define BiscuitOS_memory_fluid_async_enable(x)			\\
 ({								\\
-	if ((unsigned long)x == bs_debug_async_data) 		\\
+	if ((unsigned long)x == bs_debug_async_data &&) 	\\
+			bs_debug_async_data_count++ == 0)	\\
 		bs_debug_enable();				\\
 	else							\\
 		bs_debug_disable();				\\
@@ -356,6 +372,7 @@ if [[ "$LINUX_DESTRO" == *"x86_64"* ]]; then
 		line_num=$(grep -n "config ARCH_WANT_FRAME_POINTERS" "$KCONFIG_FILE" | cut -d':' -f1)
 		if ! tail -n +$line_num "$KCONFIG_FILE" | head -n 4 | grep -q "default y"; then
 			sed -i "$((line_num+2))i\\\tdefault y" "$KCONFIG_FILE"
+			sed -i "$((line_num+3))i\\\tselect FRAME_POINTER" "$KCONFIG_FILE"
 		fi
 	fi
 
