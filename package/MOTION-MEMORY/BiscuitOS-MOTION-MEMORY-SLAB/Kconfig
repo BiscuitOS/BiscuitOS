@@ -1,0 +1,55 @@
+menuconfig PK_MOTION_MEMORY_SLAB
+	bool "SLAB ALLOCATOR"
+
+if PK_MOTION_MEMORY_SLAB
+
+config PK_MOTION_MEMORY_SLAB_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MOTION_MEMORY_SLAB_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MOTION_MEMORY_SLAB_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/MOTION/MEMORY/BiscuitOS-MOTION-MEMORY-SLAB"
+	string "url"
+
+config PK_MOTION_MEMORY_SLAB_GITHUB
+	string "GitHub"
+
+config PK_MOTION_MEMORY_SLAB_SRCFILE
+	default "Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MOTION_MEMORY_SLAB_CSRCFILE
+	string "Compile source code list"
+
+config PK_MOTION_MEMORY_SLAB_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MOTION_MEMORY_SLAB_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MOTION_MEMORY_SLAB_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MOTION_MEMORY_SLAB_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MOTION_MEMORY_SLAB_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MOTION_MEMORY_SLAB_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MOTION_MEMORY_SLAB_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MOTION_MEMORY_SLAB_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MOTION_MEMORY_SLAB_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MOTION_MEMORY_SLAB

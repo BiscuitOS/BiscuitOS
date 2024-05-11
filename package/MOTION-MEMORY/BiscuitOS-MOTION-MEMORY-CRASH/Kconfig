@@ -1,0 +1,55 @@
+menuconfig PK_MOTION_MEMORY_CRASH
+	bool "CRASH"
+
+if PK_MOTION_MEMORY_CRASH
+
+config PK_MOTION_MEMORY_CRASH_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MOTION_MEMORY_CRASH_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MOTION_MEMORY_CRASH_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/MOTION/MEMORY/BiscuitOS-MOTION-MEMORY-CRASH"
+	string "url"
+
+config PK_MOTION_MEMORY_CRASH_GITHUB
+	string "GitHub"
+
+config PK_MOTION_MEMORY_CRASH_SRCFILE
+	default "Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MOTION_MEMORY_CRASH_CSRCFILE
+	string "Compile source code list"
+
+config PK_MOTION_MEMORY_CRASH_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MOTION_MEMORY_CRASH_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MOTION_MEMORY_CRASH_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MOTION_MEMORY_CRASH_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MOTION_MEMORY_CRASH_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MOTION_MEMORY_CRASH_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MOTION_MEMORY_CRASH_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MOTION_MEMORY_CRASH_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MOTION_MEMORY_CRASH_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MOTION_MEMORY_CRASH

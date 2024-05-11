@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-BUDDY-GFP-DMA32
+#
+################################################
+PK_BUDDY_GFP_DMA32_NAME        := BiscuitOS-BUDDY-GFP-DMA32
+PK_BUDDY_GFP_DMA32_VERSION     := $(CONFIG_PK_BUDDY_GFP_DMA32_VERSION)
+PK_BUDDY_GFP_DMA32_SITE        := $(CONFIG_PK_BUDDY_GFP_DMA32_URL)
+PK_BUDDY_GFP_DMA32_GITHUB      := $(CONFIG_PK_BUDDY_GFP_DMA32_GITHUB)
+PK_BUDDY_GFP_DMA32_SUBNAME     :=
+PK_BUDDY_GFP_DMA32_BUILDARCH   := $(CONFIG_PK_BUDDY_GFP_DMA32_BUILDARCH)
+PK_BUDDY_GFP_DMA32_DIR         := $(srctree)/package/BUDDY-ALLOCATOR/BiscuitOS-BUDDY-GFP-DMA32
+PK_BUDDY_GFP_DMA32_PATCH       := $(PK_BUDDY_GFP_DMA32_DIR)/patch
+PK_BUDDY_GFP_DMA32_BSBIT       := BiscuitOS-BUDDY-GFP-DMA32-$(PK_BUDDY_GFP_DMA32_VERSION).bsbit
+PK_BUDDY_GFP_DMA32_OUT         :=
+PK_BUDDY_GFP_DMA32_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_BUDDY_GFP_DMA32_TAR         := $(CONFIG_PK_BUDDY_GFP_DMA32_TAR)
+PK_BUDDY_GFP_DMA32_PACKAGE     :=
+PK_BUDDY_GFP_DMA32_CONFIG      := $(CONFIG_PK_BUDDY_GFP_DMA32_CONFIG)
+SUB_TARGET                  += $(PK_BUDDY_GFP_DMA32_DIR)/build
+
+PK_BUDDY_GFP_DMA32_sh = $(CONFIG_SHELL) $(PK_BUDDY_GFP_DMA32_SCRIPTS) \
+                 $1X \
+                 $(PK_BUDDY_GFP_DMA32_NAME)X \
+                 $(PK_BUDDY_GFP_DMA32_VERSION)X \
+                 $(PK_BUDDY_GFP_DMA32_SITE)X \
+                 $(PK_BUDDY_GFP_DMA32_GITHUB)X \
+                 $(PK_BUDDY_GFP_DMA32_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_BUDDY_GFP_DMA32_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_BUDDY_GFP_DMA32_SUBNAME)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_CONFIG)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_LIBPATH)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_CPPFLAGS)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_DPKCONFIG)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_CFLAGS)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_LDFLAGS)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_CXXFLAGS)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_ASFLAGS)X \
+                 $(PK_BUDDY_GFP_DMA32_BSBIT)X \
+                 $(PK_BUDDY_GFP_DMA32_BUILDARCH)X \
+		 $(PK_BUDDY_GFP_DMA32_CSRCFILE)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_SRCFILE)X \
+                 $(CONFIG_PK_BUDDY_GFP_DMA32_CSRCFILE)
+
+$(PK_BUDDY_GFP_DMA32_DIR)/build: FORCE
+	$(Q)$(call PK_BUDDY_GFP_DMA32_sh,$(srctree))

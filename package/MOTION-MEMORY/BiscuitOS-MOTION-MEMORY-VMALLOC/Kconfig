@@ -1,0 +1,55 @@
+menuconfig PK_MOTION_MEMORY_VMALLOC
+	bool "VMALLOC ALLOCATOR"
+
+if PK_MOTION_MEMORY_VMALLOC
+
+config PK_MOTION_MEMORY_VMALLOC_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MOTION_MEMORY_VMALLOC_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MOTION_MEMORY_VMALLOC_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/MOTION/MEMORY/BiscuitOS-MOTION-MEMORY-VMALLOC"
+	string "url"
+
+config PK_MOTION_MEMORY_VMALLOC_GITHUB
+	string "GitHub"
+
+config PK_MOTION_MEMORY_VMALLOC_SRCFILE
+	default "Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MOTION_MEMORY_VMALLOC_CSRCFILE
+	string "Compile source code list"
+
+config PK_MOTION_MEMORY_VMALLOC_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MOTION_MEMORY_VMALLOC_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MOTION_MEMORY_VMALLOC_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MOTION_MEMORY_VMALLOC_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MOTION_MEMORY_VMALLOC_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MOTION_MEMORY_VMALLOC_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MOTION_MEMORY_VMALLOC_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MOTION_MEMORY_VMALLOC_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MOTION_MEMORY_VMALLOC_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MOTION_MEMORY_VMALLOC

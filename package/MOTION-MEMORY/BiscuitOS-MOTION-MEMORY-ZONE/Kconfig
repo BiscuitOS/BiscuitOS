@@ -1,0 +1,55 @@
+menuconfig PK_MOTION_MEMORY_ZONE
+	bool "ZONE"
+
+if PK_MOTION_MEMORY_ZONE
+
+config PK_MOTION_MEMORY_ZONE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MOTION_MEMORY_ZONE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MOTION_MEMORY_ZONE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/MOTION/MEMORY/BiscuitOS-MOTION-MEMORY-ZONE"
+	string "url"
+
+config PK_MOTION_MEMORY_ZONE_GITHUB
+	string "GitHub"
+
+config PK_MOTION_MEMORY_ZONE_SRCFILE
+	default "Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MOTION_MEMORY_ZONE_CSRCFILE
+	string "Compile source code list"
+
+config PK_MOTION_MEMORY_ZONE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MOTION_MEMORY_ZONE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MOTION_MEMORY_ZONE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MOTION_MEMORY_ZONE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MOTION_MEMORY_ZONE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MOTION_MEMORY_ZONE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MOTION_MEMORY_ZONE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MOTION_MEMORY_ZONE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MOTION_MEMORY_ZONE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MOTION_MEMORY_ZONE

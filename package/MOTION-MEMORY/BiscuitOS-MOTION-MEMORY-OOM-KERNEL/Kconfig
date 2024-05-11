@@ -1,0 +1,55 @@
+menuconfig PK_MOTION_MEMORY_OOM_KERNEL
+	bool "OOM FROM KERNEL"
+
+if PK_MOTION_MEMORY_OOM_KERNEL
+
+config PK_MOTION_MEMORY_OOM_KERNEL_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/MOTION/MEMORY/BiscuitOS-MOTION-MEMORY-OOM-KERNEL"
+	string "url"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_GITHUB
+	string "GitHub"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_SRCFILE
+	default "Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_CSRCFILE
+	string "Compile source code list"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MOTION_MEMORY_OOM_KERNEL_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MOTION_MEMORY_OOM_KERNEL

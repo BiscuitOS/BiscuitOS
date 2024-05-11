@@ -54,8 +54,11 @@ source package/bitops/Kconfig
 # Broiler
 source package/Broiler/Kconfig
 
-# buddy
-source package/buddy/Kconfig
+# Legacy buddy
+# source package/buddy/Kconfig
+
+# BUDDY ALLOCATOR
+source package/BUDDY-ALLOCATOR/Kconfig
 
 # busybox
 source package/busybox/Kconfig
@@ -293,6 +296,9 @@ source package/libXrender/Kconfig
 
 # libXxf86vm
 source package/libXxf86vm/Kconfig
+
+# LINUX MOTION: MEMORY FOUNDATION
+source package/MOTION-MEMORY/Kconfig
 
 # lock
 source package/lock/Kconfig

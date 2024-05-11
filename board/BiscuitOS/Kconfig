@@ -176,4 +176,10 @@ config PSEUDO_TMPFS
 config PSEUDO_HUGE_TMPFS
 	bool "Pseudo Filesystem: Huge TMPFS"
 
+config DIY_SWAP
+	bool "Support SWAP Space on RAM"
+
+config DIY_ZSWAP
+	bool "Support ZSWAP Space"
+
 endif # SUPPORT_BOARD_INDV

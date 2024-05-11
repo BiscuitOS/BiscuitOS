@@ -134,6 +134,12 @@ SUPPORT_GUEST_HUGE_TMPFS=N
 DEFAULT_LOGLEVEL=${67%X}
 [ ${67} == "X" ] && DEFAULT_LOGLEVEL=8
 
+# SWAP/ZSWAP
+SUPPORT_SWAP=N
+SUPPORT_ZSWAP=N
+[ ${68%} = yX ] && SUPPORT_SWAP=Y
+[ ${69%} = yX ] && SUPPORT_ZSWAP=Y
+
 # Copy library
 copy_libs() {
 	for lib in $1/*.so*; do
@@ -316,11 +322,6 @@ mkdir -p /mnt/Freeze
 [ -b /dev/vda ] && mount -t ${FS_TYPE} /dev/vda /mnt/Freeze > /dev/null 2>&1
 [ -f /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm ] && ln -s /mnt/Freeze/BiscuitOS/usr/bin/qemu-kvm /usr/bin/qemu-kvm
 
-# SWAP
-dd bs=1M count=4 if=/dev/zero of=/SWAP > /dev/null 2>&1
-mkswap /SWAP > /dev/null 2>&1
-swapon /SWAP > /dev/null 2>&1
-
 # Mount DISK
 mkdir -p /mnt/ext2
 [ -b /dev/vdb ] && mount /dev/vdb /mnt/ext2 > /dev/null 2>&1 
@@ -380,15 +381,39 @@ mkdir -p /mnt/f2fs
 echo 8 > /proc/sys/kernel/printk
 EOF
 
+if [ ${SUPPORT_SWAP} = "Y" ]; then
+	RC=${ROOTFS_PATH}/etc/init.d/rcS
+	echo '' >> ${RC} 
+	echo '# SWAP' >> ${RC} 
+	echo 'dd bs=1M count=4 if=/dev/zero of=/SWAP > /dev/null 2>&1' >> ${RC} 
+	echo 'mkswap /SWAP > /dev/null 2>&1' >> ${RC} 
+	echo 'swapon /SWAP > /dev/null 2>&1' >> ${RC} 
+	echo 'echo 100 > /proc/sys/vm/swappiness' >> ${RC} 
+	echo '' >> ${RC} 
+fi
+if [ ${SUPPORT_ZSWAP} = "Y" ]; then
+	RC=${ROOTFS_PATH}/etc/init.d/rcS
+	echo '' >> ${RC} 
+	echo '#ZSWAP' >> ${RC} 
+	echo 'echo 16M > /sys/block/zram0/disksize' >> ${RC} 
+	echo 'mkswap /dev/zram0 > /dev/null 2>&1' >> ${RC} 
+	echo 'swapon /dev/zram0 > /dev/null 2>&1' >> ${RC} 
+	echo 'echo 100 > /proc/sys/vm/swappiness' >> ${RC} 
+	echo '' >> ${RC} 
+fi
+
 if [ ${SUPPORT_GUEST_TMPFS} = "Y" ]; then
+	RC=${ROOTFS_PATH}/etc/init.d/rcS
 	echo 'mkdir -p /mnt/tmpfs ; mount -t tmpfs nodev /mnt/tmpfs/' >> ${RC}
 	echo "[ ! -f /mnt/tmpfs/BiscuitOS.txt ] && dmesg > /mnt/tmpfs/BiscuitOS.txt" >> ${RC}
 fi
 if [ ${SUPPORT_GUEST_HUGE_TMPFS} = "Y" ]; then
+	RC=${ROOTFS_PATH}/etc/init.d/rcS
 	echo 'mkdir -p /mnt/huge-tmpfs ; mount -t tmpfs nodev -o huge=always /mnt/huge-tmpfs/' >> ${RC}
 	echo "[ ! -f /mnt/huge-tmpfs/BiscuitOS.txt ] && dmesg > /mnt/huge-tmpfs/BiscuitOS.txt" >> ${RC}
 fi
 
+RC=${ROOTFS_PATH}/etc/init.d/rcS
 chmod 755 ${RC}
 echo '# Auto Running Broiler' >> ${RC}
 echo 'cat /proc/cmdline | grep -w "Broiler" > /dev/null' >> ${RC}
@@ -846,17 +871,24 @@ fi
 
 ## MEMORY FLUID
 sudo mkdir -p ${ROOTFS_PATH}/usr/share/ > /dev/null 2>&1
-if [ ! -d ${ROOT}/dl/MEMORY_FLUID/ ]; then
-	echo "Pls Run 'make install_tools' !"
-fi
-if [ ${ARCH_NAME}X = "x86X" ]; then
-	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.i386 ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
-elif [ ${ARCH_NAME}X = "x86_64X" ]; then
-	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.x86_64 ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
-elif [ ${ARCH_NAME}X = "armX" ]; then
-	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.arm ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
-elif [ ${ARCH_NAME}X = "arm64X" ]; then
-	sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.aarch ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+if [ -f ${OUTPUT}/RunBiscuitOS.sh ]; then
+	if [ ! -f ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${PROJECT_NAME} ]; then
+		echo ""
+		echo ""
+		echo "Pls Run 'make install_tools' !"
+		echo ""
+		echo ""
+		exit -1
+	fi
+	if [ ${ARCH_NAME}X = "x86X" ]; then
+		sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${PROJECT_NAME} ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+	elif [ ${ARCH_NAME}X = "x86_64X" ]; then
+		sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${PROJECT_NAME} ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+	elif [ ${ARCH_NAME}X = "armX" ]; then
+		sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${PROJECT_NAME} ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+	elif [ ${ARCH_NAME}X = "arm64X" ]; then
+		sudo cp -rf ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${PROJECT_NAME} ${ROOTFS_PATH}/usr/share/BiscuitOS_memory_fluid.h > /dev/null 2>&1
+	fi
 fi
 
 ## Auto build README.md
@@ -873,7 +905,9 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${SUPPORT_VDJ} ${SUPPORT_VDK} ${SUPPORT_VDL} \
 					${SUPPORT_VDM} ${SUPPORT_VDN} ${SUPPORT_VDO} \
 					${SUPPORT_VDP} ${SUPPORT_VDQ} ${SUPPORT_VDR} \
-					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK} ${DEFAULT_LOGLEVEL}
+					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK} \
+					${DEFAULT_LOGLEVEL} ${SUPPORT_SWAP} \
+					${SUPPORT_ZSWAP}
                                         
 
 ## Output directory

@@ -84,7 +84,9 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
 	       $(CONFIG_VIRTIO_BLK_GFS2)X \
 	       $(CONFIG_VIRTIO_BLK_F2FS)X \
 	       $(CONFIG_DIY_DEMSG_LOGLEVEL)X \
-               MAX_ARG68
+	       $(CONFIG_DIY_SWAP)X \
+	       $(CONFIG_DIY_ZSWAP)X \
+               MAX_ARG70
 
 # MAX ARGS 30
 

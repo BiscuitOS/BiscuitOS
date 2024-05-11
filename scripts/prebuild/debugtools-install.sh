@@ -29,9 +29,11 @@ SKIP_GDB=0
 mkdir -p ${BROOT}/dl/MEMORY_FLUID
 
 # CHECK OUT
-[ -f ${KERNEL}/BiscuitOS-MEMORY-FLUID ] && SKIP_SYSCALL=1
-if grep -q "QEMU-KERNEL-GDB" "${KERNEL}/BiscuitOS-MEMORY-FLUID"; then
-	SKIP_GDB=1
+if [ -f ${KERNEL}/BiscuitOS-MEMORY-FLUID ]; then
+        SKIP_SYSCALL=1
+        if grep -q "QEMU-KERNEL-GDB" "${KERNEL}/BiscuitOS-MEMORY-FLUID"; then
+                SKIP_GDB=1
+        fi
 fi
 
 if [ ${SKIP_SYSCALL} = "0" ]; then
@@ -42,21 +44,21 @@ if [ ${SKIP_SYSCALL} = "0" ]; then
 	NR_SYS=$((MAX_SYS + 1))
 	echo "${NR_SYS}     i386  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/x86/entry/syscalls/syscall_32.tbl
 
-	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.i386
+	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${LINUX_DESTRO}
     elif [[ "$LINUX_DESTRO" == *"x86_64"* ]]; then
 	ARCH=x86_64
 	MAX_SYS=$(awk '{print $1}' "${ROOT}/linux/linux/arch/x86/entry/syscalls/syscall_64.tbl" | grep '^[0-9]*$' | sort -n | tail -n 1)
 	NR_SYS=$((MAX_SYS + 1))
 	echo "${NR_SYS}     common  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/x86/entry/syscalls/syscall_64.tbl
 
-	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.x86_64
+	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${LINUX_DESTRO}
     elif [[ "$LINUX_DESTRO" == *"arm"* ]]; then
 	ARCH=arm
 	MAX_SYS=$(awk '{print $1}' "${ROOT}/linux/linux/arch/arm/tools/syscall.tbl" | grep '^[0-9]*$' | sort -n | tail -n 1)
 	NR_SYS=$((MAX_SYS + 1))
 	echo "${NR_SYS}     common  debug_BiscuitOS         sys_debug_BiscuitOS" >> ${KERNEL}/arch/arm/tools/syscall.tbl
 
-	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.arm
+	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${LINUX_DESTRO}
     elif [[ "$LINUX_DESTRO" == *"aarch"* ]]; then
 	ARCH=aarch
 	SYS_FILE=${ROOT}/linux/linux/include/uapi/asm-generic/unistd.h
@@ -70,7 +72,7 @@ if [ ${SKIP_SYSCALL} = "0" ]; then
 	sed -i "$((line_num-1))i #define __NR_debug_BiscuitOS ${NR_SYS}" "${SYS_FILE}"
 	sed -i "$((line_num-1))i\ " "${SYS_FILE}"
 
-	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.aarch
+	RC=${BROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${LINUX_DESTRO}
     fi
 
     ## Header on LIBC
@@ -86,16 +88,13 @@ fi
 ## Source On Kernel
 RC=${FILE_C}
 cat << EOF > ${RC}
+// SPDX-License-Identifier: GPL-2.0
 /*
  * BiscuitOS Kernel Debug Stub
  *
  * (C) 2020.03.20 BuddyZhang1 <buddy.zhang@aliyun.com>
  * (C) 2022.04.01 BiscuitOS
  *                <https://biscuitos.github.io/blog/BiscuitOS_Catalogue/>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
  */
 #include <linux/kernel.h>
 #include <linux/syscalls.h>
@@ -107,10 +106,13 @@ int bs_debug_kernel_enable_one;
 long bs_debug_async_data;
 int bs_debug_async_data_count;
 atomic_t bs_debug_wait;
+static atomic_t _BiscuitOS_memory_fluid_count[BS_COUNTER_NR];
 EXPORT_SYMBOL_GPL(bs_debug_async_data);
 EXPORT_SYMBOL_GPL(bs_debug_async_data_count);
 EXPORT_SYMBOL_GPL(bs_debug_kernel_enable);
 EXPORT_SYMBOL_GPL(bs_debug_kernel_enable_one);
+
+/* MEMORY FLUID SYSCALL */
 
 SYSCALL_DEFINE1(debug_BiscuitOS, unsigned long, enable)
 {
@@ -126,8 +128,10 @@ SYSCALL_DEFINE1(debug_BiscuitOS, unsigned long, enable)
 	return 0;
 }
 
+/** MEMORY FLUID PROC INTERCACE **/
+
 static int BiscuitOS_bs_debug_handler(struct ctl_table *table, int write,
-		void __user *buffer, size_t *length, loff_t *ppos)
+                void __user *buffer, size_t *length, loff_t *ppos)
 {
 	int ret;
 
@@ -145,69 +149,23 @@ static int BiscuitOS_bs_debug_handler(struct ctl_table *table, int write,
 
 static struct ctl_table BiscuitOS_table[] = {
 	{
-		.procname	= "BiscuitOS-MEMORY-FLUID",
-		.data		= &bs_debug_kernel_enable,
-		.maxlen		= sizeof(unsigned long),
-		.mode		= 0644,
-		.proc_handler	= BiscuitOS_bs_debug_handler,
+		.procname       = "BiscuitOS-MEMORY-FLUID",
+		.data           = &bs_debug_kernel_enable,
+		.maxlen         = sizeof(unsigned long),
+		.mode           = 0644,
+		.proc_handler   = BiscuitOS_bs_debug_handler,
 	},
 	{ }
 };
 
 static struct ctl_table sysctl_BiscuitOS_table[] = {
 	{
-		.procname	= "BiscuitOS",
-		.mode		= 0555,
-		.child		= BiscuitOS_table,
+		.procname       = "BiscuitOS",
+		.mode           = 0555,
+		.child          = BiscuitOS_table,
 	},
 	{ }
 };
-
-int BiscuitOS_memory_fluid_stop(unsigned long time)
-{
-        if (!is_memory_fluid_enable())
-                return 0; /* SKIP */
-
-        /* INCREAM */
-        atomic_inc(&bs_debug_wait);
-        /* WAITER? */
-        if (atomic_read(&bs_debug_wait) == 2) {
-                /* HAS WAITER */
-                return 0;
-        }
-
-        mb();
-        do {
-                if (atomic_read(&bs_debug_wait) == 1) {
-                        /* DISABLE */
-                        BiscuitOS_memory_fluid_disable();
-                        /* DELAY */
-                        mdelay(time);
-                } else {
-                        /* FORCE DELAY */
-                        mdelay(time);
-                        /* STOP WAIT */
-                        atomic_set(&bs_debug_wait, 0);
-                        /* ENABLE */
-                        BiscuitOS_memory_fluid_enable();
-                }
-
-        } while (atomic_read(&bs_debug_wait));
-
-        return 0;
-}
-EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_stop);
-
-int BiscuitOS_memory_fluid_wait(unsigned long time)
-{
-        if (!is_memory_fluid_enable())
-                return 0; /* SKIP */
-
-        mdelay(time);
-
-        return 0;
-}
-EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_wait);
 
 static int __init BiscuitOS_debug_proc(void)
 {
@@ -216,33 +174,103 @@ static int __init BiscuitOS_debug_proc(void)
 }
 device_initcall(BiscuitOS_debug_proc);
 
+/** MEMORY FLUID LOCK TOOLS **/
+
+int BiscuitOS_memory_fluid_stop(unsigned long time)
+{
+	if (!is_BiscuitOS_memory_fluid_enable())
+		return 0; /* SKIP */
+
+	/* INCREAM */
+	atomic_inc(&bs_debug_wait);
+	/* WAITER? */
+	if (atomic_read(&bs_debug_wait) == 2) {
+		/* HAS WAITER */
+		return 0;
+	}
+
+	mb();
+	do {
+		if (atomic_read(&bs_debug_wait) == 1) {
+			/* DISABLE */
+			BiscuitOS_memory_fluid_disable();
+			/* DELAY */
+			mdelay(time);
+		} else {
+			/* FORCE DELAY */
+			mdelay(time);
+			/* STOP WAIT */
+			atomic_set(&bs_debug_wait, 0);
+			/* ENABLE */
+			BiscuitOS_memory_fluid_enable();
+		}
+
+	} while (atomic_read(&bs_debug_wait));
+
+	return 0;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_stop);
+
+int BiscuitOS_memory_fluid_wait(unsigned long time)
+{
+	if (!is_BiscuitOS_memory_fluid_enable())
+		return 0; /* SKIP */
+
+	mdelay(time);
+
+	return 0;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_wait);
+
+/** GDB ON MEMORY FLUID **/
+
 int __attribute__((optimize("O0")))
 BiscuitOS_memory_fluid_gdb_stub(void)
 {
 	/* MUST ENABLE CONFIG_CC_OPTIMIZE_FOR_SIZE */
-        return 0;
+	return 0;
 }
 EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_gdb_stub);
 
 int BiscuitOS_memory_fluid_gdb(void)
 {
-        if (is_memory_fluid_enable())
-                BiscuitOS_memory_fluid_gdb_stub();
+	if (is_BiscuitOS_memory_fluid_enable())
+		BiscuitOS_memory_fluid_gdb_stub();
 
-        return 0;
+	return 0;
 }
 EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_gdb);
 
+/** MEMORY FLUID ASYNC TOOLS **/
+
 int BiscuitOS_memory_fluid_set_async_data(unsigned long data)
 {
-        if (is_memory_fluid_enable()) {
-                bs_debug_async_data = data;
-                bs_debug_async_data_count = 0;
-        }
+	if (is_BiscuitOS_memory_fluid_enable()) {
+		bs_debug_async_data = data;
+		bs_debug_async_data_count = 0;
+	}
 
-        return 0;
+	return 0;
 }
 EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_set_async_data);
+
+/** SKIP WHILE/FOR/LOOP **/
+
+int BiscuitOS_memory_fluid_count(int nr)
+{
+	if (is_BiscuitOS_memory_fluid_enable())
+		return atomic_read(&_BiscuitOS_memory_fluid_count[nr]);
+	return -1;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_count);
+
+int BiscuitOS_memory_fluid_count_inc(int nr)
+{
+	if (is_BiscuitOS_memory_fluid_enable())
+		return atomic_inc_return(&_BiscuitOS_memory_fluid_count[nr]);
+	return -1;
+}
+EXPORT_SYMBOL_GPL(BiscuitOS_memory_fluid_count_inc);
 EOF
 
 RC=${FILE_H}
@@ -250,6 +278,7 @@ cat << EOF > ${RC}
 #ifndef _BISCUITOS_DEBUG_H
 #define _BISCUITOS_DEBUG_H
 
+#define BS_COUNTER_NR   20
 extern int bs_debug_kernel_enable;
 extern int bs_debug_kernel_enable_one;
 extern long bs_debug_async_data;
@@ -259,6 +288,8 @@ extern int BiscuitOS_memory_fluid_wait(unsigned long time);
 extern int BiscuitOS_memory_fluid_gdb_stub(void);
 extern int BiscuitOS_memory_fluid_gdb(void);
 extern int BiscuitOS_memory_fluid_set_async_data(unsigned long data);
+extern int BiscuitOS_memory_fluid_count(int nr);
+extern int BiscuitOS_memory_fluid_count_inc(int nr);
 
 /* BiscuitOS Debug stub */
 #define bs_debug(...)                                           \\
@@ -298,12 +329,12 @@ extern int BiscuitOS_memory_fluid_set_async_data(unsigned long data);
 ({								\\
 	if ((unsigned long)x == bs_debug_async_data &&) 	\\
 			bs_debug_async_data_count++ == 0)	\\
-		bs_debug_enable();				\\
+		BiscuitOS_memory_fluid_enable();		\\
 	else							\\
-		bs_debug_disable();				\\
+		BiscuitOS_memory_fluid_disable();		\\
 })
 
-#define is_memory_fluid_enable()	bs_debug_kernel_enable
+#define is_BiscuitOS_memory_fluid_enable()      bs_debug_kernel_enable
 
 #endif
 EOF
@@ -321,9 +352,9 @@ fi
 
 # UPDATE KERNEL HEAD
 if grep -q "BiscuitOS-stub" "${INSTALL_H}/kernel.h"; then
-	echo "FILE EXIT" > /dev/null
+	echo "FILE EXIST" > /dev/null
 else
-	sed -i '32s/^/\#include "BiscuitOS-stub.h"\n/g' ${INSTALL_H}/kernel.h
+	sed -i '10s/^/\#include "BiscuitOS-stub.h"\n/g' ${INSTALL_H}/kernel.h
 fi
 
 [ ! -f ${KERNEL}/BiscuitOS-MEMORY-FLUID ] && \

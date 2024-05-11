@@ -1,0 +1,55 @@
+menuconfig PK_MOTION_MEMORY_ALLOCATOR_UDEMO
+	bool "USERSPACE ALLOCATOR DEMO"
+
+if PK_MOTION_MEMORY_ALLOCATOR_UDEMO
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_VERSION
+	default "default"
+	string "verstion"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/MOTION/MEMORY/BiscuitOS-MOTION-MEMORY-ALLOCATOR-UDEMO"
+	string "url"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_GITHUB
+	string "GitHub"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_SRCFILE
+	default "app.c  Kconfig  main.c  Makefile  Makefile.host  RunBiscuitOS.sh  userlib.c"
+	string "Source code list"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_CSRCFILE
+	string "Compile source code list"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_MOTION_MEMORY_ALLOCATOR_UDEMO_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_MOTION_MEMORY_ALLOCATOR_UDEMO
