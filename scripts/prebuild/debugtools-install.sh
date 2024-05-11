@@ -100,6 +100,7 @@ cat << EOF > ${RC}
 #include <linux/syscalls.h>
 #include <linux/sysctl.h>
 #include <linux/delay.h>
+#include <linux/BiscuitOS-stub.h>
 
 int bs_debug_kernel_enable;
 int bs_debug_kernel_enable_one;
@@ -354,7 +355,7 @@ fi
 if grep -q "BiscuitOS-stub" "${INSTALL_H}/kernel.h"; then
 	echo "FILE EXIST" > /dev/null
 else
-	sed -i '10s/^/\#include "BiscuitOS-stub.h"\n/g' ${INSTALL_H}/kernel.h
+	sed -i '18s/^/\#include "BiscuitOS-stub.h"\n/g' ${INSTALL_H}/kernel.h
 fi
 
 [ ! -f ${KERNEL}/BiscuitOS-MEMORY-FLUID ] && \
