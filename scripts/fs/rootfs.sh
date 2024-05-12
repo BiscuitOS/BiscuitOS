@@ -873,6 +873,7 @@ fi
 sudo mkdir -p ${ROOTFS_PATH}/usr/share/ > /dev/null 2>&1
 if [ -f ${OUTPUT}/RunBiscuitOS.sh ]; then
 	if [ ! -f ${ROOT}/dl/MEMORY_FLUID/BiscuitOS_memory_fluid.h.${PROJECT_NAME} ]; then
+		[ -f ${OUTPUT}/linux/linux/BiscuitOS-MEMORY-FLUID ] && rm -rf ${OUTPUT}/linux/linux/BiscuitOS-MEMORY-FLUID
 		echo ""
 		echo ""
 		echo "Pls Run 'make install_tools' !"
