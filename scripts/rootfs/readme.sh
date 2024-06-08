@@ -790,18 +790,12 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTA \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTB \' >> ${MF}
 			if [ ${SUPPORT_CXL_HW} = "Y" ]; then
-				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=128M \' >> ${MF}
-				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM1,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY1,size=128M \' >> ${MF}
-				echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=128M \' >> ${MF}
-				echo -e '\t-object memory-backend-file,id=CXL-LSA1,share=on,mem-path=${ROOT}/Hardware/CXL.LAB1,size=128M \' >> ${MF}
-				echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=52 \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=256M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=256M \' >> ${MF}
+				echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 				echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
-				echo -e '\t-device cxl-rp,id=CXL_RP.1,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
-				echo -e '\t-device cxl-rp,id=CXL_RP.2,bus=CXL.0,addr=2.0,chassis=0,slot=2,port=2 \' >> ${MF}
-				echo -e '\t-device cxl-rp,id=CXL_RP.3,bus=CXL.0,addr=3.0,chassis=0,slot=3,port=3 \' >> ${MF}
-				echo -e '\t-device cxl-type3,bus=CXL_RP.1,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
-				echo -e '\t-device cxl-type3,bus=CXL_RP.2,memdev=CXL-HOST-MEM1,id=CXL-PMEM1,lsa=CXL-LSA1 \' >> ${MF}
-				echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=256M \' >> ${MF}
+				echo -e '\t-device cxl-type3,bus=CXL_RP.0,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
+				echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 			fi
 			echo -e '\t-nographic \' >> ${MF}
 			echo -e '\t-append "${CMDLINE}"' >> ${MF}
@@ -820,7 +814,11 @@ echo '{' >> ${MF}
 if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	if [ ${SUPPORT_RAMDISK}X = "NX" ]; then
 		echo -e '\tsudo cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
-		echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+		if [ ${UBUNTU}X != "24X" ]; then
+			echo -e '\tsudo chown root:root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+		else
+			echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+		fi
 		echo -e '\tif [ -f ${OUTPUT}/Hardware/BiscuitOS.img ]; then' >> ${MF}
 		echo -e '\t\tmkdir -p ${OUTPUT}/rootfs/tmpfs'>> ${MF}
 		echo -e '\t\tsudo mount -t ${FS_TYPE} ${OUTPUT}/Hardware/BiscuitOS.img \' >> ${MF}
@@ -846,7 +844,11 @@ if [ ${SUPPORT_RPI} = "N" -a ${SUPPORT_DEBIAN} = "N" ]; then
 		echo -e '\tfi' >> ${MF}
 	else
 		echo -e '\tsudo cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
-		echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+		if [ ${UBUNTU}X != "24X" ]; then
+			echo -e '\tsudo chown root:root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+		else
+			echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+		fi
 		echo -e '\tdd if=/dev/zero of=${OUTPUT}/rootfs/ramdisk bs=1M count=${ROOTFS_SIZE}' >> ${MF}
 		if [ ${FS_TYPE_TOOLS}X = "mkfs.ext4X" ]; then
 			echo -e '\t${FS_TYPE_TOOLS} -E lazy_itable_init=1,lazy_journal_init=1 -F ${OUTPUT}/rootfs/ramdisk' >> ${MF}
@@ -1010,7 +1012,11 @@ elif [ ${SUPPORT_RPI} = "Y" -a ${SUPPORT_DEBIAN} = "N" ]; then
 	echo -e '\tsudo losetup -d ${loopdev}' >> ${MF}
 	echo -e '\t# Mount rootfs partition' >> ${MF}
 	echo -e '\tsudo cp ${BUSYBOX}/_install/*  ${OUTPUT}/rootfs/${ROOTFS_NAME} -raf' >> ${MF}
-	echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+	if [ ${UBUNTU}X != "24X" ]; then
+		echo -e '\tsudo chown root:root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+	else
+		echo -e '\tsudo chown root.root ${OUTPUT}/rootfs/${ROOTFS_NAME}/* -R' >> ${MF}
+	fi
 	echo -e '\tmkdir -p ${OUTPUT}/rootfs/tmpfs' >> ${MF}
 	echo -e '\tloopdev=`sudo losetup -f`' >> ${MF}
 	echo -e '\tsudo losetup -o `expr ${SD_MMC1_BEG} \* 512` ${loopdev} \' >> ${MF}
@@ -1067,7 +1073,11 @@ if [ ${SUPPORT_FREEZE_DISK} = "Y" ]; then
 	echo -e '\t[ $? = 0 ] && echo "FreezeDir has mount!" && exit 0' >>  ${MF}
 	echo -e '\t## Mount Image' >>  ${MF}
 	echo -e '\tsudo mount -t ${FS_TYPE} ${ROOT}/Hardware/Freeze.img ${ROOT}/FreezeDir -o loop >> /dev/null 2>&1' >>  ${MF}
-	echo -e '\tsudo chown ${USER}.${USER} -R ${ROOT}/FreezeDir' >>  ${MF}
+	if [ ${UBUNTU}X != "24X" ]; then
+		echo -e '\tsudo chown ${USER}:${USER} -R ${ROOT}/FreezeDir' >>  ${MF}
+	else
+		echo -e '\tsudo chown ${USER}.${USER} -R ${ROOT}/FreezeDir' >>  ${MF}
+	fi
 	echo -e '\techo "=============================================="' >>  ${MF}
 	echo -e '\techo "FreezeDisk: ${ROOT}/Hardware/Freeze.img"' >>  ${MF}
 	echo -e '\techo "MountDiret: ${ROOT}/FreezeDir"' >>  ${MF}
@@ -1412,6 +1422,11 @@ EOF
 if [ ${UBUNTU}X = "22X" -o ${UBUNTU}X = "20X" ]; then
   echo '  Settings --->' >> ${1}
   echo '     [*] Build static binary (no shared libs)' >> ${1}
+elif [ ${UBUNTU}X = "24X" ]; then
+  echo '  Settings --->' >> ${1}
+  echo '     [*] Build static binary (no shared libs)' >> ${1}
+  echo '  Networking Utilities --->' >> ${1}
+  echo '     [ ] tc (8.3 kb)' >> ${1}
 else
   echo '  Busybox Settings --->' >> ${1}
   echo '    Build Options --->' >> ${1}

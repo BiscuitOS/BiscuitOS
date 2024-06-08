@@ -84,6 +84,9 @@ source package/cpumask/Kconfig
 # crash
 source package/crash/Kconfig
 
+# cxl
+source package/cxl-tools/Kconfig
+
 # CMA
 source package/CMA/Kconfig
 

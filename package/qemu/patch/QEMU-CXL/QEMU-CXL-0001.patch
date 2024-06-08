@@ -1,0 +1,10 @@
+diff -uprN old/pc-bios/keymaps/meson.build new/pc-bios/keymaps/meson.build
+--- old/pc-bios/keymaps/meson.build	2024-06-08 18:04:26.696780861 +0800
++++ new/pc-bios/keymaps/meson.build	2024-06-08 18:04:58.807126896 +0800
+@@ -1,5 +1,5 @@
+ keymaps = {
+-  'ar': '-l ar',
++  'ar': '-l ara',
+   'bepo': '-l fr -v dvorak',
+   'cz': '-l cz',
+   'da': '-l dk',

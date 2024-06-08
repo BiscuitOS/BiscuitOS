@@ -29,6 +29,48 @@ CheckDistro() {
 }
 CheckDistro
 
+APT_UBUNTU24X04() {
+    sudo apt-get update
+    sudo apt-get install -y qemu gcc make gdb git figlet
+    sudo apt-get install -y libncurses5-dev iasl wget qemu-system-x86
+    sudo apt-get install -y device-tree-compiler build-essential
+    sudo apt-get install -y flex bison libssl-dev libglib2.0-dev
+    sudo apt-get install -y libfdt-dev libpixman-1-dev
+    sudo apt-get install -y python3 pkg-config u-boot-tools intltool xsltproc
+    sudo apt-get install -y gperf libglib2.0-dev libgirepository1.0-dev
+    sudo apt-get install -y gobject-introspection
+    sudo apt-get install -y python3-dev bridge-utils
+    sudo apt-get install -y net-tools binutils-dev
+    sudo apt-get install -y libattr1-dev libcap-dev
+    sudo apt-get install -y kpartx libsdl2-dev libsdl1.2-dev
+    sudo apt-get install -y debootstrap
+    sudo apt-get install -y libelf-dev gcc-multilib g++-multilib
+    sudo apt-get install -y libcap-ng-dev
+    sudo apt-get install -y libmount-dev libselinux1-dev libffi-dev libpulse-dev
+    sudo apt-get install -y liblzma-dev python3-serial
+    sudo apt-get install -y libnuma-dev libnuma1 ninja-build
+    sudo apt-get install -y libtool libsysfs-dev
+    sudo apt-get install -y libntirpc-dev libtirpc-dev
+    sudo apt-get install -y doxygen
+    sudo apt-get install -y ndctl meson
+    sudo apt-get install -y bfs-utils
+    sudo ln -s /usr/bin/python3 /usr/bin/python
+    sudo apt-get install -y gcc-7 g++-7
+    sudo apt-get install -y lib32z1 lib32z1-dev libc6:i386
+    sudo apt-get install -y e2fsprogs 
+    sudo apt-get install -y mtd-utils
+    sudo apt-get install -y squashfs-tools
+    sudo apt-get install -y btrfs-progs
+    sudo apt-get install -y reiserfsprogs
+    sudo apt-get install -y jfsutils 
+    sudo apt-get install -y xfsprogs
+    sudo apt-get install -y gfs2-utils
+    sudo apt-get install -y f2fs-tools
+    sudo apt-get install -y cmake pkg-config libkmod-dev libudev-dev uuid-dev
+    sudo apt-get install -y libjson-c-dev libtraceevent-dev libtracefs-dev
+    sudo apt-get install -y asciidoctor keyutils libkeyutils-dev libiniparser-dev
+}
+
 APT_UBUNTU22X04() {
     DEB="deb\ \[arch=amd64\]\ http://archive.ubuntu.com/ubuntu\ focal\ main\ universe"
     DEBSTR="deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main universe"
@@ -158,6 +200,10 @@ APT_UBUNTU16_18() {
 [ ${RELEASE_DISTRO} = "Unknown" ] && echo "Don't Support Unknown" && exit -1
 
 case ${UBUNTU_VERSION%%.*} in
+	24)
+		echo "Support Ubuntu 24.X"
+		APT_UBUNTU24X04
+		;;
 	22)
 		echo "Support Ubuntu 22.X"
 		APT_UBUNTU22X04

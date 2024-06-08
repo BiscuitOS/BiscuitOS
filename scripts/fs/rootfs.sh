@@ -524,7 +524,12 @@ else
 				# [ -f /usr/lib/x86_64-linux-gnu/libnuma.so ] && cp -rf /usr/lib/x86_64-linux-gnu/libnuma.* ${ROOTFS_PATH}/usr/lib/
 				[ -f /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ] && cp -rf /usr/lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
 				[ -f /usr/lib/x86_64-linux-gnu/libasan.so.4 ] && cp -rf /usr/lib/x86_64-linux-gnu/libasan.so.4* ${ROOTFS_PATH}/usr/lib/
-				if [ ${UBUNTU}X == "22X" ]; then
+				if [ ${UBUNTU}X == "24X" ]; then
+				  sudo mkdir -p ${ROOTFS_PATH}/usr/lib64/
+				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 ${ROOTFS_PATH}/lib64/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libstdc++.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libc.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libc.so.* ${ROOTFS_PATH}/usr/lib/
+				elif [ ${UBUNTU}X == "22X" ]; then
 				  sudo mkdir -p ${ROOTFS_PATH}/usr/lib64/
 				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 ${ROOTFS_PATH}/lib64/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libstdc++.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
@@ -589,7 +594,11 @@ sudo mknod ${ROOTFS_PATH}/dev/console c 5 1
 sudo mknod ${ROOTFS_PATH}/dev/null c 1 3
 
 ## Change root
-sudo chown root.root ${ROOTFS_PATH}/* -R
+if [ ${UBUNTU}X != "24X" ]; then
+	sudo chown root:root ${ROOTFS_PATH}/* -R
+else
+	sudo chown root.root ${ROOTFS_PATH}/* -R
+fi
 mkdir -p ${OUTPUT}/Hardware
 
 if [ ! -f ${OUTPUT}/Hardware/ROOTFS-SIZE.info ]; then

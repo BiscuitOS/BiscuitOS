@@ -23,6 +23,7 @@ BUSYBOX_SUBNAME=${13%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
 UBUNTU=${UBUNTU_FULL:0:2}
+[ ${UBUNTU}X = "24X" ] && BUSYBOX_VERSION=1.35.0
 [ ${UBUNTU}X = "22X" ] && BUSYBOX_VERSION=1.35.0
 [ ${UBUNTU}X = "20X" ] && BUSYBOX_VERSION=1.35.0
 

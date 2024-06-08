@@ -29,17 +29,26 @@ EMULATER=
 CONFIG=
 QEMU_GDB=
 QEMU_BIN=
-# Ubuntu 22.04/20.04 need QEMU 5.0.0
+# Ubuntu 24.04/22.04/20.04 need QEMU 5.0.0
+[ ${UBUNTU}X = 24X ] && QEMU_VERSION="5.0.0"
 [ ${UBUNTU}X = 22X ] && QEMU_VERSION="5.0.0"
 [ ${UBUNTU}X = 20X -a ${ARCH_MAGIC}X = 1X ] && QEMU_VERSION="4.0.0"
 [ ${UBUNTU}X = 20X -a ${ARCH_MAGIC}X = 2X ] && QEMU_VERSION="5.0.0"
 [ ${UBUNTU}X = 20X -a ${ARCH_MAGIC}X = 3X ] && QEMU_VERSION="5.0.0"
 [ ${UBUNTU}X = 22X -a ${ARCH_MAGIC}X = 2X ] && QEMU_VERSION="5.0.0"
 [ ${UBUNTU}X = 22X -a ${ARCH_MAGIC}X = 3X ] && QEMU_VERSION="5.0.0"
-## CXL
-[ ${QEMU_CXL}X = "yX" ] && QEMU_VERSION="8.0.0"
+
 PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}/
 [ ${ARCH_MAGIC}X = 1X ] && PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}-i386/
+
+## CXL
+if [ ${QEMU_CXL}X = "yX" ]; then
+	QEMU_VERSION="QEMU-CLX-2023-04-19"
+	QEMU_SRC=4
+	QEMU_GITHUB="https://gitlab.com/jic23/qemu.git"
+	QEMI_HARD="8eb2a03258"
+	PATCH_DIR=${ROOT}/package/qemu/patch/QEMU-CXL/
+fi
 
 QEMU_FULL=${TOOL_SUBNAME%.${QEMU_TAR}}
 QEMU_DL_NAME=qemu-${QEMU_VERSION#v}.${QEMU_TAR}
@@ -191,6 +200,29 @@ if [ ${QEMU_SRC} = "3" ]; then
         echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
         rm -rf ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
         ln -s ${OUTPUT}/${QEMU_NAME}/${QEMU_UNTAR_NAME} ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
+fi
+
+## Get from github
+if [ ${QEMU_SRC} = "4" ]; then
+        if [ ! -d ${ROOT}/dl/QEMU-CXL ]; then
+                cd ${ROOT}/dl/
+                git clone ${QEMU_GITHUB} QEMU-CXL
+                cd ${ROOT}/dl/QEMU-CXL
+                git reset --hard ${QEMI_HARD}
+                cd -
+        fi
+        mkdir -p ${OUTPUT}/${QEMU_NAME}
+        if [ -d ${OUTPUT}/${QEMU_NAME}/QEMU-CXL ]; then
+                rm -rf ${OUTPUT}/${QEMU_NAME}/QEMU-CXL
+        fi
+        cp -rfa ${ROOT}/dl/QEMU-CXL ${OUTPUT}/${QEMU_NAME}/
+	cd ${OUTPUT}/${QEMU_NAME}/QEMU-CXL
+	patch -p1 < ${PATCH_DIR}/QEMU-CXL-0001.patch
+        ./configure --target-list=${EMULATER} ${CONFIG} --disable-werror
+        make -j8
+        echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
+        rm -rf ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
+        ln -s ${OUTPUT}/${QEMU_NAME}/QEMU-CXL ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
 fi
 
 MFILE=${OUTPUT}/${QEMU_NAME}/RunQEMU.sh
