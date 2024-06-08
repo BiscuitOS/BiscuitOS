@@ -220,6 +220,8 @@ echo -e '\tsudo cp /lib/x86_64-linux-gnu/libzstd.so* $(INS_PATH)/usr/lib/ ;' >> 
 echo -e '\tsudo cp /lib/x86_64-linux-gnu/liblzma.so* $(INS_PATH)/usr/lib/ ;' >> ${MF}
 echo -e '\tsudo cp /lib/x86_64-linux-gnu/libcap.so* $(INS_PATH)/usr/lib/ ;' >> ${MF}
 echo -e '\tsudo cp /lib/x86_64-linux-gnu/libcrypto.so* $(INS_PATH)/usr/lib/ ;' >> ${MF}
+echo -e '\tsudo cp /lib/x86_64-linux-gnu/libkeyutils.so* $(INS_PATH)/usr/lib/ ;' >> ${MF}
+echo -e '\tsudo cp /lib/x86_64-linux-gnu/libiniparser.so* $(INS_PATH)/usr/lib/ ;' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
