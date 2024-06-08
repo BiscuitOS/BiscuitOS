@@ -90,6 +90,7 @@ case ${ARCH_MAGIC} in
 	QEMU_GDB="-cpu host --enable-kvm -m 64 -kernel ${OUTPUT}/linux/linux/arch/x86/boot/bzImage"
 	QEMU_BIN=${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}/x86_64-softmmu/qemu-system-x86_64
 	[ ${QEMU_VERSION} = "6.0.0" ] && CONFIG+=" --enable-gtk"
+	[ ${QEMU_CXL}X = "yX" ] && CONFIG+=" --enable-libpmem --enable-slirp"
 	;;
 	2)
 	# ARM 32-bit

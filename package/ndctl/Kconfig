@@ -1,0 +1,52 @@
+menuconfig PK_NDCTL
+	bool "ndctl: LIBNVDIMM TOOLS"
+
+if PK_NDCTL
+
+config PK_NDCTL_VERSION
+	default "default"
+	string "verstion"
+
+config PK_NDCTL_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_NDCTL_URL
+	string "url"
+
+config PK_NDCTL_GITHUB
+	string "GitHub"
+
+config PK_NDCTL_SRCFILE
+	string "Source code list"
+
+config PK_NDCTL_CONFIG
+	default "--enable-silent-rules --disable-static"
+	string "CONFIG: Project Configure Options"
+
+config PK_NDCTL_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_NDCTL_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_NDCTL_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_NDCTL_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_NDCTL_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_NDCTL_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_NDCTL_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_NDCTL_BUILDARCH
+	default "x86_64-unknown-linux-gnu"
+	string "--host options on configure for Architecture"
+
+endif # PK_NDCTL

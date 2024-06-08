@@ -60,6 +60,7 @@ APT_UBUNTU22X04() {
     sudo apt-get install -y libtool libsysfs-dev
     sudo apt-get install -y libntirpc-dev libtirpc-dev
     sudo apt-get install -y doxygen
+    sudo apt-get install -y ndctl
     sudo apt-get install -y bfs-utils
     sudo ln -s /usr/bin/python3 /usr/bin/python
     sudo apt-get install -y gcc-7 g++-7

@@ -6,4 +6,7 @@ if PK_TCMALLOC
 # tcmalloc
 source package/tcmalloc/tcmalloc/Kconfig
 
+# TCMALLOC APP DEMO
+source package/tcmalloc/BiscuitOS-TCMALLOC-APP/Kconfig
+
 endif # PK_TCMALLOC

@@ -1,0 +1,9 @@
+menuconfig PK_JEMALLOC
+	bool "jemalloc: Jason Evans Malloc"
+
+if PK_JEMALLOC
+
+# jemalloc
+source package/jemalloc/jemalloc/Kconfig
+
+endif # PK_JEMALLOC

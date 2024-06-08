@@ -207,6 +207,9 @@ source package/IO/Kconfig
 # IOMMU
 source package/IOMMU/Kconfig
 
+# jemalloc
+source package/jemalloc/Kconfig
+
 # kbproto
 source package/kbproto/Kconfig
 
@@ -359,6 +362,9 @@ source package/module/Kconfig
 
 # ncurses
 source package/ncurses/Kconfig
+
+# ndctl
+source package/ndctl/Kconfig
 
 # nettle
 source package/nettle/Kconfig

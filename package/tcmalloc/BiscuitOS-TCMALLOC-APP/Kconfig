@@ -1,0 +1,56 @@
+menuconfig PK_TCMALLOC_APP
+	select PK_TCMALLOC_TOOLS
+	bool "TCMALLOC ON APPLICATION"
+
+if PK_TCMALLOC_APP
+
+config PK_TCMALLOC_APP_VERSION
+	default "default"
+	string "verstion"
+
+config PK_TCMALLOC_APP_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_TCMALLOC_APP_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/TCMALLOC-ALLOCATOR/BiscuitOS-TCMALLOC-APP"
+	string "url"
+
+config PK_TCMALLOC_APP_GITHUB
+	string "GitHub"
+
+config PK_TCMALLOC_APP_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_TCMALLOC_APP_CSRCFILE
+	string "Compile source code list"
+
+config PK_TCMALLOC_APP_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_TCMALLOC_APP_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_TCMALLOC_APP_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_TCMALLOC_APP_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_TCMALLOC_APP_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_TCMALLOC_APP_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_TCMALLOC_APP_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_TCMALLOC_APP_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_TCMALLOC_APP_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_TCMALLOC_APP
