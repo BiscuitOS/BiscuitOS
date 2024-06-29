@@ -123,6 +123,10 @@ SUPPORT_VDS=ext4
 [ ${65} == yX ] && SUPPORT_VDR=gfs2 	&& SUPPORT_DEFAULT_DISK=Y
 [ ${66} == yX ] && SUPPORT_VDS=f2fs 	&& SUPPORT_DEFAULT_DISK=Y
 
+# HARDWARE PMEM
+SUPPORT_HW_PMEM=N
+[ ${70} == yX ] && SUPPORT_HW_PMEM=Y
+
 # Pseudo FS
 SUPPORT_GUEST_TMPFS=N
 [ ${50%} = yX ] && SUPPORT_GUEST_TMPFS=Y
@@ -262,6 +266,7 @@ mkdir -p ${ROOTFS_PATH}/etc/init.d
 
 ### LOG
 RC=${ROOTFS_PATH}/etc/BiscuitOS.log
+
 ## Auto create fstab file
 cat << EOF > ${RC}
  ____  _                _ _    ___  ____  
@@ -917,9 +922,8 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${SUPPORT_VDP} ${SUPPORT_VDQ} ${SUPPORT_VDR} \
 					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK} \
 					${DEFAULT_LOGLEVEL} ${SUPPORT_SWAP} \
-					${SUPPORT_ZSWAP}
+					${SUPPORT_ZSWAP} ${SUPPORT_HW_PMEM}
                                         
-
 ## Output directory
 echo ""
 [ "${BS_SILENCE}X" != "trueX" ] && figlet BiscuitOS

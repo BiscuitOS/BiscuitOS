@@ -189,6 +189,16 @@ echo '' >> ${MF}
 echo 'depence-clean:' >> ${MF}
 echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
+echo 'module:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tmake modules ARCH=$(ARCH) -j98 ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
+echo 'module_install:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tsudo make ARCH=$(ARCH) INSTALL_MOD_PATH=$(ROOT)/rootfs/rootfs/ modules_install ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
 echo 'download:' >> ${MF}
 echo -e '\t@mkdir -p $(BASENAME)' >> ${MF}
 echo -e '\t@cd $(BASENAME) ; \' >> ${MF}

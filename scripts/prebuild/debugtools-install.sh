@@ -26,6 +26,13 @@ INSTALL_H=${KERNEL}/include/linux/
 SKIP_SYSCALL=0
 SKIP_GDB=0
 
+# LINUX VERSION
+KER_VER=$(echo "${LINUX_DESTRO}" | awk -F- '{print $2}')
+
+# PROC_INTERFACE
+SUPPORT_PROC_NEW=N
+[ ${KER_VER}X = "6.9X" ] && SUPPORT_PROC_NEW=Y
+
 mkdir -p ${BROOT}/dl/MEMORY_FLUID
 
 # CHECK OUT
@@ -159,6 +166,23 @@ static struct ctl_table BiscuitOS_table[] = {
 	{ }
 };
 
+EOF
+
+if [ ${SUPPORT_PROC_NEW} = "Y" ]; then
+RC=${FILE_C}
+cat << EOF >> ${RC}
+static int __init BiscuitOS_debug_proc(void)
+{
+        register_sysctl_init("BiscuitOS", BiscuitOS_table);
+        return 0;
+}
+device_initcall(BiscuitOS_debug_proc);
+EOF
+
+else
+
+RC=${FILE_C}
+cat << EOF >> ${RC}
 static struct ctl_table sysctl_BiscuitOS_table[] = {
 	{
 		.procname       = "BiscuitOS",
@@ -175,6 +199,12 @@ static int __init BiscuitOS_debug_proc(void)
 }
 device_initcall(BiscuitOS_debug_proc);
 
+EOF
+
+fi
+
+RC=${FILE_C}
+cat << EOF >> ${RC}
 /** MEMORY FLUID LOCK TOOLS **/
 
 int BiscuitOS_memory_fluid_stop(unsigned long time)

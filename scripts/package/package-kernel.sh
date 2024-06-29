@@ -193,6 +193,11 @@ echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 echo -e '\tmake modules ARCH=$(ARCH) -j98 ;\' >> ${MF}
 echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
+echo 'module_install:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tsudo make ARCH=$(ARCH) INSTALL_MOD_PATH=$(ROOT)/rootfs/rootfs/ modules_install ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
 echo 'tags:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 echo -e '\tmake tags ARCH=$(ARCH) ;\' >> ${MF}

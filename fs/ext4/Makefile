@@ -86,7 +86,8 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
 	       $(CONFIG_DIY_DEMSG_LOGLEVEL)X \
 	       $(CONFIG_DIY_SWAP)X \
 	       $(CONFIG_DIY_ZSWAP)X \
-               MAX_ARG70
+	       $(CONFIG_HW_PMEM)X \
+               MAX_ARG71
 
 # MAX ARGS 30
 
