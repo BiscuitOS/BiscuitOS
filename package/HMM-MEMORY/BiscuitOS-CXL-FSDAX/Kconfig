@@ -1,0 +1,59 @@
+menuconfig PK_HMM_CXL_FSDAX
+	select PK_CXL_TOOLS
+	select PK_NUMA
+	select PK_NUMACTL_LIBNUMA 
+	select PK_E2FSPROGS
+	bool "CXL: CXL.mem AS FSDAX"
+
+if PK_HMM_CXL_FSDAX
+
+config PK_HMM_CXL_FSDAX_VERSION
+	default "default"
+	string "verstion"
+
+config PK_HMM_CXL_FSDAX_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_HMM_CXL_FSDAX_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Memory-Allocator/HMM-MECH/BiscuitOS-CXL-FSDAX"
+	string "url"
+
+config PK_HMM_CXL_FSDAX_GITHUB
+	string "GitHub"
+
+config PK_HMM_CXL_FSDAX_SRCFILE
+	default "main.c Makefile RunBiscuitOS.sh"
+	string "Source code list"
+
+config PK_HMM_CXL_FSDAX_CSRCFILE
+	string "Compile source code list"
+
+config PK_HMM_CXL_FSDAX_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_HMM_CXL_FSDAX_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_HMM_CXL_FSDAX_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_HMM_CXL_FSDAX_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_HMM_CXL_FSDAX_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_HMM_CXL_FSDAX_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_HMM_CXL_FSDAX_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_HMM_CXL_FSDAX_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_HMM_CXL_FSDAX_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_HMM_CXL_FSDAX

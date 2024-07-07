@@ -183,6 +183,9 @@ source package/hash/Kconfig
 # hello
 source package/hello/Kconfig
 
+# HMM
+source package/HMM-MEMORY/Kconfig
+
 # highmem
 source package/highmem/Kconfig
 

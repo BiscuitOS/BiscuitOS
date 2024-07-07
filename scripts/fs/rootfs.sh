@@ -288,7 +288,6 @@ cat << EOF > ${RC}
                              
 EOF
 
-
 ### rcS
 RC=${ROOTFS_PATH}/etc/init.d/rcS
 ## Auto create rcS file
@@ -534,6 +533,9 @@ else
 				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 ${ROOTFS_PATH}/lib64/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libstdc++.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libstdc++.so.* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libc.so.6 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libc.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libblkid.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libblkid.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libinih.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libinih.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/liburcu.so.8 ] && sudo cp -rfa /lib/x86_64-linux-gnu/liburcu.so.* ${ROOTFS_PATH}/usr/lib/
 				elif [ ${UBUNTU}X == "22X" ]; then
 				  sudo mkdir -p ${ROOTFS_PATH}/usr/lib64/
 				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 ${ROOTFS_PATH}/lib64/

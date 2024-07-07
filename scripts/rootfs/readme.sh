@@ -114,10 +114,10 @@ SUPPORT_CXL_QEMU=N
 [ ${45%X} = "yX" ] && SUPPORT_CXL_QEMU=Y
 # CXL DEVICE
 SUPPORT_CXL_HW=N
-[ ${46%X} = "yX" ] && SUPPORT_CXL_HW=Y
+[ ${46%X} = "yX" ] && SUPPORT_CXL_HW=Y && SUPPORT_NUMA=N
 # PMEM DEVICE
 SUPPORT_PMEM_HW=N
-[ ${69%X} = "Y" ] && SUPPORT_PMEM_HW=Y
+[ ${69%X} = "Y" ] && SUPPORT_PMEM_HW=Y && SUPPORT_NUMA=N
 
 # VIRTIO-BLK: ARG 47-49
 SUPPORT_VDB=${47%}
@@ -724,11 +724,7 @@ case ${ARCH_NAME} in
 			if [ ${SUPPORT_NUMA} = "Y" ]; then
 				if [ ${SUPPORT_NUMA_LAYOUT} = 1 ]; then
 					echo -e '\t-smp 2 \' >> ${MF}
-					if [ ${SUPPORT_PMEM_HW} = "Y" ]; then
-						echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
-					else
-						echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-					fi
+					echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 					echo -e '\t-object memory-backend-ram,id=mem0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
 					echo -e '\t-object memory-backend-ram,id=mem1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
 					echo -e '\t-numa node,memdev=mem0,cpus=0,nodeid=0 \' >> ${MF}
@@ -752,14 +748,14 @@ case ${ARCH_NAME} in
 				fi
 			else
 				echo -e '\t-smp ${CPU_NUM} \' >> ${MF}
-				if [ ${SUPPORT_PMEM_HW} = "Y" ]; then
+				if [ ${SUPPORT_PMEM_HW} = "Y" -o ${SUPPORT_CXL_HW} = "Y" ]; then
 					echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
 				else
 					echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
 				fi
 			fi
-			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_CXL_HW} = "Y" ] && echo -e '\t-M q35,cxl=on,nvdimm=on,accel=kvm \' >> ${MF}
-			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_PMEM_HW} = "Y" ] && echo -e '\t-M q35,nvdimm=on,accel=kvm \' >> ${MF}
+			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_CXL_HW} = "Y" ] && echo -e '\t-M q35,cxl=on \' >> ${MF}
+			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_PMEM_HW} = "Y" ] && echo -e '\t-M q35,nvdimm=on \' >> ${MF}
 			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_CXL_HW} = "N" -a ${SUPPORT_PMEM_HW} = "N" ] && echo -e '\t-M q35 \' >> ${MF}
 			[ ${SUPPORT_vIOMMU} = "Y" ] && echo -e '\t-device intel-iommu,intremap=on \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-cpu host \' >> ${MF}
@@ -807,16 +803,21 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTA \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTB \' >> ${MF}
 			if [ ${SUPPORT_CXL_HW} = "Y" ]; then
-				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=256M \' >> ${MF}
-				echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=256M \' >> ${MF}
+				echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
+				echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=512M,align=16M \' >> ${MF}
+				echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=16M \' >> ${MF}
 				echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 				echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
 				echo -e '\t-device cxl-type3,bus=CXL_RP.0,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
 				echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 			fi
 			if [ ${SUPPORT_PMEM_HW} = "Y" ]; then
+				echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
+				echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
+				echo -e '\t-numa node,nodeid=1 \' >> ${MF}
 				echo -e '\t-object memory-backend-file,id=PMEM0,share=on,mem-path=${ROOT}/Hardware/PMEM0,size=512M,align=16M \' >> ${MF}
-				echo -e '\t-device nvdimm,id=BiscuitOS-NVDIMM0,memdev=PMEM0,label-size=2M \' >> ${MF}
+				echo -e '\t-device nvdimm,id=BiscuitOS-NVDIMM0,memdev=PMEM0,label-size=2M,node=1 \' >> ${MF}
 			fi
 			echo -e '\t-nographic \' >> ${MF}
 			echo -e '\t-append "${CMDLINE}"' >> ${MF}

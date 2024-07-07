@@ -1,0 +1,16 @@
+menuconfig PK_HMM
+	bool "HETEROGENEOUS MEMORY MANAGEMENT"
+
+if PK_HMM
+
+# CXL
+# CXL.mem SYSTEM-RAM
+source package/HMM-MEMORY/BiscuitOS-CXL-MEMORY/Kconfig
+
+# CXL.mem DEVDAX
+source package/HMM-MEMORY/BiscuitOS-CXL-DEVDAX/Kconfig
+
+# CXL.mem FSDAX
+source package/HMM-MEMORY/BiscuitOS-CXL-FSDAX/Kconfig
+
+endif # PK_HMM
