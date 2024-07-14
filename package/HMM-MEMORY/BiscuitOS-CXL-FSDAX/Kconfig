@@ -3,6 +3,8 @@ menuconfig PK_HMM_CXL_FSDAX
 	select PK_NUMA
 	select PK_NUMACTL_LIBNUMA 
 	select PK_E2FSPROGS
+	select PK_PCI
+	select PK_PCIUTILS
 	bool "CXL: CXL.mem AS FSDAX"
 
 if PK_HMM_CXL_FSDAX

@@ -6,6 +6,7 @@ UBUNTU=${UBUNTU_FULL:0:2}
 if [ ${UBUNTU}X != "22X" ]; then
   set -e
 fi
+
 # Establish Rootfs.
 #
 # (C) 2019.01.15 BiscuitOS <buddy.zhang@aliyun.com>
@@ -267,7 +268,8 @@ mkdir -p ${ROOTFS_PATH}/etc/init.d
 ### LOG
 RC=${ROOTFS_PATH}/etc/BiscuitOS.log
 
-## Auto create fstab file
+	if [ ${BS_SILENCE}X != "trueX" ]; then
+	## Auto create fstab file
 cat << EOF > ${RC}
  ____  _                _ _    ___  ____  
 | __ )(_)___  ___ _   _(_) |_ / _ \/ ___| 
@@ -277,8 +279,8 @@ cat << EOF > ${RC}
 
 EOF
 
-RC=${ROOTFS_PATH}/etc/Broiler.log
-## Auto create fstab file
+	RC=${ROOTFS_PATH}/etc/Broiler.log
+	## Auto create fstab file
 cat << EOF > ${RC}
  ____            _ _           
 | __ ) _ __ ___ (_) | ___ _ __ 
@@ -287,6 +289,8 @@ cat << EOF > ${RC}
 |____/|_|  \___/|_|_|\___|_|   
                              
 EOF
+
+fi # END BS_SILENCE
 
 ### rcS
 RC=${ROOTFS_PATH}/etc/init.d/rcS
@@ -536,6 +540,13 @@ else
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libblkid.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libblkid.so.* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/libinih.so.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libinih.so.* ${ROOTFS_PATH}/usr/lib/
 				  [ ! -f ${ROOTFS_PATH}/usr/lib/liburcu.so.8 ] && sudo cp -rfa /lib/x86_64-linux-gnu/liburcu.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libz.so.1.3 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libz.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libudev.so.1.7.8 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libudev.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libkmod.so.2.4.1 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libkmod.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libcap.so.2.66 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libcap.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libzstd.so.1.5.5 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libzstd.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/liblzma.so.5 ] && sudo cp -rfa /lib/x86_64-linux-gnu/liblzma.so.* ${ROOTFS_PATH}/usr/lib/
+				  [ ! -f ${ROOTFS_PATH}/usr/lib/libcrypto.so.3 ] && sudo cp -rfa /lib/x86_64-linux-gnu/libcrypto.so.* ${ROOTFS_PATH}/usr/lib/
 				elif [ ${UBUNTU}X == "22X" ]; then
 				  sudo mkdir -p ${ROOTFS_PATH}/usr/lib64/
 				  [ ! -f ${ROOTFS_PATH}/lib64/ld-linux-x86-64.so.2 ] && sudo cp -rfa /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 ${ROOTFS_PATH}/lib64/
@@ -924,7 +935,8 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${SUPPORT_VDP} ${SUPPORT_VDQ} ${SUPPORT_VDR} \
 					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK} \
 					${DEFAULT_LOGLEVEL} ${SUPPORT_SWAP} \
-					${SUPPORT_ZSWAP} ${SUPPORT_HW_PMEM}
+					${SUPPORT_ZSWAP} ${SUPPORT_HW_PMEM} \
+					${71}X
                                         
 ## Output directory
 echo ""

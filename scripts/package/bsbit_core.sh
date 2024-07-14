@@ -24,17 +24,22 @@ PACKDIR=${2}
 # Read Bsbit file
 for bsfile in `cat ${BSFILE}`
 do
-	cd ${PACKDIR}/${bsfile}
-	## Need rebuild package
-	if [ ! -d ${bsfile} ]; then
-		make download ; make prepare; make tar
-		make configure ; make ; make install
+	if [ ${bsfile} == "KERNEL_MODULE" ]; then
+		make module
+		make module_install
 	else
-	## Only install package
-		make
-		make prepare ; make install
+		cd ${PACKDIR}/${bsfile}
+		## Need rebuild package
+		if [ ! -d ${bsfile} ]; then
+			make download ; make prepare; make tar
+			make configure ; make ; make install
+		else
+		## Only install package
+			make
+			make prepare ; make install
+		fi
+		cd -
 	fi
-	cd -
 done
 
 if [ "${BS_SILENCE}X" != "trueX" ]; then

@@ -116,6 +116,49 @@ config HW_CXL
 	select QEMU_CXL
 	bool "CXL: Compute Express Link"
 
+if HW_CXL
+
+choice
+
+	prompt "CXL Hardware Topology"
+
+config HW_CXL_TPG_TYPE0
+	default y
+	bool "CXL with TYPE3: x1 Persistent Memory(PMEM)"
+
+config HW_CXL_TPG_TYPE1
+	bool "CXL with TYPE3: x1 Volatile Memory(DDR)"
+
+config HW_CXL_TPG_TYPE2
+	bool "CXL Switch With TYPE3: x1 Persistent Memory(PMEM)"
+
+config HW_CXL_TPG_TYPE3
+	bool "CXL Switch With TYPE3: x1 Volatile Memory(DDR)"
+
+config HW_CXL_TPG_TYPE4
+	bool "CXL Switch(X2) With TYPE3: x8 Volatile Memory(DDR)"
+
+config HW_CXL_TPG_TYPE5
+	bool "CXL Switch(X2) With TYPE3: x8 Persistent Memory(PMEM)"
+
+config HW_CXL_TPG_TYPE6
+	bool "CXL Switch(X2) With TYPE3: x4 PMEM and x4 DDR"
+
+endchoice
+
+config HW_CXL_TPG_NR
+	int
+	default 0 if HW_CXL_TPG_TYPE0
+	default 1 if HW_CXL_TPG_TYPE1
+	default 2 if HW_CXL_TPG_TYPE2
+	default 3 if HW_CXL_TPG_TYPE3
+	default 4 if HW_CXL_TPG_TYPE4
+	default 5 if HW_CXL_TPG_TYPE5
+	default 6 if HW_CXL_TPG_TYPE6
+	default 100
+
+endif # CXL TOPOLOGY
+
 config HW_PMEM
 	select DIY_CPU_Q35
 	bool "PMEM: Persistent Memory(NVDIMMs)"

@@ -2,6 +2,8 @@ menuconfig PK_HMM_CXL_DEVDAX
 	select PK_CXL_TOOLS
 	select PK_NUMA
 	select PK_NUMACTL_LIBNUMA 
+	select PK_PCI
+	select PK_PCIUTILS
 	bool "CXL: CXL.mem AS DEVDAX"
 
 if PK_HMM_CXL_DEVDAX

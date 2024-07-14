@@ -238,6 +238,16 @@ echo -e '\tmake' >> ${MF}
 echo -e '\tmake install pack' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo '' >> ${MF}
+echo 'module:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tmake modules ARCH=$(ARCH) -j98 ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
+echo 'module_install:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tsudo make ARCH=$(ARCH) INSTALL_MOD_PATH=$(ROOT)/rootfs/rootfs/ modules_install ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
 if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then

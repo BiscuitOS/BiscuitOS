@@ -137,8 +137,8 @@ echo "KCXXFLAGS   := ${KBUILD_CXXFLAGS}" >> ${MF}
 echo "KBASFLAGS   := ${KBUILD_ASFLAGS}" >> ${MF}
 echo '' >> ${MF}
 echo '# Package information' >> ${MF}
-echo "PACKAGE   := qemu-${PACKAGE_VERSION}.${PACKAGE_TARTYPE}" >> ${MF}
-echo "_PACKAGE   := qemu-${PACKAGE_VERSION}" >> ${MF}
+echo "PACKAGE   := CXL-${PACKAGE_VERSION}.${PACKAGE_TARTYPE}" >> ${MF}
+echo "_PACKAGE   := CXL-${PACKAGE_VERSION}" >> ${MF}
 echo "BASENAME  := ${BASEPKNAME}" >> ${MF}
 echo 'TARCMD    := tar -xvf' >> ${MF}
 echo 'PATCH     := patch/$(BASENAME)' >> ${MF}
@@ -177,12 +177,12 @@ echo 'depence-clean:' >> ${MF}
 echo -e '\t@rm -rf $(PACKDIR)/.deptmp' >> ${MF}
 echo '' >> ${MF}
 echo 'download:' >> ${MF}
-echo -e '\t@if [ ! -f $(DL)/CXL-TOOLS ]; \' >> ${MF}
+echo -e '\t@if [ ! -d $(DL)/CXL-TOOLS ]; \' >> ${MF}
 echo -e '\tthen \' >> ${MF}
 echo -e '\t\tgit clone https://github.com/pmem/ndctl.git $(DL)/CXL-TOOLS ; \' >> ${MF}
 echo -e '\t\tset -e ; \' >> ${MF}
 echo -e '\t\tcd $(DL)/CXL-TOOLS ; \' >> ${MF}
-echo -e '\t\tgit reset --hard 96bae09 ; \' >> ${MF}
+echo -e '\t\tgit reset --hard v79 ; \' >> ${MF}
 echo -e '\t\tcd - ; \' >> ${MF}
 echo -e '\t\tcp -rfa $(DL)/CXL-TOOLS ./$(BASENAME) ; \' >> ${MF}
 echo -e '\telse \' >> ${MF}
@@ -235,6 +235,16 @@ echo 'build:' >> ${MF}
 echo -e '\tmake' >> ${MF}
 echo -e '\tmake install pack' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
+echo '' >> ${MF}
+echo 'module:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tmake modules ARCH=$(ARCH) -j98 ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
+echo 'module_install:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tsudo make ARCH=$(ARCH) INSTALL_MOD_PATH=$(ROOT)/rootfs/rootfs/ modules_install ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
 echo 'kernel:' >> ${MF}
 echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
