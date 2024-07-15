@@ -13,4 +13,7 @@ source package/HMM-MEMORY/BiscuitOS-CXL-DEVDAX/Kconfig
 # CXL.mem FSDAX
 source package/HMM-MEMORY/BiscuitOS-CXL-FSDAX/Kconfig
 
+# CXL TIERED MEMORY
+source package/HMM-MEMORY/BiscuitOS-CXL-TIERED-MEMORY/Kconfig
+
 endif # PK_HMM
