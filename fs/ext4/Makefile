@@ -88,7 +88,8 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
 	       $(CONFIG_DIY_ZSWAP)X \
 	       $(CONFIG_HW_PMEM)X \
 	       $(CONFIG_HW_CXL_TPG_NR)X \
-               MAX_ARG72
+	       $(CONFIG_PK_HMM_TIERED_MEMORY)X \
+               MAX_ARG73
 
 # MAX ARGS 30
 

@@ -16,4 +16,7 @@ source package/HMM-MEMORY/BiscuitOS-CXL-FSDAX/Kconfig
 # CXL TIERED MEMORY
 source package/HMM-MEMORY/BiscuitOS-CXL-TIERED-MEMORY/Kconfig
 
+# TIERED MEMORY
+source package/HMM-MEMORY/BiscuitOS-TIERED-MEMORY/Kconfig
+
 endif # PK_HMM
