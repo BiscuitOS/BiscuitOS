@@ -124,25 +124,25 @@ choice
 
 config HW_CXL_TPG_TYPE0
 	default y
-	bool "CXL with TYPE3: x1 Persistent Memory(PMEM)"
+	bool "CXL DirectEP: x1 Type3 PMEM"
 
 config HW_CXL_TPG_TYPE1
-	bool "CXL with TYPE3: x1 Volatile Memory(DDR)"
+	bool "CXL DirectEP: x1 Type3 DDR"
 
 config HW_CXL_TPG_TYPE2
-	bool "CXL Switch With TYPE3: x1 Persistent Memory(PMEM)"
+	bool "CXL2.0: x1 VCS + x1 Type3 PMEM"
 
 config HW_CXL_TPG_TYPE3
-	bool "CXL Switch With TYPE3: x1 Volatile Memory(DDR)"
+	bool "CXL2.0: x1 VCS + x1 Type DDR"
 
 config HW_CXL_TPG_TYPE4
-	bool "CXL Switch(X2) With TYPE3: x8 Volatile Memory(DDR)"
+	bool "CXL2.0: x1 VCS + x4 Type3 DDR"
 
 config HW_CXL_TPG_TYPE5
-	bool "CXL Switch(X2) With TYPE3: x8 Persistent Memory(PMEM)"
+	bool "CXL2.0: x1 VCS + x4 Type3 PMEM"
 
 config HW_CXL_TPG_TYPE6
-	bool "CXL Switch(X2) With TYPE3: x4 PMEM and x4 DDR"
+	bool "CXL2.0: x2 VCS + x4 Type3 DDR(PerVCS)"
 
 endchoice
 

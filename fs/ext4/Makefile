@@ -91,7 +91,7 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
 	       $(CONFIG_PK_HMM_TIERED_MEMORY)X \
                MAX_ARG73
 
-# MAX ARGS 30
+# MAX ARGS 73(ARG73 not effect item)
 
 $(EXT4_DIR)/build: FORCE
 	$(Q)$(call EXT4_sh,$(srctree))

@@ -122,7 +122,7 @@ if [ ${46%X} = "yX" ]; then
 fi
 # PMEM DEVICE
 SUPPORT_PMEM_HW=N
-[ ${69%X} = "Y" ] && SUPPORT_PMEM_HW=Y && SUPPORT_NUMA=N
+[ ${70%X} = "Y" ] && SUPPORT_PMEM_HW=Y && SUPPORT_NUMA=N
 
 # VIRTIO-BLK: ARG 47-49
 SUPPORT_VDB=${47%}
@@ -809,7 +809,7 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTB \' >> ${MF}
 			if [ ${SUPPORT_CXL_HW} = "Y" ]; then
 				if [ ${SUPPORT_CXL_TPG_NR} = "0" ]; then
-					## CXL TOPLOGY: x0 SWITCH and x1 PMEM
+					## CXL TOPLOGY: DirectEP: x1 Type3 PMEM on CXL RootPort
 					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
 					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
 					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=512M,align=16M \' >> ${MF}
@@ -819,7 +819,7 @@ case ${ARCH_NAME} in
 					echo -e '\t-device cxl-type3,bus=CXL_RP.0,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				elif [ ${SUPPORT_CXL_TPG_NR} = "1" ]; then
-					## CXL TOPLOGY: x0 SWITCH and x1 DDR
+					## CXL TOPLOGY: DirectEP: x1 Type3 DDR on CXL RootPort
 					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
 					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
 					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM0,share=on,size=512M \' >> ${MF}
@@ -828,7 +828,7 @@ case ${ARCH_NAME} in
 					echo -e '\t-device cxl-type3,bus=CXL_RP.0,volatile-memdev=CXL-HOST-MEM0,id=CXL-DDR0 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				elif [ ${SUPPORT_CXL_TPG_NR} = "2" ]; then
-					## CXL TOPLOGY: x1 SWITCH and x1 PMEM
+					## CXL TOPLOGY: CXL2.0 - x1 VCS + x1 Type3 PMEM
 					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
 					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
 					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=512M,align=16M \' >> ${MF}
@@ -840,7 +840,7 @@ case ${ARCH_NAME} in
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH0-DP0,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				elif [ ${SUPPORT_CXL_TPG_NR} = "3" ]; then
-					## CXL TOPLOGY: x1 SWITCH and x1 DDR
+					## CXL TOPLOGY: CXL2.0 - x1 VCS + x1 Type3 DDR
 					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
 					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
 					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM0,share=on,size=512M \' >> ${MF}
@@ -851,7 +851,51 @@ case ${ARCH_NAME} in
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH0-DP0,volatile-memdev=CXL-HOST-MEM0,id=CXL-DDR0 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				elif [ ${SUPPORT_CXL_TPG_NR} = "4" ]; then
-					## CXL TOPLOGY: x2 SWITCH and x8 DDR
+					## CXL TOPLOGY: CXL2.0 - x1 VCS + x4 Type3 DDR
+					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM0,share=on,size=256M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM1,share=on,size=256M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM2,share=on,size=256M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM3,share=on,size=256M \' >> ${MF}
+					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH,id=CXL-SWITCH-DP0,chassis=0,slot=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH,id=CXL-SWITCH-DP1,chassis=0,slot=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH,id=CXL-SWITCH-DP2,chassis=0,slot=5 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH,id=CXL-SWITCH-DP3,chassis=0,slot=6 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP0,volatile-memdev=CXL-HOST-MEM0,id=CXL-EP-DDR0 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP1,volatile-memdev=CXL-HOST-MEM1,id=CXL-EP-DDR1 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP2,volatile-memdev=CXL-HOST-MEM2,id=CXL-EP-DDR2 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP3,volatile-memdev=CXL-HOST-MEM3,id=CXL-EP-DDR3 \' >> ${MF}
+					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
+				elif [ ${SUPPORT_CXL_TPG_NR} = "5" ]; then
+					## CXL TOPLOGY: CXL2.0 - x1 VCS + x4 Type3 PMEM
+					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=512M,align=16M \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=16M \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM1,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY1,size=512M,align=16M \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-LSA1,share=on,mem-path=${ROOT}/Hardware/CXL.LAB1,size=16M \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM2,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY2,size=512M,align=16M \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-LSA2,share=on,mem-path=${ROOT}/Hardware/CXL.LAB2,size=16M \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM3,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY3,size=512M,align=16M \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-LSA3,share=on,mem-path=${ROOT}/Hardware/CXL.LAB3,size=16M \' >> ${MF}
+					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH,id=CXL-SWITCH-DP0,chassis=0,slot=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH,id=CXL-SWITCH-DP1,chassis=0,slot=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH,id=CXL-SWITCH-DP2,chassis=0,slot=5 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH,id=CXL-SWITCH-DP3,chassis=0,slot=6 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP0,memdev=CXL-HOST-MEM0,id=CXL-EP-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP1,memdev=CXL-HOST-MEM1,id=CXL-EP-PMEM1,lsa=CXL-LSA1 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP2,memdev=CXL-HOST-MEM2,id=CXL-EP-PMEM2,lsa=CXL-LSA2 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP3,memdev=CXL-HOST-MEM3,id=CXL-EP-PMEM3,lsa=CXL-LSA3 \' >> ${MF}
+					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
+				elif [ ${SUPPORT_CXL_TPG_NR} = "6" ]; then
+					## CXL TOPLOGY: CXL2.0 - x2 VCS + x4 Type3 DDR(PerVCS)
 					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
 					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
 					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM0,share=on,size=256M \' >> ${MF}
@@ -864,111 +908,25 @@ case ${ARCH_NAME} in
 					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM7,share=on,size=256M \' >> ${MF}
 					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=0,slot=1 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=0,slot=2 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL-SWITCH0-DP0,id=CXL-SWITCH1 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL-SWITCH0-DP1,id=CXL-SWITCH2 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP0,chassis=0,slot=3 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP1,chassis=0,slot=4 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP2,chassis=0,slot=5 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP3,chassis=0,slot=6 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP0,chassis=0,slot=7 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP1,chassis=0,slot=8 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP2,chassis=0,slot=9 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP3,chassis=0,slot=10 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP0,volatile-memdev=CXL-HOST-MEM0,id=CXL-DDR0 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP1,volatile-memdev=CXL-HOST-MEM1,id=CXL-DDR1 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP2,volatile-memdev=CXL-HOST-MEM2,id=CXL-DDR2 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP3,volatile-memdev=CXL-HOST-MEM3,id=CXL-DDR3 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP0,volatile-memdev=CXL-HOST-MEM4,id=CXL-DDR4 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP1,volatile-memdev=CXL-HOST-MEM5,id=CXL-DDR5 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP2,volatile-memdev=CXL-HOST-MEM6,id=CXL-DDR6 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP3,volatile-memdev=CXL-HOST-MEM7,id=CXL-DDR7 \' >> ${MF}
-					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
-				elif [ ${SUPPORT_CXL_TPG_NR} = "5" ]; then
-					## CXL TOPLOGY: x2 SWITCH and x8 DDR
-					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
-					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM1,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY1,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA1,share=on,mem-path=${ROOT}/Hardware/CXL.LAB1,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM2,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY2,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA2,share=on,mem-path=${ROOT}/Hardware/CXL.LAB2,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM3,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY3,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA3,share=on,mem-path=${ROOT}/Hardware/CXL.LAB3,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM4,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY4,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA4,share=on,mem-path=${ROOT}/Hardware/CXL.LAB4,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM5,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY5,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA5,share=on,mem-path=${ROOT}/Hardware/CXL.LAB5,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM6,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY6,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA6,share=on,mem-path=${ROOT}/Hardware/CXL.LAB6,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM7,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY7,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA7,share=on,mem-path=${ROOT}/Hardware/CXL.LAB7,size=16M \' >> ${MF}
-					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
-					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=0,slot=1 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=0,slot=2 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL-SWITCH0-DP0,id=CXL-SWITCH1 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL-SWITCH0-DP1,id=CXL-SWITCH2 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP0,chassis=0,slot=3 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP1,chassis=0,slot=4 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP2,chassis=0,slot=5 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP3,chassis=0,slot=6 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP0,chassis=0,slot=7 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP1,chassis=0,slot=8 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP2,chassis=0,slot=9 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP3,chassis=0,slot=10 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP0,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP1,memdev=CXL-HOST-MEM1,id=CXL-PMEM1,lsa=CXL-LSA1 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP2,memdev=CXL-HOST-MEM2,id=CXL-PMEM2,lsa=CXL-LSA2 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP3,memdev=CXL-HOST-MEM3,id=CXL-PMEM3,lsa=CXL-LSA3 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP0,memdev=CXL-HOST-MEM4,id=CXL-PMEM4,lsa=CXL-LSA4 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP1,memdev=CXL-HOST-MEM5,id=CXL-PMEM5,lsa=CXL-LSA5 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP2,memdev=CXL-HOST-MEM6,id=CXL-PMEM6,lsa=CXL-LSA6 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP3,memdev=CXL-HOST-MEM7,id=CXL-PMEM7,lsa=CXL-LSA7 \' >> ${MF}
-					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
-				elif [ ${SUPPORT_CXL_TPG_NR} = "5" ]; then
-					## CXL TOPLOGY: x2 SWITCH and x8 DDR
-					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
-					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM0,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY0,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM1,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY1,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA1,share=on,mem-path=${ROOT}/Hardware/CXL.LAB1,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM2,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY2,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA2,share=on,mem-path=${ROOT}/Hardware/CXL.LAB2,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-HOST-MEM3,share=on,mem-path=${ROOT}/Hardware/CXL.MEMORY3,size=512M,align=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-file,id=CXL-LSA3,share=on,mem-path=${ROOT}/Hardware/CXL.LAB3,size=16M \' >> ${MF}
-					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM4,share=on,size=256M \' >> ${MF}
-					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM5,share=on,size=256M \' >> ${MF}
-					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM6,share=on,size=256M \' >> ${MF}
-					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM7,share=on,size=256M \' >> ${MF}
-					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
-					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=0,slot=1 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=0,slot=2 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL-SWITCH0-DP0,id=CXL-SWITCH1 \' >> ${MF}
-					echo -e '\t-device cxl-upstream,bus=CXL-SWITCH0-DP1,id=CXL-SWITCH2 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP0,chassis=0,slot=3 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP1,chassis=0,slot=4 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP2,chassis=0,slot=5 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH1,id=CXL-SWITCH1-DP3,chassis=0,slot=6 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP0,chassis=0,slot=7 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP1,chassis=0,slot=8 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP2,chassis=0,slot=9 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH2,id=CXL-SWITCH2-DP3,chassis=0,slot=10 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP0,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP1,memdev=CXL-HOST-MEM1,id=CXL-PMEM1,lsa=CXL-LSA1 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP2,memdev=CXL-HOST-MEM2,id=CXL-PMEM2,lsa=CXL-LSA2 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH1-DP3,memdev=CXL-HOST-MEM3,id=CXL-PMEM3,lsa=CXL-LSA3 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP0,volatile-memdev=CXL-HOST-MEM4,id=CXL-DDR4 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP1,volatile-memdev=CXL-HOST-MEM5,id=CXL-DDR5 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP2,volatile-memdev=CXL-HOST-MEM6,id=CXL-DDR6 \' >> ${MF}
-					echo -e '\t-device cxl-type3,bus=CXL-SWITCH2-DP3,volatile-memdev=CXL-HOST-MEM7,id=CXL-DDR7 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.1,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
+					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-VCS0 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=0,bus=CXL-VCS0,id=CXL-VCS0-DP0,chassis=0,slot=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=1,bus=CXL-VCS0,id=CXL-VCS0-DP1,chassis=0,slot=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=2,bus=CXL-VCS0,id=CXL-VCS0-DP2,chassis=0,slot=5 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=3,bus=CXL-VCS0,id=CXL-VCS0-DP3,chassis=0,slot=6 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-VCS0-DP0,volatile-memdev=CXL-HOST-MEM0,id=CXL-EP-DDR0 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-VCS0-DP1,volatile-memdev=CXL-HOST-MEM1,id=CXL-EP-DDR1 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-VCS0-DP2,volatile-memdev=CXL-HOST-MEM2,id=CXL-EP-DDR2 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-VCS0-DP3,volatile-memdev=CXL-HOST-MEM3,id=CXL-EP-DDR3 \' >> ${MF}
+					echo -e '\t-device cxl-upstream,bus=CXL_RP.1,id=CXL-VCS1 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=0,bus=CXL-VCS1,id=CXL-VCS1-DP0,chassis=0,slot=7 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=1,bus=CXL-VCS1,id=CXL-VCS1-DP1,chassis=0,slot=8 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=2,bus=CXL-VCS1,id=CXL-VCS1-DP2,chassis=0,slot=9 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=3,bus=CXL-VCS1,id=CXL-VCS1-DP3,chassis=0,slot=10 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP0,volatile-memdev=CXL-HOST-MEM4,id=CXL-EP-DDR4 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP1,volatile-memdev=CXL-HOST-MEM5,id=CXL-EP-DDR5 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP2,volatile-memdev=CXL-HOST-MEM6,id=CXL-EP-DDR6 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP3,volatile-memdev=CXL-HOST-MEM7,id=CXL-EP-DDR7 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				fi
 			fi

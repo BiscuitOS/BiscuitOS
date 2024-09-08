@@ -924,11 +924,13 @@ fi
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \
 					${FREEZE_SIZE}X ${DISK_SIZE}X \
-					ARG19 ARG20 ${SUPPORT_HYPV}X ${SUPPORT_NUMA} ${SUPPORT_KVM} \
+					ARG19 ARG20 \
+					${SUPPORT_HYPV}X ${SUPPORT_NUMA} ${SUPPORT_KVM} \
                                         ARG24 ARG25 \
                                         ${26}X ${27}X ${28}X ${29}X ${30}X "${31}X" ${32}X ${33}X ${34}X \
 					${35}X ${36}X ${37}X ${38}X ${39}X ${40}X \
-					${41}X ${42}X ${43}X ${44}X ${45}X ${46}X ${SUPPORT_VDB} ${SUPPORT_VDC} \
+					${41}X ${42}X ${43}X ${44}X ${45}X ${46}X \
+					${SUPPORT_VDB} ${SUPPORT_VDC} \
 					${SUPPORT_VDD} ${SUPPORT_VDE} ${SUPPORT_VDF} \
 					${SUPPORT_VDG} ${SUPPORT_VDH} ${SUPPORT_VDI} \
 					${SUPPORT_VDJ} ${SUPPORT_VDK} ${SUPPORT_VDL} \
@@ -937,7 +939,8 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK} \
 					${DEFAULT_LOGLEVEL} ${SUPPORT_SWAP} \
 					${SUPPORT_ZSWAP} ${SUPPORT_HW_PMEM} \
-					${71}X
+					${71}X \
+					ARG71 ARG72
                                         
 ## Output directory
 echo ""
