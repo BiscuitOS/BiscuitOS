@@ -1,3 +1,4 @@
 cxl-tools-default
 numactl-libnuma-default
 pciutils-3.7.0
+KERNEL_MODULE

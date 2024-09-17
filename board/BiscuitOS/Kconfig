@@ -123,7 +123,6 @@ choice
 	prompt "CXL Hardware Topology"
 
 config HW_CXL_TPG_TYPE0
-	default y
 	bool "CXL DirectEP: x1 Type3 PMEM"
 
 config HW_CXL_TPG_TYPE1
@@ -159,6 +158,59 @@ config HW_CXL_TPG_NR
 
 endif # CXL TOPOLOGY
 
+##
+# NUMA DIY
+config HW_NUMA
+	bool "NUMA(Non-uniform Memory Access)"
+
+if HW_NUMA
+
+choice
+	prompt "NUMA Hardware Topology"
+
+config HW_NUMA_TPG_TYPE0
+	bool "UMA(Uniform Memory Access) with FSB(Pentium 4)"
+
+config HW_NUMA_TPG_TYPE1
+	select DIY_CPU_Q35
+	bool "x2 Socket NUMA NODE with QPI(Xeon E5-2600 LCC)"
+
+config HW_NUMA_TPG_TYPE2
+	select DIY_CPU_Q35
+	bool "x2 Socket NUMA NODE with RingBus(Xeon E5-2600 HCC)"
+
+config HW_NUMA_TPG_TYPE3
+	select DIY_CPU_Q35
+	bool "x2 SNC NUMA NODE with Mesh(Xeon Skylake-SP)"
+
+config HW_NUMA_TPG_TYPE4
+	select DIY_CPU_Q35
+	bool "x2 SNC + x2 Socket NUMA NODE with UPI(Xeon Skylake-SP)"
+
+config HW_NUMA_TPG_TYPE5
+	select DIY_CPU_Q35
+	bool "x2 Socket NUMA with PCIe"
+
+config HW_NUMA_TPG_TYPE6
+	select DIY_CPU_Q35
+	bool "x2 SNC with CPUless NUMA NODE"
+
+endchoice
+
+config HW_NUMA_TPG_NR
+	int
+	default 0 if HW_NUMA_TPG_TYPE0
+	default 1 if HW_NUMA_TPG_TYPE1
+	default 2 if HW_NUMA_TPG_TYPE2
+	default 3 if HW_NUMA_TPG_TYPE3
+	default 4 if HW_NUMA_TPG_TYPE4
+	default 5 if HW_NUMA_TPG_TYPE5
+	default 6 if HW_NUMA_TPG_TYPE6
+	default 100
+
+endif # HW_NUMA
+
+## PMEM
 config HW_PMEM
 	select DIY_CPU_Q35
 	bool "PMEM: Persistent Memory(NVDIMMs)"

@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-NUMA-MPOL-LOCAL
+#
+################################################
+PK_NUMA_MPOL_LOCAL_NAME        := BiscuitOS-NUMA-MPOL-LOCAL
+PK_NUMA_MPOL_LOCAL_VERSION     := $(CONFIG_PK_NUMA_MPOL_LOCAL_VERSION)
+PK_NUMA_MPOL_LOCAL_SITE        := $(CONFIG_PK_NUMA_MPOL_LOCAL_URL)
+PK_NUMA_MPOL_LOCAL_GITHUB      := $(CONFIG_PK_NUMA_MPOL_LOCAL_GITHUB)
+PK_NUMA_MPOL_LOCAL_SUBNAME     :=
+PK_NUMA_MPOL_LOCAL_BUILDARCH   := $(CONFIG_PK_NUMA_MPOL_LOCAL_BUILDARCH)
+PK_NUMA_MPOL_LOCAL_DIR         := $(srctree)/package/NUMA/BiscuitOS-NUMA-MPOL-LOCAL
+PK_NUMA_MPOL_LOCAL_PATCH       := $(PK_NUMA_MPOL_LOCAL_DIR)/patch
+PK_NUMA_MPOL_LOCAL_BSBIT       := BiscuitOS-NUMA-MPOL-LOCAL-$(PK_NUMA_MPOL_LOCAL_VERSION).bsbit
+PK_NUMA_MPOL_LOCAL_OUT         :=
+PK_NUMA_MPOL_LOCAL_SCRIPTS     := $(srctree)/scripts/package/package-app.sh
+PK_NUMA_MPOL_LOCAL_TAR         := $(CONFIG_PK_NUMA_MPOL_LOCAL_TAR)
+PK_NUMA_MPOL_LOCAL_PACKAGE     :=
+PK_NUMA_MPOL_LOCAL_CONFIG      := $(CONFIG_PK_NUMA_MPOL_LOCAL_CONFIG)
+SUB_TARGET                  += $(PK_NUMA_MPOL_LOCAL_DIR)/build
+
+PK_NUMA_MPOL_LOCAL_sh = $(CONFIG_SHELL) $(PK_NUMA_MPOL_LOCAL_SCRIPTS) \
+                 $1X \
+                 $(PK_NUMA_MPOL_LOCAL_NAME)X \
+                 $(PK_NUMA_MPOL_LOCAL_VERSION)X \
+                 $(PK_NUMA_MPOL_LOCAL_SITE)X \
+                 $(PK_NUMA_MPOL_LOCAL_GITHUB)X \
+                 $(PK_NUMA_MPOL_LOCAL_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_NUMA_MPOL_LOCAL_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_NUMA_MPOL_LOCAL_SUBNAME)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_CONFIG)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_LIBPATH)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_CPPFLAGS)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_DPKCONFIG)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_CFLAGS)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_LDFLAGS)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_CXXFLAGS)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_ASFLAGS)X \
+                 $(PK_NUMA_MPOL_LOCAL_BSBIT)X \
+                 $(PK_NUMA_MPOL_LOCAL_BUILDARCH)X \
+		 $(PK_NUMA_MPOL_LOCAL_CSRCFILE)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_SRCFILE)X \
+                 $(CONFIG_PK_NUMA_MPOL_LOCAL_CSRCFILE)
+
+$(PK_NUMA_MPOL_LOCAL_DIR)/build: FORCE
+	$(Q)$(call PK_NUMA_MPOL_LOCAL_sh,$(srctree))

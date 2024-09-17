@@ -123,6 +123,11 @@ fi
 # PMEM DEVICE
 SUPPORT_PMEM_HW=N
 [ ${70%X} = "Y" ] && SUPPORT_PMEM_HW=Y && SUPPORT_NUMA=N
+# NUMA HARDWARE
+SUPPORT_NUMA_HW=N
+if [ "${71%XX}X" != "X" ]; then
+	[ "${71%XX}" -gt 0 ] && SUPPORT_NUMA_HW=Y && SUPPORT_NUMA_TOPOLOGY=${71%XX}
+fi
 
 # VIRTIO-BLK: ARG 47-49
 SUPPORT_VDB=${47%}
@@ -232,7 +237,7 @@ case ${ARCH} in
 	6)
 	ARCH_NAME=x86_64
 	QEMU=${QEMU_PATH}/x86_64-softmmu/qemu-system-x86_64
-	[ ${SUPPORT_CXL_QEMU} = "Y" ] && QEMU=${QEMU_PATH}/build/qemu-system-x86_64
+	[ ${SUPPORT_CXL_QEMU} = "Y" -o ${SUPPORT_NUMA_HW} = "Y" ] && QEMU=${QEMU_PATH}/build/qemu-system-x86_64
 	BROILER=${BROILER_PATH}/BiscuitOS_Broiler
 	;;
 esac
@@ -452,13 +457,14 @@ RAM_SIZE=${DIY_MEMORY}
 DMESG_LOGLEVEL=${DMESG_LOGLEVEL}
 EOF
 ## RAM size
-if [ ${SUPPORT_NUMA} = "Y" ]; then
-	if [ ${SUPPORT_NUMA_LAYOUT} = 1 ]; then
-		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
+if [ ${SUPPORT_NUMA_HW} = "Y" ]; then
+	if [ ${SUPPORT_NUMA_TOPOLOGY} = 4 ]; then
+		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/4"|bc`' >> ${MF}
+	elif [ ${SUPPORT_NUMA_TOPOLOGY} = 6 ]; then
+		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/4"|bc`' >> ${MF}
+		echo 'NUMA_LAYOUT_MEMORY_1=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
 	else
-		echo "# Don't Modify NUMA_LAYOUT_MEMORY_0/1" >> ${MF}
 		echo 'NUMA_LAYOUT_MEMORY_0=`echo "${RAM_SIZE}/2"|bc`' >> ${MF}
-		echo 'NUMA_LAYOUT_MEMORY_1=`echo "${RAM_SIZE}/4"|bc`' >> ${MF}
 	fi
 fi
 
@@ -713,6 +719,8 @@ case ${ARCH_NAME} in
 		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "N" ] && echo -e '\t-hdb ${ROOT}/Hardware/Freeze.img \' >> ${MF}
 		[ ${SUPPORT_DISK} = "Y" -a ${SUPPORT_VIRTIO} = "Y" ] && echo -e '\t-drive file=${ROOT}/Hardware/Freeze.img,if=virtio \' >> ${MF}
 		echo -e '\t-nographic \' >> ${MF}
+		echo -e '\t-serial mon:stdio \' >> ${MF}
+		echo -e '\t-qmp tcp:localhost:8888,server,nowait \' >> ${MF}
 		echo -e '\t-append "${CMDLINE}"' >> ${MF}
 	;;
 	x86_64)
@@ -726,32 +734,178 @@ case ${ARCH_NAME} in
 			echo -e '\t\t--cmdline "${CMDLINE}"' >> ${MF}
 		else
 			echo -e '\tsudo ${QEMUT} ${ARGS} \' >> ${MF}
-			if [ ${SUPPORT_NUMA} = "Y" ]; then
-				if [ ${SUPPORT_NUMA_LAYOUT} = 1 ]; then
-					echo -e '\t-smp 2 \' >> ${MF}
-					echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-					echo -e '\t-object memory-backend-ram,id=mem0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
-					echo -e '\t-object memory-backend-ram,id=mem1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
-					echo -e '\t-numa node,memdev=mem0,cpus=0,nodeid=0 \' >> ${MF}
-					echo -e '\t-numa node,memdev=mem1,cpus=1,nodeid=1 \' >> ${MF}
-				elif [ ${SUPPORT_NUMA_LAYOUT} = 2 ]; then
-					echo -e '\t-smp 4 \' >> ${MF}
-					if [ ${SUPPORT_PMEM_HW} = "Y" ]; then
-						echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
-					else
-						echo -e '\t-m ${RAM_SIZE}M \' >> ${MF}
-					fi
-					echo -e '\t-object memory-backend-ram,id=mem0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
-					echo -e '\t-object memory-backend-ram,id=mem1,size=${NUMA_LAYOUT_MEMORY_1}M \' >> ${MF}
-					echo -e '\t-object memory-backend-ram,id=mem2,size=${NUMA_LAYOUT_MEMORY_1}M \' >> ${MF}
-					echo -e '\t-numa node,memdev=mem0,cpus=0-1,nodeid=0 \' >> ${MF}
-					echo -e '\t-numa node,memdev=mem1,cpus=2,nodeid=1 \' >> ${MF}
-					echo -e '\t-numa node,memdev=mem2,cpus=3,nodeid=2 \' >> ${MF}
-					echo -e '\t-numa dist,src=0,dst=1,val=11 \' >> ${MF}
-					echo -e '\t-numa dist,src=0,dst=2,val=22 \' >> ${MF}
-					echo -e '\t-numa dist,src=1,dst=2,val=33 \' >> ${MF}
+			if [ ${SUPPORT_NUMA_HW} = "Y" ]; then
+				if [ ${SUPPORT_NUMA_TOPOLOGY} = 1 ]; then
+					# x2 Socket NUMA NODE with QPI(Xeon E5-2600 LCC)
+					#    - x2 Socket
+					#    - x1 Die Per Socket
+					#    - x1 Core Per Die
+					#    - x1 Threads Per Core
+					echo -e '\t-smp cpus=2,sockets=2,cores=1,threads=1,maxcpus=2 \' >> ${MF}
+					echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=BiscuitOS-MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=1,memdev=BiscuitOS-MEM1 \' >> ${MF}
+					echo -e '\t-numa cpu,node-id=0,socket-id=0 \' >> ${MF}
+					echo -e '\t-numa cpu,node-id=1,socket-id=1 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=1,val=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 2 ]; then
+					# x2 Socket NUMA NODE with RingBus(Xeon E5-2600 HCC)
+					#    - x2 Socket
+					#    - x1 Die Per Socket
+					#    - x2 Core Per Die
+					#    - x1 Threads Per Core
+					echo -e '\t-smp cpus=4,sockets=2,cores=2,threads=1,maxcpus=4 \' >> ${MF}
+					echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=BiscuitOS-MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=1,memdev=BiscuitOS-MEM1 \' >> ${MF}
+					echo -e '\t-numa cpu,node-id=0,socket-id=0 \' >> ${MF}
+					echo -e '\t-numa cpu,node-id=1,socket-id=1 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=1,val=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 3 ]; then
+					# x2 SNC NUMA NODE with Mesh(Xeon Skylake-SP)
+					#    - x1 Socket
+					#    - x1 Die Per Socket
+					#    - x2 Core Per Die
+					#    - x1 Threads Per Core
+					echo -e '\t-smp cpus=2,sockets=1,cores=2,threads=1,maxcpus=2 \' >> ${MF}
+					echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-numa node,memdev=BiscuitOS-MEM0,cpus=0,nodeid=0 \' >> ${MF}
+					echo -e '\t-numa node,memdev=BiscuitOS-MEM1,cpus=1,nodeid=1 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=1,val=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 4 ]; then
+					# x2 SNC + x2 Socket NUMA NODE with UPI(Xeon Skylake-SP)
+					#    - x2 Socket
+					#    - x1 Die Per Socket
+					#    - x2 Core Per Die
+					#    - x1 Threads Per Core
+					echo -e '\t-smp cpus=4,sockets=2,cores=2,threads=1,maxcpus=4 \' >> ${MF}
+					echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM2,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM3,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=BiscuitOS-MEM0,cpus=0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=1,memdev=BiscuitOS-MEM1,cpus=1 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=2,memdev=BiscuitOS-MEM2,cpus=2 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=3,memdev=BiscuitOS-MEM3,cpus=3 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=1,val=20 \'  >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=2,val=200 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=3,val=200 \' >> ${MF}
+					echo -e '\t-numa dist,src=1,dst=2,val=200 \' >> ${MF}
+					echo -e '\t-numa dist,src=1,dst=3,val=200 \' >> ${MF}
+					echo -e '\t-numa dist,src=2,dst=3,val=20 \'  >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=3,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=3,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=2,target=0,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=2,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=2,target=1,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=2,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=2,target=2,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=2,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=2,target=3,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=2,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=3,target=0,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=3,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=3,target=1,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=3,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=3,target=2,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=3,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=3,target=3,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=3,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 5 ]; then
+					# x2 Socket NUMA with PCIe
+					#    - x2 Socket
+					#    - x1 Die Per Socket
+					#    - x1 Core Per Die
+					#    - x1 Threads Per Core
+					echo -e '\t-smp cpus=2,sockets=2,cores=1,threads=1,maxcpus=2 \' >> ${MF}
+					echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=BiscuitOS-MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=1,memdev=BiscuitOS-MEM1 \' >> ${MF}
+					echo -e '\t-numa cpu,node-id=0,socket-id=0 \' >> ${MF}
+					echo -e '\t-numa cpu,node-id=1,socket-id=1 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=1,val=200 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 6 ]; then
+					# x2 SNC with CPUless NUMA NODE
+					#    - x1 Socket
+					#    - x1 Die Per Socket
+					#    - x2 Core Per Die
+					#    - x1 Threads Per Core
+					echo -e '\t-smp cpus=2,sockets=1,cores=2,threads=1,maxcpus=2 \' >> ${MF}
+					echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM0,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM1,size=${NUMA_LAYOUT_MEMORY_0}M \' >> ${MF}
+					echo -e '\t-object memory-backend-ram,id=BiscuitOS-MEM2,size=${NUMA_LAYOUT_MEMORY_1}M \' >> ${MF}
+					echo -e '\t-numa node,memdev=BiscuitOS-MEM0,cpus=0,nodeid=0 \' >> ${MF}
+					echo -e '\t-numa node,memdev=BiscuitOS-MEM1,cpus=1,nodeid=1 \' >> ${MF}
+					echo -e '\t-numa node,memdev=BiscuitOS-MEM2,nodeid=2 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=1,val=10 \' >> ${MF}
+					echo -e '\t-numa dist,src=0,dst=2,val=100 \' >> ${MF}
+					echo -e '\t-numa dist,src=1,dst=2,val=100 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
 				fi
-			else
+			else # UMA Architecture
 				echo -e '\t-smp ${CPU_NUM} \' >> ${MF}
 				if [ ${SUPPORT_PMEM_HW} = "Y" -o ${SUPPORT_CXL_HW} = "Y" ]; then
 					echo -e '\t-m ${RAM_SIZE}M,slots=16,maxmem=32G \' >> ${MF}
@@ -761,7 +915,8 @@ case ${ARCH_NAME} in
 			fi
 			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_CXL_HW} = "Y" ] && echo -e '\t-M q35,cxl=on \' >> ${MF}
 			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_PMEM_HW} = "Y" ] && echo -e '\t-M q35,nvdimm=on \' >> ${MF}
-			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_CXL_HW} = "N" -a ${SUPPORT_PMEM_HW} = "N" ] && echo -e '\t-M q35 \' >> ${MF}
+			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_NUMA_HW} = "Y" ] && echo -e '\t-M q35,hmat=on \' >> ${MF}
+			[ ${SUPPORT_CPU_Q35} = "Y" -a ${SUPPORT_CXL_HW} = "N" -a ${SUPPORT_PMEM_HW} = "N" -a ${SUPPORT_NUMA_HW} = "N" ] && echo -e '\t-M q35 \' >> ${MF}
 			[ ${SUPPORT_vIOMMU} = "Y" ] && echo -e '\t-device intel-iommu,intremap=on \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-cpu host \' >> ${MF}
 			[ ${SUPPORT_KVM} = "yX" ] && echo -e '\t-enable-kvm \' >> ${MF}
@@ -816,6 +971,7 @@ case ${ARCH_NAME} in
 					echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=16M \' >> ${MF}
 					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL_RP.0,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				elif [ ${SUPPORT_CXL_TPG_NR} = "1" ]; then
@@ -825,6 +981,7 @@ case ${ARCH_NAME} in
 					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM0,share=on,size=512M \' >> ${MF}
 					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL_RP.0,volatile-memdev=CXL-HOST-MEM0,id=CXL-DDR0 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				elif [ ${SUPPORT_CXL_TPG_NR} = "2" ]; then
@@ -835,8 +992,12 @@ case ${ARCH_NAME} in
 					echo -e '\t-object memory-backend-file,id=CXL-LSA0,share=on,mem-path=${ROOT}/Hardware/CXL.LAB0,size=16M \' >> ${MF}
 					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
 					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=1,slot=1 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=1,slot=2 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=1,slot=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=4,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP2,chassis=1,slot=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=5,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP3,chassis=1,slot=5 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH0-DP0,memdev=CXL-HOST-MEM0,id=CXL-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				elif [ ${SUPPORT_CXL_TPG_NR} = "3" ]; then
@@ -846,8 +1007,12 @@ case ${ARCH_NAME} in
 					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM0,share=on,size=512M \' >> ${MF}
 					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
 					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=1,slot=1 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=1,slot=2,port=2 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=1,slot=3,port=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP2,chassis=1,slot=4,port=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP3,chassis=1,slot=5,port=5 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH0-DP0,volatile-memdev=CXL-HOST-MEM0,id=CXL-DDR0 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				elif [ ${SUPPORT_CXL_TPG_NR} = "4" ]; then
@@ -860,11 +1025,13 @@ case ${ARCH_NAME} in
 					echo -e '\t-object memory-backend-ram,id=CXL-HOST-MEM3,share=on,size=256M \' >> ${MF}
 					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
 					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH \' >> ${MF}
 					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH,id=CXL-SWITCH-DP0,chassis=0,slot=3 \' >> ${MF}
 					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH,id=CXL-SWITCH-DP1,chassis=0,slot=4 \' >> ${MF}
 					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH,id=CXL-SWITCH-DP2,chassis=0,slot=5 \' >> ${MF}
 					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH,id=CXL-SWITCH-DP3,chassis=0,slot=6 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=4,bus=CXL-SWITCH,id=CXL-SWITCH-DP4,chassis=0,slot=7 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP0,volatile-memdev=CXL-HOST-MEM0,id=CXL-EP-DDR0 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP1,volatile-memdev=CXL-HOST-MEM1,id=CXL-EP-DDR1 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP2,volatile-memdev=CXL-HOST-MEM2,id=CXL-EP-DDR2 \' >> ${MF}
@@ -884,11 +1051,13 @@ case ${ARCH_NAME} in
 					echo -e '\t-object memory-backend-file,id=CXL-LSA3,share=on,mem-path=${ROOT}/Hardware/CXL.LAB3,size=16M \' >> ${MF}
 					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
 					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH \' >> ${MF}
 					echo -e '\t-device cxl-downstream,port=0,bus=CXL-SWITCH,id=CXL-SWITCH-DP0,chassis=0,slot=3 \' >> ${MF}
 					echo -e '\t-device cxl-downstream,port=1,bus=CXL-SWITCH,id=CXL-SWITCH-DP1,chassis=0,slot=4 \' >> ${MF}
 					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH,id=CXL-SWITCH-DP2,chassis=0,slot=5 \' >> ${MF}
 					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH,id=CXL-SWITCH-DP3,chassis=0,slot=6 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=4,bus=CXL-SWITCH,id=CXL-SWITCH-DP4,chassis=0,slot=7 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP0,memdev=CXL-HOST-MEM0,id=CXL-EP-PMEM0,lsa=CXL-LSA0 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP1,memdev=CXL-HOST-MEM1,id=CXL-EP-PMEM1,lsa=CXL-LSA1 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-SWITCH-DP2,memdev=CXL-HOST-MEM2,id=CXL-EP-PMEM2,lsa=CXL-LSA2 \' >> ${MF}
@@ -909,20 +1078,23 @@ case ${ARCH_NAME} in
 					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
 					echo -e '\t-device cxl-rp,id=CXL_RP.1,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=2.0,chassis=0,slot=2,port=2 \' >> ${MF}
 					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-VCS0 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-VCS0,id=CXL-VCS0-DP0,chassis=0,slot=3 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-VCS0,id=CXL-VCS0-DP1,chassis=0,slot=4 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=2,bus=CXL-VCS0,id=CXL-VCS0-DP2,chassis=0,slot=5 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=3,bus=CXL-VCS0,id=CXL-VCS0-DP3,chassis=0,slot=6 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS0,id=CXL-VCS0-DP0,chassis=0,slot=3,port=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS0,id=CXL-VCS0-DP1,chassis=0,slot=4,port=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS0,id=CXL-VCS0-DP2,chassis=0,slot=5,port=5 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS0,id=CXL-VCS0-DP3,chassis=0,slot=6,port=6 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS0,id=CXL-VCS0-DP4,chassis=0,slot=7,port=7 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-VCS0-DP0,volatile-memdev=CXL-HOST-MEM0,id=CXL-EP-DDR0 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-VCS0-DP1,volatile-memdev=CXL-HOST-MEM1,id=CXL-EP-DDR1 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-VCS0-DP2,volatile-memdev=CXL-HOST-MEM2,id=CXL-EP-DDR2 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-VCS0-DP3,volatile-memdev=CXL-HOST-MEM3,id=CXL-EP-DDR3 \' >> ${MF}
 					echo -e '\t-device cxl-upstream,bus=CXL_RP.1,id=CXL-VCS1 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=0,bus=CXL-VCS1,id=CXL-VCS1-DP0,chassis=0,slot=7 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=1,bus=CXL-VCS1,id=CXL-VCS1-DP1,chassis=0,slot=8 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=2,bus=CXL-VCS1,id=CXL-VCS1-DP2,chassis=0,slot=9 \' >> ${MF}
-					echo -e '\t-device cxl-downstream,port=3,bus=CXL-VCS1,id=CXL-VCS1-DP3,chassis=0,slot=10 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS1,id=CXL-VCS1-DP0,chassis=0,slot=8,port=8 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS1,id=CXL-VCS1-DP1,chassis=0,slot=9,port=9 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS1,id=CXL-VCS1-DP2,chassis=0,slot=10,port=10 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS1,id=CXL-VCS1-DP3,chassis=0,slot=11,port=11 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-VCS1,id=CXL-VCS1-DP4,chassis=0,slot=12,port=12 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP0,volatile-memdev=CXL-HOST-MEM4,id=CXL-EP-DDR4 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP1,volatile-memdev=CXL-HOST-MEM5,id=CXL-EP-DDR5 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP2,volatile-memdev=CXL-HOST-MEM6,id=CXL-EP-DDR6 \' >> ${MF}
@@ -938,6 +1110,8 @@ case ${ARCH_NAME} in
 				echo -e '\t-device nvdimm,id=BiscuitOS-NVDIMM0,memdev=PMEM0,label-size=2M,node=1 \' >> ${MF}
 			fi
 			echo -e '\t-nographic \' >> ${MF}
+			echo -e '\t-serial mon:stdio \' >> ${MF}
+			echo -e '\t-qmp tcp:localhost:8888,server,nowait \' >> ${MF}
 			echo -e '\t-append "${CMDLINE}"' >> ${MF}
 		fi
 	;;

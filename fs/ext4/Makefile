@@ -89,7 +89,8 @@ EXT4_sh = $(CONFIG_SHELL) $(EXT4_SCRIPTS) \
 	       $(CONFIG_HW_PMEM)X \
 	       $(CONFIG_HW_CXL_TPG_NR)X \
 	       $(CONFIG_PK_HMM_TIERED_MEMORY)X \
-               MAX_ARG73
+	       $(CONFIG_HW_NUMA_TPG_NR)X \
+               MAX_ARG74
 
 # MAX ARGS 73(ARG73 not effect item)
 

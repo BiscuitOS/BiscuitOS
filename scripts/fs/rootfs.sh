@@ -939,8 +939,8 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK} \
 					${DEFAULT_LOGLEVEL} ${SUPPORT_SWAP} \
 					${SUPPORT_ZSWAP} ${SUPPORT_HW_PMEM} \
-					${71}X \
-					ARG71 ARG72
+					${71}X ${73}X \
+					ARG72 ARG73
                                         
 ## Output directory
 echo ""

@@ -1,21 +1,27 @@
 menuconfig PK_NUMA
-	bool "NUMA Mechanism"
+	bool "NUMA(Non-Uniform Memory Access)"
 
 if PK_NUMA
 
 # numactl and libnuma
 source package/NUMA/numactl-libnuma/Kconfig
 
-# libuma: Allocate memory on current NODE
-source package/NUMA/libnuma-alloc-memory-current-memory/Kconfig
+# POLICY: PREFERRED
+source package/NUMA/BiscuitOS-NUMA-MPOL-PREFERRED/Kconfig
 
-# libuma: Detect NUMA node for VADDR
-source package/NUMA/libnuma-detect-vaddr-numa-node/Kconfig
+# POLICY: PREFERRED-MANY
+source package/NUMA/BiscuitOS-NUMA-MPOL-PREFERRED-MANY/Kconfig
 
-# libuma: move page
-source package/NUMA/libnuma-numa-move-page/Kconfig
+# POLICY: BIND
+source package/NUMA/BiscuitOS-NUMA-MPOL-BIND/Kconfig
 
-# alloc page from current node
-source package/NUMA/BiscuitOS-NUMA-alloc-current-node/Kconfig
+# POLICY: LOCAL
+source package/NUMA/BiscuitOS-NUMA-MPOL-LOCAL/Kconfig
+
+# POLICY: INTERLEAVE
+source package/NUMA/BiscuitOS-NUMA-MPOL-INTERLEAVE/Kconfig
+
+# POLICY: WEIGHTED INTERLEAVE
+source package/NUMA/BiscuitOS-NUMA-MPOL-WEIGHTED-INTERLEAVE/Kconfig
 
 endif # PK_NUMA

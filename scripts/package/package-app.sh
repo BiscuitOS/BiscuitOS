@@ -211,13 +211,7 @@ echo -e '\t\t\twget $(URL)/$${file} ; \' >> ${MF}
 echo -e '\t\t\t[ ! -z "$${LDIR}" ] && mv $${LFILE} $${LDIR} ; \' >> ${MF}
 echo -e '\t\t\techo "Download $${file}" ; \' >> ${MF}
 echo -e '\t\telse \' >> ${MF}
-echo -e '\t\t\tDefault_URL=$(URL) ; \' >> ${MF}
-echo -e '\t\t\tTarget_DIR=`echo $${Default_URL#https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/}` ; \' >> ${MF}
-echo -e '\t\t\tHS_line=`sed -n -e '/HardStack/=' $(HSFILE)` ; \' >> ${MF}
-echo -e '\t\t\tTarget_PATH="`head -$${HS_line} $(HSFILE) | tail -1`/$${Target_DIR}" ; \' >> ${MF}
-echo -e '\t\t\tcp -rfa $${Target_PATH}/* ./ ; \' >> ${MF}
-echo -e '\t\t\techo "Download Finish" ; \' >> ${MF}
-echo -e '\t\t\texit 0 ; \' >> ${MF}
+echo -e '\t\t\t$(BSROOT)/scripts/package/Download.sh $(ROOT) $(URL) "$(DLFILE)" ; \' >> ${MF}
 echo -e '\t\tfi ; \' >> ${MF}
 echo -e '\tdone' >> ${MF}
 echo '' >> ${MF}

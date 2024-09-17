@@ -23,6 +23,7 @@ QEMU_SUBNAME=${11%X}
 OUTPUT=${ROOT}/output/${PROJ_NAME}
 ARCH_MAGIC=${12%X}
 QEMU_CXL=${13%X}
+NUMA_HARD=${14%X}
 UBUNTU_FULL=$(cat /etc/issue | grep "Ubuntu" | awk '{print $2}')
 UBUNTU=${UBUNTU_FULL:0:2}
 EMULATER=
@@ -42,11 +43,12 @@ PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}/
 [ ${ARCH_MAGIC}X = 1X ] && PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}-i386/
 
 ## CXL
-if [ ${QEMU_CXL}X = "yX" ]; then
-	QEMU_VERSION="QEMU-CLX-2023-04-19"
+if [ ${QEMU_CXL}X = "yX" -o ${NUMA_HARD}X = "yX" ]; then
+	QEMU_VERSION="QEMU-CLX-2024-08-20"
 	QEMU_SRC=4
 	QEMU_GITHUB="https://gitlab.com/jic23/qemu.git"
-	QEMI_HARD="8eb2a03258"
+	#QEMI_HARD="8eb2a03258"
+	QEMU_BRANCH="cxl-2024-08-20"
 	PATCH_DIR=${ROOT}/package/qemu/patch/QEMU-CXL/
 fi
 
@@ -208,7 +210,8 @@ if [ ${QEMU_SRC} = "4" ]; then
                 cd ${ROOT}/dl/
                 git clone ${QEMU_GITHUB} QEMU-CXL
                 cd ${ROOT}/dl/QEMU-CXL
-                git reset --hard ${QEMI_HARD}
+		git checkout ${QEMU_HARD}
+                #git reset --hard ${QEMI_HARD}
                 cd -
         fi
         mkdir -p ${OUTPUT}/${QEMU_NAME}
@@ -217,7 +220,7 @@ if [ ${QEMU_SRC} = "4" ]; then
         fi
         cp -rfa ${ROOT}/dl/QEMU-CXL ${OUTPUT}/${QEMU_NAME}/
 	cd ${OUTPUT}/${QEMU_NAME}/QEMU-CXL
-	patch -p1 < ${PATCH_DIR}/QEMU-CXL-0001.patch
+	# patch -p1 < ${PATCH_DIR}/QEMU-CXL-0001.patch
         ./configure --target-list=${EMULATER} ${CONFIG} --disable-werror
         make -j8
         echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version

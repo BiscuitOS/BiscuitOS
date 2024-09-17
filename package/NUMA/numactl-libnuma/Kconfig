@@ -1,5 +1,5 @@
 menuconfig PK_NUMACTL_LIBNUMA
-	bool "numctl tools and libnuma library"
+	bool "Libnuma:numctl/numastat tools"
 
 if PK_NUMACTL_LIBNUMA
 

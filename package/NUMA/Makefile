@@ -1,8 +1,10 @@
-BiscuitOS-NUMA-$(CONFIG_PK_NUMACTL_LIBNUMA) 	+= numactl-libnuma/
-BiscuitOS-NUMA-$(CONFIG_PK_LIBNUMA_ALLOC_CUR) 	+= libnuma-alloc-memory-current-memory/
-BiscuitOS-NUMA-$(CONFIG_PK_LIBNUMA_DETECT_NODE) += libnuma-detect-vaddr-numa-node/
-BiscuitOS-NUMA-$(CONFIG_PK_LIBNUMA_MOVE_PAGE) 	+= libnuma-numa-move-page/
-BiscuitOS-NUMA-$(CONFIG_PK_NUMA_ALLOC_CURNODE) 	+= BiscuitOS-NUMA-alloc-current-node/
+BiscuitOS-NUMA-$(CONFIG_PK_NUMACTL_LIBNUMA) 			+= numactl-libnuma/
+BiscuitOS-NUMA-$(CONFIG_PK_NUMA_MPOL_INTERLEAVE)	 	+= BiscuitOS-NUMA-MPOL-INTERLEAVE/
+BiscuitOS-NUMA-$(CONFIG_PK_NUMA_MPOL_WEIGHTED_INTERLEAVE) 	+= BiscuitOS-NUMA-MPOL-WEIGHTED-INTERLEAVE/
+BiscuitOS-NUMA-$(CONFIG_PK_NUMA_MPOL_PREFERRED) 		+= BiscuitOS-NUMA-MPOL-PREFERRED/
+BiscuitOS-NUMA-$(CONFIG_PK_NUMA_MPOL_PREFERRED_MANY) 		+= BiscuitOS-NUMA-MPOL-PREFERRED-MANY/
+BiscuitOS-NUMA-$(CONFIG_PK_NUMA_MPOL_BIND)	 		+= BiscuitOS-NUMA-MPOL-BIND/
+BiscuitOS-NUMA-$(CONFIG_PK_NUMA_MPOL_LOCAL)	 		+= BiscuitOS-NUMA-MPOL-LOCAL/
 
 PACKAGE_MAKEDIR := $(patsubst %/, $(srctree)/package/NUMA/%/Makefile, $(BiscuitOS-NUMA-y))
 
