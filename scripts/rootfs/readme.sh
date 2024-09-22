@@ -128,6 +128,9 @@ SUPPORT_NUMA_HW=N
 if [ "${71%XX}X" != "X" ]; then
 	[ "${71%XX}" -gt 0 ] && SUPPORT_NUMA_HW=Y && SUPPORT_NUMA_TOPOLOGY=${71%XX}
 fi
+# NUAM HMAT
+SUPPORT_NUMA_HMAT=N
+[ "${72%XX}X" = "yX" ] && SUPPORT_NUMA_HMAT=Y
 
 # VIRTIO-BLK: ARG 47-49
 SUPPORT_VDB=${47%}
@@ -750,14 +753,16 @@ case ${ARCH_NAME} in
 					echo -e '\t-numa cpu,node-id=0,socket-id=0 \' >> ${MF}
 					echo -e '\t-numa cpu,node-id=1,socket-id=1 \' >> ${MF}
 					echo -e '\t-numa dist,src=0,dst=1,val=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					if [ ${SUPPORT_NUMA_HMAT} = "Y" ]; then
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					fi
 				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 2 ]; then
 					# x2 Socket NUMA NODE with RingBus(Xeon E5-2600 HCC)
 					#    - x2 Socket
@@ -773,14 +778,16 @@ case ${ARCH_NAME} in
 					echo -e '\t-numa cpu,node-id=0,socket-id=0 \' >> ${MF}
 					echo -e '\t-numa cpu,node-id=1,socket-id=1 \' >> ${MF}
 					echo -e '\t-numa dist,src=0,dst=1,val=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					if [ ${SUPPORT_NUMA_HMAT} = "Y" ]; then
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					fi
 				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 3 ]; then
 					# x2 SNC NUMA NODE with Mesh(Xeon Skylake-SP)
 					#    - x1 Socket
@@ -794,14 +801,16 @@ case ${ARCH_NAME} in
 					echo -e '\t-numa node,memdev=BiscuitOS-MEM0,cpus=0,nodeid=0 \' >> ${MF}
 					echo -e '\t-numa node,memdev=BiscuitOS-MEM1,cpus=1,nodeid=1 \' >> ${MF}
 					echo -e '\t-numa dist,src=0,dst=1,val=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					if [ ${SUPPORT_NUMA_HMAT} = "Y" ]; then
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					fi
 				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 4 ]; then
 					# x2 SNC + x2 Socket NUMA NODE with UPI(Xeon Skylake-SP)
 					#    - x2 Socket
@@ -824,38 +833,40 @@ case ${ARCH_NAME} in
 					echo -e '\t-numa dist,src=1,dst=2,val=200 \' >> ${MF}
 					echo -e '\t-numa dist,src=1,dst=3,val=200 \' >> ${MF}
 					echo -e '\t-numa dist,src=2,dst=3,val=20 \'  >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=3,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=3,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=2,target=0,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=2,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=2,target=1,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=2,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=2,target=2,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=2,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=2,target=3,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=2,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=3,target=0,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=3,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=3,target=1,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=3,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=3,target=2,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=3,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=3,target=3,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=3,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					if [ ${SUPPORT_NUMA_HMAT} = "Y" ]; then
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=3,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=3,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=2,target=0,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=2,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=2,target=1,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=2,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=2,target=2,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=2,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=2,target=3,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=2,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=3,target=0,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=3,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=3,target=1,hierarchy=memory,data-type=access-latency,latency=200 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=3,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=3,target=2,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=3,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=3,target=3,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=3,target=3,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					fi
 				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 5 ]; then
 					# x2 Socket NUMA with PCIe
 					#    - x2 Socket
@@ -871,14 +882,16 @@ case ${ARCH_NAME} in
 					echo -e '\t-numa cpu,node-id=0,socket-id=0 \' >> ${MF}
 					echo -e '\t-numa cpu,node-id=1,socket-id=1 \' >> ${MF}
 					echo -e '\t-numa dist,src=0,dst=1,val=200 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					if [ ${SUPPORT_NUMA_HMAT} = "Y" ]; then
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=100 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=1M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					fi
 				elif [ ${SUPPORT_NUMA_TOPOLOGY} = 6 ]; then
 					# x2 SNC with CPUless NUMA NODE
 					#    - x1 Socket
@@ -896,14 +909,16 @@ case ${ARCH_NAME} in
 					echo -e '\t-numa dist,src=0,dst=1,val=10 \' >> ${MF}
 					echo -e '\t-numa dist,src=0,dst=2,val=100 \' >> ${MF}
 					echo -e '\t-numa dist,src=1,dst=2,val=100 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
-					echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					if [ ${SUPPORT_NUMA_HMAT} = "Y" ]; then
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=90M \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \' >> ${MF}
+						echo -e '\t-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=100M \' >> ${MF}
+					fi
 				fi
 			else # UMA Architecture
 				echo -e '\t-smp ${CPU_NUM} \' >> ${MF}

@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-SCHED-APP-USER-MODE
+#
+################################################
+PK_SCHED_APP_USER_NAME        := BiscuitOS-SCHED-APP-USER-MODE
+PK_SCHED_APP_USER_VERSION     := $(CONFIG_PK_SCHED_APP_USER_VERSION)
+PK_SCHED_APP_USER_SITE        := $(CONFIG_PK_SCHED_APP_USER_URL)
+PK_SCHED_APP_USER_GITHUB      := $(CONFIG_PK_SCHED_APP_USER_GITHUB)
+PK_SCHED_APP_USER_SUBNAME     :=
+PK_SCHED_APP_USER_BUILDARCH   := $(CONFIG_PK_SCHED_APP_USER_BUILDARCH)
+PK_SCHED_APP_USER_DIR         := $(srctree)/package/SCHEDULE/BiscuitOS-SCHED-APP-USER-MODE
+PK_SCHED_APP_USER_PATCH       := $(PK_SCHED_APP_USER_DIR)/patch
+PK_SCHED_APP_USER_BSBIT       := BiscuitOS-SCHED-APP-USER-MODE-$(PK_SCHED_APP_USER_VERSION).bsbit
+PK_SCHED_APP_USER_OUT         :=
+PK_SCHED_APP_USER_SCRIPTS     := $(srctree)/scripts/package/package-app.sh
+PK_SCHED_APP_USER_TAR         := $(CONFIG_PK_SCHED_APP_USER_TAR)
+PK_SCHED_APP_USER_PACKAGE     :=
+PK_SCHED_APP_USER_CONFIG      := $(CONFIG_PK_SCHED_APP_USER_CONFIG)
+SUB_TARGET                  += $(PK_SCHED_APP_USER_DIR)/build
+
+PK_SCHED_APP_USER_sh = $(CONFIG_SHELL) $(PK_SCHED_APP_USER_SCRIPTS) \
+                 $1X \
+                 $(PK_SCHED_APP_USER_NAME)X \
+                 $(PK_SCHED_APP_USER_VERSION)X \
+                 $(PK_SCHED_APP_USER_SITE)X \
+                 $(PK_SCHED_APP_USER_GITHUB)X \
+                 $(PK_SCHED_APP_USER_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_SCHED_APP_USER_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_SCHED_APP_USER_SUBNAME)X \
+                 $(CONFIG_PK_SCHED_APP_USER_CONFIG)X \
+                 $(CONFIG_PK_SCHED_APP_USER_LIBPATH)X \
+                 $(CONFIG_PK_SCHED_APP_USER_CPPFLAGS)X \
+                 $(CONFIG_PK_SCHED_APP_USER_DPKCONFIG)X \
+                 $(CONFIG_PK_SCHED_APP_USER_CFLAGS)X \
+                 $(CONFIG_PK_SCHED_APP_USER_LDFLAGS)X \
+                 $(CONFIG_PK_SCHED_APP_USER_CXXFLAGS)X \
+                 $(CONFIG_PK_SCHED_APP_USER_ASFLAGS)X \
+                 $(PK_SCHED_APP_USER_BSBIT)X \
+                 $(PK_SCHED_APP_USER_BUILDARCH)X \
+		 $(PK_SCHED_APP_USER_CSRCFILE)X \
+                 $(CONFIG_PK_SCHED_APP_USER_SRCFILE)X \
+                 $(CONFIG_PK_SCHED_APP_USER_CSRCFILE)
+
+$(PK_SCHED_APP_USER_DIR)/build: FORCE
+	$(Q)$(call PK_SCHED_APP_USER_sh,$(srctree))

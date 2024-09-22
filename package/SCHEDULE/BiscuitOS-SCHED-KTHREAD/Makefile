@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-SCHED-KTHREAD
+#
+################################################
+PK_SCHED_KTHREAD_NAME        := BiscuitOS-SCHED-KTHREAD
+PK_SCHED_KTHREAD_VERSION     := $(CONFIG_PK_SCHED_KTHREAD_VERSION)
+PK_SCHED_KTHREAD_SITE        := $(CONFIG_PK_SCHED_KTHREAD_URL)
+PK_SCHED_KTHREAD_GITHUB      := $(CONFIG_PK_SCHED_KTHREAD_GITHUB)
+PK_SCHED_KTHREAD_SUBNAME     :=
+PK_SCHED_KTHREAD_BUILDARCH   := $(CONFIG_PK_SCHED_KTHREAD_BUILDARCH)
+PK_SCHED_KTHREAD_DIR         := $(srctree)/package/SCHEDULE/BiscuitOS-SCHED-KTHREAD
+PK_SCHED_KTHREAD_PATCH       := $(PK_SCHED_KTHREAD_DIR)/patch
+PK_SCHED_KTHREAD_BSBIT       := BiscuitOS-SCHED-KTHREAD-$(PK_SCHED_KTHREAD_VERSION).bsbit
+PK_SCHED_KTHREAD_OUT         :=
+PK_SCHED_KTHREAD_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_SCHED_KTHREAD_TAR         := $(CONFIG_PK_SCHED_KTHREAD_TAR)
+PK_SCHED_KTHREAD_PACKAGE     :=
+PK_SCHED_KTHREAD_CONFIG      := $(CONFIG_PK_SCHED_KTHREAD_CONFIG)
+SUB_TARGET                  += $(PK_SCHED_KTHREAD_DIR)/build
+
+PK_SCHED_KTHREAD_sh = $(CONFIG_SHELL) $(PK_SCHED_KTHREAD_SCRIPTS) \
+                 $1X \
+                 $(PK_SCHED_KTHREAD_NAME)X \
+                 $(PK_SCHED_KTHREAD_VERSION)X \
+                 $(PK_SCHED_KTHREAD_SITE)X \
+                 $(PK_SCHED_KTHREAD_GITHUB)X \
+                 $(PK_SCHED_KTHREAD_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_SCHED_KTHREAD_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_SCHED_KTHREAD_SUBNAME)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_CONFIG)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_LIBPATH)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_CPPFLAGS)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_DPKCONFIG)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_CFLAGS)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_LDFLAGS)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_CXXFLAGS)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_ASFLAGS)X \
+                 $(PK_SCHED_KTHREAD_BSBIT)X \
+                 $(PK_SCHED_KTHREAD_BUILDARCH)X \
+		 $(PK_SCHED_KTHREAD_CSRCFILE)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_SRCFILE)X \
+                 $(CONFIG_PK_SCHED_KTHREAD_CSRCFILE)
+
+$(PK_SCHED_KTHREAD_DIR)/build: FORCE
+	$(Q)$(call PK_SCHED_KTHREAD_sh,$(srctree))

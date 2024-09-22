@@ -1,0 +1,55 @@
+menuconfig PK_SCHED_WORKQUEUE
+	bool "SCHEDULE OBJECT: WORKQUEUE"
+
+if PK_SCHED_WORKQUEUE
+
+config PK_SCHED_WORKQUEUE_VERSION
+	default "default"
+	string "verstion"
+
+config PK_SCHED_WORKQUEUE_TAR
+	default "tar.gz"
+	string "tar type"
+
+config PK_SCHED_WORKQUEUE_URL
+	default "https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/SCHEDULE-SUBSYSTEM/BiscuitOS-SCHED-WORKQUEUE"
+	string "url"
+
+config PK_SCHED_WORKQUEUE_GITHUB
+	string "GitHub"
+
+config PK_SCHED_WORKQUEUE_SRCFILE
+	default "Kconfig  Makefile  Makefile.host  RunBiscuitOS.sh  main.c"
+	string "Source code list"
+
+config PK_SCHED_WORKQUEUE_CSRCFILE
+	string "Compile source code list"
+
+config PK_SCHED_WORKQUEUE_CONFIG
+	string "CONFIG: Project Configure Options"
+
+config PK_SCHED_WORKQUEUE_LIBPATH
+	string "LIBS: Libraries to pass to the linker, e.g. -l<library>"
+
+config PK_SCHED_WORKQUEUE_CPPFLAGS
+	string "CPPFLAGS: C/C++ preprocessor flags, e.g. -I<include dir>"
+
+config PK_SCHED_WORKQUEUE_DPKCONFIG
+	string "PKG_CONFIG_PATH: Directories to add to pkg-config's search path"
+
+config PK_SCHED_WORKQUEUE_CFLAGS
+	string "CFLAGS: C compiler flags"
+
+config PK_SCHED_WORKQUEUE_LDFLAGS
+	string "LDFLAGS: Linker flags"
+
+config PK_SCHED_WORKQUEUE_CXXFLAGS
+	string "CXXFLAGS: C++ compiler flags"
+
+config PK_SCHED_WORKQUEUE_ASFLAGS
+	string "CCASFLAGS: assembler compiler flags (defaults to CFLAGS)"
+
+config PK_SCHED_WORKQUEUE_BUILDARCH
+	string "--host options on configure for Architecture"
+
+endif # PK_SCHED_WORKQUEUE

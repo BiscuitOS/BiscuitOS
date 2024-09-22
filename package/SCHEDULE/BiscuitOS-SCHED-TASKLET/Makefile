@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-SCHED-TASKLET
+#
+################################################
+PK_SCHED_TASKLET_NAME        := BiscuitOS-SCHED-TASKLET
+PK_SCHED_TASKLET_VERSION     := $(CONFIG_PK_SCHED_TASKLET_VERSION)
+PK_SCHED_TASKLET_SITE        := $(CONFIG_PK_SCHED_TASKLET_URL)
+PK_SCHED_TASKLET_GITHUB      := $(CONFIG_PK_SCHED_TASKLET_GITHUB)
+PK_SCHED_TASKLET_SUBNAME     :=
+PK_SCHED_TASKLET_BUILDARCH   := $(CONFIG_PK_SCHED_TASKLET_BUILDARCH)
+PK_SCHED_TASKLET_DIR         := $(srctree)/package/SCHEDULE/BiscuitOS-SCHED-TASKLET
+PK_SCHED_TASKLET_PATCH       := $(PK_SCHED_TASKLET_DIR)/patch
+PK_SCHED_TASKLET_BSBIT       := BiscuitOS-SCHED-TASKLET-$(PK_SCHED_TASKLET_VERSION).bsbit
+PK_SCHED_TASKLET_OUT         :=
+PK_SCHED_TASKLET_SCRIPTS     := $(srctree)/scripts/package/package-module.sh
+PK_SCHED_TASKLET_TAR         := $(CONFIG_PK_SCHED_TASKLET_TAR)
+PK_SCHED_TASKLET_PACKAGE     :=
+PK_SCHED_TASKLET_CONFIG      := $(CONFIG_PK_SCHED_TASKLET_CONFIG)
+SUB_TARGET                  += $(PK_SCHED_TASKLET_DIR)/build
+
+PK_SCHED_TASKLET_sh = $(CONFIG_SHELL) $(PK_SCHED_TASKLET_SCRIPTS) \
+                 $1X \
+                 $(PK_SCHED_TASKLET_NAME)X \
+                 $(PK_SCHED_TASKLET_VERSION)X \
+                 $(PK_SCHED_TASKLET_SITE)X \
+                 $(PK_SCHED_TASKLET_GITHUB)X \
+                 $(PK_SCHED_TASKLET_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_SCHED_TASKLET_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_SCHED_TASKLET_SUBNAME)X \
+                 $(CONFIG_PK_SCHED_TASKLET_CONFIG)X \
+                 $(CONFIG_PK_SCHED_TASKLET_LIBPATH)X \
+                 $(CONFIG_PK_SCHED_TASKLET_CPPFLAGS)X \
+                 $(CONFIG_PK_SCHED_TASKLET_DPKCONFIG)X \
+                 $(CONFIG_PK_SCHED_TASKLET_CFLAGS)X \
+                 $(CONFIG_PK_SCHED_TASKLET_LDFLAGS)X \
+                 $(CONFIG_PK_SCHED_TASKLET_CXXFLAGS)X \
+                 $(CONFIG_PK_SCHED_TASKLET_ASFLAGS)X \
+                 $(PK_SCHED_TASKLET_BSBIT)X \
+                 $(PK_SCHED_TASKLET_BUILDARCH)X \
+		 $(PK_SCHED_TASKLET_CSRCFILE)X \
+                 $(CONFIG_PK_SCHED_TASKLET_SRCFILE)X \
+                 $(CONFIG_PK_SCHED_TASKLET_CSRCFILE)
+
+$(PK_SCHED_TASKLET_DIR)/build: FORCE
+	$(Q)$(call PK_SCHED_TASKLET_sh,$(srctree))

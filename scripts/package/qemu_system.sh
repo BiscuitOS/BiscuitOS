@@ -64,9 +64,17 @@ if [ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ]; then
         fi
 
 	if [ -d ${OUTPUT}/${QEMU_NAME}/qemu-${QEMU_VERSION} ]; then
-		echo "QEMU Direct Change"
+		echo "QEMU Direct Change[${QEMU_VERSION}]"
 		[ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ] && rm -rf ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
 		ln -s ${OUTPUT}/${QEMU_NAME}/qemu-${QEMU_VERSION} ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
+		echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
+		exit 0
+	fi
+
+	if [ ${QEMU_CXL}X = "yX" -o ${NUMA_HARD}X = "yX" ]; then
+		echo "QEMU Direct Change[${QEMU_VERSION}]"
+		[ -d ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME} ] && rm -rf ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
+		ln -s ${OUTPUT}/${QEMU_NAME}/QEMU-CXL ${OUTPUT}/${QEMU_NAME}/${QEMU_NAME}
 		echo ${QEMU_VERSION} > ${OUTPUT}/${QEMU_NAME}/version
 		exit 0
 	fi

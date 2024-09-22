@@ -465,6 +465,9 @@ source package/rpi-4b-bootloader/Kconfig
 # Register
 source package/Register/Kconfig
 
+# SCHEDULE
+source package/SCHEDULE/Kconfig
+
 # scrnsaverproto
 source package/scrnsaverproto/Kconfig
 

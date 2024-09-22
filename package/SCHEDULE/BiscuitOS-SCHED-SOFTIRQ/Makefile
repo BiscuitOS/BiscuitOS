@@ -1,0 +1,49 @@
+################################################
+#
+# BiscuitOS-SCHED-SOFTIRQ
+#
+################################################
+PK_SCHED_SOFTIRQ_NAME        := BiscuitOS-SCHED-SOFTIRQ
+PK_SCHED_SOFTIRQ_VERSION     := $(CONFIG_PK_SCHED_SOFTIRQ_VERSION)
+PK_SCHED_SOFTIRQ_SITE        := $(CONFIG_PK_SCHED_SOFTIRQ_URL)
+PK_SCHED_SOFTIRQ_GITHUB      := $(CONFIG_PK_SCHED_SOFTIRQ_GITHUB)
+PK_SCHED_SOFTIRQ_SUBNAME     :=
+PK_SCHED_SOFTIRQ_BUILDARCH   := $(CONFIG_PK_SCHED_SOFTIRQ_BUILDARCH)
+PK_SCHED_SOFTIRQ_DIR         := $(srctree)/package/SCHEDULE/BiscuitOS-SCHED-SOFTIRQ
+PK_SCHED_SOFTIRQ_PATCH       := $(PK_SCHED_SOFTIRQ_DIR)/patch
+PK_SCHED_SOFTIRQ_BSBIT       := BiscuitOS-SCHED-SOFTIRQ-$(PK_SCHED_SOFTIRQ_VERSION).bsbit
+PK_SCHED_SOFTIRQ_OUT         :=
+PK_SCHED_SOFTIRQ_SCRIPTS     := $(srctree)/scripts/package/package-kernel.sh
+PK_SCHED_SOFTIRQ_TAR         := $(CONFIG_PK_SCHED_SOFTIRQ_TAR)
+PK_SCHED_SOFTIRQ_PACKAGE     :=
+PK_SCHED_SOFTIRQ_CONFIG      := $(CONFIG_PK_SCHED_SOFTIRQ_CONFIG)
+SUB_TARGET                  += $(PK_SCHED_SOFTIRQ_DIR)/build
+
+PK_SCHED_SOFTIRQ_sh = $(CONFIG_SHELL) $(PK_SCHED_SOFTIRQ_SCRIPTS) \
+                 $1X \
+                 $(PK_SCHED_SOFTIRQ_NAME)X \
+                 $(PK_SCHED_SOFTIRQ_VERSION)X \
+                 $(PK_SCHED_SOFTIRQ_SITE)X \
+                 $(PK_SCHED_SOFTIRQ_GITHUB)X \
+                 $(PK_SCHED_SOFTIRQ_PATCH)X \
+                 $(CONFIG_LINUX_KERNEL_VERSION)X \
+	         $(CONFIG_MAIN_PROJ_NAME)X \
+                 $(PK_SCHED_SOFTIRQ_TAR)X \
+                 $(CONFIG_LINUX_KERNEL_CROSS_COMPILE)X \
+                 $(PK_SCHED_SOFTIRQ_SUBNAME)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_CONFIG)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_LIBPATH)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_CPPFLAGS)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_DPKCONFIG)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_CFLAGS)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_LDFLAGS)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_CXXFLAGS)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_ASFLAGS)X \
+                 $(PK_SCHED_SOFTIRQ_BSBIT)X \
+                 $(PK_SCHED_SOFTIRQ_BUILDARCH)X \
+		 $(PK_SCHED_SOFTIRQ_CSRCFILE)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_SRCFILE)X \
+                 $(CONFIG_PK_SCHED_SOFTIRQ_CSRCFILE)
+
+$(PK_SCHED_SOFTIRQ_DIR)/build: FORCE
+	$(Q)$(call PK_SCHED_SOFTIRQ_sh,$(srctree))

@@ -1,0 +1,33 @@
+menuconfig PK_SCHEDULE
+	bool "SCHEDULE"
+
+if PK_SCHEDULE
+
+# APP USER MODE
+source package/SCHEDULE/BiscuitOS-SCHED-APP-USER-MODE/Kconfig
+
+# APP KERNEL MODE
+source package/SCHEDULE/BiscuitOS-SCHED-APP-KERNEL-MODE/Kconfig
+
+# KERNEL THREAD
+source package/SCHEDULE/BiscuitOS-SCHED-KTHREAD/Kconfig
+
+# SOFTIRQ
+source package/SCHEDULE/BiscuitOS-SCHED-SOFTIRQ/Kconfig
+
+# INTERRUPT
+source package/SCHEDULE/BiscuitOS-SCHED-INTERRUPT/Kconfig
+
+# WAITQUEUE
+source package/SCHEDULE/BiscuitOS-SCHED-WAITQUEUE/Kconfig
+
+# WORKQUEUE
+source package/SCHEDULE/BiscuitOS-SCHED-WORKQUEUE/Kconfig
+
+# TASKLET
+source package/SCHEDULE/BiscuitOS-SCHED-TASKLET/Kconfig
+
+# COMPLETE
+source package/SCHEDULE/BiscuitOS-SCHED-COMPLETE/Kconfig
+
+endif # PK_SCHEDULE

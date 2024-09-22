@@ -210,6 +210,11 @@ config HW_NUMA_TPG_NR
 
 endif # HW_NUMA
 
+config HW_NUMA_HMAT
+	bool "HMAT NUMA Latency AND Bandwidth"
+
+## END NUMA
+
 ## PMEM
 config HW_PMEM
 	select DIY_CPU_Q35

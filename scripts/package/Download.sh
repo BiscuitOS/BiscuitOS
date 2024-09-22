@@ -22,7 +22,7 @@ while IFS= read -r line; do
 			if [ $(find "${FILE_PATH}/${TARGET_DIR}" -type f | wc -l) -gt 0 ]; then
 				# EXIST
 				cp -rfa ${FILE_PATH}/${TARGET_DIR}/* ./ 
-				break
+				exit 0
 			fi
 		fi
 	fi
