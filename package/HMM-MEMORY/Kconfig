@@ -13,6 +13,21 @@ source package/HMM-MEMORY/BiscuitOS-CXL-DEVDAX/Kconfig
 # CXL.mem FSDAX
 source package/HMM-MEMORY/BiscuitOS-CXL-FSDAX/Kconfig
 
+# CXL SLD
+source package/HMM-MEMORY/BiscuitOS-CXL-SLD/Kconfig
+
+# CXL MLD
+source package/HMM-MEMORY/BiscuitOS-CXL-MLD/Kconfig
+
+# CXL MH-SLD
+source package/HMM-MEMORY/BiscuitOS-CXL-MHSLD/Kconfig
+
+# CXL MH-MLD
+source package/HMM-MEMORY/BiscuitOS-CXL-MHMLD/Kconfig
+
+# CXL SHMEM: GPU
+source package/HMM-MEMORY/BiscuitOS-CXL-SHMEM-GPU/Kconfig
+
 # CXL TIERED MEMORY
 source package/HMM-MEMORY/BiscuitOS-CXL-TIERED-MEMORY/Kconfig
 

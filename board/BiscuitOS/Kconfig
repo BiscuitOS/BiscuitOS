@@ -62,54 +62,71 @@ config PK_BISCUITOS_HARDWARE
         select PK_BROILER
         bool "Support BiscuitOS Hardware Emulate"
 
+config HW_AUTO_PK
+	bool
+
 config HW_PCI_BAR
+	select HW_AUTO_PK
 	select PK_PCI
 	select PK_PCI_QEMU_DEV_BAR
 	select PK_BROILER_PCI_DD
 	bool "BiscuitOS PCI/PCIe IO-BAR and MMIO-BAR"
 
 config HW_PCI_INTX
+	select HW_AUTO_PK
 	select PK_PCI
 	select PK_PCI_QEMU_DEV_INTX
 	select PK_BROILER_PCI_INTX
 	bool "BiscuitOS PCI/PCIe with INTX Interrupt"
 
 config HW_PCI_MSI
+	select HW_AUTO_PK
 	select PK_PCI
 	select PK_PCI_QEMU_DEV_MSI
 	select PK_BROILER_PCI_MSI
 	bool "BiscuitOS PCI/PCIe with MSI Interrupt"
 
 config HW_PCI_MSIX
+	select HW_AUTO_PK
 	select PK_PCI
 	select PK_PCI_QEMU_DEV_MSIX
 	select PK_BROILER_PCI_MSIX
 	bool "BiscuitOS PCI/PCIe with MSIX Interrupt"
 
 config HW_PCI_DMA_INTX
+	select HW_AUTO_PK
 	select PK_PCI
 	select PK_BROILER_DMA_INTX
 	select PK_PCI_DMA_QEMU_DEV_INTX
 	bool "BiscuitOS PCI/PCIe DMA with INTX Interrupt"
 
 config HW_PCI_DMA_MSI
+	select HW_AUTO_PK
 	select PK_PCI
 	select PK_BROILER_DMA_MSI
 	select PK_PCI_DMA_QEMU_DEV_MSI
 	bool "BiscuitOS PCI/PCIe DMA with MSI Interrupt"
 
 config HW_PCI_DMA_MSIX
+	select HW_AUTO_PK
 	select PK_PCI
 	select PK_BROILER_DMA_MSIX
 	select PK_PCI_DMA_QEMU_DEV_MSIX
 	bool "BiscuitOS PCI/PCIe DMA with MSIX Interrupt"
 
 config HW_DMA_BUF
+	select HW_AUTO_PK
 	select PK_PCI
 	select PK_DMA
 	select PK_DMA_DMABUF_QEMU_DEVICE
 	select PK_PCI_DMABUF_QEMU_DEV
 	bool "BiscuitOS PCI/PCIe DMA-BUF"
+
+config HW_CXL_GPU
+	select HW_AUTO_PK
+	select PK_PCI
+	select PK_DMA
+	bool "CXL SHMEM GPU Device"
 
 config HW_CXL
 	select DIY_CPU_Q35
@@ -143,6 +160,18 @@ config HW_CXL_TPG_TYPE5
 config HW_CXL_TPG_TYPE6
 	bool "CXL2.0: x2 VCS + x4 Type3 DDR(PerVCS)"
 
+config HW_CXL_TPG_TYPE7
+	bool "CXL2.0: x2 Host(VH) + SLD"
+
+config HW_CXL_TPG_TYPE8
+	bool "CXL2.0: x2 Host(VH) + MLD"
+
+config HW_CXL_TPG_TYPE9
+	bool "CXL2.0: x2 Host(VH) + MH-SLD"
+
+config HW_CXL_TPG_TYPEA
+	bool "CXL2.0: x2 Host(VH) + MH-MLD"
+
 endchoice
 
 config HW_CXL_TPG_NR
@@ -154,6 +183,10 @@ config HW_CXL_TPG_NR
 	default 4 if HW_CXL_TPG_TYPE4
 	default 5 if HW_CXL_TPG_TYPE5
 	default 6 if HW_CXL_TPG_TYPE6
+	default 7 if HW_CXL_TPG_TYPE7
+	default 8 if HW_CXL_TPG_TYPE8
+	default 9 if HW_CXL_TPG_TYPE9
+	default 10 if HW_CXL_TPG_TYPEA
 	default 100
 
 endif # CXL TOPOLOGY

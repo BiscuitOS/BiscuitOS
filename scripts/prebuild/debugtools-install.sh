@@ -330,6 +330,16 @@ extern int BiscuitOS_memory_fluid_set_async_data(unsigned long data);
 extern int BiscuitOS_memory_fluid_count(int nr);
 extern int BiscuitOS_memory_fluid_count_inc(int nr);
 
+static inline long BiscuitOS_hypercall1(unsigned int nr, unsigned long p1)
+{
+	long ret;
+	asm volatile("vmcall"
+		     : "=a"(ret)
+		     : "a"(nr), "b"(p1)
+		     : "memory");
+	return ret;
+}
+
 /* BiscuitOS Debug stub */
 #define bs_debug(...)                                           \\
 ({                                                              \\
@@ -346,12 +356,14 @@ extern int BiscuitOS_memory_fluid_count_inc(int nr);
 ({                                                              \\
         bs_debug_kernel_enable = 1;                             \\
         bs_debug_kernel_enable_one = 1;                         \\
+        BiscuitOS_hypercall1(100 /* KVM_HC_BISCUITOS */, 1);    \\
 })                                                              \\
 
 #define BiscuitOS_memory_fluid_disable()                        \\
 ({                                                              \\
         bs_debug_kernel_enable = 0;                             \\
         bs_debug_kernel_enable_one = 0;                         \\
+        BiscuitOS_hypercall1(100 /* KVM_HC_BISCUITOS */, 0);    \\
 })
 
 #define BiscuitOS_memory_fluid_enable_one()                     \\
@@ -377,6 +389,25 @@ extern int BiscuitOS_memory_fluid_count_inc(int nr);
 
 #endif
 EOF
+
+echo "ADD CODE INTO: [arch/x86/kvm/x86.c] 
+
+int kvm_emulate_hypercall(struct kvm_vcpu *vcpu)
+{
+	case KVM_HC_SCHED_YIELD:
+	....
+	break;
++        case 100:
++                extern int bs_debug_kernel_enable;
++                extern int bs_debug_kernel_enable_one;
++
++                bs_debug_kernel_enable = a0;
++                bs_debug_kernel_enable_one = a0;
++                break;
+	default:
+
+}
+"
 
 # INSTALL C
 cp -rfa ${FILE_C} ${INSTALL_C}

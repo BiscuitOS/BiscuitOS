@@ -1,6 +1,7 @@
 #/bin/bash
 
-# Establish kernel source code from automake.
+set -e
+# Establish tools from automake.
 #
 # (C) 2019.08.30 BiscuitOS <buddy.zhang@aliyun.com>
 #
@@ -22,9 +23,6 @@ PACKAGE_GITHIB=${5%X}
 PACKAGE_PATCH=${6%X}
 # Kernel Version
 KERNEL_VERSION=${7%X}
-[ ${KERNEL_VERSION} = "newest" ] && KERNEL_VERSION=6.0.0
-[ ${KERNEL_VERSION} = "newest-gitee" ] && KERNEL_VERSION=6.0.0
-[ ${KERNEL_VERSION} = "next" ] && KERNEL_VERSION=6.0.0
 # Project Name (Default SDK name)
 PROJECT_NAME=${8%X}
 # Compression package type
@@ -134,15 +132,14 @@ echo '' >> ${MF}
 echo '## Default Setup' >> ${MF}
 echo "ROOT        := ${OUTPUT}" >> ${MF}
 echo "BSROOT      := ${PROJECT_ROOT}" >> ${MF}
-echo "ARCH        := ${ARCH}" >> ${MF}
 echo "CROSS_NAME  := ${PACKAGE_TOOL}" >> ${MF}
+echo "ARCH        := ${ARCH}" >> ${MF}
 echo 'CROSS_PATH  := $(ROOT)/$(CROSS_NAME)/$(CROSS_NAME)' >> ${MF}
 echo 'CROSS_TOOL  := $(CROSS_PATH)/bin/$(CROSS_NAME)-' >> ${MF}
 echo 'PACK        := $(ROOT)/RunBiscuitOS.sh' >> ${MF}
 echo 'DL          := $(BSROOT)/dl' >> ${MF}
 echo 'BSCORE      := $(BSROOT)/scripts/package/bsbit_core.sh' >> ${MF}
 echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
-echo 'KERNRU      := $(BSROOT)/scripts/package/kernel_insert.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
 echo 'HSFILE      := $(BSROOT)/dl/HardStack.BS' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
@@ -171,37 +168,23 @@ echo 'CONFIG    += PKG_CONFIG_PATH=$(DPK_PATH)' >> ${MF}
 echo "CONFIG    += ${KBUILD_CONFIG}" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
-echo 'kernel:' >> ${MF}
+echo 'all:' >> ${MF}
 echo -e '\tsudo rm -rf $(ROOT)/rootfs/rootfs/etc/init.d/rcS.broiler > /dev/null' >> ${MF}
-echo -e '\t@sh $(KERNRU) install_kernel $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
-echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
-if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
-        echo -e '\tmake  ARCH=$(ARCH) bzImage -j98 || exit 1 ;\' >> ${MF}
-else
-        echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j84 || exit 1 ;\' >> ${MF}
-fi
-echo -e '\tcd - > /dev/null' >> ${MF}
-echo -e '\t@sh $(KERNRU) remove_kernel $(ROOT) $(shell pwd)/$(BASENAME)' >> ${MF}
-echo '' >> ${MF}
-echo 'menuconfig:' >> ${MF}
-echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
-echo -e '\tmake menuconfig ARCH=$(ARCH) ;\' >> ${MF}
-echo -e '\tcd - > /dev/null' >> ${MF}
-echo '' >> ${MF}
-echo 'module:' >> ${MF}
-echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
-echo -e '\tmake modules ARCH=$(ARCH) -j98 ;\' >> ${MF}
-echo -e '\tcd - > /dev/null' >> ${MF}
-echo '' >> ${MF}
-echo 'module_install:' >> ${MF}
-echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
-echo -e '\tsudo make ARCH=$(ARCH) INSTALL_MOD_PATH=$(ROOT)/rootfs/rootfs/ modules_install ;\' >> ${MF}
-echo -e '\tcd - > /dev/null' >> ${MF}
-echo '' >> ${MF}
-echo 'tags:' >> ${MF}
-echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
-echo -e '\tmake tags ARCH=$(ARCH) ;\' >> ${MF}
-echo -e '\tcd - > /dev/null' >> ${MF}
+echo -e '\t@cd $(BASENAME) ; \' >> ${MF}
+echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH}  \' >> ${MF}
+echo -e '\tmake CC=$(CROSS_TOOL)gcc \' >> ${MF}
+echo -e '\tCPP=$(CROSS_TOOL)g++ CXX=$(CROSS_TOOL)c++  \' >> ${MF}
+echo -e '\tCFLAGS="$(KBUDCFLAG)" LDFLAGS="$(KBLDFLAGS)" \' >> ${MF}
+echo -e '\tLDFLAGS="$(KBLDFLAGS)" CFLAGS="$(KBUDCFLAG)" \' >> ${MF}
+echo -e '\tCXXFLAGS="$(KCXXFLAGS)" CCASFLAGS="$(KBASFLAGS)" \' >> ${MF}
+echo -e '\tLIBS=$(DLD_PATH) CPPFLAGS=$(DCF_PATH) \' >> ${MF}
+echo -e '\tPKG_CONFIG_PATH=$(DPK_PATH) \' >> ${MF}
+echo -e '\tCROSS_COMPILE=$(CROSS_NAME) ARCH=$(ARCH) \' >> ${MF}
+echo -e '\tTARGETA=$(BASENAME)' >> ${MF}
+echo -e '\t$(info "Build $(PACKAGE) done.")' >> ${MF}
+echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
+echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
+echo -e '\tfi' >> ${MF}
 echo '' >> ${MF}
 echo 'prepare:' >> ${MF}
 echo -e '\t@$(BSCORE) bsbit/$(BSFILE) $(PACKDIR)' >> ${MF}
@@ -256,22 +239,43 @@ echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Rootfs Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'install:' >> ${MF}
-echo -e '\tchmod 755 KRunBiscuitOS.sh ; \' >> ${MF}
-echo -e '\tsudo cp KRunBiscuitOS.sh $(INS_PATH)/bin/' >> ${MF}
+echo -e '\tcd $(BASENAME) ; \' >> ${MF}
+echo -e '\tPATH=$(CROSS_PATH)/bin:${PATH} \' >> ${MF}
+echo -e '\tsudo make install INSPATH=$(INS_PATH)/bin \' >> ${MF}
+echo -e '\tTARGETA=$(BASENAME)' >> ${MF}
 echo -e '\t@if [ "${BS_SILENCE}X" != "trueX" ]; then \' >> ${MF}
 echo -e '\t\tfiglet "BiscuitOS" ; \' >> ${MF}
 echo -e '\tfi' >> ${MF}
 echo -e '\t$(info "Install .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'pack:' >> ${MF}
-echo -e '\t$(ROOT)/RunBiscuitOS.sh pack' >> ${MF}
+echo -e '\t@$(PACK) pack' >> ${MF}
+echo -e '\t@@cp $(ROOT)/Hardware/BiscuitOS.img $(ROOT)/Hardware/BiscuitOS-CXL.img' >> ${MF}
 echo -e '\t$(info "Pack    .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'build:' >> ${MF}
-echo -e '\tmake' >> ${MF}
-echo -e '\tmake install' >> ${MF}
-echo -e '\tmake pack' >> ${MF}
+echo -e '\tmake || exit 1' >> ${MF}
+echo -e '\tmake install pack' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
+echo '' >> ${MF}
+echo 'module:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tmake modules ARCH=$(ARCH) -j98 ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
+echo 'module_install:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+echo -e '\tsudo make ARCH=$(ARCH) INSTALL_MOD_PATH=$(ROOT)/rootfs/rootfs/ modules_install ;\' >> ${MF}
+echo -e '\tcd - > /dev/null' >> ${MF}
+echo '' >> ${MF}
+echo 'kernel:' >> ${MF}
+echo -e '\t@cd $(ROOT)/linux/linux ; \' >> ${MF}
+if [ ${ARCH} == "i386" -o ${ARCH} == "x86_64" ]; then
+	echo -e '\tmake  ARCH=$(ARCH) bzImage -j84 || exit 1 ;\' >> ${MF}
+else
+	echo -e '\tmake  ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_TOOL) -j84 || exit 1 ;\' >> ${MF}
+fi
+echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
 echo 'run:' >> ${MF}
 echo -e '\t$(ROOT)/RunBiscuitOS.sh' >> ${MF}
@@ -294,7 +298,7 @@ echo -e '\tcd - > /dev/null' >> ${MF}
 echo '' >> ${MF}
 echo 'clean:' >> ${MF}
 echo -e '\tcd $(BASENAME) ; \' >> ${MF}
-echo -e '\trm *.o built-in.a' >> ${MF}
+echo -e '\tmake clean TARGETA=$(BASENAME)' >> ${MF}
 echo -e '\t$(info "Clean   .... [OK]")' >> ${MF}
 echo '' >> ${MF}
 echo 'distclean:' >> ${MF}
@@ -374,37 +378,6 @@ echo "[${PACKAGE_NAME}](${PACKAGE_SITE})" >> ${MF}
 echo '' >> ${MF}
 echo '' >> ${MF}
 echo '# Reserved by BiscuitOS :)' >> ${MF}
-
-MF=${PACKAGE_ROOT}/${PACKAGE_NAME}-${PACKAGE_VERSION}/KRunBiscuitOS.sh
-
-echo '#!/bin/ash' >> ${MF}
-echo '# BiscuitOS <buddy.zhang@aliyun.com>' >> ${MF}
-echo '' >> ${MF}
-echo 'AFTER_NUM=0' >> ${MF}
-echo 'BEFORE_NUM=0' >> ${MF}
-echo 'COMMAND=' >> ${MF}
-echo '' >> ${MF}
-echo 'usage() {' >> ${MF}
-echo -e '\tKRunBiscuitOS.sh [-a NUM] [-b NUM]' >> ${MF}
-echo '}' >> ${MF}
-echo '' >> ${MF}
-echo 'while getopts 'a:b:h' OPT; do' >> ${MF}
-echo '  case ${OPT} in' >> ${MF}
-echo '    a)' >> ${MF}
-echo '        AFTER_NUM="$OPTARG";;' >> ${MF}
-echo '    b)' >> ${MF}
-echo '        BEFORE_NUM="$OPTARG";;' >> ${MF}
-echo '    h)' >> ${MF}
-echo '        usage;;' >> ${MF}
-echo '    ?)' >> ${MF}
-echo '        usage;;' >> ${MF}
-echo '  esac' >> ${MF}
-echo 'done' >> ${MF}
-echo '' >> ${MF}
-echo '[ $AFTER_NUM  != "0" ] && COMMAND="${COMMAND} -A $AFTER_NUM"' >> ${MF}
-echo '[ $BEFORE_NUM != "0" ] && COMMAND="${COMMAND} -B $BEFORE_NUM"' >> ${MF}
-echo '' >> ${MF}
-echo 'dmesg | grep "BiscuitOS-stub" ${COMMAND}' >> ${MF}
 
 # Patch work
 #

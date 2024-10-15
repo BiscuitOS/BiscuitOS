@@ -141,7 +141,7 @@ echo 'BSCORE      := $(BSROOT)/scripts/package/bsbit_core.sh' >> ${MF}
 echo 'BSDEPD      := $(BSROOT)/scripts/package/bsbit_dependence.sh' >> ${MF}
 echo 'KERNRU      := $(BSROOT)/scripts/package/kernel_insert.sh' >> ${MF}
 echo 'PACKDIR     := $(ROOT)/package' >> ${MF}
-echo 'HSFILE      := $(ROOT)/HardStack.BS' >> ${MF}
+echo 'HSFILE      := $(BSROOT)/HardStack.BS' >> ${MF}
 echo 'INS_PATH    := $(ROOT)/rootfs/rootfs/usr' >> ${MF}
 echo "DLD_PATH    := \"-L\$(INS_PATH)/lib -L\$(CROSS_PATH)/lib ${KBUILD_LIBPATH}\"" >> ${MF}
 echo "DCF_PATH    := \"-I\$(INS_PATH)/include -I\$(CROSS_PATH)/include ${KBUILD_CPPFLAGS}\"" >> ${MF}
@@ -215,7 +215,7 @@ echo -e '\t\t\twget $(URL)/$${file} ; \' >> ${MF}
 echo -e '\t\t\t[ ! -z "$${LDIR}" ] && mv $${LFILE} $${LDIR} ; \' >> ${MF}
 echo -e '\t\t\techo "Download $${file}" ; \' >> ${MF}
 echo -e '\t\telse \' >> ${MF}
-echo -e '\t\t\t$(BSROOT)/scripts/package/Download.sh $(ROOT) $(URL) "$(DLFILE)" ; \' >> ${MF}
+echo -e '\t\t\t$(BSROOT)/scripts/package/Download.sh $(BSROOT) $(URL) "$(DLFILE)" ; \' >> ${MF}
 echo -e '\t\tfi ; \' >> ${MF}
 echo -e '\tdone' >> ${MF}
 echo '' >> ${MF}

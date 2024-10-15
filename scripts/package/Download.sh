@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # ROOT
-BSFILE=$1/HardStack.BS
+BSFILE=$1/dl/HardStack.BS
+
 # DEFAULT URL
 DEFAULT_URL=$2
 # FILE
@@ -22,6 +23,7 @@ while IFS= read -r line; do
 			if [ $(find "${FILE_PATH}/${TARGET_DIR}" -type f | wc -l) -gt 0 ]; then
 				# EXIST
 				cp -rfa ${FILE_PATH}/${TARGET_DIR}/* ./ 
+				echo "Download Finish"
 				exit 0
 			fi
 		fi
@@ -33,3 +35,4 @@ for file in ${DLFILE}
 do
 	wget ${DEFAULT_URL}/${file} 
 done
+echo "Download Finish"

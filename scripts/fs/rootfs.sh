@@ -140,6 +140,10 @@ SUPPORT_GUEST_HUGE_TMPFS=N
 DEFAULT_LOGLEVEL=${67%X}
 [ ${67} == "X" ] && DEFAULT_LOGLEVEL=8
 
+# DEPLOY HW
+SUPPORT_QEMU_AUTO_HW=N
+[ ${75} = yX ] && SUPPORT_QEMU_AUTO_HW=Y
+
 # SWAP/ZSWAP
 SUPPORT_SWAP=N
 SUPPORT_ZSWAP=N
@@ -389,6 +393,8 @@ mkdir -p /mnt/f2fs
 # DMESG
 echo 8 > /proc/sys/kernel/printk
 EOF
+RC=${ROOTFS_PATH}/etc/init.d/rcS
+echo '[ -d /lib/modules/$(uname -r)/updates ] && ln -s /lib/modules/$(uname -r)/updates /lib/modules/$(uname -r)/extra' >> ${RC}
 
 if [ ${SUPPORT_SWAP} = "Y" ]; then
 	RC=${ROOTFS_PATH}/etc/init.d/rcS
@@ -491,6 +497,7 @@ RC=${ROOTFS_PATH}/etc/resolv.conf
 cat << EOF > ${RC}
 nameserver 1.2.4.8
 nameserver 8.8.8.8
+nameserver 8.8.4.4
 EOF
 
 ## Hosts
@@ -920,6 +927,53 @@ if [ -f ${OUTPUT}/RunBiscuitOS.sh ]; then
 	fi
 fi
 
+## QEMU AUTO DEPLOY HW
+if [ ${SUPPORT_QEMU_AUTO_HW} = "Y" ];then
+	QEMU_PATH=${OUTPUT}/qemu-system
+	QEMU_VERSION=$(cat ${QEMU_PATH}/version)
+	QEMU_PWD=$(pwd)
+
+	if [[ "${QEMU_VERSION}" == *"QEMU-CXL"* ]]; then
+		# CXL
+		if [ ! -d ${QEMU_PATH}/qemu-system/hw/BiscuitOS ]; then
+			cd ${QEMU_PATH}/qemu-system/hw
+			# DOWNLOAD
+			wget https://gitee.com/BiscuitOS_team/HardStack/raw/Gitee/Device-Driver/PCIe/BiscuitOS-HW-CXL.tar.gz
+			# UNTAR
+			tar xf BiscuitOS-HW-CXL.tar.gz
+			rm -rf BiscuitOS-HW-CXL.tar.gz
+			# MODIFY meson.build
+			echo "subdir('BiscuitOS')" >> meson.build	
+			echo "" >> Kconfig
+			echo "source BiscuitOS/Kconfig" >> Kconfig
+			cd ${QEMU_PATH}/qemu-system
+			echo "CONFIG_BISCUITOS=y" >> configs/devices/i386-softmmu/default.mak
+
+			# REBUILD
+			cd ${QEMU_PATH}/qemu-system/
+			make -j98
+			# RETURN
+			cd ${QEMU_PWD}
+		fi
+	fi
+fi
+
+# BUILD NETLINK
+if ! ip link show BiscuitOS-BR &> /dev/null; then
+	sudo ip link add name BiscuitOS-BR type bridge
+	sudo ip link set dev BiscuitOS-BR up
+	sudo ip tuntap add dev BiscuitOS-TAP mode tap
+	sudo ip link set dev BiscuitOS-TAP up
+	sudo ip link set dev BiscuitOS-TAP master BiscuitOS-BR
+	# SETUP BRIDGE IP
+	sudo ip addr add 172.88.1.1/24 dev BiscuitOS-BR
+	sudo ip link set dev BiscuitOS-BR up
+	# HOST
+	# sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+	# sudo iptables -t nat -A POSTROUTING -o enp3s0 -j MASQUERADE
+fi
+
+
 ## Auto build README.md
 ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${12} ${13} ${14} ${15} ${16} \
@@ -939,8 +993,8 @@ ${ROOT}/scripts/rootfs/readme.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10} ${11} \
 					${SUPPORT_VDS} ${SUPPORT_DEFAULT_DISK} \
 					${DEFAULT_LOGLEVEL} ${SUPPORT_SWAP} \
 					${SUPPORT_ZSWAP} ${SUPPORT_HW_PMEM} \
-					${71}X ${73}X ${74}X \
-					ARG73 ARG74
+					${71}X ${73}X ${74}X ${76}X \
+					ARG74 ARG75
                                         
 ## Output directory
 echo ""

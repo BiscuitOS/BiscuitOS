@@ -132,6 +132,10 @@ fi
 SUPPORT_NUMA_HMAT=N
 [ "${72%XX}X" = "yX" ] && SUPPORT_NUMA_HMAT=Y
 
+# CXL PCIE DEVICE
+SUPPORT_HW_CXL_GPU=N
+[ "${73%XX}X" = "yX" ] && SUPPORT_HW_CXL_GPU=Y
+
 # VIRTIO-BLK: ARG 47-49
 SUPPORT_VDB=${47%}
 SUPPORT_VDC=${48%}
@@ -977,6 +981,7 @@ case ${ARCH_NAME} in
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-EXPORT \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTA \' >> ${MF}
 			[ ${SUPPORT_HW_PCI_DMA_BUF} = "Y" ] && echo -e '\t-device BiscuitOS-DMA-BUF-IMPORTB \' >> ${MF}
+			[ ${SUPPORT_HW_CXL_GPU} = "Y" ] && echo -e '\t-device BiscuitOS-CXL-GPU \' >> ${MF}
 			if [ ${SUPPORT_CXL_HW} = "Y" ]; then
 				if [ ${SUPPORT_CXL_TPG_NR} = "0" ]; then
 					## CXL TOPLOGY: DirectEP: x1 Type3 PMEM on CXL RootPort
@@ -1115,7 +1120,68 @@ case ${ARCH_NAME} in
 					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP2,volatile-memdev=CXL-HOST-MEM6,id=CXL-EP-DDR6 \' >> ${MF}
 					echo -e '\t-device cxl-type3,bus=CXL-VCS1-DP3,volatile-memdev=CXL-HOST-MEM7,id=CXL-EP-DDR7 \' >> ${MF}
 					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
+				elif [ ${SUPPORT_CXL_TPG_NR} = "7" ]; then
+					## CXL TOPLOGY: CXL2.0 - x2 Host(VH) + SLD
+					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
+					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
+					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=1,slot=2 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=1,slot=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=4,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP2,chassis=1,slot=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=5,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP3,chassis=1,slot=5 \' >> ${MF}
+					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
+				elif [ ${SUPPORT_CXL_TPG_NR} = "8" ]; then
+					## CXL TOPLOGY: CXL2.0 - x2 Host(VH) + MLD
+					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
+					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
+					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=2,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=1,slot=2 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=3,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=1,slot=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=4,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP2,chassis=1,slot=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,port=5,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP3,chassis=1,slot=5 \' >> ${MF}
+					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
+				elif [ ${SUPPORT_CXL_TPG_NR} = "9" ]; then
+					## CXL TOPLOGY: CXL2.0 - x2 Host(VH) + MH-SLD
+					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-MHSLD0,share=on,mem-path=${ROOT}/Hardware/CXL.MHSLD,size=512M,align=16M \' >> ${MF}
+					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
+					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=1,slot=2,port=2 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=1,slot=3,port=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP2,chassis=1,slot=4,port=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP3,chassis=1,slot=5,port=5 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH0-DP0,volatile-memdev=CXL-MHSLD0,id=CXL-DDR0 \' >> ${MF}
+					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
+				elif [ ${SUPPORT_CXL_TPG_NR} = "10" ]; then
+					## CXL TOPLOGY: CXL2.0 - x2 Host(VH) + MH-MLD
+					echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
+					echo -e '\t-numa node,nodeid=0,memdev=MEM0,cpus=0-1 \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-MHMLD0,share=on,mem-path=${ROOT}/Hardware/CXL.MHMLD,size=256M,align=16M,offset=0 \' >> ${MF}
+					echo -e '\t-object memory-backend-file,id=CXL-MHMLD1,share=on,mem-path=${ROOT}/Hardware/CXL.MHMLD,size=256M,align=16M,offset=256M \' >> ${MF}
+					echo -e '\t-device pxb-cxl,id=CXL.0,bus=pcie.0,bus_nr=12 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.0,bus=CXL.0,addr=0.0,chassis=0,slot=0,port=0 \' >> ${MF}
+					echo -e '\t-device cxl-rp,id=CXL_RP.RSVD,bus=CXL.0,addr=1.0,chassis=0,slot=1,port=1 \' >> ${MF}
+					echo -e '\t-device cxl-upstream,bus=CXL_RP.0,id=CXL-SWITCH0 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP0,chassis=1,slot=2,port=2 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP1,chassis=1,slot=3,port=3 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP2,chassis=1,slot=4,port=4 \' >> ${MF}
+					echo -e '\t-device cxl-downstream,bus=CXL-SWITCH0,id=CXL-SWITCH0-DP3,chassis=1,slot=5,port=5 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH0-DP0,volatile-memdev=CXL-MHMLD0,id=CXL-DDR0 \' >> ${MF}
+					echo -e '\t-device cxl-type3,bus=CXL-SWITCH0-DP1,volatile-memdev=CXL-MHMLD1,id=CXL-DDR1 \' >> ${MF}
+					echo -e '\t-M cxl-fmw.0.targets.0=CXL.0,cxl-fmw.0.size=4G \' >> ${MF}
 				fi
+			else # SUPPORT_CXL_HW
+				echo -e '\t-netdev tap,ifname=BiscuitOS-TAP,script=no,downscript=no,id=BiscuitOS-NIC \' >> ${MF}
+				echo -e '\t-device virtio-net-pci,netdev=BiscuitOS-NIC \' >> ${MF}
 			fi
 			if [ ${SUPPORT_PMEM_HW} = "Y" ]; then
 				echo -e '\t-object memory-backend-ram,size=${RAM_SIZE}M,id=MEM0 \' >> ${MF}
@@ -2064,3 +2130,18 @@ README_pack ${MF}
 README_launch_BiscuitOS ${MF}
 [ ${SUPPORT_NETWORK} = "Y" ] && README_networking ${MF}
 README_debug ${MF}
+
+DEFAULT_SCPFILE=${OUTPUT}/${RUNSCP_NAME}
+DEFAULT_IMAGE=${OUTPUT}/Hardware/BiscuitOS.img
+CXL_SCPFILE=${OUTPUT}/RunBiscuitOS-CXL.sh
+CXL_IMAGE=${OUTPUT}/Hardware/BiscuitOS-CXL.img
+[ -f ${CXL_SCPFILE} ] && rm -rf ${CXL_SCPFILE}
+[ -f ${CXL_IMAGE} ] && rm -rf ${CXL_IMAGE}
+# CXL MULTI QEMU
+if [ ${SUPPORT_CXL_HW} = "Y" ]; then
+	if [ ${SUPPORT_CXL_TPG_NR} = "10" -o ${SUPPORT_CXL_TPG_NR} = "9" -o ${SUPPORT_CXL_TPG_NR} = "8" -o ${SUPPORT_CXL_TPG_NR} = "7" ]; then
+		sed -e 's/BiscuitOS\.img/BiscuitOS-CXL.img/g' -e 's/8888/6666/g' "${DEFAULT_SCPFILE}" > "${CXL_SCPFILE}"
+		[ ! -f ${CXL_IMAGE} ] && cp -rfa ${DEFAULT_IMAGE} ${CXL_IMAGE}
+		chmod 755 ${CXL_SCPFILE}
+	fi
+fi

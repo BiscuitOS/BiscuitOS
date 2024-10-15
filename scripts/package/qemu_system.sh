@@ -44,7 +44,7 @@ PATCH_DIR=${ROOT}/package/qemu/patch/${QEMU_VERSION}/
 
 ## CXL
 if [ ${QEMU_CXL}X = "yX" -o ${NUMA_HARD}X = "yX" ]; then
-	QEMU_VERSION="QEMU-CLX-2024-08-20"
+	QEMU_VERSION="QEMU-CXL-2024-08-20"
 	QEMU_SRC=4
 	QEMU_GITHUB="https://gitlab.com/jic23/qemu.git"
 	#QEMI_HARD="8eb2a03258"
