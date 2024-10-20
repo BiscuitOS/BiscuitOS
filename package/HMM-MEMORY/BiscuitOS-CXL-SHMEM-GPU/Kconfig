@@ -26,7 +26,7 @@ config PK_HMM_CXL_SHMEM_GPU_GITHUB
 	string "GitHub"
 
 config PK_HMM_CXL_SHMEM_GPU_SRCFILE
-	default "main.c Makefile RunBiscuitOS.sh"
+	default "main.c Makefile RunBiscuitOS.sh shared.c RunBiscuitOS-CXL.sh"
 	string "Source code list"
 
 config PK_HMM_CXL_SHMEM_GPU_CSRCFILE

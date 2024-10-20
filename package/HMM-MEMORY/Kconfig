@@ -25,6 +25,9 @@ source package/HMM-MEMORY/BiscuitOS-CXL-MHSLD/Kconfig
 # CXL MH-MLD
 source package/HMM-MEMORY/BiscuitOS-CXL-MHMLD/Kconfig
 
+# CXL GPU
+source package/HMM-MEMORY/BiscuitOS-CXL-GPU/Kconfig
+
 # CXL SHMEM: GPU
 source package/HMM-MEMORY/BiscuitOS-CXL-SHMEM-GPU/Kconfig
 

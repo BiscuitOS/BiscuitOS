@@ -2141,6 +2141,9 @@ CXL_IMAGE=${OUTPUT}/Hardware/BiscuitOS-CXL.img
 if [ ${SUPPORT_CXL_HW} = "Y" ]; then
 	if [ ${SUPPORT_CXL_TPG_NR} = "10" -o ${SUPPORT_CXL_TPG_NR} = "9" -o ${SUPPORT_CXL_TPG_NR} = "8" -o ${SUPPORT_CXL_TPG_NR} = "7" ]; then
 		sed -e 's/BiscuitOS\.img/BiscuitOS-CXL.img/g' -e 's/8888/6666/g' "${DEFAULT_SCPFILE}" > "${CXL_SCPFILE}"
+		cp ${CXL_SCPFILE} .TEMP.sh
+		grep -v "BiscuitOS-CXL-GPU" ".TEMP.sh" > "${CXL_SCPFILE}"
+		rm -rf .TEMP.sh
 		[ ! -f ${CXL_IMAGE} ] && cp -rfa ${DEFAULT_IMAGE} ${CXL_IMAGE}
 		chmod 755 ${CXL_SCPFILE}
 	fi
